@@ -19,7 +19,33 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@constants/*": [
+        "src/constants/*"
+      ],
+      "@directives/*": [
+        "src/directives/*"
+      ],
+      "@environments/*": [
+        "src/environments/*"
+      ],
+      "@interceptors/*": [
+        "src/interceptors/*"
+      ],
+      "@models/*": [
+        "src/models/*"
+      ],
+      "@modules/*": [
+        "src/modules/*"
+      ],
+      "@pipes/*": [
+        "src/pipes/*"
+      ],
+      "@services/*": [
+        "src/services/*"
+      ],
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
