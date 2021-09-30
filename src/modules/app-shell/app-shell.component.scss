@@ -1,0 +1,23 @@
+:host {
+  @apply grid h-screen w-screen;
+  grid-template-rows: 50px auto;
+  grid-template-columns: 180px auto;
+  grid-template-areas: 
+    "nav   nav"
+    "aside main";
+}
+
+tss-sidebar {
+  background-color: aqua;
+  grid-area: aside;
+}
+
+tss-navbar {
+  background-color: brown;
+  grid-area: nav;
+}
+
+tss-main-view {
+  background-color: goldenrod;
+  grid-area: main;
+}

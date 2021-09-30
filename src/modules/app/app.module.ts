@@ -1,16 +1,18 @@
-import { TuiNotificationsModule, TuiRootModule } from "@taiga-ui/core";
-import { TUI_LANGUAGE, TUI_VIETNAMESE_LANGUAGE } from '@taiga-ui/i18n';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
+import { of } from "rxjs";
+import { StoreModule } from "@ngrx/store";
+import { EffectsModule } from "@ngrx/effects";
+import { StoreDevtoolsModule } from "@ngrx/store-devtools";
+
+import { TuiNotificationsModule, TuiRootModule } from "@taiga-ui/core";
+import { TUI_LANGUAGE, TUI_VIETNAMESE_LANGUAGE } from '@taiga-ui/i18n';
+
+import { environment } from "@environments/environment";
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from "./app.routes";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { StoreModule } from "@ngrx/store";
-import { StoreDevtoolsModule } from "@ngrx/store-devtools";
-import { environment } from "@environments/environment";
-import { of } from "rxjs";
-import { EffectsModule } from "@ngrx/effects";
 
 @NgModule({
   imports: [

@@ -1,11 +1,13 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 @Component({
-  templateUrl: './app-shell.component.html',
-  styleUrls: ['./app-shell.component.scss'],
+  selector: 'tss-main-view',
+  templateUrl: './main-view.component.html',
+  styleUrls: ['./main-view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AppShellComponent implements OnInit {
+export class MainViewComponent implements OnInit {
+
   constructor() { }
 
   ngOnInit(): void {

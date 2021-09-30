@@ -17,7 +17,9 @@ export class LoginEffects {
         of(loginForm)
           .pipe(
             delay(1000),
-            map(x => x.password === '123' ? ApiActions.loginSuccessful() : ApiActions.loginFailure())
+            map(x => x.password === '123'
+              ? ApiActions.loginSuccessful({ name: x.email })
+              : ApiActions.loginFailure())
           )
       )
     );

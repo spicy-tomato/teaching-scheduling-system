@@ -6,6 +6,13 @@ const routes: Routes = [
   {
     path: '',
     component: AppShellComponent,
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        loadChildren: async () => (await import('@modules/home/home.module')).HomeModule
+      }
+    ]
   },
 ];
 
