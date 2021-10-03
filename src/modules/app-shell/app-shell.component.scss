@@ -1,14 +1,13 @@
 :host {
   @apply grid h-screen w-screen;
-  grid-template-rows: 50px auto;
-  grid-template-columns: 180px auto;
+  grid-template-rows: 50px calc(100vh - 50px);
+  grid-template-columns: 260px auto;
   grid-template-areas: 
     "nav   nav"
     "aside main";
 }
 
 tss-sidebar {
-  background-color: aqua;
   grid-area: aside;
 }
 

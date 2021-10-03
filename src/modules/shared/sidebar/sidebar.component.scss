@@ -1,0 +1,38 @@
+:host {
+  height: 100%;
+
+  a {
+    @apply ease-in-out;
+    font: var(--tui-font-text-m);
+    transition-property: background-color;
+    transition-duration: var(--tui-duration,300ms);
+  }
+
+  ::ng-deep {
+    tui-accordion-item {
+      .header {
+        padding-right: 1rem !important;
+      }
+    }
+  }
+
+  .sub-item {
+    > div {
+      a {
+        &:not(:first-child) {
+          @apply mt-4;
+        }
+        
+        ::ng-deep {
+          span {
+            transition-duration: var(--tui-duration,.3s);
+          }
+        }
+      }
+    }
+  }
+
+  strong {
+    @apply ml-2;
+  }
+}

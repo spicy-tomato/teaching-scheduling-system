@@ -14,12 +14,16 @@ module.exports = {
     colors: {
       transparent: 'transparent',
       current: 'currentColor',
-      gray: colors.trueGray,
-      'main-gray': 'rgb(179, 179, 179)',
       white: '#ffffff',
-      black: '#000000'
+      black: '#000000',
+      tuiBase01: 'var(--tui-base-01)',
+      tuiBase02: 'var(--tui-base-02)',
+      tuiBase03: 'var(--tui-base-03)',
     },
     extend: {
+      width: {
+        'fit-content': 'fit-content'
+      },
       height: {
         'vh-10': '10vh',
         'vh-20': '20vh',
@@ -67,7 +71,7 @@ module.exports = {
         '55': '0.55',
         '65': '0.65',
         '85': '0.85',
-       }
+      }
     }
   },
   extend: {

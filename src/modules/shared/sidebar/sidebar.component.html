@@ -1,1 +1,43 @@
-<p>sidebar works!</p>
+<tui-scrollbar class="w-full h-full">
+  <ng-container *ngFor="let item of items">
+    <tui-accordion
+      [closeOthers]="false"
+      [rounded]="false"
+      *ngIf="item.subItems, else link"
+    >
+      <tui-accordion-item
+        [borders]="null"
+        [showArrow]="!!item.subItems"
+        size="s"
+      >
+        <strong>{{ item.name }}</strong>
+        <ng-template tuiAccordionItemContent>
+          <div class="sub-item -mt-4 -mb-2">
+            <div
+              class="my-2 pl-3 border-l border-tuiBase03"
+              tuiMode="onLight"
+            >
+              <a
+                *ngFor="let subItem of item.subItems"
+                class="block w-fit-content leading-6"
+                tuiLink
+              >
+                {{ subItem }}
+              </a>
+            </div>
+          </div>
+        </ng-template>
+      </tui-accordion-item>
+    </tui-accordion>
+
+    <ng-template #link>
+      <a
+        class="block pl-4 pr-3 py-2.5 
+      bg-white hover:bg-tuiBase02"
+        href
+      >
+        <strong>{{ item.name }}</strong>
+      </a>
+    </ng-template>
+  </ng-container>
+</tui-scrollbar>
