@@ -13,6 +13,8 @@ import { TUI_LANGUAGE, TUI_VIETNAMESE_LANGUAGE } from '@taiga-ui/i18n';
 import { environment } from "@environments/environment";
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from "./app.routes";
+import { TUI_SANITIZER } from '@taiga-ui/cdk';
+import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
 
 @NgModule({
   imports: [
@@ -26,12 +28,16 @@ import { AppRoutingModule } from "./app.routes";
       maxAge: 25,
       logOnly: environment.production
     }),
-    EffectsModule.forRoot([])
+    EffectsModule.forRoot([]),
   ],
   providers: [
     {
       provide: TUI_LANGUAGE,
       useValue: of(TUI_VIETNAMESE_LANGUAGE)
+    },
+    {
+      provide: TUI_SANITIZER,
+      useClass: NgDompurifySanitizer
     }
   ],
   declarations: [AppComponent],

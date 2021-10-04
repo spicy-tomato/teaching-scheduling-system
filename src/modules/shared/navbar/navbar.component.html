@@ -1,1 +1,49 @@
-<p>navbar works!</p>
+<div class="wrapper h-full px-5 py-2
+            flex justify-between border-b border-tuiBase03">
+  <div class="h-full flex items-center">
+    <a class="h-full">
+      <img
+        src="/assets/img/logo.jpg"
+        class="block object-cover h-full"
+      >
+    </a>
+    <h3 class="ml-3 uppercase">Hệ thống quản lý lịch giảng dạy</h3>
+  </div>
+
+  <div>
+    <tui-hosted-dropdown [content]="content">
+      <button
+        tuiButton
+        type="button"
+        [size]="'m'"
+        appearance="custom"
+      >
+        Xin chào người dùng!
+      </button>
+    </tui-hosted-dropdown>
+  </div>
+</div>
+
+<ng-template #content>
+  <tui-data-list
+    role="menu"
+    class="menu-data-list w-64"
+  >
+    <tui-opt-group *ngFor="let group of groups">
+      <a
+        *ngFor="let item of group.items"
+        tuiOption
+        role="menuitemradio"
+        routerLinkActive
+      >
+        <tui-svg
+          *ngIf="item.icon"
+          [src]="item.icon"
+        ></tui-svg>
+        <span class="ml-4 flex-grow">
+          {{ item.label }}
+        </span>
+      </a>
+    </tui-opt-group>
+  </tui-data-list>
+</ng-template>

@@ -1,0 +1,26 @@
+tui-wrapper[data-appearance="custom"] {
+  @apply text-tuiText01;
+
+  &[data-state="hovered"] {
+    @apply bg-tuiBase02;
+  }
+
+  &[data-state="pressed"] {
+    @apply bg-tuiBase03;
+  }
+
+  &[data-state="disabled"] {
+    background: #eaecee;
+  }
+}
+
+tui-data-list.menu-data-list {
+  tui-opt-group {
+    padding: 1rem 0 !important;
+
+    &:before {
+      padding: 0 !important;
+    }
+  }
+
+}

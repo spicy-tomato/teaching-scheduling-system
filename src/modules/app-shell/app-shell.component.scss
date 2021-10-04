@@ -1,6 +1,6 @@
 :host {
   @apply grid h-screen w-screen;
-  grid-template-rows: 50px calc(100vh - 50px);
+  grid-template-rows: 65px calc(100vh - 65px);
   grid-template-columns: 260px auto;
   grid-template-areas: 
     "nav   nav"
@@ -12,7 +12,6 @@ tss-sidebar {
 }
 
 tss-navbar {
-  background-color: brown;
   grid-area: nav;
 }
 

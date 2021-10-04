@@ -19,6 +19,13 @@ module.exports = {
       tuiBase01: 'var(--tui-base-01)',
       tuiBase02: 'var(--tui-base-02)',
       tuiBase03: 'var(--tui-base-03)',
+      tuiBase04: 'var(--tui-base-04)',
+      tuiBase05: 'var(--tui-base-05)',
+      tuiBase06: 'var(--tui-base-06)',
+      tuiBase07: 'var(--tui-base-07)',
+      tuiBase08: 'var(--tui-base-08)',
+      tuiBase09: 'var(--tui-base-09)',
+      tuiText01: 'var(--tui-text-01)',
     },
     extend: {
       width: {
