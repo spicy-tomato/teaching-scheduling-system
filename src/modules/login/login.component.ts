@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/unbound-method */
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { TuiNotification, TuiNotificationsService } from '@taiga-ui/core';
@@ -9,6 +10,7 @@ import { filter, takeUntil, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import * as fromLogin from './state';
 import { animate, query, stagger, style, transition, trigger } from '@angular/animations';
+import { LoginForm } from '@models/login/login-form.model';
 
 @Component({
   templateUrl: './login.component.html',
@@ -37,8 +39,8 @@ export class LoginComponent extends BaseComponent implements OnInit {
     remember: new FormControl(false)
   });
 
-  get email(): AbstractControl {
-    return this.loginForm.get('email')!;
+  get email(): AbstractControl | null {
+    return this.loginForm.get('email');
   }
 
   get LoginStatus(): typeof fromLogin.LoginStatus {
@@ -62,18 +64,17 @@ export class LoginComponent extends BaseComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const loginForm = this.loginForm.value;
+    const loginForm = this.loginForm.value as LoginForm;
     this.store.dispatch(fromLogin.clickLogin({ loginForm }));
   }
 
-  showNotification() {
+  showNotification(): void {
     this.notificationsService
       .show(
         'Hãy thử lại', {
         label: 'Thông tin đăng nhập không chính xác!',
         status: TuiNotification.Error
-      }
-      )
+      })
       .pipe(
         takeUntil(this.destroy$)
       )

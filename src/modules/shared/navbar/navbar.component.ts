@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { tuiIconLikeLarge, tuiIconLogoutLarge, tuiIconSettingsLarge, tuiIconTooltipLarge, tuiIconUser } from '@taiga-ui/icons';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { tuiIconLikeLarge, tuiIconSettingsLarge } from '@taiga-ui/icons';
 
 @Component({
   selector: 'tss-navbar',
@@ -7,21 +7,21 @@ import { tuiIconLikeLarge, tuiIconLogoutLarge, tuiIconSettingsLarge, tuiIconTool
   styleUrls: ['./navbar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent {
   readonly groups: {
     label?: string,
     items: {
       label?: string,
       routerLink:
       string,
-      icon?: any;
+      icon?: string;
     }[];
   }[] = [
       {
         items: [
           {
             label: 'Thông tin cá nhân',
-            routerLink: '/components/input',
+            routerLink: '',
             icon: '<i class="far fa-user" style="font-size: 23px"></i>'
           },
         ],
@@ -30,7 +30,7 @@ export class NavbarComponent implements OnInit {
         items: [
           {
             label: `Đóng góp ý kiến`,
-            routerLink: '/icons',
+            routerLink: '',
             icon: tuiIconLikeLarge
           },
         ],
@@ -40,27 +40,21 @@ export class NavbarComponent implements OnInit {
         items: [
           {
             label: `Cài đặt`,
-            routerLink: '/changelog',
+            routerLink: '',
             icon: tuiIconSettingsLarge
           },
           {
             label: `Trợ giúp & hỗ trợ`,
-            routerLink: '/changelog',
+            routerLink: '',
             icon: '<i class="far fa-question-circle" style="font-size: 23px"></i>'
           },
           {
             label: `Đăng xuất`,
-            routerLink: '/changelog',
+            routerLink: '/login',
             icon: '<i class="far fa-sign-out" style="font-size: 23px; transform: translateX(2px);"></i>'
           },
 
         ],
       },
     ];
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
 }

@@ -31,7 +31,7 @@ export class LoginEffects {
       exhaustMap(() =>
         of({}).pipe(
           tap(() => {
-            this.router.navigate(['']);
+            void this.router.navigate(['']);
           })
         )
       )

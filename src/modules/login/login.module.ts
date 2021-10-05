@@ -6,7 +6,6 @@ import { TuiCheckboxLabeledModule, TuiInputModule, TuiInputPasswordModule } from
 import { TuiButtonModule, TuiHintControllerModule, TuiHintModule, TuiLinkModule } from '@taiga-ui/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
-import { ReactiveComponentModule } from '@ngrx/component';
 import * as fromLogin from './state';
 import { EffectsModule } from '@ngrx/effects';
 
@@ -28,7 +27,6 @@ import { EffectsModule } from '@ngrx/effects';
       fromLogin.loginReducer
     ),
     EffectsModule.forFeature([fromLogin.LoginEffects]),
-    ReactiveComponentModule
   ],
   declarations: [LoginComponent],
 })

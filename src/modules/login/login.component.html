@@ -20,7 +20,7 @@
       <div class="slide-element">
         <tui-input
           formControlName="email"
-          [tuiHintContent]="email.valid || email.untouched ? null : 'Hãy nhập đúng định dạng email'"
+          [tuiHintContent]="email?.valid || email?.untouched ? null : 'Hãy nhập đúng định dạng email'"
           tuiHintMode="error"
         >
           Email

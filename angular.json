@@ -116,9 +116,21 @@
             ],
             "scripts": []
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
   },
-  "defaultProject": "teaching-scheduling-system"
+  "defaultProject": "teaching-scheduling-system",
+  "cli": {
+    "defaultCollection": "@angular-eslint/schematics"
+  }
 }

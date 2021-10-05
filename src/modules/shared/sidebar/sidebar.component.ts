@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'tss-sidebar',
@@ -6,7 +6,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   styleUrls: ['./sidebar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent {
   items: { name: string, subItems?: string[]; }[] = [
     {
       name: 'Học phần',
@@ -74,13 +74,4 @@ export class SidebarComponent implements OnInit {
       ]
     },
   ];
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
-  notOpen(): boolean {
-    return false;
-  }
 }
