@@ -5,34 +5,43 @@
     @apply ease-in-out;
     font: var(--tui-font-text-m);
     transition-property: background-color;
-    transition-duration: var(--tui-duration,300ms);
+    transition-duration: var(--tui-duration, 300ms);
   }
 
-  ::ng-deep {
-    tui-accordion-item {
+  tui-accordion-item {
+    ::ng-deep {
       .header {
+        padding-left: 1.5rem !important;
         padding-right: 1rem !important;
       }
     }
-  }
 
-  .sub-item {
-    > div {
-      a {
-        &:not(:first-child) {
-          @apply mt-4;
-        }
-        
-        ::ng-deep {
-          span {
-            transition-duration: var(--tui-duration,.3s);
+    .sub-item {
+      > div {
+        a {
+          &:not(:first-child) {
+            @apply mt-4;
+          }
+  
+          ::ng-deep {
+            span {
+              transition-duration: var(--tui-duration, 0.3s);
+            }
           }
         }
       }
     }
   }
 
-  strong {
-    @apply ml-2;
+  .icon-wrapper {
+    @apply w-7 inline-block mr-1.5;
+
+    > div {
+      @apply flex;
+
+      > i {
+        @apply block m-auto;
+      }
+    }
   }
 }

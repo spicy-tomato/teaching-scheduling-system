@@ -1,4 +1,4 @@
-<tui-scrollbar class="w-full h-full">
+<tui-scrollbar class="w-full h-full border-r border-tuiBase03">
   <ng-container *ngFor="let item of items">
     <tui-accordion
       [closeOthers]="false"
@@ -10,11 +10,16 @@
         [showArrow]="!!item.subItems"
         size="s"
       >
+        <span class="icon-wrapper">
+          <div>
+            <i [class]="item.icon"></i>
+          </div>
+        </span>
         <strong>{{ item.name }}</strong>
         <ng-template tuiAccordionItemContent>
           <div class="sub-item -mt-4 -mb-2">
             <div
-              class="my-2 pl-3 border-l border-tuiBase03"
+              class="my-2 pl-3 border-l-2 border-tuiBase03"
               tuiMode="onLight"
             >
               <a
@@ -32,10 +37,15 @@
 
     <ng-template #link>
       <a
-        class="block pl-4 pr-3 py-2.5 
-      bg-white hover:bg-tuiBase02"
         href
+        class="block pl-6 pr-3 py-2.5 
+             bg-white hover:bg-tuiBase02"
       >
+        <span class="icon-wrapper">
+          <div>
+            <i [class]="item.icon"></i>
+          </div>
+        </span>
         <strong>{{ item.name }}</strong>
       </a>
     </ng-template>
