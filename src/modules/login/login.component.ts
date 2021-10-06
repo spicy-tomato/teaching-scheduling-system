@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/unbound-method */
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { TuiNotification, TuiNotificationsService } from '@taiga-ui/core';
 import { BaseComponent } from '@modules/app/base.component';
 
-import { Observable } from 'rxjs';
-import { filter, takeUntil, tap } from 'rxjs/operators';
+import {  Observable, Subject } from 'rxjs';
+import { debounceTime, filter, mergeMap, takeUntil, tap } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 import * as fromLogin from './state';
@@ -30,20 +30,21 @@ import { LoginForm } from '@models/login/login-form.model';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LoginComponent extends BaseComponent implements OnInit {
-  status$: Observable<fromLogin.LoginStatus>;
+export class LoginComponent extends BaseComponent {
+  public status$: Observable<fromLogin.LoginStatus>;
+  public readonly submit$ = new Subject<void>();
 
-  readonly loginForm = new FormGroup({
+  public readonly loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
     remember: new FormControl(false)
   });
 
-  get email(): AbstractControl | null {
+  public get email(): AbstractControl | null {
     return this.loginForm.get('email');
   }
 
-  get LoginStatus(): typeof fromLogin.LoginStatus {
+  public get LoginStatus(): typeof fromLogin.LoginStatus {
     return fromLogin.LoginStatus;
   }
 
@@ -51,31 +52,41 @@ export class LoginComponent extends BaseComponent implements OnInit {
     private store: Store<fromLogin.LoginState>,
     @Inject(TuiNotificationsService) private notificationsService: TuiNotificationsService) {
     super();
-    this.status$ = store.select(fromLogin.selectState);
+
+    this.status$ = store.select(fromLogin.selectState)
+      .pipe(
+        takeUntil(this.destroy$)
+      );
+
+    this.handleLoginFailed();
+    this.handleSubmit();
   }
 
-  ngOnInit(): void {
+  private handleLoginFailed(): void {
     this.status$
       .pipe(
         filter(status => status === this.LoginStatus.failed),
-        tap(() => this.showNotification()),
+        mergeMap(() =>
+          this.notificationsService
+            .show(
+              'Hãy thử lại', {
+              label: 'Thông tin đăng nhập không chính xác!',
+              status: TuiNotification.Error
+            })
+        ),
         takeUntil(this.destroy$)
-      ).subscribe();
+      )
+      .subscribe();
   }
 
-  onSubmit(): void {
-    const loginForm = this.loginForm.value as LoginForm;
-    this.store.dispatch(fromLogin.clickLogin({ loginForm }));
-  }
-
-  showNotification(): void {
-    this.notificationsService
-      .show(
-        'Hãy thử lại', {
-        label: 'Thông tin đăng nhập không chính xác!',
-        status: TuiNotification.Error
-      })
+  private handleSubmit(): void {
+    this.submit$
       .pipe(
+        debounceTime(300),
+        tap(() => {
+          const loginForm = this.loginForm.value as LoginForm;
+          this.store.dispatch(fromLogin.clickLogin({ loginForm }));
+        }),
         takeUntil(this.destroy$)
       )
       .subscribe();

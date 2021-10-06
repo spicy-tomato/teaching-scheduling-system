@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { BreadcrumbItem } from '@models/main-view/breadcrumb-item.model';
 import { BaseComponent } from '@modules/app/base.component';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import * as fromMainView from './state';
 
@@ -11,13 +13,13 @@ import * as fromMainView from './state';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MainViewComponent extends BaseComponent {
-  breadcrumbs$ = this.store
-    .pipe(
-      select(fromMainView.selectBreadcrumbs),
-      takeUntil(this.destroy$)
-    );
+  public breadcrumbs$: Observable<BreadcrumbItem[]>;
 
   constructor(private store: Store<fromMainView.MainViewState>) {
     super();
+    this.breadcrumbs$ = store.select(fromMainView.selectBreadcrumbs)
+      .pipe(
+        takeUntil(this.destroy$)
+      );
   }
 }

@@ -8,7 +8,7 @@ import { tuiIconLikeLarge, tuiIconSettingsLarge } from '@taiga-ui/icons';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavbarComponent {
-  readonly groups: {
+  public readonly groups: {
     label?: string,
     items: {
       label?: string,

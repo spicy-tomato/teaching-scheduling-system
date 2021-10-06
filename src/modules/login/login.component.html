@@ -14,7 +14,7 @@
     </h1>
     <form
       [formGroup]="loginForm"
-      (ngSubmit)="onSubmit()"
+      (ngSubmit)="submit$.next()"
       class="b-forms"
     >
       <div class="slide-element">

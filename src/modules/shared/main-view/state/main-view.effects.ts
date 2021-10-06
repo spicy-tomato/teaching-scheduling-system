@@ -3,30 +3,24 @@ import { ActivatedRouteSnapshot } from "@angular/router";
 import { BreadcrumbItem } from "@models/main-view/breadcrumb-item.model";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { routerNavigatedAction } from "@ngrx/router-store";
-import { of } from "rxjs";
-import { exhaustMap, map } from "rxjs/operators";
+import { map } from "rxjs/operators";
 import * as PageAction from "./main-view.page.actions";
 
 @Injectable()
 export class MainViewEffects {
-  effectName$ = createEffect(() => {
+  public effectName$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(routerNavigatedAction),
-      exhaustMap((action) =>
-        of(action)
-          .pipe(
-            map(action => {
-              const breadcrumbs = this.createBreadcrumbs(action.payload.routerState.root);
-              return PageAction.update({ breadcrumbs });
-            })
-          )
-      )
+      map((action) => {
+        const breadcrumbs = this.createBreadcrumbs(action.payload.routerState.root);
+        return PageAction.update({ breadcrumbs });
+      })
     );
   });
 
   constructor(private actions$: Actions) { }
 
-  createBreadcrumbs(route: ActivatedRouteSnapshot, url = '', breadcrumbs: BreadcrumbItem[] = []): BreadcrumbItem[] {
+  private createBreadcrumbs(route: ActivatedRouteSnapshot, url = '', breadcrumbs: BreadcrumbItem[] = []): BreadcrumbItem[] {
     const children = route.children;
 
     if (children.length === 0) {

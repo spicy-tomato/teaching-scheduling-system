@@ -10,13 +10,13 @@ import * as ApiAction from "./login.api.actions";
 
 @Injectable()
 export class LoginEffects {
-  login$ = createEffect(() => {
+  public login$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.clickLogin),
+      delay(1000),
       exhaustMap(({ loginForm }) =>
         of(loginForm)
           .pipe(
-            delay(1000),
             map(x => x.password === '123'
               ? ApiAction.loginSuccessful({ name: x.email })
               : ApiAction.loginFailure())
@@ -25,7 +25,7 @@ export class LoginEffects {
     );
   });
 
-  loginSuccessful$ = createEffect(() => {
+  public loginSuccessful$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ApiAction.loginSuccessful),
       exhaustMap(() =>

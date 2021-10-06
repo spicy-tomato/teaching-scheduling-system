@@ -7,7 +7,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SidebarComponent {
-  items: {
+  public readonly items: {
     name: string,
     icon?: string,
     routerLink?: string,
