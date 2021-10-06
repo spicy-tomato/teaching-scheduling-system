@@ -1,12 +1,12 @@
-tui-wrapper[data-appearance="custom"] {
-  @apply text-tuiText01;
+tui-wrapper[data-appearance="nav-button"] {
+  @apply bg-tuiBase02 text-tuiText01;
 
   &[data-state="hovered"] {
-    @apply bg-tuiBase02;
+    @apply bg-tuiBase03;
   }
 
   &[data-state="pressed"] {
-    @apply bg-tuiBase03;
+    @apply bg-tuiBase04;
   }
 
   &[data-state="disabled"] {

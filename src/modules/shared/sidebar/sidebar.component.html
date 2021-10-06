@@ -24,10 +24,11 @@
             >
               <a
                 *ngFor="let subItem of item.subItems"
+                [routerLink]="subItem.routerLink"
                 class="block w-fit-content leading-6"
                 tuiLink
               >
-                {{ subItem }}
+                {{ subItem.name }}
               </a>
             </div>
           </div>
@@ -37,7 +38,7 @@
 
     <ng-template #link>
       <a
-        href
+        [routerLink]="item.routerLink"
         class="block pl-6 pr-3 py-2.5 
              bg-white hover:bg-tuiBase02"
       >

@@ -5,21 +5,21 @@ import { of } from "rxjs";
 import { delay, exhaustMap, map, tap } from 'rxjs/operators';
 
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import * as PageActions from "./login.page.actions";
-import * as ApiActions from "./login.api.actions";
+import * as PageAction from "./login.page.actions";
+import * as ApiAction from "./login.api.actions";
 
 @Injectable()
 export class LoginEffects {
   login$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(PageActions.clickLogin),
+      ofType(PageAction.clickLogin),
       exhaustMap(({ loginForm }) =>
         of(loginForm)
           .pipe(
             delay(1000),
             map(x => x.password === '123'
-              ? ApiActions.loginSuccessful({ name: x.email })
-              : ApiActions.loginFailure())
+              ? ApiAction.loginSuccessful({ name: x.email })
+              : ApiAction.loginFailure())
           )
       )
     );
@@ -27,7 +27,7 @@ export class LoginEffects {
 
   loginSuccessful$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(ApiActions.loginSuccessful),
+      ofType(ApiAction.loginSuccessful),
       exhaustMap(() =>
         of({}).pipe(
           tap(() => {

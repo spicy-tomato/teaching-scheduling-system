@@ -10,53 +10,65 @@ export class SidebarComponent {
   items: {
     name: string,
     icon?: string,
-    subItems?: string[];
+    routerLink?: string,
+    subItems?: {
+      name: string,
+      routerLink: string,
+    }[];
   }[] = [
       {
         name: 'Học phần',
         icon: 'far fa-book',
         subItems: [
-          'Thông tin học phần',
-          'Thêm học phần'
+          { name: 'Thông tin học phần', routerLink: '' },
+          { name: 'Thêm học phần', routerLink: '' }
         ]
       },
       {
         name: 'Giảng viên',
         icon: 'far fa-chalkboard-teacher',
         subItems: [
-          'Thông tin giảng viên',
-          'Thêm giảng viên'
+          { name: 'Thông tin giảng viên', routerLink: '' },
+          { name: 'Thêm giảng viên', routerLink: '' }
         ]
       },
       {
         name: 'Lớp học phần',
         icon: 'far fa-users-class',
         subItems: [
-          'Thông tin lớp học phần'
+          { name: 'Thông tin lớp học phần', routerLink: '' }
         ]
       },
       {
         name: 'Lịch giảng dạy',
         icon: 'far fa-calendar-alt',
         subItems: [
-          'Thông tin giờ giảng',
-          'Yêu cầu thay đổi'
+          { name: 'Thông tin giờ giảng', routerLink: '' },
+          { name: 'Yêu cầu thay đổi', routerLink: '' }
         ]
       },
       {
         name: 'Phân giảng',
         icon: 'far fa-pencil-paintbrush',
         subItems: [
-          'Lớp phân giảng',
-          'Danh sách phân giảng'
+          { name: 'Lớp phân giảng', routerLink: '' },
+          { name: 'Danh sách phân giảng', routerLink: '' }
         ]
       },
       {
         name: 'Nhập file',
         icon: 'far fa-file-import',
         subItems: [
-          'Thêm giảng viên',
-          'Thêm lớp học phần'
+          { name: 'Thêm giảng viên', routerLink: '' },
+          { name: 'Thêm lớp học phần', routerLink: '' }
+        ]
+      },
+      {
+        name: 'Thông báo',
+        icon: 'far fa-bell',
+        subItems: [
+          { name: 'Tạo thông báo mới', routerLink: '/notification/create' },
+          { name: 'Xem tất cả thông báo', routerLink: '/notification' },
         ]
       },
       {

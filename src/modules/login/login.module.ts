@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import * as fromLogin from './state';
 import { EffectsModule } from '@ngrx/effects';
+import { ReactiveComponentModule } from '@ngrx/component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { EffectsModule } from '@ngrx/effects';
     FormsModule,
     ReactiveFormsModule,
     LoginRoutingModule,
+    ReactiveComponentModule,
     TuiInputPasswordModule,
     TuiInputModule,
     TuiButtonModule,

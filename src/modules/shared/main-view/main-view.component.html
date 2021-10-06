@@ -1,1 +1,17 @@
-<router-outlet></router-outlet>
+<main class="px-5 pt-2.5">
+  <ng-container *ngIf="breadcrumbs$ | async as breadcrumb">
+    <tui-breadcrumbs size="l">
+      <ng-container *ngFor="let item of breadcrumb">
+        <a
+          *tuiBreadcrumb
+          [routerLink]="item.url"
+          tuiLink
+          class="text-lg"
+        >
+          {{item.label}}
+        </a>
+      </ng-container>
+    </tui-breadcrumbs>
+  </ng-container>
+  <router-outlet></router-outlet>
+</main>

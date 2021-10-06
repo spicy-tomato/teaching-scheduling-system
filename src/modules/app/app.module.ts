@@ -1,18 +1,19 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { of } from "rxjs";
-import { StoreModule } from "@ngrx/store";
-import { EffectsModule } from "@ngrx/effects";
-import { StoreDevtoolsModule } from "@ngrx/store-devtools";
+import { of } from 'rxjs';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { StoreRouterConnectingModule, routerReducer } from '@ngrx/router-store';
 
-import { TuiNotificationsModule, TuiRootModule } from "@taiga-ui/core";
+import { TuiNotificationsModule, TuiRootModule } from '@taiga-ui/core';
 import { TUI_LANGUAGE, TUI_VIETNAMESE_LANGUAGE } from '@taiga-ui/i18n';
 
-import { environment } from "@environments/environment";
+import { environment } from '@environments/environment';
 import { AppComponent } from './app.component';
-import { AppRoutingModule } from "./app.routes";
+import { AppRoutingModule } from './app.routes';
 import { TUI_SANITIZER } from '@taiga-ui/cdk';
 import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
 
@@ -23,12 +24,13 @@ import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
     TuiRootModule,
     AppRoutingModule,
     TuiNotificationsModule,
-    StoreModule.forRoot({}, {}),
+    StoreModule.forRoot({ router: routerReducer }, {}),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production
     }),
     EffectsModule.forRoot([]),
+    StoreRouterConnectingModule.forRoot()
   ],
   providers: [
     {

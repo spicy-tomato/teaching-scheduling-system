@@ -11,6 +11,10 @@ const routes: Routes = [
         path: '',
         pathMatch: 'full',
         loadChildren: async () => (await import('@modules/home/home.module')).HomeModule
+      },
+      {
+        path: 'notification',
+        loadChildren: async () => (await import('@modules/notification/notification.module')).NotificationModule
       }
     ]
   },

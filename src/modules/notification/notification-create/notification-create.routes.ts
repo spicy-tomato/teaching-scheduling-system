@@ -1,11 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './login.component';
+import { NotificationCreateComponent } from './notification-create.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: LoginComponent
+    data: {
+      breadcrumb: 'Tạo thông báo'
+    },
+    component: NotificationCreateComponent
   },
 ];
 
@@ -13,4 +16,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class LoginRoutingModule { }
+export class NotificationCreateRoutingModule { }
