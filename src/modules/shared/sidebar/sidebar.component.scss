@@ -6,6 +6,10 @@
     font: var(--tui-font-text-m);
     transition-property: background-color;
     transition-duration: var(--tui-duration, 300ms);
+
+    &.active {
+      @apply text-tuiBase09;
+    }
   }
 
   tui-accordion-item {

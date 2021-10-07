@@ -25,6 +25,8 @@
               <a
                 *ngFor="let subItem of item.subItems"
                 [routerLink]="subItem.routerLink"
+                [routerLinkActive]="['active']"
+                [routerLinkActiveOptions]="{ exact: true }"
                 class="block w-fit-content leading-6"
                 tuiLink
               >
@@ -38,7 +40,9 @@
 
     <ng-template #link>
       <a
-        [routerLink]="item.routerLink"
+        [routerLink]="item.routerLink ?? ''"
+        [routerLinkActive]="['active']"
+        [routerLinkActiveOptions]="{ exact: true }"
         class="block pl-6 pr-3 py-2.5 
              bg-white hover:bg-tuiBase02"
       >
