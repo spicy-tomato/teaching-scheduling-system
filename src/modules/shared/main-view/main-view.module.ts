@@ -10,10 +10,12 @@ import { TuiBreadcrumbsModule } from '@taiga-ui/kit';
 
 import { MainViewComponent } from './main-view.component';
 import { MainViewRoutingModule } from './main-view.routes';
+import { ReactiveComponentModule } from '@ngrx/component';
 
 @NgModule({
   imports: [
     CommonModule,
+    ReactiveComponentModule,
     MainViewRoutingModule,
     TuiBreadcrumbsModule,
     TuiLinkModule,

@@ -8,7 +8,7 @@ import * as PageAction from "./main-view.page.actions";
 
 @Injectable()
 export class MainViewEffects {
-  public effectName$ = createEffect(() => {
+  public changeRouter$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(routerNavigatedAction),
       map((action) => {
