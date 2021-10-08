@@ -4,6 +4,7 @@
       [closeOthers]="false"
       [rounded]="false"
       *ngIf="item.subItems, else link"
+      tuiMode="onLight"
     >
       <tui-accordion-item
         [borders]="null"
@@ -18,10 +19,7 @@
         <strong>{{ item.name }}</strong>
         <ng-template tuiAccordionItemContent>
           <div class="sub-item -mt-4 -mb-2">
-            <div
-              class="my-2 pl-3 border-l-2 border-tuiBase03"
-              tuiMode="onLight"
-            >
+            <div class="my-2 pl-3 border-l-2 border-tuiBase03">
               <a
                 *ngFor="let subItem of item.subItems"
                 [routerLink]="subItem.routerLink"

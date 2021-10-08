@@ -17,7 +17,7 @@ import * as fromMainView from './state';
 export class MainViewComponent extends BaseComponent {
   public breadcrumbs$: Observable<BreadcrumbItem[]>;
 
-  constructor(private store: Store<fromMainView.MainViewState>) {
+  constructor(store: Store<fromMainView.MainViewState>) {
     super();
     this.breadcrumbs$ = store.select(fromMainView.selectBreadcrumbs)
       .pipe(
