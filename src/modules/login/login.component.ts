@@ -2,7 +2,7 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { TuiNotification, TuiNotificationsService } from '@taiga-ui/core';
-import { BaseComponent } from '@modules/app/base.component';
+import { BaseComponent } from '@modules/base/base.component';
 
 import {  Observable, Subject } from 'rxjs';
 import { debounceTime, filter, mergeMap, takeUntil, tap } from 'rxjs/operators';

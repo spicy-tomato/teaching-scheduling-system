@@ -26,6 +26,7 @@ module.exports = {
       tuiBase08: 'var(--tui-base-08)',
       tuiBase09: 'var(--tui-base-09)',
       tuiText01: 'var(--tui-text-01)',
+      tuiText02: 'var(--tui-text-02)',
     },
     extend: {
       width: {

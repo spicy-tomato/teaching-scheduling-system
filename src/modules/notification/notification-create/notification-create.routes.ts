@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { NotificationCreateComponent } from './notification-create.component';
+import { NotificationCreateManagingClassComponent } from './components/notification-create-managing-class/notification-create-managing-class.component';
+import { NotificationCreateModuleClassComponent } from './components/notification-create-module-class/notification-create-module-class.component';
 
 const routes: Routes = [
   {
@@ -8,7 +9,27 @@ const routes: Routes = [
     data: {
       breadcrumb: 'Tạo thông báo'
     },
-    component: NotificationCreateComponent
+    children: [
+      {
+        path: 'managing-class',
+        component: NotificationCreateManagingClassComponent,
+        data: {
+          breadcrumb: 'Lớp quản lý'
+        },
+      },
+      {
+        path: 'module-class',
+        component: NotificationCreateModuleClassComponent,
+        data: {
+          breadcrumb: 'Lớp học phần'
+        },
+      },
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'managing-class'
+      }
+    ]
   },
 ];
 

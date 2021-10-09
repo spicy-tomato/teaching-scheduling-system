@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { routerFade } from '@animations/routeFade.animation';
 import { BreadcrumbItem } from '@models/main-view/breadcrumb-item.model';
-import { BaseComponent } from '@modules/app/base.component';
+import { BaseComponent } from '@modules/base/base.component';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';

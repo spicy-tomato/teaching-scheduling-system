@@ -1,0 +1,29 @@
+<tui-tabs>
+  <a
+    tuiTab
+    routerLinkActive
+    [routerLink]="['../managing-class']"
+  >
+    Lớp quản lý
+  </a>
+  <a
+    tuiTab
+    routerLinkActive
+    [routerLink]="['../module-class']"
+  >
+    Lớp học phần
+  </a>
+</tui-tabs>
+
+<form
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+  class="layout grid auto-rows-auto p-4 pt-8"
+>
+  <tss-notification-create-common-form formControlName="content"></tss-notification-create-common-form>
+  <tss-notification-create-aside></tss-notification-create-aside>
+  <ng-content formControlName="receipt"></ng-content>
+  <div class="btn-wrapper">
+    <button type="submit">Xác nhận</button>
+  </div>
+</form>

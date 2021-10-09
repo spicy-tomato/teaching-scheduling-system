@@ -1,0 +1,23 @@
+.layout {
+  grid-template-columns: auto 300px;
+  grid-template-areas: 
+  "content aside"
+  "receipt aside"
+  "button  button";
+}
+
+tss-notification-create-content {
+  grid-area: content;
+}
+
+tss-notification-create-aside {
+  grid-area: aside;
+}
+
+ng-content {
+  grid-area: receipt;
+}
+
+.btn-wrapper {
+  grid-area: button;
+}
