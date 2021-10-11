@@ -8,7 +8,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreRouterConnectingModule, routerReducer } from '@ngrx/router-store';
 
-import { TuiNotificationsModule, TuiRootModule } from '@taiga-ui/core';
+import { TuiDialogModule, TuiNotificationsModule, TuiRootModule } from '@taiga-ui/core';
 import { TUI_LANGUAGE, TUI_VIETNAMESE_LANGUAGE } from '@taiga-ui/i18n';
 
 import { environment } from '@environments/environment';
@@ -22,6 +22,7 @@ import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
     BrowserModule,
     BrowserAnimationsModule,
     TuiRootModule,
+    TuiDialogModule,
     AppRoutingModule,
     TuiNotificationsModule,
     StoreModule.forRoot({ router: routerReducer }, {}),

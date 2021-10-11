@@ -5,7 +5,7 @@ import { NotificationRoutingModule } from './notification.routes';
 @NgModule({
   imports: [
     CommonModule,
-    NotificationRoutingModule
+    NotificationRoutingModule,
   ]
 })
 export class NotificationModule { }

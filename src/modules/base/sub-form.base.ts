@@ -19,7 +19,6 @@ export abstract class SubFormBase<T> extends BaseComponent implements ControlVal
   }
 
   protected abstract initForm(): void;
-  protected abstract validate(): ValidationErrors | null;
 
   constructor(protected fb: FormBuilder) {
     super();
@@ -36,27 +35,49 @@ export abstract class SubFormBase<T> extends BaseComponent implements ControlVal
   }
 
   public registerOnChange(fn: (value: T) => void): void {
-    this.onChange = fn;
+    this.form.valueChanges.subscribe(fn);
   }
 
   public registerOnTouched(fn: () => void): void {
     this.onTouch = fn;
   }
 
+  public validate(): ValidationErrors | null {
+    if (this.form.valid) {
+      return null;
+    }
+
+    const errors: ValidationErrors = {};
+
+    Object.keys(this.form.controls).forEach((k) => {
+      if (this.form.controls[k].invalid) {
+        errors[k] = this.form.controls[k].errors;
+      }
+    });
+
+    return errors;
+  }
+
   private handleFormChange(): void {
     this.form.valueChanges
       .pipe(
         tap((value) => {
-          if (this.onChange){
+          if (this.onChange) {
             this.onChange(value);
           }
 
-          if (this.onTouch){
+          if (this.onTouch) {
             this.onTouch();
           }
         }),
         takeUntil(this.destroy$)
       )
       .subscribe();
+  }
+
+  public setDisabledState(isDisable: boolean): void {
+    isDisable
+      ? this.form.disable()
+      : this.form.enable();
   }
 }

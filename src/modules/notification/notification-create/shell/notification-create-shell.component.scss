@@ -1,9 +1,9 @@
 .layout {
   grid-template-columns: auto 300px;
-  grid-template-areas: 
-  "content aside"
-  "receipt aside"
-  "button  button";
+  grid-template-areas:
+    "content aside"
+    "receipt aside"
+    "button none";
 }
 
 tss-notification-create-content {
@@ -20,4 +20,16 @@ ng-content {
 
 .btn-wrapper {
   grid-area: button;
+}
+
+.dialog {
+  .dialog__btn-wrapper {
+    > * {
+      @apply px-4;
+
+      > i {
+        @apply mr-4;
+      }
+    }
+  }
 }

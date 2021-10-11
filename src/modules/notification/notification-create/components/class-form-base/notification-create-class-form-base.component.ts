@@ -12,8 +12,4 @@ export class NotificationCreateClassFormBaseComponent extends SubFormBase<Notifi
       receipt: new FormControl()
     });
   }
-
-  protected validate(): ValidationErrors | null {
-    return this.form.valid ? null : { receipt: { valid: false } };
-  }
 }

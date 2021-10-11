@@ -1,65 +1,62 @@
-<div class="flex">
-  <!-- Left -->
-  <form
-    class="flex-grow pr-4"
-    [formGroup]="form"
-  >
+<form
+  class="flex-grow"
+  [formGroup]="form"
+>
 
-    <!-- Title -->
-    <div class="tui-form__row">
-      <tui-input formControlName="title">
-        Tiêu đề
+  <!-- Title -->
+  <div class="tui-form__row">
+    <tui-input formControlName="title">
+      Tiêu đề
+      <span class="tui-required"></span>
+    </tui-input>
+    <tui-field-error formControlName="title"></tui-field-error>
+  </div>
+
+  <div class="tui-form__row tui-form__row_multi-fields">
+    <!-- Type -->
+    <div class="tui-form__multi-field">
+      <tui-select formControlName="type">
+        Thể loại
         <span class="tui-required"></span>
-      </tui-input>
-      <tui-field-error formControlName="title"></tui-field-error>
+        <tui-data-list *tuiDataList>
+          <tui-opt-group>
+            <button
+              *ngFor="let type of types"
+              [value]="type"
+              tuiOption
+            >
+              {{ type }}
+            </button>
+          </tui-opt-group>
+        </tui-data-list>
+      </tui-select>
+      <tui-field-error formControlName="type"></tui-field-error>
     </div>
 
-    <div class="tui-form__row tui-form__row_multi-fields">
-      <!-- Type -->
-      <div class="tui-form__multi-field">
-        <tui-select formControlName="type">
-          Thể loại
-          <span class="tui-required"></span>
-          <tui-data-list *tuiDataList>
-            <tui-opt-group>
-              <button
-                *ngFor="let type of types"
-                [value]="type"
-                tuiOption
-              >
-                {{ type }}
-              </button>
-            </tui-opt-group>
-          </tui-data-list>
-        </tui-select>
-        <tui-field-error formControlName="type"></tui-field-error>
-      </div>
-
-      <!-- Date -->
-      <div class="tui-form__multi-field">
-        <tui-input-date-range
-          formControlName="date"
-          [tuiTextfieldCleaner]="true"
-        >
-          Thời gian
-        </tui-input-date-range>
-      </div>
-    </div>
-
-    <!-- Body -->
-    <div class="tui-form__row">
-      <label
-        tuiLabel
-        [label]="bodyLabel"
-        class="!text-lg"
+    <!-- Date -->
+    <div class="tui-form__multi-field">
+      <tui-input-date-range
+        formControlName="date"
+        [tuiTextfieldCleaner]="true"
       >
-        <tui-editor formControlName="body"></tui-editor>
-      </label>
-      <ng-template #bodyLabel>
-        <div class="mb-2 text-base text-tuiText02">Nội dung</div>
-      </ng-template>
-      <tui-field-error formControlName="body"></tui-field-error>
+        Thời gian
+      </tui-input-date-range>
     </div>
+  </div>
 
-  </form>
-</div>
+  <!-- Body -->
+  <div class="tui-form__row">
+    <label
+      tuiLabel
+      [label]="bodyLabel"
+      class="!text-lg"
+    >
+      <tui-editor formControlName="body"></tui-editor>
+    </label>
+    <ng-template #bodyLabel>
+      <div class="mb-2 text-base text-tuiText02">Nội dung</div>
+    </ng-template>
+    <tui-field-error formControlName="body"></tui-field-error>
+  </div>
+
+</form>

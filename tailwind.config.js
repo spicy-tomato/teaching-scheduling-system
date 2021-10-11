@@ -16,6 +16,7 @@ module.exports = {
       current: 'currentColor',
       white: '#ffffff',
       black: '#000000',
+      tuiPositive: 'var(--tui-positive)',
       tuiBase01: 'var(--tui-base-01)',
       tuiBase02: 'var(--tui-base-02)',
       tuiBase03: 'var(--tui-base-03)',

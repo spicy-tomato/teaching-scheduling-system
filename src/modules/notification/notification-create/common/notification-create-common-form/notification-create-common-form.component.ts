@@ -1,8 +1,11 @@
 /* eslint-disable @typescript-eslint/unbound-method */
 import { ChangeDetectionStrategy, Component, forwardRef } from '@angular/core';
-import { FormBuilder, FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 import { NotificationCreateCommonFormModel } from '@models/notification/notification-create/notification-create-common-form.model';
 import { SubFormBase } from '@modules/base/sub-form.base';
+import { Store } from '@ngrx/store';
+import { filter, take, takeUntil, tap } from 'rxjs/operators';
+import * as fromNotificationCreate from '../../state';
 
 @Component({
   selector: 'tss-notification-create-common-form',
@@ -30,8 +33,12 @@ export class NotificationCreateCommonFormComponent extends SubFormBase<Notificat
     'Chi trả xã hội',
   ];
 
-  constructor(protected fb: FormBuilder) {
+  constructor(
+    protected fb: FormBuilder,
+    private store: Store<fromNotificationCreate.NotificationCreateState>,
+  ) {
     super(fb);
+    this.handleInvalidForm();
   }
 
   protected initForm(): void {
@@ -43,7 +50,33 @@ export class NotificationCreateCommonFormComponent extends SubFormBase<Notificat
     });
   }
 
-  public validate(): ValidationErrors | null {
-    return null;
+  private get title(): AbstractControl | null {
+    return this.form.get('title');
+  }
+
+  private get type(): AbstractControl | null {
+    return this.form.get('type');
+  }
+
+  private get body(): AbstractControl | null {
+    return this.form.get('body');
+  }
+
+  private get date(): AbstractControl | null {
+    return this.form.get('date');
+  }
+
+  private handleInvalidForm(): void {
+    this.store.select(fromNotificationCreate.selectErrors)
+      .pipe(
+        filter((errors) => !!errors.content),
+        take(1),
+        tap(() => {
+          this.form.markAllAsTouched();
+          this.form.markAsDirty();
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
   }
 }

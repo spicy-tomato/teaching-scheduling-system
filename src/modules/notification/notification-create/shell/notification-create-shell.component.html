@@ -17,13 +17,57 @@
 
 <form
   [formGroup]="form"
-  (ngSubmit)="onSubmit()"
-  class="layout grid auto-rows-auto p-4 pt-8"
+  (ngSubmit)="confirm$.next()"
+  class="layout grid auto-rows-auto gap-x-4 p-4 pt-8"
 >
   <tss-notification-create-common-form formControlName="content"></tss-notification-create-common-form>
   <tss-notification-create-aside></tss-notification-create-aside>
   <ng-content formControlName="receipt"></ng-content>
-  <div class="btn-wrapper">
-    <button type="submit">Xác nhận</button>
+
+  <div class="btn-wrapper tui-form__buttons flex justify-end">
+    <button
+      tuiButton
+      type="submit"
+    >
+      Xác nhận
+    </button>
   </div>
 </form>
+
+<ng-template
+  #successDialog
+  class="dialog"
+>
+  <h2 class="text-center">
+    <i class="fal fa-check-circle text-tuiPositive"></i>
+    Tạo thông báo thành công!
+  </h2>
+  <div class="dialog__btn-wrapper flex justify-center mt-8">
+    <a
+      [routerLink]="['/']"
+      tuiButton
+      size="m"
+      class="mx-2"
+    >
+      <i class="far fa-home mr-1"></i>
+      Về trang chủ
+    </a>
+    <a
+      [routerLink]="['/notification']"
+      tuiButton
+      size="m"
+      class="mx-2"
+    >
+      <i class="far fa-eye mr-1"></i>
+      Xem thông báo
+    </a>
+    <a
+      tuiButton
+      size="m"
+      class="mx-2"
+    >
+      <i class="far fa-plus mr-1"></i>
+      Tạo thông báo mới
+    </a>
+  </div>
+</ng-template>

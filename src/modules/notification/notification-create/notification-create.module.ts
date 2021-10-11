@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { TuiDataListModule, TuiLabelModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
+import { TuiButtonModule, TuiDataListModule, TuiLabelModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { TuiFieldErrorModule, TuiInputDateRangeModule, TuiInputModule, TuiSelectModule, TuiTabsModule } from '@taiga-ui/kit';
 import { defaultEditorExtensions, TuiEditorModule, TUI_EDITOR_EXTENSIONS } from '@taiga-ui/addon-editor';
 
@@ -12,6 +12,9 @@ import { NotificationCreateManagingClassComponent } from './components/notificat
 import { NotificationCreateModuleClassComponent } from './components/notification-create-module-class/notification-create-module-class.component';
 import { NotificationCreateShellComponent } from './shell/notification-create-shell.component';
 import { NotificationCreateAsideComponent } from './common/notification-create-aside/notification-create-aside.component';
+import { EffectsModule } from '@ngrx/effects';
+import * as fromNotificationCreate from './state';
+import { StoreModule } from '@ngrx/store';
 
 @NgModule({
   imports: [
@@ -28,6 +31,12 @@ import { NotificationCreateAsideComponent } from './common/notification-create-a
     TuiTextfieldControllerModule,
     TuiFieldErrorModule,
     TuiLabelModule,
+    TuiButtonModule,
+    StoreModule.forFeature(
+      fromNotificationCreate.notificationCreateFeatureKey,
+      fromNotificationCreate.notificationCreateReducer
+    ),
+    EffectsModule.forFeature([fromNotificationCreate.NotificationCreateEffects])
   ],
   declarations: [
     NotificationCreateManagingClassComponent,
