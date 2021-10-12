@@ -11,6 +11,7 @@ import { Store } from '@ngrx/store';
 import * as fromLogin from './state';
 import { animate, query, stagger, style, transition, trigger } from '@angular/animations';
 import { LoginForm } from '@models/login/login-form.model';
+import { EApiStatus } from 'src/enums/api-status.enum';
 
 @Component({
   templateUrl: './login.component.html',
@@ -31,7 +32,7 @@ import { LoginForm } from '@models/login/login-form.model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent extends BaseComponent {
-  public status$: Observable<fromLogin.LoginStatus>;
+  public status$: Observable<EApiStatus>;
   public readonly submit$ = new Subject<void>();
 
   public readonly loginForm = new FormGroup({
@@ -44,8 +45,8 @@ export class LoginComponent extends BaseComponent {
     return this.loginForm.get('email');
   }
 
-  public get LoginStatus(): typeof fromLogin.LoginStatus {
-    return fromLogin.LoginStatus;
+  public get LoginStatus(): typeof EApiStatus {
+    return EApiStatus;
   }
 
   constructor(
