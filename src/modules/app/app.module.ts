@@ -16,11 +16,13 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routes';
 import { TUI_SANITIZER } from '@taiga-ui/cdk';
 import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
+import { InterceptorsModule } from '@interceptors/interceptors.module';
 
 @NgModule({
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    InterceptorsModule,
     TuiRootModule,
     TuiDialogModule,
     AppRoutingModule,
