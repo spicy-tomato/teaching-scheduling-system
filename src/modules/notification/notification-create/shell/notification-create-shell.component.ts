@@ -37,9 +37,9 @@ export class NotificationCreateShellComponent extends BaseComponent implements O
   }
 
   constructor(
-    private fb: FormBuilder,
-    private store: Store<fromNotificationCreate.NotificationCreateState>,
-    private router: Router,
+    private readonly fb: FormBuilder,
+    private readonly router: Router,
+    private readonly store: Store<fromNotificationCreate.NotificationCreateState>,
     @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
     @Inject(TuiNotificationsService) private readonly notificationsService: TuiNotificationsService
   ) {

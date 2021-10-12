@@ -20,7 +20,7 @@ export abstract class SubFormBase<T> extends BaseComponent implements ControlVal
 
   protected abstract initForm(): void;
 
-  constructor(protected fb: FormBuilder) {
+  constructor(protected readonly fb: FormBuilder) {
     super();
     this.initForm();
   }

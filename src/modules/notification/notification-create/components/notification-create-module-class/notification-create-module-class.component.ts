@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, forwardRef } from '@angular/core';
 import { FormBuilder, NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { NotificationCreateState } from '../../state/notification-create.state';
 import { NotificationCreateClassFormBaseComponent } from '../class-form-base/notification-create-class-form-base.component';
 
 @Component({
@@ -21,7 +23,10 @@ import { NotificationCreateClassFormBaseComponent } from '../class-form-base/not
   ]
 })
 export class NotificationCreateModuleClassComponent extends NotificationCreateClassFormBaseComponent {
-  constructor(protected fb: FormBuilder) {
-    super(fb);
+  constructor(
+    protected readonly fb: FormBuilder,
+    protected readonly store: Store<NotificationCreateState>
+  ) {
+    super(fb, store);
   }
 }
