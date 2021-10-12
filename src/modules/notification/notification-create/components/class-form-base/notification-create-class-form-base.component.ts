@@ -1,16 +1,21 @@
 import { Directive, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
-import { NotificationCreateClassModel } from '@models/notification/notification-create/notification-create-class.model';
-import { ICanDeactivateComponent } from '@modules/base/can-deactivate.base';
-import { SubFormBase } from '@modules/base/sub-form.base';
+
 import { Store } from '@ngrx/store';
 import { takeUntil, tap } from 'rxjs/operators';
+
+import { SubFormBase } from '@modules/base/sub-form.base';
+import { ICanDeactivateComponent } from '@modules/base/can-deactivate.base';
+import { NotificationCreateClassModel } from '@models/notification/notification-create/notification-create-class.model';
 import { EApiStatus } from 'src/enums/api-status.enum';
 import { NotificationCreateShellComponent } from '../../shell/notification-create-shell.component';
 import * as fromNotificationCreate from '../../state';
 
 @Directive()
-export abstract class NotificationCreateClassFormBaseComponent extends SubFormBase<NotificationCreateClassModel> implements ICanDeactivateComponent {
+export abstract class NotificationCreateClassFormBaseComponent
+  extends SubFormBase<NotificationCreateClassModel>
+  implements ICanDeactivateComponent {
+
   @ViewChild(NotificationCreateShellComponent, { static: true })
   protected shell!: NotificationCreateShellComponent;
 
@@ -22,6 +27,10 @@ export abstract class NotificationCreateClassFormBaseComponent extends SubFormBa
   ) {
     super(fb);
     this.handleFormStatusChange();
+  }
+
+  protected beforeDestroy(): void {
+    this.store.dispatch(fromNotificationCreate.reset());
   }
 
   protected initForm(): void {

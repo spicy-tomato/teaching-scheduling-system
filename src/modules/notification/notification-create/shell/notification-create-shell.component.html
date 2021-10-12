@@ -30,10 +30,10 @@
   >
     <button
       [showLoader]="status === ConfirmStatus.loading"
+      [type]="status === ConfirmStatus.successful ? 'button' : 'submit'"
       tuiButton
-      type="submit"
     >
-      Xác nhận
+      {{status === ConfirmStatus.successful ? 'Tạo thông báo mới' : 'Xác nhận'}}
     </button>
   </div>
 </form>

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/unbound-method */
-import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, ValidationErrors } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
@@ -8,12 +8,12 @@ import { debounceTime, filter, mergeMap, takeUntil, tap } from 'rxjs/operators';
 import { BaseComponent } from '@modules/base/base.component';
 import isEmpty from 'lodash/isEmpty';
 
+import { NotificationCreateFormModel } from '@models/notification/notification-create/notification-create-form.model';
 import * as fromNotificationCreate from '../state';
+import { EApiStatus } from 'src/enums/api-status.enum';
+
 import { TuiDialogContext, TuiDialogService, TuiNotification, TuiNotificationsService } from '@taiga-ui/core';
 import { PolymorpheusContent } from "@tinkoff/ng-polymorpheus";
-import { EApiStatus } from 'src/enums/api-status.enum';
-import { NotificationCreateFormModel } from '@models/notification/notification-create/notification-create-form.model';
-import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'tss-notification-create-shell',
@@ -21,7 +21,7 @@ import { NavigationEnd, Router } from '@angular/router';
   styleUrls: ['./notification-create-shell.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NotificationCreateShellComponent extends BaseComponent implements OnInit {
+export class NotificationCreateShellComponent extends BaseComponent {
   @ViewChild('successDialog', { static: true }) public successDialog!: PolymorpheusContent<TuiDialogContext>;
 
   public form = this.fb.group({
@@ -38,7 +38,6 @@ export class NotificationCreateShellComponent extends BaseComponent implements O
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly router: Router,
     private readonly store: Store<fromNotificationCreate.NotificationCreateState>,
     @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
     @Inject(TuiNotificationsService) private readonly notificationsService: TuiNotificationsService
@@ -55,19 +54,6 @@ export class NotificationCreateShellComponent extends BaseComponent implements O
     this.handleSubmit();
     this.handleValidForm();
     this.handleInvalidForm();
-  }
-
-  public ngOnInit(): void {
-    this.router.events
-      .pipe(
-        filter((event) => event instanceof NavigationEnd),
-        tap(() => {
-          this.form.reset();
-          this.form.enable();
-        }),
-        takeUntil(this.destroy$)
-      )
-      .subscribe();
   }
 
   private handleStatusChange(): void {

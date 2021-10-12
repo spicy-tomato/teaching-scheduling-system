@@ -2,6 +2,10 @@ import { ErrorMapModel } from "@models/core/error-map.model";
 import { NotificationCreateFormModel } from "@models/notification/notification-create/notification-create-form.model";
 import { createAction, props } from "@ngrx/store";
 
+export const reset = createAction(
+  '[Notification - Create Page] Init'
+);
+
 export const clickConfirm = createAction(
   '[Notification - Create Page] Click confirm',
   props<{

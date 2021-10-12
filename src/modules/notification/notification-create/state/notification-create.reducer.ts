@@ -13,6 +13,7 @@ export const notificationCreateFeatureKey = 'notification-create';
 
 export const notificationCreateReducer = createReducer(
   initialState,
+  on(PageAction.reset, () => initialState),
   on(PageAction.clickConfirm, (state) => ({
     ...state,
     status: EApiStatus.loading
