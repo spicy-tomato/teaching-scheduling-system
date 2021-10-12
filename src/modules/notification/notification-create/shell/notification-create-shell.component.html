@@ -24,8 +24,12 @@
   <tss-notification-create-aside></tss-notification-create-aside>
   <ng-content formControlName="receipt"></ng-content>
 
-  <div class="btn-wrapper tui-form__buttons flex justify-end">
+  <div
+    class="btn-wrapper tui-form__buttons flex justify-end"
+    *ngrxLet="status$ as status"
+  >
     <button
+      [showLoader]="status === ConfirmStatus.loading"
       tuiButton
       type="submit"
     >
@@ -49,7 +53,7 @@
       size="m"
       class="mx-2"
     >
-      <i class="far fa-home mr-1"></i>
+      <i class="far fa-home mr-1 mt-0.5"></i>
       Về trang chủ
     </a>
     <a
@@ -58,7 +62,7 @@
       size="m"
       class="mx-2"
     >
-      <i class="far fa-eye mr-1"></i>
+      <i class="far fa-eye mr-1 mt-0.5"></i>
       Xem thông báo
     </a>
     <a
@@ -66,7 +70,7 @@
       size="m"
       class="mx-2"
     >
-      <i class="far fa-plus mr-1"></i>
+      <i class="far fa-plus mr-1 mt-0.5"></i>
       Tạo thông báo mới
     </a>
   </div>

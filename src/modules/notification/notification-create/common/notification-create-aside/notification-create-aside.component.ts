@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'tss-notification-create-aside',
@@ -6,11 +6,4 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   styleUrls: ['./notification-create-aside.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NotificationCreateAsideComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
-}
+export class NotificationCreateAsideComponent { }

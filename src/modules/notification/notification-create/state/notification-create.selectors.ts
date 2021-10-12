@@ -8,3 +8,7 @@ export const selectErrors = createSelector(
   (state) => state.errors
 )
 
+export const selectStatus = createSelector(
+  notificationCreateSelector,
+  (state) => state.status
+)

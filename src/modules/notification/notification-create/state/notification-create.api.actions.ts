@@ -1,21 +1,16 @@
-import { ValidationErrors } from "@angular/forms";
+import { ErrorMapModel } from "@models/core/error-map.model";
 import { createAction, props } from "@ngrx/store";
 
-export const validForm = createAction(
-  '[Notification - Create Page] Invalid form',
-  props<{
-    errors: {
-      [key: string]: ValidationErrors;
-    };
-  }>()
+export const invalidForm = createAction(
+  '[Notification - Create API] Invalid form',
+  props<{ errors: ErrorMapModel; }>()
 );
 
-export const invalidForm = createAction(
-  '[Notification - Create Page] Invalid form',
-  props<{
-    errors: {
-      [key: string]: ValidationErrors;
-    };
-  }>()
+export const submitSuccessful = createAction(
+  '[Notification - Create API] Submit Successfully'
+);
+
+export const submitFailure = createAction(
+  '[Notification - Create API] Submit Failed'
 );
 

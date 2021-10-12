@@ -1,16 +1,19 @@
 /* eslint-disable @typescript-eslint/unbound-method */
-import { ChangeDetectionStrategy, Component, Inject, ViewChild } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, ValidationErrors } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
-import { Subject } from 'rxjs';
-import { debounceTime, filter, mergeMap, take, takeUntil, tap } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, filter, mergeMap, takeUntil, tap } from 'rxjs/operators';
 import { BaseComponent } from '@modules/base/base.component';
 import isEmpty from 'lodash/isEmpty';
 
 import * as fromNotificationCreate from '../state';
 import { TuiDialogContext, TuiDialogService, TuiNotification, TuiNotificationsService } from '@taiga-ui/core';
 import { PolymorpheusContent } from "@tinkoff/ng-polymorpheus";
+import { EApiStatus } from 'src/enums/api-status.enum';
+import { NotificationCreateFormModel } from '@models/notification/notification-create/notification-create-form.model';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'tss-notification-create-shell',
@@ -18,36 +21,65 @@ import { PolymorpheusContent } from "@tinkoff/ng-polymorpheus";
   styleUrls: ['./notification-create-shell.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NotificationCreateShellComponent extends BaseComponent {
+export class NotificationCreateShellComponent extends BaseComponent implements OnInit {
   @ViewChild('successDialog', { static: true }) public successDialog!: PolymorpheusContent<TuiDialogContext>;
 
-  public readonly form = this.fb.group({
+  public form = this.fb.group({
     content: new FormControl(),
     receipt: new FormControl()
   });
 
-  private showedError = false;
-
+  public status$: Observable<EApiStatus>;
   public readonly confirm$ = new Subject<void>();
 
-  private get content(): AbstractControl | null {
-    return this.form.get('content');
-  }
-
-  private get receipt(): AbstractControl | null {
-    return this.form.get('receipt');
+  public get ConfirmStatus(): typeof EApiStatus {
+    return EApiStatus;
   }
 
   constructor(
-    private readonly fb: FormBuilder,
+    private fb: FormBuilder,
     private store: Store<fromNotificationCreate.NotificationCreateState>,
+    private router: Router,
     @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
     @Inject(TuiNotificationsService) private readonly notificationsService: TuiNotificationsService
   ) {
     super();
+
+    this.status$ = this.store
+      .select(fromNotificationCreate.selectStatus)
+      .pipe(
+        takeUntil(this.destroy$)
+      );
+
+    this.handleStatusChange();
     this.handleSubmit();
     this.handleValidForm();
     this.handleInvalidForm();
+  }
+
+  public ngOnInit(): void {
+    this.router.events
+      .pipe(
+        filter((event) => event instanceof NavigationEnd),
+        tap(() => {
+          this.form.reset();
+          this.form.enable();
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
+  private handleStatusChange(): void {
+    this.status$
+      .pipe(
+        tap((status) => {
+          status === EApiStatus.loading || status === EApiStatus.successful
+            ? this.form.disable()
+            : this.form.enable();
+        })
+      )
+      .subscribe();
   }
 
   private handleSubmit(): void {
@@ -55,8 +87,17 @@ export class NotificationCreateShellComponent extends BaseComponent {
       .pipe(
         debounceTime(300),
         tap(() => {
-          const form = this.form;
-          this.store.dispatch(fromNotificationCreate.clickConfirm({ form }));
+          const value: NotificationCreateFormModel = this.form.value as NotificationCreateFormModel;
+
+          const errors = Object.keys(this.form.controls)
+            .reduce((acc: ValidationErrors, key) => {
+              if (this.form.controls[key].errors) {
+                acc[key] = this.form.controls[key].errors;
+              }
+              return acc;
+            }, {});
+
+          this.store.dispatch(fromNotificationCreate.clickConfirm({ value, errors }));
         }),
         takeUntil(this.destroy$)
       )
@@ -64,18 +105,15 @@ export class NotificationCreateShellComponent extends BaseComponent {
   }
 
   private handleValidForm(): void {
-
-    // this.validForm$
-    //   .pipe(
-    //     tap(() => {
-    //       this.content?.disable();
-    //     }),
-    //     mergeMap(() =>
-    //       this.dialogService.open(this.successDialog)
-    //     ),
-    //     takeUntil(this.destroy$)
-    //   )
-    //   .subscribe();
+    this.status$
+      .pipe(
+        filter((status) => status === EApiStatus.successful),
+        mergeMap(() =>
+          this.dialogService.open(this.successDialog)
+        ),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
   }
 
   private handleInvalidForm(): void {

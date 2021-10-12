@@ -1,5 +1,5 @@
 import { ControlValueAccessor, FormBuilder, FormGroup, ValidationErrors } from "@angular/forms";
-import { takeUntil, tap } from "rxjs/operators";
+import { takeUntil } from "rxjs/operators";
 import { BaseComponent } from "./base.component";
 
 export abstract class SubFormBase<T> extends BaseComponent implements ControlValueAccessor {
@@ -23,7 +23,6 @@ export abstract class SubFormBase<T> extends BaseComponent implements ControlVal
   constructor(protected fb: FormBuilder) {
     super();
     this.initForm();
-    this.handleFormChange();
   }
 
   public writeValue(value: T): void {
@@ -35,7 +34,11 @@ export abstract class SubFormBase<T> extends BaseComponent implements ControlVal
   }
 
   public registerOnChange(fn: (value: T) => void): void {
-    this.form.valueChanges.subscribe(fn);
+    this.form.valueChanges
+      .pipe(
+        takeUntil(this.destroy$)
+      )
+      .subscribe(fn);
   }
 
   public registerOnTouched(fn: () => void): void {
@@ -56,23 +59,6 @@ export abstract class SubFormBase<T> extends BaseComponent implements ControlVal
     });
 
     return errors;
-  }
-
-  private handleFormChange(): void {
-    this.form.valueChanges
-      .pipe(
-        tap((value) => {
-          if (this.onChange) {
-            this.onChange(value);
-          }
-
-          if (this.onTouch) {
-            this.onTouch();
-          }
-        }),
-        takeUntil(this.destroy$)
-      )
-      .subscribe();
   }
 
   public setDisabledState(isDisable: boolean): void {

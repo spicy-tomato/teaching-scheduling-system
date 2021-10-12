@@ -4,8 +4,6 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class HeaderInterceptor implements HttpInterceptor {
-  constructor() {}
-
   public intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const headers = req.headers
       .set('Content-Type', 'application/json');

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { FormDiscardGuard } from 'src/guards/form-discard.guard';
 import { NotificationCreateManagingClassComponent } from './components/notification-create-managing-class/notification-create-managing-class.component';
 import { NotificationCreateModuleClassComponent } from './components/notification-create-module-class/notification-create-module-class.component';
 
@@ -16,6 +17,7 @@ const routes: Routes = [
         data: {
           breadcrumb: 'Lớp quản lý'
         },
+        canDeactivate: [FormDiscardGuard],
       },
       {
         path: 'module-class',
@@ -23,6 +25,7 @@ const routes: Routes = [
         data: {
           breadcrumb: 'Lớp học phần'
         },
+        canDeactivate: [FormDiscardGuard],
       },
       {
         path: '',

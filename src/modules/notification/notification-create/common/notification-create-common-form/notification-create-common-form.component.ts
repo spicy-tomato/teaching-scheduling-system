@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/unbound-method */
 import { ChangeDetectionStrategy, Component, forwardRef } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 import { NotificationCreateCommonFormModel } from '@models/notification/notification-create/notification-create-common-form.model';
 import { SubFormBase } from '@modules/base/sub-form.base';
 import { Store } from '@ngrx/store';
-import { filter, take, takeUntil, tap } from 'rxjs/operators';
+import { filter, take, tap } from 'rxjs/operators';
+import { EApiStatus } from 'src/enums/api-status.enum';
 import * as fromNotificationCreate from '../../state';
 
 @Component({
@@ -34,10 +35,12 @@ export class NotificationCreateCommonFormComponent extends SubFormBase<Notificat
   ];
 
   constructor(
-    protected fb: FormBuilder,
-    private store: Store<fromNotificationCreate.NotificationCreateState>,
+    protected readonly fb: FormBuilder,
+    private readonly store: Store<fromNotificationCreate.NotificationCreateState>,
   ) {
     super(fb);
+
+    this.handleSubmitSuccessful();
     this.handleInvalidForm();
   }
 
@@ -50,22 +53,6 @@ export class NotificationCreateCommonFormComponent extends SubFormBase<Notificat
     });
   }
 
-  private get title(): AbstractControl | null {
-    return this.form.get('title');
-  }
-
-  private get type(): AbstractControl | null {
-    return this.form.get('type');
-  }
-
-  private get body(): AbstractControl | null {
-    return this.form.get('body');
-  }
-
-  private get date(): AbstractControl | null {
-    return this.form.get('date');
-  }
-
   private handleInvalidForm(): void {
     this.store.select(fromNotificationCreate.selectErrors)
       .pipe(
@@ -74,9 +61,15 @@ export class NotificationCreateCommonFormComponent extends SubFormBase<Notificat
         tap(() => {
           this.form.markAllAsTouched();
           this.form.markAsDirty();
-        }),
-        takeUntil(this.destroy$)
+        })
       )
       .subscribe();
+  }
+
+  private handleSubmitSuccessful(): void {
+    this.store.select(fromNotificationCreate.selectStatus)
+      .pipe(
+        filter((status) => status === EApiStatus.successful)
+      );
   }
 }

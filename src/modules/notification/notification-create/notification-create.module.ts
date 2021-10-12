@@ -15,6 +15,7 @@ import { NotificationCreateAsideComponent } from './common/notification-create-a
 import { EffectsModule } from '@ngrx/effects';
 import * as fromNotificationCreate from './state';
 import { StoreModule } from '@ngrx/store';
+import { ReactiveComponentModule } from '@ngrx/component';
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import { StoreModule } from '@ngrx/store';
     NotificationCreateRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    ReactiveComponentModule,
     TuiTabsModule,
     TuiInputModule,
     TuiSelectModule,

@@ -1,8 +1,8 @@
-import { ValidationErrors } from "@angular/forms";
+import { ErrorMapModel } from "@models/core/error-map.model";
 import { AppState } from "@modules/app/state/app.reducer";
+import { EApiStatus } from "src/enums/api-status.enum";
 
 export interface NotificationCreateState extends AppState {
-  errors: {
-    [key: string]: ValidationErrors;
-  };
+  status: EApiStatus,
+  errors: ErrorMapModel
 }
