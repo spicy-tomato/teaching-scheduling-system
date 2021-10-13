@@ -35,6 +35,9 @@
       "@environments/*": [
         "src/environments/*"
       ],
+      "@factories/*": [
+        "src/factories/*"
+      ],
       "@interceptors/*": [
         "src/interceptors/*"
       ],
