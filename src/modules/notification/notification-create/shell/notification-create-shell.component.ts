@@ -30,6 +30,7 @@ export class NotificationCreateShellComponent extends BaseComponent {
   });
 
   public status$: Observable<EApiStatus>;
+  public reset$ = new Subject<void>();
   public readonly confirm$ = new Subject<void>();
 
   public get ConfirmStatus(): typeof EApiStatus {
@@ -52,6 +53,7 @@ export class NotificationCreateShellComponent extends BaseComponent {
 
     this.handleStatusChange();
     this.handleSubmit();
+    this.handleResetForm();
     this.handleValidForm();
     this.handleInvalidForm();
   }
@@ -86,6 +88,17 @@ export class NotificationCreateShellComponent extends BaseComponent {
           this.store.dispatch(fromNotificationCreate.clickConfirm({ value, errors }));
         }),
         takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
+  private handleResetForm(): void {
+    this.reset$
+      .pipe(
+        tap(() => {
+          this.form.reset();
+          this.store.dispatch(fromNotificationCreate.reset());
+        })
       )
       .subscribe();
   }

@@ -16,21 +16,19 @@
 </tui-tabs>
 
 <form
+  *ngrxLet="status$ as status"
   [formGroup]="form"
-  (ngSubmit)="confirm$.next()"
+  (ngSubmit)="status === ConfirmStatus.successful ? reset$.next() : confirm$.next()"
   class="layout grid auto-rows-auto gap-x-4 p-4 pt-8"
 >
   <tss-notification-create-common-form formControlName="content"></tss-notification-create-common-form>
   <tss-notification-create-aside></tss-notification-create-aside>
   <ng-content formControlName="receipt"></ng-content>
 
-  <div
-    class="btn-wrapper tui-form__buttons flex justify-end"
-    *ngrxLet="status$ as status"
-  >
+  <div class="btn-wrapper tui-form__buttons flex justify-end">
     <button
       [showLoader]="status === ConfirmStatus.loading"
-      [type]="status === ConfirmStatus.successful ? 'button' : 'submit'"
+      type="submit"
       tuiButton
     >
       {{status === ConfirmStatus.successful ? 'Tạo thông báo mới' : 'Xác nhận'}}
@@ -40,6 +38,7 @@
 
 <ng-template
   #successDialog
+  let-observer
   class="dialog"
 >
   <h2 class="text-center">
@@ -65,13 +64,14 @@
       <i class="far fa-eye mr-1 mt-0.5"></i>
       Xem thông báo
     </a>
-    <a
+    <button
+      (click)="observer.complete(); reset$.next()"
       tuiButton
       size="m"
       class="mx-2"
     >
       <i class="far fa-plus mr-1 mt-0.5"></i>
       Tạo thông báo mới
-    </a>
+    </button>
   </div>
 </ng-template>
