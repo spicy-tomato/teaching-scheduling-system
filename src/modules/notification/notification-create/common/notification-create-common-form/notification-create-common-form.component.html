@@ -19,15 +19,13 @@
         Thể loại
         <span class="tui-required"></span>
         <tui-data-list *tuiDataList>
-          <tui-opt-group>
-            <button
-              *ngFor="let type of types"
-              [value]="type"
-              tuiOption
-            >
-              {{ type }}
-            </button>
-          </tui-opt-group>
+          <button
+            *ngFor="let type of types"
+            [value]="type"
+            tuiOption
+          >
+            {{ type }}
+          </button>
         </tui-data-list>
       </tui-select>
       <tui-field-error formControlName="type"></tui-field-error>

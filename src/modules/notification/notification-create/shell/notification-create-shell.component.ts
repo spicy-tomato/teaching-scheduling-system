@@ -14,6 +14,7 @@ import { EApiStatus } from 'src/enums/api-status.enum';
 
 import { TuiDialogContext, TuiDialogService, TuiNotification, TuiNotificationsService } from '@taiga-ui/core';
 import { PolymorpheusContent } from "@tinkoff/ng-polymorpheus";
+import { CommonInfoService } from '@services/common-info.service';
 
 @Component({
   selector: 'tss-notification-create-shell',
@@ -41,7 +42,8 @@ export class NotificationCreateShellComponent extends BaseComponent {
     private readonly fb: FormBuilder,
     private readonly store: Store<fromNotificationCreate.NotificationCreateState>,
     @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
-    @Inject(TuiNotificationsService) private readonly notificationsService: TuiNotificationsService
+    @Inject(TuiNotificationsService) private readonly notificationsService: TuiNotificationsService,
+    private commonInfoService: CommonInfoService
   ) {
     super();
 
@@ -56,6 +58,13 @@ export class NotificationCreateShellComponent extends BaseComponent {
     this.handleResetForm();
     this.handleValidForm();
     this.handleInvalidForm();
+
+    // this.commonInfoService
+    //   .getFaculty()
+    //   .pipe(
+    //     tap(e => console.log(e))
+    //   )
+    //   .subscribe()
   }
 
   private handleStatusChange(): void {

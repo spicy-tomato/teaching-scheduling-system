@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { TuiButtonModule, TuiDataListModule, TuiLabelModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
-import { TuiFieldErrorModule, TuiInputDateRangeModule, TuiInputModule, TuiSelectModule, TuiTabsModule } from '@taiga-ui/kit';
+import { TuiButtonModule, TuiDataListModule, TuiLabelModule, TuiLoaderModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
+import { TuiAvatarModule, TuiDataListWrapperModule, TuiFieldErrorModule, TuiInputDateRangeModule, TuiInputModule, TuiMultiSelectModule, TuiSelectModule, TuiTabsModule } from '@taiga-ui/kit';
 import { defaultEditorExtensions, TuiEditorModule, TUI_EDITOR_EXTENSIONS } from '@taiga-ui/addon-editor';
 
 import { NotificationCreateRoutingModule } from './notification-create.routes';
@@ -16,6 +16,7 @@ import { EffectsModule } from '@ngrx/effects';
 import * as fromNotificationCreate from './state';
 import { StoreModule } from '@ngrx/store';
 import { ReactiveComponentModule } from '@ngrx/component';
+import { TuiForModule, TuiLetModule } from '@taiga-ui/cdk';
 
 @NgModule({
   imports: [
@@ -34,6 +35,14 @@ import { ReactiveComponentModule } from '@ngrx/component';
     TuiFieldErrorModule,
     TuiLabelModule,
     TuiButtonModule,
+    TuiMultiSelectModule,
+    TuiDataListWrapperModule,
+    TuiLetModule,
+
+    TuiAvatarModule,
+    TuiLoaderModule,
+    // TuiForModule,
+
     StoreModule.forFeature(
       fromNotificationCreate.notificationCreateFeatureKey,
       fromNotificationCreate.notificationCreateReducer

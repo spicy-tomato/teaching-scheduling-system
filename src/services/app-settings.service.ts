@@ -6,7 +6,9 @@ import { tap } from "rxjs/operators";
 
 export let APP_SETTINGS: AppSettings;
 
-@Injectable({providedIn: 'root'})
+@Injectable({
+  providedIn: 'root'
+})
 export class AppSettingsService {
   constructor(private httpClient: HttpClient) { }
 
