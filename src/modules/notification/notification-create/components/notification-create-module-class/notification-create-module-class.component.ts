@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, forwardRef } from '@angular/core';
 import { FormBuilder, NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
-import { delay, filter, map, startWith, switchMap, tap } from 'rxjs/operators';
+import { Observable, of, Subject } from 'rxjs';
+import { delay, startWith, switchMap } from 'rxjs/operators';
 import { NotificationCreateState } from '../../state/notification-create.state';
 import { NotificationCreateClassFormBaseComponent } from '../class-form-base/notification-create-class-form-base.component';
 
@@ -80,6 +80,6 @@ export class NotificationCreateModuleClassComponent extends NotificationCreateCl
         user.toString().toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1,
     );
 
-    return of(result).pipe(delay(Math.random() * 1000 + 500));
+    return of(result).pipe(delay(1000 * 1));
   }
 }

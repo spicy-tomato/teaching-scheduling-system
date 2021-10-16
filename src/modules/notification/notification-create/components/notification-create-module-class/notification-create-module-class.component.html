@@ -5,33 +5,27 @@
 
     <div class="tui-form__row">
       <tui-multi-select
+        *tuiLet="items$ | async as items"
+        #component
+        formControlName="receipt"
         [tuiTextfieldLabelOutside]="true"
         [expandable]="false"
-        formControlName="receipt"
         (searchChange)="onSearchChange($event)"
-        #component
       >
-        <tui-data-list
+        <tui-data-list-wrapper
           *tuiDataList
-          tuiMultiSelectGroup
+          [items]="items | tuiHideSelected"
+          [itemContent]="itemContent"
         >
-          <ng-container *ngIf="items$ | async as items; else loading">
-            <button
-              *ngFor="let item of items"
-              [value]="item"
-              tuiOption
-            >
-              {{ item }}
-            </button>
-          </ng-container>
-
-          <ng-template #loading>
-            <tui-loader></tui-loader>
-          </ng-template>
-
-        </tui-data-list>
+        </tui-data-list-wrapper>
       </tui-multi-select>
     </div>
-    <!-- {{items | json}}, {{status$ | async}} -->
   </form>
 </tss-notification-create-shell>
+
+<ng-template
+  #itemContent
+  let-data
+>
+  {{data}}
+</ng-template>
