@@ -44,16 +44,10 @@
 
   <!-- Body -->
   <div class="tui-form__row">
-    <label
-      tuiLabel
-      [label]="bodyLabel"
-      class="!text-lg"
-    >
-      <tui-editor formControlName="body"></tui-editor>
-    </label>
-    <ng-template #bodyLabel>
-      <div class="mb-2 text-base text-tuiText02">Nội dung</div>
-    </ng-template>
+    <tui-editor formControlName="body">
+      Nội dung thông báo
+      <span class="tui-required"></span>
+    </tui-editor>
     <tui-field-error formControlName="body"></tui-field-error>
   </div>
 

@@ -1,8 +1,8 @@
 import { Directive, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
-import { takeUntil, tap } from 'rxjs/operators';
+import { filter, take, takeUntil, tap } from 'rxjs/operators';
 
 import { SubFormBase } from '@modules/base/sub-form.base';
 import { ICanDeactivateComponent } from '@modules/base/can-deactivate.base';
@@ -16,17 +16,35 @@ export abstract class NotificationCreateClassFormBaseComponent
   extends SubFormBase<NotificationCreateClassModel>
   implements ICanDeactivateComponent {
 
-  @ViewChild(NotificationCreateShellComponent, { static: true })
-  protected shell!: NotificationCreateShellComponent;
+  //#region Decorators
+  @ViewChild(NotificationCreateShellComponent, { static: true }) protected shell!: NotificationCreateShellComponent;
+  //#endregion
 
+
+  //#region Private properties
   private _canDeactivate = true;
+  //#endregion
 
+
+  //#region Constructor
   constructor(
     protected readonly fb: FormBuilder,
     protected readonly store: Store<fromNotificationCreate.NotificationCreateState>
   ) {
     super(fb);
     this.handleFormStatusChange();
+    this.handleInvalidForm();
+  }
+  //#endregion
+
+
+  //#region Implementations
+  public canDeactivate(): boolean | null {
+    if (this.shell.form.pristine) {
+      return true;
+    }
+
+    return this._canDeactivate || null;
   }
 
   protected beforeDestroy(): void {
@@ -35,10 +53,13 @@ export abstract class NotificationCreateClassFormBaseComponent
 
   protected initForm(): void {
     this.form = this.fb.group({
-      receipt: new FormControl()
+      receipt: new FormControl([], [Validators.required])
     });
   }
+  //#endregion
 
+
+  //#region Private handle methods
   private handleFormStatusChange(): void {
     this.store.select(fromNotificationCreate.selectStatus)
       .pipe(
@@ -47,12 +68,18 @@ export abstract class NotificationCreateClassFormBaseComponent
       )
       .subscribe();
   }
-
-  public canDeactivate(): boolean | null {
-    if (this.shell.form.pristine) {
-      return true;
-    }
-
-    return this._canDeactivate || null;
+  
+  private handleInvalidForm(): void {
+    this.store.select(fromNotificationCreate.selectErrors)
+      .pipe(
+        filter((errors) => !!errors.receipt),
+        take(1),
+        tap(() => {
+          this.form.markAllAsTouched();
+          this.form.markAsDirty();
+        })
+      )
+      .subscribe();
   }
+  //#endregion
 }

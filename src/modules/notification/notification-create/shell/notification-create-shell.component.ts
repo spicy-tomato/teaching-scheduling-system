@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, Inject, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, ValidationErrors } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, ValidationErrors } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
@@ -21,22 +21,30 @@ import { CommonInfoService } from '@services/common-info.service';
   styleUrls: ['./notification-create-shell.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NotificationCreateShellComponent extends BaseComponent {
+export class NotificationCreateShellComponent extends BaseComponent implements OnInit {
+  //#region Decorators
+  @Input() public receipt!: FormGroup;
   @ViewChild('successDialog', { static: true }) public successDialog!: PolymorpheusContent<TuiDialogContext>;
+  //#endregion
 
-  public form = this.fb.group({
-    content: new FormControl(),
-    receipt: new FormControl()
-  });
+
+  //#region Public properties
+  public form!: FormGroup;
 
   public status$: Observable<EApiStatus>;
-  public reset$ = new Subject<void>();
+  public readonly reset$ = new Subject<void>();
   public readonly confirm$ = new Subject<void>();
+  //#endregion
 
+
+  //#region Getters
   public get ConfirmStatus(): typeof EApiStatus {
     return EApiStatus;
   }
+  //#endregion
 
+
+  //#region Constructor
   constructor(
     private readonly fb: FormBuilder,
     private readonly store: Store<fromNotificationCreate.NotificationCreateState>,
@@ -52,11 +60,6 @@ export class NotificationCreateShellComponent extends BaseComponent {
         takeUntil(this.destroy$)
       );
 
-    this.handleStatusChange();
-    this.handleSubmit();
-    this.handleResetForm();
-    this.handleValidForm();
-    this.handleInvalidForm();
 
     // this.commonInfoService
     //   .getFaculty()
@@ -65,7 +68,25 @@ export class NotificationCreateShellComponent extends BaseComponent {
     //   )
     //   .subscribe()
   }
+  //#endregion
 
+
+  //#region Lifecycle Hooks
+  public ngOnInit(): void {
+    this.form = this.fb.group({
+      content: new FormControl(),
+      receipt: this.receipt.get('receipt')
+    });
+
+    this.handleStatusChange();
+    this.handleSubmit();
+    this.handleResetForm();
+    this.handleValidForm();
+    this.handleInvalidForm();
+  }
+  //#endregion
+
+  //#region Private handle methods
   private handleStatusChange(): void {
     this.status$
       .pipe(
@@ -139,4 +160,5 @@ export class NotificationCreateShellComponent extends BaseComponent {
       )
       .subscribe();
   }
+  //#endregion
 }

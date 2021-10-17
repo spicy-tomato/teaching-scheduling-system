@@ -1,3 +1,4 @@
+<!-- Tabs -->
 <tui-tabs>
   <a
     tuiTab
@@ -15,6 +16,7 @@
   </a>
 </tui-tabs>
 
+<!-- Main -->
 <form
   *ngrxLet="status$ as status"
   [formGroup]="form"
@@ -23,7 +25,7 @@
 >
   <tss-notification-create-common-form formControlName="content"></tss-notification-create-common-form>
   <tss-notification-create-aside></tss-notification-create-aside>
-  <ng-content formControlName="receipt"></ng-content>
+  <ng-content></ng-content>
 
   <div class="btn-wrapper tui-form__buttons flex justify-end">
     <button
@@ -36,6 +38,7 @@
   </div>
 </form>
 
+<!-- Dialog -->
 <ng-template
   #successDialog
   let-observer

@@ -1,4 +1,4 @@
-<tss-notification-create-shell>
+<tss-notification-create-shell [receipt]="form">
   <form [formGroup]="form">
     <!-- Use <span> tag to apply css to below <div> -->
     <span></span>
@@ -12,6 +12,8 @@
         [expandable]="false"
         (searchChange)="onSearchChange($event)"
       >
+        Lớp nhận thông báo
+        <span class="tui-required"></span>
         <tui-data-list-wrapper
           *tuiDataList
           [items]="items | tuiHideSelected"
@@ -19,13 +21,17 @@
         >
         </tui-data-list-wrapper>
       </tui-multi-select>
+
+      <tui-field-error formControlName="receipt"></tui-field-error>
+
     </div>
   </form>
 </tss-notification-create-shell>
 
+<!-- Dropdown item content -->
 <ng-template
   #itemContent
   let-data
 >
-  {{data}}
+  {{ data}}
 </ng-template>

@@ -3,28 +3,47 @@ import { takeUntil } from "rxjs/operators";
 import { BaseComponent } from "./base.component";
 
 export abstract class SubFormBase<T> extends BaseComponent implements ControlValueAccessor {
+  //#region Public properties
   public form!: FormGroup;
+  //#endregion
 
+  
+  //#region Private properties
   private onChange!: (value: T) => void;
   private onTouch!: () => void;
+  //#endregion
 
+
+  //#region Getters
   private get value(): T {
     return this.form.value as T;
   }
+  //#endregion
 
+
+  //#region Setters
   private set value(value: T) {
     this.form.setValue(value);
     this.onChange(value);
     this.onTouch();
   }
+  //#endregion
 
+
+  //#region Abstract methods
   protected abstract initForm(): void;
+  //#endregion
 
+
+  //#region Constructor
   constructor(protected readonly fb: FormBuilder) {
     super();
     this.initForm();
   }
+  //#endregion
 
+
+  //#endregion Implementations
   public writeValue(value: T): void {
     if (value) {
       this.value = value;
@@ -45,6 +64,15 @@ export abstract class SubFormBase<T> extends BaseComponent implements ControlVal
     this.onTouch = fn;
   }
 
+  public setDisabledState(isDisable: boolean): void {
+    isDisable
+      ? this.form.disable()
+      : this.form.enable();
+  }
+  //#endregion
+
+
+  //#region Public methods
   public validate(): ValidationErrors | null {
     if (this.form.valid) {
       return null;
@@ -60,10 +88,5 @@ export abstract class SubFormBase<T> extends BaseComponent implements ControlVal
 
     return errors;
   }
-
-  public setDisabledState(isDisable: boolean): void {
-    isDisable
-      ? this.form.disable()
-      : this.form.enable();
-  }
+  //#endregion
 }
