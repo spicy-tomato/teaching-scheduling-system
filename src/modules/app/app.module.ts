@@ -20,6 +20,7 @@ import { loadAppSettings } from '@factories/load-app-settings.factory';
 import { InterceptorsModule } from '@interceptors/interceptors.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routes';
+import { defaultEditorExtensions, TUI_EDITOR_EXTENSIONS } from '@taiga-ui/addon-editor';
 
 @NgModule({
   imports: [
@@ -53,7 +54,11 @@ import { AppRoutingModule } from './app.routes';
     {
       provide: TUI_SANITIZER,
       useClass: NgDompurifySanitizer
-    }
+    },
+    {
+      provide: TUI_EDITOR_EXTENSIONS,
+      useValue: defaultEditorExtensions
+    },
   ],
   declarations: [AppComponent],
   bootstrap: [AppComponent]

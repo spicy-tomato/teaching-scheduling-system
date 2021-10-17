@@ -2,21 +2,22 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { TuiButtonModule, TuiDataListModule, TuiLabelModule, TuiLoaderModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
-import { TuiAvatarModule, TuiDataListWrapperModule, TuiFieldErrorModule, TuiInputDateRangeModule, TuiInputModule, TuiMultiSelectModule, TuiSelectModule, TuiTabsModule } from '@taiga-ui/kit';
-import { defaultEditorExtensions, TuiEditorModule, TUI_EDITOR_EXTENSIONS } from '@taiga-ui/addon-editor';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { ReactiveComponentModule } from '@ngrx/component';
 
+import { TuiLetModule } from '@taiga-ui/cdk';
+import { TuiButtonModule, TuiDataListModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
+import { TuiDataListWrapperModule, TuiFieldErrorModule, TuiInputDateRangeModule, TuiInputModule, TuiMultiSelectModule, TuiSelectModule, TuiTabsModule } from '@taiga-ui/kit';
+import { TuiEditorModule } from '@taiga-ui/addon-editor';
+
+import * as fromNotificationCreate from './state';
 import { NotificationCreateRoutingModule } from './notification-create.routes';
 import { NotificationCreateCommonFormComponent } from './common/notification-create-common-form/notification-create-common-form.component';
 import { NotificationCreateManagingClassComponent } from './components/notification-create-managing-class/notification-create-managing-class.component';
 import { NotificationCreateModuleClassComponent } from './components/notification-create-module-class/notification-create-module-class.component';
 import { NotificationCreateShellComponent } from './shell/notification-create-shell.component';
 import { NotificationCreateAsideComponent } from './common/notification-create-aside/notification-create-aside.component';
-import { EffectsModule } from '@ngrx/effects';
-import * as fromNotificationCreate from './state';
-import { StoreModule } from '@ngrx/store';
-import { ReactiveComponentModule } from '@ngrx/component';
-import { TuiForModule, TuiLetModule } from '@taiga-ui/cdk';
 
 @NgModule({
   imports: [
@@ -33,16 +34,10 @@ import { TuiForModule, TuiLetModule } from '@taiga-ui/cdk';
     TuiEditorModule,
     TuiTextfieldControllerModule,
     TuiFieldErrorModule,
-    TuiLabelModule,
     TuiButtonModule,
     TuiMultiSelectModule,
     TuiDataListWrapperModule,
     TuiLetModule,
-
-    TuiAvatarModule,
-    TuiLoaderModule,
-    // TuiForModule,
-
     StoreModule.forFeature(
       fromNotificationCreate.notificationCreateFeatureKey,
       fromNotificationCreate.notificationCreateReducer
@@ -55,12 +50,6 @@ import { TuiForModule, TuiLetModule } from '@taiga-ui/cdk';
     NotificationCreateCommonFormComponent,
     NotificationCreateShellComponent,
     NotificationCreateAsideComponent,
-  ],
-  providers: [
-    {
-      provide: TUI_EDITOR_EXTENSIONS,
-      useValue: defaultEditorExtensions
-    },
   ]
 })
 export class NotificationCreateModule { }
