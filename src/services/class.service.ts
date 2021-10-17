@@ -7,12 +7,12 @@ import { BaseDataService } from './base-data.service';
   providedIn: 'root'
 })
 export class ClassService extends BaseDataService {
-  constructor(protected http: HttpClient) { 
+  constructor(protected http: HttpClient) {
     super();
   }
 
-  public getModuleClass(): Observable<unknown> {
-    return this.http.get<unknown>(this.url + 'module-class');
+  public getModuleClass(idTeacher: string): Observable<unknown> {
+    return this.http.get<unknown>(this.url + `module-class/${idTeacher}`);
   }
 
   public getManagementClass(params: {

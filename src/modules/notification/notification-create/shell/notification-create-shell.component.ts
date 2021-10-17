@@ -50,7 +50,6 @@ export class NotificationCreateShellComponent extends BaseComponent implements O
     private readonly store: Store<fromNotificationCreate.NotificationCreateState>,
     @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
     @Inject(TuiNotificationsService) private readonly notificationsService: TuiNotificationsService,
-    private commonInfoService: CommonInfoService
   ) {
     super();
 
@@ -59,14 +58,6 @@ export class NotificationCreateShellComponent extends BaseComponent implements O
       .pipe(
         takeUntil(this.destroy$)
       );
-
-
-    // this.commonInfoService
-    //   .getFaculty()
-    //   .pipe(
-    //     tap(e => console.log(e))
-    //   )
-    //   .subscribe()
   }
   //#endregion
 

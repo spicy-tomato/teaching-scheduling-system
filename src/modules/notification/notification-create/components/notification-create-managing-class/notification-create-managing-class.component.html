@@ -1,3 +1,52 @@
-<tss-notification-create-shell>
-  <form [formGroup]="form"></form>
+<tss-notification-create-shell [receipt]="form">
+  <form [formGroup]="form">
+    <!-- Use <span> tag to apply css to below <div> -->
+    <span></span>
+
+    <h5 class="tui-form__header">Khoá</h5>
+    <div class="tui-form__row tui-form__row_checkboxes">
+      <tui-checkbox-labeled
+        class="tui-form__checkbox"
+        formControlName="osnoValue"
+        size="l"
+      >
+        First option
+      </tui-checkbox-labeled>
+      <tui-checkbox-labeled
+        class="tui-form__checkbox"
+        formControlName="usnValue"
+        size="l"
+      >
+        Other option
+      </tui-checkbox-labeled>
+      <tui-checkbox-labeled
+        class="tui-form__checkbox"
+        formControlName="eshnValue"
+        size="l"
+      >
+        Cool option
+      </tui-checkbox-labeled>
+      <tui-checkbox-labeled
+        class="tui-form__checkbox"
+        formControlName="envdValue"
+        size="l"
+      >
+        Your personal option
+      </tui-checkbox-labeled>
+      <tui-checkbox-labeled
+        class="tui-form__checkbox"
+        formControlName="usn2Value"
+        size="l"
+      >
+        Doubtful option
+      </tui-checkbox-labeled>
+      <tui-checkbox-labeled
+        class="tui-form__checkbox"
+        formControlName="patentValue"
+        size="l"
+      >
+        One more value
+      </tui-checkbox-labeled>
+    </div>
+  </form>
 </tss-notification-create-shell>

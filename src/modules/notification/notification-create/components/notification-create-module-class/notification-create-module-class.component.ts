@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, forwardRef } from '@angular/core';
-import { FormBuilder, NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable, of, Subject } from 'rxjs';
 import { delay, startWith, switchMap } from 'rxjs/operators';
@@ -33,19 +33,7 @@ const databaseMockData: ReadonlyArray<User> = [
   selector: 'tss-notification-create-module-class',
   templateUrl: './notification-create-module-class.component.html',
   styleUrls: ['./notification-create-module-class.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => NotificationCreateModuleClassComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => NotificationCreateModuleClassComponent),
-      multi: true
-    }
-  ]
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NotificationCreateModuleClassComponent extends NotificationCreateClassFormBaseComponent {
   private readonly search$ = new Subject<string>();
