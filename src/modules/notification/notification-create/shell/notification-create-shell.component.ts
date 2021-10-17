@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/unbound-method */
 import { ChangeDetectionStrategy, Component, Inject, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, ValidationErrors } from '@angular/forms';
 

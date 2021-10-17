@@ -66,6 +66,12 @@
               "parameterProperties": "explicit"
             }
           }
+        ],
+        "@typescript-eslint/unbound-method": [
+          "error",
+          {
+            "ignoreStatic": true
+          }
         ]
       }
     },
