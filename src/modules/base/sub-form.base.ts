@@ -3,25 +3,25 @@ import { takeUntil } from "rxjs/operators";
 import { BaseComponent } from "./base.component";
 
 export abstract class SubFormBase<T> extends BaseComponent implements ControlValueAccessor {
-  //#region Public properties
+  //#region PUBLIC PROPERTIES
   public form!: FormGroup;
   //#endregion
 
-  
-  //#region Private properties
+
+  //#region PRIVATE PROPERTIES
   private onChange!: (value: T) => void;
   private onTouch!: () => void;
   //#endregion
 
 
-  //#region Getters
+  //#region GETTERS
   private get value(): T {
     return this.form.value as T;
   }
   //#endregion
 
 
-  //#region Setters
+  //#region SETTERS
   private set value(value: T) {
     this.form.setValue(value);
     this.onChange(value);
@@ -30,12 +30,7 @@ export abstract class SubFormBase<T> extends BaseComponent implements ControlVal
   //#endregion
 
 
-  //#region Abstract methods
-  protected abstract initForm(): void;
-  //#endregion
-
-
-  //#region Constructor
+  //#region CONSTRUCTOR
   constructor(protected readonly fb: FormBuilder) {
     super();
     this.initForm();
@@ -43,7 +38,7 @@ export abstract class SubFormBase<T> extends BaseComponent implements ControlVal
   //#endregion
 
 
-  //#endregion Implementations
+  //#endregion IMPLEMENTATIONS
   public writeValue(value: T): void {
     if (value) {
       this.value = value;
@@ -72,7 +67,7 @@ export abstract class SubFormBase<T> extends BaseComponent implements ControlVal
   //#endregion
 
 
-  //#region Public methods
+  //#region PUBLIC METHODS
   public validate(): ValidationErrors | null {
     if (this.form.valid) {
       return null;
@@ -87,6 +82,13 @@ export abstract class SubFormBase<T> extends BaseComponent implements ControlVal
     });
 
     return errors;
+  }
+  //#endregion
+
+
+  //#region PROTECTED METHODS
+  protected initForm(): void {
+    return;
   }
   //#endregion
 }

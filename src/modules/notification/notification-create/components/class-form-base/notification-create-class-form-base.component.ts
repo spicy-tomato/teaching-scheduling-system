@@ -1,5 +1,5 @@
 import { Directive, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { filter, take, takeUntil, tap } from 'rxjs/operators';
@@ -16,17 +16,17 @@ export abstract class NotificationCreateClassFormBaseComponent
   extends SubFormBase<NotificationCreateClassModel>
   implements ICanDeactivateComponent {
 
-  //#region Decorators
+  //#region DECORATORS
   @ViewChild(NotificationCreateShellComponent, { static: true }) protected shell!: NotificationCreateShellComponent;
   //#endregion
 
 
-  //#region Private properties
+  //#region PRIVATE PROPERTIES
   private _canDeactivate = true;
   //#endregion
 
 
-  //#region Constructor
+  //#region CONSTRUCTOR
   constructor(
     protected readonly fb: FormBuilder,
     protected readonly store: Store<fromNotificationCreate.NotificationCreateState>
@@ -38,7 +38,7 @@ export abstract class NotificationCreateClassFormBaseComponent
   //#endregion
 
 
-  //#region Implementations
+  //#region IMPLEMENTATIONS
   public canDeactivate(): boolean | null {
     if (this.shell.form.pristine) {
       return true;
@@ -50,16 +50,10 @@ export abstract class NotificationCreateClassFormBaseComponent
   protected beforeDestroy(): void {
     this.store.dispatch(fromNotificationCreate.reset());
   }
-
-  protected initForm(): void {
-    this.form = this.fb.group({
-      receipt: new FormControl([], [Validators.required])
-    });
-  }
   //#endregion
 
 
-  //#region Private handle methods
+  //#region PRIVATE HANDLE METHODS
   private handleFormStatusChange(): void {
     this.store.select(fromNotificationCreate.selectStatus)
       .pipe(

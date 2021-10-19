@@ -29,7 +29,7 @@
 
   <div class="btn-wrapper tui-form__buttons flex justify-end">
     <button
-      [showLoader]="status === ConfirmStatus.loading"
+      [showLoader]="isButtonLoading || status === ConfirmStatus.loading"
       type="submit"
       tuiButton
     >

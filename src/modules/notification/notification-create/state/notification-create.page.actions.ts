@@ -3,7 +3,11 @@ import { NotificationCreateFormModel } from "@models/notification/notification-c
 import { createAction, props } from "@ngrx/store";
 
 export const reset = createAction(
-  '[Notification - Create Page] Init'
+  '[Notification - Create Page] Reset'
+);
+
+export const loadManagingClass = createAction(
+  '[Notification - Create Page: Managing class] Load'
 );
 
 export const clickConfirm = createAction(

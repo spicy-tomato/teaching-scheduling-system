@@ -13,7 +13,6 @@ import { EApiStatus } from 'src/enums/api-status.enum';
 
 import { TuiDialogContext, TuiDialogService, TuiNotification, TuiNotificationsService } from '@taiga-ui/core';
 import { PolymorpheusContent } from "@tinkoff/ng-polymorpheus";
-import { CommonInfoService } from '@services/common-info.service';
 
 @Component({
   selector: 'tss-notification-create-shell',
@@ -24,6 +23,7 @@ import { CommonInfoService } from '@services/common-info.service';
 export class NotificationCreateShellComponent extends BaseComponent implements OnInit {
   //#region Decorators
   @Input() public receipt!: FormGroup;
+  @Input() public isButtonLoading!: boolean;
   @ViewChild('successDialog', { static: true }) public successDialog!: PolymorpheusContent<TuiDialogContext>;
   //#endregion
 

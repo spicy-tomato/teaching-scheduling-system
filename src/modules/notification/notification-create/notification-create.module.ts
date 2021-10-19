@@ -7,7 +7,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 import { TuiLetModule } from '@taiga-ui/cdk';
-import { TuiButtonModule, TuiDataListModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
+import { TuiButtonModule, TuiDataListModule, TuiLoaderModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { TuiCheckboxLabeledModule, TuiDataListWrapperModule, TuiFieldErrorModule, TuiInputDateRangeModule, TuiInputModule, TuiMultiSelectModule, TuiSelectModule, TuiTabsModule } from '@taiga-ui/kit';
 import { TuiEditorModule } from '@taiga-ui/addon-editor';
 
@@ -39,6 +39,7 @@ import { NotificationCreateAsideComponent } from './common/notification-create-a
     TuiDataListWrapperModule,
     TuiLetModule,
     TuiCheckboxLabeledModule,
+    TuiLoaderModule,
     StoreModule.forFeature(
       fromNotificationCreate.notificationCreateFeatureKey,
       fromNotificationCreate.notificationCreateReducer

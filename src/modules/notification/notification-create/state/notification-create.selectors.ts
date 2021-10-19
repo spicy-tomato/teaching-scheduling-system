@@ -12,3 +12,8 @@ export const selectStatus = createSelector(
   notificationCreateSelector,
   (state) => state.status
 )
+
+export const selectAcademicYears = createSelector(
+  notificationCreateSelector,
+  (state) => state.academicYears
+)

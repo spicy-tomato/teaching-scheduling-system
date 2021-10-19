@@ -1,52 +1,28 @@
-<tss-notification-create-shell [receipt]="form">
-  <form [formGroup]="form">
-    <!-- Use <span> tag to apply css to below <div> -->
-    <span></span>
+<ng-container *ngrxLet="academicYear$ as academicYear">
+  <tss-notification-create-shell
+    [receipt]="form"
+    [isButtonLoading]="academicYear.length === 0"
+  >
+    <form [formGroup]="form">
+      <!-- Use <span> tag to apply css to below <div> -->
+      <span></span>
 
-    <h5 class="tui-form__header">Khoá</h5>
-    <div class="tui-form__row tui-form__row_checkboxes">
-      <tui-checkbox-labeled
-        class="tui-form__checkbox"
-        formControlName="osnoValue"
-        size="l"
-      >
-        First option
-      </tui-checkbox-labeled>
-      <tui-checkbox-labeled
-        class="tui-form__checkbox"
-        formControlName="usnValue"
-        size="l"
-      >
-        Other option
-      </tui-checkbox-labeled>
-      <tui-checkbox-labeled
-        class="tui-form__checkbox"
-        formControlName="eshnValue"
-        size="l"
-      >
-        Cool option
-      </tui-checkbox-labeled>
-      <tui-checkbox-labeled
-        class="tui-form__checkbox"
-        formControlName="envdValue"
-        size="l"
-      >
-        Your personal option
-      </tui-checkbox-labeled>
-      <tui-checkbox-labeled
-        class="tui-form__checkbox"
-        formControlName="usn2Value"
-        size="l"
-      >
-        Doubtful option
-      </tui-checkbox-labeled>
-      <tui-checkbox-labeled
-        class="tui-form__checkbox"
-        formControlName="patentValue"
-        size="l"
-      >
-        One more value
-      </tui-checkbox-labeled>
-    </div>
-  </form>
-</tss-notification-create-shell>
+      <h5 class="tui-form__header">Khoá</h5>
+      <tui-loader [showLoader]="academicYear.length === 0">
+        <div
+          class="tui-form__row tui-form__row_checkboxes"
+          formArrayName="academicYear"
+        >
+          <tui-checkbox-labeled
+            *ngFor="let year of academicYear; let i = index"
+            [formControlName]="i"
+            class="tui-form__checkbox"
+            size="l"
+          >
+            {{ year.name }}
+          </tui-checkbox-labeled>
+        </div>
+      </tui-loader>
+    </form>
+  </tss-notification-create-shell>
+</ng-container>
