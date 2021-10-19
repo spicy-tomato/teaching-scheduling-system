@@ -15,7 +15,7 @@ export class CommonInfoService extends BaseDataService {
     return this.http.get<unknown>(this.url + 'faculty');
   }
 
-  public getAcademicYear(): Observable<unknown> {
-    return this.http.get<unknown>(this.url + 'academic-year');
+  public getAcademicYear(): Observable<unknown[]> {
+    return this.http.get<unknown[]>(this.url + 'academic-year');
   }
 }
