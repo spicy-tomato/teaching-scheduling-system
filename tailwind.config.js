@@ -9,9 +9,6 @@ module.exports = {
       './src/**/*.{html,ts}',
     ]
   },
-  corePlugins: {
-    preflight: false
-  },
   theme: {
     fontFamily: false,
     colors: {
