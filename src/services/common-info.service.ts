@@ -1,9 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AcademicYear } from '@models/core/academic-year.model';
+import { Faculty } from '@models/core/faculty.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AcademicYearDta } from 'src/dtas/academic-year.dta';
+import { FacultyDta } from 'src/dtas/faculty.dta';
 import { BaseDataService } from './base-data.service';
 
 @Injectable({
@@ -14,8 +16,13 @@ export class CommonInfoService extends BaseDataService {
     super();
   }
 
-  public getFaculty(): Observable<unknown> {
-    return this.http.get<unknown>(this.url + 'faculty');
+  public getFaculty(): Observable<Faculty[]> {
+    return this.http
+      .get<FacultyDta[]>(this.url + 'faculty')
+      .pipe(
+        map(x =>
+          x.map((x) => Faculty.parse(x)))
+      );
   }
 
   public getAcademicYear(): Observable<AcademicYear[]> {

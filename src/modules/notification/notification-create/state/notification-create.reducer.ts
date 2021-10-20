@@ -6,7 +6,10 @@ import * as PageAction from "./notification-create.page.actions";
 
 const initialState: NotificationCreateState = {
   status: EApiStatus.unknown,
-  academicYears: [],
+  managingData: {
+    academicYears: [],
+    faculties: []
+  },
   errors: {}
 };
 
@@ -15,9 +18,19 @@ export const notificationCreateFeatureKey = 'notification-create';
 export const notificationCreateReducer = createReducer(
   initialState,
   on(PageAction.reset, () => initialState),
-  on(ApiAction.loadManagingClassSuccessful, (state, { academicYears }) => ({
+  on(ApiAction.loadAcademicYearsSuccessful, (state, { academicYears }) => ({
     ...state,
-    academicYears
+    managingData: {
+      ...state.managingData,
+      academicYears
+    }
+  })),
+  on(ApiAction.loadFacultiesSuccessful, (state, { faculties }) => ({
+    ...state,
+    managingData: {
+      ...state.managingData,
+      faculties
+    }
   })),
   on(PageAction.clickConfirm, (state) => ({
     ...state,

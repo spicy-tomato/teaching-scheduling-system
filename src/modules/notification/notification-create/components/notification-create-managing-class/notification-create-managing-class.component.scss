@@ -1,0 +1,8 @@
+.grid-wrapper {
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  @apply grid auto-rows-auto gap-3;
+
+  .all {
+    @apply col-span-full uppercase;
+  }
+}

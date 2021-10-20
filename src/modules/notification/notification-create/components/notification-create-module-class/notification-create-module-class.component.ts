@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable, of, Subject } from 'rxjs';
 import { delay, startWith, switchMap } from 'rxjs/operators';
@@ -53,6 +53,13 @@ export class NotificationCreateModuleClassComponent extends NotificationCreateCl
     protected readonly store: Store<NotificationCreateState>
   ) {
     super(fb, store);
+  }
+
+  protected initForm(): void {
+    this.form = this.fb.group({
+      receipt: new FormControl([], [Validators.required]),
+      academicYear: new FormArray([]),
+    });
   }
 
   public onSearchChange(searchQuery: string | null): void {

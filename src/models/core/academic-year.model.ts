@@ -1,8 +1,8 @@
 import { AcademicYearDta } from "src/dtas/academic-year.dta";
 
 export class AcademicYear {
-  public id!: string;
-  public name!: string;
+  public readonly id!: string;
+  public readonly name!: string;
 
   public static parse(obj: AcademicYearDta): AcademicYear {
     return ({

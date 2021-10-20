@@ -1,28 +1,69 @@
-<ng-container *ngrxLet="academicYear$ as academicYear">
-  <tss-notification-create-shell
-    [receipt]="form"
-    [isButtonLoading]="academicYear.length === 0"
-  >
-    <form [formGroup]="form">
-      <!-- Use <span> tag to apply css to below <div> -->
-      <span></span>
+<tss-notification-create-shell
+  *ngrxLet="isButtonLoading$ as isButtonLoading"
+  [receipt]="form"
+  [isButtonLoading]="isButtonLoading"
+>
+  <form [formGroup]="form">
+    <!-- Use <span> tag to apply css to below <div> -->
+    <span></span>
 
-      <h5 class="tui-form__header">Khoá</h5>
-      <tui-loader [showLoader]="academicYear.length === 0">
+    <h5 class="tui-form__header">Khoa</h5>
+    <ng-container *ngrxLet="faculties$ as faculties">
+      <tui-loader [showLoader]="faculties.length === 0">
         <div
-          class="tui-form__row tui-form__row_checkboxes"
-          formArrayName="academicYear"
+          class="grid-wrapper tui-form__row"
+          formArrayName="faculties"
         >
           <tui-checkbox-labeled
-            *ngFor="let year of academicYear; let i = index"
+            [(ngModel)]="selectAllFaculties"
+            [ngModelOptions]="{ standalone: true }"
+            (ngModelChange)="allFacultiesPress($event)"
+            class="all"
+            size="l"
+          >
+            Tất cả các khoa
+          </tui-checkbox-labeled>
+
+          <tui-checkbox-labeled
+            *ngFor="let faculty of faculties; let i = index"
             [formControlName]="i"
-            class="tui-form__checkbox"
+            (ngModelChange)="onFacultiesChange($event)"
+            size="l"
+          >
+            {{ faculty.name }}
+          </tui-checkbox-labeled>
+        </div>
+      </tui-loader>
+    </ng-container>
+
+    <h5 class="tui-form__header">Khoá</h5>
+    <ng-container *ngrxLet="academicYears$ as academicYears">
+      <tui-loader [showLoader]="academicYears.length === 0">
+        <div
+          class="grid-wrapper tui-form__row"
+          formArrayName="academicYears"
+        >
+          <tui-checkbox-labeled
+            [(ngModel)]="selectAllAcademicYears"
+            [ngModelOptions]="{ standalone: true }"
+            (ngModelChange)="allAcademicYearsPress($event)"
+            class="all"
+            size="l"
+          >
+            Tất cả các khóa
+          </tui-checkbox-labeled>
+
+          <tui-checkbox-labeled
+            *ngFor="let year of academicYears; let i = index"
+            [formControlName]="i"
+            (ngModelChange)="onAcademicYearsChange($event)"
             size="l"
           >
             {{ year.name }}
           </tui-checkbox-labeled>
         </div>
       </tui-loader>
-    </form>
-  </tss-notification-create-shell>
-</ng-container>
+    </ng-container>
+
+  </form>
+</tss-notification-create-shell>
