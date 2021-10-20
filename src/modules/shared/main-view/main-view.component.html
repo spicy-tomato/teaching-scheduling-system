@@ -1,24 +1,26 @@
 <ng-container *ngrxLet="breadcrumbs$ as breadcrumb">
-  <main class="relative w-full h-full px-5 pt-2.5 pb-3 flex flex-col">
-    <div
-      class="absolute inset-0 pointer-events-none z-0"
-      [@routerFade]="breadcrumb"
-    ></div>
+  <tui-scrollbar class="w-full h-full">
+    <main class="relative w-full h-full px-5 pt-2.5 pb-3 flex flex-col">
+      <div
+        class="absolute inset-0 pointer-events-none z-0"
+        [@routerFade]="breadcrumb"
+      ></div>
 
-    <tui-breadcrumbs size="l">
-      <ng-container *ngFor="let item of breadcrumb">
-        <a
-          *tuiBreadcrumb
-          [routerLink]="item.url"
-          class="text-lg"
-        >
-          {{ item.label }}
-        </a>
-      </ng-container>
-    </tui-breadcrumbs>
+      <tui-breadcrumbs size="l">
+        <ng-container *ngFor="let item of breadcrumb">
+          <a
+            *tuiBreadcrumb
+            [routerLink]="item.url"
+            class="text-lg"
+          >
+            {{ item.label }}
+          </a>
+        </ng-container>
+      </tui-breadcrumbs>
 
-    <div class="flex-grow">
-      <router-outlet></router-outlet>
-    </div>
-  </main>
+      <div class="flex-grow">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+  </tui-scrollbar>
 </ng-container>
