@@ -2,8 +2,8 @@
   grid-template-columns: auto 300px;
   grid-template-areas:
     "content aside"
-    "receipt aside"
-    "button none";
+    "receipt receipt"
+    "button .";
 }
 
 tss-notification-create-content {
@@ -14,8 +14,9 @@ tss-notification-create-aside {
   grid-area: aside;
 }
 
-ng-content {
+.content {
   grid-area: receipt;
+  max-width: 1400px;
 }
 
 .btn-wrapper {
