@@ -22,3 +22,8 @@ export const selectFaculties = createSelector(
   notificationCreateSelector,
   (state) => state.managingData.faculties
 );
+
+export const selectManagingClasses = createSelector(
+  notificationCreateSelector,
+  (state) => state.managingData.classes
+);

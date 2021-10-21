@@ -12,7 +12,7 @@
       <tui-loader [showLoader]="faculties.length === 0">
         <div
           class="grid-wrapper tui-form__row"
-          formArrayName="faculties"
+          formGroupName="faculties"
         >
           <tui-checkbox-labeled
             [(ngModel)]="selectAllFaculties"
@@ -25,8 +25,8 @@
           </tui-checkbox-labeled>
 
           <tui-checkbox-labeled
-            *ngFor="let faculty of faculties; let i = index"
-            [formControlName]="i"
+            *ngFor="let faculty of faculties"
+            [formControlName]="faculty.id"
             (ngModelChange)="onFacultiesChange($event)"
             size="l"
           >
@@ -41,7 +41,7 @@
       <tui-loader [showLoader]="academicYears.length === 0">
         <div
           class="grid-wrapper tui-form__row"
-          formArrayName="academicYears"
+          formGroupName="academicYears"
         >
           <tui-checkbox-labeled
             [(ngModel)]="selectAllAcademicYears"
@@ -54,8 +54,8 @@
           </tui-checkbox-labeled>
 
           <tui-checkbox-labeled
-            *ngFor="let year of academicYears; let i = index"
-            [formControlName]="i"
+            *ngFor="let year of academicYears"
+            [formControlName]="year.id"
             (ngModelChange)="onAcademicYearsChange($event)"
             size="l"
           >
@@ -65,5 +65,35 @@
       </tui-loader>
     </ng-container>
 
+    <ng-container *ngrxLet="classes$ as classes">
+      <h5 class="tui-form__header">Lớp</h5>
+      <tui-loader [showLoader]="classes.length === 0">
+        <div
+          class="grid-wrapper tui-form__row"
+          formGroupName="receipt"
+        >
+          <tui-checkbox-labeled
+            [(ngModel)]="selectAllClasses"
+            [ngModelOptions]="{ standalone: true }"
+            (ngModelChange)="allClassesYearsPress($event)"
+            class="all"
+            size="l"
+          >
+            Tất cả các lớp
+          </tui-checkbox-labeled>
+
+          <ng-container *ngFor="let class of classes">
+            <tui-checkbox-labeled
+              *ngIf="faculties.controls[class.faculty].value && academicYears.controls[class.academicYear].value"
+              [formControlName]="class.name"
+              (ngModelChange)="onClassesChange($event)"
+              size="l"
+            >
+              {{ class.name }}
+            </tui-checkbox-labeled>
+          </ng-container>
+        </div>
+      </tui-loader>
+    </ng-container>
   </form>
 </tss-notification-create-shell>

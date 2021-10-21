@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/unbound-method */
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { AcademicYear } from '@models/core/academic-year.model';
 import { Faculty } from '@models/core/faculty.model';
+import { ManagingClass } from '@models/core/managing-class.model';
 import { Store } from '@ngrx/store';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, startWith, take, takeUntil, tap } from 'rxjs/operators';
@@ -22,18 +23,20 @@ export class NotificationCreateManagingClassComponent
   //#region PUBLIC PROPERTIES
   public readonly academicYears$!: Observable<AcademicYear[]>;
   public readonly faculties$!: Observable<Faculty[]>;
+  public readonly classes$!: Observable<ManagingClass[]>;
   public readonly isButtonLoading$!: Observable<boolean>;
   public selectAllFaculties = false;
   public selectAllAcademicYears = false;
+  public selectAllClasses = false;
   //#endregion
 
 
   //#region GETTERS
-  private get faculties(): FormArray {
-    return this.form.get('faculties') as FormArray;
+  public get faculties(): FormGroup {
+    return this.form.get('faculties') as FormGroup;
   }
-  private get academicYears(): FormArray {
-    return this.form.get('academicYears') as FormArray;
+  public get academicYears(): FormGroup {
+    return this.form.get('academicYears') as FormGroup;
   }
   //#endregion
 
@@ -53,6 +56,10 @@ export class NotificationCreateManagingClassComponent
       .select(fromNotificationCreate.selectFaculties)
       .pipe(takeUntil(this.destroy$));
 
+    this.classes$ = store
+      .select(fromNotificationCreate.selectManagingClasses)
+      .pipe(takeUntil(this.destroy$));
+
     this.isButtonLoading$ = combineLatest([this.academicYears$, this.faculties$])
       .pipe(
         filter(data => data[0].length > 0 && data[1].length > 0),
@@ -63,6 +70,7 @@ export class NotificationCreateManagingClassComponent
 
     this.handleGetAcademicYears();
     this.handleGetFaculties();
+    this.handleGetClasses();
   }
   //#endregion
 
@@ -70,18 +78,6 @@ export class NotificationCreateManagingClassComponent
   //#region LIFE CYCLE
   public ngOnInit(): void {
     this.store.dispatch(fromNotificationCreate.loadManagingClassForm());
-
-    combineLatest([this.academicYears$, this.faculties$])
-      .pipe(
-        tap((result) => {
-          this.store.dispatch(fromNotificationCreate.loadManagingClasses({
-            academicYears: result[0].map(x => x.id),
-            faculties: result[1].map(x => x.id)
-          }));
-        }),
-        takeUntil(this.destroy$)
-      )
-      .subscribe();
   }
   //#endregion
 
@@ -89,9 +85,9 @@ export class NotificationCreateManagingClassComponent
   //#region IMPLEMENTATIONS
   protected initForm(): void {
     this.form = this.fb.group({
-      receipt: new FormControl([], [Validators.required]),
-      faculties: new FormArray([]),
-      academicYears: new FormArray([]),
+      receipt: new FormGroup({}),
+      faculties: new FormGroup({}),
+      academicYears: new FormGroup({}),
     });
   }
   //#endregion
@@ -99,16 +95,22 @@ export class NotificationCreateManagingClassComponent
 
   //#region PUBLIC METHODS
   public allFacultiesPress(all: boolean): void {
-    this.faculties?.setValue(
-      Array.from({ length: this.faculties.length }, () => all)
-    );
+    for (const field in this.faculties.controls) {
+      this.faculties.get(field)?.setValue(all);
+    }
   }
 
   public onFacultiesChange(choose: boolean): void {
     if (choose) {
-      if ((this.faculties.value as []).find(x => x === false) === undefined) {
-        this.selectAllFaculties = true;
+      let selectedAll = true;
+      for (const field in this.faculties.controls) {
+        if (!this.faculties.get(field)?.value) {
+          selectedAll = false;
+          break;
+        }
       }
+
+      this.selectAllFaculties = selectedAll;
     }
     else {
       if (this.selectAllFaculties) {
@@ -118,16 +120,47 @@ export class NotificationCreateManagingClassComponent
   }
 
   public allAcademicYearsPress(all: boolean): void {
-    this.academicYears?.setValue(
-      Array.from({ length: this.academicYears.length }, () => all)
-    );
+    for (const field in this.academicYears.controls) {
+      this.academicYears.get(field)?.setValue(all);
+    }
   }
 
   public onAcademicYearsChange(choose: boolean): void {
     if (choose) {
-      if ((this.academicYears.value as []).find(x => x === false) === undefined) {
-        this.selectAllAcademicYears = true;
+      let selectedAll = true;
+      for (const field in this.academicYears.controls) {
+        if (!this.academicYears.get(field)?.value) {
+          selectedAll = false;
+          break;
+        }
       }
+
+      this.selectAllAcademicYears = selectedAll;
+    }
+    else {
+      if (this.selectAllAcademicYears) {
+        this.selectAllAcademicYears = false;
+      }
+    }
+  }
+
+  public allClassesYearsPress(all: boolean): void {
+    for (const field in this.academicYears.controls) {
+      this.academicYears.get(field)?.setValue(all);
+    }
+  }
+
+  public onClassesChange(choose: boolean): void {
+    if (choose) {
+      let selectedAll = true;
+      for (const field in this.academicYears.controls) {
+        if (!this.academicYears.get(field)?.value) {
+          selectedAll = false;
+          break;
+        }
+      }
+
+      this.selectAllAcademicYears = selectedAll;
     }
     else {
       if (this.selectAllAcademicYears) {
@@ -140,25 +173,60 @@ export class NotificationCreateManagingClassComponent
 
   //#region PRIVATE METHODS
   private handleGetAcademicYears(): void {
-    this.academicYears$.pipe(
-      filter((academicYears) => academicYears.length > 0),
-      tap((academicYears) => {
-        this.form.setControl('academicYears', new FormArray(
-          academicYears.map(() => new FormControl(false))
-        ));
-      })
-    ).subscribe();
+    this.academicYears$
+      .pipe(
+        filter((result) => result.length > 0),
+        tap((result) => {
+          const academicYearsControl = new FormGroup({});
+          result.forEach((year) => {
+            academicYearsControl.addControl(year.id.toString(), new FormControl(false));
+          });
+
+          this.form.setControl('academicYears', academicYearsControl);
+        })
+      ).subscribe();
   }
 
   private handleGetFaculties(): void {
-    this.faculties$.pipe(
-      filter((faculties) => faculties.length > 0),
-      tap((faculties) => {
-        this.form.setControl('faculties', new FormArray(
-          faculties.map(() => new FormControl(false))
-        ));
-      })
-    ).subscribe();
+    this.faculties$
+      .pipe(
+        filter((result) => result.length > 0),
+        tap((result) => {
+          const facultiesControl = new FormGroup({});
+          result.forEach((faculty) => {
+            facultiesControl.addControl(faculty.id, new FormControl(false));
+          });
+
+          this.form.setControl('faculties', facultiesControl);
+        })
+      ).subscribe();
+  }
+
+  private handleGetClasses(): void {
+    combineLatest([this.academicYears$, this.faculties$])
+      .pipe(
+        tap((result) => {
+          this.store.dispatch(fromNotificationCreate.loadManagingClasses({
+            academicYears: result[0].map(x => x.id),
+            faculties: result[1].map(x => x.id)
+          }));
+        })
+      )
+      .subscribe();
+
+    this.classes$
+      .pipe(
+        filter((result) => result.length > 0),
+        tap((result) => {
+          const classesControl = new FormGroup({});
+          result.forEach((_class) => {
+            classesControl.addControl(_class.name, new FormControl(false));
+          });
+
+          this.form.setControl('receipt', classesControl);
+        })
+      )
+      .subscribe();
   }
   //#endregion
 }
