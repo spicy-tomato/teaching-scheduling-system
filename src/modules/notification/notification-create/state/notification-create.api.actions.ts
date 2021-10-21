@@ -1,6 +1,7 @@
 import { AcademicYear } from '@models/core/academic-year.model';
 import { ErrorMapModel } from '@models/core/error-map.model';
 import { Faculty } from '@models/core/faculty.model';
+import { ManagingClass } from '@models/core/managing-class.model';
 import { createAction, props } from '@ngrx/store';
 
 export const invalidForm = createAction(
@@ -32,4 +33,13 @@ export const loadFacultiesSuccessful = createAction(
 
 export const loadFacultiesFailure = createAction(
   '[Notification - Create API: Managing Class] Load Faculties Failed'
+);
+
+export const loadManagingClassesSuccessful = createAction(
+  '[Notification - Create API: Managing Class] Load classes Successfully',
+  props<{ classes: ManagingClass[] }>()
+);
+
+export const loadManagingClassesFailure = createAction(
+  '[Notification - Create API: Managing Class] Load classes Failed'
 );

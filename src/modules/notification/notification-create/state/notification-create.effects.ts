@@ -10,6 +10,8 @@ import { CommonInfoService } from '@services/common-info.service';
 import { SessionStorageService } from '@services/storage/session-storage.service';
 import { SessionStorageKeyConstant } from '@constants/session-storage-key.constants';
 import { AcademicYear } from '@models/core/academic-year.model';
+import { Faculty } from '@models/core/faculty.model';
+import { ClassService } from '@services/class.service';
 
 @Injectable()
 export class NotificationCreateEffects {
@@ -32,7 +34,7 @@ export class NotificationCreateEffects {
 
   public loadAcademicYears$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(PageAction.loadManagingClass),
+      ofType(PageAction.loadManagingClassForm),
       mergeMap(() => {
         const cacheData = this.sessionStorageService.getItem(SessionStorageKeyConstant.academicYears);
         if (cacheData) {
@@ -48,19 +50,18 @@ export class NotificationCreateEffects {
           }),
           catchError(() => of(ApiAction.loadAcademicYearsFailure()))
         );
-      }
-      )
+      })
     );
   });
 
   public loadFaculties$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(PageAction.loadManagingClass),
+      ofType(PageAction.loadManagingClassForm),
       mergeMap(() => {
         const cacheData = this.sessionStorageService.getItem(SessionStorageKeyConstant.faculties);
         if (cacheData) {
           return of(
-            ApiAction.loadFacultiesSuccessful({ faculties: JSON.parse(cacheData) as AcademicYear[] })
+            ApiAction.loadFacultiesSuccessful({ faculties: JSON.parse(cacheData) as Faculty[] })
           );
         }
 
@@ -71,15 +72,38 @@ export class NotificationCreateEffects {
           }),
           catchError(() => of(ApiAction.loadFacultiesFailure()))
         );
-      }
-      )
+      })
+    );
+  });
+
+  public loadManagingClasses$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(PageAction.loadManagingClasses),
+      debounceTime(300),
+      mergeMap((data) => {
+        const params = {
+          academic_year: data.academicYears.join(','),
+          faculty: data.faculties.join(',')
+        };
+
+        return this.classService.getManagingClass(params)
+          .pipe(
+            map((classes) => {
+              return ApiAction.loadManagingClassesSuccessful({ classes });
+            }),
+            catchError(
+              () => of(ApiAction.loadManagingClassesFailure())
+            )
+          );
+      }),
     );
   });
 
   constructor(
-    private actions$: Actions,
-    private sessionStorageService: SessionStorageService,
-    private notificationService: NotificationService,
-    private readonly commonInfoService: CommonInfoService
+    private readonly actions$: Actions,
+    private readonly sessionStorageService: SessionStorageService,
+    private readonly notificationService: NotificationService,
+    private readonly commonInfoService: CommonInfoService,
+    private readonly classService: ClassService
   ) { }
 }

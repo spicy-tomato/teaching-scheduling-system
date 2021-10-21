@@ -13,7 +13,8 @@ export abstract class StorageService {
     const item = this.getItem(key);
     this.subjects.get(key)?.next(item);
 
-    return this.subjects.get(key)!.asObservable();
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return this.subjects.get(key)!;
   }
 
   public getItem(key: string): string | null {

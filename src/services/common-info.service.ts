@@ -20,8 +20,8 @@ export class CommonInfoService extends BaseDataService {
     return this.http
       .get<FacultyDta[]>(this.url + 'faculty')
       .pipe(
-        map(x =>
-          x.map((x) => Faculty.parse(x)))
+        map(result =>
+          result.map((x) => Faculty.parse(x)))
       );
   }
 
@@ -29,8 +29,8 @@ export class CommonInfoService extends BaseDataService {
     return this.http
       .get<AcademicYearDta[]>(this.url + 'academic-year')
       .pipe(
-        map(x =>
-          x.map((x) => AcademicYear.parse(x))
+        map(result =>
+          result.map((x) => AcademicYear.parse(x))
         )
       );
   }

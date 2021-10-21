@@ -17,7 +17,7 @@ export abstract class NotificationCreateClassFormBaseComponent
   implements ICanDeactivateComponent {
 
   //#region DECORATORS
-  @ViewChild(NotificationCreateShellComponent, { static: true }) protected shell!: NotificationCreateShellComponent;
+  @ViewChild(NotificationCreateShellComponent, { static: false }) protected shell!: NotificationCreateShellComponent;
   //#endregion
 
 

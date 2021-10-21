@@ -6,8 +6,16 @@ export const reset = createAction(
   '[Notification - Create Page] Reset'
 );
 
-export const loadManagingClass = createAction(
-  '[Notification - Create Page: Managing class] Load'
+export const loadManagingClassForm = createAction(
+  '[Notification - Create Page: Managing class] Load Form'
+);
+
+export const loadManagingClasses = createAction(
+  '[Notification - Create Page: Managing class] Load Classes',
+  props<{
+    academicYears: number[],
+    faculties: string[];
+  }>()
 );
 
 export const clickConfirm = createAction(

@@ -8,7 +8,8 @@ const initialState: NotificationCreateState = {
   status: EApiStatus.unknown,
   managingData: {
     academicYears: [],
-    faculties: []
+    faculties: [],
+    classes: [],
   },
   errors: {}
 };
@@ -30,6 +31,13 @@ export const notificationCreateReducer = createReducer(
     managingData: {
       ...state.managingData,
       faculties
+    }
+  })),
+  on(ApiAction.loadManagingClassesSuccessful, (state, { classes }) => ({
+    ...state,
+    managingData: {
+      ...state.managingData,
+      classes
     }
   })),
   on(PageAction.clickConfirm, (state) => ({

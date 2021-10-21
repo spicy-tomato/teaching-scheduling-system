@@ -69,7 +69,19 @@ export class NotificationCreateManagingClassComponent
 
   //#region LIFE CYCLE
   public ngOnInit(): void {
-    this.store.dispatch(fromNotificationCreate.loadManagingClass());
+    this.store.dispatch(fromNotificationCreate.loadManagingClassForm());
+
+    combineLatest([this.academicYears$, this.faculties$])
+      .pipe(
+        tap((result) => {
+          this.store.dispatch(fromNotificationCreate.loadManagingClasses({
+            academicYears: result[0].map(x => x.id),
+            faculties: result[1].map(x => x.id)
+          }));
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
   }
   //#endregion
 
@@ -93,7 +105,7 @@ export class NotificationCreateManagingClassComponent
   }
 
   public onFacultiesChange(choose: boolean): void {
-    if (choose){
+    if (choose) {
       if ((this.faculties.value as []).find(x => x === false) === undefined) {
         this.selectAllFaculties = true;
       }
@@ -112,7 +124,7 @@ export class NotificationCreateManagingClassComponent
   }
 
   public onAcademicYearsChange(choose: boolean): void {
-    if (choose){
+    if (choose) {
       if ((this.academicYears.value as []).find(x => x === false) === undefined) {
         this.selectAllAcademicYears = true;
       }
@@ -140,6 +152,7 @@ export class NotificationCreateManagingClassComponent
 
   private handleGetFaculties(): void {
     this.faculties$.pipe(
+      filter((faculties) => faculties.length > 0),
       tap((faculties) => {
         this.form.setControl('faculties', new FormArray(
           faculties.map(() => new FormControl(false))
