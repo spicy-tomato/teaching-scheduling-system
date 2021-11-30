@@ -1,0 +1,33 @@
+@import "src/styles/variables";
+
+tui-scrollbar {
+  @include square();
+}
+
+main {
+  @include square();
+  @include px(5);
+  @include pt(2.5);
+  @include pb(3);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  .wrapper {
+    @include z(0);
+    position: absolute;
+    inset: 0;
+
+    a {
+      @include font(lg);
+    }
+  }
+
+  .content {
+    flex-grow: 1;
+  }
+}
+
+.bread-tag {
+  @include font(lg);
+}

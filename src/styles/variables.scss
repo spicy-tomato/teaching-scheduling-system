@@ -1,0 +1,176 @@
+$tuiPositive: var(--tui-positive);
+$tuiWarningFill: var(--tui-warning-fill);
+$tuiWarningBg: var(--tui-warning-bg);
+$tuiWarningHover: var(--tui-warning-hover);
+$tuiBase01: var(--tui-base-01);
+$tuiBase02: var(--tui-base-02);
+$tuiBase03: var(--tui-base-03);
+$tuiBase04: var(--tui-base-04);
+$tuiBase05: var(--tui-base-05);
+$tuiBase06: var(--tui-base-06);
+$tuiBase07: var(--tui-base-07);
+$tuiBase08: var(--tui-base-08);
+$tuiBase09: var(--tui-base-09);
+$tuiText01: var(--tui-text-01);
+$tuiText02: var(--tui-text-02);
+
+$u: 0.25rem;
+
+@mixin font($size: base) {
+  @if $size==xs {
+    font-size: 0.75rem;
+    line-height: 1rem;
+  } @else if $size == sm {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  } @else if $size == base {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  } @else if $size == lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  } @else if $size == xl {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  } @else if $size == 2xl {
+    font-size: 1.5rem;
+    line-height: 2.4rem;
+  } @else if $size == 3xl {
+    font-size: 1.875rem;
+    line-height: 2.8rem;
+  } @else if $size == 4xl {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+  } @else if $size == 5xl {
+    font-size: 3rem;
+    line-height: 1;
+  } @else if $size == 6xl {
+    font-size: 3.75rem;
+    line-height: 1;
+  } @else if $size == 7xl {
+    font-size: 4.5rem;
+    line-height: 1;
+  } @else if $size == 8xl {
+    font-size: 6rem;
+    line-height: 1;
+  } @else if $size == 9xl {
+    font-size: 8rem;
+    line-height: 1;
+  } @else if $size == base-sm {
+    font-size: calc(1rem - 1px);
+  } @else if $size == base-lg {
+    font-size: calc(1rem + 1px);
+  }
+}
+
+@mixin w($size) {
+  @if $size == screen {
+    width: 100vw;
+  } @else if $size==full {
+    width: 100%;
+  } @else if $size == px {
+    width: 1px;
+  } @else {
+    width: $size * $u;
+  }
+}
+
+@mixin h($size) {
+  @if $size == screen {
+    height: 100vh;
+  } @else if $size==full {
+    height: 100%;
+  } @else if $size == px {
+    height: 1px;
+  } @else {
+    height: $size * $u;
+  }
+}
+
+@mixin square($size: full) {
+  @if $size == screen {
+    width: 100vw;
+    height: 100vh;
+  } @else if $size==full {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+@mixin p($y, $x: -1) {
+  @if $x == -1 {
+    padding: $y * $u;
+  } @else {
+    padding: $y * $u $x * $u;
+  }
+}
+@mixin px($size) {
+  padding-left: $size * $u;
+  padding-right: $size * $u;
+}
+@mixin py($size) {
+  padding-top: $size * $u;
+  padding-bottom: $size * $u;
+}
+@mixin pl($size) {
+  padding-left: $size * $u;
+}
+@mixin pr($size) {
+  padding-right: $size * $u;
+}
+@mixin pt($size) {
+  padding-top: $size * $u;
+}
+@mixin pb($size) {
+  padding-bottom: $size * $u;
+}
+
+@mixin m($y, $x: -1) {
+  @if $y == auto {
+    margin: auto;
+  } @else if $x == -1 {
+    margin: $y * $u;
+  } @else {
+    margin: $y * $u $x * $u;
+  }
+}
+@mixin mx($size) {
+  margin-left: $size * $u;
+  margin-right: $size * $u;
+}
+@mixin my($size) {
+  margin-top: $size * $u;
+  margin-bottom: $size * $u;
+}
+@mixin ml($size) {
+  margin-left: $size * $u;
+}
+@mixin mr($size) {
+  margin-right: $size * $u;
+}
+@mixin mt($size) {
+  margin-top: $size * $u;
+}
+@mixin mb($size) {
+  margin-bottom: $size * $u;
+}
+
+@mixin z($i) {
+  z-index: $i;
+}
+
+@mixin border($width: 1, $edge: all, $color: #000000) {
+  @if edge == all {
+    border-width: 1px solid $color;
+  } @else {
+    border-#{$edge}: #{$width}px solid $color;
+  }
+}
+
+@mixin leading($size) {
+  line-height: $size * $u;
+}
+
+@mixin bg($color) {
+  background-color: $color;
+}

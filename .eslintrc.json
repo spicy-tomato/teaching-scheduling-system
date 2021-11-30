@@ -72,6 +72,9 @@
           {
             "ignoreStatic": true
           }
+        ],
+        "@typescript-eslint/no-unsafe-assignment": [
+          "warn"
         ]
       }
     },

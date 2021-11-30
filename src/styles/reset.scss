@@ -1,3 +1,10 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+}
+
 html {
   font-size: 14px;
   font-weight: 500;
@@ -5,7 +12,7 @@ html {
 
 body {
   font-family: sans-serif;
-  @apply text-white;
+  color: white;
 }
 
 h1 {

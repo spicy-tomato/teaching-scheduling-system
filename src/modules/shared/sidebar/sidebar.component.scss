@@ -1,50 +1,81 @@
+@import "src/styles/variables";
+
 :host {
-  height: 100%;
+  @include h(full);
 
-  a {
-    @apply ease-in-out;
-    font: var(--tui-font-text-m);
-    transition-property: background-color;
-    transition-duration: var(--tui-duration, 300ms);
+  tui-scrollbar {
+    @include square();
+    @include border(1, right, $tuiBase03);
 
-    &.active {
-      @apply text-tuiBase09;
-    }
-  }
+    a {
+      transition: background-color 300ms ease-in-out;
+      font: var(--tui-font-text-m);
 
-  tui-accordion-item {
-    ::ng-deep {
-      .header {
-        padding-left: 1.5rem !important;
-        padding-right: 1rem !important;
+      &.active {
+        color: $tuiBase09;
       }
     }
 
-    .sub-item {
-      > div {
-        a {
-          &:not(:first-child) {
-            @apply mt-4;
-          }
-  
-          ::ng-deep {
-            span {
-              transition-duration: var(--tui-duration, 0.3s);
+    tui-accordion-item {
+      ::ng-deep {
+        .header {
+          padding-left: 1.5rem !important;
+          padding-right: 1rem !important;
+        }
+      }
+
+      .sub-item {
+        @include mt(-4);
+        @include mb(-2);
+
+        > div {
+          @include my(2);
+          @include pl(3);
+          @include border(2, left, $tuiBase03);
+
+          a {
+            @include leading(6);
+            display: block;
+            width: fit-content;
+
+            &:not(:first-child) {
+              @include mt(4);
+            }
+
+            ::ng-deep {
+              span {
+                transition-duration: var(--tui-duration, 0.3s);
+              }
             }
           }
         }
       }
     }
-  }
 
-  .icon-wrapper {
-    @apply w-7 inline-block mr-1.5;
+    .link {
+      @include pl(6);
+      @include pr(3);
+      @include py(2.5);
+      @include bg(white);
+      display: block;
 
-    > div {
-      @apply flex;
+      &:hover {
+        @include bg($tuiBase02);
+      }
+    }
 
-      > i {
-        @apply block m-auto;
+    .icon-wrapper {
+      @include w(7);
+      @include mr(1.5);
+      display: inline-block;
+
+      > div {
+        display: flex;
+
+        > i {
+          @include m(auto);
+          display: block;
+        }
       }
     }
   }

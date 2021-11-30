@@ -1,12 +1,15 @@
+@import "src/styles/variables";
+
 tui-wrapper[data-appearance="nav-button"] {
-  @apply bg-tuiBase02 text-tuiText01;
+  font: $tuiText01;
+  @include bg($tuiBase02);
 
   &[data-state="hovered"] {
-    @apply bg-tuiBase03;
+    @include bg($tuiBase03);
   }
 
   &[data-state="pressed"] {
-    @apply bg-tuiBase04;
+    @include bg($tuiBase04);
   }
 
   &[data-state="disabled"] {
@@ -22,5 +25,4 @@ tui-data-list.menu-data-list {
       padding: 0 !important;
     }
   }
-
 }

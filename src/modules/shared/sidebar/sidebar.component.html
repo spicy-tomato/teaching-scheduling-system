@@ -1,9 +1,9 @@
 <tui-scrollbar class="w-full h-full border-r border-tuiBase03">
   <ng-container *ngFor="let item of items">
     <tui-accordion
+      *ngIf="item.subItems, else link"
       [closeOthers]="false"
       [rounded]="false"
-      *ngIf="item.subItems, else link"
       tuiMode="onLight"
     >
       <tui-accordion-item
@@ -41,7 +41,7 @@
         [routerLink]="item.routerLink ?? ''"
         [routerLinkActive]="['active']"
         [routerLinkActiveOptions]="{ exact: true }"
-        class="block pl-6 pr-3 py-2.5 
+        class="link block pl-6 pr-3 py-2.5 
              bg-white hover:bg-tuiBase02"
       >
         <span class="icon-wrapper">
