@@ -9,7 +9,11 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreRouterConnectingModule, routerReducer } from '@ngrx/router-store';
 
-import { TuiDialogModule, TuiNotificationsModule, TuiRootModule } from '@taiga-ui/core';
+import {
+  TuiDialogModule,
+  TuiNotificationsModule,
+  TuiRootModule,
+} from '@taiga-ui/core';
 import { TUI_SANITIZER } from '@taiga-ui/cdk';
 import { TUI_LANGUAGE, TUI_VIETNAMESE_LANGUAGE } from '@taiga-ui/i18n';
 import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
@@ -20,7 +24,10 @@ import { loadAppSettings } from '@factories/load-app-settings.factory';
 import { InterceptorsModule } from '@interceptors/interceptors.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routes';
-import { defaultEditorExtensions, TUI_EDITOR_EXTENSIONS } from '@taiga-ui/addon-editor';
+import {
+  defaultEditorExtensions,
+  TUI_EDITOR_EXTENSIONS,
+} from '@taiga-ui/addon-editor';
 
 @NgModule({
   imports: [
@@ -35,32 +42,32 @@ import { defaultEditorExtensions, TUI_EDITOR_EXTENSIONS } from '@taiga-ui/addon-
     StoreModule.forRoot({ router: routerReducer }, {}),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
-      logOnly: environment.production
+      logOnly: environment.production,
     }),
     EffectsModule.forRoot([]),
-    StoreRouterConnectingModule.forRoot()
+    StoreRouterConnectingModule.forRoot(),
   ],
   providers: [
     {
       provide: APP_INITIALIZER,
       useFactory: loadAppSettings,
       multi: true,
-      deps: [AppSettingsService]
+      deps: [AppSettingsService],
     },
     {
       provide: TUI_LANGUAGE,
-      useValue: of(TUI_VIETNAMESE_LANGUAGE)
+      useValue: of(TUI_VIETNAMESE_LANGUAGE),
     },
     {
       provide: TUI_SANITIZER,
-      useClass: NgDompurifySanitizer
+      useClass: NgDompurifySanitizer,
     },
     {
       provide: TUI_EDITOR_EXTENSIONS,
-      useValue: defaultEditorExtensions
+      useValue: defaultEditorExtensions,
     },
   ],
   declarations: [AppComponent],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

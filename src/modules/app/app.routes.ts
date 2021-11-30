@@ -8,7 +8,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    loadChildren: async () => (await import('@modules/app-shell/app-shell.module')).AppShellModule,
+    loadChildren: async () => (await import('@modules/shared/app-shell/app-shell.module')).AppShellModule,
   },
 ];
 

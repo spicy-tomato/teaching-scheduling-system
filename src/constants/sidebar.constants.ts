@@ -29,7 +29,7 @@ export class SidebarConstant {
       name: 'Lịch giảng dạy',
       icon: 'far fa-calendar-alt',
       subItems: [
-        { name: 'Thông tin giờ giảng', routerLink: '' },
+        { name: 'Thông tin giờ giảng', routerLink: '/schedule' },
         { name: 'Yêu cầu thay đổi', routerLink: '' }
       ]
     },

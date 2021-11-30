@@ -15,6 +15,10 @@ const routes: Routes = [
       {
         path: 'notification',
         loadChildren: async () => (await import('@modules/notification/notification.module')).NotificationModule
+      },
+      {
+        path: 'schedule',
+        loadChildren: async () => (await import('@modules/scheduler/scheduler.module')).SchedulerModule
       }
     ]
   },

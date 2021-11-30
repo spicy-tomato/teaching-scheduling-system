@@ -36,13 +36,15 @@
               }
             ],
             "styles": [
-              "src/styles/styles.scss",
-              "src/styles/reset.scss",
-              "src/styles/responsive.scss",
-              "src/styles/tui-custom.scss",
+              "src/styles.scss",
               "node_modules/@taiga-ui/core/styles/taiga-ui-global.less",
               "node_modules/@taiga-ui/core/styles/taiga-ui-theme.less"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules/@syncfusion"
+              ]
+            },
             "scripts": [],
             "vendorChunk": true,
             "extractLicenses": true,
@@ -133,10 +135,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles/styles.scss",
-              "src/styles/reset.scss",
-              "src/styles/responsive.scss",
-              "src/styles/tui-custom.scss"
+              "src/styles.scss"
             ],
             "scripts": []
           }
