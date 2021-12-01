@@ -1,30 +1,47 @@
-import { Component } from '@angular/core';
-import {
-  EventSettingsModel,
-  MonthService,
-  WeekService,
-} from '@syncfusion/ej2-angular-schedule';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'tss-schedule',
   templateUrl: './scheduler.component.html',
   styleUrls: ['./scheduler.component.scss'],
-  providers: [
-    WeekService,
-    MonthService,
-  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ScheduleComponent {
-  public data: object[] = [
+export class SchedulerComponent {
+  public data: Record<string, unknown>[] = [
     {
       Id: 1,
       Subject: 'Meeting',
-      StartTime: new Date(2018, 1, 15, 10, 0),
-      EndTime: new Date(2018, 1, 15, 12, 30),
+      StartTime: new Date(),
+      EndTime: new Date(),
+    },
+    {
+      Id: 2,
+      Subject: 'Meeting',
+      StartTime: new Date(2021, 11, 15),
+      EndTime: new Date(2021, 11, 15),
+    },
+    {
+      Id: 3,
+      Subject: 'Meeting',
+      StartTime: new Date(2021, 11, 15),
+      EndTime: new Date(2021, 11, 15),
+    },
+    {
+      Id: 4,
+      Subject: 'Meeting',
+      StartTime: new Date(2021, 11, 15),
+      EndTime: new Date(2021, 11, 15),
+    },
+    {
+      Id: 5,
+      Subject: 'Meeting',
+      StartTime: new Date(2021, 11, 15),
+      EndTime: new Date(2021, 11, 15),
+    },
+    {
+      Id: 5,
+      Subject: 'Meeting',
+      StartTime: new Date(2021, 11, 15, 7),
+      EndTime: new Date(2021, 11, 15, 9, 30),
     },
   ];
-  public eventSettings: EventSettingsModel = {
-    dataSource: this.data,
-    
-  };
 }

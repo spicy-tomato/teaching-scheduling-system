@@ -1,74 +1,49 @@
-<div class="wrapper relative w-screen h-screen
-            flex justify-center items-center z-0
-            after:absolute after:block after:w-full after:h-full
-            after:contents[''] after:bg-black after:bg-opacity-15
-            after:inset-0 after:z-10">
-  <div
-    [@slideUp]
-    class="px-14 pt-10 pb-7 rounded-lg
-         bg-white bg-opacity-95 z-20"
-  >
-    <h1 class="slide-element uppercase mt-0 mb-10">
-      Hệ thống quản lý lịch giảng dạy
-    </h1>
-    <form
-      [formGroup]="loginForm"
-      (ngSubmit)="submit$.next()"
-      class="b-forms"
-    >
+<div class="wrapper">
+  <div [@slideUp] class="box">
+    <h1 class="slide-element">Hệ thống quản lý lịch giảng dạy</h1>
+    <form [formGroup]="loginForm" (ngSubmit)="submit$.next()" class="b-forms">
       <div class="slide-element">
         <tui-input
+          [tuiHintContent]="
+            email?.valid || email?.untouched
+              ? null
+              : 'Hãy nhập đúng định dạng email'
+          "
           formControlName="email"
-          [tuiHintContent]="email?.valid || email?.untouched ? null : 'Hãy nhập đúng định dạng email'"
           tuiHintMode="error"
         >
           Email
         </tui-input>
       </div>
 
-      <div class="slide-element">
-        <tui-input-password
-          class="mt-3"
-          formControlName="password"
-          [readOnly]="false"
-        >
+      <div class="slide-element password">
+        <tui-input-password [readOnly]="false" formControlName="password">
           Mật khẩu
         </tui-input-password>
       </div>
 
-      <div class="flex flex-col items-center mt-7">
+      <div class="footer">
         <ng-container *ngrxLet="status$ as status">
           <button
-            tuiButton
-            class="slide-element"
             [showLoader]="status === LoginStatus.loading"
             [disabled]="loginForm.invalid"
-            type="submit"
+            tuiButton
             size="m"
+            type="submit"
+            class="slide-element"
           >
             Đăng nhập
           </button>
         </ng-container>
 
         <div class="slide-element">
-
-          <tui-checkbox-labeled
-            [@slideUp]
-            formControlName="remember"
-            class="mt-5"
-          >
+          <tui-checkbox-labeled [@slideUp] formControlName="remember">
             Ghi nhớ tài khoản
           </tui-checkbox-labeled>
         </div>
 
-        <a
-          tuiLink
-          class="slide-element mt-2"
-        >
-          Quên mật khẩu?
-        </a>
+        <a tuiLink class="slide-element"> Quên mật khẩu? </a>
       </div>
     </form>
-
   </div>
 </div>

@@ -11,6 +11,7 @@ import { TuiBreadcrumbsModule } from '@taiga-ui/kit';
 import { MainViewComponent } from './main-view.component';
 import { MainViewRoutingModule } from './main-view.routes';
 import { ReactiveComponentModule } from '@ngrx/component';
+import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 
 @NgModule({
   imports: [
@@ -26,7 +27,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
     ),
     EffectsModule.forFeature([fromMainView.MainViewEffects])
   ],
-  declarations: [MainViewComponent],
+  declarations: [MainViewComponent, BreadcrumbComponent],
   exports: [MainViewComponent]
 })
 export class MainViewModule { }

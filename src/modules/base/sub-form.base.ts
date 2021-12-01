@@ -1,44 +1,42 @@
-import { ControlValueAccessor, FormBuilder, FormGroup, ValidationErrors } from "@angular/forms";
-import { takeUntil } from "rxjs/operators";
-import { BaseComponent } from "./base.component";
+import {
+  ControlValueAccessor,
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+} from '@angular/forms';
+import { takeUntil } from 'rxjs/operators';
+import { BaseComponent } from './base.component';
 
-export abstract class SubFormBase<T> extends BaseComponent implements ControlValueAccessor {
-  //#region PUBLIC PROPERTIES
+export abstract class SubFormBase<T>
+  extends BaseComponent
+  implements ControlValueAccessor
+{
+  /** PUBLIC PROPERTIES */
   public form!: FormGroup;
-  //#endregion
 
-
-  //#region PRIVATE PROPERTIES
+  /** PRIVATE PROPERTIES */
   private onChange!: (value: T) => void;
   private onTouch!: () => void;
-  //#endregion
 
-
-  //#region GETTERS
+  /** GETTERS */
   private get value(): T {
     return this.form.value as T;
   }
-  //#endregion
 
-
-  //#region SETTERS
+  /** SETTERS */
   private set value(value: T) {
     this.form.setValue(value);
     this.onChange(value);
     this.onTouch();
   }
-  //#endregion
 
-
-  //#region CONSTRUCTOR
+  /** CONSTRUCTOR */
   constructor(protected readonly fb: FormBuilder) {
     super();
     this.initForm();
   }
-  //#endregion
 
-
-  //#endregion IMPLEMENTATIONS
+  /** IMPLEMENTATIONS */
   public writeValue(value: T): void {
     if (value) {
       this.value = value;
@@ -48,11 +46,7 @@ export abstract class SubFormBase<T> extends BaseComponent implements ControlVal
   }
 
   public registerOnChange(fn: (value: T) => void): void {
-    this.form.valueChanges
-      .pipe(
-        takeUntil(this.destroy$)
-      )
-      .subscribe(fn);
+    this.form.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(fn);
   }
 
   public registerOnTouched(fn: () => void): void {
@@ -60,14 +54,10 @@ export abstract class SubFormBase<T> extends BaseComponent implements ControlVal
   }
 
   public setDisabledState(isDisable: boolean): void {
-    isDisable
-      ? this.form.disable()
-      : this.form.enable();
+    isDisable ? this.form.disable() : this.form.enable();
   }
-  //#endregion
 
-
-  //#region PUBLIC METHODS
+  /** PUBLIC METHODS */
   public validate(): ValidationErrors | null {
     if (this.form.valid) {
       return null;
@@ -83,12 +73,9 @@ export abstract class SubFormBase<T> extends BaseComponent implements ControlVal
 
     return errors;
   }
-  //#endregion
 
-
-  //#region PROTECTED METHODS
+  /** PROTECTED METHODS */
   protected initForm(): void {
     return;
   }
-  //#endregion
 }

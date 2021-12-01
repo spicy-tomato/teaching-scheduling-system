@@ -3,8 +3,8 @@
 :host {
   @include square(screen);
   display: grid;
-  grid-template-rows: 65px calc(100vh - 65px);
-  grid-template-columns: 260px auto;
+  grid-template-rows: $nav-height $main-view-height;
+  grid-template-columns: $sidebar-width auto;
   grid-template-areas:
     "nav   nav"
     "aside main";
@@ -20,4 +20,5 @@ tss-navbar {
 
 tss-main-view {
   grid-area: main;
+  max-height: $main-view-height;
 }

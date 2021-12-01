@@ -9,5 +9,6 @@ import { NavbarItem } from '@models/navbar/navbar-item.model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavbarComponent {
+  /** PUBLIC PROPERTIES */
   public readonly items: NavbarItem[] = NavbarConstants.items;
 }

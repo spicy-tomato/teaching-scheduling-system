@@ -15,8 +15,10 @@ import * as fromMainView from './state';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MainViewComponent extends BaseComponent {
+  /** PUBLIC PROPERTIES */
   public breadcrumbs$: Observable<BreadcrumbItem[]>;
 
+  /** CONSTRUCTOR */
   constructor(store: Store<fromMainView.MainViewState>) {
     super();
     this.breadcrumbs$ = store.select(fromMainView.selectBreadcrumbs)

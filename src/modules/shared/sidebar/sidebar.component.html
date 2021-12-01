@@ -1,4 +1,4 @@
-<tui-scrollbar class="w-full h-full border-r border-tuiBase03">
+<tui-scrollbar>
   <ng-container *ngFor="let item of items">
     <tui-accordion
       *ngIf="item.subItems, else link"
@@ -18,14 +18,13 @@
         </span>
         <strong>{{ item.name }}</strong>
         <ng-template tuiAccordionItemContent>
-          <div class="sub-item -mt-4 -mb-2">
-            <div class="my-2 pl-3 border-l-2 border-tuiBase03">
+          <div class="sub-item">
+            <div>
               <a
                 *ngFor="let subItem of item.subItems"
                 [routerLink]="subItem.routerLink"
                 [routerLinkActive]="['active']"
                 [routerLinkActiveOptions]="{ exact: true }"
-                class="block w-fit-content leading-6"
                 tuiLink
               >
                 {{ subItem.name }}
@@ -41,8 +40,8 @@
         [routerLink]="item.routerLink ?? ''"
         [routerLinkActive]="['active']"
         [routerLinkActiveOptions]="{ exact: true }"
-        class="link block pl-6 pr-3 py-2.5 
-             bg-white hover:bg-tuiBase02"
+        class="link"
+        tuiLink
       >
         <span class="icon-wrapper">
           <div>
