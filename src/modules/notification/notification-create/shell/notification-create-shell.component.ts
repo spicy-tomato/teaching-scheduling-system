@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, FormGroup, ValidationErrors } from '@angular/
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, filter, mergeMap, takeUntil, tap } from 'rxjs/operators';
-import { BaseComponent } from '@modules/base/base.component';
+import { BaseComponent } from '@modules/core/base/base.component';
 import isEmpty from 'lodash/isEmpty';
 
 import { NotificationCreateFormModel } from '@models/notification/notification-create/notification-create-form.model';

@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  templateUrl: './scheduler.component.html',
-  styleUrls: ['./scheduler.component.scss'],
+  templateUrl: './schedule.component.html',
+  styleUrls: ['./schedule.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SchedulerComponent {
+export class SchedulePageComponent {
   public data: Record<string, unknown>[] = [
     {
       Id: 1,

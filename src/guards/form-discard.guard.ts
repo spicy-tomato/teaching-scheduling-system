@@ -4,7 +4,7 @@ import { TuiDialogService } from '@taiga-ui/core';
 import { Observable } from 'rxjs';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { FormDiscardDialogComponent } from '@modules/shared/dialog/form-discard-dialog/form-discard-dialog.component';
-import { ICanDeactivateComponent } from '@modules/base/can-deactivate.base';
+import { ICanDeactivateComponent } from '@modules/core/base/can-deactivate.base';
 
 @Injectable({
   providedIn: 'root'

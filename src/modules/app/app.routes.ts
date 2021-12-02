@@ -4,16 +4,24 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: 'login',
-    loadChildren: async () => (await import('@modules/login/login.module')).LoginModule,
+    loadChildren: async () =>
+      (await import('@modules/core/pages/login/login.module')).LoginModule,
   },
   {
     path: '',
-    loadChildren: async () => (await import('@modules/shared/app-shell/app-shell.module')).AppShellModule,
+    loadChildren: async () =>
+      (await import('@modules/core/components/app-shell/app-shell.module'))
+        .AppShellModule,
+  },
+  {
+    path: '**',
+    loadChildren: async () =>
+      (await import('@modules/core/pages/404/404.module')).Error404Module,
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

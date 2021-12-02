@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, forwardRef } from '@angular/core';
 import { FormBuilder, FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 import { NotificationCreateCommonFormModel } from '@models/notification/notification-create/notification-create-common-form.model';
-import { SubFormBase } from '@modules/base/sub-form.base';
+import { SubFormBase } from '@modules/core/base/sub-form.base';
 import { Store } from '@ngrx/store';
 import { filter, take, tap } from 'rxjs/operators';
 import { EApiStatus } from 'src/enums/api-status.enum';

@@ -10,6 +10,7 @@ import {
   MonthService,
   WeekService,
 } from '@syncfusion/ej2-angular-schedule';
+
 import { loadCldr, setCulture, L10n } from '@syncfusion/ej2-base';
 import { default as EJ2_LOCALE } from '@syncfusion/ej2-locale/src/vi.json';
 import * as numberingSystems from 'cldr-data/supplemental/numberingSystems.json';
@@ -28,7 +29,7 @@ setCulture('vi');
   providers: [WeekService, MonthService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ScheduleComponent implements OnChanges {
+export class TssScheduleComponent implements OnChanges {
   /** INPUT */
   @Input() public data!: Record<string, unknown>[];
 

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SchedulerComponent } from './scheduler.component';
+import { SchedulePageComponent } from './schedule.component';
 
 const routes: Routes = [
   {
@@ -8,7 +8,7 @@ const routes: Routes = [
     data: {
       breadcrumb: 'Lịch giảng dạy'
     },
-    component: SchedulerComponent,
+    component: SchedulePageComponent,
   },
 ];
 
