@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { delay, tap } from 'rxjs/operators';
-import { BaseDataService } from './base-data.service';
+import { BaseDataService } from './core/base-data.service';
 
 @Injectable({
   providedIn: 'root'

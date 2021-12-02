@@ -4,7 +4,7 @@ import { ManagingClass } from '@models/core/managing-class.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ManagingClassDta } from 'src/dtas/managing-class.dta';
-import { BaseDataService } from './base-data.service';
+import { BaseDataService } from './core/base-data.service';
 
 @Injectable({
   providedIn: 'root'

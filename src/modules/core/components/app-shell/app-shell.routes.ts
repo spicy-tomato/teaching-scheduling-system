@@ -10,7 +10,8 @@ const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        loadChildren: async () => (await import('@modules/home/home.module')).HomeModule
+        // loadChildren: async () => (await import('@modules/home/home.module')).HomeModule
+        redirectTo: 'schedule'
       },
       {
         path: 'notification',

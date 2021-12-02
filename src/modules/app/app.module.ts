@@ -19,7 +19,7 @@ import { TUI_LANGUAGE, TUI_VIETNAMESE_LANGUAGE } from '@taiga-ui/i18n';
 import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
 
 import { environment } from '@environments/environment';
-import { AppSettingsService } from '@services/app-settings.service';
+import { AppSettingsService } from '@services/core/app-settings.service';
 import { loadAppSettings } from '@factories/load-app-settings.factory';
 import { InterceptorsModule } from '@interceptors/interceptors.module';
 import { AppComponent } from './app.component';

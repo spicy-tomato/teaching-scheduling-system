@@ -5,14 +5,16 @@
       <div class="slide-element">
         <tui-input
           [tuiHintContent]="
-            email?.valid || email?.untouched
+            email?.value === ''
+              ? 'Hãy nhập email hoặc tên đăng nhập'
+              : email?.valid || email?.untouched
               ? null
               : 'Hãy nhập đúng định dạng email'
           "
           formControlName="email"
           tuiHintMode="error"
         >
-          Email
+          Email / Tên đăng nhập
         </tui-input>
       </div>
 

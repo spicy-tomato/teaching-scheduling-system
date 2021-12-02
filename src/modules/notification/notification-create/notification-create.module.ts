@@ -7,8 +7,22 @@ import { EffectsModule } from '@ngrx/effects';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 import { TuiLetModule } from '@taiga-ui/cdk';
-import { TuiButtonModule, TuiDataListModule, TuiLoaderModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
-import { TuiCheckboxLabeledModule, TuiDataListWrapperModule, TuiFieldErrorModule, TuiInputDateRangeModule, TuiInputModule, TuiMultiSelectModule, TuiSelectModule, TuiTabsModule } from '@taiga-ui/kit';
+import {
+  TuiButtonModule,
+  TuiDataListModule,
+  TuiLoaderModule,
+  TuiTextfieldControllerModule,
+} from '@taiga-ui/core';
+import {
+  TuiCheckboxLabeledModule,
+  TuiDataListWrapperModule,
+  TuiFieldErrorModule,
+  TuiInputDateRangeModule,
+  TuiInputModule,
+  TuiMultiSelectModule,
+  TuiSelectModule,
+  TuiTabsModule,
+} from '@taiga-ui/kit';
 import { TuiEditorModule } from '@taiga-ui/addon-editor';
 
 import * as fromNotificationCreate from './state';
@@ -19,39 +33,47 @@ import { NotificationCreateModuleClassComponent } from './components/notificatio
 import { NotificationCreateShellComponent } from './shell/notification-create-shell.component';
 import { NotificationCreateAsideComponent } from './common/notification-create-aside/notification-create-aside.component';
 
+const TAIGA_UI = [
+  TuiTabsModule,
+  TuiInputModule,
+  TuiSelectModule,
+  TuiDataListModule,
+  TuiInputDateRangeModule,
+  TuiEditorModule,
+  TuiTextfieldControllerModule,
+  TuiFieldErrorModule,
+  TuiButtonModule,
+  TuiMultiSelectModule,
+  TuiDataListWrapperModule,
+  TuiLetModule,
+  TuiCheckboxLabeledModule,
+  TuiLoaderModule,
+];
+const NGRX = [
+  ReactiveComponentModule,
+  StoreModule.forFeature(
+    fromNotificationCreate.notificationCreateFeatureKey,
+    fromNotificationCreate.notificationCreateReducer
+  ),
+  EffectsModule.forFeature([fromNotificationCreate.NotificationCreateEffects]),
+];
+const COMPONENTS = [
+  NotificationCreateManagingClassComponent,
+  NotificationCreateModuleClassComponent,
+  NotificationCreateCommonFormComponent,
+  NotificationCreateShellComponent,
+  NotificationCreateAsideComponent,
+];
+
 @NgModule({
   imports: [
     CommonModule,
     NotificationCreateRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    ReactiveComponentModule,
-    TuiTabsModule,
-    TuiInputModule,
-    TuiSelectModule,
-    TuiDataListModule,
-    TuiInputDateRangeModule,
-    TuiEditorModule,
-    TuiTextfieldControllerModule,
-    TuiFieldErrorModule,
-    TuiButtonModule,
-    TuiMultiSelectModule,
-    TuiDataListWrapperModule,
-    TuiLetModule,
-    TuiCheckboxLabeledModule,
-    TuiLoaderModule,
-    StoreModule.forFeature(
-      fromNotificationCreate.notificationCreateFeatureKey,
-      fromNotificationCreate.notificationCreateReducer
-    ),
-    EffectsModule.forFeature([fromNotificationCreate.NotificationCreateEffects])
+    ...NGRX,
+    ...TAIGA_UI,
   ],
-  declarations: [
-    NotificationCreateManagingClassComponent,
-    NotificationCreateModuleClassComponent,
-    NotificationCreateCommonFormComponent,
-    NotificationCreateShellComponent,
-    NotificationCreateAsideComponent,
-  ]
+  declarations: [...COMPONENTS],
 })
-export class NotificationCreateModule { }
+export class NotificationCreateModule {}

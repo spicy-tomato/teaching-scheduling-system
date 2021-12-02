@@ -6,7 +6,7 @@ const routes: Routes = [
   {
     path: '',
     data: {
-      breadcrumb: 'Lịch giảng dạy'
+      breadcrumb: 'Lịch biểu'
     },
     component: SchedulePageComponent,
   },

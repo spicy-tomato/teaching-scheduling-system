@@ -14,8 +14,6 @@ export class HeaderInterceptor implements HttpInterceptor {
       .set('Access-Control-Allow-Origin', '*')
       .set('Access-Control-Allow-Headers', '*');
 
-    
-
     const authReq = req.clone({ headers });
     
     return next.handle(authReq);

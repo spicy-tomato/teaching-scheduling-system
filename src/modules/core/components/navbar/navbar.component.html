@@ -26,6 +26,7 @@
       <a
         *ngFor="let item of group.items"
         [routerLink]="[item.routerLink]"
+        (click)="onClickDropDownItem(item.key)"
         tuiOption
       >
         <tui-svg

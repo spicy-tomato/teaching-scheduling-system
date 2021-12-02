@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AcademicYearDta } from 'src/dtas/academic-year.dta';
 import { FacultyDta } from 'src/dtas/faculty.dta';
-import { BaseDataService } from './base-data.service';
+import { BaseDataService } from './core/base-data.service';
 
 @Injectable({
   providedIn: 'root',

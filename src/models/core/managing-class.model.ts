@@ -1,4 +1,4 @@
-import { ManagingClassDta } from "src/dtas/managing-class.dta";
+import { ManagingClassDta } from 'src/dtas/managing-class.dta';
 
 export class ManagingClass {
   public readonly academicYear!: number;
@@ -6,10 +6,10 @@ export class ManagingClass {
   public readonly faculty!: string;
 
   public static parse(obj: ManagingClassDta): ManagingClass {
-    return ({
+    return {
       academicYear: obj.id_academic_year,
       name: obj.id_class,
-      faculty: obj.id_faculty
-    });
+      faculty: obj.id_faculty,
+    };
   }
 }

@@ -1,9 +1,10 @@
-export interface NavbarItem {
-  label?: string,
-  items: {
-    label?: string,
-    routerLink:
-    string,
-    icon?: string;
-  }[];
+interface NavbarItem {
+  key: string;
+  label?: string;
+  routerLink?: string;
+  icon?: string;
+}
+
+export interface NavbarGroup {
+  items: NavbarItem[];
 }

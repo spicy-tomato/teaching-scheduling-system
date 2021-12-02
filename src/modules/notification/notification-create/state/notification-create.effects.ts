@@ -7,11 +7,11 @@ import { of } from 'rxjs';
 import { isEmpty } from 'lodash';
 import { NotificationService } from '@services/notification.service';
 import { CommonInfoService } from '@services/common-info.service';
-import { SessionStorageService } from '@services/storage/session-storage.service';
 import { SessionStorageKeyConstant } from '@constants/session-storage-key.constants';
 import { AcademicYear } from '@models/core/academic-year.model';
 import { Faculty } from '@models/core/faculty.model';
 import { ClassService } from '@services/class.service';
+import { SessionStorageService } from '@services/core/storage/session-storage.service';
 
 @Injectable()
 export class NotificationCreateEffects {
@@ -36,16 +36,23 @@ export class NotificationCreateEffects {
     return this.actions$.pipe(
       ofType(PageAction.loadManagingClassForm),
       mergeMap(() => {
-        const cacheData = this.sessionStorageService.getItem(SessionStorageKeyConstant.academicYears);
+        const cacheData = this.sessionStorageService.getItem(
+          SessionStorageKeyConstant.academicYears
+        );
         if (cacheData) {
           return of(
-            ApiAction.loadAcademicYearsSuccessful({ academicYears: JSON.parse(cacheData) as AcademicYear[] })
+            ApiAction.loadAcademicYearsSuccessful({
+              academicYears: JSON.parse(cacheData) as AcademicYear[],
+            })
           );
         }
 
         return this.commonInfoService.getAcademicYear().pipe(
           map((academicYears) => {
-            this.sessionStorageService.setItem(SessionStorageKeyConstant.academicYears, JSON.stringify(academicYears));
+            this.sessionStorageService.setItem(
+              SessionStorageKeyConstant.academicYears,
+              JSON.stringify(academicYears)
+            );
             return ApiAction.loadAcademicYearsSuccessful({ academicYears });
           }),
           catchError(() => of(ApiAction.loadAcademicYearsFailure()))
@@ -58,16 +65,23 @@ export class NotificationCreateEffects {
     return this.actions$.pipe(
       ofType(PageAction.loadManagingClassForm),
       mergeMap(() => {
-        const cacheData = this.sessionStorageService.getItem(SessionStorageKeyConstant.faculties);
+        const cacheData = this.sessionStorageService.getItem(
+          SessionStorageKeyConstant.faculties
+        );
         if (cacheData) {
           return of(
-            ApiAction.loadFacultiesSuccessful({ faculties: JSON.parse(cacheData) as Faculty[] })
+            ApiAction.loadFacultiesSuccessful({
+              faculties: JSON.parse(cacheData) as Faculty[],
+            })
           );
         }
 
         return this.commonInfoService.getFaculty().pipe(
           map((faculties) => {
-            this.sessionStorageService.setItem(SessionStorageKeyConstant.faculties, JSON.stringify(faculties));
+            this.sessionStorageService.setItem(
+              SessionStorageKeyConstant.faculties,
+              JSON.stringify(faculties)
+            );
             return ApiAction.loadFacultiesSuccessful({ faculties });
           }),
           catchError(() => of(ApiAction.loadFacultiesFailure()))
@@ -83,19 +97,16 @@ export class NotificationCreateEffects {
       mergeMap((data) => {
         const params = {
           academic_year: data.academicYears.join(','),
-          faculty: data.faculties.join(',')
+          faculty: data.faculties.join(','),
         };
 
-        return this.classService.getManagingClass(params)
-          .pipe(
-            map((classes) => {
-              return ApiAction.loadManagingClassesSuccessful({ classes });
-            }),
-            catchError(
-              () => of(ApiAction.loadManagingClassesFailure())
-            )
-          );
-      }),
+        return this.classService.getManagingClass(params).pipe(
+          map((classes) => {
+            return ApiAction.loadManagingClassesSuccessful({ classes });
+          }),
+          catchError(() => of(ApiAction.loadManagingClassesFailure()))
+        );
+      })
     );
   });
 
@@ -105,5 +116,5 @@ export class NotificationCreateEffects {
     private readonly notificationService: NotificationService,
     private readonly commonInfoService: CommonInfoService,
     private readonly classService: ClassService
-  ) { }
+  ) {}
 }

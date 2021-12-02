@@ -24,15 +24,16 @@ import { slideUp } from '@animations/slide-up.animation';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent extends BaseComponent {
+  /** PUBLIC PROPERTIES */
   public status$: Observable<EApiStatus>;
   public readonly submit$ = new Subject<void>();
-
   public readonly loginForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
+    email: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
     remember: new FormControl(false),
   });
 
+  /** GETTERS */
   public get email(): AbstractControl | null {
     return this.loginForm.get('email');
   }
@@ -41,6 +42,7 @@ export class LoginComponent extends BaseComponent {
     return EApiStatus;
   }
 
+  /** CONSTRUCTOR */
   constructor(
     private store: Store<fromLogin.LoginState>,
     @Inject(TuiNotificationsService)
@@ -56,6 +58,7 @@ export class LoginComponent extends BaseComponent {
     this.handleSubmit();
   }
 
+  /** PRIVATE METHODS */
   private handleLoginFailed(): void {
     this.status$
       .pipe(
