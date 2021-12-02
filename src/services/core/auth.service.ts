@@ -22,8 +22,8 @@ export class AuthService extends BaseDataService {
       .post<TeacherDta>(this.url + 'auth/login', obj, { observe: 'response' })
       .pipe(
         map((response) => ({
-          token: response.headers.get('Authorization')!,
-          teacher: Teacher.parse(response.body!),
+          token: response.headers.get('Authorization') ?? '',
+          teacher: Teacher.parse(response.body),
         }))
       );
   }

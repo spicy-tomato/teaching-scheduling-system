@@ -6,6 +6,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SchedulePageComponent {
+  /** PUBLIC PROPERTIES */
   public data: Record<string, unknown>[] = [
     {
       Id: 1,

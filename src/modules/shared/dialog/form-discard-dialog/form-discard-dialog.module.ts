@@ -4,10 +4,7 @@ import { FormDiscardDialogComponent } from './form-discard-dialog.component';
 import { TuiButtonModule } from '@taiga-ui/core';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    TuiButtonModule
-  ],
+  imports: [CommonModule, TuiButtonModule],
   declarations: [FormDiscardDialogComponent],
 })
-export class FormDiscardDialogModule { }
+export class FormDiscardDialogModule {}

@@ -7,22 +7,28 @@ import { FormDiscardDialogComponent } from '@modules/shared/dialog/form-discard-
 import { ICanDeactivateComponent } from '@modules/core/base/can-deactivate.base';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class FormDiscardGuard<T extends ICanDeactivateComponent> implements CanDeactivate<T> {
+export class FormDiscardGuard<T extends ICanDeactivateComponent>
+  implements CanDeactivate<T>
+{
+  /** CONSTRUCTOR */
   constructor(
     @Inject(Injector) private readonly injector: Injector,
     @Inject(TuiDialogService) private readonly dialogService: TuiDialogService
-  ) { }
+  ) {}
 
-  public canDeactivate(component: T): Observable<boolean> | Promise<boolean> | boolean {
+  /** IMPLEMENTATIONS */
+  public canDeactivate(
+    component: T
+  ): Observable<boolean> | Promise<boolean> | boolean {
     return component?.canDeactivate() ?? this.showExitConfirmDialog();
   }
 
+  /** PRIVATE METHODS */
   private showExitConfirmDialog(): Observable<boolean> {
-    return this.dialogService
-      .open<boolean>(
-        new PolymorpheusComponent(FormDiscardDialogComponent, this.injector),
-      );
+    return this.dialogService.open<boolean>(
+      new PolymorpheusComponent(FormDiscardDialogComponent, this.injector)
+    );
   }
 }

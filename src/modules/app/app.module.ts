@@ -17,6 +17,10 @@ import {
 import { TUI_SANITIZER } from '@taiga-ui/cdk';
 import { TUI_LANGUAGE, TUI_VIETNAMESE_LANGUAGE } from '@taiga-ui/i18n';
 import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
+import {
+  defaultEditorExtensions,
+  TUI_EDITOR_EXTENSIONS,
+} from '@taiga-ui/addon-editor';
 
 import { environment } from '@environments/environment';
 import { AppSettingsService } from '@services/core/app-settings.service';
@@ -24,10 +28,17 @@ import { loadAppSettings } from '@factories/load-app-settings.factory';
 import { InterceptorsModule } from '@interceptors/interceptors.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routes';
-import {
-  defaultEditorExtensions,
-  TUI_EDITOR_EXTENSIONS,
-} from '@taiga-ui/addon-editor';
+
+const TAIGA_UI = [TuiRootModule, TuiDialogModule, TuiNotificationsModule];
+const NGRX = [
+  StoreModule.forRoot({ router: routerReducer }, {}),
+  StoreDevtoolsModule.instrument({
+    maxAge: 25,
+    logOnly: environment.production,
+  }),
+  EffectsModule.forRoot([]),
+  StoreRouterConnectingModule.forRoot(),
+];
 
 @NgModule({
   imports: [
@@ -35,17 +46,9 @@ import {
     BrowserAnimationsModule,
     HttpClientModule,
     InterceptorsModule,
-    TuiRootModule,
-    TuiDialogModule,
     AppRoutingModule,
-    TuiNotificationsModule,
-    StoreModule.forRoot({ router: routerReducer }, {}),
-    StoreDevtoolsModule.instrument({
-      maxAge: 25,
-      logOnly: environment.production,
-    }),
-    EffectsModule.forRoot([]),
-    StoreRouterConnectingModule.forRoot(),
+    ...NGRX,
+    ...TAIGA_UI,
   ],
   providers: [
     {

@@ -13,21 +13,24 @@ import { MainViewRoutingModule } from './main-view.routes';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 
+const TAIGA_UI = [TuiBreadcrumbsModule, TuiLinkModule, TuiScrollbarModule];
+const NGRX = [
+  StoreModule.forFeature(
+    fromMainView.mainViewFeatureKey,
+    fromMainView.mainViewReducer
+  ),
+  EffectsModule.forFeature([fromMainView.MainViewEffects]),
+];
+
 @NgModule({
   imports: [
     CommonModule,
     ReactiveComponentModule,
     MainViewRoutingModule,
-    TuiBreadcrumbsModule,
-    TuiLinkModule,
-    TuiScrollbarModule,
-    StoreModule.forFeature(
-      fromMainView.mainViewFeatureKey,
-      fromMainView.mainViewReducer
-    ),
-    EffectsModule.forFeature([fromMainView.MainViewEffects])
+    ...NGRX,
+    ...TAIGA_UI,
   ],
   declarations: [MainViewComponent, BreadcrumbComponent],
-  exports: [MainViewComponent]
+  exports: [MainViewComponent],
 })
-export class MainViewModule { }
+export class MainViewModule {}

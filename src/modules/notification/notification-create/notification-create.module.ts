@@ -33,6 +33,14 @@ import { NotificationCreateModuleClassComponent } from './components/notificatio
 import { NotificationCreateShellComponent } from './shell/notification-create-shell.component';
 import { NotificationCreateAsideComponent } from './common/notification-create-aside/notification-create-aside.component';
 
+const NGRX = [
+  ReactiveComponentModule,
+  StoreModule.forFeature(
+    fromNotificationCreate.notificationCreateFeatureKey,
+    fromNotificationCreate.notificationCreateReducer
+  ),
+  EffectsModule.forFeature([fromNotificationCreate.NotificationCreateEffects]),
+];
 const TAIGA_UI = [
   TuiTabsModule,
   TuiInputModule,
@@ -48,14 +56,6 @@ const TAIGA_UI = [
   TuiLetModule,
   TuiCheckboxLabeledModule,
   TuiLoaderModule,
-];
-const NGRX = [
-  ReactiveComponentModule,
-  StoreModule.forFeature(
-    fromNotificationCreate.notificationCreateFeatureKey,
-    fromNotificationCreate.notificationCreateReducer
-  ),
-  EffectsModule.forFeature([fromNotificationCreate.NotificationCreateEffects]),
 ];
 const COMPONENTS = [
   NotificationCreateManagingClassComponent,

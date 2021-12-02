@@ -9,5 +9,6 @@ import { SidebarItem } from '@models/sidebar/sidebar-item.model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SidebarComponent {
+  /** PUBLIC PROPERTIES */
   public readonly items: SidebarItem[] = SidebarConstant.items;
 }

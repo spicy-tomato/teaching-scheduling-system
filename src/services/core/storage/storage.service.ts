@@ -1,10 +1,13 @@
 import { BehaviorSubject, Observable } from "rxjs";
 
 export abstract class StorageService {
+  /** PRIVATE PROPERTIES */
   private subjects = new Map<string, BehaviorSubject<string | null>>();
 
+  /** CONSTRUCTOR */
   constructor(protected storage: Storage) { }
 
+  /** PUBLIC METHODS */
   public watch(key: string): Observable<string | null> {
     if (!this.subjects.has(key)) {
       this.subjects.set(key, new BehaviorSubject<string | null>(null));

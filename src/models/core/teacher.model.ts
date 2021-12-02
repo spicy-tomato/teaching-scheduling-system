@@ -10,7 +10,11 @@ export class Teacher {
   public readonly idAccount!: number;
   public readonly name!: string;
 
-  public static parse(obj: TeacherDta): Teacher {
+  public static parse(obj: TeacherDta | null): Teacher | undefined {
+    if (!obj) {
+      return undefined;
+    }
+
     return {
       ...obj,
       phoneNumber: obj.phone_number,
