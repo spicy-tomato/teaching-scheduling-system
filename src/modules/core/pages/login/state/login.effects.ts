@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import {
   catchError,
   delay,
@@ -27,6 +27,8 @@ export class LoginEffects {
       mergeMap(({ loginForm }) => {
         return this.authService.auth(loginForm).pipe(
           map(({ token, teacher }) => {
+            if (token === '' || !teacher) throw Error;
+
             this.tokenService.set(token);
             return ApiAction.loginSuccessful({ teacher });
           }),
