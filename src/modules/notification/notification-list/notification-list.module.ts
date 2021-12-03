@@ -4,10 +4,7 @@ import { NotificationListComponent } from './notification-list.component';
 import { NotificationListRoutingModule } from './notification-list.routes';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    NotificationListRoutingModule
-  ],
+  imports: [CommonModule, NotificationListRoutingModule],
   declarations: [NotificationListComponent],
 })
-export class NotificationListModule { }
+export class NotificationListModule {}

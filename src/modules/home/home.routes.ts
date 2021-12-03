@@ -6,7 +6,7 @@ const routes: Routes = [
   {
     path: '',
     data: {
-      breadcrumb: 'Trang chủ'
+      breadcrumb: 'Trang chủ',
     },
     component: HomeComponent,
   },
@@ -14,6 +14,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class HomeRoutingModule { }
+export class HomeRoutingModule {}

@@ -1,8 +1,4 @@
-<form
-  class="flex-grow"
-  [formGroup]="form"
->
-
+<form class="flex-grow" [formGroup]="form">
   <!-- Title -->
   <div class="tui-form__row">
     <tui-input formControlName="title">
@@ -19,11 +15,7 @@
         Thể loại
         <span class="tui-required"></span>
         <tui-data-list *tuiDataList>
-          <button
-            *ngFor="let type of types"
-            [value]="type"
-            tuiOption
-          >
+          <button *ngFor="let type of types" [value]="type" tuiOption>
             {{ type }}
           </button>
         </tui-data-list>
@@ -33,10 +25,7 @@
 
     <!-- Date -->
     <div class="tui-form__multi-field">
-      <tui-input-date-range
-        formControlName="date"
-        [tuiTextfieldCleaner]="true"
-      >
+      <tui-input-date-range formControlName="date" [tuiTextfieldCleaner]="true">
         Thời gian
       </tui-input-date-range>
     </div>
@@ -50,5 +39,4 @@
     </tui-editor>
     <tui-field-error formControlName="body"></tui-field-error>
   </div>
-
 </form>

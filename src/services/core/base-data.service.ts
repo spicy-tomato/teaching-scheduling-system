@@ -1,4 +1,4 @@
-import { APP_SETTINGS } from "./app-settings.service";
+import { APP_SETTINGS } from './app-settings.service';
 
 export class BaseDataService {
   /** PROTECTED PROPERTIES */

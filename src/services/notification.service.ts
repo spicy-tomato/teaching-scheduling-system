@@ -4,10 +4,13 @@ import { delay, tap } from 'rxjs/operators';
 import { BaseDataService } from './core/base-data.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NotificationService extends BaseDataService {
   public createModuleNotification(value: unknown): Observable<unknown> {
-    return of(null).pipe(delay(1000), tap(() => value));
+    return of(null).pipe(
+      delay(1000),
+      tap(() => value)
+    );
   }
 }

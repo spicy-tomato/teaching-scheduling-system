@@ -1,9 +1,9 @@
 export interface SidebarItem {
-  name: string,
-  icon?: string,
-  routerLink?: string,
+  name: string;
+  icon?: string;
+  routerLink?: string;
   subItems?: {
-    name: string,
-    routerLink: string,
+    name: string;
+    routerLink: string;
   }[];
 }

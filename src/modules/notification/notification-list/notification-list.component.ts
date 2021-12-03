@@ -4,6 +4,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   selector: 'tss-notification-list',
   templateUrl: './notification-list.component.html',
   styleUrls: ['./notification-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NotificationListComponent { }
+export class NotificationListComponent {}

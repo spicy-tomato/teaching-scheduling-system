@@ -1,4 +1,4 @@
-import { animate, style, transition, trigger } from "@angular/animations";
+import { animate, style, transition, trigger } from '@angular/animations';
 
 export const routerFade = trigger('routerFade', [
   transition('* => *', [

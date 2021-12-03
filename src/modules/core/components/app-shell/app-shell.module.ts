@@ -12,8 +12,8 @@ import { MainViewModule } from '@modules/core/components/main-view/main-view.mod
     AppShellRoutingModule,
     SidebarModule,
     NavbarModule,
-    MainViewModule
+    MainViewModule,
   ],
   declarations: [AppShellComponent],
 })
-export class AppShellModule { }
+export class AppShellModule {}

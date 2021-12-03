@@ -8,14 +8,14 @@ const routes: Routes = [
   {
     path: '',
     data: {
-      breadcrumb: 'Tạo thông báo'
+      breadcrumb: 'Tạo thông báo',
     },
     children: [
       {
         path: 'managing-class',
         component: NotificationCreateManagingClassComponent,
         data: {
-          breadcrumb: 'Lớp quản lý'
+          breadcrumb: 'Lớp quản lý',
         },
         canDeactivate: [FormDiscardGuard],
       },
@@ -23,21 +23,21 @@ const routes: Routes = [
         path: 'module-class',
         component: NotificationCreateModuleClassComponent,
         data: {
-          breadcrumb: 'Lớp học phần'
+          breadcrumb: 'Lớp học phần',
         },
         canDeactivate: [FormDiscardGuard],
       },
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'managing-class'
-      }
-    ]
+        redirectTo: 'managing-class',
+      },
+    ],
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class NotificationCreateRoutingModule { }
+export class NotificationCreateRoutingModule {}

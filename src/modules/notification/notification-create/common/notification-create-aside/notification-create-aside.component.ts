@@ -4,6 +4,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   selector: 'tss-notification-create-aside',
   templateUrl: './notification-create-aside.component.html',
   styleUrls: ['./notification-create-aside.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NotificationCreateAsideComponent { }
+export class NotificationCreateAsideComponent {}

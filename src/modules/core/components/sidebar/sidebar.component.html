@@ -1,7 +1,7 @@
 <tui-scrollbar>
   <ng-container *ngFor="let item of items">
     <tui-accordion
-      *ngIf="item.subItems, else link"
+      *ngIf="item.subItems; else link"
       [closeOthers]="false"
       [rounded]="false"
       tuiMode="onLight"

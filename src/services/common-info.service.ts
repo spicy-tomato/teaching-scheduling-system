@@ -19,19 +19,12 @@ export class CommonInfoService extends BaseDataService {
   public getFaculty(): Observable<Faculty[]> {
     return this.http
       .get<FacultyDta[]>(this.url + 'faculty')
-      .pipe(
-        map(result =>
-          result.map((x) => Faculty.parse(x)))
-      );
+      .pipe(map((result) => result.map((x) => Faculty.parse(x))));
   }
 
   public getAcademicYear(): Observable<AcademicYear[]> {
     return this.http
       .get<AcademicYearDta[]>(this.url + 'academic-year')
-      .pipe(
-        map(result =>
-          result.map((x) => AcademicYear.parse(x))
-        )
-      );
+      .pipe(map((result) => result.map((x) => AcademicYear.parse(x))));
   }
 }

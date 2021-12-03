@@ -1,5 +1,5 @@
-import { createFeatureSelector, createSelector } from "@ngrx/store";
-import { loginFeatureKey, LoginState } from ".";
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { loginFeatureKey, LoginState } from '.';
 
 const loginSelector = createFeatureSelector<LoginState>(loginFeatureKey);
 

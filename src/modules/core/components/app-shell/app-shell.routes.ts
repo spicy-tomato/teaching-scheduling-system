@@ -11,22 +11,26 @@ const routes: Routes = [
         path: '',
         pathMatch: 'full',
         // loadChildren: async () => (await import('@modules/home/home.module')).HomeModule
-        redirectTo: 'schedule'
+        redirectTo: 'schedule',
       },
       {
         path: 'notification',
-        loadChildren: async () => (await import('@modules/notification/notification.module')).NotificationModule
+        loadChildren: async () =>
+          (await import('@modules/notification/notification.module'))
+            .NotificationModule,
       },
       {
         path: 'schedule',
-        loadChildren: async () => (await import('@modules/schedule/schedule.module')).SchedulerPageModule
-      }
-    ]
+        loadChildren: async () =>
+          (await import('@modules/schedule/schedule.module'))
+            .SchedulerPageModule,
+      },
+    ],
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppShellRoutingModule { }
+export class AppShellRoutingModule {}

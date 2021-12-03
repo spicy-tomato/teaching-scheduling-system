@@ -6,7 +6,7 @@ const routes: Routes = [
   {
     path: '',
     data: {
-      breadcrumb: 'Lịch biểu'
+      breadcrumb: 'Lịch biểu',
     },
     component: SchedulePageComponent,
   },
@@ -14,6 +14,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class ScheduleRoutingModule { }
+export class ScheduleRoutingModule {}

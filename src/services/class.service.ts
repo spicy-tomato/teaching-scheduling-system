@@ -7,7 +7,7 @@ import { ManagingClassDta } from 'src/dtas/managing-class.dta';
 import { BaseDataService } from './core/base-data.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ClassService extends BaseDataService {
   constructor(protected http: HttpClient) {
@@ -19,15 +19,11 @@ export class ClassService extends BaseDataService {
   }
 
   public getManagingClass(params: {
-    academic_year: string,
+    academic_year: string;
     faculty: string;
   }): Observable<ManagingClass[]> {
     return this.http
       .get<ManagingClassDta[]>(this.url + 'faculty-class', { params })
-      .pipe(
-        map(result =>
-          result.map(x => ManagingClass.parse(x))
-        )
-      );
+      .pipe(map((result) => result.map((x) => ManagingClass.parse(x))));
   }
 }

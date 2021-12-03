@@ -1,5 +1,11 @@
 import { ChangeDetectionStrategy, Component, forwardRef } from '@angular/core';
-import { FormBuilder, FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  NG_VALIDATORS,
+  NG_VALUE_ACCESSOR,
+  Validators,
+} from '@angular/forms';
 import { NotificationCreateCommonFormModel } from '@models/notification/notification-create/notification-create-common-form.model';
 import { SubFormBase } from '@modules/core/base/sub-form.base';
 import { Store } from '@ngrx/store';
@@ -16,14 +22,14 @@ import * as fromNotificationCreate from '../../state';
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => NotificationCreateCommonFormComponent),
-      multi: true
+      multi: true,
     },
     {
       provide: NG_VALIDATORS,
       useExisting: forwardRef(() => NotificationCreateCommonFormComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class NotificationCreateCommonFormComponent extends SubFormBase<NotificationCreateCommonFormModel> {
   public readonly types = [
@@ -35,7 +41,7 @@ export class NotificationCreateCommonFormComponent extends SubFormBase<Notificat
 
   constructor(
     protected readonly fb: FormBuilder,
-    private readonly store: Store<fromNotificationCreate.NotificationCreateState>,
+    private readonly store: Store<fromNotificationCreate.NotificationCreateState>
   ) {
     super(fb);
 
@@ -48,12 +54,13 @@ export class NotificationCreateCommonFormComponent extends SubFormBase<Notificat
       title: new FormControl('', Validators.required),
       type: new FormControl(null, Validators.required),
       body: new FormControl('', Validators.required),
-      date: new FormControl()
+      date: new FormControl(),
     });
   }
 
   private handleInvalidForm(): void {
-    this.store.select(fromNotificationCreate.selectErrors)
+    this.store
+      .select(fromNotificationCreate.selectErrors)
       .pipe(
         filter((errors) => !!errors.content),
         take(1),
@@ -66,9 +73,8 @@ export class NotificationCreateCommonFormComponent extends SubFormBase<Notificat
   }
 
   private handleSubmitSuccessful(): void {
-    this.store.select(fromNotificationCreate.selectStatus)
-      .pipe(
-        filter((status) => status === EApiStatus.successful)
-      );
+    this.store
+      .select(fromNotificationCreate.selectStatus)
+      .pipe(filter((status) => status === EApiStatus.successful));
   }
 }

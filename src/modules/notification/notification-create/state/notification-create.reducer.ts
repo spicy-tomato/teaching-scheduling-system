@@ -1,8 +1,8 @@
-import { createReducer, on } from "@ngrx/store";
-import { EApiStatus } from "src/enums/api-status.enum";
-import { NotificationCreateState } from ".";
-import * as ApiAction from "./notification-create.api.actions";
-import * as PageAction from "./notification-create.page.actions";
+import { createReducer, on } from '@ngrx/store';
+import { EApiStatus } from 'src/enums/api-status.enum';
+import { NotificationCreateState } from '.';
+import * as ApiAction from './notification-create.api.actions';
+import * as PageAction from './notification-create.page.actions';
 
 const initialState: NotificationCreateState = {
   status: EApiStatus.unknown,
@@ -11,7 +11,7 @@ const initialState: NotificationCreateState = {
     faculties: [],
     classes: [],
   },
-  errors: {}
+  errors: {},
 };
 
 export const notificationCreateFeatureKey = 'notification-create';
@@ -23,34 +23,34 @@ export const notificationCreateReducer = createReducer(
     ...state,
     managingData: {
       ...state.managingData,
-      academicYears
-    }
+      academicYears,
+    },
   })),
   on(ApiAction.loadFacultiesSuccessful, (state, { faculties }) => ({
     ...state,
     managingData: {
       ...state.managingData,
-      faculties
-    }
+      faculties,
+    },
   })),
   on(ApiAction.loadManagingClassesSuccessful, (state, { classes }) => ({
     ...state,
     managingData: {
       ...state.managingData,
-      classes
-    }
+      classes,
+    },
   })),
   on(PageAction.clickConfirm, (state) => ({
     ...state,
-    status: EApiStatus.loading
+    status: EApiStatus.loading,
   })),
   on(ApiAction.submitFailure, (state) => ({
     ...state,
-    status: EApiStatus.failed
+    status: EApiStatus.failed,
   })),
   on(ApiAction.submitSuccessful, (state) => ({
     ...state,
-    status: EApiStatus.successful
+    status: EApiStatus.successful,
   })),
   on(ApiAction.invalidForm, (state, { errors }) => ({
     ...state,

@@ -6,7 +6,7 @@ import { SidebarItem } from '@models/sidebar/sidebar-item.model';
   selector: 'tss-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarComponent {
   /** PUBLIC PROPERTIES */

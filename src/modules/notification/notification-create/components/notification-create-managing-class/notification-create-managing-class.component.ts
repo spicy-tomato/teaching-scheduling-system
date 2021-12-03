@@ -18,8 +18,8 @@ import { NotificationCreateClassFormBaseComponent } from '../class-form-base/not
 })
 export class NotificationCreateManagingClassComponent
   extends NotificationCreateClassFormBaseComponent
-  implements OnInit {
-
+  implements OnInit
+{
   //#region PUBLIC PROPERTIES
   public readonly academicYears$!: Observable<AcademicYear[]>;
   public readonly faculties$!: Observable<Faculty[]>;
@@ -30,7 +30,6 @@ export class NotificationCreateManagingClassComponent
   public selectAllClasses = false;
   //#endregion
 
-
   //#region GETTERS
   public get faculties(): FormGroup {
     return this.form.get('faculties') as FormGroup;
@@ -39,7 +38,6 @@ export class NotificationCreateManagingClassComponent
     return this.form.get('academicYears') as FormGroup;
   }
   //#endregion
-
 
   //#region CONSTRUCTOR
   constructor(
@@ -60,13 +58,15 @@ export class NotificationCreateManagingClassComponent
       .select(fromNotificationCreate.selectManagingClasses)
       .pipe(takeUntil(this.destroy$));
 
-    this.isButtonLoading$ = combineLatest([this.academicYears$, this.faculties$])
-      .pipe(
-        filter(data => data[0].length > 0 && data[1].length > 0),
-        take(1),
-        map(() => false),
-        startWith(true),
-      );
+    this.isButtonLoading$ = combineLatest([
+      this.academicYears$,
+      this.faculties$,
+    ]).pipe(
+      filter((data) => data[0].length > 0 && data[1].length > 0),
+      take(1),
+      map(() => false),
+      startWith(true)
+    );
 
     this.handleGetAcademicYears();
     this.handleGetFaculties();
@@ -74,13 +74,11 @@ export class NotificationCreateManagingClassComponent
   }
   //#endregion
 
-
   //#region LIFE CYCLE
   public ngOnInit(): void {
     this.store.dispatch(fromNotificationCreate.loadManagingClassForm());
   }
   //#endregion
-
 
   //#region IMPLEMENTATIONS
   protected initForm(): void {
@@ -91,7 +89,6 @@ export class NotificationCreateManagingClassComponent
     });
   }
   //#endregion
-
 
   //#region PUBLIC METHODS
   public allFacultiesPress(all: boolean): void {
@@ -111,8 +108,7 @@ export class NotificationCreateManagingClassComponent
       }
 
       this.selectAllFaculties = selectedAll;
-    }
-    else {
+    } else {
       if (this.selectAllFaculties) {
         this.selectAllFaculties = false;
       }
@@ -136,8 +132,7 @@ export class NotificationCreateManagingClassComponent
       }
 
       this.selectAllAcademicYears = selectedAll;
-    }
-    else {
+    } else {
       if (this.selectAllAcademicYears) {
         this.selectAllAcademicYears = false;
       }
@@ -161,15 +156,13 @@ export class NotificationCreateManagingClassComponent
       }
 
       this.selectAllAcademicYears = selectedAll;
-    }
-    else {
+    } else {
       if (this.selectAllAcademicYears) {
         this.selectAllAcademicYears = false;
       }
     }
   }
   //#endregion
-
 
   //#region PRIVATE METHODS
   private handleGetAcademicYears(): void {
@@ -179,12 +172,16 @@ export class NotificationCreateManagingClassComponent
         tap((result) => {
           const academicYearsControl = new FormGroup({});
           result.forEach((year) => {
-            academicYearsControl.addControl(year.id.toString(), new FormControl(false));
+            academicYearsControl.addControl(
+              year.id.toString(),
+              new FormControl(false)
+            );
           });
 
           this.form.setControl('academicYears', academicYearsControl);
         })
-      ).subscribe();
+      )
+      .subscribe();
   }
 
   private handleGetFaculties(): void {
@@ -199,17 +196,20 @@ export class NotificationCreateManagingClassComponent
 
           this.form.setControl('faculties', facultiesControl);
         })
-      ).subscribe();
+      )
+      .subscribe();
   }
 
   private handleGetClasses(): void {
     combineLatest([this.academicYears$, this.faculties$])
       .pipe(
         tap((result) => {
-          this.store.dispatch(fromNotificationCreate.loadManagingClasses({
-            academicYears: result[0].map(x => x.id),
-            faculties: result[1].map(x => x.id)
-          }));
+          this.store.dispatch(
+            fromNotificationCreate.loadManagingClasses({
+              academicYears: result[0].map((x) => x.id),
+              faculties: result[1].map((x) => x.id),
+            })
+          );
         })
       )
       .subscribe();

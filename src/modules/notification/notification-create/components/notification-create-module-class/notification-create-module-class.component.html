@@ -23,15 +23,11 @@
       </tui-multi-select>
 
       <tui-field-error formControlName="receipt"></tui-field-error>
-
     </div>
   </form>
 </tss-notification-create-shell>
 
 <!-- Dropdown item content -->
-<ng-template
-  #itemContent
-  let-data
->
-  {{ data}}
+<ng-template #itemContent let-data>
+  {{ data }}
 </ng-template>

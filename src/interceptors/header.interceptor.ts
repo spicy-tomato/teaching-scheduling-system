@@ -1,11 +1,19 @@
 import { Injectable } from '@angular/core';
-import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
+import {
+  HttpEvent,
+  HttpInterceptor,
+  HttpHandler,
+  HttpRequest,
+} from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable()
 export class HeaderInterceptor implements HttpInterceptor {
   /** IMPLEMENTATIONS */
-  public intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+  public intercept(
+    req: HttpRequest<unknown>,
+    next: HttpHandler
+  ): Observable<HttpEvent<unknown>> {
     const headers = req.headers
       .set('Content-Type', 'application/json')
       .set('Cache-Control', 'no-cache')
@@ -16,7 +24,7 @@ export class HeaderInterceptor implements HttpInterceptor {
       .set('Access-Control-Allow-Headers', '*');
 
     const authReq = req.clone({ headers });
-    
+
     return next.handle(authReq);
   }
 }

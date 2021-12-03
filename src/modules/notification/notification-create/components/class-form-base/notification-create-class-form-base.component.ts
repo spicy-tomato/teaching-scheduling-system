@@ -14,17 +14,16 @@ import * as fromNotificationCreate from '../../state';
 @Directive()
 export abstract class NotificationCreateClassFormBaseComponent
   extends SubFormBase<NotificationCreateClassModel>
-  implements ICanDeactivateComponent {
-
+  implements ICanDeactivateComponent
+{
   //#region DECORATORS
-  @ViewChild(NotificationCreateShellComponent, { static: false }) protected shell!: NotificationCreateShellComponent;
+  @ViewChild(NotificationCreateShellComponent, { static: false })
+  protected shell!: NotificationCreateShellComponent;
   //#endregion
-
 
   //#region PRIVATE PROPERTIES
   private _canDeactivate = true;
   //#endregion
-
 
   //#region CONSTRUCTOR
   constructor(
@@ -36,7 +35,6 @@ export abstract class NotificationCreateClassFormBaseComponent
     this.handleInvalidForm();
   }
   //#endregion
-
 
   //#region IMPLEMENTATIONS
   public canDeactivate(): boolean | null {
@@ -52,19 +50,22 @@ export abstract class NotificationCreateClassFormBaseComponent
   }
   //#endregion
 
-
   //#region PRIVATE HANDLE METHODS
   private handleFormStatusChange(): void {
-    this.store.select(fromNotificationCreate.selectStatus)
+    this.store
+      .select(fromNotificationCreate.selectStatus)
       .pipe(
-        tap(status => this._canDeactivate = status === EApiStatus.successful),
+        tap(
+          (status) => (this._canDeactivate = status === EApiStatus.successful)
+        ),
         takeUntil(this.destroy$)
       )
       .subscribe();
   }
-  
+
   private handleInvalidForm(): void {
-    this.store.select(fromNotificationCreate.selectErrors)
+    this.store
+      .select(fromNotificationCreate.selectErrors)
       .pipe(
         filter((errors) => !!errors.receipt),
         take(1),

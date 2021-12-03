@@ -3,9 +3,6 @@ import { CommonModule } from '@angular/common';
 import { NotificationRoutingModule } from './notification.routes';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    NotificationRoutingModule,
-  ]
+  imports: [CommonModule, NotificationRoutingModule],
 })
-export class NotificationModule { }
+export class NotificationModule {}

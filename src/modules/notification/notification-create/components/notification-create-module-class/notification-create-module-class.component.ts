@@ -1,5 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  Validators,
+} from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable, of, Subject } from 'rxjs';
 import { delay, startWith, switchMap } from 'rxjs/operators';
@@ -10,9 +15,8 @@ class User {
   constructor(
     public readonly firstName: string,
     public readonly lastName: string,
-    public readonly avatarUrl: string | null = null,
-
-  ) { }
+    public readonly avatarUrl: string | null = null
+  ) {}
 
   public toString(): string {
     return `${this.firstName} ${this.lastName}`;
@@ -33,20 +37,16 @@ const databaseMockData: ReadonlyArray<User> = [
   selector: 'tss-notification-create-module-class',
   templateUrl: './notification-create-module-class.component.html',
   styleUrls: ['./notification-create-module-class.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NotificationCreateModuleClassComponent extends NotificationCreateClassFormBaseComponent {
   private readonly search$ = new Subject<string>();
 
-  public readonly items$: Observable<ReadonlyArray<User> | null> = this.search$.pipe(
-    switchMap(search =>
-      this.serverRequest(search)
-        .pipe(
-          startWith(null)
-        ),
-    ),
-    startWith(databaseMockData),
-  );
+  public readonly items$: Observable<ReadonlyArray<User> | null> =
+    this.search$.pipe(
+      switchMap((search) => this.serverRequest(search).pipe(startWith(null))),
+      startWith(databaseMockData)
+    );
 
   constructor(
     protected readonly fb: FormBuilder,
@@ -71,8 +71,8 @@ export class NotificationCreateModuleClassComponent extends NotificationCreateCl
    */
   private serverRequest(searchQuery: string): Observable<ReadonlyArray<User>> {
     const result = databaseMockData.filter(
-      user =>
-        user.toString().toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1,
+      (user) =>
+        user.toString().toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1
     );
 
     return of(result).pipe(delay(1000 * 1));

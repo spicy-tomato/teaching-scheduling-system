@@ -4,20 +4,26 @@ $lg: 1024px;
 $xl: 1280px;
 $xl-2: 1536px;
 
-@mixin responsive($canvas){
+@mixin responsive($canvas) {
   @if $canvas == sm {
-    @media only screen and (min-width: $sm) { @content; }
-  }
-  @else if $canvas == md {
-    @media only screen and (min-width: $md) { @content; }
-  }
-  @else if $canvas == lg {
-    @media only screen and (min-width: $lg) { @content; }
-  }
-  @else if $canvas == xl {
-    @media only screen and (min-width: $xl) { @content; }
-  }
-  @else if $canvas == 2xl {
-    @media only screen and (min-width: $xl-2) { @content; }
+    @media only screen and (min-width: $sm) {
+      @content;
+    }
+  } @else if $canvas == md {
+    @media only screen and (min-width: $md) {
+      @content;
+    }
+  } @else if $canvas == lg {
+    @media only screen and (min-width: $lg) {
+      @content;
+    }
+  } @else if $canvas == xl {
+    @media only screen and (min-width: $xl) {
+      @content;
+    }
+  } @else if $canvas == 2xl {
+    @media only screen and (min-width: $xl-2) {
+      @content;
+    }
   }
 }

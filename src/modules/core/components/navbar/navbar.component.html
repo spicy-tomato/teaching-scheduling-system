@@ -1,19 +1,14 @@
 <div class="wrapper">
   <div class="home">
     <a [routerLink]="['/']">
-      <img src="/assets/img/logo.jpg">
+      <img src="/assets/img/logo.jpg" />
     </a>
     <h3>Hệ thống quản lý lịch giảng dạy</h3>
   </div>
 
   <div>
     <tui-hosted-dropdown [content]="content">
-      <button
-        [size]="'m'"
-        tuiButton
-        type="button"
-        appearance="nav-button"
-      >
+      <button [size]="'m'" tuiButton type="button" appearance="nav-button">
         Xin chào người dùng!
       </button>
     </tui-hosted-dropdown>
@@ -29,10 +24,7 @@
         (click)="onClickDropDownItem(item.key)"
         tuiOption
       >
-        <tui-svg
-          *ngIf="item.icon"
-          [src]="item.icon"
-        ></tui-svg>
+        <tui-svg *ngIf="item.icon" [src]="item.icon"></tui-svg>
         <span>{{ item.label }}</span>
       </a>
     </tui-opt-group>

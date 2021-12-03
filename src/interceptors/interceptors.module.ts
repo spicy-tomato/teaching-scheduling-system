@@ -10,8 +10,8 @@ import { HeaderInterceptor } from './header.interceptor';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HeaderInterceptor,
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
-export class InterceptorsModule { }
+export class InterceptorsModule {}

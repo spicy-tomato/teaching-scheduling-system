@@ -5,24 +5,28 @@ const routes: Routes = [
   {
     path: '',
     data: {
-      breadcrumb: 'Thông báo'
+      breadcrumb: 'Thông báo',
     },
     children: [
       {
         path: '',
         pathMatch: 'full',
-        loadChildren: async () => (await import('./notification-list/notification-list.module')).NotificationListModule
+        loadChildren: async () =>
+          (await import('./notification-list/notification-list.module'))
+            .NotificationListModule,
       },
       {
         path: 'create',
-        loadChildren: async () => (await import('./notification-create/notification-create.module')).NotificationCreateModule
-      }
-    ]
-  }
+        loadChildren: async () =>
+          (await import('./notification-create/notification-create.module'))
+            .NotificationCreateModule,
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class NotificationRoutingModule { }
+export class NotificationRoutingModule {}

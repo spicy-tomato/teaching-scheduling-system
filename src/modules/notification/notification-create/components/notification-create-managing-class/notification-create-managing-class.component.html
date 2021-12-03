@@ -10,10 +10,7 @@
     <h5 class="tui-form__header">Khoa</h5>
     <ng-container *ngrxLet="faculties$ as faculties">
       <tui-loader [showLoader]="faculties.length === 0">
-        <div
-          class="grid-wrapper tui-form__row"
-          formGroupName="faculties"
-        >
+        <div class="grid-wrapper tui-form__row" formGroupName="faculties">
           <tui-checkbox-labeled
             [(ngModel)]="selectAllFaculties"
             [ngModelOptions]="{ standalone: true }"
@@ -39,10 +36,7 @@
     <h5 class="tui-form__header">Khoá</h5>
     <ng-container *ngrxLet="academicYears$ as academicYears">
       <tui-loader [showLoader]="academicYears.length === 0">
-        <div
-          class="grid-wrapper tui-form__row"
-          formGroupName="academicYears"
-        >
+        <div class="grid-wrapper tui-form__row" formGroupName="academicYears">
           <tui-checkbox-labeled
             [(ngModel)]="selectAllAcademicYears"
             [ngModelOptions]="{ standalone: true }"
@@ -68,10 +62,7 @@
     <ng-container *ngrxLet="classes$ as classes">
       <h5 class="tui-form__header">Lớp</h5>
       <tui-loader [showLoader]="classes.length === 0">
-        <div
-          class="grid-wrapper tui-form__row"
-          formGroupName="receipt"
-        >
+        <div class="grid-wrapper tui-form__row" formGroupName="receipt">
           <tui-checkbox-labeled
             [(ngModel)]="selectAllClasses"
             [ngModelOptions]="{ standalone: true }"
@@ -84,7 +75,10 @@
 
           <ng-container *ngFor="let class of classes">
             <tui-checkbox-labeled
-              *ngIf="faculties.controls[class.faculty].value && academicYears.controls[class.academicYear].value"
+              *ngIf="
+                faculties.controls[class.faculty].value &&
+                academicYears.controls[class.academicYear].value
+              "
               [formControlName]="class.name"
               (ngModelChange)="onClassesChange($event)"
               size="l"

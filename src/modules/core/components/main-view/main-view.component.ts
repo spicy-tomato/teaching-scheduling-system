@@ -12,7 +12,7 @@ import * as fromMainView from './state';
   templateUrl: './main-view.component.html',
   styleUrls: ['./main-view.component.scss'],
   animations: [routerFade],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainViewComponent extends BaseComponent {
   /** PUBLIC PROPERTIES */
@@ -21,9 +21,8 @@ export class MainViewComponent extends BaseComponent {
   /** CONSTRUCTOR */
   constructor(store: Store<fromMainView.MainViewState>) {
     super();
-    this.breadcrumbs$ = store.select(fromMainView.selectBreadcrumbs)
-      .pipe(
-        takeUntil(this.destroy$)
-      );
+    this.breadcrumbs$ = store
+      .select(fromMainView.selectBreadcrumbs)
+      .pipe(takeUntil(this.destroy$));
   }
 }
