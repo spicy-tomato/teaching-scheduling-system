@@ -1,6 +1,7 @@
 export enum EApiStatus {
   unknown,
-  failed,
+  clientError,
+  systemError,
   loading,
   successful,
 }

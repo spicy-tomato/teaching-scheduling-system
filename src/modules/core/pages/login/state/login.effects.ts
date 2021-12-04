@@ -1,15 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { of, throwError } from 'rxjs';
-import {
-  catchError,
-  delay,
-  exhaustMap,
-  map,
-  mergeMap,
-  tap,
-} from 'rxjs/operators';
+import { of } from 'rxjs';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as PageAction from './login.page.actions';
@@ -23,16 +16,17 @@ export class LoginEffects {
   public login$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.clickLogin),
-      delay(1000),
       mergeMap(({ loginForm }) => {
         return this.authService.auth(loginForm).pipe(
           map(({ token, teacher }) => {
-            if (token === '' || !teacher) throw Error;
+            if (token === '' || !teacher) {
+              return ApiAction.systemError();
+            }
 
             this.tokenService.set(token);
             return ApiAction.loginSuccessful({ teacher });
           }),
-          catchError(() => of(ApiAction.loginFailure()))
+          catchError(() => of(ApiAction.wrongPassword()))
         );
       })
     );
@@ -42,7 +36,7 @@ export class LoginEffects {
     () => {
       return this.actions$.pipe(
         ofType(ApiAction.loginSuccessful),
-        exhaustMap(() =>
+        mergeMap(() =>
           of({}).pipe(
             tap(() => {
               void this.router.navigate(['']);

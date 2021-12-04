@@ -20,8 +20,12 @@ export const loginReducer = createReducer(
     ...state,
     status: EApiStatus.successful,
   })),
-  on(ApiAction.loginFailure, (state) => ({
+  on(ApiAction.wrongPassword, (state) => ({
     ...state,
-    status: EApiStatus.failed,
+    status: EApiStatus.clientError,
+  })),
+  on(ApiAction.systemError, (state) => ({
+    ...state,
+    status: EApiStatus.systemError,
   }))
 );

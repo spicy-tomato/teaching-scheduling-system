@@ -46,7 +46,7 @@ export const notificationCreateReducer = createReducer(
   })),
   on(ApiAction.submitFailure, (state) => ({
     ...state,
-    status: EApiStatus.failed,
+    status: EApiStatus.clientError,
   })),
   on(ApiAction.submitSuccessful, (state) => ({
     ...state,
@@ -55,6 +55,6 @@ export const notificationCreateReducer = createReducer(
   on(ApiAction.invalidForm, (state, { errors }) => ({
     ...state,
     errors,
-    status: EApiStatus.failed,
+    status: EApiStatus.clientError,
   }))
 );

@@ -21,10 +21,14 @@ export class AuthService extends BaseDataService {
     return this.http
       .post<TeacherDta>(this.url + 'auth/login', obj, { observe: 'response' })
       .pipe(
-        map((response) => ({
-          token: response.headers.get('Authorization') ?? '',
-          teacher: Teacher.parse(response.body),
-        }))
+        map((response) => {
+          console.log(response.headers);
+          // debugger;
+          return {
+            token: response.headers.get('Authorization') ?? '',
+            teacher: Teacher.parse(response.body),
+          };
+        })
       );
   }
 }

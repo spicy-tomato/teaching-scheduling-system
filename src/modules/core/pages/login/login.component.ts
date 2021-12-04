@@ -32,14 +32,11 @@ export class LoginComponent extends BaseComponent {
     password: new FormControl('', [Validators.required]),
     remember: new FormControl(false),
   });
+  public readonly LoginStatus = EApiStatus;
 
   /** GETTERS */
   public get email(): AbstractControl | null {
     return this.loginForm.get('email');
-  }
-
-  public get LoginStatus(): typeof EApiStatus {
-    return EApiStatus;
   }
 
   /** CONSTRUCTOR */
@@ -62,13 +59,21 @@ export class LoginComponent extends BaseComponent {
   private handleLoginFailed(): void {
     this.status$
       .pipe(
-        filter((status) => status === this.LoginStatus.failed),
-        mergeMap(() =>
-          this.notificationsService.show('Hãy thử lại', {
-            label: 'Thông tin đăng nhập không chính xác!',
-            status: TuiNotification.Error,
-          })
+        filter(
+          (status) =>
+            status === this.LoginStatus.clientError ||
+            status === this.LoginStatus.systemError
         ),
+        mergeMap((status) => {
+          const label =
+            status === this.LoginStatus.clientError
+              ? 'Thông tin đăng nhập không chính xác!'
+              : 'Lỗi hệ thống!';
+          return this.notificationsService.show('Hãy thử lại', {
+            label,
+            status: TuiNotification.Error,
+          });
+        }),
         takeUntil(this.destroy$)
       )
       .subscribe();

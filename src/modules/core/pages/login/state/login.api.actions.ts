@@ -6,4 +6,8 @@ export const loginSuccessful = createAction(
   props<{ teacher: Teacher }>()
 );
 
-export const loginFailure = createAction('[Login API] Login Failed');
+export const wrongPassword = createAction(
+  '[Login API] Login Failed: Wrong password'
+);
+
+export const systemError = createAction('[Login API] System error');

@@ -1,5 +1,6 @@
 export interface TeacherDta {
-  id: string;
+  uuid: string;
+  uuid_account: string;
   birth: string;
   phone_number: string;
   university_teacher_degree: string;
@@ -7,4 +8,6 @@ export interface TeacherDta {
   id_department: string;
   id_account: number;
   name: string;
+  schedule_data_version: number;
+  notification_data_version: number;
 }
