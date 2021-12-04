@@ -22,7 +22,7 @@ const routes: Routes = [
       {
         path: 'schedule',
         loadChildren: async () =>
-          (await import('@modules/schedule/schedule.module'))
+          (await import('@modules/schedule/schedule-page.module'))
             .SchedulerPageModule,
       },
     ],

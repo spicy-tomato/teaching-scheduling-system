@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Teacher } from '@models/core/teacher.model';
 import { AuthResponse } from '@models/login/auth-response.model';
 import { LoginForm } from '@models/login/login-form.model';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { TeacherDta } from 'src/dtas/teacher.dta';
 import { BaseDataService } from './base-data.service';
@@ -22,8 +22,6 @@ export class AuthService extends BaseDataService {
       .post<TeacherDta>(this.url + 'auth/login', obj, { observe: 'response' })
       .pipe(
         map((response) => {
-          console.log(response.headers);
-          // debugger;
           return {
             token: response.headers.get('Authorization') ?? '',
             teacher: Teacher.parse(response.body),

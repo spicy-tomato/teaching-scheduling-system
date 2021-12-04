@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SchedulePageComponent } from './schedule.component';
+import { SchedulePageComponent } from './schedule-page.component';
 
 const routes: Routes = [
   {

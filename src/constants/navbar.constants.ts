@@ -1,5 +1,4 @@
 import { NavbarGroup } from '@models/navbar/navbar-item.model';
-import { tuiIconLikeLarge, tuiIconSettingsLarge } from '@taiga-ui/icons';
 
 export class NavbarConstants {
   public static keys = {

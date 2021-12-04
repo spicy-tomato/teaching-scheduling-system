@@ -8,6 +8,12 @@ import { SessionStorageService } from './storage/session-storage.service';
 export class TokenService {
   constructor(private readonly sessionStorageService: SessionStorageService) {}
 
+  public get(): string | null {
+    return this.sessionStorageService.getItem(
+      SessionStorageKeyConstant.accessToken
+    );
+  }
+
   public set(token: string): void {
     this.sessionStorageService.setItem(
       SessionStorageKeyConstant.accessToken,

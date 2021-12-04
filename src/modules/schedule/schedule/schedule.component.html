@@ -1,16 +1,19 @@
-<ejs-schedule
-  #scheduleObj
-  [eventSettings]="eventSettings"
-  [enableAllDayScroll]="true"
-  [quickInfoOnSelectionEnd]="false"
-  locale="vi"
-  currentView="Month"
-  cssClass="cell-dimension"
-  width="100%"
-  height="100%"
->
-  <e-views>
-    <e-view [readonly]="true" option="Month"></e-view>
-    <e-view [readonly]="true" option="Week"></e-view>
-  </e-views>
-</ejs-schedule>
+<ng-container *ngrxLet="eventSettings$ as eventSettings">
+  <ejs-schedule
+    #scheduleObj
+    [eventSettings]="eventSettings"
+    [quickInfoOnSelectionEnd]="false"
+    [firstDayOfWeek]="1"
+    (eventRendered)="onEventRendered($event)"
+    locale="vi"
+    currentView="Month"
+    cssClass="cell-dimension"
+    width="100%"
+    height="100%"
+  >
+    <e-views>
+      <e-view [readonly]="true" option="Month"></e-view>
+      <e-view [readonly]="true" option="Week"></e-view>
+    </e-views>
+  </ejs-schedule>
+</ng-container>
