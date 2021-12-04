@@ -5,10 +5,10 @@
       <div class="slide-element">
         <tui-input
           [tuiHintContent]="
-            email?.value === ''
-              ? 'Hãy nhập email hoặc tên đăng nhập'
-              : email?.valid || email?.untouched
+            email?.valid || email?.untouched
               ? null
+              : email?.value === ''
+              ? 'Hãy nhập email hoặc tên đăng nhập'
               : 'Hãy nhập đúng định dạng email'
           "
           formControlName="email"
