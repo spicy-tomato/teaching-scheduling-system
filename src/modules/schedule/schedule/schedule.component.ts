@@ -32,7 +32,13 @@ setCulture('vi');
 export class TssScheduleComponent extends BaseComponent {
   /** PUBLIC PROPERTIES */
   public eventSettings$ = new BehaviorSubject<EventSettingsModel>({});
-  private i = 0;
+
+  /** PRIVATE PROPERTIES */
+  private readonly staticSettings: EventSettingsModel = {
+    allowAdding: false,
+    allowEditing: true,
+    allowDeleting: false,
+  };
 
   /** CONSTRUCTOR */
   constructor(private store: Store<fromSchedule.ScheduleState>) {
@@ -57,7 +63,7 @@ export class TssScheduleComponent extends BaseComponent {
       .pipe(
         tap((schedules) => {
           const dataSource = schedules.map((x) => x.toEjsSchedule());
-          this.eventSettings$.next({ dataSource });
+          this.eventSettings$.next({ dataSource, ...this.staticSettings });
         }),
         takeUntil(this.destroy$)
       )
