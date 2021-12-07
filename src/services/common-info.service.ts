@@ -12,7 +12,7 @@ import { BaseDataService } from './core/base-data.service';
   providedIn: 'root',
 })
 export class CommonInfoService extends BaseDataService {
-  constructor(protected http: HttpClient) {
+  constructor(private http: HttpClient) {
     super();
   }
 

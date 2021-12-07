@@ -3,6 +3,7 @@ import {
   EventRenderedArgs,
   EventSettingsModel,
   MonthService,
+  PopupOpenEventArgs,
   WeekService,
 } from '@syncfusion/ej2-angular-schedule';
 
@@ -53,6 +54,33 @@ export class TssScheduleComponent extends BaseComponent {
       case 'exam':
         args.element.style.backgroundColor = '#ff8c67';
         break;
+    }
+  }
+
+  public onPopupOpen(args: PopupOpenEventArgs): void {
+    if (args.type === 'Editor') {
+      const statusElement: HTMLInputElement = args.element.querySelector(
+        '#EventType'
+      ) as HTMLInputElement;
+      const startElement: HTMLInputElement = args.element.querySelector(
+        '#StartTime'
+      ) as HTMLInputElement;
+      if (!startElement.classList.contains('e-datetimepicker')) {
+      //   new DateTimePicker(
+      //     { value: new Date(startElement.value) || new Date() },
+      //     startElement
+      //   );
+      // }
+      // let endElement: HTMLInputElement = args.element.querySelector(
+      //   '#EndTime'
+      // ) as HTMLInputElement;
+      // if (!endElement.classList.contains('e-datetimepicker')) {
+      //   new DateTimePicker(
+      //     { value: new Date(endElement.value) || new Date() },
+      //     endElement
+      //   );
+      // }
+      }
     }
   }
 
