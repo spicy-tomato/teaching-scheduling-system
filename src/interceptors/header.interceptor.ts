@@ -22,12 +22,6 @@ export class HeaderInterceptor implements HttpInterceptor {
 
     const headers = req.headers
       .set('Content-Type', 'application/json')
-      .set('Cache-Control', 'no-cache')
-      .set('Expires', '0')
-      .set('Pragma', 'no-cache')
-      .set('Accept', 'application/json')
-      .set('Access-Control-Allow-Origin', '*')
-      .set('Access-Control-Allow-Headers', '*')
       .set('Authorization', token);
 
     const authReq = req.clone({ headers });

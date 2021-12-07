@@ -114,7 +114,11 @@
               "browserTarget": "teaching-scheduling-system:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "browserTarget": "teaching-scheduling-system:build",
+            "proxyConfig": "src/proxy.conf.json"
+          }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
