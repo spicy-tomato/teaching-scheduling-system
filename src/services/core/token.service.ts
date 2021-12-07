@@ -1,28 +1,28 @@
 import { Injectable } from '@angular/core';
 import { SessionStorageKeyConstant } from '@constants/session-storage-key.constants';
-import { SessionStorageService } from './storage/session-storage.service';
+import { LocalStorageService } from './storage/local-storage.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TokenService {
-  constructor(private readonly sessionStorageService: SessionStorageService) {}
+  constructor(private readonly localStorageService: LocalStorageService) {}
 
   public get(): string | null {
-    return this.sessionStorageService.getItem(
+    return this.localStorageService.getItem(
       SessionStorageKeyConstant.accessToken
     );
   }
 
   public set(token: string): void {
-    this.sessionStorageService.setItem(
+    this.localStorageService.setItem(
       SessionStorageKeyConstant.accessToken,
       token
     );
   }
 
   public clear(): void {
-    this.sessionStorageService.removeItem(
+    this.localStorageService.removeItem(
       SessionStorageKeyConstant.accessToken
     );
   }
