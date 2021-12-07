@@ -50,8 +50,9 @@ export class ScheduleModel {
       Subject: this.name,
       StartTime: this.timeStart,
       EndTime: this.timeEnd,
-      Location: this.idModuleClass,
+      Location: this.idRoom,
       Type: this.type,
+      IdModuleClass: this.idModuleClass
     };
   }
 }

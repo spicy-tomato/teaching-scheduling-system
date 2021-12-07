@@ -40,4 +40,9 @@ export interface EjsScheduleModel {
    * @default study
    */
   Type: 'exam' | 'study';
+
+  /**
+   * Module (subject) class at school of event
+   */
+  IdModuleClass: string;
 }
