@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  Injector,
+} from '@angular/core';
 import {
   AgendaService,
   EventRenderedArgs,
@@ -19,6 +24,10 @@ import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';
 import { takeUntil, tap } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { TuiDialogService } from '@taiga-ui/core';
+import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
+import { ExamDialogComponent } from './exam-dialog/exam-dialog.component';
 
 loadCldr(numberingSystems, gregorian, numbers, timeZoneNames);
 L10n.load({ vi: EJ2_LOCALE.vi });
@@ -33,7 +42,8 @@ setCulture('vi');
 })
 export class TssScheduleComponent extends BaseComponent {
   /** PUBLIC PROPERTIES */
-  public eventSettings$ = new BehaviorSubject<EventSettingsModel>({});
+  public form!: FormGroup;
+  public readonly eventSettings$ = new BehaviorSubject<EventSettingsModel>({});
 
   /** PRIVATE PROPERTIES */
   private readonly staticSettings: EventSettingsModel = {
@@ -43,7 +53,12 @@ export class TssScheduleComponent extends BaseComponent {
   };
 
   /** CONSTRUCTOR */
-  constructor(private store: Store<fromSchedule.ScheduleState>) {
+  constructor(
+    @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
+    @Inject(Injector) private readonly injector: Injector,
+    private store: Store<fromSchedule.ScheduleState>,
+    private fb: FormBuilder
+  ) {
     super();
 
     this.handleLoadSchedule();
@@ -60,28 +75,30 @@ export class TssScheduleComponent extends BaseComponent {
 
   public onPopupOpen(args: PopupOpenEventArgs): void {
     if (args.type === 'Editor') {
-      const statusElement: HTMLInputElement = args.element.querySelector(
-        '#EventType'
-      ) as HTMLInputElement;
-      const startElement: HTMLInputElement = args.element.querySelector(
-        '#StartTime'
-      ) as HTMLInputElement;
-      if (!startElement.classList.contains('e-datetimepicker')) {
-      //   new DateTimePicker(
-      //     { value: new Date(startElement.value) || new Date() },
-      //     startElement
-      //   );
-      // }
-      // let endElement: HTMLInputElement = args.element.querySelector(
-      //   '#EndTime'
-      // ) as HTMLInputElement;
-      // if (!endElement.classList.contains('e-datetimepicker')) {
-      //   new DateTimePicker(
-      //     { value: new Date(endElement.value) || new Date() },
-      //     endElement
-      //   );
-      // }
-      }
+      args.cancel = true;
+      this.showExamDialog(args.data);
+      //   const statusElement: HTMLInputElement = args.element.querySelector(
+      //     '#EventType'
+      //   ) as HTMLInputElement;
+      //   const startElement: HTMLInputElement = args.element.querySelector(
+      //     '#StartTime'
+      //   ) as HTMLInputElement;
+      //   if (!startElement.classList.contains('e-datetimepicker')) {
+      //     new DateTimePicker(
+      //       { value: new Date(startElement.value) || new Date() },
+      //       startElement
+      //     );
+      //   }
+      //   let endElement: HTMLInputElement = args.element.querySelector(
+      //     '#EndTime'
+      //   ) as HTMLInputElement;
+      //   if (!endElement.classList.contains('e-datetimepicker')) {
+      //     new DateTimePicker(
+      //       { value: new Date(endElement.value) || new Date() },
+      //       endElement
+      //     );
+      //   }
+      //   }
     }
   }
 
@@ -95,6 +112,19 @@ export class TssScheduleComponent extends BaseComponent {
           this.eventSettings$.next({ dataSource, ...this.staticSettings });
         }),
         takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
+  private showExamDialog(data?: Record<string, unknown>): void {
+    this.dialogService
+      .open<Record<string, unknown>>(
+        new PolymorpheusComponent(ExamDialogComponent, this.injector),
+        {
+          data,
+          dismissible: false,
+          label: 'Chi tiết lịch thi',
+        }
       )
       .subscribe();
   }
