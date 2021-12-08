@@ -9,6 +9,7 @@ import * as fromSchedule from './state';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { ReactiveComponentModule } from '@ngrx/component';
+import { PipesModule } from '@pipes/pipes.module';
 
 const NGRX = [
   ReactiveComponentModule,
@@ -20,7 +21,13 @@ const NGRX = [
 ];
 
 @NgModule({
-  imports: [CommonModule, ScheduleRoutingModule, ScheduleModule, ...NGRX],
+  imports: [
+    CommonModule,
+    ScheduleRoutingModule,
+    ScheduleModule,
+    PipesModule,
+    ...NGRX,
+  ],
   declarations: [SchedulePageComponent, TssScheduleComponent],
 })
 export class SchedulerPageModule {}

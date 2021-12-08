@@ -5,4 +5,17 @@
       height: 25px !important;
     }
   }
+
+  .e-quick-popup-wrapper .e-event-popup {
+    .e-module-class {
+      color: rgba(0, 0, 0, 0.87);
+      display: flex;
+      padding-top: 16px;
+    }
+    .e-location-details {
+      color: rgba(0, 0, 0, 0.87);
+      cursor: default;
+      font-size: 14px;
+    }
+  }
 }

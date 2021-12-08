@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
+  AgendaService,
   EventRenderedArgs,
   EventSettingsModel,
   MonthService,
@@ -27,7 +28,7 @@ setCulture('vi');
   selector: 'tss-schedule',
   templateUrl: './schedule.component.html',
   styleUrls: ['./schedule.component.scss'],
-  providers: [WeekService, MonthService],
+  providers: [WeekService, MonthService, AgendaService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TssScheduleComponent extends BaseComponent {

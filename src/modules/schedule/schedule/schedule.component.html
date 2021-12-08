@@ -6,7 +6,7 @@
     [firstDayOfWeek]="1"
     [workHours]="{ highlight: false }"
     (eventRendered)="onEventRendered($event)"
-    (popupOpen)='onPopupOpen($event)'
+    (popupOpen)="onPopupOpen($event)"
     locale="vi"
     currentView="Month"
     cssClass="cell-dimension"
@@ -17,10 +17,37 @@
     <e-views>
       <e-view option="Month"></e-view>
       <e-view option="Week"></e-view>
+      <!-- <e-view option="Agenda"></e-view> -->
     </e-views>
 
+    <!-- Quick info -->
+    <ng-template #quickInfoTemplatesContent let-data>
+      <div *ngIf="data.elementType === 'event'">
+        <div class="e-date-time">
+          <div class="e-date-time-icon e-icons"></div>
+          <div class="e-date-time-wrapper e-text-ellipsis">
+            <div class="e-date-time-details e-text-ellipsis">
+              {{ data.StartTime | dateTime: data.EndTime }}
+            </div>
+          </div>
+        </div>
+        <div class="e-location">
+          <div class="e-location-icon e-icons"></div>
+          <div class="e-location-details e-text-ellipsis">
+            {{ data.Location }}
+          </div>
+        </div>
+        <div class="e-module-class">
+          <div class="mdi mdi-book-open-variant"></div>
+          <div class="e-location-details e-text-ellipsis">
+            {{ data.IdModuleClass }}
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
     <!-- Editor -->
-<!--
+    <!--
 
     <ng-template #editorTemplate>
       <table class="custom-event-editor" width="100%" cellpadding="5">
@@ -84,6 +111,5 @@
       </table>
     </ng-template>
 -->
-
   </ejs-schedule>
 </ng-container>
