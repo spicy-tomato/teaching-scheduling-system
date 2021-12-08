@@ -1,5 +1,5 @@
-<ng-container *ngrxLet="breadcrumbs$ as breadcrumbs">
-  <tui-scrollbar>
+<tui-scrollbar>
+  <ng-container *ngrxLet="breadcrumbs$ as breadcrumbs">
     <main>
       <div [@routerFade]="breadcrumbs" class="wrapper"></div>
 
@@ -9,5 +9,5 @@
         <router-outlet></router-outlet>
       </div>
     </main>
-  </tui-scrollbar>
-</ng-container>
+  </ng-container>
+</tui-scrollbar>

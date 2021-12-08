@@ -1,4 +1,5 @@
 @import "src/styles/variables";
+@import "src/styles/responsive";
 
 tui-scrollbar {
   @include square();
@@ -6,12 +7,18 @@ tui-scrollbar {
 
 main {
   @include square();
-  @include px(5);
-  @include pt(2.5);
-  @include pb(3);
+  @include px(2);
+  @include pt(1.5);
+  @include pb(2);
   position: relative;
   display: flex;
   flex-direction: column;
+
+  @include responsive(lg) {
+    @include px(5);
+    @include pt(2.5);
+    @include pb(3);
+  }
 
   .wrapper {
     @include z(0);
@@ -21,6 +28,13 @@ main {
 
     a {
       @include font(lg);
+    }
+  }
+
+  tss-breadcrumb {
+    display: none;
+    @include responsive(sm) {
+      display: block;
     }
   }
 

@@ -26,6 +26,7 @@
 
     h3 {
       @include ml(3);
+      @include font(lg);
       text-transform: uppercase;
     }
   }
