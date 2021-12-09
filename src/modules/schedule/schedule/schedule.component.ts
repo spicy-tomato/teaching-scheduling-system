@@ -3,6 +3,7 @@ import {
   Component,
   Inject,
   Injector,
+  ViewChild,
 } from '@angular/core';
 import {
   AgendaService,
@@ -10,6 +11,7 @@ import {
   EventSettingsModel,
   MonthService,
   PopupOpenEventArgs,
+  ScheduleComponent,
   WeekService,
 } from '@syncfusion/ej2-angular-schedule';
 
@@ -40,6 +42,9 @@ setCulture('vi');
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TssScheduleComponent extends BaseComponent {
+  /** VIEWCHILD */
+  @ViewChild('schedule') public scheduleComponent!: ScheduleComponent;
+
   /** PUBLIC PROPERTIES */
   public readonly eventSettings$ = new BehaviorSubject<EventSettingsModel>({});
 
@@ -120,6 +125,9 @@ export class TssScheduleComponent extends BaseComponent {
         dismissible: false,
         label: 'Chi tiết lịch thi',
       })
-      .subscribe();
+      .subscribe((note) => {
+        const newData = { ...data, Note: note };
+        this.scheduleComponent.saveEvent(newData);
+      });
   }
 }
