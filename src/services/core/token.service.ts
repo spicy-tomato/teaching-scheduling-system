@@ -22,8 +22,6 @@ export class TokenService {
   }
 
   public clear(): void {
-    this.localStorageService.removeItem(
-      LocalStorageKeyConstant.accessToken
-    );
+    this.localStorageService.removeItem(LocalStorageKeyConstant.accessToken);
   }
 }

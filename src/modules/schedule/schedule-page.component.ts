@@ -1,8 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { EjsScheduleModel } from '@models/schedule/ejs-schedule.model';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';

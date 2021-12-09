@@ -6,9 +6,9 @@ import {
   HttpRequest,
   HttpErrorResponse,
 } from '@angular/common/http';
-import { EMPTY, Observable, of, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { TokenService } from '@services/core/token.service';
-import { catchError, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { UserInfoService } from '@services/core/user-info.service';
 
@@ -36,7 +36,7 @@ export class HeaderInterceptor implements HttpInterceptor {
 
     return next.handle(authReq).pipe(
       tap(
-        () => {},
+        () => undefined,
         (error) => {
           if (!(error instanceof HttpErrorResponse)) return;
 

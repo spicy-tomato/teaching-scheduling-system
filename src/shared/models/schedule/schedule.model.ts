@@ -23,7 +23,7 @@ export class ScheduleModel {
     timeEnd: Date,
     idRoom: string,
     type: ScheduleType,
-    note: string,
+    note: string
   ) {
     this.id = id;
     this.idModuleClass = idModuleClass;
@@ -62,7 +62,7 @@ export class ScheduleModel {
       Location: this.idRoom,
       Type: this.type,
       IdModuleClass: this.idModuleClass,
-      Note: this.note
+      Note: this.note,
     };
   }
 }
