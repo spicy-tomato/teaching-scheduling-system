@@ -1,5 +1,9 @@
 @import "src/styles/variables";
 
+:root {
+  --tui-selection: rgba(112, 182, 246, 0.3) !important;
+}
+
 tui-wrapper[data-appearance="nav-button"] {
   font: $tuiText01;
   @include bg($tuiBase02);
