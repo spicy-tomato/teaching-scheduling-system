@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { CanLoad, Router } from '@angular/router';
 import { SessionStorageService } from '@services/core/storage/session-storage.service';
 import { LocalStorageKeyConstant } from '@constants/local-storage-key.constant';
 
 @Injectable({
   providedIn: 'root',
 })
-export class KeepUserGuard implements CanActivate {
+export class KeepUserGuard implements CanLoad {
   /** CONSTRUCTOR */
   constructor(
     private readonly router: Router,
@@ -14,7 +14,7 @@ export class KeepUserGuard implements CanActivate {
   ) {}
 
   /** IMPLEMENTATIONS */
-  public canActivate(): boolean {
+  public canLoad(): boolean {
     const hasAccessToken = !!this.sessionStorageService.getItem(
       LocalStorageKeyConstant.accessToken
     );

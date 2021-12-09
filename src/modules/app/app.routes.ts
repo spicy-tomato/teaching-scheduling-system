@@ -6,7 +6,7 @@ import { UserInfoResolve } from 'src/shared/resolves/user-info.resolve';
 const routes: Routes = [
   {
     path: 'login',
-    canActivate: [KeepUserGuard],
+    canLoad: [KeepUserGuard],
     loadChildren: async () =>
       (await import('@modules/core/pages/login/login.module')).LoginModule,
   },
