@@ -3,8 +3,10 @@ import { Router } from '@angular/router';
 import { NavbarConstants } from 'src/shared/constants/navbar.constants';
 import { NavbarGroup } from '@models/navbar/navbar-item.model';
 import { TokenService } from '@services/core/token.service';
-import { UserInfoService } from '@services/core/user-info.service';
 import { Teacher } from '@models/core/teacher.model';
+import { Store } from '@ngrx/store';
+import * as fromAppShell from '@modules/core/components/app-shell/state';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'tss-navbar',
@@ -15,22 +17,21 @@ import { Teacher } from '@models/core/teacher.model';
 export class NavbarComponent {
   /** PUBLIC PROPERTIES */
   public readonly items: NavbarGroup[] = NavbarConstants.items;
-  public user?: Teacher;
+  public user$!: Observable<Teacher | undefined>;
 
   /** CONSTRUCTOR */
   constructor(
+    appShellStore: Store<fromAppShell.AppShellState>,
     private readonly router: Router,
-    private readonly tokenService: TokenService,
-    private readonly userInfoService: UserInfoService
+    private readonly tokenService: TokenService
   ) {
-    this.user = userInfoService.get();
+    this.user$ = appShellStore.select(fromAppShell.selectTeacher);
   }
 
   /** PUBLIC METHODS */
   public onClickDropDownItem(action: string): void {
     if (action === NavbarConstants.keys.LOG_OUT) {
       this.tokenService.clear();
-      this.userInfoService.clear();
       void this.router.navigate(['/login']);
     }
   }

@@ -10,4 +10,6 @@ export const wrongPassword = createAction(
   '[Login API] Login Failed: Wrong password'
 );
 
-export const systemError = createAction('[Login API] System error');
+export const systemError = createAction(
+  '[Login API] Login Failed: System error'
+);

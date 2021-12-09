@@ -16,6 +16,7 @@ import {
   TuiInputDateTimeModule,
   TuiInputModule,
   TuiTextAreaModule,
+  TuiDropdownContextModule,
 } from '@taiga-ui/kit';
 import { ExamDialogComponent } from './schedule/exam-dialog/exam-dialog.component';
 import {
@@ -40,6 +41,7 @@ const TAIGA_UI = [
   TuiHintControllerModule,
   TuiHintModule,
   TuiButtonModule,
+  TuiDropdownContextModule,
 ];
 
 @NgModule({

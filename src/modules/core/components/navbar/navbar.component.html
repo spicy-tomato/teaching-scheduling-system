@@ -8,7 +8,13 @@
 
   <div>
     <tui-hosted-dropdown [content]="content">
-      <button size="m" tuiButton type="button" appearance="nav-button">
+      <button
+        *ngrxLet="user$ as user"
+        size="m"
+        tuiButton
+        type="button"
+        appearance="nav-button"
+      >
         Xin chào {{ user | navbarName }}!
       </button>
     </tui-hosted-dropdown>

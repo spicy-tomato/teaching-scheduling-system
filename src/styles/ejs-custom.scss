@@ -1,8 +1,10 @@
+$slot-height-per-minute: 0.75px;
+
 .cell-dimension.e-schedule {
   .e-schedule-table {
     .e-work-cells,
     .e-time-slots {
-      height: 45px !important;
+      height: $slot-height-per-minute * 60 !important;
     }
   }
 
