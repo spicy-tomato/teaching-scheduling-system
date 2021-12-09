@@ -10,6 +10,7 @@ import { beautifyTime } from 'src/helpers';
   selector: 'tss-exam-dialog',
   templateUrl: './exam-dialog.component.html',
   styleUrls: ['./exam-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExamDialogComponent {
   /** PUBLIC PROPERTIES */
@@ -27,10 +28,7 @@ export class ExamDialogComponent {
   /** CONSTRUCTOR */
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT)
-    private readonly context: TuiDialogContext<
-      string | null,
-      Record<string, unknown>
-    >,
+    private readonly context: TuiDialogContext<string, Record<string, unknown>>,
     private scheduleService: ScheduleService,
     private fb: FormBuilder
   ) {
@@ -42,7 +40,7 @@ export class ExamDialogComponent {
     const id = this.form.get('id')?.value as number;
     const note = this.form.get('note')?.value as string;
 
-    if (id && note) {
+    if (id) {
       this.updating = true;
       this.scheduleService.updateNote({ id, note }).subscribe(
         () => {
@@ -60,7 +58,9 @@ export class ExamDialogComponent {
   }
 
   public onCancel(): void {
-    this.context.$implicit.complete();
+    setTimeout(() => {
+      this.context.$implicit.complete();
+    });
   }
 
   /** PRIVATE METHODS */

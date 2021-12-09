@@ -120,14 +120,22 @@ export class TssScheduleComponent extends BaseComponent {
 
   private showExamDialog(data?: Record<string, unknown>): void {
     this.dialogService
-      .open(new PolymorpheusComponent(ExamDialogComponent, this.injector), {
-        data,
-        dismissible: false,
-        label: 'Chi tiết lịch thi',
-      })
-      .subscribe((note) => {
-        const newData = { ...data, Note: note };
-        this.scheduleComponent.saveEvent(newData);
-      });
+      .open<string | undefined>(
+        new PolymorpheusComponent(ExamDialogComponent, this.injector),
+        {
+          data,
+          dismissible: false,
+          label: 'Chi tiết lịch thi',
+        }
+      )
+      .pipe(
+        tap((note) => {
+          if (note !== undefined) {
+            const newData = { ...data, Note: note };
+            this.scheduleComponent.saveEvent(newData);
+          }
+        })
+      )
+      .subscribe();
   }
 }
