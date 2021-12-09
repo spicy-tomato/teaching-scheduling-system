@@ -24,7 +24,6 @@ import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';
 import { takeUntil, tap } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { ExamDialogComponent } from './exam-dialog/exam-dialog.component';
@@ -42,7 +41,6 @@ setCulture('vi');
 })
 export class TssScheduleComponent extends BaseComponent {
   /** PUBLIC PROPERTIES */
-  public form!: FormGroup;
   public readonly eventSettings$ = new BehaviorSubject<EventSettingsModel>({});
 
   /** PRIVATE PROPERTIES */
@@ -56,8 +54,7 @@ export class TssScheduleComponent extends BaseComponent {
   constructor(
     @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
     @Inject(Injector) private readonly injector: Injector,
-    private store: Store<fromSchedule.ScheduleState>,
-    private fb: FormBuilder
+    private readonly store: Store<fromSchedule.ScheduleState>
   ) {
     super();
 
@@ -118,14 +115,11 @@ export class TssScheduleComponent extends BaseComponent {
 
   private showExamDialog(data?: Record<string, unknown>): void {
     this.dialogService
-      .open<Record<string, unknown>>(
-        new PolymorpheusComponent(ExamDialogComponent, this.injector),
-        {
-          data,
-          dismissible: false,
-          label: 'Chi tiết lịch thi',
-        }
-      )
+      .open(new PolymorpheusComponent(ExamDialogComponent, this.injector), {
+        data,
+        dismissible: false,
+        label: 'Chi tiết lịch thi',
+      })
       .subscribe();
   }
 }

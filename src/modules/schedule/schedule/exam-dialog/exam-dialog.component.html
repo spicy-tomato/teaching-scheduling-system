@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<form [formGroup]="form">
   <div class="tui-form__row">
     <tui-input
       [readOnly]="true"
@@ -663,8 +663,18 @@
     <tui-text-area formControlName="description"> Mô tả </tui-text-area>
   </div> -->
 
+  <div class="tui-form__row">
+    <tui-text-area formControlName="note"> Ghi chú </tui-text-area>
+  </div>
+
   <div class="tui-form__buttons tui-form__buttons_align_end">
-    <button tuiButton size="m" class="tui-form__button" type="submit">
+    <button
+      [disabled]="initialNote === note || (!note && !initialNote)"
+      tuiButton
+      size="m"
+      class="tui-form__button"
+      (click)="onSubmit()"
+    >
       Lưu
     </button>
     <button

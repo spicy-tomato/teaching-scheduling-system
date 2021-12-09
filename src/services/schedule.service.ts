@@ -23,4 +23,8 @@ export class ScheduleService extends BaseDataService {
         })
       );
   }
+
+  public updateNote(body: Record<string, number | string>): Observable<void> {
+    return this.http.put<void>(this.url + 'exam-schedules/update', body);
+  }
 }

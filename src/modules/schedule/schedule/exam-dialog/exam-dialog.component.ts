@@ -1,7 +1,8 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { ScheduleService } from '@services/schedule.service';
 import { TuiDay } from '@taiga-ui/cdk';
-import { TuiDialogService, TuiDialogContext } from '@taiga-ui/core';
+import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { beautifyTime } from 'src/helpers';
 
@@ -13,16 +14,24 @@ import { beautifyTime } from 'src/helpers';
 export class ExamDialogComponent {
   /** PUBLIC PROPERTIES */
   public form!: FormGroup;
+  public updating = false;
+  public initialNote?: string;
   public readonly notAllowFieldHint =
     'Không thể thay đổi thông tin này lịch thi';
+
+  /** GETTERS */
+  public get note(): string {
+    return this.form.get('note')?.value as string;
+  }
 
   /** CONSTRUCTOR */
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT)
     private readonly context: TuiDialogContext<
-      Record<string, unknown> | null,
+      string | null,
       Record<string, unknown>
     >,
+    private scheduleService: ScheduleService,
     private fb: FormBuilder
   ) {
     this.initForm(context.data);
@@ -30,11 +39,28 @@ export class ExamDialogComponent {
 
   /** PUBLIC METHODS */
   public onSubmit(): void {
-    this.context.completeWith(this.form.value);
+    const id = this.form.get('id')?.value as number;
+    const note = this.form.get('note')?.value as string;
+
+    if (id && note) {
+      this.updating = true;
+      this.scheduleService.updateNote({ id, note }).subscribe(
+        () => {
+          this.updating = false;
+          this.context.completeWith(note);
+        },
+        () => {
+          this.updating = false;
+          this.onCancel();
+        }
+      );
+    } else {
+      this.onCancel();
+    }
   }
 
   public onCancel(): void {
-    this.context.completeWith(null);
+    this.context.$implicit.complete();
   }
 
   /** PRIVATE METHODS */
@@ -42,8 +68,10 @@ export class ExamDialogComponent {
     const startDate = data?.StartDate as Date;
     const endDate = data?.StartDate as Date;
     const today = new Date();
+    this.initialNote = data?.Note as string;
 
     this.form = this.fb.group({
+      id: new FormControl(data?.Id),
       subject: new FormControl(data?.Subject),
       location: new FormControl(data?.Location),
       start: new FormControl([
@@ -68,7 +96,7 @@ export class ExamDialogComponent {
       ]),
       allDay: new FormControl(data?.AllDay ?? false),
       description: new FormControl(data?.Description),
-      note: new FormControl(data?.Note),
+      note: new FormControl(this.initialNote),
     });
   }
 }

@@ -2,7 +2,7 @@ export interface EjsScheduleModel {
   /**
    * Assigns a unique ID value to each of the events.
    */
-  Id?: string;
+  Id: number;
 
   /**
    * Assigns the summary text to each of the events.
@@ -45,4 +45,9 @@ export interface EjsScheduleModel {
    * Module (subject) class at school of event
    */
   IdModuleClass: string;
+
+  /**
+   * Note of event
+   */
+  Note: string;
 }
