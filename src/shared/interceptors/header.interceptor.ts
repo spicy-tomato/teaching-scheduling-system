@@ -39,7 +39,7 @@ export class HeaderInterceptor implements HttpInterceptor {
             case 401: {
               const token = error.headers.get('Authorization');
               if (token) {
-                this.tokenService.set(token);
+                this.tokenService.save(token);
               } else {
                 this.tokenService.clear();
                 void this.router.navigate(['/login']);

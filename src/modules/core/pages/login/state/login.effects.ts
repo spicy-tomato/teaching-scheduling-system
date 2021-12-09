@@ -23,7 +23,7 @@ export class LoginEffects {
               return ApiAction.systemError();
             }
 
-            this.tokenService.set(token);
+            this.tokenService.save(token);
             return ApiAction.loginSuccessful({ teacher });
           }),
           catchError(() => of(ApiAction.wrongPassword()))

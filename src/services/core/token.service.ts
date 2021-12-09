@@ -6,15 +6,17 @@ import { LocalStorageService } from './storage/local-storage.service';
   providedIn: 'root',
 })
 export class TokenService {
+  /** CONSTRUCTOR */
   constructor(private readonly localStorageService: LocalStorageService) {}
 
+  /** PUBLIC METHODS */
   public get(): string | null {
     return this.localStorageService.getItem(
       LocalStorageKeyConstant.accessToken
     );
   }
 
-  public set(token: string): void {
+  public save(token: string): void {
     this.localStorageService.setItem(
       LocalStorageKeyConstant.accessToken,
       token
