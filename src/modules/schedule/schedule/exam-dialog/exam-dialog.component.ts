@@ -18,7 +18,7 @@ export class ExamDialogComponent {
   public updating = false;
   public initialNote?: string;
   public readonly notAllowFieldHint =
-    'Không thể thay đổi thông tin này lịch thi';
+    'Không thể thay đổi thông tin của lịch thi';
 
   /** GETTERS */
   public get note(): string {
