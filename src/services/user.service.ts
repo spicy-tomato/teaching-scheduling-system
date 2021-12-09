@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Teacher } from '@models/core/teacher.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { TeacherDta } from 'src/dtas/teacher.dta';
+import { TeacherDta } from 'src/shared/dtas/teacher.dta';
 import { BaseDataService } from './core/base-data.service';
 
 @Injectable({

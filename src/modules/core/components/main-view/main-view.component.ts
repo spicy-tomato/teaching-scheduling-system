@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { routerFade } from '@animations/route-fade.animation';
+import { routerFade } from 'src/shared/animations/route-fade.animation';
 import { BreadcrumbItem } from '@models/main-view/breadcrumb-item.model';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';

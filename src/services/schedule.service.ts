@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { ScheduleModel } from '@models/schedule/schedule.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ScheduleDta } from 'src/dtas/schedule.dta';
+import { ScheduleDta } from 'src/shared/dtas/schedule.dta';
 import { BaseDataService } from './core/base-data.service';
 
 @Injectable({

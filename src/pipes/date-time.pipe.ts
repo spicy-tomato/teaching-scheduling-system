@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { beautifyTime } from 'src/helpers';
+import { beautifyTime } from 'src/shared/helpers';
 
 @Pipe({
   name: 'dateTime',

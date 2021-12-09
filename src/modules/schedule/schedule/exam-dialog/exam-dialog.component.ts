@@ -4,7 +4,7 @@ import { ScheduleService } from '@services/schedule.service';
 import { TuiDay } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { beautifyTime } from 'src/helpers';
+import { beautifyTime } from 'src/shared/helpers';
 
 @Component({
   selector: 'tss-exam-dialog',

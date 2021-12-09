@@ -1,4 +1,4 @@
-import { TeacherDta } from 'src/dtas/teacher.dta';
+import { TeacherDta } from 'src/shared/dtas/teacher.dta';
 
 export class Teacher {
   public readonly uuid!: string;

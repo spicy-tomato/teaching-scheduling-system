@@ -1,4 +1,4 @@
-import { AcademicYearDta } from 'src/dtas/academic-year.dta';
+import { AcademicYearDta } from 'src/shared/dtas/academic-year.dta';
 
 export class AcademicYear {
   public readonly id!: number;

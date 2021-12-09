@@ -1,5 +1,5 @@
 import { ScheduleModel } from '@models/schedule/schedule.model';
-import { EApiStatus } from 'src/enums/api-status.enum';
+import { EApiStatus } from 'src/shared/enums/api-status.enum';
 
 export interface ScheduleState {
   status: EApiStatus;

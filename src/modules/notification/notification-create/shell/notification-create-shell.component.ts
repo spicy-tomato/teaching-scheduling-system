@@ -21,7 +21,7 @@ import isEmpty from 'lodash/isEmpty';
 
 import { NotificationCreateFormModel } from '@models/notification/notification-create/notification-create-form.model';
 import * as fromNotificationCreate from '../state';
-import { EApiStatus } from 'src/enums/api-status.enum';
+import { EApiStatus } from 'src/shared/enums/api-status.enum';
 
 import {
   TuiDialogContext,

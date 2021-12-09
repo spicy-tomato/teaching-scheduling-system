@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SessionStorageKeyConstant } from '@constants/session-storage-key.constants';
+import { SessionStorageKeyConstant } from 'src/shared/constants/session-storage-key.constants';
 import { LocalStorageService } from './storage/local-storage.service';
 
 @Injectable({

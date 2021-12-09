@@ -5,7 +5,7 @@ import { AuthResponse } from '@models/login/auth-response.model';
 import { LoginForm } from '@models/login/login-form.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { TeacherDta } from 'src/dtas/teacher.dta';
+import { TeacherDta } from 'src/shared/dtas/teacher.dta';
 import { BaseDataService } from './base-data.service';
 
 @Injectable({

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { ManagingClass } from '@models/core/managing-class.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ManagingClassDta } from 'src/dtas/managing-class.dta';
+import { ManagingClassDta } from 'src/shared/dtas/managing-class.dta';
 import { BaseDataService } from './core/base-data.service';
 
 @Injectable({

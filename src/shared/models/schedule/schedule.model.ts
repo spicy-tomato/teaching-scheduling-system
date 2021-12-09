@@ -1,4 +1,4 @@
-import { ScheduleDta } from 'src/dtas/schedule.dta';
+import { ScheduleDta } from 'src/shared/dtas/schedule.dta';
 import { EjsScheduleModel } from './ejs-schedule.model';
 
 type ScheduleType = 'exam' | 'study';

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { NavbarConstants } from '@constants/navbar.constants';
+import { NavbarConstants } from 'src/shared/constants/navbar.constants';
 import { NavbarGroup } from '@models/navbar/navbar-item.model';
 import { TokenService } from '@services/core/token.service';
 

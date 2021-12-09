@@ -14,8 +14,8 @@ import { debounceTime, filter, mergeMap, takeUntil, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import * as fromLogin from './state';
 import { LoginForm } from '@models/login/login-form.model';
-import { EApiStatus } from 'src/enums/api-status.enum';
-import { slideUp } from '@animations/slide-up.animation';
+import { EApiStatus } from 'src/shared/enums/api-status.enum';
+import { slideUp } from 'src/shared/animations/slide-up.animation';
 
 @Component({
   templateUrl: './login.component.html',

@@ -10,7 +10,7 @@ import { NotificationCreateCommonFormModel } from '@models/notification/notifica
 import { SubFormBase } from '@modules/core/base/sub-form.base';
 import { Store } from '@ngrx/store';
 import { filter, take, tap } from 'rxjs/operators';
-import { EApiStatus } from 'src/enums/api-status.enum';
+import { EApiStatus } from 'src/shared/enums/api-status.enum';
 import * as fromNotificationCreate from '../../state';
 
 @Component({

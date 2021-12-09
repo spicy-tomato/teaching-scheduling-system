@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { SessionStorageKeyConstant } from '@constants/session-storage-key.constants';
+import { SessionStorageKeyConstant } from 'src/shared/constants/session-storage-key.constants';
 import { SessionStorageService } from '@services/core/storage/session-storage.service';
 
 @Injectable({

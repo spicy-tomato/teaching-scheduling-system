@@ -7,7 +7,7 @@ import { of } from 'rxjs';
 import { isEmpty } from 'lodash';
 import { NotificationService } from '@services/notification.service';
 import { CommonInfoService } from '@services/common-info.service';
-import { SessionStorageKeyConstant } from '@constants/session-storage-key.constants';
+import { SessionStorageKeyConstant } from 'src/shared/constants/session-storage-key.constants';
 import { AcademicYear } from '@models/core/academic-year.model';
 import { Faculty } from '@models/core/faculty.model';
 import { ClassService } from '@services/class.service';

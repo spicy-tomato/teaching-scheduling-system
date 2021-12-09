@@ -24,11 +24,11 @@ import {
 
 import { environment } from '@environments/environment';
 import { AppSettingsService } from '@services/core/app-settings.service';
-import { loadAppSettings } from '@factories/load-app-settings.factory';
-import { InterceptorsModule } from '@interceptors/interceptors.module';
+import { loadAppSettings } from 'src/shared/factories/load-app-settings.factory';
+import { InterceptorsModule } from 'src/shared/interceptors/interceptors.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routes';
-import { HeaderInterceptor } from '@interceptors/header.interceptor';
+import { HeaderInterceptor } from 'src/shared/interceptors/header.interceptor';
 
 const TAIGA_UI = [TuiRootModule, TuiDialogModule, TuiNotificationsModule];
 const NGRX = [

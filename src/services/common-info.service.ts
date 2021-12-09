@@ -4,8 +4,8 @@ import { AcademicYear } from '@models/core/academic-year.model';
 import { Faculty } from '@models/core/faculty.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AcademicYearDta } from 'src/dtas/academic-year.dta';
-import { FacultyDta } from 'src/dtas/faculty.dta';
+import { AcademicYearDta } from 'src/shared/dtas/academic-year.dta';
+import { FacultyDta } from 'src/shared/dtas/faculty.dta';
 import { BaseDataService } from './core/base-data.service';
 
 @Injectable({

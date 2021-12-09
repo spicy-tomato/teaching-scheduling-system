@@ -25,10 +25,10 @@
     ],
     "paths": {
       "@animations/*": [
-        "src/animations/*"
+        "src/shared/animations/*"
       ],
       "@constants/*": [
-        "src/constants/*"
+        "src/shared/constants/*"
       ],
       "@directives/*": [
         "src/directives/*"
@@ -37,13 +37,13 @@
         "src/environments/*"
       ],
       "@factories/*": [
-        "src/factories/*"
+        "src/shared/factories/*"
       ],
       "@interceptors/*": [
-        "src/interceptors/*"
+        "src/shared/interceptors/*"
       ],
       "@models/*": [
-        "src/models/*"
+        "src/shared/models/*"
       ],
       "@modules/*": [
         "src/modules/*"
