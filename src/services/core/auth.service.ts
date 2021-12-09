@@ -17,7 +17,7 @@ export class AuthService extends BaseDataService {
   }
 
   public auth(loginData: LoginForm): Observable<AuthResponse> {
-    const obj = { username: loginData.email, password: loginData.password };
+    const obj = { username: loginData.username, password: loginData.password };
     return this.http
       .post<TeacherDta>(this.url + 'auth/login', obj, { observe: 'response' })
       .pipe(

@@ -28,15 +28,15 @@ export class LoginComponent extends BaseComponent {
   public status$: Observable<EApiStatus>;
   public readonly submit$ = new Subject<void>();
   public readonly loginForm = new FormGroup({
-    email: new FormControl('', [Validators.required]),
+    username: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
     remember: new FormControl(false),
   });
   public readonly LoginStatus = EApiStatus;
 
   /** GETTERS */
-  public get email(): AbstractControl | null {
-    return this.loginForm.get('email');
+  public get username(): AbstractControl | null {
+    return this.loginForm.get('username');
   }
 
   /** CONSTRUCTOR */
