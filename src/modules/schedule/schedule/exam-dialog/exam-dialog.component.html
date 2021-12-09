@@ -669,19 +669,20 @@
 
   <div class="tui-form__buttons tui-form__buttons_align_end">
     <button
+      [showLoader]="updating"
       [disabled]="initialNote === note || (!note && !initialNote)"
+      (click)="onSubmit()"
       tuiButton
       size="m"
       class="tui-form__button"
-      (click)="onSubmit()"
     >
       Lưu
     </button>
     <button
       (click)="onCancel()"
       tuiButton
-      size="m"
       appearance="outline"
+      size="m"
       class="tui-form__button"
     >
       Hủy
