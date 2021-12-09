@@ -9,6 +9,7 @@ import * as PageAction from './login.page.actions';
 import * as ApiAction from './login.api.actions';
 import { AuthService } from '@services/core/auth.service';
 import { TokenService } from '@services/core/token.service';
+import { UserInfoService } from '@services/core/user-info.service';
 
 @Injectable()
 export class LoginEffects {
@@ -24,6 +25,8 @@ export class LoginEffects {
             }
 
             this.tokenService.set(token);
+            this.userInfoService.set(teacher);
+
             return ApiAction.loginSuccessful({ teacher });
           }),
           catchError(() => of(ApiAction.wrongPassword()))
@@ -53,6 +56,7 @@ export class LoginEffects {
     private readonly actions$: Actions,
     private readonly router: Router,
     private readonly authService: AuthService,
-    private readonly tokenService: TokenService
+    private readonly tokenService: TokenService,
+    private readonly userInfoService: UserInfoService
   ) {}
 }

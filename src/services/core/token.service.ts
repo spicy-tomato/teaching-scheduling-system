@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SessionStorageKeyConstant } from 'src/shared/constants/session-storage-key.constants';
+import { LocalStorageKeyConstant } from '@constants/local-storage-key.constant';
 import { LocalStorageService } from './storage/local-storage.service';
 
 @Injectable({
@@ -10,20 +10,20 @@ export class TokenService {
 
   public get(): string | null {
     return this.localStorageService.getItem(
-      SessionStorageKeyConstant.accessToken
+      LocalStorageKeyConstant.accessToken
     );
   }
 
   public set(token: string): void {
     this.localStorageService.setItem(
-      SessionStorageKeyConstant.accessToken,
+      LocalStorageKeyConstant.accessToken,
       token
     );
   }
 
   public clear(): void {
     this.localStorageService.removeItem(
-      SessionStorageKeyConstant.accessToken
+      LocalStorageKeyConstant.accessToken
     );
   }
 }

@@ -8,6 +8,7 @@ import {
   TuiSvgModule,
 } from '@taiga-ui/core';
 import { RouterModule } from '@angular/router';
+import { PipesModule } from '@pipes/pipes.module';
 
 const TAIGA_UI = [
   TuiButtonModule,
@@ -17,7 +18,7 @@ const TAIGA_UI = [
 ];
 
 @NgModule({
-  imports: [CommonModule, RouterModule, ...TAIGA_UI],
+  imports: [CommonModule, RouterModule, PipesModule, ...TAIGA_UI],
   declarations: [NavbarComponent],
   exports: [NavbarComponent],
 })

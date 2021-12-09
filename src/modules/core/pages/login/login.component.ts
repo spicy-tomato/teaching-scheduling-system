@@ -41,9 +41,9 @@ export class LoginComponent extends BaseComponent {
 
   /** CONSTRUCTOR */
   constructor(
-    private store: Store<fromLogin.LoginState>,
+    private readonly store: Store<fromLogin.LoginState>,
     @Inject(TuiNotificationsService)
-    private notificationsService: TuiNotificationsService
+    private readonly notificationsService: TuiNotificationsService
   ) {
     super();
 

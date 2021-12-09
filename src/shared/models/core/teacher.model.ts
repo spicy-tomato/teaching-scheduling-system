@@ -12,6 +12,7 @@ export class Teacher {
   public readonly name!: string;
   public readonly scheduleDataVersion!: number;
   public readonly notificationDataVersion!: number;
+  public readonly isFemale!: boolean;
 
   public static parse(obj: TeacherDta | null): Teacher | undefined {
     if (!obj) {
@@ -26,7 +27,8 @@ export class Teacher {
       idDepartment: obj.id_department,
       idAccount: obj.id_account,
       scheduleDataVersion: obj.schedule_data_version,
-      notificationDataVersion: obj.notification_data_version
+      notificationDataVersion: obj.notification_data_version,
+      isFemale: !!obj.is_female,
     };
   }
 }

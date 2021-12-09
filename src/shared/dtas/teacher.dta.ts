@@ -10,4 +10,5 @@ export interface TeacherDta {
   name: string;
   schedule_data_version: number;
   notification_data_version: number;
+  is_female: number;
 }

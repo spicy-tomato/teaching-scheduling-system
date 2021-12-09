@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { SessionStorageKeyConstant } from 'src/shared/constants/session-storage-key.constants';
 import { SessionStorageService } from '@services/core/storage/session-storage.service';
+import { LocalStorageKeyConstant } from '@constants/local-storage-key.constant';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +16,7 @@ export class KeepUserGuard implements CanActivate {
   /** IMPLEMENTATIONS */
   public canActivate(): boolean {
     const hasAccessToken = !!this.sessionStorageService.getItem(
-      SessionStorageKeyConstant.accessToken
+      LocalStorageKeyConstant.accessToken
     );
     if (!hasAccessToken) {
       return true;
