@@ -25,6 +25,12 @@ const routes: Routes = [
           (await import('@modules/schedule/schedule-page.module'))
             .SchedulerPageModule,
       },
+      {
+        path: 'user-setting',
+        loadChildren: async () =>
+          (await import('@modules/user-setting/user-setting.module'))
+            .UserSettingModule,
+      },
     ],
   },
 ];

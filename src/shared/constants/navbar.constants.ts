@@ -1,10 +1,12 @@
 import { NavbarGroup } from '@models/navbar/navbar-item.model';
+import { tuiIconLockLarge } from '@taiga-ui/icons';
 
 export class NavbarConstants {
   public static keys = {
     PERSONAL_INFORMATION: 'personal-information',
     COMMENTS: 'comments',
     SETTINGS: 'settings',
+    CHANGE_PASSWORD: 'change-password',
     HELP: 'help',
     LOG_OUT: 'log-out',
   };
@@ -44,6 +46,12 @@ export class NavbarConstants {
         //   routerLink: '',
         //   icon: '<i class="far fa-question-circle" style="font-size: 23px"></i>',
         // },
+        {
+          key: NavbarConstants.keys.CHANGE_PASSWORD,
+          label: 'Đổi mật khẩu',
+          routerLink: '/user-setting',
+          icon: tuiIconLockLarge,
+        },
         {
           key: NavbarConstants.keys.LOG_OUT,
           label: `Đăng xuất`,

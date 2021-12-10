@@ -6,10 +6,11 @@ tui-scrollbar {
 }
 
 main {
-  @include square();
+  @include w(full);
   @include px(2);
   @include pt(1.5);
   @include pb(2);
+  height: $main-view-height;
   position: relative;
   display: flex;
   flex-direction: column;
