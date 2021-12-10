@@ -11,7 +11,7 @@ import { SessionStorageKeyConstant } from 'src/shared/constants/session-storage-
 import { AcademicYear } from '@models/core/academic-year.model';
 import { Faculty } from '@models/core/faculty.model';
 import { ClassService } from '@services/class.service';
-import { SessionStorageService } from '@services/core/storage/session-storage.service';
+import { LocalStorageService } from '@services/core/storage/local-storage.service';
 
 @Injectable()
 export class NotificationCreateEffects {
@@ -36,7 +36,7 @@ export class NotificationCreateEffects {
     return this.actions$.pipe(
       ofType(PageAction.loadManagingClassForm),
       mergeMap(() => {
-        const cacheData = this.sessionStorageService.getItem(
+        const cacheData = this.localStorageService.getItem(
           SessionStorageKeyConstant.academicYears
         );
         if (cacheData) {
@@ -49,7 +49,7 @@ export class NotificationCreateEffects {
 
         return this.commonInfoService.getAcademicYear().pipe(
           map((academicYears) => {
-            this.sessionStorageService.setItem(
+            this.localStorageService.setItem(
               SessionStorageKeyConstant.academicYears,
               JSON.stringify(academicYears)
             );
@@ -65,7 +65,7 @@ export class NotificationCreateEffects {
     return this.actions$.pipe(
       ofType(PageAction.loadManagingClassForm),
       mergeMap(() => {
-        const cacheData = this.sessionStorageService.getItem(
+        const cacheData = this.localStorageService.getItem(
           SessionStorageKeyConstant.faculties
         );
         if (cacheData) {
@@ -78,7 +78,7 @@ export class NotificationCreateEffects {
 
         return this.commonInfoService.getFaculty().pipe(
           map((faculties) => {
-            this.sessionStorageService.setItem(
+            this.localStorageService.setItem(
               SessionStorageKeyConstant.faculties,
               JSON.stringify(faculties)
             );
@@ -112,7 +112,7 @@ export class NotificationCreateEffects {
 
   constructor(
     private readonly actions$: Actions,
-    private readonly sessionStorageService: SessionStorageService,
+    private readonly localStorageService: LocalStorageService,
     private readonly notificationService: NotificationService,
     private readonly commonInfoService: CommonInfoService,
     private readonly classService: ClassService

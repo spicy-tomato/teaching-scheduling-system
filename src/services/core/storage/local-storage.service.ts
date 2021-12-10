@@ -6,6 +6,6 @@ import { StorageService } from './storage.service';
 })
 export class LocalStorageService extends StorageService {
   constructor() {
-    super(window.sessionStorage);
+    super(window.localStorage);
   }
 }

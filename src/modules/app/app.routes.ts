@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { KeepUserGuard } from 'src/guards/keep-user.guard';
+import { KeepUserGuard } from 'src/shared/guards/keep-user.guard';
 import { UserInfoResolve } from 'src/shared/resolves/user-info.resolve';
 
 const routes: Routes = [
