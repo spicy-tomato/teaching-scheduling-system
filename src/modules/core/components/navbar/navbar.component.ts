@@ -18,6 +18,7 @@ export class NavbarComponent {
   /** PUBLIC PROPERTIES */
   public readonly items: NavbarGroup[] = NavbarConstants.items;
   public user$!: Observable<Teacher | undefined>;
+  public openDropDown = false;
 
   /** CONSTRUCTOR */
   constructor(
@@ -30,6 +31,7 @@ export class NavbarComponent {
 
   /** PUBLIC METHODS */
   public onClickDropDownItem(action: string): void {
+    this.openDropDown = false;
     if (action === NavbarConstants.keys.LOG_OUT) {
       this.tokenService.clear();
       void this.router.navigate(['/login']);
