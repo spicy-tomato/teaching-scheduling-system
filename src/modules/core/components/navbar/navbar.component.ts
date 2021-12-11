@@ -7,6 +7,7 @@ import { Teacher } from '@models/core/teacher.model';
 import { Store } from '@ngrx/store';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'tss-navbar',
@@ -26,7 +27,9 @@ export class NavbarComponent {
     private readonly router: Router,
     private readonly tokenService: TokenService
   ) {
-    this.user$ = appShellStore.select(fromAppShell.selectTeacher);
+    this.user$ = appShellStore
+      .select(fromAppShell.selectTeacher)
+      .pipe(tap((x) => console.log(x)));
   }
 
   /** PUBLIC METHODS */

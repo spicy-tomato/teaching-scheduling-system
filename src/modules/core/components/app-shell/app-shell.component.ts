@@ -21,13 +21,15 @@ export class AppShellComponent extends BaseComponent implements OnInit {
 
   /** LIFE CYCLE */
   public ngOnInit(): void {
-    this.route.data.pipe(
-      tap((data) => {
-        if (!data['skipAutoLogin']) {
-          this.store.dispatch(fromAppShell.tryAutoLogin());
-        }
-      }),
-      takeUntil(this.destroy$)
-    );
+    this.route.data
+      .pipe(
+        tap((data) => {
+          if (!data['skipAutoLogin']) {
+            this.store.dispatch(fromAppShell.tryAutoLogin());
+          }
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
   }
 }

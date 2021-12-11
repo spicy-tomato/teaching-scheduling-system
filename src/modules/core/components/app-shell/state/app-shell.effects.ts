@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import * as PageAction from './app-shell.page.actions';
 import * as ApiAction from './app-shell.api.actions';
-import { mergeMap, tap } from 'rxjs/operators';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { TokenService } from '@services/core/token.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Teacher } from '@models/core/teacher.model';
+import { UserService } from '@services/user.service';
 
 @Injectable()
 export class AppShellEffects {
@@ -15,13 +16,21 @@ export class AppShellEffects {
     return this.actions$.pipe(
       ofType(PageAction.tryAutoLogin),
       mergeMap(() => {
-        const teacher = this.route.snapshot.data['userInfo'] as Teacher;
-
-        if (!teacher) {
-          return of(ApiAction.autoLoginFailure());
+        const cachedTeacher = this.route.snapshot.data['userInfo'] as Teacher;
+        if (cachedTeacher) {
+          return of(
+            ApiAction.autoLoginSuccessfully({ teacher: cachedTeacher })
+          );
         }
 
-        return of(ApiAction.autoLoginSuccessfully({ teacher }));
+        return this.userService.me().pipe(
+          map((teacher) =>
+            teacher
+              ? ApiAction.autoLoginSuccessfully({ teacher })
+              : ApiAction.autoLoginFailure()
+          ),
+          catchError(() => of(ApiAction.autoLoginFailure()))
+        );
       })
     );
   });
@@ -48,6 +57,7 @@ export class AppShellEffects {
     private readonly actions$: Actions,
     private readonly route: ActivatedRoute,
     private readonly router: Router,
+    private readonly userService: UserService,
     private readonly tokenService: TokenService
   ) {}
 }
