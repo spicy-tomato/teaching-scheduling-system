@@ -1,5 +1,5 @@
-export { change, reset } from './feedback.page.actions';
-export { changePasswordReducer, feedbackFeatureKey } from './feedback.reducer';
+export { submit } from './feedback.page.actions';
+export { feedbackReducer, feedbackFeatureKey } from './feedback.reducer';
 export { FeedbackState } from './feedback.state';
 export { selectStatus } from './feedback.selectors';
-export { ChangePasswordEffects } from './feedback.effects';
+export { FeedbackEffects } from './feedback.effects';

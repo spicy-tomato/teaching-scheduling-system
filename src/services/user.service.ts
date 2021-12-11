@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Teacher } from '@models/core/teacher.model';
 import { ChangePassword } from '@models/user/change-password.model';
+import { SendFeedback } from '@models/user/send-feedback.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { TeacherDta } from 'src/shared/dtas/teacher.dta';
@@ -23,5 +24,9 @@ export class UserService extends BaseDataService {
 
   public changePassword(body: ChangePassword): Observable<void> {
     return this.http.post<void>(this.url + 'account/change-password', body);
+  }
+
+  public sendFeedback(body: SendFeedback): Observable<void> {
+    return this.http.post<void>(this.url + 'feedbacks/send-feedback', body);
   }
 }

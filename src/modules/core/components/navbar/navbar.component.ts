@@ -27,9 +27,7 @@ export class NavbarComponent {
     private readonly router: Router,
     private readonly tokenService: TokenService
   ) {
-    this.user$ = appShellStore
-      .select(fromAppShell.selectTeacher)
-      .pipe(tap((x) => console.log(x)));
+    this.user$ = appShellStore.select(fromAppShell.selectTeacher);
   }
 
   /** PUBLIC METHODS */

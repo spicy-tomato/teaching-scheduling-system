@@ -34,6 +34,11 @@ const routes: Routes = [
           (await import('@modules/user-setting/user-setting.module'))
             .UserSettingModule,
       },
+      {
+        path: 'feedback',
+        loadChildren: async () =>
+          (await import('@modules/feedback/feedback.module')).FeedbackModule,
+      },
     ],
   },
 ];
