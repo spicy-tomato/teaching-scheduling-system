@@ -664,13 +664,21 @@
   </div> -->
 
   <div class="tui-form__row">
-    <tui-text-area formControlName="note"> Ghi chú </tui-text-area>
+    <tui-text-area
+      formControlName="note"
+      [tuiTextfieldMaxLength]="noteMaxLength"
+    >
+      Ghi chú
+    </tui-text-area>
+    <tui-field-error formControlName="note"></tui-field-error>
   </div>
 
   <div class="tui-form__buttons tui-form__buttons_align_end">
     <button
       [showLoader]="updating"
-      [disabled]="initialNote === note || (!note && !initialNote)"
+      [disabled]="
+        initialNote === note || (!note && !initialNote) || form.invalid
+      "
       (click)="onSubmit()"
       tuiButton
       size="m"

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ScheduleService } from '@services/schedule.service';
 import { TuiDay } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
@@ -19,6 +19,7 @@ export class ExamDialogComponent {
   public initialNote?: string;
   public readonly notAllowFieldHint =
     'Không thể thay đổi thông tin của lịch thi';
+  public readonly noteMaxLength = 1000;
 
   /** GETTERS */
   public get note(): string {
@@ -71,32 +72,44 @@ export class ExamDialogComponent {
     this.initialNote = data?.Note as string;
 
     this.form = this.fb.group({
-      id: new FormControl(data?.Id),
-      subject: new FormControl(data?.Subject),
-      location: new FormControl(data?.Location),
-      start: new FormControl([
-        startDate
-          ? new TuiDay(
-              startDate.getFullYear(),
-              startDate.getMonth(),
-              startDate.getDate()
-            )
-          : new TuiDay(today.getFullYear(), today.getMonth(), today.getDate()),
-        beautifyTime(startDate ?? today),
-      ]),
-      end: new FormControl([
-        endDate
-          ? new TuiDay(
-              endDate.getFullYear(),
-              endDate.getMonth(),
-              endDate.getDate()
-            )
-          : new TuiDay(today.getFullYear(), today.getMonth(), today.getDate()),
-        beautifyTime(endDate ?? today),
-      ]),
-      allDay: new FormControl(data?.AllDay ?? false),
-      description: new FormControl(data?.Description),
-      note: new FormControl(this.initialNote),
+      id: [data?.Id],
+      subject: [data?.Subject],
+      location: [data?.Location],
+      start: [
+        [
+          startDate
+            ? new TuiDay(
+                startDate.getFullYear(),
+                startDate.getMonth(),
+                startDate.getDate()
+              )
+            : new TuiDay(
+                today.getFullYear(),
+                today.getMonth(),
+                today.getDate()
+              ),
+          beautifyTime(startDate ?? today),
+        ],
+      ],
+      end: [
+        [
+          endDate
+            ? new TuiDay(
+                endDate.getFullYear(),
+                endDate.getMonth(),
+                endDate.getDate()
+              )
+            : new TuiDay(
+                today.getFullYear(),
+                today.getMonth(),
+                today.getDate()
+              ),
+          beautifyTime(endDate ?? today),
+        ],
+      ],
+      allDay: [data?.AllDay ?? false],
+      description: [data?.Description],
+      note: [this.initialNote, Validators.maxLength(this.noteMaxLength)],
     });
   }
 }
