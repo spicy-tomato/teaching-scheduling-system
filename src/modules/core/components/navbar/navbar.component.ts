@@ -7,7 +7,6 @@ import { Teacher } from '@models/core/teacher.model';
 import { Store } from '@ngrx/store';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'tss-navbar',
