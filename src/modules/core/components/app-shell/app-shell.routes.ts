@@ -5,6 +5,9 @@ import { AppShellComponent } from './app-shell.component';
 const routes: Routes = [
   {
     path: '',
+    data: {
+      breadcrumb: 'Trang chủ',
+    },
     component: AppShellComponent,
     children: [
       {
