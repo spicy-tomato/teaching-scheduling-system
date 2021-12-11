@@ -16,10 +16,6 @@ export const changePasswordReducer = createReducer(
     ...state,
     status: EApiStatus.loading,
   })),
-  on(PageAction.reset, (state) => ({
-    ...state,
-    status: EApiStatus.unknown,
-  })),
   on(ApiAction.changeSuccessful, (state) => {
     return {
       ...state,
