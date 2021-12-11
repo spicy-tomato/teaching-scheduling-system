@@ -22,10 +22,6 @@ export class UserService extends BaseDataService {
   }
 
   public changePassword(body: ChangePassword): Observable<void> {
-    // const body: ChangePassword = {
-    //   password: new Md5().appendStr(args.password).end() as string,
-    //   new_password: args.newPassword,
-    // };
     return this.http.post<void>(this.url + 'account/change-password', body);
   }
 }

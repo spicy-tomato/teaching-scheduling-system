@@ -3,7 +3,5 @@ import { createAction, props } from '@ngrx/store';
 
 export const clickLogin = createAction(
   '[Login Page] Click login',
-  props<{
-    loginForm: LoginForm;
-  }>()
+  props<{ loginForm: LoginForm }>()
 );

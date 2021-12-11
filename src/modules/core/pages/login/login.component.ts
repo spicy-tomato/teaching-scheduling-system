@@ -16,6 +16,7 @@ import * as fromLogin from './state';
 import { LoginForm } from '@models/login/login-form.model';
 import { EApiStatus } from 'src/shared/enums/api-status.enum';
 import { slideUp } from 'src/shared/animations/slide-up.animation';
+import { Md5 } from 'ts-md5';
 
 @Component({
   templateUrl: './login.component.html',
@@ -37,6 +38,10 @@ export class LoginComponent extends BaseComponent {
   /** GETTERS */
   public get username(): AbstractControl | null {
     return this.loginForm.get('username');
+  }
+
+  public get password(): AbstractControl | null {
+    return this.loginForm.get('password');
   }
 
   /** CONSTRUCTOR */
@@ -84,7 +89,13 @@ export class LoginComponent extends BaseComponent {
       .pipe(
         debounceTime(300),
         tap(() => {
-          const loginForm = this.loginForm.value as LoginForm;
+          const username = this.username?.value as string;
+          const password = this.password?.value as string;
+
+          const loginForm: LoginForm = {
+            username,
+            password: new Md5().appendStr(password).end() as string,
+          };
           this.store.dispatch(fromLogin.clickLogin({ loginForm }));
         }),
         takeUntil(this.destroy$)

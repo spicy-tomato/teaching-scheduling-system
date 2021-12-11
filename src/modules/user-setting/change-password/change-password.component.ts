@@ -7,6 +7,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import { ChangePassword } from '@models/user/change-password.model';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';
 import { TuiValidationError } from '@taiga-ui/cdk';
@@ -14,6 +15,7 @@ import { TuiNotification, TuiNotificationsService } from '@taiga-ui/core';
 import { BehaviorSubject, merge, Observable } from 'rxjs';
 import { filter, map, takeUntil, tap } from 'rxjs/operators';
 import { EApiStatus } from 'src/shared/enums/api-status.enum';
+import { Md5 } from 'ts-md5';
 import * as fromChangePassword from './state';
 
 @Component({
@@ -58,9 +60,12 @@ export class ChangePasswordComponent extends BaseComponent {
   /** PUBLIC METHODS */
   public onSubmit(): void {
     if (this.form.valid) {
-      const form = {
-        password: this.password?.value as string,
-        new_password: this.newPassword?.value as string,
+      const password = this.password?.value as string;
+      const newPassword = this.newPassword?.value as string;
+
+      const form: ChangePassword = {
+        password: new Md5().appendStr(password).end() as string,
+        new_password: new Md5().appendStr(newPassword).end() as string,
       };
       this.store.dispatch(fromChangePassword.change({ form }));
     }
