@@ -28,6 +28,6 @@ export const changePasswordReducer = createReducer(
   }),
   on(ApiAction.changeFailure, (state) => ({
     ...state,
-    status: EApiStatus.systemError,
+    status: EApiStatus.clientError,
   }))
 );

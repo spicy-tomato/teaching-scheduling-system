@@ -6,6 +6,7 @@ import { TuiInputPasswordModule, TuiIslandModule } from '@taiga-ui/kit';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   TuiButtonModule,
+  TuiErrorModule,
   TuiHintControllerModule,
   TuiHintModule,
   TuiNotificationsModule,
@@ -32,6 +33,7 @@ const TAIGA_UI = [
   TuiHintControllerModule,
   TuiButtonModule,
   TuiNotificationsModule,
+  TuiErrorModule,
 ];
 
 @NgModule({

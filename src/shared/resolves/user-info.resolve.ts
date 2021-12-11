@@ -1,10 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  Resolve,
-  Router,
-  RouterStateSnapshot,
-} from '@angular/router';
+import { Resolve, Router } from '@angular/router';
 import { Teacher } from '@models/core/teacher.model';
 import { UserService } from '@services/user.service';
 import { Observable, of } from 'rxjs';

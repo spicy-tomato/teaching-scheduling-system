@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -9,9 +9,10 @@ import {
 } from '@angular/forms';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';
+import { TuiValidationError } from '@taiga-ui/cdk';
 import { TuiNotification, TuiNotificationsService } from '@taiga-ui/core';
-import { Observable } from 'rxjs';
-import { takeUntil, tap } from 'rxjs/operators';
+import { BehaviorSubject, merge, Observable } from 'rxjs';
+import { filter, map, takeUntil, tap } from 'rxjs/operators';
 import { EApiStatus } from 'src/shared/enums/api-status.enum';
 import * as fromChangePassword from './state';
 
@@ -19,11 +20,15 @@ import * as fromChangePassword from './state';
   selector: 'tss-change-password',
   templateUrl: './change-password.component.html',
   styleUrls: ['./change-password.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ChangePasswordComponent extends BaseComponent {
   /** PUBLIC METHODS */
   public form!: FormGroup;
   public status$: Observable<EApiStatus>;
+  public wrongPasswordError$ = new BehaviorSubject<TuiValidationError | null>(
+    null
+  );
   public readonly EApiStatus = EApiStatus;
 
   /** GETTERS */
@@ -47,6 +52,7 @@ export class ChangePasswordComponent extends BaseComponent {
     this.status$ = store.select(fromChangePassword.selectStatus);
     this.initForm();
     this.handleChange();
+    this.handleWrongPassword();
   }
 
   /** PUBLIC METHODS */
@@ -78,23 +84,50 @@ export class ChangePasswordComponent extends BaseComponent {
     this.store
       .select(fromChangePassword.selectStatus)
       .pipe(
-        tap((status) => {
-          if (status === EApiStatus.successful) {
-            this.form.reset();
-            this.notificationsService
-              .show('Thay đổi mật khẩu thành công!', {
-                status: TuiNotification.Success,
-              })
-              .subscribe();
-          }
+        filter((status) => status === EApiStatus.successful),
+        tap(() => {
+          this.form.reset();
+          this.notificationsService
+            .show('Thay đổi mật khẩu thành công!', {
+              status: TuiNotification.Success,
+            })
+            .subscribe();
         }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
+  private handleWrongPassword(): void {
+    if (!this.password) return;
+
+    const statusChanges$ = this.store
+      .select(fromChangePassword.selectStatus)
+      .pipe(
+        map((status) =>
+          status === EApiStatus.clientError
+            ? new TuiValidationError(
+                'Mật khẩu không chính xác, vui lòng thử lại!'
+              )
+            : null
+        )
+      );
+
+    const passwordInputChanges$ = this.password.valueChanges.pipe(
+      filter(() => this.wrongPasswordError$.value !== null),
+      map(() => null)
+    );
+
+    merge(statusChanges$, passwordInputChanges$)
+      .pipe(
+        tap((status) => this.wrongPasswordError$.next(status)),
         takeUntil(this.destroy$)
       )
       .subscribe();
   }
 }
 
-export const duplicatedValue: ValidatorFn = (
+const duplicatedValue: ValidatorFn = (
   control: AbstractControl
 ): ValidationErrors | null => {
   const password = control.get('password');
