@@ -17,6 +17,7 @@ import { filter, map, takeUntil, tap } from 'rxjs/operators';
 import { EApiStatus } from 'src/shared/enums/api-status.enum';
 import { Md5 } from 'ts-md5';
 import * as fromChangePassword from './state';
+import * as fromAppShell from '@modules/core/components/app-shell/state';
 
 @Component({
   selector: 'tss-change-password',
@@ -28,6 +29,7 @@ export class ChangePasswordComponent extends BaseComponent {
   /** PUBLIC METHODS */
   public form!: FormGroup;
   public status$: Observable<EApiStatus>;
+  public nameTitle$!: Observable<string>;
   public wrongPasswordError$ = new BehaviorSubject<TuiValidationError | null>(
     null
   );
@@ -46,12 +48,15 @@ export class ChangePasswordComponent extends BaseComponent {
   constructor(
     private readonly fb: FormBuilder,
     private readonly store: Store<fromChangePassword.ChangePasswordState>,
+    appShellStore: Store<fromAppShell.AppShellState>,
     @Inject(TuiNotificationsService)
     private readonly notificationsService: TuiNotificationsService
   ) {
     super();
 
     this.status$ = store.select(fromChangePassword.selectStatus);
+    this.nameTitle$ = appShellStore.select(fromAppShell.selectNameTitle);
+    
     this.initForm();
     this.handleChange();
     this.handleWrongPassword();

@@ -9,3 +9,7 @@ export const selectTeacher = createSelector(
   appShellSelector,
   (state) => state.teacher
 );
+
+export const selectNameTitle = createSelector(selectTeacher, (teacher) =>
+  teacher === undefined ? 'Bạn' : teacher.isFemale ? 'Cô' : 'Thầy'
+);
