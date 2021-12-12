@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { EditorConstant } from '@constants/components/editor.constant';
 import {
   FeedbackConstant,
   FeedbackItem,
 } from '@constants/feedback-topic.constant';
 import { SendFeedback } from '@models/user/send-feedback.model';
 import { Store } from '@ngrx/store';
+import { TuiEditorTool } from '@taiga-ui/addon-editor';
 import { Observable } from 'rxjs';
 import { EApiStatus } from 'src/shared/enums/api-status.enum';
 import * as fromFeedback from './state';
@@ -20,11 +22,12 @@ export class FeedbackComponent {
   public form!: FormGroup;
   public status$: Observable<EApiStatus>;
   public readonly topics = FeedbackConstant.items;
+  public readonly tools = EditorConstant.tools;
 
   /** CONSTRUCTOR */
   constructor(
-    private readonly fb: FormBuilder,
-    private readonly store: Store<fromFeedback.FeedbackState>
+    store: Store<fromFeedback.FeedbackState>,
+    private readonly fb: FormBuilder
   ) {
     this.status$ = store.select(fromFeedback.selectStatus);
     this.initForm();

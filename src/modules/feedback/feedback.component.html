@@ -39,7 +39,9 @@
       ></tui-filter>
     </div>
     <div tuiGroup class="tui-form__row">
-      <tui-editor formControlName="content"> Nội dung </tui-editor>
+      <tui-editor [tools]="tools" formControlName="content">
+        Nội dung
+      </tui-editor>
     </div>
     <div class="tui-form__buttons tui-form__buttons_align_end">
       <button
