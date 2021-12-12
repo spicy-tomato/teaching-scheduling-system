@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanLoad, Router } from '@angular/router';
-import { LocalStorageKeyConstant } from '@constants/local-storage-key.constant';
+import { LocalStorageKeyConstant } from '@constants/core/local-storage-key.constant';
 import { LocalStorageService } from '@services/core/storage/local-storage.service';
 
 @Injectable({

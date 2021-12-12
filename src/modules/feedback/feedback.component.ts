@@ -4,7 +4,7 @@ import { EditorConstant } from '@constants/components/editor.constant';
 import {
   FeedbackConstant,
   FeedbackItem,
-} from '@constants/feedback-topic.constant';
+} from '@constants/components/feedback-topic.constant';
 import { SendFeedback } from '@models/user/send-feedback.model';
 import { Store } from '@ngrx/store';
 import { TuiEditorTool } from '@taiga-ui/addon-editor';
