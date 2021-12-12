@@ -49,6 +49,9 @@ export class FeedbackComponent extends BaseComponent {
     this.status$ = store
       .select(fromFeedback.selectStatus)
       .pipe(distinctUntilChanged(), takeUntil(this.destroy$));
+
+    this.store.dispatch(fromFeedback.reset());
+    
     this.handleSubmit();
     this.initForm();
   }
@@ -99,9 +102,7 @@ export class FeedbackComponent extends BaseComponent {
                   ),
                 }
               )
-              .subscribe({
-                complete: () => this.store.dispatch(fromFeedback.reset()),
-              });
+              .subscribe();
           }
         }),
         takeUntil(this.destroy$)

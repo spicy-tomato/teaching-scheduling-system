@@ -61,6 +61,8 @@ export class ChangePasswordComponent extends BaseComponent {
       .select(fromAppShell.selectNameTitle)
       .pipe(takeUntil(this.destroy$));
 
+    this.store.dispatch(fromChangePassword.reset());
+
     this.initForm();
     this.handleChange();
     this.handleWrongPassword();
@@ -87,10 +89,13 @@ export class ChangePasswordComponent extends BaseComponent {
         password: ['', Validators.required],
         newPassword: [
           '',
-          [Validators.required, Validators.minLength(6), duplicatedValue],
+          [
+            Validators.required,
+            // Validators.minLength(6), duplicatedValue
+          ],
         ],
-      },
-      { validators: duplicatedValue }
+      }
+      // { validators: duplicatedValue }
     );
   }
 
@@ -104,9 +109,7 @@ export class ChangePasswordComponent extends BaseComponent {
             .show('Thay đổi mật khẩu thành công!', {
               status: TuiNotification.Success,
             })
-            .subscribe({
-              complete: () => this.store.dispatch(fromChangePassword.reset()),
-            });
+            .subscribe();
         })
       )
       .subscribe();
