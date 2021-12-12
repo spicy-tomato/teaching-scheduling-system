@@ -16,6 +16,7 @@ import { TuiEditorModule } from '@taiga-ui/addon-editor';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { SharedFeedbackModule } from './_shared/shared-feedback.module';
 
 const NGRX = [
   ReactiveComponentModule,
@@ -42,6 +43,7 @@ const TAIGA_UI = [
     FeedbackRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    SharedFeedbackModule,
     ...NGRX,
     ...TAIGA_UI,
   ],

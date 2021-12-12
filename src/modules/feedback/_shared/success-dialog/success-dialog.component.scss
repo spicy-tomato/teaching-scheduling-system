@@ -1,0 +1,6 @@
+@import "src/styles/variables";
+
+h2 {
+  @include mt(4);
+  @include mb(2);
+}

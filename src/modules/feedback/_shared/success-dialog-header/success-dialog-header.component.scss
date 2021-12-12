@@ -1,0 +1,16 @@
+:host {
+  width: 100%;
+
+  .wrapper {
+    height: 12.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--tui-success-fill);
+
+    i {
+      font-size: 125px;
+      color: #ffffff;
+    }
+  }
+}
