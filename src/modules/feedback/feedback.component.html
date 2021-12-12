@@ -8,7 +8,7 @@
     </div>
     <div tuiGroup class="tui-form__row">
       <tui-radio-block
-        [item]="false"
+        [item]="0"
         contentAlign="left"
         formControlName="reportBug"
       >
@@ -20,7 +20,7 @@
         </div>
       </tui-radio-block>
       <tui-radio-block
-        [item]="true"
+        [item]="1"
         contentAlign="left"
         formControlName="reportBug"
       >
@@ -42,6 +42,7 @@
       <tui-editor [tools]="tools" formControlName="content">
         Nội dung
       </tui-editor>
+      <tui-field-error formControlName="content"></tui-field-error>
     </div>
     <div class="tui-form__buttons tui-form__buttons_align_end">
       <button

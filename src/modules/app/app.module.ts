@@ -17,10 +17,6 @@ import {
 import { TUI_DIALOG_CLOSES_ON_BACK, TUI_SANITIZER } from '@taiga-ui/cdk';
 import { TUI_LANGUAGE, TUI_VIETNAMESE_LANGUAGE } from '@taiga-ui/i18n';
 import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
-import {
-  defaultEditorExtensions,
-  TUI_EDITOR_EXTENSIONS,
-} from '@taiga-ui/addon-editor';
 
 import { environment } from '@environments/environment';
 import { AppSettingsService } from '@services/core/app-settings.service';
@@ -30,6 +26,9 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routes';
 import { HeaderInterceptor } from 'src/shared/interceptors/header.interceptor';
 import { UserInfoResolve } from 'src/shared/resolves/user-info.resolve';
+import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
+import { maxLengthFactory } from '@factories/max-length.factory';
+import { requiredFactory } from '@factories/required.factory';
 
 const TAIGA_UI = [TuiRootModule, TuiDialogModule, TuiNotificationsModule];
 const NGRX = [
@@ -78,8 +77,11 @@ const NGRX = [
       useClass: NgDompurifySanitizer,
     },
     {
-      provide: TUI_EDITOR_EXTENSIONS,
-      useValue: defaultEditorExtensions,
+      provide: TUI_VALIDATION_ERRORS,
+      useValue: {
+        maxlength: maxLengthFactory,
+        required: requiredFactory,
+      },
     },
   ],
   declarations: [AppComponent],

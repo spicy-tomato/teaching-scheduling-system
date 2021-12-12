@@ -67,12 +67,6 @@ const TAIGA_UI = [
     ExamDialogComponent,
   ],
   providers: [
-    {
-      provide: TUI_VALIDATION_ERRORS,
-      useValue: {
-        maxlength: maxLengthFactory,
-      },
-    },
   ],
 })
 export class SchedulerPageModule {}

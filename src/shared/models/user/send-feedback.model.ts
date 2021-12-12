@@ -1,6 +1,7 @@
 export interface SendFeedback {
   title: string;
-  reportBug: boolean;
+  is_bug: number;
   feedback_type: string;
+  create_at: Date;
   content: string;
 }

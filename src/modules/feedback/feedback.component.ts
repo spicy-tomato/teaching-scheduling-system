@@ -38,10 +38,11 @@ export class FeedbackComponent {
     if (this.form.valid) {
       const form: SendFeedback = {
         title: this.form.get('title')?.value as string,
-        reportBug: this.form.get('reportBug')?.value as boolean,
+        is_bug: this.form.get('reportBug')?.value as number,
         feedback_type: (this.form.get('tags')?.value as FeedbackItem[])
           .map((x) => x.key)
           .join(','),
+        create_at: new Date(),
         content: this.form.get('content')?.value as string,
       };
       console.log(form);
@@ -52,9 +53,9 @@ export class FeedbackComponent {
   private initForm(): void {
     this.form = this.fb.group({
       title: [''],
-      reportBug: [false],
+      reportBug: [0],
       tags: [[]],
-      content: ['', Validators.required],
+      content: ['', [Validators.required, Validators.maxLength(5)]],
     });
   }
 }

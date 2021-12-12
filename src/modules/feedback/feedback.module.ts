@@ -4,6 +4,7 @@ import { FeedbackComponent } from './feedback.component';
 import { FeedbackRoutingModule } from './feedback.routes';
 import * as fromFeedback from './state';
 import {
+  TuiFieldErrorModule,
   TuiFilterModule,
   TuiInputModule,
   TuiIslandModule,
@@ -32,6 +33,7 @@ const TAIGA_UI = [
   TuiSvgModule,
   TuiEditorModule,
   TuiButtonModule,
+  TuiFieldErrorModule,
 ];
 
 @NgModule({
