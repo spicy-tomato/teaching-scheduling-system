@@ -8,10 +8,11 @@ const initialState: FeedbackState = {
   status: EApiStatus.unknown,
 };
 
-export const feedbackFeatureKey = 'changePassword';
+export const feedbackFeatureKey = 'feedback';
 
 export const feedbackReducer = createReducer(
   initialState,
+  on(PageAction.reset, () => initialState),
   on(PageAction.submit, (state) => ({
     ...state,
     status: EApiStatus.loading,

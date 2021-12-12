@@ -16,7 +16,7 @@ import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';
 import { TuiDialogService } from '@taiga-ui/core';
 import { Observable } from 'rxjs';
-import { takeUntil, tap } from 'rxjs/operators';
+import { distinctUntilChanged, takeUntil, tap } from 'rxjs/operators';
 import { EApiStatus } from 'src/shared/enums/api-status.enum';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import * as fromFeedback from './state';
@@ -46,7 +46,9 @@ export class FeedbackComponent extends BaseComponent {
   ) {
     super();
 
-    this.status$ = store.select(fromFeedback.selectStatus);
+    this.status$ = store
+      .select(fromFeedback.selectStatus)
+      .pipe(distinctUntilChanged(), takeUntil(this.destroy$));
     this.handleSubmit();
     this.initForm();
   }
@@ -97,7 +99,9 @@ export class FeedbackComponent extends BaseComponent {
                   ),
                 }
               )
-              .subscribe();
+              .subscribe({
+                complete: () => this.store.dispatch(fromFeedback.reset()),
+              });
           }
         }),
         takeUntil(this.destroy$)

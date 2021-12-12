@@ -54,9 +54,13 @@ export class ChangePasswordComponent extends BaseComponent {
   ) {
     super();
 
-    this.status$ = store.select(fromChangePassword.selectStatus);
-    this.nameTitle$ = appShellStore.select(fromAppShell.selectNameTitle);
-    
+    this.status$ = store
+      .select(fromChangePassword.selectStatus)
+      .pipe(takeUntil(this.destroy$));
+    this.nameTitle$ = appShellStore
+      .select(fromAppShell.selectNameTitle)
+      .pipe(takeUntil(this.destroy$));
+
     this.initForm();
     this.handleChange();
     this.handleWrongPassword();
@@ -91,8 +95,7 @@ export class ChangePasswordComponent extends BaseComponent {
   }
 
   private handleChange(): void {
-    this.store
-      .select(fromChangePassword.selectStatus)
+    this.status$
       .pipe(
         filter((status) => status === EApiStatus.successful),
         tap(() => {
@@ -101,9 +104,10 @@ export class ChangePasswordComponent extends BaseComponent {
             .show('Thay đổi mật khẩu thành công!', {
               status: TuiNotification.Success,
             })
-            .subscribe();
-        }),
-        takeUntil(this.destroy$)
+            .subscribe({
+              complete: () => this.store.dispatch(fromChangePassword.reset()),
+            });
+        })
       )
       .subscribe();
   }
@@ -111,17 +115,15 @@ export class ChangePasswordComponent extends BaseComponent {
   private handleWrongPassword(): void {
     if (!this.password) return;
 
-    const statusChanges$ = this.store
-      .select(fromChangePassword.selectStatus)
-      .pipe(
-        map((status) =>
-          status === EApiStatus.clientError
-            ? new TuiValidationError(
-                'Mật khẩu không chính xác, vui lòng thử lại!'
-              )
-            : null
-        )
-      );
+    const statusChanges$ = this.status$.pipe(
+      map((status) =>
+        status === EApiStatus.clientError
+          ? new TuiValidationError(
+              'Mật khẩu không chính xác, vui lòng thử lại!'
+            )
+          : null
+      )
+    );
 
     const passwordInputChanges$ = this.password.valueChanges.pipe(
       filter(() => this.wrongPasswordError$.value !== null),

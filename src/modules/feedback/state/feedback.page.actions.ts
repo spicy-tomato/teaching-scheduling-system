@@ -5,3 +5,5 @@ export const submit = createAction(
   '[Feedback Page] Submit',
   props<{ form: SendFeedback }>()
 );
+
+export const reset = createAction('[Feedback Page] Reset');

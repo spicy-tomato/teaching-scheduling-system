@@ -1,4 +1,4 @@
-export { change } from './change-password.page.actions';
+export { change, reset } from './change-password.page.actions';
 export {
   changePasswordReducer,
   changePasswordFeatureKey,

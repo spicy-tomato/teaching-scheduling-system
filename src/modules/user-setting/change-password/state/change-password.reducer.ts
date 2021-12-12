@@ -12,6 +12,7 @@ export const changePasswordFeatureKey = 'changePassword';
 
 export const changePasswordReducer = createReducer(
   initialState,
+  on(PageAction.reset, () => initialState),
   on(PageAction.change, (state) => ({
     ...state,
     status: EApiStatus.loading,

@@ -1,4 +1,4 @@
-export { submit } from './feedback.page.actions';
+export { reset, submit } from './feedback.page.actions';
 export { feedbackReducer, feedbackFeatureKey } from './feedback.reducer';
 export { FeedbackState } from './feedback.state';
 export { selectStatus } from './feedback.selectors';
