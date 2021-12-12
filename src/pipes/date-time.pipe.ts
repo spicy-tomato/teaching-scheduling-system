@@ -11,13 +11,17 @@ export class DateTimePipe implements PipeTransform {
       from.getMonth() === to.getMonth() &&
       from.getFullYear() === to.getFullYear()
     ) {
-      return `${from.getDate()} Tháng ${from.getMonth()}, ${from.getFullYear()} 
+      return `${from.getDate()} Tháng ${
+        from.getMonth() + 1
+      }, ${from.getFullYear()} 
       (${beautifyTime(from)} - ${beautifyTime(to)})`;
     }
 
-    return `${from.getDate()} Tháng ${from.getMonth()}, ${from.getFullYear()} 
+    return `${from.getDate()} Tháng ${
+      from.getMonth() + 1
+    }, ${from.getFullYear()} 
     (${beautifyTime(from)}) -
-    ${to.getDate()} Tháng ${to.getMonth()}, ${to.getFullYear()} 
+    ${to.getDate()} Tháng ${to.getMonth() + 1}, ${to.getFullYear()} 
     (${beautifyTime(to)})`;
   }
 }
