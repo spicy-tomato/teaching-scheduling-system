@@ -50,4 +50,9 @@ export interface EjsScheduleModel {
    * Note of event
    */
   Note: string;
+
+  /** 
+   * Method of event
+   */
+  Method?: string;
 }

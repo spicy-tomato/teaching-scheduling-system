@@ -17,6 +17,15 @@
       Phòng thi
     </tui-input>
   </div>
+  <div class="tui-form__row">
+    <tui-input
+      [readOnly]="true"
+      [tuiHintContent]="notAllowFieldHint"
+      formControlName="method"
+    >
+      Hình thức
+    </tui-input>
+  </div>
   <div class="tui-form__row tui-form__row_multi-fields">
     <div class="tui-form__multi-field">
       <tui-input-date-time

@@ -75,6 +75,7 @@ export class ExamDialogComponent {
       id: [data?.Id],
       subject: [data?.Subject],
       location: [data?.Location],
+      method: [data?.Method],
       start: [
         [
           startDate

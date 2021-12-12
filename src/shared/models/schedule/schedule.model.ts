@@ -63,6 +63,7 @@ export class ScheduleModel {
       Type: this.type,
       IdModuleClass: this.idModuleClass,
       Note: this.note,
+      Method: this.method,
     };
   }
 }
