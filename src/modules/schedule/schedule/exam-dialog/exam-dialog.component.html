@@ -46,6 +46,21 @@
       </tui-input-date-time>
     </div>
   </div>
+  <ng-container formArrayName="people">
+    <div
+      class="tui-form__row"
+      *ngFor="let person of people?.controls; index as i"
+    >
+      <tui-input
+        [readOnly]="true"
+        [tuiHintContent]="notAllowFieldHint"
+        [formControlName]="i"
+      >
+        Giám thị {{ i + 1 }}
+      </tui-input>
+    </div>
+  </ng-container>
+
   <!-- <div class="tui-form__row tui-form__row_multi-fields">
     <tui-checkbox-labeled  formControlName="allDay">
       Cả ngày
@@ -686,7 +701,7 @@
     <button
       [showLoader]="updating"
       [disabled]="
-        initialNote === note || (!note && !initialNote) || form.invalid
+        initialNote === note?.value || (!note && !initialNote) || form.invalid
       "
       (click)="onSubmit()"
       tuiButton

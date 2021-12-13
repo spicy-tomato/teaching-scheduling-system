@@ -51,8 +51,13 @@ export interface EjsScheduleModel {
    */
   Note: string;
 
-  /** 
+  /**
    * Method of event
    */
   Method?: string;
+
+  /**
+   * People of event
+   */
+  People?: string[];
 }

@@ -7,6 +7,7 @@
     [workHours]="{ highlight: false }"
     [timeScale]="{ slotCount: 1 }"
     (eventRendered)="onEventRendered($event)"
+    (eventClick)="onEventClick()"
     (popupOpen)="onPopupOpen($event)"
     locale="vi"
     currentView="Month"
@@ -18,6 +19,7 @@
     <e-views>
       <e-view option="Month"></e-view>
       <e-view option="Week"></e-view>
+      <e-view option="Day"></e-view>
       <!-- <e-view option="Agenda"></e-view> -->
     </e-views>
 
@@ -50,12 +52,13 @@
             {{ data.Method }}
           </div>
         </div>
+        <div class="e-module-class" *ngFor="let person of data.People">
+          <div class="mdi mdi-account"></div>
+          <div class="e-location-details e-text-ellipsis">
+            {{ person }}
+          </div>
+        </div>
       </div>
     </ng-template>
   </ejs-schedule>
 </ng-container>
-
-<!-- Taiga UI Quick info -->
-<ng-template #quickInfo>
-  <p>Nothing special</p>
-</ng-template>

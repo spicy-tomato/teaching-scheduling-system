@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import {
   AgendaService,
+  DayService,
   EventRenderedArgs,
   EventSettingsModel,
   MonthService,
@@ -29,6 +30,7 @@ import { BehaviorSubject } from 'rxjs';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { ExamDialogComponent } from './exam-dialog/exam-dialog.component';
+import { EjsScheduleModel } from '@models/schedule/ejs-schedule.model';
 
 loadCldr(numberingSystems, gregorian, numbers, timeZoneNames);
 L10n.load({ vi: EJ2_LOCALE.vi });
@@ -38,7 +40,7 @@ setCulture('vi');
   selector: 'tss-schedule',
   templateUrl: './schedule.component.html',
   styleUrls: ['./schedule.component.scss'],
-  providers: [WeekService, MonthService, AgendaService],
+  providers: [WeekService, MonthService, DayService, AgendaService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TssScheduleComponent extends BaseComponent {
@@ -75,10 +77,22 @@ export class TssScheduleComponent extends BaseComponent {
     }
   }
 
+  public onEventClick(): void {
+    const popup = document.querySelector('.e-quick-popup-wrapper');
+    if (!popup) return;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment
+    const popupInstance = popup.ej2_instances[0];
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    popupInstance.open = () => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+      popupInstance.refreshPosition();
+    };
+  }
+
   public onPopupOpen(args: PopupOpenEventArgs): void {
     if (args.type === 'Editor') {
       args.cancel = true;
-      this.showExamDialog(args.data);
+      this.showExamDialog(args.data as EjsScheduleModel);
       //   const statusElement: HTMLInputElement = args.element.querySelector(
       //     '#EventType'
       //   ) as HTMLInputElement;
@@ -118,7 +132,7 @@ export class TssScheduleComponent extends BaseComponent {
       .subscribe();
   }
 
-  private showExamDialog(data?: Record<string, unknown>): void {
+  private showExamDialog(data?: EjsScheduleModel): void {
     this.dialogService
       .open<string | undefined>(
         new PolymorpheusComponent(ExamDialogComponent, this.injector),

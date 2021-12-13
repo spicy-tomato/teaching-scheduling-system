@@ -13,6 +13,7 @@ export class ScheduleModel {
   public readonly idRoom!: string;
   public readonly type!: ScheduleType;
   public readonly note!: string;
+  public readonly people!: string[];
 
   constructor(
     id: number,
@@ -23,7 +24,8 @@ export class ScheduleModel {
     timeEnd: Date,
     idRoom: string,
     type: ScheduleType,
-    note: string
+    note: string,
+    people: string[]
   ) {
     this.id = id;
     this.idModuleClass = idModuleClass;
@@ -34,6 +36,7 @@ export class ScheduleModel {
     this.idRoom = idRoom;
     this.type = type;
     this.note = note;
+    this.people = people;
   }
 
   public static parse(
@@ -49,7 +52,8 @@ export class ScheduleModel {
       new Date(obj.time_end),
       obj.id_room,
       type,
-      obj.note
+      obj.note,
+      obj.teachers
     );
   }
 
@@ -64,6 +68,7 @@ export class ScheduleModel {
       IdModuleClass: this.idModuleClass,
       Note: this.note,
       Method: this.method,
+      People: this.people,
     };
   }
 }

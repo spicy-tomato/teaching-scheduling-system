@@ -7,4 +7,5 @@ export interface ScheduleDta {
   time_end: Date;
   id_room: string;
   note: string;
+  teachers: string[];
 }

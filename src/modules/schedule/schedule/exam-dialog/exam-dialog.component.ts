@@ -1,5 +1,12 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { EjsScheduleModel } from '@models/schedule/ejs-schedule.model';
 import { ScheduleService } from '@services/schedule.service';
 import { TuiDay } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
@@ -22,14 +29,18 @@ export class ExamDialogComponent {
   public readonly noteMaxLength = 1000;
 
   /** GETTERS */
-  public get note(): string {
-    return this.form.get('note')?.value as string;
+  public get people(): FormArray | null {
+    return this.form.get('people') as FormArray;
+  }
+
+  public get note(): AbstractControl | null {
+    return this.form.get('note');
   }
 
   /** CONSTRUCTOR */
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT)
-    private readonly context: TuiDialogContext<string, Record<string, unknown>>,
+    private readonly context: TuiDialogContext<string, EjsScheduleModel>,
     private scheduleService: ScheduleService,
     private fb: FormBuilder
   ) {
@@ -65,9 +76,9 @@ export class ExamDialogComponent {
   }
 
   /** PRIVATE METHODS */
-  private initForm(data?: Record<string, unknown>): void {
-    const startDate = data?.StartDate as Date;
-    const endDate = data?.StartDate as Date;
+  private initForm(data?: EjsScheduleModel): void {
+    const startDate = data?.StartTime as Date;
+    const endDate = data?.StartTime as Date;
     const today = new Date();
     this.initialNote = data?.Note as string;
 
@@ -76,6 +87,7 @@ export class ExamDialogComponent {
       subject: [data?.Subject],
       location: [data?.Location],
       method: [data?.Method],
+      people: this.fb.array(data?.People?.map((x) => this.fb.control(x)) ?? []),
       start: [
         [
           startDate
@@ -108,7 +120,7 @@ export class ExamDialogComponent {
           beautifyTime(endDate ?? today),
         ],
       ],
-      allDay: [data?.AllDay ?? false],
+      allDay: [data?.IsAllDay ?? false],
       description: [data?.Description],
       note: [this.initialNote, Validators.maxLength(this.noteMaxLength)],
     });
