@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { beautifyTime } from 'src/shared/helpers';
+import { DateHelper } from 'src/shared/helpers/beautify-time.helper';
 
 @Pipe({
   name: 'dateTime',
@@ -14,14 +14,14 @@ export class DateTimePipe implements PipeTransform {
       return `${from.getDate()} Tháng ${
         from.getMonth() + 1
       }, ${from.getFullYear()} 
-      (${beautifyTime(from)} - ${beautifyTime(to)})`;
+      (${DateHelper.beautifyTime(from)} - ${DateHelper.beautifyTime(to)})`;
     }
 
     return `${from.getDate()} Tháng ${
       from.getMonth() + 1
     }, ${from.getFullYear()} 
-    (${beautifyTime(from)}) -
+    (${DateHelper.beautifyTime(from)}) -
     ${to.getDate()} Tháng ${to.getMonth() + 1}, ${to.getFullYear()} 
-    (${beautifyTime(to)})`;
+    (${DateHelper.beautifyTime(to)})`;
   }
 }

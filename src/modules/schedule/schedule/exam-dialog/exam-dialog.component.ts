@@ -11,7 +11,7 @@ import { ScheduleService } from '@services/schedule.service';
 import { TuiDay } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { beautifyTime } from 'src/shared/helpers';
+import { DateHelper } from 'src/shared/helpers/beautify-time.helper';
 
 @Component({
   selector: 'tss-exam-dialog',
@@ -101,7 +101,7 @@ export class ExamDialogComponent {
                 today.getMonth(),
                 today.getDate()
               ),
-          beautifyTime(startDate ?? today),
+          DateHelper.beautifyTime(startDate ?? today),
         ],
       ],
       end: [
@@ -117,7 +117,7 @@ export class ExamDialogComponent {
                 today.getMonth(),
                 today.getDate()
               ),
-          beautifyTime(endDate ?? today),
+          DateHelper.beautifyTime(endDate ?? today),
         ],
       ],
       allDay: [data?.IsAllDay ?? false],

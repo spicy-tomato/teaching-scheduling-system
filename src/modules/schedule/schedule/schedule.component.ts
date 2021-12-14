@@ -33,8 +33,8 @@ import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { ExamDialogComponent } from './exam-dialog/exam-dialog.component';
 import { EjsScheduleModel } from '@models/schedule/ejs-schedule.model';
-import { beautifyDay } from 'src/shared/helpers/beautify-time.helper';
 import { TuiMonth } from '@taiga-ui/cdk';
+import { DateHelper } from 'src/shared/helpers/beautify-time.helper';
 
 loadCldr(numberingSystems, gregorian, numbers, timeZoneNames);
 L10n.load({ vi: EJ2_LOCALE.vi });
@@ -256,22 +256,22 @@ export class TssScheduleComponent
     const last = currentViewDates[6];
 
     if (first.getMonth() == last.getMonth()) {
-      this.dateRangeHeader = `${beautifyDay(first.getDate())} - ${beautifyDay(
-        last.getDate()
-      )}
+      this.dateRangeHeader = `${DateHelper.beautifyDay(
+        first.getDate()
+      )} - ${DateHelper.beautifyDay(last.getDate())}
       Tháng ${first.getMonth() + 1}, ${first.getFullYear()}`;
     } else if (first.getFullYear() == last.getFullYear()) {
-      this.dateRangeHeader = `${beautifyDay(first.getDate())} Tháng ${
-        first.getMonth() + 1
-      } -
-      ${beautifyDay(last.getDate())} Tháng ${
+      this.dateRangeHeader = `${DateHelper.beautifyDay(
+        first.getDate()
+      )} Tháng ${first.getMonth() + 1} -
+      ${DateHelper.beautifyDay(last.getDate())} Tháng ${
         last.getMonth() + 1
       }, ${first.getFullYear()}`;
     } else {
-      this.dateRangeHeader = `${beautifyDay(first.getDate())} Tháng ${
-        first.getMonth() + 1
-      }, ${first.getFullYear()} -
-      ${beautifyDay(last.getDate())} Tháng ${
+      this.dateRangeHeader = `${DateHelper.beautifyDay(
+        first.getDate()
+      )} Tháng ${first.getMonth() + 1}, ${first.getFullYear()} -
+      ${DateHelper.beautifyDay(last.getDate())} Tháng ${
         last.getMonth() + 1
       }, ${last.getFullYear()}`;
     }

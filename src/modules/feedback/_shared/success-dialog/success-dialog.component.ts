@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
+import { takeUntil } from 'rxjs/operators';
+import { BaseComponent } from '@modules/core/base/base.component';
 
 @Component({
   selector: 'tss-success-dialog',
@@ -12,7 +14,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./success-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SuccessDialogComponent {
+export class SuccessDialogComponent extends BaseComponent {
   /** PUBLIC PROPERTIES */
   public nameTitle$!: Observable<string>;
 
@@ -23,7 +25,11 @@ export class SuccessDialogComponent {
     @Inject(POLYMORPHEUS_CONTEXT)
     private readonly context: TuiDialogContext
   ) {
-    this.nameTitle$ = appShellStore.select(fromAppShell.selectNameTitle);
+    super();
+
+    this.nameTitle$ = appShellStore
+      .select(fromAppShell.selectNameTitle)
+      .pipe(takeUntil(this.destroy$));
   }
 
   /** PUBLIC METHODS */
