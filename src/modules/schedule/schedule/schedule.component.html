@@ -1,16 +1,30 @@
+<tss-schedule-header
+  [dateRange]="dateRangeHeader"
+  [view]="currentView"
+  [month]="month"
+  (prev)="onPrev()"
+  (next)="onNext()"
+  (chooseMonth)="onChooseMonth($event)"
+  (clickToday)="onClickToday()"
+  (clickMonth)="changeView('Month')"
+  (clickWeek)="changeView('Week')"
+  (clickDay)="changeView('Day')"
+></tss-schedule-header>
 <ng-container *ngrxLet="eventSettings$ as eventSettings">
   <ejs-schedule
     #schedule
+    [(currentView)]="currentView"
     [eventSettings]="eventSettings"
     [quickInfoOnSelectionEnd]="false"
     [firstDayOfWeek]="1"
     [workHours]="{ highlight: false }"
     [timeScale]="{ slotCount: 1 }"
+    [showHeaderBar]="false"
     (eventRendered)="onEventRendered($event)"
     (eventClick)="onEventClick()"
     (popupOpen)="onPopupOpen($event)"
+    (actionComplete)="onActionComplete($event)"
     locale="vi"
-    currentView="Month"
     cssClass="cell-dimension"
     width="100%"
     height="100%"

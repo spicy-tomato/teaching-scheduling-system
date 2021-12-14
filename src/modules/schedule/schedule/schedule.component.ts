@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   Inject,
@@ -6,6 +7,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
+  ActionEventArgs,
   AgendaService,
   DayService,
   EventRenderedArgs,
@@ -31,10 +33,14 @@ import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { ExamDialogComponent } from './exam-dialog/exam-dialog.component';
 import { EjsScheduleModel } from '@models/schedule/ejs-schedule.model';
+import { beautifyDay } from 'src/shared/helpers/beautify-time.helper';
+import { TuiMonth } from '@taiga-ui/cdk';
 
 loadCldr(numberingSystems, gregorian, numbers, timeZoneNames);
 L10n.load({ vi: EJ2_LOCALE.vi });
 setCulture('vi');
+
+type View = 'Month' | 'Week' | 'Day';
 
 @Component({
   selector: 'tss-schedule',
@@ -43,12 +49,18 @@ setCulture('vi');
   providers: [WeekService, MonthService, DayService, AgendaService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TssScheduleComponent extends BaseComponent {
+export class TssScheduleComponent
+  extends BaseComponent
+  implements AfterViewInit
+{
   /** VIEWCHILD */
   @ViewChild('schedule') public scheduleComponent!: ScheduleComponent;
 
   /** PUBLIC PROPERTIES */
   public readonly eventSettings$ = new BehaviorSubject<EventSettingsModel>({});
+  public dateRangeHeader = '';
+  public currentView: View = 'Month';
+  public month!: TuiMonth;
 
   /** PRIVATE PROPERTIES */
   private readonly staticSettings: EventSettingsModel = {
@@ -66,6 +78,11 @@ export class TssScheduleComponent extends BaseComponent {
     super();
 
     this.handleLoadSchedule();
+  }
+
+  /** LIFE CYCLE */
+  public ngAfterViewInit(): void {
+    this.handleNavigate();
   }
 
   /** PUBLIC METHODS */
@@ -118,6 +135,60 @@ export class TssScheduleComponent extends BaseComponent {
     }
   }
 
+  public onActionComplete(event: ActionEventArgs): void {
+    switch (event.requestType) {
+      case 'dateNavigate':
+      case 'viewNavigate':
+        this.handleNavigate();
+    }
+  }
+
+  public onPrev(): void {
+    const selectedDate = this.scheduleComponent.selectedDate;
+    switch (this.currentView) {
+      case 'Month':
+        selectedDate.setMonth(selectedDate.getMonth() - 1);
+        break;
+      case 'Week':
+        selectedDate.setDate(selectedDate.getDate() - 7);
+        break;
+      case 'Day':
+        selectedDate.setDate(selectedDate.getDate() - 1);
+    }
+    this.scheduleComponent.selectedDate = new Date(selectedDate);
+  }
+
+  public onNext(): void {
+    const selectedDate = this.scheduleComponent.selectedDate;
+    switch (this.currentView) {
+      case 'Month':
+        selectedDate.setMonth(selectedDate.getMonth() + 1);
+        break;
+      case 'Week':
+        selectedDate.setDate(selectedDate.getDate() + 7);
+        break;
+      case 'Day':
+        selectedDate.setDate(selectedDate.getDate() + 1);
+    }
+    this.scheduleComponent.selectedDate = new Date(selectedDate);
+  }
+
+  public onChooseMonth({ month, year }: TuiMonth): void {
+    this.scheduleComponent.selectedDate = new Date(
+      year,
+      month,
+      new Date().getDate()
+    );
+  }
+
+  public onClickToday(): void {
+    this.scheduleComponent.selectedDate = new Date();
+  }
+
+  public changeView(view: View): void {
+    this.scheduleComponent.changeView(view);
+  }
+
   /** PRIVATE METHODS */
   private handleLoadSchedule(): void {
     this.store
@@ -151,5 +222,65 @@ export class TssScheduleComponent extends BaseComponent {
         })
       )
       .subscribe();
+  }
+
+  private handleNavigate(): void {
+    const selectedDate = this.scheduleComponent.selectedDate;
+    this.month = new TuiMonth(
+      selectedDate.getFullYear(),
+      selectedDate.getMonth()
+    );
+
+    switch (this.currentView) {
+      case 'Month':
+        this.handleViewMonth();
+        break;
+      case 'Week':
+        this.handleViewWeek();
+        break;
+      case 'Day':
+        this.handleViewDay();
+    }
+  }
+
+  private handleViewMonth(): void {
+    const date = this.scheduleComponent.selectedDate;
+    this.dateRangeHeader = `Tháng ${
+      date.getMonth() + 1
+    }, ${date.getFullYear()}`;
+  }
+
+  private handleViewWeek(): void {
+    const currentViewDates = this.scheduleComponent.getCurrentViewDates();
+    const first = currentViewDates[0];
+    const last = currentViewDates[6];
+
+    if (first.getMonth() == last.getMonth()) {
+      this.dateRangeHeader = `${beautifyDay(first.getDate())} - ${beautifyDay(
+        last.getDate()
+      )}
+      Tháng ${first.getMonth() + 1}, ${first.getFullYear()}`;
+    } else if (first.getFullYear() == last.getFullYear()) {
+      this.dateRangeHeader = `${beautifyDay(first.getDate())} Tháng ${
+        first.getMonth() + 1
+      } -
+      ${beautifyDay(last.getDate())} Tháng ${
+        last.getMonth() + 1
+      }, ${first.getFullYear()}`;
+    } else {
+      this.dateRangeHeader = `${beautifyDay(first.getDate())} Tháng ${
+        first.getMonth() + 1
+      }, ${first.getFullYear()} -
+      ${beautifyDay(last.getDate())} Tháng ${
+        last.getMonth() + 1
+      }, ${last.getFullYear()}`;
+    }
+  }
+
+  private handleViewDay(): void {
+    const date = this.scheduleComponent.selectedDate;
+    this.dateRangeHeader = `${date.getDate()} Tháng ${
+      date.getMonth() + 1
+    }, ${date.getFullYear()}`;
   }
 }

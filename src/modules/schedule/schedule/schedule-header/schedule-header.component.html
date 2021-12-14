@@ -1,0 +1,62 @@
+<div class="wrapper">
+  <div class="left">
+    <button
+      [icon]="prevIcon"
+      (click)="prev.next()"
+      tuiIconButton
+      shape="rounded"
+    ></button>
+    <button
+      [icon]="nextIcon"
+      (click)="next.next()"
+      tuiIconButton
+      shape="rounded"
+      class="ml"
+    ></button>
+    <tui-hosted-dropdown [(open)]="openDropdown" [content]="dropdown">
+      <button
+        [iconRight]="dropdownIcon"
+        [class.rotate]="openDropdown"
+        tuiButton
+        class="ml"
+      >
+        {{ dateRange }}
+      </button>
+    </tui-hosted-dropdown>
+  </div>
+  <div class="right">
+    <button tuiButton (click)="clickToday.next()">HÔM NAY</button>
+    <div class="divider"></div>
+    <button
+      tuiButton
+      [class.active]="view === 'Month'"
+      (click)="clickMonth.next()"
+    >
+      THÁNG
+    </button>
+    <button
+      tuiButton
+      [class.active]="view === 'Week'"
+      (click)="clickWeek.next()"
+      class="ml"
+    >
+      TUẦN
+    </button>
+    <button
+      tuiButton
+      [class.active]="view === 'Day'"
+      (click)="clickDay.next()"
+      class="ml"
+    >
+      NGÀY
+    </button>
+  </div>
+</div>
+
+<ng-template #dropdown>
+  <tui-calendar-month
+    [value]="month"
+    [year]="month"
+    (monthClick)="onMonthClick($event)"
+  ></tui-calendar-month>
+</ng-template>

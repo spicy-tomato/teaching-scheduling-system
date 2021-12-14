@@ -18,16 +18,17 @@ import {
   TuiTextAreaModule,
   TuiDropdownContextModule,
   TuiFieldErrorModule,
-  TUI_VALIDATION_ERRORS,
+  TuiCalendarMonthModule,
 } from '@taiga-ui/kit';
 import { ExamDialogComponent } from './schedule/exam-dialog/exam-dialog.component';
 import {
   TuiButtonModule,
   TuiHintControllerModule,
   TuiHintModule,
+  TuiHostedDropdownModule,
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
-import { maxLengthFactory } from '@factories/max-length.factory';
+import { ScheduleHeaderComponent } from './schedule/schedule-header/schedule-header.component';
 
 const NGRX = [
   ReactiveComponentModule,
@@ -48,6 +49,8 @@ const TAIGA_UI = [
   TuiDropdownContextModule,
   TuiFieldErrorModule,
   TuiTextfieldControllerModule,
+  TuiHostedDropdownModule,
+  TuiCalendarMonthModule,
 ];
 
 @NgModule({
@@ -65,8 +68,7 @@ const TAIGA_UI = [
     SchedulePageComponent,
     TssScheduleComponent,
     ExamDialogComponent,
-  ],
-  providers: [
+    ScheduleHeaderComponent,
   ],
 })
 export class SchedulerPageModule {}

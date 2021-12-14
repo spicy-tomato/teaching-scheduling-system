@@ -1,0 +1,50 @@
+@import "src/styles/variables";
+
+.wrapper {
+  @include p(2);
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+
+  .left,
+  .right {
+    display: flex;
+    align-items: center;
+    button {
+      ::ng-deep .wrapper .content {
+        color: var(--tui-text-01);
+      }
+      &[tuiButton] {
+        width: auto;
+        border-radius: var(--tui-radius-xs);
+        ::ng-deep {
+          .wrapper {
+            @include px(2);
+          }
+        }
+      }
+      &.ml {
+        @include ml(2);
+      }
+      &.active {
+        background-color: var(--tui-secondary-active);
+      }
+    }
+  }
+
+  tui-hosted-dropdown {
+    button ::ng-deep .icon {
+      transition: all 0.25s ease-in-out;
+    }
+    button.rotate ::ng-deep .icon {
+      transform: rotate(180deg);
+    }
+  }
+
+  .divider {
+    @include mx(2);
+    width: 1px;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.12);
+  }
+}
