@@ -4,6 +4,7 @@ import {
   Component,
   Inject,
   Injector,
+  OnDestroy,
   ViewChild,
 } from '@angular/core';
 import {
@@ -28,12 +29,13 @@ import * as fromSchedule from '../state';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';
 import { takeUntil, tap } from 'rxjs/operators';
-import { BehaviorSubject } from 'rxjs';
-import { TuiDialogService } from '@taiga-ui/core';
+import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
+import { TuiDialogService, TuiNotificationsService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { ExamDialogComponent } from './exam-dialog/exam-dialog.component';
 import { EjsScheduleModel } from '@models/schedule/ejs-schedule.model';
 import { TuiMonth } from '@taiga-ui/cdk';
+import * as fromAppShell from '@modules/core/components/app-shell/state';
 import { DateHelper } from 'src/shared/helpers/date.helper';
 
 loadCldr(numberingSystems, gregorian, numbers, timeZoneNames);
@@ -51,18 +53,21 @@ type View = 'Month' | 'Week' | 'Day';
 })
 export class TssScheduleComponent
   extends BaseComponent
-  implements AfterViewInit
+  implements AfterViewInit, OnDestroy
 {
   /** VIEWCHILD */
   @ViewChild('schedule') public scheduleComponent!: ScheduleComponent;
 
   /** PUBLIC PROPERTIES */
-  public readonly eventSettings$ = new BehaviorSubject<EventSettingsModel>({});
   public dateRangeHeader = '';
   public currentView: View = 'Month';
   public month!: TuiMonth;
+  public readonly eventSettings$ = new BehaviorSubject<EventSettingsModel>({});
 
   /** PRIVATE PROPERTIES */
+  private nameTitle$!: Observable<string>;
+  private canDisplayNotification = true;
+  private readonly clickToday$ = new Subject();
   private readonly staticSettings: EventSettingsModel = {
     allowAdding: false,
     allowEditing: true,
@@ -73,16 +78,28 @@ export class TssScheduleComponent
   constructor(
     @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
     @Inject(Injector) private readonly injector: Injector,
-    private readonly store: Store<fromSchedule.ScheduleState>
+    @Inject(TuiNotificationsService)
+    private readonly notificationsService: TuiNotificationsService,
+    private readonly store: Store<fromSchedule.ScheduleState>,
+    appShellStore: Store<fromAppShell.AppShellState>
   ) {
     super();
 
+    this.nameTitle$ = appShellStore
+      .select(fromAppShell.selectNameTitle)
+      .pipe(takeUntil(this.destroy$));
+    this.handleClickToday();
     this.handleLoadSchedule();
   }
 
   /** LIFE CYCLE */
   public ngAfterViewInit(): void {
     this.handleNavigate();
+  }
+
+  public ngOnDestroy(): void {
+    this.clickToday$.complete();
+    super.ngOnDestroy();
   }
 
   /** PUBLIC METHODS */
@@ -182,7 +199,16 @@ export class TssScheduleComponent
   }
 
   public onClickToday(): void {
-    this.scheduleComponent.selectedDate = new Date();
+    const schedule = this.scheduleComponent;
+    const currentViewDates = schedule.getCurrentViewDates();
+    const first = currentViewDates[0];
+    const last = currentViewDates[currentViewDates.length - 1];
+    const today = new Date();
+
+    if (today < first || today > last) {
+      schedule.selectedDate = today;
+    }
+    this.clickToday$.next();
   }
 
   public changeView(view: View): void {
@@ -203,22 +229,36 @@ export class TssScheduleComponent
       .subscribe();
   }
 
-  private showExamDialog(data?: EjsScheduleModel): void {
-    this.dialogService
-      .open<string | undefined>(
-        new PolymorpheusComponent(ExamDialogComponent, this.injector),
-        {
-          data,
-          dismissible: false,
-          label: 'Chi tiết lịch thi',
-        }
-      )
+  private handleClickToday(): void {
+    combineLatest([this.nameTitle$, this.clickToday$])
       .pipe(
-        tap((note) => {
-          if (note !== undefined) {
-            const newData = { ...data, Note: note };
-            this.scheduleComponent.saveEvent(newData);
-          }
+        tap(([nameTitle]) => {
+          if (!this.canDisplayNotification) return;
+
+          this.canDisplayNotification = false;
+          const schedule = this.scheduleComponent;
+          const now = new Date();
+          const year = now.getFullYear();
+          const month = now.getMonth();
+          const date = now.getDate();
+          const eventsCount = schedule.getEvents(
+            new Date(year, month, date),
+            new Date(year, month, date, 23, 59, 59, 999)
+          ).length;
+          const content =
+            eventsCount === 0
+              ? `${nameTitle} hãy tận hưởng thời gian nghỉ ngơi!`
+              : `Chúc ${nameTitle.toLowerCase()} có ngày làm việc hiệu quả!`;
+          const label =
+            eventsCount === 0
+              ? `${nameTitle} không có sự kiện nào trong hôm nay`
+              : `${nameTitle} có ${eventsCount} sự kiện vào hôm nay`;
+
+          this.notificationsService
+            .show(content, { label, autoClose: 6000 })
+            .subscribe({
+              complete: () => (this.canDisplayNotification = true),
+            });
         })
       )
       .subscribe();
@@ -241,6 +281,27 @@ export class TssScheduleComponent
       case 'Day':
         this.handleViewDay();
     }
+  }
+
+  private showExamDialog(data?: EjsScheduleModel): void {
+    this.dialogService
+      .open<string | undefined>(
+        new PolymorpheusComponent(ExamDialogComponent, this.injector),
+        {
+          data,
+          dismissible: false,
+          label: 'Chi tiết lịch thi',
+        }
+      )
+      .pipe(
+        tap((note) => {
+          if (note !== undefined) {
+            const newData = { ...data, Note: note };
+            this.scheduleComponent.saveEvent(newData);
+          }
+        })
+      )
+      .subscribe();
   }
 
   private handleViewMonth(): void {

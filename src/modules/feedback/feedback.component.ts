@@ -51,7 +51,7 @@ export class FeedbackComponent extends BaseComponent {
       .pipe(distinctUntilChanged(), takeUntil(this.destroy$));
 
     this.store.dispatch(fromFeedback.reset());
-    
+
     this.handleSubmit();
     this.initForm();
   }

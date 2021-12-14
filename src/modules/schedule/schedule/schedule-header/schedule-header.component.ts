@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -21,6 +22,7 @@ import {
   selector: 'tss-schedule-header',
   templateUrl: './schedule-header.component.html',
   styleUrls: ['./schedule-header.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: TUI_BUTTON_OPTIONS,

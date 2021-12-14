@@ -89,13 +89,10 @@ export class ChangePasswordComponent extends BaseComponent {
         password: ['', Validators.required],
         newPassword: [
           '',
-          [
-            Validators.required,
-            // Validators.minLength(6), duplicatedValue
-          ],
+          [Validators.required, Validators.minLength(6), duplicatedValue],
         ],
-      }
-      // { validators: duplicatedValue }
+      },
+      { validators: duplicatedValue }
     );
   }
 
