@@ -34,7 +34,7 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { ExamDialogComponent } from './exam-dialog/exam-dialog.component';
 import { EjsScheduleModel } from '@models/schedule/ejs-schedule.model';
 import { TuiMonth } from '@taiga-ui/cdk';
-import { DateHelper } from 'src/shared/helpers/beautify-time.helper';
+import { DateHelper } from 'src/shared/helpers/date.helper';
 
 loadCldr(numberingSystems, gregorian, numbers, timeZoneNames);
 L10n.load({ vi: EJ2_LOCALE.vi });

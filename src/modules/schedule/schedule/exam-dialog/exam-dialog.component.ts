@@ -11,7 +11,7 @@ import { ScheduleService } from '@services/schedule.service';
 import { TuiDay } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { DateHelper } from 'src/shared/helpers/beautify-time.helper';
+import { DateHelper } from 'src/shared/helpers/date.helper';
 
 @Component({
   selector: 'tss-exam-dialog',
