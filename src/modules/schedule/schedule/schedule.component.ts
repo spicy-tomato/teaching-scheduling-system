@@ -205,7 +205,13 @@ export class TssScheduleComponent
     const last = currentViewDates[currentViewDates.length - 1];
     const today = new Date();
 
-    if (today < first || today > last) {
+    if (
+      (this.currentView !== 'Day' && (today < first || today > last)) ||
+      (this.currentView === 'Day' &&
+        (first.getDate() !== today.getDate() ||
+          first.getMonth() !== today.getMonth() ||
+          first.getFullYear() !== today.getFullYear()))
+    ) {
       schedule.selectedDate = today;
     }
     this.clickToday$.next();
