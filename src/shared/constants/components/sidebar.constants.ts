@@ -57,6 +57,10 @@ export class SidebarConstant {
       ],
     },
     {
+      name: 'Quản lý phân quyền',
+      icon: 'far fa-chart-pie',
+    },
+    {
       name: 'Thống kê',
       icon: 'far fa-chart-pie',
     },
