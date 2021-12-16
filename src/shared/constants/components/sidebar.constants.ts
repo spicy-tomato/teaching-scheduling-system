@@ -58,7 +58,8 @@ export class SidebarConstant {
     },
     {
       name: 'Quản lý phân quyền',
-      icon: 'far fa-chart-pie',
+      icon: 'fad fa-user-shield',
+      routerLink: '/user-setting/permission',
     },
     {
       name: 'Thống kê',

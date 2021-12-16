@@ -15,6 +15,11 @@ const routes: Routes = [
             .ChangePasswordModule,
       },
       {
+        path: 'permission',
+        loadChildren: async () =>
+          (await import('./permission/permission.module')).PermissionModule,
+      },
+      {
         path: '',
         pathMatch: 'full',
         redirectTo: 'change-password',
