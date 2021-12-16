@@ -23,9 +23,6 @@
           }
         }
       }
-      &.ml {
-        @include ml(2);
-      }
       &.active {
         background-color: var(--tui-secondary-active);
       }
@@ -47,4 +44,28 @@
     height: 100%;
     background-color: rgba(0, 0, 0, 0.12);
   }
+}
+
+form {
+  padding: 0.75rem 1rem;
+
+  tui-radio-labeled {
+    margin-right: 2rem;
+  }
+
+  button {
+    &[tuiButton] {
+      width: auto;
+      border-radius: var(--tui-radius-xs);
+      ::ng-deep {
+        .wrapper {
+          @include px(2);
+        }
+      }
+    }
+  }
+}
+
+.ml {
+  @include ml(2);
 }

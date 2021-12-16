@@ -13,6 +13,7 @@ export class Teacher {
   public readonly scheduleDataVersion!: number;
   public readonly notificationDataVersion!: number;
   public readonly isFemale!: boolean;
+  public readonly permissions!: number[];
 
   public static parse(obj: TeacherDta | null): Teacher | undefined {
     if (!obj) {

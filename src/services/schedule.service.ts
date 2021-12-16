@@ -24,6 +24,18 @@ export class ScheduleService extends BaseDataService {
       );
   }
 
+  public getDepartmentExamSchedule(
+    department: string
+  ): Observable<ScheduleModel[]> {
+    return this.http
+      .get<ScheduleDta[]>(this.url + `departments/${department}/exam-schedules`)
+      .pipe(
+        map((response) => {
+          return response.map((x) => ScheduleModel.parse(x, 'exam'));
+        })
+      );
+  }
+
   public updateNote(body: Record<string, number | string>): Observable<void> {
     return this.http.put<void>(this.url + 'exam-schedules/update', body);
   }

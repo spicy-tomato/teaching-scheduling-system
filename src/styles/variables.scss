@@ -21,6 +21,13 @@ $tuiText02: var(--tui-text-02);
 
 $u: 0.25rem;
 
+.d-flex {
+  display: flex;
+}
+.flex-end {
+  justify-content: end;
+}
+
 @mixin font($size: base) {
   @if $size==xs {
     font-size: 0.75rem;

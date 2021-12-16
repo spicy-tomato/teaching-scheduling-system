@@ -1,9 +1,10 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { scheduleFeatureKey, ScheduleState } from '.';
 
-const loginSelector = createFeatureSelector<ScheduleState>(scheduleFeatureKey);
+const scheduleSelector =
+  createFeatureSelector<ScheduleState>(scheduleFeatureKey);
 
 export const selectSchedule = createSelector(
-  loginSelector,
+  scheduleSelector,
   (state) => state.schedules
 );

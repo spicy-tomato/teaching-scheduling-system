@@ -29,6 +29,7 @@ import {
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
 import { ScheduleHeaderComponent } from './schedule/schedule-header/schedule-header.component';
+import { TuiRadioLabeledModule } from '@taiga-ui/kit';
 
 const NGRX = [
   ReactiveComponentModule,
@@ -51,6 +52,7 @@ const TAIGA_UI = [
   TuiTextfieldControllerModule,
   TuiHostedDropdownModule,
   TuiCalendarMonthModule,
+  TuiRadioLabeledModule,
 ];
 
 @NgModule({

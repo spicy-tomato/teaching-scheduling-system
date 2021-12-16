@@ -13,3 +13,8 @@ export const selectTeacher = createSelector(
 export const selectNameTitle = createSelector(selectTeacher, (teacher) =>
   teacher === undefined ? 'Bạn' : teacher.isFemale ? 'Cô' : 'Thầy'
 );
+
+export const selectPermission = createSelector(
+  selectTeacher,
+  (teacher) => teacher?.permissions
+);

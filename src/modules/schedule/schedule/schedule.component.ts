@@ -88,6 +88,7 @@ export class TssScheduleComponent
     this.nameTitle$ = appShellStore
       .select(fromAppShell.selectNameTitle)
       .pipe(takeUntil(this.destroy$));
+
     this.handleClickToday();
     this.handleLoadSchedule();
   }

@@ -1,23 +1,23 @@
 <div class="wrapper">
   <div class="left">
     <button
-      [icon]="prevIcon"
       (click)="prev.next()"
       tuiIconButton
       shape="rounded"
+      icon="tuiIconChevronLeftLarge"
     ></button>
     <button
-      [icon]="nextIcon"
       (click)="next.next()"
       tuiIconButton
       shape="rounded"
+      icon="tuiIconChevronRightLarge"
       class="ml"
     ></button>
-    <tui-hosted-dropdown [(open)]="openDropdown" [content]="dropdown">
+    <tui-hosted-dropdown [(open)]="openSelectMonth" [content]="monthDropdown">
       <button
-        [iconRight]="dropdownIcon"
-        [class.rotate]="openDropdown"
+        [class.rotate]="openSelectMonth"
         tuiButton
+        iconRight="tuiIconChevronDown"
         class="ml"
       >
         {{ dateRange }}
@@ -42,6 +42,7 @@
     >
       TUẦN
     </button>
+
     <button
       tuiButton
       [class.active]="view === 'Day'"
@@ -50,13 +51,56 @@
     >
       NGÀY
     </button>
+    <ng-container *ngrxLet="permissions$ as permissions">
+      <ng-container
+        *ngIf="
+          permissions?.includes(permissionConstant.SEE_DEPARTMENT_EXAM_SCHEDULE)
+        "
+      >
+        <div class="divider"></div>
+        <tui-hosted-dropdown
+          *ngrxLet="activateFilterButton$ as activateFilterButton"
+          [(open)]="openFilter"
+          [content]="filterDropdown"
+          [class.active]="activateFilterButton"
+        >
+          <button tuiButton iconRight="tuiIconFilter">Bộ lọc</button>
+        </tui-hosted-dropdown>
+      </ng-container>
+    </ng-container>
   </div>
 </div>
 
-<ng-template #dropdown>
+<ng-template #monthDropdown>
   <tui-calendar-month
     [value]="month"
     [year]="month"
-    (monthClick)="onMonthClick($event)"
+    (monthClick)="onSelectMonth($event)"
   ></tui-calendar-month>
+</ng-template>
+
+<ng-template #filterDropdown>
+  <form [formGroup]="filterForm" (ngSubmit)="filter()">
+    <div class="d-flex">
+      <tui-radio-labeled
+        formControlName="showDepartmentSchedule"
+        class="tui-space_bottom-3"
+        [item]="false"
+      >
+        Cá nhân
+      </tui-radio-labeled>
+      <tui-radio-labeled
+        formControlName="showDepartmentSchedule"
+        class="tui-space_bottom-3"
+        [item]="true"
+      >
+        Bộ môn
+      </tui-radio-labeled>
+    </div>
+    <div class="d-flex flex-end">
+      <button tuiButton appearance="primary" size="xs" type="submit">
+        Lọc
+      </button>
+    </div>
+  </form>
 </ng-template>

@@ -12,11 +12,14 @@ import {
   TuiHostedDropdownComponent,
   TUI_BUTTON_OPTIONS,
 } from '@taiga-ui/core';
-import {
-  tuiIconChevronDown,
-  tuiIconChevronLeftLarge,
-  tuiIconChevronRightLarge,
-} from '@taiga-ui/icons';
+import { Observable } from 'rxjs';
+import * as fromAppShell from '@modules/core/components/app-shell/state';
+import { Store } from '@ngrx/store';
+import { BaseComponent } from '@modules/core/base/base.component';
+import { takeUntil } from 'rxjs/operators';
+import { PermissionConstant } from '@constants/core/permission.constant';
+import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import * as fromSchedule from '@modules/schedule/state';
 
 @Component({
   selector: 'tss-schedule-header',
@@ -34,7 +37,7 @@ import {
     },
   ],
 })
-export class ScheduleHeaderComponent {
+export class ScheduleHeaderComponent extends BaseComponent {
   /** INPUT */
   @Input() public dateRange!: string;
   @Input() public view!: 'Month' | 'Week' | 'Day';
@@ -54,13 +57,50 @@ export class ScheduleHeaderComponent {
   public hostedDropdown?: TuiHostedDropdownComponent;
 
   /** PUBLIC PROPERTIES */
-  public openDropdown = false;
-  public readonly prevIcon = tuiIconChevronLeftLarge;
-  public readonly nextIcon = tuiIconChevronRightLarge;
-  public readonly dropdownIcon = tuiIconChevronDown;
+  public permissions$!: Observable<number[] | undefined>;
+  public openSelectMonth = false;
+  public filterForm!: FormGroup;
+  public activateFilterButton$!: Observable<boolean>;
+  public openFilter = false;
+  public readonly permissionConstant = PermissionConstant;
 
-  public onMonthClick(month: TuiMonth): void {
-    this.openDropdown = false;
+  /** GETTERS */
+  private get showDepartmentSchedule(): AbstractControl | null {
+    return this.filterForm.get('showDepartmentSchedule');
+  }
+
+  /** CONSTRUCTOR */
+  constructor(
+    private fb: FormBuilder,
+    private store: Store<fromSchedule.ScheduleState>,
+    appShellStore: Store<fromAppShell.AppShellState>
+  ) {
+    super();
+
+    this.permissions$ = appShellStore
+      .select(fromAppShell.selectPermission)
+      .pipe(takeUntil(this.destroy$));
+
+    this.initForm();
+  }
+
+  /** PUBLIC METHODS */
+  public onSelectMonth(month: TuiMonth): void {
+    this.openSelectMonth = false;
     this.chooseMonth.next(month);
+  }
+
+  public filter(): void {
+    const departmentSchedule =
+      (this.showDepartmentSchedule?.value as boolean) ?? false;
+    this.store.dispatch(fromSchedule.load({ departmentSchedule }));
+    this.openFilter = false;
+  }
+
+  /** PRIVATE METHODS */
+  private initForm(): void {
+    this.filterForm = this.fb.group({
+      showDepartmentSchedule: [false],
+    });
   }
 }

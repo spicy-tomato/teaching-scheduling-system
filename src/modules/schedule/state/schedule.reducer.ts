@@ -7,6 +7,7 @@ import * as PageAction from './schedule.page.actions';
 const initialState: ScheduleState = {
   status: EApiStatus.unknown,
   schedules: [],
+  filter: {},
 };
 
 export const scheduleFeatureKey = 'schedule';
