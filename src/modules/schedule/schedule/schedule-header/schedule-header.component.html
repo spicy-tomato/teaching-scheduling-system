@@ -1,13 +1,13 @@
 <div class="wrapper">
   <div class="left">
     <button
-      (click)="prev.next()"
+      (click)="onPrev()"
       tuiIconButton
       shape="rounded"
       icon="tuiIconChevronLeftLarge"
     ></button>
     <button
-      (click)="next.next()"
+      (click)="onNext()"
       tuiIconButton
       shape="rounded"
       icon="tuiIconChevronRightLarge"
@@ -15,6 +15,7 @@
     ></button>
     <tui-hosted-dropdown [(open)]="openSelectMonth" [content]="monthDropdown">
       <button
+        *ngrxLet="dateRange$ as dateRange"
         [class.rotate]="openSelectMonth"
         tuiButton
         iconRight="tuiIconChevronDown"
@@ -24,20 +25,20 @@
       </button>
     </tui-hosted-dropdown>
   </div>
-  <div class="right">
+  <div class="right" *ngrxLet="view$ as view">
     <button tuiButton (click)="clickToday.next()">HÔM NAY</button>
     <div class="divider"></div>
     <button
       tuiButton
       [class.active]="view === 'Month'"
-      (click)="clickMonth.next()"
+      (click)="onClickMonth()"
     >
       THÁNG
     </button>
     <button
       tuiButton
       [class.active]="view === 'Week'"
-      (click)="clickWeek.next()"
+      (click)="onClickWeek()"
       class="ml"
     >
       TUẦN
@@ -46,7 +47,7 @@
     <button
       tuiButton
       [class.active]="view === 'Day'"
-      (click)="clickDay.next()"
+      (click)="onClickDay()"
       class="ml"
     >
       NGÀY
@@ -73,6 +74,7 @@
 
 <ng-template #monthDropdown>
   <tui-calendar-month
+    *ngrxLet="month$ as month"
     [value]="month"
     [year]="month"
     (monthClick)="onSelectMonth($event)"

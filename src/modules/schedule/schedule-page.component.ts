@@ -16,6 +16,7 @@ export class SchedulePageComponent extends BaseComponent implements OnInit {
   /** CONSTRUCTOR */
   constructor(private store: Store<fromSchedule.ScheduleState>) {
     super();
+    this.store.dispatch(fromSchedule.reset());
   }
 
   /** LIFE CYCLE */

@@ -45,7 +45,6 @@ export class ScheduleEffects {
   ) {
     this.department$ = appShellStore.select(fromAppShell.selectTeacher).pipe(
       map((teacher) => {
-        console.log(teacher);
         return teacher?.idDepartment;
       })
     );
