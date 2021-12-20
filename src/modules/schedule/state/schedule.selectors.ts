@@ -23,3 +23,8 @@ export const selectView = createSelector(
   scheduleSelector,
   (state) => state.view
 );
+
+export const selectStatus = createSelector(
+  scheduleSelector,
+  (state) => state.status
+);

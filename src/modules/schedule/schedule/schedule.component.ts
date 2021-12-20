@@ -31,6 +31,7 @@ import { Store } from '@ngrx/store';
 import {
   distinctUntilChanged,
   filter,
+  map,
   skip,
   takeUntil,
   tap,
@@ -42,6 +43,7 @@ import { ExamDialogComponent } from './exam-dialog/exam-dialog.component';
 import { EjsScheduleModel } from '@models/schedule/ejs-schedule.model';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
 import { TuiMonth } from '@taiga-ui/cdk';
+import { EApiStatus } from 'src/shared/enums/api-status.enum';
 
 loadCldr(numberingSystems, gregorian, numbers, timeZoneNames);
 L10n.load({ vi: EJ2_LOCALE.vi });
@@ -99,6 +101,7 @@ export class TssScheduleComponent
   public ngAfterViewInit(): void {
     this.handleSelectedDateChanges();
     this.handleChangeView();
+    this.handleChangeStatus();
   }
 
   public ngOnDestroy(): void {
@@ -205,6 +208,24 @@ export class TssScheduleComponent
         filter((view) => !!view),
         tap((view) => {
           this.scheduleComponent.changeView(view);
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
+  private handleChangeStatus(): void {
+    this.store
+      .select(fromSchedule.selectStatus)
+      .pipe(
+        map((status) => status === EApiStatus.loading),
+        distinctUntilChanged(),
+        tap((isLoading) => {
+          if (isLoading) {
+            this.scheduleComponent.showSpinner();
+          } else {
+            this.scheduleComponent.hideSpinner();
+          }
         }),
         takeUntil(this.destroy$)
       )

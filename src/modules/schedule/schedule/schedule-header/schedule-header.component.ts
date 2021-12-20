@@ -147,7 +147,6 @@ export class ScheduleHeaderComponent
       this.store.select(fromSchedule.selectView),
       this.store.select(fromSchedule.selectSelectedDate),
     ]).pipe(
-      tap((e) => console.log(e)),
       map(([view]) => view),
       delay(0),
       map((view) => {

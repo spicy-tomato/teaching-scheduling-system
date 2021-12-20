@@ -12,6 +12,7 @@ export {
   selectSchedule,
   selectSelectedDate,
   selectMonth,
-  selectView
+  selectView,
+  selectStatus,
 } from './schedule.selectors';
 export { ScheduleEffects } from './schedule.effects';
