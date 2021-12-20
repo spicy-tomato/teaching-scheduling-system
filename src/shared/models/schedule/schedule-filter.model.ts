@@ -1,3 +1,3 @@
 export interface ScheduleFilter {
-  showDepartmentSchedule?: boolean;
+  showDepartmentSchedule: boolean;
 }

@@ -11,13 +11,14 @@ import { TuiAppearance, TUI_BUTTON_OPTIONS } from '@taiga-ui/core';
 import { combineLatest, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { BaseComponent } from '@modules/core/base/base.component';
-import { delay, map, takeUntil } from 'rxjs/operators';
+import { delay, map, takeUntil, tap } from 'rxjs/operators';
 import { PermissionConstant } from '@constants/core/permission.constant';
-import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ScheduleComponent, View } from '@syncfusion/ej2-angular-schedule';
 import { DateHelper } from 'src/shared/helpers/date.helper';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
 import * as fromSchedule from '@modules/schedule/state';
+import { ScheduleFilter } from '@models/schedule/schedule-filter.model';
 
 @Component({
   selector: 'tss-schedule-header',
@@ -48,19 +49,13 @@ export class ScheduleHeaderComponent
   /** PUBLIC PROPERTIES */
   public view$!: Observable<View>;
   public permissions$!: Observable<number[] | undefined>;
+  public filter$: Observable<ScheduleFilter>;
   public openSelectMonth = false;
   public month$!: Observable<TuiMonth>;
-  public dateRange!: string;
   public dateRange$!: Observable<string>;
   public filterForm!: FormGroup;
-  public activateFilterButton$!: Observable<boolean>;
   public openFilter = false;
   public readonly permissionConstant = PermissionConstant;
-
-  /** GETTERS */
-  private get showDepartmentSchedule(): AbstractControl | null {
-    return this.filterForm?.get('showDepartmentSchedule');
-  }
 
   /** CONSTRUCTOR */
   constructor(
@@ -74,11 +69,16 @@ export class ScheduleHeaderComponent
       .select(fromAppShell.selectPermission)
       .pipe(takeUntil(this.destroy$));
 
+    this.filter$ = store
+      .select(fromSchedule.selectFilter)
+      .pipe(takeUntil(this.destroy$));
+
     this.initForm();
     this.handleChangeMonth();
     this.handleChangeView();
   }
 
+  /** LIFE CYCLE */
   public ngAfterViewInit(): void {
     this.triggerDateRange();
   }
@@ -99,15 +99,22 @@ export class ScheduleHeaderComponent
       })
     );
   }
+  
   public onSelectMonth(month: TuiMonth): void {
     this.openSelectMonth = false;
     this.store.dispatch(fromSchedule.changeMonth({ month }));
   }
 
+  public onFilterOpenChange(open: boolean): void {
+    if (!open) {
+      this.initForm();
+    }
+  }
+
   public filter(): void {
-    const departmentSchedule =
-      (this.showDepartmentSchedule?.value as boolean) ?? false;
-    this.store.dispatch(fromSchedule.load({ departmentSchedule }));
+    this.store.dispatch(
+      fromSchedule.filter({ filter: this.filterForm.value as ScheduleFilter })
+    );
     this.openFilter = false;
   }
 
@@ -125,9 +132,15 @@ export class ScheduleHeaderComponent
 
   /** PRIVATE METHODS */
   private initForm(): void {
-    this.filterForm = this.fb.group({
-      showDepartmentSchedule: [false],
-    });
+    this.filter$
+      .pipe(
+        tap((filter) => {
+          this.filterForm = this.fb.group({
+            showDepartmentSchedule: [filter.showDepartmentSchedule],
+          });
+        })
+      )
+      .subscribe();
   }
 
   private handleChangeMonth(): void {
@@ -163,6 +176,7 @@ export class ScheduleHeaderComponent
       takeUntil(this.destroy$)
     );
   }
+
   private handleViewMonth(): string {
     const date = this.scheduleComponent.selectedDate;
     return `Tháng ${date.getMonth() + 1}, ${date.getFullYear()}`;

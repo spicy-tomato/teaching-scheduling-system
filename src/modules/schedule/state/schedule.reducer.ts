@@ -7,7 +7,9 @@ import * as PageAction from './schedule.page.actions';
 
 const initialState: ScheduleState = {
   status: EApiStatus.unknown,
-  filter: {},
+  filter: {
+    showDepartmentSchedule: false,
+  },
   selectedDate: new Date(),
   schedules: [],
   view: 'Month',
@@ -71,6 +73,10 @@ export const scheduleReducer = createReducer(
   on(PageAction.changeView, (state, { view }) => ({
     ...state,
     view,
+  })),
+  on(PageAction.filter, (state, { filter }) => ({
+    ...state,
+    filter,
   })),
   on(ApiAction.loadSuccessful, (state, { schedules }) => {
     return {

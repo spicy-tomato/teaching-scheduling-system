@@ -28,3 +28,8 @@ export const selectStatus = createSelector(
   scheduleSelector,
   (state) => state.status
 );
+
+export const selectFilter = createSelector(
+  scheduleSelector,
+  (state) => state.filter
+);

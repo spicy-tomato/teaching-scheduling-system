@@ -35,8 +35,9 @@ import {
   skip,
   takeUntil,
   tap,
+  withLatestFrom,
 } from 'rxjs/operators';
-import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import { TuiDialogService, TuiNotificationsService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { ExamDialogComponent } from './exam-dialog/exam-dialog.component';
@@ -64,12 +65,10 @@ export class TssScheduleComponent
   @ViewChild('schedule') public scheduleComponent!: ScheduleComponent;
 
   /** PUBLIC PROPERTIES */
-  public dateRangeHeader = '';
   public currentView: View = 'Month';
   public readonly eventSettings$ = new BehaviorSubject<EventSettingsModel>({});
 
   /** PRIVATE PROPERTIES */
-  private nameTitle$!: Observable<string>;
   private canDisplayNotification = true;
   private readonly clickToday$ = new Subject();
   private readonly staticSettings: EventSettingsModel = {
@@ -85,13 +84,9 @@ export class TssScheduleComponent
     @Inject(TuiNotificationsService)
     private readonly notificationsService: TuiNotificationsService,
     private readonly store: Store<fromSchedule.ScheduleState>,
-    appShellStore: Store<fromAppShell.AppShellState>
+    private readonly appShellStore: Store<fromAppShell.AppShellState>
   ) {
     super();
-
-    this.nameTitle$ = appShellStore
-      .select(fromAppShell.selectNameTitle)
-      .pipe(takeUntil(this.destroy$));
 
     this.handleClickToday();
     this.handleLoadSchedule();
@@ -188,10 +183,15 @@ export class TssScheduleComponent
   }
 
   private handleClickToday(): void {
-    combineLatest([this.nameTitle$, this.clickToday$])
+    const nameTitle$ = this.appShellStore
+      .select(fromAppShell.selectNameTitle)
+      .pipe(takeUntil(this.destroy$));
+
+    combineLatest([nameTitle$, this.clickToday$])
       .pipe(
-        tap(([nameTitle]) => {
-          if (this.canDisplayNotification) {
+        withLatestFrom(this.store.select(fromSchedule.selectFilter)),
+        tap(([[nameTitle], filter]) => {
+          if (this.canDisplayNotification && !filter.showDepartmentSchedule) {
             this.displayNotification(nameTitle);
           }
         })

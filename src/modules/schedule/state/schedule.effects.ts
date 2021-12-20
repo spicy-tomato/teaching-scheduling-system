@@ -1,7 +1,14 @@
 import { Injectable } from '@angular/core';
 
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap, take } from 'rxjs/operators';
+import {
+  catchError,
+  distinctUntilKeyChanged,
+  map,
+  mergeMap,
+  switchMap,
+  take,
+} from 'rxjs/operators';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as PageAction from './schedule.page.actions';
@@ -31,6 +38,23 @@ export class ScheduleEffects {
             return ApiAction.loadSuccessful({ schedules });
           }),
           catchError(() => of(ApiAction.loadFailure()))
+        );
+      })
+    );
+  });
+
+  public filter$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(PageAction.filter),
+      distinctUntilKeyChanged(
+        'filter',
+        (x, y) => x.showDepartmentSchedule === y.showDepartmentSchedule
+      ),
+      mergeMap(({ filter }) => {
+        return of(
+          PageAction.load({
+            departmentSchedule: filter.showDepartmentSchedule,
+          })
         );
       })
     );
