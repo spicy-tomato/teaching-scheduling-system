@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap, take } from 'rxjs/operators';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as PageAction from './schedule.page.actions';
@@ -19,9 +19,10 @@ export class ScheduleEffects {
       mergeMap(({ departmentSchedule }) => {
         const schedule$ = departmentSchedule
           ? this.department$.pipe(
-              mergeMap((department) =>
+              switchMap((department) =>
                 this.scheduleService.getDepartmentExamSchedule(department ?? '')
-              )
+              ),
+              take(1)
             )
           : this.scheduleService.getExamSchedule();
 

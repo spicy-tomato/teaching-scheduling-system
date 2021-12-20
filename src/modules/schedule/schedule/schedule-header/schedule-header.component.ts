@@ -9,15 +9,15 @@ import {
 import { TuiMonth } from '@taiga-ui/cdk';
 import { TuiAppearance, TUI_BUTTON_OPTIONS } from '@taiga-ui/core';
 import { combineLatest, Observable } from 'rxjs';
-import * as fromAppShell from '@modules/core/components/app-shell/state';
 import { Store } from '@ngrx/store';
 import { BaseComponent } from '@modules/core/base/base.component';
-import { delay, map, takeUntil, tap } from 'rxjs/operators';
+import { delay, map, takeUntil } from 'rxjs/operators';
 import { PermissionConstant } from '@constants/core/permission.constant';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
-import * as fromSchedule from '@modules/schedule/state';
 import { ScheduleComponent, View } from '@syncfusion/ej2-angular-schedule';
 import { DateHelper } from 'src/shared/helpers/date.helper';
+import * as fromAppShell from '@modules/core/components/app-shell/state';
+import * as fromSchedule from '@modules/schedule/state';
 
 @Component({
   selector: 'tss-schedule-header',
