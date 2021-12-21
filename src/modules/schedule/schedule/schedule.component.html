@@ -1,11 +1,9 @@
 <tss-schedule-header
   [scheduleComponent]="scheduleComponent"
-  (clickToday)="onClickToday()"
 ></tss-schedule-header>
 <ng-container *ngrxLet="eventSettings$ as eventSettings">
   <ejs-schedule
     #schedule
-    [(currentView)]="currentView"
     [eventSettings]="eventSettings"
     [quickInfoOnSelectionEnd]="false"
     [firstDayOfWeek]="1"
@@ -15,6 +13,7 @@
     (eventRendered)="onEventRendered($event)"
     (eventClick)="onEventClick()"
     (popupOpen)="onPopupOpen($event)"
+    currentView="Month"
     locale="vi"
     cssClass="cell-dimension"
     width="100%"

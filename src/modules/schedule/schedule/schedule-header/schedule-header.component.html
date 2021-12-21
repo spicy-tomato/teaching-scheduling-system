@@ -55,7 +55,14 @@
 
   <!-- Right -->
   <div class="right" *ngrxLet="view$ as view">
-    <button tuiButton (click)="clickToday.next()">HÔM NAY</button>
+    <button
+      *ngrxLet="activeToday$ as activeToday"
+      tuiButton
+      [class.active]="activeToday"
+      (click)="clickToday$.next()"
+    >
+      HÔM NAY
+    </button>
     <div class="divider"></div>
     <button
       tuiButton
