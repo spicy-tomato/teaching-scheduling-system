@@ -7,7 +7,7 @@
   grid-template-columns: $sidebar-width auto;
   grid-template-areas:
     "nav   nav"
-    "main main";
+    "aside main";
 }
 
 tss-sidebar {

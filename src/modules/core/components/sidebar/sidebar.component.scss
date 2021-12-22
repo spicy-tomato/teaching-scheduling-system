@@ -19,7 +19,7 @@
     tui-accordion-item {
       ::ng-deep {
         .header {
-          padding-left: 1.5rem !important;
+          padding-left: 0.75rem !important;
           padding-right: 1rem !important;
         }
       }
@@ -53,11 +53,12 @@
     }
 
     .link {
-      @include pl(6);
+      @include pl(3);
       @include pr(3);
       @include py(2.5);
       @include bg(white);
       display: block;
+      color: $tuiText01;
 
       &:hover {
         @include bg($tuiBase02);

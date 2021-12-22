@@ -34,3 +34,7 @@ tui-data-list.menu-data-list {
 .tui-island:not(.tui-island_hoverable):before {
   border: 1px solid var(--tui-base-04) !important;
 }
+
+tr:nth-child(even) td {
+  background: var(--tui-base-02);
+}

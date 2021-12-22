@@ -24,8 +24,14 @@ $u: 0.25rem;
 .d-flex {
   display: flex;
 }
+.flex-col {
+  flex-direction: column;
+}
 .flex-end {
   justify-content: end;
+}
+.justify-content-center {
+  justify-content: center;
 }
 
 @mixin font($size: base) {
