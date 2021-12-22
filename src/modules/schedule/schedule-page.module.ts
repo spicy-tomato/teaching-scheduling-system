@@ -73,4 +73,4 @@ const TAIGA_UI = [
     ScheduleHeaderComponent,
   ],
 })
-export class SchedulerPageModule {}
+export class SchedulePageModule {}

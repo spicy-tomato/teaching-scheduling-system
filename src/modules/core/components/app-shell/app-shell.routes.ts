@@ -26,7 +26,7 @@ const routes: Routes = [
         path: 'schedule',
         loadChildren: async () =>
           (await import('@modules/schedule/schedule-page.module'))
-            .SchedulerPageModule,
+            .SchedulePageModule,
       },
       {
         path: 'user-setting',

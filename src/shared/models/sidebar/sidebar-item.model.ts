@@ -6,4 +6,5 @@ export interface SidebarItem {
     name: string;
     routerLink: string;
   }[];
+  permission?: number;
 }

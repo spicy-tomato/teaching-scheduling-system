@@ -7,7 +7,7 @@ export class PermissionConstant {
   public static SEND_NOTIFICATION_TO_STUDENT_BY_MODULE_CLASS = 6;
   public static SEND_NOTIFICATION_TO_SPECIFIC_STUDENT = 7;
   public static SEND_NOTIFICATION_TO_TEACHER = 8;
-  public static DIVIDE_SCHEDULE = 9;
+  public static ASSIGN_SCHEDULE = 9;
   public static AUTHORIZE_DEPARTMENT_PERMISSION = 10;
   public static REQUEST_CHANGE_TEACHING_SCHEDULE = 11;
   public static ACCEPT_CHANGE_TEACHING_SCHEDULE = 12;

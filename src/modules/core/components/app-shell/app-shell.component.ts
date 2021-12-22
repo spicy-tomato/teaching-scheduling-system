@@ -17,6 +17,7 @@ export class AppShellComponent extends BaseComponent implements OnInit {
     private readonly store: Store<fromAppShell.AppShellState>
   ) {
     super();
+    this.store.dispatch(fromAppShell.reset());
   }
 
   /** LIFE CYCLE */
