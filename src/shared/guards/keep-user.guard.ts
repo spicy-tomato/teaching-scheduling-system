@@ -16,7 +16,7 @@ export class KeepUserGuard implements CanLoad {
   /** IMPLEMENTATIONS */
   public canLoad(): boolean {
     const hasAccessToken = !!this.localStorageService.getItem(
-      LocalStorageKeyConstant.accessToken
+      LocalStorageKeyConstant.ACCESS_TOKEN
     );
     if (!hasAccessToken) {
       return true;

@@ -1,4 +1,5 @@
 import { BehaviorSubject, Observable } from 'rxjs';
+import { DateHelper } from 'src/shared/helpers/date.helper';
 
 export abstract class StorageService {
   /** PRIVATE PROPERTIES */
@@ -22,6 +23,12 @@ export abstract class StorageService {
 
   public getItem(key: string): string | null {
     return this.storage.getItem(key);
+  }
+
+  public getItemWithType<T>(key: string): T | null {
+    const item = this.storage.getItem(key);
+    if (!item) return null;
+    return JSON.parse(item, DateHelper.dateTimeReviver) as T;
   }
 
   public setItem(key: string, value: string): void {

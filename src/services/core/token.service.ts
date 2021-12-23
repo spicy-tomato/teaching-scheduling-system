@@ -12,18 +12,18 @@ export class TokenService {
   /** PUBLIC METHODS */
   public get(): string | null {
     return this.localStorageService.getItem(
-      LocalStorageKeyConstant.accessToken
+      LocalStorageKeyConstant.ACCESS_TOKEN
     );
   }
 
   public save(token: string): void {
     this.localStorageService.setItem(
-      LocalStorageKeyConstant.accessToken,
+      LocalStorageKeyConstant.ACCESS_TOKEN,
       token
     );
   }
 
   public clear(): void {
-    this.localStorageService.removeItem(LocalStorageKeyConstant.accessToken);
+    this.localStorageService.removeItem(LocalStorageKeyConstant.ACCESS_TOKEN);
   }
 }
