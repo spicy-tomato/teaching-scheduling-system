@@ -3,7 +3,7 @@ import { Faculty } from '@models/core/faculty.model';
 import { ManagingClass } from '@models/core/managing-class.model';
 
 export interface NotificationCreateManagingClassViewModel {
-  academicYears: AcademicYear[];
+  academicYears: AcademicYear;
   faculties: Faculty[];
   classes: ManagingClass[];
 }

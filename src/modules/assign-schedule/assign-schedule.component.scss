@@ -1,0 +1,8 @@
+.tui-form__row {
+  > * {
+    min-width: 200px;
+    &:not(:first-child) {
+      margin-left: 1.75rem;
+    }
+  }
+}

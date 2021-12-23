@@ -32,10 +32,8 @@ export class SidebarConstant {
     {
       name: 'Phân giảng',
       icon: 'far fa-pencil-paintbrush',
-      subItems: [
-        { name: 'Lớp phân giảng', routerLink: '' },
-        { name: 'Danh sách phân giảng', routerLink: '' },
-      ],
+      routerLink: '/assign-schedule',
+      permission: PermissionConstant.ASSIGN_SCHEDULE,
     },
     // {
     //   name: 'Nhập file',
@@ -54,12 +52,12 @@ export class SidebarConstant {
     //     { name: 'Xem tất cả thông báo', routerLink: '/notification' },
     //   ],
     // },
-    {
-      name: 'Quản lý phân quyền',
-      icon: 'fad fa-user-shield',
-      routerLink: '/user-setting/permission',
-      permission: PermissionConstant.AUTHORIZE_DEPARTMENT_PERMISSION,
-    },
+    // {
+    //   name: 'Quản lý phân quyền',
+    //   icon: 'fad fa-user-shield',
+    //   routerLink: '/user-setting/permission',
+    //   permission: PermissionConstant.AUTHORIZE_DEPARTMENT_PERMISSION,
+    // },
     // {
     //   name: 'Thống kê',
     //   icon: 'far fa-chart-pie',

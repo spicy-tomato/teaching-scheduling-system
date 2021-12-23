@@ -21,7 +21,7 @@ export class NotificationCreateManagingClassComponent
   implements OnInit
 {
   //#region PUBLIC PROPERTIES
-  public readonly academicYears$!: Observable<AcademicYear[]>;
+  public readonly academicYears$!: Observable<AcademicYear>;
   public readonly faculties$!: Observable<Faculty[]>;
   public readonly classes$!: Observable<ManagingClass[]>;
   public readonly isButtonLoading$!: Observable<boolean>;
@@ -62,7 +62,7 @@ export class NotificationCreateManagingClassComponent
       this.academicYears$,
       this.faculties$,
     ]).pipe(
-      filter((data) => data[0].length > 0 && data[1].length > 0),
+      filter((data) => true),
       take(1),
       map(() => false),
       startWith(true)
@@ -168,15 +168,15 @@ export class NotificationCreateManagingClassComponent
   private handleGetAcademicYears(): void {
     this.academicYears$
       .pipe(
-        filter((result) => result.length > 0),
+        filter((result) => true),
         tap((result) => {
           const academicYearsControl = new FormGroup({});
-          result.forEach((year) => {
-            academicYearsControl.addControl(
-              year.id.toString(),
-              new FormControl(false)
-            );
-          });
+          // result.forEach((year) => {
+          //   academicYearsControl.addControl(
+          //     '',
+          //     new FormControl(false)
+          //   );
+          // });
 
           this.form.setControl('academicYears', academicYearsControl);
         })
@@ -206,7 +206,7 @@ export class NotificationCreateManagingClassComponent
         tap((result) => {
           this.store.dispatch(
             fromNotificationCreate.loadManagingClasses({
-              academicYears: result[0].map((x) => x.id),
+              academicYears: [],
               faculties: result[1].map((x) => x.id),
             })
           );

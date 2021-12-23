@@ -265,8 +265,6 @@ export class ScheduleHeaderComponent
     const first = currentViewDates[0];
     const last = currentViewDates[currentViewDates.length - 1];
 
-    console.log(first.getDate() === date.getDate());
-
     return (
       (view !== 'Day' && first <= date && date <= last) ||
       (view === 'Day' &&

@@ -42,7 +42,7 @@ export class NotificationCreateEffects {
         if (cacheData) {
           return of(
             ApiAction.loadAcademicYearsSuccessful({
-              academicYears: JSON.parse(cacheData) as AcademicYear[],
+              academicYears: JSON.parse(cacheData) as AcademicYear,
             })
           );
         }

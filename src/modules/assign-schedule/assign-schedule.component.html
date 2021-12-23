@@ -1,0 +1,56 @@
+<form *ngIf="form" [formGroup]="form">
+  <!-- First row -->
+  <div class="tui-form__row d-flex">
+    <tui-select formControlName="schoolYear">
+      Năm học
+      <ng-container *ngrxLet="schoolYears$ as schoolYears">
+        <tui-data-list-wrapper
+          *tuiDataList
+          [items]="schoolYears"
+        ></tui-data-list-wrapper>
+      </ng-container>
+    </tui-select>
+    <tui-select
+      (ngModelChange)="onTermInYearChange($event)"
+      formControlName="termInYear"
+    >
+      Học kỳ
+      <tui-data-list-wrapper
+        *tuiDataList
+        [items]="termsInYear"
+      ></tui-data-list-wrapper>
+    </tui-select>
+    <tui-select formControlName="batchInTerm">
+      Đợt học
+      <tui-data-list-wrapper
+        *tuiDataList
+        [items]="batchesInTerm[termInYear?.value]"
+      ></tui-data-list-wrapper>
+    </tui-select>
+  </div>
+
+  <!-- Second row -->
+  <div class="tui-form__row d-flex">
+    <tui-select
+      (ngModelChange)="trainingTypeChange$.next($event)"
+      formControlName="trainingType"
+    >
+      Hệ đào tạo
+      <ng-container *ngrxLet="trainingTypes$ as trainingTypes">
+        <tui-data-list-wrapper
+          *tuiDataList
+          [items]="trainingTypes"
+        ></tui-data-list-wrapper>
+      </ng-container>
+    </tui-select>
+    <tui-select formControlName="academicYear">
+      Khóa
+      <ng-container *ngrxLet="academicYears$ as academicYears">
+        <tui-data-list-wrapper
+          *tuiDataList
+          [items]="academicYears[trainingType?.value] ?? null"
+        ></tui-data-list-wrapper>
+      </ng-container>
+    </tui-select>
+  </div>
+</form>

@@ -13,7 +13,7 @@ export class AppSettingsService {
   constructor(private httpClient: HttpClient) {}
 
   public loadAppSettings(): Observable<AppSettings> {
-    const filePath = '/assets/settings/app-settings.json';
+    const filePath = '/assets/settings/app-settings-local.json';
 
     return this.httpClient.get<AppSettings>(filePath).pipe(
       tap((settings) => {

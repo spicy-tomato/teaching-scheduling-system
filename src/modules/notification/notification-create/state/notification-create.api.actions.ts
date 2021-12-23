@@ -19,7 +19,7 @@ export const submitFailure = createAction(
 
 export const loadAcademicYearsSuccessful = createAction(
   '[Notification - Create API: Managing Class] Load Academic years Successfully',
-  props<{ academicYears: AcademicYear[] }>()
+  props<{ academicYears: AcademicYear }>()
 );
 
 export const loadAcademicYearsFailure = createAction(

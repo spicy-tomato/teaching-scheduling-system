@@ -1,13 +1,3 @@
-import { AcademicYearDta } from 'src/shared/dtas/academic-year.dta';
-
-export class AcademicYear {
-  public readonly id!: number;
-  public readonly name!: string;
-
-  public static parse(obj: AcademicYearDta): AcademicYear {
-    return {
-      id: obj.id_academic_year,
-      name: obj.academic_year,
-    };
-  }
+export interface AcademicYear {
+  [key: string]: string[];
 }

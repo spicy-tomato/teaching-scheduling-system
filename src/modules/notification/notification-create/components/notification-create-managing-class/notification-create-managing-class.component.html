@@ -35,7 +35,7 @@
 
     <h5 class="tui-form__header">Khoá</h5>
     <ng-container *ngrxLet="academicYears$ as academicYears">
-      <tui-loader [showLoader]="academicYears.length === 0">
+      <tui-loader [showLoader]="false">
         <div class="grid-wrapper tui-form__row" formGroupName="academicYears">
           <tui-checkbox-labeled
             [(ngModel)]="selectAllAcademicYears"
@@ -48,12 +48,12 @@
           </tui-checkbox-labeled>
 
           <tui-checkbox-labeled
-            *ngFor="let year of academicYears"
-            [formControlName]="year.id"
+            *ngFor="let year of academicYears['a']"
+            formControlName="year"
             (ngModelChange)="onAcademicYearsChange($event)"
             size="l"
           >
-            {{ year.name }}
+            {{ year }}
           </tui-checkbox-labeled>
         </div>
       </tui-loader>

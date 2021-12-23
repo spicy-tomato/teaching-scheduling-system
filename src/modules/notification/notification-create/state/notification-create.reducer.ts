@@ -7,7 +7,7 @@ import * as PageAction from './notification-create.page.actions';
 const initialState: NotificationCreateState = {
   status: EApiStatus.unknown,
   managingData: {
-    academicYears: [],
+    academicYears: {},
     faculties: [],
     classes: [],
   },
