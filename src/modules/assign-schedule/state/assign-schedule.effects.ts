@@ -11,6 +11,7 @@ import { LocalStorageService } from '@services/core/storage/local-storage.servic
 import { LocalStorageKeyConstant } from '@constants/core/local-storage-key.constant';
 import { StorageTimeoutModel } from '@models/core/storage-timeout.model';
 import { AcademicYear } from '@models/core/academic-year.model';
+import { CommonInfoModel } from '@models/core/common-info.model';
 
 @Injectable()
 export class AssignScheduleEffects {
@@ -19,23 +20,29 @@ export class AssignScheduleEffects {
     return this.actions$.pipe(
       ofType(PageAction.loadSchoolYear),
       mergeMap(() => {
-        const cache = this.localStorageService.getItemWithType<
-          StorageTimeoutModel<string[]>
-        >(LocalStorageKeyConstant.SCHOOL_YEAR);
+        const json = this.localStorageService.getItemWithType<
+          StorageTimeoutModel<CommonInfoModel>
+        >(LocalStorageKeyConstant.COMMON_INFO);
 
-        if (cache && cache.isValid()) {
-          return of(
-            ApiAction.loadSchoolYearSuccessful({
-              schoolYears: cache.data,
-            })
+        if (json) {
+          const cache = StorageTimeoutModel.fromObject(json);
+          if (cache.isValid()) {
+            return of(
+              ApiAction.loadCurrentTermSuccessful({
+                currentTerm: cache.data.currentTerm
+              })
+            );
+          }
+          this.localStorageService.removeItem(
+            LocalStorageKeyConstant.COMMON_INFO
           );
         }
 
-        return this.commonInfoService.getSchoolYear().pipe(
-          map((schoolYears) =>
-            ApiAction.loadSchoolYearSuccessful({ schoolYears })
+        return this.commonInfoService.getCurrentTerm().pipe(
+          map((current) =>
+            ApiAction.loadCurrentTermSuccessful({ currentTerm: current })
           ),
-          catchError(() => of(ApiAction.loadSchoolYearFailure()))
+          catchError(() => of(ApiAction.loadCurrentTermFailure()))
         );
       })
     );
@@ -48,7 +55,7 @@ export class AssignScheduleEffects {
         const json = this.localStorageService.getItemWithType<
           StorageTimeoutModel<AcademicYear>
         >(LocalStorageKeyConstant.ACADEMIC_YEAR);
-        
+
         if (json) {
           const cache = StorageTimeoutModel.fromObject(json);
           if (cache.isValid()) {
@@ -58,6 +65,9 @@ export class AssignScheduleEffects {
               })
             );
           }
+          this.localStorageService.removeItem(
+            LocalStorageKeyConstant.ACADEMIC_YEAR
+          );
         }
 
         return this.commonInfoService.getAcademicYear().pipe(

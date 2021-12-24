@@ -15,7 +15,7 @@ export class Teacher {
   public readonly isFemale!: boolean;
   public readonly permissions!: number[];
 
-  public static parse(obj: TeacherDta | null): Teacher | undefined {
+  public static parse(obj?: TeacherDta): Teacher | undefined {
     if (!obj) {
       return undefined;
     }

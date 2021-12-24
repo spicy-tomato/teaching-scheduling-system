@@ -5,7 +5,7 @@ import { AcademicYear } from '@models/core/academic-year.model';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { takeUntil, tap, withLatestFrom } from 'rxjs/operators';
+import { map, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { ArrayHelper } from 'src/shared/helpers/array.helper';
 import * as fromAssignSchedule from './state';
 
@@ -17,10 +17,11 @@ import * as fromAssignSchedule from './state';
 export class AssignScheduleComponent extends BaseComponent implements OnInit {
   /** PUBLIC PROPERTIES */
   public form!: FormGroup;
-  public schoolYears$: Observable<string[]>;
+  public currentTerm$: Observable<string>;
   public academicYears$: Observable<AcademicYear>;
   public trainingTypes$: Observable<string[]>;
   public trainingTypeChange$ = new BehaviorSubject<string>('');
+  public schoolYears$!: Observable<string[]>;
   public readonly termsInYear = CoreConstant.TERMS_IN_YEAR;
   public readonly batchesInTerm = CoreConstant.BATCHES_IN_TERM;
 
@@ -44,7 +45,7 @@ export class AssignScheduleComponent extends BaseComponent implements OnInit {
   ) {
     super();
 
-    this.schoolYears$ = this.store
+    this.currentTerm$ = this.store
       .select(fromAssignSchedule.selectSchoolYear)
       .pipe(takeUntil(this.destroy$));
 
@@ -57,6 +58,7 @@ export class AssignScheduleComponent extends BaseComponent implements OnInit {
       .pipe(takeUntil(this.destroy$));
 
     this.initForm();
+    this.triggerSchoolYearChange();
     this.handleTrainingTypeChange();
   }
 
@@ -76,21 +78,28 @@ export class AssignScheduleComponent extends BaseComponent implements OnInit {
 
   /** PRIVATE METHODS */
   private initForm(): void {
-    combineLatest([this.schoolYears$, this.academicYears$])
+    combineLatest([this.currentTerm$, this.academicYears$])
       .pipe(
         withLatestFrom(this.trainingTypes$),
-        tap(([[schoolYears, academicYears], trainingTypes]) => {
+        tap(([[currentTerm, academicYears], trainingTypes]) => {
           this.form = this.fb.group({
-            schoolYear: ArrayHelper.lastItem(schoolYears),
-            termInYear: 1,
+            schoolYear: currentTerm.substr(0, currentTerm.length - 2),
+            termInYear: currentTerm.slice(-1),
             batchInTerm: 1,
             trainingType: trainingTypes[0],
-            academicYear: academicYears[trainingTypes?.[0]]?.[0] ?? [],
+            academicYear:
+              ArrayHelper.lastItem(academicYears[trainingTypes?.[0]]) ?? [],
           });
         }),
         takeUntil(this.destroy$)
       )
       .subscribe();
+  }
+
+  private triggerSchoolYearChange(): void {
+    this.schoolYears$ = this.currentTerm$.pipe(
+      map((currentTerm) => this.generateSchoolYears(currentTerm))
+    );
   }
 
   private handleTrainingTypeChange(): void {
@@ -110,5 +119,16 @@ export class AssignScheduleComponent extends BaseComponent implements OnInit {
         takeUntil(this.destroy$)
       )
       .subscribe();
+  }
+
+  private generateSchoolYears(currentTerm: string): string[] {
+    const curr = +currentTerm.split('-')[0];
+    const result = [];
+
+    for (let i = 0; i < 3; i++) {
+      result.unshift(`${curr - i}-${curr - i + 1}`);
+    }
+
+    return result;
   }
 }

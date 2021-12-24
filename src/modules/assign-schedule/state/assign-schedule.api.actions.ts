@@ -1,14 +1,13 @@
 import { AcademicYear } from '@models/core/academic-year.model';
-import { SimpleModel } from '@models/core/simple.model';
 import { createAction, props } from '@ngrx/store';
 
-export const loadSchoolYearSuccessful = createAction(
-  '[Assign Schedule API] Load school year Successfully',
-  props<{ schoolYears: string[] }>()
+export const loadCurrentTermSuccessful = createAction(
+  '[Assign Schedule API] Load current term Successfully',
+  props<{ currentTerm: string }>()
 );
 
-export const loadSchoolYearFailure = createAction(
-  '[Assign Schedule API] Load school year Failed'
+export const loadCurrentTermFailure = createAction(
+  '[Assign Schedule API] Load current term Failed'
 );
 
 export const loadAcademicYearSuccessful = createAction(

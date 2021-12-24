@@ -25,8 +25,8 @@ export class CommonInfoService extends BaseDataService {
     return this.http.get<AcademicYear>(this.url + 'academic-year2');
   }
 
-  public getSchoolYear(): Observable<string[]> {
-    return of(['2019-2020', '2020-2021', '2021-2022']);
+  public getCurrentTerm(): Observable<string> {
+    return of('2021-2022-2');
   }
 
   public getUniversity(): Observable<string[]> {

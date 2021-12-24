@@ -5,7 +5,7 @@ import { AuthResponse } from '@models/login/auth-response.model';
 import { LoginForm } from '@models/login/login-form.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { TeacherDta } from 'src/shared/dtas/teacher.dta';
+import { AuthResponseDta } from 'src/shared/dtas/auth-response.dta';
 import { BaseDataService } from './base-data.service';
 
 @Injectable({
@@ -19,12 +19,15 @@ export class AuthService extends BaseDataService {
   public auth(loginData: LoginForm): Observable<AuthResponse> {
     const obj = { username: loginData.username, password: loginData.password };
     return this.http
-      .post<TeacherDta>(this.url + 'auth/login', obj, { observe: 'response' })
+      .post<AuthResponseDta>(this.url + 'auth/login', obj, {
+        observe: 'response',
+      })
       .pipe(
         map((response) => {
           return {
             token: response.headers.get('Authorization') ?? '',
-            teacher: Teacher.parse(response.body),
+            teacher: Teacher.parse(response.body?.data),
+            commonInfo: response.body?.localData,
           };
         })
       );

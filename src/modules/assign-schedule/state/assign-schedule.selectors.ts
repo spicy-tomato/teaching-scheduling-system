@@ -7,7 +7,7 @@ const assignScheduleSelector = createFeatureSelector<AssignScheduleState>(
 
 export const selectSchoolYear = createSelector(
   assignScheduleSelector,
-  (state) => state.schoolYears
+  (state) => state.currentTerm
 );
 
 export const selectAcademicYear = createSelector(
