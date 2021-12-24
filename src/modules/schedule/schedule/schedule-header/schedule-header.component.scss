@@ -24,7 +24,9 @@
         }
       }
       &.active {
-        background-color: var(--tui-secondary-active);
+        ::ng-deep > tui-wrapper {
+          background: var(--tui-secondary-active);
+        }
       }
     }
   }

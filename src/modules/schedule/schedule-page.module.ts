@@ -30,6 +30,7 @@ import {
 } from '@taiga-ui/core';
 import { ScheduleHeaderComponent } from './schedule/schedule-header/schedule-header.component';
 import { TuiRadioLabeledModule } from '@taiga-ui/kit';
+import { DirectivesModule } from '@directives/directives.module';
 
 const NGRX = [
   ReactiveComponentModule,
@@ -63,6 +64,7 @@ const TAIGA_UI = [
     ScheduleRoutingModule,
     ScheduleModule,
     PipesModule,
+    DirectivesModule,
     ...NGRX,
     ...TAIGA_UI,
   ],

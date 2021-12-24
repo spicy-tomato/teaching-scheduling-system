@@ -23,12 +23,14 @@ import { DateHelper } from 'src/shared/helpers/date.helper';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
 import * as fromSchedule from '@modules/schedule/state';
 import { ScheduleFilter } from '@models/schedule/schedule-filter.model';
+import { fadeIn } from '@animations/fade-in.animation';
 
 @Component({
   selector: 'tss-schedule-header',
   templateUrl: './schedule-header.component.html',
   styleUrls: ['./schedule-header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [fadeIn],
   providers: [
     {
       provide: TUI_BUTTON_OPTIONS,
@@ -48,34 +50,34 @@ export class ScheduleHeaderComponent
   @Input() public scheduleComponent!: ScheduleComponent;
 
   /** PUBLIC PROPERTIES */
-  public view$!: Observable<View>;
-  public permissions$!: Observable<number[] | undefined>;
+  public view$: Observable<View>;
   public filter$: Observable<ScheduleFilter>;
   public openSelectMonth = false;
-  public month$!: Observable<TuiMonth>;
+  public month$: Observable<TuiMonth>;
   public dateRange$!: Observable<string>;
   public filterForm!: FormGroup;
   public openFilter = false;
+  public selectedDate$: Observable<Date>;
   public activeToday$!: Observable<boolean>;
   public readonly clickToday$ = new Subject<void>();
   public readonly permissionConstant = PermissionConstant;
 
   /** PRIVATE PROPERTIES */
-  private readonly displayNotification$ = new Subject<void>();
   private canDisplayNotification = true;
+  private readonly displayNotification$ = new Subject<void>();
 
   /** CONSTRUCTOR */
   constructor(
-    private fb: FormBuilder,
-    private store: Store<fromSchedule.ScheduleState>,
+    private readonly fb: FormBuilder,
+    private readonly store: Store<fromSchedule.ScheduleState>,
     @Inject(TuiNotificationsService)
     private readonly notificationsService: TuiNotificationsService,
-    appShellStore: Store<fromAppShell.AppShellState>
+    private readonly appShellStore: Store<fromAppShell.AppShellState>
   ) {
     super();
 
-    this.permissions$ = appShellStore
-      .select(fromAppShell.selectPermission)
+    this.selectedDate$ = store
+      .select(fromSchedule.selectSelectedDate)
       .pipe(takeUntil(this.destroy$));
 
     this.filter$ = store
@@ -167,10 +169,7 @@ export class ScheduleHeaderComponent
   }
 
   private triggerDateRange(): void {
-    this.dateRange$ = combineLatest([
-      this.store.select(fromSchedule.selectView),
-      this.store.select(fromSchedule.selectSelectedDate),
-    ]).pipe(
+    this.dateRange$ = combineLatest([this.view$, this.selectedDate$]).pipe(
       map(([view]) => view),
       delay(0),
       map((view) => {
@@ -216,7 +215,7 @@ export class ScheduleHeaderComponent
   private handleDisplayNotification(): void {
     this.displayNotification$
       .pipe(
-        withLatestFrom(this.store.select(fromAppShell.selectNameTitle)),
+        withLatestFrom(this.appShellStore.select(fromAppShell.selectNameTitle)),
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         tap(([_, nameTitle]) => {
           this.canDisplayNotification = false;
@@ -249,10 +248,7 @@ export class ScheduleHeaderComponent
   }
 
   private triggerActiveToday(): void {
-    this.activeToday$ = combineLatest([
-      this.store.select(fromSchedule.selectSelectedDate),
-      this.view$,
-    ]).pipe(
+    this.activeToday$ = combineLatest([this.selectedDate$, this.view$]).pipe(
       delay(0),
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       map(([_, view]) => this.dayInCurrentView(view, new Date()))

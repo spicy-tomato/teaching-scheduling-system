@@ -27,29 +27,26 @@
       </button>
     </tui-hosted-dropdown>
 
-    <ng-container *ngrxLet="permissions$ as permissions">
-      <ng-container
-        *ngIf="
-          permissions?.includes(permissionConstant.SEE_DEPARTMENT_EXAM_SCHEDULE)
-        "
+    <ng-container
+      *tssPermission="permissionConstant.SEE_DEPARTMENT_EXAM_SCHEDULE"
+    >
+      <div [@fadeIn] class="divider"></div>
+      <tui-hosted-dropdown
+        [(open)]="openFilter"
+        [content]="filterDropdown"
+        (openChange)="onFilterOpenChange($event)"
+        [@fadeIn]
       >
-        <div class="divider"></div>
-        <tui-hosted-dropdown
-          [(open)]="openFilter"
-          [content]="filterDropdown"
-          (openChange)="onFilterOpenChange($event)"
+        <button
+          *ngrxLet="filter$ as filter"
+          [class.active]="filter.showDepartmentSchedule"
+          tuiButton
+          icon="tuiIconFilter"
         >
-          <button
-            *ngrxLet="filter$ as filter"
-            [class.active]="filter.showDepartmentSchedule"
-            tuiButton
-            icon="tuiIconFilter"
-          >
-            Bộ lọc: Lịch
-            {{ filter.showDepartmentSchedule ? "bộ môn" : "cá nhân" }}
-          </button>
-        </tui-hosted-dropdown>
-      </ng-container>
+          Bộ lọc: Lịch
+          {{ filter.showDepartmentSchedule ? "bộ môn" : "cá nhân" }}
+        </button>
+      </tui-hosted-dropdown>
     </ng-container>
   </div>
 

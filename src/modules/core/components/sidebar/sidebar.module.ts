@@ -8,9 +8,8 @@ import {
   TuiScrollbarModule,
 } from '@taiga-ui/core';
 import { RouterModule } from '@angular/router';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { DirectivesModule } from '@directives/directives.module';
 
-const NGRX = [ReactiveComponentModule];
 const TAIGA_UI = [
   TuiAccordionModule,
   TuiLinkModule,
@@ -19,7 +18,7 @@ const TAIGA_UI = [
 ];
 
 @NgModule({
-  imports: [CommonModule, RouterModule, ...NGRX, ...TAIGA_UI],
+  imports: [CommonModule, RouterModule, DirectivesModule, ...TAIGA_UI],
   declarations: [SidebarComponent],
   exports: [SidebarComponent],
 })

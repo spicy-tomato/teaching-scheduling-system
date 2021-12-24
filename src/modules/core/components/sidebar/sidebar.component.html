@@ -1,10 +1,6 @@
-<tui-scrollbar *ngrxLet="permissions$ as permissions">
+<tui-scrollbar>
   <ng-container *ngFor="let item of items">
-    <ng-container
-      *ngIf="
-        item.permission === undefined || permissions?.includes(item.permission)
-      "
-    >
+    <ng-container *tssPermission="item.permission">
       <tui-accordion
         *ngIf="item.subItems; else link"
         [closeOthers]="false"
