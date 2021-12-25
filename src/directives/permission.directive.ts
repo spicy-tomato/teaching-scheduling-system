@@ -16,16 +16,16 @@ import { combineLatest, Observable, Subject } from 'rxjs';
   selector: '[tssPermission]',
 })
 export class PermissionDirective extends BaseComponent implements OnDestroy {
-  /** INPUT */
+  /** PRIVATE PROPERTIES */
+  private _tssPermission?: number;
+  private permissions$: Observable<number[] | undefined>;
+  private bind$ = new Subject();
+
+  /** SETTER */
   @Input() public set tssPermission(permissions: number | undefined) {
     this._tssPermission = permissions;
     this.bind$.next();
   }
-  private _tssPermission?: number;
-
-  /** PRIVATE PROPERTIES */
-  private permissions$: Observable<number[] | undefined>;
-  private bind$ = new Subject();
 
   /** CONSTRUCTOR */
   constructor(
@@ -59,6 +59,7 @@ export class PermissionDirective extends BaseComponent implements OnDestroy {
   private updateView(permissions?: number[]): void {
     const accept = this._tssPermission;
     if (!accept || permissions?.includes(accept)) {
+      this.viewContainer.clear();
       this.viewContainer.createEmbeddedView(this.templateRef);
       this.cdr.detectChanges();
     } else {
