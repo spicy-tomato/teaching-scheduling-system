@@ -1,8 +1,20 @@
-.tui-form__row {
-  > * {
-    min-width: 200px;
-    &:not(:first-child) {
-      margin-left: 1.75rem;
-    }
-  }
+:host {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr auto;
+  grid-template-areas:
+    "filter filter"
+    "left   right";
+}
+
+tss-assign-schedule-filter {
+  grid-area: filter;
+}
+
+tss-assign-schedule-assigned {
+  grid-area: left;
+}
+
+tss-assign-schedule-need-assign {
+  grid-area: right;
 }

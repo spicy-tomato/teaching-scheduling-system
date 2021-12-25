@@ -1,0 +1,15 @@
+:host {
+  .tui-form__row {
+    gap: 1rem 1.25rem;
+    > * {
+      min-width: 200px;
+    }
+  }
+
+  .buttons {
+    margin-top: 0.75rem;
+    button:not(:last-child) {
+      margin-right: 0.75rem;
+    }
+  }
+}

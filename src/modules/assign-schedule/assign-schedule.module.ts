@@ -8,6 +8,10 @@ import * as fromFeedback from './state';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { ReactiveComponentModule } from '@ngrx/component';
+import { AssignScheduleFilterComponent } from './assign-schedule-filter/assign-schedule-filter.component';
+import { AssignScheduleNeedAssignComponent } from './assign-schedule-need-assign/assign-schedule-need-assign.component';
+import { AssignScheduleAssignedComponent } from './assign-schedule-assigned/assign-schedule-assigned.component';
+import { TuiButtonModule, TuiExpandModule } from '@taiga-ui/core';
 
 const NGRX = [
   ReactiveComponentModule,
@@ -17,7 +21,12 @@ const NGRX = [
   ),
   EffectsModule.forFeature([fromFeedback.AssignScheduleEffects]),
 ];
-const TAIGA_UI = [TuiSelectModule, TuiDataListWrapperModule];
+const TAIGA_UI = [
+  TuiSelectModule,
+  TuiDataListWrapperModule,
+  TuiButtonModule,
+  TuiExpandModule,
+];
 
 @NgModule({
   imports: [
@@ -28,6 +37,11 @@ const TAIGA_UI = [TuiSelectModule, TuiDataListWrapperModule];
     ...NGRX,
     ...TAIGA_UI,
   ],
-  declarations: [AssignScheduleComponent],
+  declarations: [
+    AssignScheduleComponent,
+    AssignScheduleFilterComponent,
+    AssignScheduleNeedAssignComponent,
+    AssignScheduleAssignedComponent,
+  ],
 })
 export class AssignScheduleModule {}
