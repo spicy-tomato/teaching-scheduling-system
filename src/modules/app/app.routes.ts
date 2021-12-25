@@ -18,6 +18,13 @@ const routes: Routes = [
         .AppShellModule,
   },
   {
+    path: '403',
+    pathMatch: 'full',
+    resolve: { userInfo: UserInfoResolve },
+    loadChildren: async () =>
+      (await import('@modules/core/pages/403/403.module')).Error403Module,
+  },
+  {
     path: '**',
     resolve: { userInfo: UserInfoResolve },
     loadChildren: async () =>
