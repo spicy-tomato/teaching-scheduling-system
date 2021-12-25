@@ -41,6 +41,14 @@ $u: 0.25rem;
   display: grid;
 }
 
+.h-full {
+  height: 100%;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
 @mixin font($size: base) {
   @if $size==xs {
     font-size: 0.75rem;

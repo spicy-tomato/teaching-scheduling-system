@@ -11,7 +11,12 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { AssignScheduleFilterComponent } from './assign-schedule-filter/assign-schedule-filter.component';
 import { AssignScheduleNeedAssignComponent } from './assign-schedule-need-assign/assign-schedule-need-assign.component';
 import { AssignScheduleAssignedComponent } from './assign-schedule-assigned/assign-schedule-assigned.component';
-import { TuiButtonModule, TuiExpandModule } from '@taiga-ui/core';
+import {
+  TuiButtonModule,
+  TuiExpandModule,
+  TuiScrollbarModule,
+} from '@taiga-ui/core';
+import { TuiTableModule } from '@taiga-ui/addon-table';
 
 const NGRX = [
   ReactiveComponentModule,
@@ -26,6 +31,8 @@ const TAIGA_UI = [
   TuiDataListWrapperModule,
   TuiButtonModule,
   TuiExpandModule,
+  TuiTableModule,
+  TuiScrollbarModule,
 ];
 
 @NgModule({
