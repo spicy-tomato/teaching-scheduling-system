@@ -39,6 +39,9 @@
       "@factories/*": [
         "src/shared/factories/*"
       ],
+      "@guards/*": [
+        "src/shared/guards/*"
+      ],
       "@interceptors/*": [
         "src/shared/interceptors/*"
       ],
@@ -50,6 +53,9 @@
       ],
       "@pipes/*": [
         "src/pipes/*"
+      ],
+      "@resolves/*": [
+        "src/shared/resolves/*"
       ],
       "@services/*": [
         "src/services/*"
