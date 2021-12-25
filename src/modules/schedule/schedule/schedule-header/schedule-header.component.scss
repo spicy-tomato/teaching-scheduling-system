@@ -17,11 +17,6 @@
       &[tuiButton] {
         width: auto;
         border-radius: var(--tui-radius-xs);
-        ::ng-deep {
-          .wrapper {
-            @include px(2);
-          }
-        }
       }
       &.active {
         ::ng-deep > tui-wrapper {
@@ -57,13 +52,7 @@ form {
 
   button {
     &[tuiButton] {
-      width: auto;
       border-radius: var(--tui-radius-xs);
-      ::ng-deep {
-        .wrapper {
-          @include px(2);
-        }
-      }
     }
   }
 }

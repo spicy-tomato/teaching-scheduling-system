@@ -35,7 +35,7 @@ import { fadeIn } from '@animations/fade-in.animation';
     {
       provide: TUI_BUTTON_OPTIONS,
       useValue: {
-        shape: 'square',
+        shape: null,
         appearance: TuiAppearance.Flat,
         size: 'xs',
       },
