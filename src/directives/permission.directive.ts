@@ -29,14 +29,14 @@ export class PermissionDirective extends BaseComponent implements OnDestroy {
 
   /** CONSTRUCTOR */
   constructor(
-    private readonly templateRef: TemplateRef<any>,
+    private readonly templateRef: TemplateRef<unknown>,
     private readonly viewContainer: ViewContainerRef,
     private readonly cdr: ChangeDetectorRef,
-    private readonly appShellStore: Store<fromAppShell.AppShellState>
+    appShellStore: Store<fromAppShell.AppShellState>
   ) {
     super();
 
-    this.permissions$ = this.appShellStore
+    this.permissions$ = appShellStore
       .select(fromAppShell.selectPermission)
       .pipe(takeUntil(this.destroy$));
 

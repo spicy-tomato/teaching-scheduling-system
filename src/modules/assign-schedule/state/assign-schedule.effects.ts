@@ -29,7 +29,7 @@ export class AssignScheduleEffects {
           if (cache.isValid()) {
             return of(
               ApiAction.loadCurrentTermSuccessful({
-                currentTerm: cache.data.currentTerm
+                currentTerm: cache.data.currentTerm,
               })
             );
           }

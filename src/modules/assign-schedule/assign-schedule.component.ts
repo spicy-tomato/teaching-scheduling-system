@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { CoreConstant } from '@constants/core/core.constant';
 import { AcademicYear } from '@models/core/academic-year.model';
@@ -13,6 +13,7 @@ import * as fromAssignSchedule from './state';
   selector: 'tss-assign-schedule',
   templateUrl: './assign-schedule.component.html',
   styleUrls: ['./assign-schedule.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AssignScheduleComponent extends BaseComponent implements OnInit {
   /** PUBLIC PROPERTIES */

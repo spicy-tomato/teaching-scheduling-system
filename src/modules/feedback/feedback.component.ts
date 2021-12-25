@@ -88,25 +88,23 @@ export class FeedbackComponent extends BaseComponent {
       .pipe(
         tap((status) => {
           if (status === EApiStatus.successful) {
-            this.dialogService
-              .open(
-                new PolymorpheusComponent(
-                  SuccessDialogComponent,
-                  this.injector
-                ),
-                {
-                  dismissible: false,
-                  header: new PolymorpheusComponent(
-                    SuccessDialogHeaderComponent,
-                    this.injector
-                  ),
-                }
-              )
-              .subscribe();
+            this.openSuccessDialog();
           }
         }),
         takeUntil(this.destroy$)
       )
+      .subscribe();
+  }
+
+  private openSuccessDialog(): void {
+    this.dialogService
+      .open(new PolymorpheusComponent(SuccessDialogComponent, this.injector), {
+        dismissible: false,
+        header: new PolymorpheusComponent(
+          SuccessDialogHeaderComponent,
+          this.injector
+        ),
+      })
       .subscribe();
   }
 }

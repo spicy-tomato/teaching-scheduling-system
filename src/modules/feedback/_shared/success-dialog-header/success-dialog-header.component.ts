@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { tuiIconCheckCircleLarge } from '@taiga-ui/icons';
 
 @Component({
   selector: 'tss-success-dialog-header',
@@ -7,7 +6,4 @@ import { tuiIconCheckCircleLarge } from '@taiga-ui/icons';
   styleUrls: ['./success-dialog-header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SuccessDialogHeaderComponent {
-  /** PUBLIC PROPERTIES */
-  public readonly icon = tuiIconCheckCircleLarge;
-}
+export class SuccessDialogHeaderComponent {}
