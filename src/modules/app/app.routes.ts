@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { KeepUserGuard } from '@guards/keep-user.guard';
 import { UserInfoResolve } from '@resolves/user-info.resolve';
+import { ForbiddenComponent, NotFoundComponent } from '@modules/core/pages/pages.module';
 
 const routes: Routes = [
   {
@@ -21,14 +22,12 @@ const routes: Routes = [
     path: '403',
     pathMatch: 'full',
     resolve: { userInfo: UserInfoResolve },
-    loadChildren: async () =>
-      (await import('@modules/core/pages/403/403.module')).Error403Module,
+    component: ForbiddenComponent,
   },
   {
     path: '**',
     resolve: { userInfo: UserInfoResolve },
-    loadChildren: async () =>
-      (await import('@modules/core/pages/404/404.module')).Error404Module,
+    component: NotFoundComponent
   },
 ];
 
