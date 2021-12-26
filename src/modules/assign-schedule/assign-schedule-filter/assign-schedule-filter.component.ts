@@ -5,10 +5,11 @@ import { AcademicYear } from '@models/core/academic-year.model';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';
 import { TUI_BUTTON_OPTIONS, TuiAppearance } from '@taiga-ui/core';
-import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
+import { Observable, BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import { map, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { ArrayHelper } from 'src/shared/helpers/array.helper';
 import * as fromAssignSchedule from '../state';
+import * as fromAppShell from '@modules/core/components/app-shell/state';
 
 @Component({
   selector: 'tss-assign-schedule-filter',
@@ -38,6 +39,9 @@ export class AssignScheduleFilterComponent
   public trainingTypes$: Observable<string[]>;
   public trainingTypeChange$ = new BehaviorSubject<string>('');
   public schoolYears$!: Observable<string[]>;
+  public department$: Observable<string | undefined>;
+  public filter$ = new Subject();
+
   public readonly termsInYear = CoreConstant.TERMS_IN_YEAR;
   public readonly batchesInTerm = CoreConstant.BATCHES_IN_TERM;
 
@@ -50,6 +54,10 @@ export class AssignScheduleFilterComponent
     return this.form.get('trainingType');
   }
 
+  private get schoolYear(): AbstractControl | null {
+    return this.form.get('schoolYear');
+  }
+
   private get batchInTerm(): AbstractControl | null {
     return this.form.get('batchInTerm');
   }
@@ -57,7 +65,8 @@ export class AssignScheduleFilterComponent
   /** CONSTRUCTOR */
   constructor(
     private readonly fb: FormBuilder,
-    private readonly store: Store<fromAssignSchedule.AssignScheduleState>
+    private readonly store: Store<fromAssignSchedule.AssignScheduleState>,
+    appShellStore: Store<fromAppShell.AppShellState>
   ) {
     super();
 
@@ -73,9 +82,14 @@ export class AssignScheduleFilterComponent
       .select(fromAssignSchedule.selectTrainingType)
       .pipe(takeUntil(this.destroy$));
 
+    this.department$ = appShellStore
+      .select(fromAppShell.selectDepartment)
+      .pipe(takeUntil(this.destroy$));
+
     this.initForm();
     this.triggerSchoolYearChange();
     this.handleTrainingTypeChange();
+    this.handleFilter();
   }
 
   /** LIFE CYCLE */
@@ -135,6 +149,33 @@ export class AssignScheduleFilterComponent
                 academicYears[this.trainingType?.value as string]
               )
             );
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
+  private handleFilter(): void {
+    this.filter$
+      .pipe(
+        withLatestFrom(this.department$),
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        map(([_, dep]) => dep),
+        tap((dep) => {
+          if (!dep) return;
+          const schoolYear = ((this.schoolYear?.value as string) ?? '')
+            .split('-')
+            .join('_');
+          const term = (this.termInYear?.value as string) ?? '';
+          this.store.dispatch(
+            fromAssignSchedule.filter({
+              dep,
+              params: {
+                ss: this.batchInTerm?.value as number,
+                term: `${schoolYear}_${term}`,
+              },
+            })
+          );
         }),
         takeUntil(this.destroy$)
       )

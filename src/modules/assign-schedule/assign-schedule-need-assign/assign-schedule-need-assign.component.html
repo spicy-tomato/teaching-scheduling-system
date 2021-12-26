@@ -1,50 +1,5 @@
-<tui-scrollbar class="scrollbar" [hidden]="true">
-  <table tuiTable class="table" [columns]="columns">
-    <thead tuiThead>
-      <tr tuiThGroup>
-        <th *tuiHead="'id'" [sorter]="null" tuiTh>STT</th>
-        <th *tuiHead="'name'" tuiTh>Họ tên</th>
-        <th *tuiHead="'email'" tuiTh>Email</th>
-        <th *tuiHead="'timeStart'" tuiTh>Bắt đầu</th>
-        <th *tuiHead="'timeEnd'" tuiTh>Kết thúc</th>
-        <th *tuiHead="'actions'" [sorter]="null" tuiTh>Tùy chọn</th>
-      </tr>
-    </thead>
-    <tbody tuiTbody [data]="data">
-      <tr *tuiRow="let item of data; index as i" tuiTr>
-        <td *tuiCell="'id'" tuiTd>
-          <div class="d-flex justify-content-center">
-            {{ i + 1 }}
-          </div>
-        </td>
-        <td *tuiCell="'timeStart'" tuiTd>
-          {{ item.timeStart | date }}
-        </td>
-        <td *tuiCell="'timeEnd'" tuiTd>
-          {{ item.timeEnd | date }}
-        </td>
-        <td *tuiCell="'actions'" tuiTd>
-          <div>
-            <button
-              tuiIconButton
-              appearance="flat"
-              size="s"
-              icon="tuiIconTime"
-              tuiHint="Gia hạn"
-              shape="rounded"
-            ></button>
-            <button
-              tuiIconButton
-              appearance="flat"
-              size="s"
-              icon="tuiIconClose"
-              tuiHint="Hủy ủy quyền"
-              shape="rounded"
-            ></button>
-          </div>
-          <!-- (click)="remove(item)" -->
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</tui-scrollbar>
+<tss-assign-schedule-table
+  *ngrxLet="data$ as data"
+  [data]="data"
+  [excludeTeacher]="true"
+></tss-assign-schedule-table>

@@ -12,6 +12,7 @@ import { LocalStorageKeyConstant } from '@constants/core/local-storage-key.const
 import { StorageTimeoutModel } from '@models/core/storage-timeout.model';
 import { AcademicYear } from '@models/core/academic-year.model';
 import { CommonInfoModel } from '@models/core/common-info.model';
+import { ClassService } from '@services/class.service';
 
 @Injectable()
 export class AssignScheduleEffects {
@@ -84,10 +85,25 @@ export class AssignScheduleEffects {
     );
   });
 
+  public filter$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(PageAction.filter),
+      mergeMap(({ dep, params }) => {
+        return this.classService.getDepartmentModuleClass(dep, params).pipe(
+          map((classes) => {
+            return ApiAction.filterSuccessful({ classes });
+          }),
+          catchError(() => of(ApiAction.filterFailure()))
+        );
+      })
+    );
+  });
+
   /** CONSTRUCTOR */
   constructor(
     private readonly actions$: Actions,
     private readonly commonInfoService: CommonInfoService,
+    private readonly classService: ClassService,
     private readonly localStorageService: LocalStorageService
   ) {}
 }

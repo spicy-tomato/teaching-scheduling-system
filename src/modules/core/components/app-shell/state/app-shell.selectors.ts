@@ -18,3 +18,8 @@ export const selectPermission = createSelector(
   selectTeacher,
   (teacher) => teacher?.permissions
 );
+
+export const selectDepartment = createSelector(
+  selectTeacher,
+  (teacher) => teacher?.idDepartment
+);

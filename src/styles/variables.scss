@@ -36,6 +36,9 @@ $u: 0.25rem;
 .justify-content-center {
   justify-content: center;
 }
+.align-items-center {
+  align-items: center;
+}
 
 .grid {
   display: grid;
@@ -43,6 +46,9 @@ $u: 0.25rem;
 
 .h-full {
   height: 100%;
+}
+.w-full {
+  width: 100%;
 }
 
 .overflow-hidden {

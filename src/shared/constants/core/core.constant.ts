@@ -4,4 +4,9 @@ export class CoreConstant {
     1: [1, 2, 3],
     2: [1, 2, 3, 5],
   };
+  public static readonly CLASS_TYPE: { [key: number]: string } = {
+    1: 'Lý thuyết',
+    2: 'Bài tập',
+    3: 'Thực hành',
+  };
 }

@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import { ModuleClass } from '@models/class/module-class.model';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import * as fromAssignSchedule from '../state';
 
 @Component({
   selector: 'tss-assign-schedule-need-assign',
@@ -6,28 +10,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./assign-schedule-need-assign.component.scss'],
 })
 export class AssignScheduleNeedAssignComponent {
-  public data = dummyData;
-  public readonly columns = [
-    'id',
-    'name',
-    'email',
-    'timeStart',
-    'timeEnd',
-    'actions',
-  ];
-}
+  /** PUBLIC PROPERTIES */
+  public data$!: Observable<ModuleClass[]>;
 
-const dummyData = [
-  {
-    name: 'Nguyễn Trần Hiếu',
-    email: 'nthieu@utc.edu.vn',
-    timeStart: new Date(2021, 11, 30),
-    timeEnd: new Date(2022, 0, 30),
-  },
-  {
-    name: 'Nguyễn Kim Sao',
-    email: 'nksao@utc.edu.vn',
-    timeStart: new Date(2021, 11, 1),
-    timeEnd: new Date(2022, 0, 1),
-  },
-];
+  /** CONSTRUCTOR */
+  constructor(store: Store<fromAssignSchedule.AssignScheduleState>) {
+    this.data$ = store.select(fromAssignSchedule.selectNeedAssign);
+  }
+}

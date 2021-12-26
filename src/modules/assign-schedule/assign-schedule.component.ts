@@ -6,5 +6,4 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styleUrls: ['./assign-schedule.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AssignScheduleComponent {
-}
+export class AssignScheduleComponent {}

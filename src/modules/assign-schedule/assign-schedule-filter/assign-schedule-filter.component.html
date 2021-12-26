@@ -53,7 +53,7 @@
 </tui-expand>
 
 <div class="buttons d-flex">
-  <button [disabled]="!expanded" tuiButton>Lọc</button>
+  <button (click)="filter$.next()" [disabled]="!expanded" tuiButton>Lọc</button>
   <button (click)="onToggle()" tuiButton appearance="secondary">
     {{ expanded ? "Ẩn bộ lọc" : "Hiện bộ lọc" }}
   </button>
