@@ -10,8 +10,7 @@ import * as ApiAction from './login.api.actions';
 import { AuthService } from '@services/core/auth.service';
 import { TokenService } from '@services/core/token.service';
 import { LocalStorageService } from '@services/core/storage/local-storage.service';
-import { LocalStorageKeyConstant } from '@constants/core/local-storage-key.constant';
-import { StorageTimeoutModel } from '@models/core/storage-timeout.model';
+import { LocalDataService } from '@services/core/local-data.service';
 
 @Injectable()
 export class LoginEffects {
@@ -27,10 +26,8 @@ export class LoginEffects {
             }
 
             this.tokenService.save(token);
-            this.localStorageService.setItem(
-              LocalStorageKeyConstant.COMMON_INFO,
-              JSON.stringify(new StorageTimeoutModel(commonInfo))
-            );
+            this.localDataService.setCommonInfo(commonInfo);
+
             return ApiAction.loginSuccessful({ teacher });
           }),
           catchError(() => of(ApiAction.wrongPassword()))
@@ -63,6 +60,7 @@ export class LoginEffects {
     private readonly router: Router,
     private readonly authService: AuthService,
     private readonly tokenService: TokenService,
-    private readonly localStorageService: LocalStorageService
+    private readonly localStorageService: LocalStorageService,
+    private readonly localDataService: LocalDataService
   ) {}
 }

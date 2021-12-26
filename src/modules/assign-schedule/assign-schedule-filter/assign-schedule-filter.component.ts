@@ -4,7 +4,6 @@ import { CoreConstant } from '@constants/core/core.constant';
 import { AcademicYear } from '@models/core/academic-year.model';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';
-import { TUI_BUTTON_OPTIONS, TuiAppearance } from '@taiga-ui/core';
 import { Observable, BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import { map, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { ArrayHelper } from 'src/shared/helpers/array.helper';
@@ -16,16 +15,6 @@ import * as fromAppShell from '@modules/core/components/app-shell/state';
   templateUrl: './assign-schedule-filter.component.html',
   styleUrls: ['./assign-schedule-filter.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {
-      provide: TUI_BUTTON_OPTIONS,
-      useValue: {
-        shape: null,
-        appearance: TuiAppearance.Primary,
-        size: 's',
-      },
-    },
-  ],
 })
 export class AssignScheduleFilterComponent
   extends BaseComponent

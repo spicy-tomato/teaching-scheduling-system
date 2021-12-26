@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AcademicYear } from '@models/core/academic-year.model';
+import { CommonInfoModel } from '@models/core/common-info.model';
 import { Faculty } from '@models/core/faculty.model';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { FacultyDta } from 'src/shared/dtas/faculty.dta';
 import { BaseDataService } from './core/base-data.service';
 
@@ -11,7 +12,10 @@ import { BaseDataService } from './core/base-data.service';
   providedIn: 'root',
 })
 export class CommonInfoService extends BaseDataService {
-  constructor(private http: HttpClient) {
+  constructor(
+    private readonly http: HttpClient,
+    private readonly localDataService: LocalDataService
+  ) {
     super();
   }
 
@@ -22,7 +26,25 @@ export class CommonInfoService extends BaseDataService {
   }
 
   public getAcademicYear(): Observable<AcademicYear> {
-    return this.http.get<AcademicYear>(this.url + 'academic-year2');
+    const cache = this.localDataService.getAcademicYear();
+    if (cache) {
+      return of(cache);
+    }
+
+    return this.http
+      .get<AcademicYear>(this.url + 'academic-year2')
+      .pipe(tap((data) => this.localDataService.setAcademicYear(data)));
+  }
+
+  public getCommonInfo(): Observable<CommonInfoModel> {
+    const cache = this.localDataService.getCommonInfo();
+    if (cache) {
+      return of(cache);
+    }
+
+    return this.http
+      .get<CommonInfoModel>(this.url + 'common-info')
+      .pipe(tap((data) => this.localDataService.setCommonInfo(data)));
   }
 
   public getCurrentTerm(): Observable<string> {
