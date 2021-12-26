@@ -20,14 +20,12 @@ export class LoginEffects {
       ofType(PageAction.clickLogin),
       mergeMap(({ loginForm }) => {
         return this.authService.auth(loginForm).pipe(
-          map(({ token, teacher, commonInfo }) => {
+          map(({ token, teacher }) => {
             if (token === '' || !teacher) {
               return ApiAction.systemError();
             }
 
             this.tokenService.save(token);
-            this.localDataService.setCommonInfo(commonInfo);
-
             return ApiAction.loginSuccessful({ teacher });
           }),
           catchError(() => of(ApiAction.wrongPassword()))

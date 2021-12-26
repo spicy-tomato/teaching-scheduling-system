@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { LocalStorageKeyConstant } from '@constants/core/local-storage-key.constant';
 import { AcademicYear } from '@models/core/academic-year.model';
-import { CommonInfoModel } from '@models/core/common-info.model';
 import { StorageTimeoutModel } from '@models/core/storage-timeout.model';
 import { BaseDataService } from './base-data.service';
 import { LocalStorageService } from './storage/local-storage.service';
@@ -41,29 +40,29 @@ export class LocalDataService extends BaseDataService {
   }
 
   /** School year */
-  public getCommonInfo(): CommonInfoModel | null {
+  public getCurrentTerm(): string | null {
     const json = this.localStorageService.getItemWithType<
-      StorageTimeoutModel<CommonInfoModel>
-    >(LocalStorageKeyConstant.COMMON_INFO);
+      StorageTimeoutModel<string>
+    >(LocalStorageKeyConstant.CURRENT_TERM);
 
     if (json) {
       const cache = StorageTimeoutModel.fromObject(json);
       if (cache.isValid()) {
         return cache.data;
       }
-      this.localStorageService.removeItem(LocalStorageKeyConstant.COMMON_INFO);
+      this.localStorageService.removeItem(LocalStorageKeyConstant.CURRENT_TERM);
     }
 
     return null;
   }
 
-  public setCommonInfo(commonInfo?: CommonInfoModel): void {
+  public setCurrentTerm(commonInfo?: string): void {
     if (!commonInfo) {
       return;
     }
 
     this.localStorageService.setItem(
-      LocalStorageKeyConstant.COMMON_INFO,
+      LocalStorageKeyConstant.CURRENT_TERM,
       JSON.stringify(new StorageTimeoutModel(commonInfo))
     );
   }
