@@ -63,7 +63,12 @@ export class LocalDataService extends BaseDataService {
 
     this.localStorageService.setItem(
       LocalStorageKeyConstant.CURRENT_TERM,
-      JSON.stringify(new StorageTimeoutModel(commonInfo))
+      JSON.stringify(
+        new StorageTimeoutModel(
+          commonInfo,
+          LocalStorageKeyConstant.LONG_TIMEOUT
+        )
+      )
     );
   }
 }

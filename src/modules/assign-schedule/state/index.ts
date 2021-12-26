@@ -1,8 +1,4 @@
-export {
-  loadSchoolYear,
-  loadAcademicYear,
-  filter,
-} from './assign-schedule.page.actions';
+export { loadFilter, filter } from './assign-schedule.page.actions';
 export {
   assignScheduleReducer,
   assignScheduleFeatureKey,
@@ -12,8 +8,10 @@ export {
   selectSchoolYear,
   selectAcademicYear,
   selectTrainingType,
+  selectDepartments,
   selectNeedAssign,
   selectAssigned,
   selectStatus,
+  selectTeachers,
 } from './assign-schedule.selectors';
 export { AssignScheduleEffects } from './assign-schedule.effects';

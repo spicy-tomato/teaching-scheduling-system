@@ -15,7 +15,7 @@ export class AssignScheduleEffects {
   /** EFFECTS */
   public loadSchoolYear$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(PageAction.loadSchoolYear),
+      ofType(PageAction.loadFilter),
       mergeMap(() => {
         return this.commonInfoService
           .getCurrentTerm()
@@ -30,13 +30,27 @@ export class AssignScheduleEffects {
 
   public loadAcademicYear$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(PageAction.loadAcademicYear),
+      ofType(PageAction.loadFilter),
       mergeMap(() => {
         return this.commonInfoService.getAcademicYear().pipe(
           map((academicYears) =>
             ApiAction.loadAcademicYearSuccessful({ academicYears })
           ),
           catchError(() => of(ApiAction.loadAcademicYearFailure()))
+        );
+      })
+    );
+  });
+
+  public loadDepartment$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(PageAction.loadFilter),
+      mergeMap(() => {
+        return this.commonInfoService.getDepartments().pipe(
+          map((departments) => {
+            return ApiAction.loadDepartmentSuccessful({ departments });
+          }),
+          catchError(() => of(ApiAction.loadTeacherFailure()))
         );
       })
     );

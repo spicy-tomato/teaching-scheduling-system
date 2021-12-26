@@ -20,6 +20,11 @@ export const selectTrainingType = createSelector(
   (academicYears) => Object.keys(academicYears)
 );
 
+export const selectDepartments = createSelector(
+  assignScheduleSelector,
+  (state) => state.departments
+);
+
 export const selectNeedAssign = createSelector(
   assignScheduleSelector,
   (state) => state.needAssign

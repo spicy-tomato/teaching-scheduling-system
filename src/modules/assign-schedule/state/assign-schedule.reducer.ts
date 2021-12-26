@@ -5,9 +5,15 @@ import { AssignScheduleState } from '.';
 import * as ApiAction from './assign-schedule.api.actions';
 import * as PageAction from './assign-schedule.page.actions';
 
+type ModuleClassList = {
+  needAssign: ModuleClass[];
+  assigned: ModuleClass[];
+};
+
 const initialState: AssignScheduleState = {
   currentTerm: '',
   academicYears: {},
+  departments: [],
   needAssign: [],
   assigned: [],
   status: EApiStatus.unknown,
@@ -36,6 +42,12 @@ export const assignScheduleReducer = createReducer(
       academicYears,
     };
   }),
+  on(ApiAction.loadDepartmentSuccessful, (state, { departments }) => {
+    return {
+      ...state,
+      departments,
+    };
+  }),
   on(ApiAction.filterSuccessful, (state, { classes }) => {
     const { needAssign, assigned } = divideSchedule(classes);
     return {
@@ -53,14 +65,8 @@ export const assignScheduleReducer = createReducer(
   })
 );
 
-function divideSchedule(schedules: ModuleClass[]): {
-  needAssign: ModuleClass[];
-  assigned: ModuleClass[];
-} {
-  return schedules.reduce<{
-    needAssign: ModuleClass[];
-    assigned: ModuleClass[];
-  }>(
+function divideSchedule(schedules: ModuleClass[]): ModuleClassList {
+  return schedules.reduce<ModuleClassList>(
     (acc, curr) => {
       if (curr.teacher) {
         acc.assigned.push(curr);

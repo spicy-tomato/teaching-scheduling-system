@@ -57,12 +57,26 @@ export class CommonInfoService extends BaseDataService {
   public getDepartments(): Observable<SimpleMapModel<string, SimpleModel[]>[]> {
     return of([
       {
-        id: 'IT',
+        id: 'CNTT',
         name: 'Công nghệ thông tin',
         value: [
           {
             id: 'MHT',
             name: 'Mạng máy tính',
+          },
+          {
+            id: 'CNM',
+            name: 'Công nghệ phần mềm',
+          },
+        ],
+      },
+      {
+        id: 'CT',
+        name: 'Công trình',
+        value: [
+          {
+            id: 'CDO',
+            name: 'Cầu đường bộ',
           },
         ],
       },

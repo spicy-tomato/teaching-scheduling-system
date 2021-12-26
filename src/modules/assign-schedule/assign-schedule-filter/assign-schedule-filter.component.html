@@ -1,3 +1,4 @@
+<!-- Filters -->
 <tui-expand [expanded]="expanded">
   <form *ngIf="form" [formGroup]="form">
     <div class="tui-form__row d-flex flex-wrap">
@@ -48,10 +49,32 @@
           ></tui-data-list-wrapper>
         </ng-container>
       </tui-select> -->
+      <tui-select
+        *ngrxLet="departments$ as faculties"
+        [valueContent]="stringifyDepartment(faculties)"
+        formControlName="department"
+      >
+        Bộ môn
+        <tui-data-list *tuiDataList>
+          <tui-opt-group
+            *ngFor="let faculty of faculties"
+            [label]="faculty.name"
+          >
+            <button
+              tuiOption
+              *ngFor="let department of faculty.value"
+              [value]="department.id"
+            >
+              {{ department.name }}
+            </button>
+          </tui-opt-group>
+        </tui-data-list>
+      </tui-select>
     </div>
   </form>
 </tui-expand>
 
+<!-- Buttons -->
 <div class="buttons d-flex">
   <button (click)="filter$.next()" [disabled]="!expanded" tuiButton>Lọc</button>
   <button (click)="onToggle()" tuiButton appearance="secondary">
