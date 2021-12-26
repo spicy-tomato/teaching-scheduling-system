@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AcademicYear } from '@models/core/academic-year.model';
 import { Faculty } from '@models/core/faculty.model';
+import { SimpleMapModel } from '@models/core/simple-map.model';
+import { SimpleModel } from '@models/core/simple.model';
 import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { FacultyDta } from 'src/shared/dtas/faculty.dta';
@@ -52,11 +54,18 @@ export class CommonInfoService extends BaseDataService {
     );
   }
 
-  public getCurrentTerm(): Observable<string> {
-    return of('2021-2022-2');
-  }
-
-  public getUniversity(): Observable<string[]> {
-    return of(['Chính quy', 'Vừa học vừa làm', 'Thạc sỹ']);
+  public getDepartments(): Observable<SimpleMapModel<string, SimpleModel[]>[]> {
+    return of([
+      {
+        id: 'IT',
+        name: 'Công nghệ thông tin',
+        value: [
+          {
+            id: 'MHT',
+            name: 'Mạng máy tính',
+          },
+        ],
+      },
+    ]);
   }
 }

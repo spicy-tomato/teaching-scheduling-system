@@ -34,3 +34,8 @@ export const selectStatus = createSelector(
   assignScheduleSelector,
   (state) => state.status
 );
+
+export const selectTeachers = createSelector(
+  assignScheduleSelector,
+  (state) => state.teachers
+);

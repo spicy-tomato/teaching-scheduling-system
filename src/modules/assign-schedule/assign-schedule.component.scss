@@ -4,29 +4,55 @@
   height: 100%;
   max-height: $content-height;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr auto 1fr;
   grid-template-rows: auto auto 1fr;
   grid-template-areas:
-    "filter filter"
-    "left   right";
+    "filter     filter  filter"
+    "left-title divider right-title"
+    "left       divider right";
   gap: 0.75rem;
 
   tss-assign-schedule-filter {
     grid-area: filter;
   }
 
+  .title {
+    min-height: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem 0;
+    transition: all 0.3s ease-in;
+    
+    &-left {
+      grid-area: left-title;
+    }
+    &-right {
+      grid-area: right-title;
+    }
+
+    tui-select {
+      min-width: 175px;
+    }
+  }
+
   .left {
     grid-area: left;
   }
-
   .right {
     grid-area: right;
   }
 
-  .left,
-  .right {
-    h4 {
-      margin-bottom: 0.5rem;
-    }
+  .divider {
+    grid-area: divider;
+    width: 1px;
+    height: 100%;
+    margin: 0 0.75rem;
+    background-color: var(--tui-base-04);
   }
+}
+
+.ml {
+  margin-left: 0.5rem;
 }

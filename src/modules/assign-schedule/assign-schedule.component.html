@@ -1,9 +1,49 @@
+<!-- Filter -->
 <tss-assign-schedule-filter></tss-assign-schedule-filter>
-<h4>Học phần chưa được phân giảng</h4>
-<h4>Khối lượng giảng dạy</h4>
-<div class="overflow-hidden">
+
+<!-- Titles -->
+<div class="title title-left">
+  <h4>Học phần chưa được phân giảng</h4>
+  <ng-container *ngrxLet="needAssign$ as needAssign">
+    <div
+      *ngIf="needAssign.length > 0"
+      [@fadeInOut]="{ value: true, params: { duration: '300ms' } }"
+      class="d-flex"
+    >
+      <tui-select
+        *ngrxLet="teachers$ as teachers"
+        [(ngModel)]="selectedTeacher"
+        [valueContent]="teacherTemplate"
+        tuiTextfieldSize="s"
+      >
+        Chọn giảng viên
+        <tui-data-list-wrapper
+          *tuiDataList
+          size="s"
+          [items]="teachers"
+          [itemContent]="teacherTemplate"
+        ></tui-data-list-wrapper>
+      </tui-select>
+      <button tuiButton [disabled]="!selectedTeacher" class="ml">
+        Phân giảng
+      </button>
+    </div>
+  </ng-container>
+</div>
+<div class="title title-right"><h4>Khối lượng giảng dạy</h4></div>
+
+<!-- Tables -->
+<div class="left overflow-hidden">
   <tss-assign-schedule-need-assign></tss-assign-schedule-need-assign>
 </div>
-<div class="overflow-hidden">
+<div class="divider"></div>
+<div class="right overflow-hidden">
   <tss-assign-schedule-assigned></tss-assign-schedule-assigned>
 </div>
+
+<!-- Templates -->
+<ng-template #teacherTemplate let-teacher>
+  <div class="tui-text_body-s">
+    {{ teacher.name }}
+  </div>
+</ng-template>

@@ -11,6 +11,7 @@ const initialState: AssignScheduleState = {
   needAssign: [],
   assigned: [],
   status: EApiStatus.unknown,
+  teachers: [],
 };
 
 export const assignScheduleFeatureKey = 'assign-schedule';
@@ -42,6 +43,12 @@ export const assignScheduleReducer = createReducer(
       needAssign,
       assigned,
       status: EApiStatus.successful,
+    };
+  }),
+  on(ApiAction.loadTeacherSuccessful, (state, { teachers }) => {
+    return {
+      ...state,
+      teachers,
     };
   })
 );

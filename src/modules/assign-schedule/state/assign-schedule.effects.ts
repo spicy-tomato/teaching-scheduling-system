@@ -8,6 +8,7 @@ import * as PageAction from './assign-schedule.page.actions';
 import * as ApiAction from './assign-schedule.api.actions';
 import { CommonInfoService } from '@services/common-info.service';
 import { ClassService } from '@services/class.service';
+import { TeacherService } from '@services/teacher.service';
 
 @Injectable()
 export class AssignScheduleEffects {
@@ -16,14 +17,13 @@ export class AssignScheduleEffects {
     return this.actions$.pipe(
       ofType(PageAction.loadSchoolYear),
       mergeMap(() => {
-        return this.commonInfoService.getCommonInfo().pipe(
-          map((data) =>
-            ApiAction.loadCurrentTermSuccessful({
-              currentTerm: data.currentTerm,
-            })
-          ),
-          catchError(() => of(ApiAction.loadCurrentTermFailure()))
-        );
+        return this.commonInfoService
+          .getCurrentTerm()
+          .pipe(
+            map((currentTerm) =>
+              ApiAction.loadCurrentTermSuccessful({ currentTerm })
+            )
+          );
       })
     );
   });
@@ -56,10 +56,25 @@ export class AssignScheduleEffects {
     );
   });
 
+  public loadTeacher$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(PageAction.filter),
+      mergeMap(({ dep }) => {
+        return this.teacherService.getByDepartment(dep).pipe(
+          map((teachers) => {
+            return ApiAction.loadTeacherSuccessful({ teachers });
+          }),
+          catchError(() => of(ApiAction.loadTeacherFailure()))
+        );
+      })
+    );
+  });
+
   /** CONSTRUCTOR */
   constructor(
     private readonly actions$: Actions,
     private readonly commonInfoService: CommonInfoService,
     private readonly classService: ClassService,
+    private readonly teacherService: TeacherService
   ) {}
 }

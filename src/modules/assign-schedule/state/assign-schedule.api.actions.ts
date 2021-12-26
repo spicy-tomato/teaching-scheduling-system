@@ -1,5 +1,6 @@
 import { ModuleClass } from '@models/class/module-class.model';
 import { AcademicYear } from '@models/core/academic-year.model';
+import { SimpleModel } from '@models/core/simple.model';
 import { createAction, props } from '@ngrx/store';
 
 export const loadCurrentTermSuccessful = createAction(
@@ -27,4 +28,13 @@ export const filterSuccessful = createAction(
 
 export const filterFailure = createAction(
   '[Assign Schedule API] Filter Failed'
+);
+
+export const loadTeacherSuccessful = createAction(
+  '[Assign Schedule API] Load Teacher Successfully',
+  props<{ teachers: SimpleModel[] }>()
+);
+
+export const loadTeacherFailure = createAction(
+  '[Assign Schedule API] Load Teacher Failed'
 );
