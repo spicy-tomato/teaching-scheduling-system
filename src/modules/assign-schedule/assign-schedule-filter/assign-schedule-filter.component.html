@@ -27,7 +27,7 @@
           [items]="batchesInTerm[termInYear?.value]"
         ></tui-data-list-wrapper>
       </tui-select>
-      <tui-select
+      <!-- <tui-select
         (ngModelChange)="trainingTypeChange$.next($event)"
         formControlName="trainingType"
       >
@@ -47,7 +47,7 @@
             [items]="academicYears[trainingType?.value] ?? null"
           ></tui-data-list-wrapper>
         </ng-container>
-      </tui-select>
+      </tui-select> -->
     </div>
   </form>
 </tui-expand>

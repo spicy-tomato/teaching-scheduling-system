@@ -1,4 +1,4 @@
-<tui-scrollbar class="scrollbar" [hidden]="true">
+<tui-scrollbar class="scrollbar">
   <tui-loader
     *ngrxLet="status$ as status"
     [showLoader]="status === EApiStatus.loading"
@@ -15,12 +15,43 @@
             ></tui-checkbox>
           </th>
           <th tuiTh *tuiHead="'index'" [sorter]="null">STT</th>
-          <th tuiTh *tuiHead="'name'" [resizable]="true">Lớp học phần</th>
-          <th tuiTh *tuiHead="'credit'" [sorter]="null">Số TC</th>
-          <th tuiTh *tuiHead="'numberPlan'">Sĩ số</th>
-          <th tuiTh *tuiHead="'classType'">Kiểu lớp</th>
+          <th
+            tuiTh
+            *tuiHead="'name'"
+            [sorter]="data.length === 0 ? null : defaultSort"
+            [resizable]="true"
+          >
+            Lớp học phần
+          </th>
+          <th
+            tuiTh
+            *tuiHead="'credit'"
+            [sorter]="data.length === 0 ? null : defaultSort"
+          >
+            Số TC
+          </th>
+          <th
+            tuiTh
+            *tuiHead="'numberPlan'"
+            [sorter]="data.length === 0 ? null : defaultSort"
+          >
+            Sĩ số
+          </th>
+          <th
+            tuiTh
+            *tuiHead="'classType'"
+            [sorter]="data.length === 0 ? null : defaultSort"
+          >
+            Kiểu lớp
+          </th>
           <ng-container *ngIf="!excludeTeacher">
-            <th tuiTh *tuiHead="'teacher'" [sorter]="null">Giảng viên</th>
+            <th
+              tuiTh
+              *tuiHead="'teacher'"
+              [sorter]="data.length === 0 ? null : defaultSort"
+            >
+              Giảng viên
+            </th>
           </ng-container>
         </tr>
       </thead>
