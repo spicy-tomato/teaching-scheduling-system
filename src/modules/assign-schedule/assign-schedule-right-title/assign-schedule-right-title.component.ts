@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { ModuleClass } from '@models/class/module-class.model';
+import { SimpleModel } from '@models/core/simple.model';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';
+import { TuiNotification, TuiNotificationsService } from '@taiga-ui/core';
 import { Observable, Subject } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -18,13 +20,20 @@ import * as fromAssignSchedule from '../state';
   styleUrls: ['./assign-schedule-right-title.component.scss'],
 })
 export class AssignScheduleRightTitleComponent extends BaseComponent {
+  /** PUBLIC PROPERTIES */
   public assigned$: Observable<ModuleClass[]>;
   public selectedAssigned$: Observable<boolean[]>;
   public someAssignedCheckedChange$!: Observable<boolean>;
-  public discardAssign$ = new Subject<void>();
+  public unassign$ = new Subject<void>();
 
+  /** PRIVATE PROPERTIES */
+  private assignedTeacher$: Observable<SimpleModel | null>;
+
+  /** CONSTRUCTOR */
   constructor(
-    private readonly store: Store<fromAssignSchedule.AssignScheduleState>
+    private readonly store: Store<fromAssignSchedule.AssignScheduleState>,
+    @Inject(TuiNotificationsService)
+    private readonly notificationsService: TuiNotificationsService
   ) {
     super();
 
@@ -34,9 +43,13 @@ export class AssignScheduleRightTitleComponent extends BaseComponent {
     this.selectedAssigned$ = this.store
       .select(fromAssignSchedule.selectSelectedAssigned)
       .pipe(takeUntil(this.destroy$));
+    this.assignedTeacher$ = this.store
+      .select(fromAssignSchedule.selectActionTeacher)
+      .pipe(takeUntil(this.destroy$));
 
     this.handleSomeAssignedChecked();
-    this.handleDiscardAssign();
+    this.handleUnassign();
+    this.handleUnassignSuccessful();
   }
 
   /** PRIVATE METHODS */
@@ -47,8 +60,8 @@ export class AssignScheduleRightTitleComponent extends BaseComponent {
     );
   }
 
-  private handleDiscardAssign(): void {
-    this.discardAssign$
+  private handleUnassign(): void {
+    this.unassign$
       .pipe(
         withLatestFrom(this.assigned$, this.selectedAssigned$),
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -60,6 +73,26 @@ export class AssignScheduleRightTitleComponent extends BaseComponent {
                 .map((x) => x.id),
             })
           );
+        })
+      )
+      .subscribe();
+  }
+
+  private handleUnassignSuccessful(): void {
+    this.assignedTeacher$
+      .pipe(
+        withLatestFrom(
+          this.store.select(fromAssignSchedule.selectActionCountTeacher)
+        ),
+        tap(([teacher, count]) => {
+          if (teacher || count === 0) {
+            return;
+          }
+          this.notificationsService
+            .show(`Đã hủy phân công ${count} lớp học phần`, {
+              status: TuiNotification.Success,
+            })
+            .subscribe();
         })
       )
       .subscribe();

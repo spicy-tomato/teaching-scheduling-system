@@ -78,11 +78,11 @@ export const assignScheduleReducer = createReducer(
     };
   }),
   on(ApiAction.assignSuccessful, (state, { teacher }) => {
-    const afterAssigned = ArrayHelper.filterTwoParts(
+    const [needAssign, assigned] = ArrayHelper.filterTwoParts(
       state.needAssign.data,
       (_, i) => !state.needAssign.selected[i]
     );
-    const justAssignedClasses = afterAssigned[1].map((x) => ({
+    const justAssignedClasses = assigned.map((x) => ({
       ...x,
       teacher: teacher.name,
     }));
@@ -90,7 +90,7 @@ export const assignScheduleReducer = createReducer(
     return {
       ...state,
       needAssign: {
-        data: afterAssigned[0],
+        data: needAssign,
         selected: [],
       },
       assigned: {
@@ -101,6 +101,33 @@ export const assignScheduleReducer = createReducer(
         ...state.teacher,
         action: teacher,
         actionCount: justAssignedClasses.length,
+      },
+    };
+  }),
+  on(ApiAction.unassignSuccessful, (state) => {
+    const [assigned, needAssign] = ArrayHelper.filterTwoParts(
+      state.assigned.data,
+      (_, i) => !state.assigned.selected[i]
+    );
+    const justUnassignedClasses = needAssign.map((x) => ({
+      ...x,
+      teacher: undefined,
+    }));
+
+    return {
+      ...state,
+      needAssign: {
+        data: [...state.needAssign.data, ...justUnassignedClasses],
+        selected: [],
+      },
+      assigned: {
+        data: assigned,
+        selected: [],
+      },
+      teacher: {
+        ...state.teacher,
+        action: null,
+        actionCount: justUnassignedClasses.length,
       },
     };
   })

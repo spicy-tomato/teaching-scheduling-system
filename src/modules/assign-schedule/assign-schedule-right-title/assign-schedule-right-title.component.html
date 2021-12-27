@@ -9,7 +9,7 @@
       tuiButton
       *ngrxLet="someAssignedCheckedChange$ as someAssignedCheckedChange"
       [disabled]="!someAssignedCheckedChange"
-      (click)="discardAssign$.next()"
+      (click)="unassign$.next()"
       appearance="accent"
       class="ml"
     >
