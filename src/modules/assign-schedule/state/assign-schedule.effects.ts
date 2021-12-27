@@ -90,7 +90,7 @@ export class AssignScheduleEffects {
       mergeMap(({ teacher, classIds }) => {
         return this.classService.assign(teacher.id, classIds).pipe(
           map(() => {
-            return ApiAction.assignSuccessful({ teacherName: teacher.name });
+            return ApiAction.assignSuccessful({ teacher });
           }),
           catchError(() => of(ApiAction.assignFailure()))
         );

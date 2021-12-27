@@ -50,12 +50,27 @@ export const selectStatus = createSelector(
   (state) => state.status
 );
 
-export const selectTeachers = createSelector(
+const _selectTeacher = createSelector(
   assignScheduleSelector,
-  (state) => state.teacher.data
+  (state) => state.teacher
 );
 
-// export const selectAssignedSuccessful = createSelector(
-//   assignScheduleSelector,
-//   (state) => state.assignedSuccessful
-// );
+export const selectTeachers = createSelector(
+  _selectTeacher,
+  (teacher) => teacher.data
+);
+
+export const selectSelectedTeacher = createSelector(
+  _selectTeacher,
+  (teacher) => teacher.selected
+);
+
+export const selectActionTeacher = createSelector(
+  _selectTeacher,
+  (teacher) => teacher.action
+);
+
+export const selectActionCountTeacher = createSelector(
+  _selectTeacher,
+  (teacher) => teacher.actionCount
+);

@@ -11,6 +11,11 @@ export interface AssignScheduleState {
   needAssign: { data: ModuleClass[]; selected: boolean[] };
   assigned: { data: ModuleClass[]; selected: boolean[] };
   status: EApiStatus;
-  teacher: { data: SimpleModel[]; selected: SimpleModel | null };
+  teacher: {
+    data: SimpleModel[];
+    selected: SimpleModel | null;
+    action: SimpleModel | null;
+    actionCount: number;
+  };
   // assignedSuccessful: { teacherName: string; classCount: number };
 }

@@ -18,11 +18,7 @@ const initialState: AssignScheduleState = {
   needAssign: { data: [], selected: [] },
   assigned: { data: [], selected: [] },
   status: EApiStatus.unknown,
-  teacher: { data: [], selected: null },
-  // assignedSuccessful: {
-  //   teacherName: '',
-  //   classCount: 0,
-  // },
+  teacher: { data: [], selected: null, action: null, actionCount: 0 },
 };
 
 export const assignScheduleFeatureKey = 'assign-schedule';
@@ -78,17 +74,17 @@ export const assignScheduleReducer = createReducer(
   on(ApiAction.loadTeacherSuccessful, (state, { teachers }) => {
     return {
       ...state,
-      teacher: { data: teachers, selected: null },
+      teacher: { data: teachers, selected: null, action: null, actionCount: 0 },
     };
   }),
-  on(ApiAction.assignSuccessful, (state, { teacherName }) => {
+  on(ApiAction.assignSuccessful, (state, { teacher }) => {
     const afterAssigned = ArrayHelper.filterTwoParts(
       state.needAssign.data,
       (_, i) => !state.needAssign.selected[i]
     );
     const justAssignedClasses = afterAssigned[1].map((x) => ({
       ...x,
-      teacher: teacherName,
+      teacher: teacher.name,
     }));
 
     return {
@@ -101,9 +97,10 @@ export const assignScheduleReducer = createReducer(
         data: [...state.assigned.data, ...justAssignedClasses],
         selected: [],
       },
-      assignedSuccessful: {
-        teacherName,
-        classCount: justAssignedClasses.length,
+      teacher: {
+        ...state.teacher,
+        action: teacher,
+        actionCount: justAssignedClasses.length,
       },
     };
   })

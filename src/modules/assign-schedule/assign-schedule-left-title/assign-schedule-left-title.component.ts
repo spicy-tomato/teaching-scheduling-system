@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { ModuleClass } from '@models/class/module-class.model';
 import { SimpleModel } from '@models/core/simple.model';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';
+import { TuiNotificationsService, TuiNotification } from '@taiga-ui/core';
 import { Observable, Subject } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -19,6 +20,7 @@ import * as fromAssignSchedule from '../state';
   styleUrls: ['./assign-schedule-left-title.component.scss'],
 })
 export class AssignScheduleLeftTitleComponent extends BaseComponent {
+  /** PUBLIC PROPERTIES */
   public needAssign$: Observable<ModuleClass[]>;
   public teachers$: Observable<SimpleModel[]>;
   public selectedTeacher: SimpleModel | null = null;
@@ -26,8 +28,14 @@ export class AssignScheduleLeftTitleComponent extends BaseComponent {
   public selectedNeedAssign$: Observable<boolean[]>;
   public assign$ = new Subject<void>();
 
+  /** PRIVATE PROPERTIES */
+  private assignedTeacher$: Observable<SimpleModel | null>;
+
+  /** CONSTRUCTOR */
   constructor(
-    private readonly store: Store<fromAssignSchedule.AssignScheduleState>
+    private readonly store: Store<fromAssignSchedule.AssignScheduleState>,
+    @Inject(TuiNotificationsService)
+    private readonly notificationsService: TuiNotificationsService
   ) {
     super();
 
@@ -39,6 +47,10 @@ export class AssignScheduleLeftTitleComponent extends BaseComponent {
       .pipe(takeUntil(this.destroy$));
     this.selectedNeedAssign$ = this.store
       .select(fromAssignSchedule.selectSelectedNeedAssign)
+      .pipe(takeUntil(this.destroy$));
+
+    this.assignedTeacher$ = this.store
+      .select(fromAssignSchedule.selectActionTeacher)
       .pipe(takeUntil(this.destroy$));
 
     this.handleSomeNeedAssignChecked();
@@ -79,23 +91,25 @@ export class AssignScheduleLeftTitleComponent extends BaseComponent {
       )
       .subscribe();
   }
-  
-  private handleAssignSuccessful(): void {
-    // this.assignedTeacher$
-    //   .pipe(
-    //     tap(({ teacherName, classCount }) => {
-    //       if (!teacherName || !classCount) {
-    //         return;
-    //       }
 
-    //       this.notificationsService
-    //         .show(
-    //           `Đã phân công ${classCount} lớp cho giảng viên\n ${teacherName}`,
-    //           { status: TuiNotification.Success }
-    //         )
-    //         .subscribe();
-    //     })
-    //   )
-    //   .subscribe();
+  private handleAssignSuccessful(): void {
+    this.assignedTeacher$
+      .pipe(
+        withLatestFrom(
+          this.store.select(fromAssignSchedule.selectActionCountTeacher)
+        ),
+        tap(([teacher, count]) => {
+          if (!teacher) {
+            return;
+          }
+          this.notificationsService
+            .show(
+              `Đã phân công ${count} lớp cho giảng viên\n ${teacher.name}`,
+              { status: TuiNotification.Success }
+            )
+            .subscribe();
+        })
+      )
+      .subscribe();
   }
 }
