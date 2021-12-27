@@ -1,4 +1,4 @@
-export { loadFilter, filter } from './assign-schedule.page.actions';
+export { reset, loadFilter, filter } from './assign-schedule.page.actions';
 export {
   assignScheduleReducer,
   assignScheduleFeatureKey,

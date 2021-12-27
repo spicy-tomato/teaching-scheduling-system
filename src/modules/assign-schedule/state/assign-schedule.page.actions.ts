@@ -1,9 +1,9 @@
 import { SearchSchedule } from '@models/schedule/search-schedule.model';
 import { createAction, props } from '@ngrx/store';
 
-export const loadFilter = createAction(
-  '[Assign Schedule Page] Load filter'
-);
+export const reset = createAction('[Assign Schedule Page] Reset');
+
+export const loadFilter = createAction('[Assign Schedule Page] Load filter');
 
 export const loadSchoolYear = createAction(
   '[Assign Schedule Page] Load school year'

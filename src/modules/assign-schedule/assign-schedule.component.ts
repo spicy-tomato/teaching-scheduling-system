@@ -24,6 +24,8 @@ export class AssignScheduleComponent extends BaseComponent {
   constructor(store: Store<fromAssignSchedule.AssignScheduleState>) {
     super();
 
+    store.dispatch(fromAssignSchedule.reset());
+
     this.teachers$ = store
       .select(fromAssignSchedule.selectTeachers)
       .pipe(takeUntil(this.destroy$));

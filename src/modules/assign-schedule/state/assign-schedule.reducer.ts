@@ -24,6 +24,7 @@ export const assignScheduleFeatureKey = 'assign-schedule';
 
 export const assignScheduleReducer = createReducer(
   initialState,
+  on(PageAction.reset, () => initialState),
   on(PageAction.filter, (state) => {
     return {
       ...state,
