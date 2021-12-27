@@ -5,6 +5,6 @@ export {
   selectTeacher,
   selectNameTitle,
   selectPermission,
-  selectDepartment
+  selectDepartment,
 } from './app-shell.selectors';
 export { AppShellEffects } from './app-shell.effects';

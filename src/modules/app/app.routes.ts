@@ -2,7 +2,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { KeepUserGuard } from '@guards/keep-user.guard';
 import { UserInfoResolve } from '@resolves/user-info.resolve';
-import { ForbiddenComponent, NotFoundComponent } from '@modules/core/pages/pages.module';
+import {
+  ForbiddenComponent,
+  NotFoundComponent,
+} from '@modules/core/pages/pages.module';
 
 const routes: Routes = [
   {
@@ -27,7 +30,7 @@ const routes: Routes = [
   {
     path: '**',
     resolve: { userInfo: UserInfoResolve },
-    component: NotFoundComponent
+    component: NotFoundComponent,
   },
 ];
 

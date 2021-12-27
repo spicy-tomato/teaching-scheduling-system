@@ -29,7 +29,7 @@ export class PermissionGuard extends BaseComponent implements CanActivate {
   /** IMPLEMENTATION */
   public canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
     return this.permissions$.pipe(
-      filter(x => !!x),
+      filter((x) => !!x),
       map((permissions) => {
         const acceptPermissions = route.data?.['permissions'] as number[];
         const canActivate =
