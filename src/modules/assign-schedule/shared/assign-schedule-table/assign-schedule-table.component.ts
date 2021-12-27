@@ -14,7 +14,7 @@ import {
 import { CoreConstant } from '@constants/core/core.constant';
 import { ModuleClass } from '@models/class/module-class.model';
 import { BaseComponent } from '@modules/core/base/base.component';
-import { Store } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 import { defaultSort } from '@taiga-ui/addon-table';
 import { Observable } from 'rxjs';
 import { EApiStatus } from 'src/shared/enums/api-status.enum';
@@ -33,6 +33,7 @@ export class AssignScheduleTableComponent
   /** INPUT */
   @Input() public data!: ModuleClass[];
   @Input() public excludeTeacher = false;
+  @Input() public checkboxChangeAction!: (checkbox: boolean[]) => Action;
 
   /** PUBLIC PROPERTIES */
   public form!: FormGroup;
@@ -70,7 +71,7 @@ export class AssignScheduleTableComponent
   /** CONSTRUCTOR */
   constructor(
     private readonly fb: FormBuilder,
-    store: Store<fromAssignSchedule.AssignScheduleState>
+    private readonly store: Store<fromAssignSchedule.AssignScheduleState>
   ) {
     super();
     this.status$ = store.select(fromAssignSchedule.selectStatus);
@@ -96,6 +97,10 @@ export class AssignScheduleTableComponent
     ) {
       this._selectAll = true;
     }
+
+    this.store.dispatch(
+      this.checkboxChangeAction(this.checkboxes.map((x) => x.value as boolean))
+    );
   }
 
   /** PRIVATE METHODS */

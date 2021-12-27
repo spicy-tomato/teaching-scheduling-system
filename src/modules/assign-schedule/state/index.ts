@@ -1,4 +1,11 @@
-export { reset, loadFilter, filter } from './assign-schedule.page.actions';
+export {
+  reset,
+  loadFilter,
+  filter,
+  selectedAssignedChange,
+  selectedNeedAssignChange,
+  assign
+} from './assign-schedule.page.actions';
 export {
   assignScheduleReducer,
   assignScheduleFeatureKey,
@@ -11,7 +18,10 @@ export {
   selectDepartments,
   selectNeedAssign,
   selectAssigned,
+  selectSelectedAssigned,
+  selectSelectedNeedAssign,
   selectStatus,
   selectTeachers,
+  selectAssignedSuccessful
 } from './assign-schedule.selectors';
 export { AssignScheduleEffects } from './assign-schedule.effects';

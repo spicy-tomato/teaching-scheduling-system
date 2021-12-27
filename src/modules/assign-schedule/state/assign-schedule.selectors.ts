@@ -27,12 +27,22 @@ export const selectDepartments = createSelector(
 
 export const selectNeedAssign = createSelector(
   assignScheduleSelector,
-  (state) => state.needAssign
+  (state) => state.needAssign.data
+);
+
+export const selectSelectedNeedAssign = createSelector(
+  assignScheduleSelector,
+  (state) => state.needAssign.selected
 );
 
 export const selectAssigned = createSelector(
   assignScheduleSelector,
-  (state) => state.assigned
+  (state) => state.assigned.data
+);
+
+export const selectSelectedAssigned = createSelector(
+  assignScheduleSelector,
+  (state) => state.needAssign.selected
 );
 
 export const selectStatus = createSelector(
@@ -43,4 +53,9 @@ export const selectStatus = createSelector(
 export const selectTeachers = createSelector(
   assignScheduleSelector,
   (state) => state.teachers
+);
+
+export const selectAssignedSuccessful = createSelector(
+  assignScheduleSelector,
+  (state) => state.assignedSuccessful
 );

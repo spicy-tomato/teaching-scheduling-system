@@ -24,7 +24,13 @@
           [itemContent]="teacherTemplate"
         ></tui-data-list-wrapper>
       </tui-select>
-      <button tuiButton [disabled]="!selectedTeacher" class="ml">
+      <button
+        tuiButton
+        *ngrxLet="someNeedAssignCheckedChange$ as someNeedAssignCheckedChange"
+        [disabled]="!selectedTeacher || !someNeedAssignCheckedChange"
+        (click)="assign$.next()"
+        class="ml"
+      >
         Phân công
       </button>
     </div>

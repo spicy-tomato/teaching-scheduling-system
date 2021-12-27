@@ -58,6 +58,10 @@ $u: 0.25rem;
   overflow: hidden;
 }
 
+.text-center {
+  text-align: center;
+}
+
 @mixin font($size: base) {
   @if $size==xs {
     font-size: 0.75rem;

@@ -84,6 +84,20 @@ export class AssignScheduleEffects {
     );
   });
 
+  public assign$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(PageAction.assign),
+      mergeMap(({ teacher, classIds }) => {
+        return this.classService.assign(teacher.id, classIds).pipe(
+          map(() => {
+            return ApiAction.assignSuccessful({ teacherName: teacher.name });
+          }),
+          catchError(() => of(ApiAction.assignFailure()))
+        );
+      })
+    );
+  });
+
   /** CONSTRUCTOR */
   constructor(
     private readonly actions$: Actions,

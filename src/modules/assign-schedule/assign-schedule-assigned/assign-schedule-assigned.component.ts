@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ModuleClass } from '@models/class/module-class.model';
-import { Store } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as fromAssignSchedule from '../state';
 
@@ -8,10 +8,13 @@ import * as fromAssignSchedule from '../state';
   selector: 'tss-assign-schedule-assigned',
   templateUrl: './assign-schedule-assigned.component.html',
   styleUrls: ['./assign-schedule-assigned.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AssignScheduleAssignedComponent {
   /** PUBLIC PROPERTIES */
   public data$!: Observable<ModuleClass[]>;
+  public checkboxChangeAction: (checkbox: boolean[]) => Action = (checkbox) =>
+    fromAssignSchedule.selectedAssignedChange({ checkbox });
 
   /** CONSTRUCTOR */
   constructor(store: Store<fromAssignSchedule.AssignScheduleState>) {

@@ -40,4 +40,11 @@ export class ClassService extends BaseDataService {
       }
     );
   }
+
+  public assign(idTeacher: string, idClass: string[]): Observable<void> {
+    return this.http.put<void>(this.url + 'module-classes/update', {
+      ids: idClass,
+      id_teacher: idTeacher,
+    });
+  }
 }

@@ -8,8 +8,9 @@ export interface AssignScheduleState {
   currentTerm: string;
   academicYears: AcademicYear;
   departments: SimpleMapModel<string, SimpleModel[]>[];
-  needAssign: ModuleClass[];
-  assigned: ModuleClass[];
+  needAssign: { data: ModuleClass[]; selected: boolean[] };
+  assigned: { data: ModuleClass[]; selected: boolean[] };
   status: EApiStatus;
   teachers: SimpleModel[];
+  assignedSuccessful: { teacherName: string; classCount: number };
 }

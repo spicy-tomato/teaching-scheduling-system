@@ -48,3 +48,12 @@ export const loadTeacherSuccessful = createAction(
 export const loadTeacherFailure = createAction(
   '[Assign Schedule API] Load Teacher Failed'
 );
+
+export const assignSuccessful = createAction(
+  '[Assign Schedule API] Assign Successfully',
+  props<{ teacherName: string }>()
+);
+
+export const assignFailure = createAction(
+  '[Assign Schedule API] Assign Failed'
+);
