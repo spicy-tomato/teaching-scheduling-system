@@ -1,4 +1,5 @@
-import { Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { fadeInOut } from '@animations/fade.animation';
 import { ModuleClass } from '@models/class/module-class.model';
 import { SimpleModel } from '@models/core/simple.model';
 import { BaseComponent } from '@modules/core/base/base.component';
@@ -18,6 +19,8 @@ import * as fromAssignSchedule from '../state';
   selector: 'tss-assign-schedule-left-title',
   templateUrl: './assign-schedule-left-title.component.html',
   styleUrls: ['./assign-schedule-left-title.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [fadeInOut],
 })
 export class AssignScheduleLeftTitleComponent extends BaseComponent {
   /** PUBLIC PROPERTIES */
