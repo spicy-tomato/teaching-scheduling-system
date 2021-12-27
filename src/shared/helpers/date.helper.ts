@@ -19,4 +19,38 @@ export class DateHelper {
     }
     return value;
   }
+
+  public static fromShift(date: Date, shift: number): [Date, Date] {
+    const end = new Date(date.getTime());
+
+    switch (shift) {
+      case 1:
+        date.setHours(7);
+        end.setHours(9);
+        end.setMinutes(25);
+        break;
+      case 2:
+        date.setHours(9);
+        date.setMinutes(35);
+        end.setHours(12);
+        break;
+      case 3:
+        date.setHours(13);
+        end.setHours(15);
+        end.setMinutes(25);
+        break;
+      case 4:
+        date.setHours(15);
+        date.setMinutes(35);
+        end.setHours(18);
+        break;
+      case 5:
+        date.setHours(19);
+        end.setHours(21);
+        end.setMinutes(25);
+        break;
+    }
+
+    return [date, end];
+  }
 }

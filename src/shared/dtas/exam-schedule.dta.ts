@@ -1,4 +1,4 @@
-export interface ScheduleDta {
+export interface ExamScheduleDta {
   id: number;
   id_module_class: string;
   name: string;
@@ -7,5 +7,5 @@ export interface ScheduleDta {
   time_end: Date;
   id_room: string;
   note: string;
-  teachers: string[];
+  teachers?: string[];
 }

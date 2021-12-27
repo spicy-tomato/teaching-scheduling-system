@@ -11,7 +11,10 @@ const initialState: ScheduleState = {
     showDepartmentSchedule: false,
   },
   selectedDate: new Date(),
-  schedules: [],
+  schedules: {
+    study: [],
+    exam: [],
+  },
   view: 'Month',
   month: new TuiMonth(new Date().getFullYear(), new Date().getMonth()),
 };
@@ -78,14 +81,31 @@ export const scheduleReducer = createReducer(
     ...state,
     filter,
   })),
-  on(ApiAction.loadSuccessful, (state, { schedules }) => {
+  on(ApiAction.loadExamSuccessful, (state, { schedules }) => {
     return {
       ...state,
-      schedules,
+      schedules: {
+        ...state.schedules,
+        exam: schedules,
+      },
       status: EApiStatus.successful,
     };
   }),
-  on(ApiAction.loadFailure, (state) => ({
+  on(ApiAction.loadExamFailure, (state) => ({
+    ...state,
+    status: EApiStatus.systemError,
+  })),
+  on(ApiAction.loadStudySuccessful, (state, { schedules }) => {
+    return {
+      ...state,
+      schedules: {
+        ...state.schedules,
+        study: schedules,
+      },
+      status: EApiStatus.successful,
+    };
+  }),
+  on(ApiAction.loadStudyFailure, (state) => ({
     ...state,
     status: EApiStatus.systemError,
   }))

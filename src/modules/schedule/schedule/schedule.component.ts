@@ -34,7 +34,7 @@ import {
   takeUntil,
   tap,
 } from 'rxjs/operators';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, combineLatest } from 'rxjs';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { ExamDialogComponent } from './exam-dialog/exam-dialog.component';
@@ -116,11 +116,17 @@ export class TssScheduleComponent
 
   /** PRIVATE METHODS */
   private handleLoadSchedule(): void {
-    this.store
-      .select(fromSchedule.selectSchedule)
+    combineLatest([
+      this.store.select(fromSchedule.selectStudySchedule),
+      this.store.select(fromSchedule.selectExamSchedule),
+    ])
       .pipe(
         tap((schedules) => {
-          const dataSource = schedules.map((x) => x.toEjsSchedule());
+          const dataSource = schedules.reduce<EjsScheduleModel[]>(
+            (acc, curr) => [...acc, ...curr.map((x) => x.toEjsSchedule())],
+            []
+          );
+          console.log(dataSource);
           this.eventSettings$.next({ dataSource, ...this.staticSettings });
         }),
         takeUntil(this.destroy$)

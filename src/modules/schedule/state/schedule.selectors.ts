@@ -4,9 +4,14 @@ import { scheduleFeatureKey, ScheduleState } from '.';
 const scheduleSelector =
   createFeatureSelector<ScheduleState>(scheduleFeatureKey);
 
-export const selectSchedule = createSelector(
+export const selectStudySchedule = createSelector(
   scheduleSelector,
-  (state) => state.schedules
+  (state) => state.schedules.study
+);
+
+export const selectExamSchedule = createSelector(
+  scheduleSelector,
+  (state) => state.schedules.exam
 );
 
 export const selectSelectedDate = createSelector(

@@ -1,4 +1,4 @@
 export interface SearchSchedule {
   term: string;
-  ss: number;
+  ss: number | string;
 }

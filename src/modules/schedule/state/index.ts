@@ -10,7 +10,8 @@ export {
 export { scheduleReducer, scheduleFeatureKey } from './schedule.reducer';
 export { ScheduleState } from './schedule.state';
 export {
-  selectSchedule,
+  selectStudySchedule,
+  selectExamSchedule,
   selectSelectedDate,
   selectMonth,
   selectView,

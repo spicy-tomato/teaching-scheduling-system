@@ -1,10 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ScheduleModel } from '@models/schedule/schedule.model';
+import { ExamScheduleModel } from '@models/schedule/exam-schedule.model';
 import { SearchSchedule } from '@models/schedule/search-schedule.model';
+import { StudyScheduleModel } from '@models/schedule/study-schedule.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ScheduleDta } from 'src/shared/dtas/schedule.dta';
+import { ExamScheduleDta } from 'src/shared/dtas/exam-schedule.dta';
+import { StudyScheduleDta } from 'src/shared/dtas/study-schedule.dta';
 import { BaseDataService } from './core/base-data.service';
 
 @Injectable({
@@ -15,40 +17,56 @@ export class ScheduleService extends BaseDataService {
     super();
   }
 
-  public getDepartmentSchedule(
-    department: string,
-    params: SearchSchedule
-  ): Observable<ScheduleModel[]> {
+  public getSchedule(params: SearchSchedule): Observable<StudyScheduleModel[]> {
     return this.http
-      .get<ScheduleDta[]>(
-        this.url + `departments/${department}/schedules`,
-        { params: { ...params } }
-      )
+      .get<StudyScheduleDta[]>(this.url + `teachers/and/schedules`, {
+        params: { ...params },
+      })
       .pipe(
         map((response) => {
-          return response.map((x) => ScheduleModel.parse(x, 'exam'));
+          return response.map((x) => StudyScheduleModel.parse(x));
         })
       );
   }
 
-  public getExamSchedule(): Observable<ScheduleModel[]> {
+  public getDepartmentSchedule(
+    department: string,
+    params: SearchSchedule
+  ): Observable<StudyScheduleModel[]> {
     return this.http
-      .get<ScheduleDta[]>(this.url + 'teachers/0849/exam-schedules')
+      .get<StudyScheduleDta[]>(
+        this.url + `departments/${department}/schedules`,
+        {
+          params: { ...params },
+        }
+      )
       .pipe(
         map((response) => {
-          return response.map((x) => ScheduleModel.parse(x, 'exam'));
+          return response.map((x) => StudyScheduleModel.parse(x));
+        })
+      );
+  }
+
+  public getExamSchedule(): Observable<ExamScheduleModel[]> {
+    return this.http
+      .get<ExamScheduleDta[]>(this.url + 'teachers/0849/exam-schedules')
+      .pipe(
+        map((response) => {
+          return response.map((x) => ExamScheduleModel.parse(x));
         })
       );
   }
 
   public getDepartmentExamSchedule(
     department: string
-  ): Observable<ScheduleModel[]> {
+  ): Observable<ExamScheduleModel[]> {
     return this.http
-      .get<ScheduleDta[]>(this.url + `departments/${department}/exam-schedules`)
+      .get<ExamScheduleDta[]>(
+        this.url + `departments/${department}/exam-schedules`
+      )
       .pipe(
         map((response) => {
-          return response.map((x) => ScheduleModel.parse(x, 'exam'));
+          return response.map((x) => ExamScheduleModel.parse(x));
         })
       );
   }
