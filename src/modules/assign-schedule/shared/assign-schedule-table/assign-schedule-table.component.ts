@@ -108,5 +108,6 @@ export class AssignScheduleTableComponent
     this.form = this.fb.group({
       checkbox: this.fb.array(this.data.map(() => false)),
     });
+    this._selectAll = false;
   }
 }
