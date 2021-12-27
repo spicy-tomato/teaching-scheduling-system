@@ -53,9 +53,10 @@
         *ngrxLet="departments$ as faculties"
         [valueContent]="stringifyDepartment(faculties)"
         formControlName="department"
+        class="department"
       >
         Bộ môn
-        <tui-data-list *tuiDataList>
+        <tui-data-list *tuiDataList class="department-data-list">
           <tui-opt-group
             *ngFor="let faculty of faculties"
             [label]="faculty.name"
