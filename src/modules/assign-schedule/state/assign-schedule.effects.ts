@@ -98,6 +98,20 @@ export class AssignScheduleEffects {
     );
   });
 
+  public unassign$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(PageAction.unassign),
+      mergeMap(({ classIds }) => {
+        return this.classService.unassign(classIds).pipe(
+          map(() => {
+            return ApiAction.unassignSuccessful();
+          }),
+          catchError(() => of(ApiAction.unassignFailure()))
+        );
+      })
+    );
+  });
+
   /** CONSTRUCTOR */
   constructor(
     private readonly actions$: Actions,

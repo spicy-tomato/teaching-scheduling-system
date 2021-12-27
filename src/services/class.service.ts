@@ -47,4 +47,11 @@ export class ClassService extends BaseDataService {
       id_teacher: idTeacher,
     });
   }
+  
+  public unassign(idClass: string[]): Observable<void> {
+    return this.http.put<void>(this.url + 'module-classes/update', {
+      ids: idClass,
+      id_teacher: '',
+    });
+  }
 }

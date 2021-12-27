@@ -37,3 +37,8 @@ export const assign = createAction(
   '[Assign Schedule Page] Assign',
   props<{ teacher: SimpleModel; classIds: string[] }>()
 );
+
+export const unassign = createAction(
+  '[Assign Schedule Page] Unassign',
+  props<{ classIds: string[] }>()
+);

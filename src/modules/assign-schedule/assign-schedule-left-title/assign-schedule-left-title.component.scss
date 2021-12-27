@@ -1,0 +1,17 @@
+:host {
+  min-height: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 0;
+  transition: all 0.3s ease-in;
+
+  tui-select {
+    min-width: 175px;
+  }
+  
+  .ml {
+    margin-left: 0.5rem;
+  }
+}

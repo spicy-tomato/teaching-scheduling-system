@@ -4,7 +4,8 @@ export {
   filter,
   selectedAssignedChange,
   selectedNeedAssignChange,
-  assign
+  assign,
+  unassign,
 } from './assign-schedule.page.actions';
 export {
   assignScheduleReducer,
@@ -22,6 +23,6 @@ export {
   selectSelectedNeedAssign,
   selectStatus,
   selectTeachers,
-  selectAssignedSuccessful
-} from './assign-schedule.selectors';
+} from // selectAssignedSuccessful
+'./assign-schedule.selectors';
 export { AssignScheduleEffects } from './assign-schedule.effects';

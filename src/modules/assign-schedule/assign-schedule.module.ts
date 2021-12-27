@@ -18,6 +18,8 @@ import {
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
 import { AssignScheduleSharedModule } from './shared/assign-schedule-shared.module';
+import { AssignScheduleLeftTitleComponent } from './assign-schedule-left-title/assign-schedule-left-title.component';
+import { AssignScheduleRightTitleComponent } from './assign-schedule-right-title/assign-schedule-right-title.component';
 
 const NGRX = [
   ReactiveComponentModule,
@@ -51,6 +53,8 @@ const TAIGA_UI = [
     AssignScheduleFilterComponent,
     AssignScheduleNeedAssignComponent,
     AssignScheduleAssignedComponent,
+    AssignScheduleLeftTitleComponent,
+    AssignScheduleRightTitleComponent,
   ],
 })
 export class AssignScheduleModule {}

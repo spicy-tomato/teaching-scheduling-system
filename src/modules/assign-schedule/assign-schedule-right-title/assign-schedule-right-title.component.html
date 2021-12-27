@@ -1,0 +1,19 @@
+<h4>Học phần đã được phân công</h4>
+<ng-container *ngrxLet="assigned$ as assigned">
+  <div
+    *ngIf="assigned.length > 0"
+    [@fadeInOut]="{ value: true, params: { duration: '300ms' } }"
+    class="d-flex"
+  >
+    <button
+      tuiButton
+      *ngrxLet="someAssignedCheckedChange$ as someAssignedCheckedChange"
+      [disabled]="!someAssignedCheckedChange"
+      (click)="discardAssign$.next()"
+      appearance="accent"
+      class="ml"
+    >
+      Hủy phân công
+    </button>
+  </div>
+</ng-container>

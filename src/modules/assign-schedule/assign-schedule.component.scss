@@ -15,26 +15,11 @@
   tss-assign-schedule-filter {
     grid-area: filter;
   }
-
-  .title {
-    min-height: 32px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 0.5rem 0;
-    transition: all 0.3s ease-in;
-    
-    &-left {
-      grid-area: left-title;
-    }
-    &-right {
-      grid-area: right-title;
-    }
-
-    tui-select {
-      min-width: 175px;
-    }
+  tss-assign-schedule-left-title {
+    grid-area: left-title;
+  }
+  tss-assign-schedule-right-title {
+    grid-area: right-title;
   }
 
   .left {

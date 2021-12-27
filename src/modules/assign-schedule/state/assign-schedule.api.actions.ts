@@ -57,3 +57,11 @@ export const assignSuccessful = createAction(
 export const assignFailure = createAction(
   '[Assign Schedule API] Assign Failed'
 );
+
+export const unassignSuccessful = createAction(
+  '[Assign Schedule API] Unassign Successfully'
+);
+
+export const unassignFailure = createAction(
+  '[Assign Schedule API] Unassign Failed'
+);

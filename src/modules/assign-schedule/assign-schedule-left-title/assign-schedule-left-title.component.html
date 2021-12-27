@@ -1,0 +1,40 @@
+<h4>Học phần chưa được phân công</h4>
+<ng-container *ngrxLet="needAssign$ as needAssign">
+  <div
+    *ngIf="needAssign.length > 0"
+    [@fadeInOut]="{ value: true, params: { duration: '300ms' } }"
+    class="d-flex"
+  >
+    <tui-select
+      *ngrxLet="teachers$ as teachers"
+      [(ngModel)]="selectedTeacher"
+      [valueContent]="teacherTemplate"
+      (ngModelChange)="selectedTeacherChange($event)"
+      tuiTextfieldSize="s"
+    >
+      Chọn giảng viên
+      <tui-data-list-wrapper
+        *tuiDataList
+        size="s"
+        [items]="teachers"
+        [itemContent]="teacherTemplate"
+      ></tui-data-list-wrapper>
+    </tui-select>
+    <button
+      tuiButton
+      *ngrxLet="someNeedAssignCheckedChange$ as someNeedAssignCheckedChange"
+      [disabled]="!selectedTeacher || !someNeedAssignCheckedChange"
+      (click)="assign$.next()"
+      class="ml"
+    >
+      Phân công
+    </button>
+  </div>
+</ng-container>
+
+<!-- Templates -->
+<ng-template #teacherTemplate let-teacher>
+  <div class="tui-text_body-s">
+    {{ teacher.name }}
+  </div>
+</ng-template>
