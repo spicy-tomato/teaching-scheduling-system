@@ -21,5 +21,4 @@ export interface AssignScheduleState {
     action: SimpleModel | null;
     actionCount: number;
   };
-  // assignedSuccessful: { teacherName: string; classCount: number };
 }

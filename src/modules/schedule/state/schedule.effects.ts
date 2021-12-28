@@ -63,7 +63,7 @@ export class ScheduleEffects extends BaseComponent {
               switchMap(([department, currentTerm]) =>
                 this.scheduleService.getDepartmentExamSchedule(
                   department ?? '',
-                  getScheduleParam(currentTerm)
+                  getPrevScheduleParam(currentTerm)
                 )
               ),
               take(1)
@@ -71,7 +71,7 @@ export class ScheduleEffects extends BaseComponent {
           : this.currentTerm$.pipe(
               switchMap((currentTerm) =>
                 this.scheduleService.getExamSchedule(
-                  getScheduleParam(currentTerm)
+                  getPrevScheduleParam(currentTerm)
                 )
               )
             );
@@ -131,6 +131,20 @@ export class ScheduleEffects extends BaseComponent {
 function getScheduleParam(term: string): SearchSchedule {
   return {
     term: term.split('-').join('_'),
+    ss: term.split('_')[2] === '1' ? '1,2,3' : '1,2,3,5',
+  };
+}
+
+function getPrevScheduleParam(term: string): SearchSchedule {
+  const t = term.split('-');
+  if (t[2] === '2') {
+    term = [t[0], t[1]].join('_') + '_1';
+  } else {
+    term = [parseInt(t[0]) - 1, parseInt(t[1])].join('_') + '_1';
+  }
+
+  return {
+    term,
     ss: term.split('_')[2] === '1' ? '1,2,3' : '1,2,3,5',
   };
 }
