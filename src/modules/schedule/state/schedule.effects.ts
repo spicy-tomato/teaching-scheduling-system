@@ -19,6 +19,7 @@ import { ScheduleService } from '@services/schedule.service';
 import { Store } from '@ngrx/store';
 import { CommonInfoService } from '@services/common-info.service';
 import { BaseComponent } from '@modules/core/base/base.component';
+import { SearchSchedule } from '@models/schedule/search-schedule.model';
 
 @Injectable()
 export class ScheduleEffects extends BaseComponent {
@@ -30,19 +31,16 @@ export class ScheduleEffects extends BaseComponent {
         const schedule$ = departmentSchedule
           ? combineLatest([this.department$, this.currentTerm$]).pipe(
               switchMap(([department, currentTerm]) =>
-                this.scheduleService.getDepartmentSchedule(department ?? '', {
-                  term: currentTerm.split('-').join('_'),
-                  ss: currentTerm.split('_')[2] === '1' ? '1,2,3' : '1,2,3,5',
-                })
+                this.scheduleService.getDepartmentSchedule(
+                  department ?? '',
+                  getScheduleParam(currentTerm)
+                )
               ),
               take(1)
             )
           : this.currentTerm$.pipe(
               switchMap((currentTerm) =>
-                this.scheduleService.getSchedule({
-                  term: currentTerm.split('-').join('_'),
-                  ss: currentTerm.split('_')[2] === '1' ? '1,2,3' : '1,2,3,5',
-                })
+                this.scheduleService.getSchedule(getScheduleParam(currentTerm))
               )
             );
 
@@ -61,13 +59,22 @@ export class ScheduleEffects extends BaseComponent {
       ofType(PageAction.load),
       mergeMap(({ departmentSchedule }) => {
         const schedule$ = departmentSchedule
-          ? this.department$.pipe(
-              switchMap((department) =>
-                this.scheduleService.getDepartmentExamSchedule(department ?? '')
+          ? combineLatest([this.department$, this.currentTerm$]).pipe(
+              switchMap(([department, currentTerm]) =>
+                this.scheduleService.getDepartmentExamSchedule(
+                  department ?? '',
+                  getScheduleParam(currentTerm)
+                )
               ),
               take(1)
             )
-          : this.scheduleService.getExamSchedule();
+          : this.currentTerm$.pipe(
+              switchMap((currentTerm) =>
+                this.scheduleService.getExamSchedule(
+                  getScheduleParam(currentTerm)
+                )
+              )
+            );
 
         return schedule$.pipe(
           map((schedules) => {
@@ -119,4 +126,11 @@ export class ScheduleEffects extends BaseComponent {
       .getCurrentTerm()
       .pipe(takeUntil(this.destroy$));
   }
+}
+
+function getScheduleParam(term: string): SearchSchedule {
+  return {
+    term: term.split('-').join('_'),
+    ss: term.split('_')[2] === '1' ? '1,2,3' : '1,2,3,5',
+  };
 }

@@ -19,7 +19,7 @@ export class ScheduleService extends BaseDataService {
 
   public getSchedule(params: SearchSchedule): Observable<StudyScheduleModel[]> {
     return this.http
-      .get<StudyScheduleDta[]>(this.url + `teachers/and/schedules`, {
+      .get<StudyScheduleDta[]>(this.url + `teachers/4603/schedules`, {
         params: { ...params },
       })
       .pipe(
@@ -47,9 +47,13 @@ export class ScheduleService extends BaseDataService {
       );
   }
 
-  public getExamSchedule(): Observable<ExamScheduleModel[]> {
+  public getExamSchedule(
+    params: SearchSchedule
+  ): Observable<ExamScheduleModel[]> {
     return this.http
-      .get<ExamScheduleDta[]>(this.url + 'teachers/0849/exam-schedules')
+      .get<ExamScheduleDta[]>(this.url + 'teachers/0849/exam-schedules', {
+        params: { ...params },
+      })
       .pipe(
         map((response) => {
           return response.map((x) => ExamScheduleModel.parse(x));
@@ -58,11 +62,15 @@ export class ScheduleService extends BaseDataService {
   }
 
   public getDepartmentExamSchedule(
-    department: string
+    department: string,
+    params: SearchSchedule
   ): Observable<ExamScheduleModel[]> {
     return this.http
       .get<ExamScheduleDta[]>(
-        this.url + `departments/${department}/exam-schedules`
+        this.url + `departments/${department}/exam-schedules`,
+        {
+          params: { ...params },
+        }
       )
       .pipe(
         map((response) => {
