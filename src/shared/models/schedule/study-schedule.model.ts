@@ -17,9 +17,17 @@ export class StudyScheduleModel extends ScheduleModel {
     shift: string,
     date: Date,
     color: string,
-    people?: string[]
+    people?: string
   ) {
-    super(id, idModuleClass, name, idRoom, 'study', note, people);
+    super(
+      id,
+      idModuleClass,
+      name,
+      idRoom,
+      'study',
+      note,
+      people ? [people] : []
+    );
 
     this.shift = shift;
     this.date = date;
@@ -36,7 +44,7 @@ export class StudyScheduleModel extends ScheduleModel {
       obj.shift,
       new Date(obj.date),
       obj.color,
-      obj.teachers
+      obj.teacher
     );
   }
 

@@ -32,6 +32,7 @@ import { ScheduleHeaderComponent } from './schedule/schedule-header/schedule-hea
 import { TuiRadioLabeledModule } from '@taiga-ui/kit';
 import { DirectivesModule } from '@directives/directives.module';
 import { StudyEditorDialogComponent } from './schedule/study-editor-dialog/study-editor-dialog.component';
+import { SharedScheduleModule } from './shared/shared-schedule.module';
 
 const NGRX = [
   ReactiveComponentModule,
@@ -66,6 +67,7 @@ const TAIGA_UI = [
     ScheduleModule,
     PipesModule,
     DirectivesModule,
+    SharedScheduleModule,
     ...NGRX,
     ...TAIGA_UI,
   ],

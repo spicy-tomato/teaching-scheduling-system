@@ -7,5 +7,5 @@ export interface StudyScheduleDta {
   shift: string;
   date: Date;
   color: string;
-  teachers?: string[];
+  teacher: string;
 }
