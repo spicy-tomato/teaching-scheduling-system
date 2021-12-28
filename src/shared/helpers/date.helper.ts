@@ -20,36 +20,36 @@ export class DateHelper {
     return value;
   }
 
-  public static fromShift(date: Date, shift: number): [Date, Date] {
+  public static fromShift(date: Date, shift: string): [Date, Date] {
     const end = new Date(date.getTime());
 
-    switch (shift) {
-      case 1:
-        date.setHours(7);
-        end.setHours(9);
-        end.setMinutes(25);
-        break;
-      case 2:
-        date.setHours(9);
-        date.setMinutes(35);
-        end.setHours(12);
-        break;
-      case 3:
-        date.setHours(13);
-        end.setHours(15);
-        end.setMinutes(25);
-        break;
-      case 4:
-        date.setHours(15);
-        date.setMinutes(35);
-        end.setHours(18);
-        break;
-      case 5:
-        date.setHours(19);
-        end.setHours(21);
-        end.setMinutes(25);
-        break;
-    }
+    const map: { [key: string]: { start: number[]; end: number[] } } = {
+      '1': {
+        start: [7, 0],
+        end: [9, 25],
+      },
+      '2': {
+        start: [9, 35],
+        end: [12, 0],
+      },
+      '3': {
+        start: [13, 0],
+        end: [15, 25],
+      },
+      '4': {
+        start: [15, 35],
+        end: [18, 0],
+      },
+      '5': {
+        start: [19, 0],
+        end: [21, 25],
+      },
+    };
+
+    date.setHours(map[shift].start[0]);
+    date.setMinutes(map[shift].start[1]);
+    end.setHours(map[shift].end[0]);
+    end.setMinutes(map[shift].end[1]);
 
     return [date, end];
   }

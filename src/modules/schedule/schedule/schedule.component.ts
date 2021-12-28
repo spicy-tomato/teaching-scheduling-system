@@ -18,7 +18,7 @@ import {
 } from '@syncfusion/ej2-angular-schedule';
 
 import { loadCldr, setCulture, L10n } from '@syncfusion/ej2-base';
-import { default as EJ2_LOCALE } from '@syncfusion/ej2-locale/src/vi.json';
+import { default as EJS_LOCALE } from '@locales/ejs-locale.json';
 import * as numberingSystems from 'cldr-data/supplemental/numberingSystems.json';
 import * as gregorian from 'cldr-data/main/vi/ca-gregorian.json';
 import * as numbers from 'cldr-data/main/vi/numbers.json';
@@ -37,12 +37,14 @@ import {
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { ExamDialogComponent } from './exam-dialog/exam-dialog.component';
+import { ExamEditorDialogComponent } from './exam-editor-dialog/exam-editor-dialog.component';
 import { EjsScheduleModel } from '@models/schedule/ejs-schedule.model';
 import { EApiStatus } from 'src/shared/enums/api-status.enum';
+import { StudyEditorDialogComponent } from './study-editor-dialog/study-editor-dialog.component';
 
 loadCldr(numberingSystems, gregorian, numbers, timeZoneNames);
-L10n.load({ vi: EJ2_LOCALE.vi });
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+L10n.load({ vi: EJS_LOCALE.vi });
 setCulture('vi');
 
 @Component({
@@ -110,7 +112,7 @@ export class TssScheduleComponent
   public onPopupOpen(args: PopupOpenEventArgs): void {
     if (args.type === 'Editor') {
       args.cancel = true;
-      this.showExamDialog(args.data as EjsScheduleModel);
+      this.showEditorDialog(args.data as EjsScheduleModel);
     }
   }
 
@@ -126,7 +128,6 @@ export class TssScheduleComponent
             (acc, curr) => [...acc, ...curr.map((x) => x.toEjsSchedule())],
             []
           );
-          console.log(dataSource);
           this.eventSettings$.next({ dataSource, ...this.staticSettings });
         }),
         takeUntil(this.destroy$)
@@ -179,14 +180,46 @@ export class TssScheduleComponent
       .subscribe();
   }
 
-  private showExamDialog(data?: EjsScheduleModel): void {
+  private showEditorDialog(data?: EjsScheduleModel): void {
+    switch (data?.Type) {
+      case 'exam':
+        this.showExamEditorDialog(data);
+        break;
+      case 'study':
+        this.showStudyEditorDialog(data);
+        break;
+    }
+  }
+
+  private showExamEditorDialog(data?: EjsScheduleModel): void {
     this.dialogService
       .open<string | undefined>(
-        new PolymorpheusComponent(ExamDialogComponent, this.injector),
+        new PolymorpheusComponent(ExamEditorDialogComponent, this.injector),
         {
           data,
           dismissible: false,
           label: 'Chi tiết lịch thi',
+        }
+      )
+      .pipe(
+        tap((note) => {
+          if (note !== undefined) {
+            const newData = { ...data, Note: note };
+            this.scheduleComponent.saveEvent(newData);
+          }
+        })
+      )
+      .subscribe();
+  }
+
+  private showStudyEditorDialog(data?: EjsScheduleModel): void {
+    this.dialogService
+      .open<string | undefined>(
+        new PolymorpheusComponent(StudyEditorDialogComponent, this.injector),
+        {
+          data,
+          dismissible: false,
+          label: 'Chi tiết lịch học',
         }
       )
       .pipe(

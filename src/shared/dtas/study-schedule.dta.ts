@@ -4,7 +4,7 @@ export interface StudyScheduleDta {
   name: string;
   id_room: string;
   note: string;
-  shift: number;
+  shift: string;
   date: Date;
   teachers?: string[];
 }

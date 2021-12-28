@@ -10,22 +10,19 @@ import { EjsScheduleModel } from '@models/schedule/ejs-schedule.model';
 import { ScheduleService } from '@services/schedule.service';
 import { TuiDay } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
-import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { DateHelper } from 'src/shared/helpers/date.helper';
+import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 
 @Component({
-  selector: 'tss-exam-dialog',
-  templateUrl: './exam-dialog.component.html',
-  styleUrls: ['./exam-dialog.component.scss'],
+  templateUrl: './study-editor-dialog.component.html',
+  styleUrls: ['./study-editor-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ExamDialogComponent {
+export class StudyEditorDialogComponent {
   /** PUBLIC PROPERTIES */
   public form!: FormGroup;
   public updating = false;
   public initialNote?: string;
-  public readonly notAllowFieldHint =
-    'Không thể thay đổi thông tin của lịch thi';
   public readonly noteMaxLength = 1000;
 
   /** GETTERS */
@@ -78,7 +75,7 @@ export class ExamDialogComponent {
   /** PRIVATE METHODS */
   private initForm(data?: EjsScheduleModel): void {
     const startDate = data?.StartTime as Date;
-    const endDate = data?.StartTime as Date;
+    const endDate = data?.EndTime as Date;
     const today = new Date();
     this.initialNote = data?.Note as string;
 

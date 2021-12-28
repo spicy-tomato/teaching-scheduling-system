@@ -20,7 +20,7 @@ import {
   TuiFieldErrorModule,
   TuiCalendarMonthModule,
 } from '@taiga-ui/kit';
-import { ExamDialogComponent } from './schedule/exam-dialog/exam-dialog.component';
+import { ExamEditorDialogComponent } from './schedule/exam-editor-dialog/exam-editor-dialog.component';
 import {
   TuiButtonModule,
   TuiHintControllerModule,
@@ -31,6 +31,7 @@ import {
 import { ScheduleHeaderComponent } from './schedule/schedule-header/schedule-header.component';
 import { TuiRadioLabeledModule } from '@taiga-ui/kit';
 import { DirectivesModule } from '@directives/directives.module';
+import { StudyEditorDialogComponent } from './schedule/study-editor-dialog/study-editor-dialog.component';
 
 const NGRX = [
   ReactiveComponentModule,
@@ -71,8 +72,9 @@ const TAIGA_UI = [
   declarations: [
     SchedulePageComponent,
     TssScheduleComponent,
-    ExamDialogComponent,
+    ExamEditorDialogComponent,
     ScheduleHeaderComponent,
+    StudyEditorDialogComponent,
   ],
 })
 export class SchedulePageModule {}

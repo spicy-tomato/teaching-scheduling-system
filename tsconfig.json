@@ -45,6 +45,9 @@
       "@interceptors/*": [
         "src/shared/interceptors/*"
       ],
+      "@locales/*": [
+        "src/shared/locales/*"
+      ],
       "@models/*": [
         "src/shared/models/*"
       ],

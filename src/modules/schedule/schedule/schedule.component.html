@@ -50,13 +50,13 @@
             {{ data.IdModuleClass }}
           </div>
         </div>
-        <div class="e-module-class">
+        <div *ngIf="data.Method" class="e-module-class">
           <div class="mdi mdi-bullseye-arrow"></div>
           <div class="e-location-details e-text-ellipsis">
             {{ data.Method }}
           </div>
         </div>
-        <div class="e-module-class" *ngFor="let person of data.People">
+        <div *ngFor="let person of data.People" class="e-module-class">
           <div class="mdi mdi-account"></div>
           <div class="e-location-details e-text-ellipsis">
             {{ person }}

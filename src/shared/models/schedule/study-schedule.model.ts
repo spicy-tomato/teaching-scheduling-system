@@ -4,7 +4,7 @@ import { EjsScheduleModel } from './ejs-schedule.model';
 import { ScheduleModel } from './schedule.model';
 
 export class StudyScheduleModel extends ScheduleModel {
-  public readonly shift!: number;
+  public readonly shift!: string;
   public readonly date!: Date;
 
   constructor(
@@ -13,11 +13,11 @@ export class StudyScheduleModel extends ScheduleModel {
     name: string,
     idRoom: string,
     note: string,
-    shift: number,
+    shift: string,
     date: Date,
     people?: string[]
   ) {
-    super(id, idModuleClass, name, idRoom, 'exam', note, people);
+    super(id, idModuleClass, name, idRoom, 'study', note, people);
 
     this.shift = shift;
     this.date = date;
