@@ -2,6 +2,7 @@ export {
   reset,
   loadFilter,
   filter,
+  changeSelectingTeacher,
   selectedAssignedChange,
   selectedNeedAssignChange,
   assign,

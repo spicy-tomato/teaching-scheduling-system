@@ -26,7 +26,7 @@ export class AssignScheduleLeftTitleComponent extends BaseComponent {
   /** PUBLIC PROPERTIES */
   public needAssign$: Observable<ModuleClass[]>;
   public teachers$: Observable<SimpleModel[]>;
-  public selectedTeacher: SimpleModel | null = null;
+  public selectedTeacher$: Observable<SimpleModel | null>;
   public someNeedAssignCheckedChange$!: Observable<boolean>;
   public selectedNeedAssign$: Observable<boolean[]>;
   public assign$ = new Subject<void>();
@@ -51,7 +51,9 @@ export class AssignScheduleLeftTitleComponent extends BaseComponent {
     this.selectedNeedAssign$ = this.store
       .select(fromAssignSchedule.selectSelectedNeedAssign)
       .pipe(takeUntil(this.destroy$));
-
+    this.selectedTeacher$ = this.store
+      .select(fromAssignSchedule.selectSelectedTeacher)
+      .pipe(takeUntil(this.destroy$));
     this.assignedTeacher$ = this.store
       .select(fromAssignSchedule.selectActionTeacher)
       .pipe(takeUntil(this.destroy$));
@@ -62,7 +64,9 @@ export class AssignScheduleLeftTitleComponent extends BaseComponent {
   }
 
   /** PUBLIC METHODS */
-  public selectedTeacherChange(teacher: SimpleModel | null): void {}
+  public selectedTeacherChange(teacher: SimpleModel | null): void {
+    this.store.dispatch(fromAssignSchedule.changeSelectingTeacher({ teacher }));
+  }
 
   /** PRIVATE METHODS */
   private handleSomeNeedAssignChecked(): void {
@@ -75,16 +79,20 @@ export class AssignScheduleLeftTitleComponent extends BaseComponent {
   private handleAssign(): void {
     this.assign$
       .pipe(
-        withLatestFrom(this.needAssign$, this.selectedNeedAssign$),
+        withLatestFrom(
+          this.needAssign$,
+          this.selectedNeedAssign$,
+          this.selectedTeacher$
+        ),
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        tap(([_, needAssign, selected]) => {
-          if (!this.selectedTeacher) {
+        tap(([_, needAssign, selected, selectedTeacher]) => {
+          if (!selectedTeacher) {
             return;
           }
 
           this.store.dispatch(
             fromAssignSchedule.assign({
-              teacher: this.selectedTeacher,
+              teacher: selectedTeacher,
               classIds: needAssign
                 .filter((_, i) => selected[i])
                 .map((x) => x.id),

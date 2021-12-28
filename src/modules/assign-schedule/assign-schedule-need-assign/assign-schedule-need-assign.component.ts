@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ModuleClass } from '@models/class/module-class.model';
+import { BaseComponent } from '@modules/core/base/base.component';
 import { Action, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import * as fromAssignSchedule from '../state';
 
 @Component({
@@ -10,14 +12,19 @@ import * as fromAssignSchedule from '../state';
   styleUrls: ['./assign-schedule-need-assign.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AssignScheduleNeedAssignComponent {
+export class AssignScheduleNeedAssignComponent extends BaseComponent {
   /** PUBLIC PROPERTIES */
-  public data$!: Observable<ModuleClass[]>;
-  public checkboxChangeAction: (checkbox: boolean[]) => Action = (checkbox) =>
-    fromAssignSchedule.selectedNeedAssignChange({ checkbox });
+  public data$: Observable<ModuleClass[]>;
+  public readonly checkboxChangeAction: (checkbox: boolean[]) => Action = (
+    checkbox
+  ) => fromAssignSchedule.selectedNeedAssignChange({ checkbox });
 
   /** CONSTRUCTOR */
   constructor(store: Store<fromAssignSchedule.AssignScheduleState>) {
-    this.data$ = store.select(fromAssignSchedule.selectNeedAssign);
+    super();
+    
+    this.data$ = store
+      .select(fromAssignSchedule.selectNeedAssign)
+      .pipe(takeUntil(this.destroy$));
   }
 }

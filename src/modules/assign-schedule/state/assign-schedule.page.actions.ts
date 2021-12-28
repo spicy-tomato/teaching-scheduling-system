@@ -23,6 +23,11 @@ export const filter = createAction(
   props<{ dep: string; params: SearchSchedule }>()
 );
 
+export const changeSelectingTeacher = createAction(
+  '[Assign Schedule Page] Change selecting teacher',
+  props<{ teacher: SimpleModel | null }>()
+);
+
 export const selectedAssignedChange = createAction(
   '[Assign Schedule Page] Selected assigned change',
   props<{ checkbox: boolean[] }>()

@@ -32,6 +32,15 @@ export const assignScheduleReducer = createReducer(
       status: EApiStatus.loading,
     };
   }),
+  on(PageAction.changeSelectingTeacher, (state, { teacher }) => {
+    return {
+      ...state,
+      teacher: {
+        ...state.teacher,
+        selected: teacher,
+      },
+    };
+  }),
   on(PageAction.selectedNeedAssignChange, (state, { checkbox }) => {
     return {
       ...state,
