@@ -26,8 +26,8 @@ export class StudyEditorDialogComponent {
   public readonly noteMaxLength = 1000;
 
   /** GETTERS */
-  public get people(): FormArray | null {
-    return this.form.get('people') as FormArray;
+  public get people(): AbstractControl | null {
+    return this.form.get('people');
   }
 
   public get note(): AbstractControl | null {
@@ -84,7 +84,7 @@ export class StudyEditorDialogComponent {
       subject: [data?.Subject],
       location: [data?.Location],
       method: [data?.Method],
-      people: this.fb.array(data?.People?.map((x) => this.fb.control(x)) ?? []),
+      people: [data?.People?.[0]],
       start: [
         [
           startDate

@@ -19,16 +19,11 @@
       </tui-input-date-time>
     </div>
   </div>
-  <ng-container formArrayName="people">
-    <div
-      class="tui-form__row"
-      *ngFor="let person of people?.controls; index as i"
-    >
-      <tui-input [readOnly]="true" [formControlName]="i">
-        Giám thị {{ i + 1 }}
-      </tui-input>
-    </div>
-  </ng-container>
+  <div *ngIf="people && people.value !== 'self'" class="tui-form__row">
+    <tui-input [readOnly]="true" formControlName="people">
+      Giảng viên
+    </tui-input>
+  </div>
 
   <!-- <div class="tui-form__row">
     <tui-text-area
