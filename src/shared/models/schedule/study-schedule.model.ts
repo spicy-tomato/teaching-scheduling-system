@@ -6,6 +6,7 @@ import { ScheduleModel } from './schedule.model';
 export class StudyScheduleModel extends ScheduleModel {
   public readonly shift!: string;
   public readonly date!: Date;
+  public readonly color!: string;
 
   constructor(
     id: number,
@@ -15,12 +16,14 @@ export class StudyScheduleModel extends ScheduleModel {
     note: string,
     shift: string,
     date: Date,
+    color: string,
     people?: string[]
   ) {
     super(id, idModuleClass, name, idRoom, 'study', note, people);
 
     this.shift = shift;
     this.date = date;
+    this.color = color;
   }
 
   public static parse(obj: StudyScheduleDta): StudyScheduleModel {
@@ -32,6 +35,7 @@ export class StudyScheduleModel extends ScheduleModel {
       obj.note,
       obj.shift,
       new Date(obj.date),
+      obj.color,
       obj.teachers
     );
   }
@@ -49,6 +53,7 @@ export class StudyScheduleModel extends ScheduleModel {
       IdModuleClass: this.idModuleClass,
       Note: this.note,
       People: this.people,
+      Color: this.color,
     };
   }
 }

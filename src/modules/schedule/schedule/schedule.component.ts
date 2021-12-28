@@ -95,6 +95,9 @@ export class TssScheduleComponent
         args.element.style.backgroundColor = '#ff8c67';
         break;
     }
+    if (args.data.Color) {
+      args.element.style.backgroundColor = args.data.Color as string;
+    }
   }
 
   public onEventClick(): void {
@@ -128,6 +131,7 @@ export class TssScheduleComponent
             (acc, curr) => [...acc, ...curr.map((x) => x.toEjsSchedule())],
             []
           );
+          console.log(dataSource);
           this.eventSettings$.next({ dataSource, ...this.staticSettings });
         }),
         takeUntil(this.destroy$)

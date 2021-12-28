@@ -18,7 +18,7 @@ export class ExamScheduleModel extends ScheduleModel {
     note: string,
     people?: string[]
   ) {
-    super(id, idModuleClass, name, idRoom, 'study', note, people);
+    super(id, idModuleClass, name, idRoom, 'exam', note, people);
 
     this.method = method;
     this.timeStart = timeStart;

@@ -60,4 +60,9 @@ export interface EjsScheduleModel {
    * People of event
    */
   People?: string[];
+
+  /**
+   * Color of event
+   */
+  Color?: string;
 }
