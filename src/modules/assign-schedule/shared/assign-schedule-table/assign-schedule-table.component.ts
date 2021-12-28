@@ -17,6 +17,7 @@ import { BaseComponent } from '@modules/core/base/base.component';
 import { Action, Store } from '@ngrx/store';
 import { defaultSort } from '@taiga-ui/addon-table';
 import { Observable } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { EApiStatus } from 'src/shared/enums/api-status.enum';
 import * as fromAssignSchedule from '../../state';
 
@@ -37,7 +38,7 @@ export class AssignScheduleTableComponent
 
   /** PUBLIC PROPERTIES */
   public form!: FormGroup;
-  public status$: Observable<EApiStatus>;
+  public filterStatus$: Observable<EApiStatus>;
   public readonly EApiStatus = EApiStatus;
   public readonly columns = [
     'checkbox',
@@ -48,16 +49,18 @@ export class AssignScheduleTableComponent
     'numberPlan',
     'teacher',
   ];
-  public _selectAll = false;
   public classType = CoreConstant.CLASS_TYPE;
   public defaultSort = defaultSort;
 
-  /** GETTER */
+  /** PRIVATE PROPERTIES */
+  public _selectAll = false;
+
+  /** GETTERS */
   public get selectAll(): boolean {
     return this._selectAll;
   }
 
-  /** SETTER */
+  /** SETTERS */
   public set selectAll(checkAll: boolean) {
     this.checkboxes.forEach((checkbox) => {
       checkbox.setValue(checkAll);
@@ -74,7 +77,9 @@ export class AssignScheduleTableComponent
     private readonly store: Store<fromAssignSchedule.AssignScheduleState>
   ) {
     super();
-    this.status$ = store.select(fromAssignSchedule.selectStatus);
+    this.filterStatus$ = store
+      .select(fromAssignSchedule.selectFilterStatus)
+      .pipe(takeUntil(this.destroy$));
   }
 
   /** LIFE CYCLE */

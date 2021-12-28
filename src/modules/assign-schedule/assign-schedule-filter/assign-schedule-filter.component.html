@@ -77,8 +77,16 @@
 
 <!-- Buttons -->
 <div class="buttons d-flex">
-  <button (click)="filter$.next()" [disabled]="!expanded" tuiButton>Lọc</button>
-  <button (click)="onToggle()" tuiButton appearance="secondary">
+  <button
+    tuiButton
+    *ngrxLet="filterStatus$ as filterStatus"
+    (click)="filter$.next()"
+    [disabled]="!expanded"
+    [showLoader]="filterStatus === EApiStatus.loading"
+  >
+    Lọc
+  </button>
+  <button tuiButton (click)="onToggle()" appearance="secondary">
     {{ expanded ? "Ẩn bộ lọc" : "Hiện bộ lọc" }}
   </button>
 </div>

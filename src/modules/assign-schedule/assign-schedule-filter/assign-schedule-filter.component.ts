@@ -16,6 +16,7 @@ import {
   TuiStringHandler,
   TuiContextWithImplicit,
 } from '@taiga-ui/cdk';
+import { EApiStatus } from 'src/shared/enums/api-status.enum';
 
 @Component({
   selector: 'tss-assign-schedule-filter',
@@ -38,9 +39,11 @@ export class AssignScheduleFilterComponent
   public schoolYears$!: Observable<string[]>;
   public departments$: Observable<SimpleMapModel<string, SimpleModel[]>[]>;
   public filter$ = new Subject<void>();
-
+  public filterStatus$: Observable<EApiStatus>;
+  
   public readonly termsInYear = CoreConstant.TERMS_IN_YEAR;
   public readonly batchesInTerm = CoreConstant.BATCHES_IN_TERM;
+  public readonly EApiStatus = EApiStatus;
 
   /** GETTERS */
   public get termInYear(): AbstractControl | null {
@@ -74,21 +77,20 @@ export class AssignScheduleFilterComponent
     this.currentTerm$ = this.store
       .select(fromAssignSchedule.selectSchoolYear)
       .pipe(takeUntil(this.destroy$));
-
     this.academicYears$ = this.store
       .select(fromAssignSchedule.selectAcademicYear)
       .pipe(takeUntil(this.destroy$));
-
     this.trainingTypes$ = this.store
       .select(fromAssignSchedule.selectTrainingType)
       .pipe(takeUntil(this.destroy$));
-
     this.departments$ = this.store
       .select(fromAssignSchedule.selectDepartments)
       .pipe(takeUntil(this.destroy$));
-
     this.myDepartment$ = appShellStore
       .select(fromAppShell.selectDepartment)
+      .pipe(takeUntil(this.destroy$));
+    this.filterStatus$ = store
+      .select(fromAssignSchedule.selectFilterStatus)
       .pipe(takeUntil(this.destroy$));
 
     this.initForm();

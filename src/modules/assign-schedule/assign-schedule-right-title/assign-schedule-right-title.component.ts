@@ -13,6 +13,7 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
+import { EApiStatus } from 'src/shared/enums/api-status.enum';
 import * as fromAssignSchedule from '../state';
 
 @Component({
@@ -27,7 +28,9 @@ export class AssignScheduleRightTitleComponent extends BaseComponent {
   public assigned$: Observable<ModuleClass[]>;
   public selectedAssigned$: Observable<boolean[]>;
   public someAssignedCheckedChange$!: Observable<boolean>;
+  public unassignStatus$: Observable<EApiStatus>;
   public unassign$ = new Subject<void>();
+  public readonly EApiStatus = EApiStatus;
 
   /** PRIVATE PROPERTIES */
   private assignedTeacher$: Observable<SimpleModel | null>;
@@ -48,6 +51,9 @@ export class AssignScheduleRightTitleComponent extends BaseComponent {
       .pipe(takeUntil(this.destroy$));
     this.assignedTeacher$ = this.store
       .select(fromAssignSchedule.selectActionTeacher)
+      .pipe(takeUntil(this.destroy$));
+    this.unassignStatus$ = this.store
+      .select(fromAssignSchedule.selectUnassignStatus)
       .pipe(takeUntil(this.destroy$));
 
     this.handleSomeAssignedChecked();

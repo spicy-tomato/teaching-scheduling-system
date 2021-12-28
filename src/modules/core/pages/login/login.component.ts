@@ -33,7 +33,7 @@ export class LoginComponent extends BaseComponent {
     password: new FormControl('', [Validators.required]),
     remember: new FormControl(false),
   });
-  public readonly LoginStatus = EApiStatus;
+  public readonly EApiStatus = EApiStatus;
 
   /** GETTERS */
   public get username(): AbstractControl | null {
@@ -66,12 +66,12 @@ export class LoginComponent extends BaseComponent {
       .pipe(
         filter(
           (status) =>
-            status === this.LoginStatus.clientError ||
-            status === this.LoginStatus.systemError
+            status === EApiStatus.clientError ||
+            status === EApiStatus.systemError
         ),
         mergeMap((status) => {
           const label =
-            status === this.LoginStatus.clientError
+            status === EApiStatus.clientError
               ? 'Thông tin đăng nhập không chính xác!'
               : 'Lỗi hệ thống!';
           return this.notificationsService.show('Hãy thử lại', {

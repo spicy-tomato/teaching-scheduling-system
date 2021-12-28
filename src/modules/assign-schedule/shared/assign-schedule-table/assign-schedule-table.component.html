@@ -1,7 +1,7 @@
 <tui-scrollbar class="scrollbar">
   <tui-loader
-    *ngrxLet="status$ as status"
-    [showLoader]="status === EApiStatus.loading"
+    *ngrxLet="filterStatus$ as filterStatus"
+    [showLoader]="filterStatus === EApiStatus.loading"
     [overlay]="true"
   >
     <table tuiTable [columns]="columns" class="table">

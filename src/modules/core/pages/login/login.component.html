@@ -27,7 +27,9 @@
       <div class="footer">
         <ng-container *ngrxLet="status$ as status">
           <button
-            [showLoader]="status === LoginStatus.loading"
+            [showLoader]="
+              status === EApiStatus.loading || status === EApiStatus.successful
+            "
             [disabled]="loginForm.invalid"
             tuiButton
             size="m"

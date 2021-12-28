@@ -45,9 +45,19 @@ export const selectSelectedAssigned = createSelector(
   (state) => state.assigned.selected
 );
 
-export const selectStatus = createSelector(
+export const selectFilterStatus = createSelector(
   assignScheduleSelector,
-  (state) => state.status
+  (state) => state.status.filter
+);
+
+export const selectAssignStatus = createSelector(
+  assignScheduleSelector,
+  (state) => state.status.assign
+);
+
+export const selectUnassignStatus = createSelector(
+  assignScheduleSelector,
+  (state) => state.status.unassign
 );
 
 const _selectTeacher = createSelector(

@@ -17,7 +17,11 @@ const initialState: AssignScheduleState = {
   departments: [],
   needAssign: { data: [], selected: [] },
   assigned: { data: [], selected: [] },
-  status: EApiStatus.unknown,
+  status: {
+    filter: EApiStatus.unknown,
+    assign: EApiStatus.unknown,
+    unassign: EApiStatus.unknown,
+  },
   teacher: { data: [], selected: null, action: null, actionCount: 0 },
 };
 
@@ -29,7 +33,19 @@ export const assignScheduleReducer = createReducer(
   on(PageAction.filter, (state) => {
     return {
       ...state,
-      status: EApiStatus.loading,
+      status: { ...state.status, filter: EApiStatus.loading },
+    };
+  }),
+  on(PageAction.assign, (state) => {
+    return {
+      ...state,
+      status: { ...state.status, assign: EApiStatus.loading },
+    };
+  }),
+  on(PageAction.unassign, (state) => {
+    return {
+      ...state,
+      status: { ...state.status, unassign: EApiStatus.loading },
     };
   }),
   on(PageAction.changeSelectingTeacher, (state, { teacher }) => {
@@ -77,7 +93,7 @@ export const assignScheduleReducer = createReducer(
       ...state,
       needAssign: { data: needAssign, selected: [] },
       assigned: { data: assigned, selected: [] },
-      status: EApiStatus.successful,
+      status: { ...state.status, filter: EApiStatus.successful },
     };
   }),
   on(ApiAction.loadTeacherSuccessful, (state, { teachers }) => {
@@ -111,6 +127,7 @@ export const assignScheduleReducer = createReducer(
         action: teacher,
         actionCount: justAssignedClasses.length,
       },
+      status: { ...state.status, assign: EApiStatus.successful },
     };
   }),
   on(ApiAction.unassignSuccessful, (state) => {
@@ -138,6 +155,7 @@ export const assignScheduleReducer = createReducer(
         action: null,
         actionCount: justUnassignedClasses.length,
       },
+      status: { ...state.status, unassign: EApiStatus.successful },
     };
   })
 );

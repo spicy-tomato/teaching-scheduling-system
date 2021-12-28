@@ -5,15 +5,18 @@
     [@fadeInOut]="{ value: true, params: { duration: '300ms' } }"
     class="d-flex"
   >
-    <button
-      tuiButton
-      *ngrxLet="someAssignedCheckedChange$ as someAssignedCheckedChange"
-      [disabled]="!someAssignedCheckedChange"
-      (click)="unassign$.next()"
-      appearance="accent"
-      class="ml"
-    >
-      Hủy phân công
-    </button>
+    <ng-container *ngrxLet="unassignStatus$ as unassignStatus">
+      <button
+        tuiButton
+        *ngrxLet="someAssignedCheckedChange$ as someAssignedCheckedChange"
+        [disabled]="!someAssignedCheckedChange"
+        [showLoader]="unassignStatus === EApiStatus.loading"
+        (click)="unassign$.next()"
+        appearance="accent"
+        class="ml"
+      >
+        Hủy phân công
+      </button>
+    </ng-container>
   </div>
 </ng-container>

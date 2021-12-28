@@ -10,7 +10,11 @@ export interface AssignScheduleState {
   departments: SimpleMapModel<string, SimpleModel[]>[];
   needAssign: { data: ModuleClass[]; selected: boolean[] };
   assigned: { data: ModuleClass[]; selected: boolean[] };
-  status: EApiStatus;
+  status: {
+    filter: EApiStatus;
+    assign: EApiStatus;
+    unassign: EApiStatus;
+  };
   teacher: {
     data: SimpleModel[];
     selected: SimpleModel | null;
