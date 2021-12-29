@@ -12,6 +12,7 @@ export const loginFeatureKey = 'login';
 
 export const loginReducer = createReducer(
   initialState,
+  on(PageAction.reset, () => initialState),
   on(PageAction.clickLogin, (state) => ({
     ...state,
     status: EApiStatus.loading,

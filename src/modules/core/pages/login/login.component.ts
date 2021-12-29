@@ -52,6 +52,8 @@ export class LoginComponent extends BaseComponent {
   ) {
     super();
 
+    store.dispatch(fromLogin.reset());
+
     this.status$ = store
       .select(fromLogin.selectState)
       .pipe(takeUntil(this.destroy$));
