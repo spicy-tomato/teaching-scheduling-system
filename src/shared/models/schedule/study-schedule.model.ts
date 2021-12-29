@@ -7,6 +7,7 @@ export class StudyScheduleModel extends ScheduleModel {
   public readonly shift!: string;
   public readonly date!: Date;
   public readonly color!: string;
+  public readonly moduleName!: string;
 
   constructor(
     id: number,
@@ -17,6 +18,7 @@ export class StudyScheduleModel extends ScheduleModel {
     shift: string,
     date: Date,
     color: string,
+    moduleName: string,
     people?: string
   ) {
     super(
@@ -32,6 +34,7 @@ export class StudyScheduleModel extends ScheduleModel {
     this.shift = shift;
     this.date = date;
     this.color = color;
+    this.moduleName = moduleName;
   }
 
   public static parse(obj: StudyScheduleDta): StudyScheduleModel {
@@ -44,6 +47,7 @@ export class StudyScheduleModel extends ScheduleModel {
       obj.shift,
       new Date(obj.date),
       obj.color,
+      obj.module_name,
       obj.teacher
     );
   }
@@ -59,6 +63,7 @@ export class StudyScheduleModel extends ScheduleModel {
       Location: this.idRoom,
       Type: this.type,
       IdModuleClass: this.idModuleClass,
+      ModuleName: this.moduleName,
       Note: this.note,
       People: this.people,
       Color: this.color,

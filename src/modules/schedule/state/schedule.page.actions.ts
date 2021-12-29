@@ -5,9 +5,10 @@ import { TuiMonth } from '@taiga-ui/cdk';
 
 export const reset = createAction('[Schedule Page] Reset');
 
-export const load = createAction(
-  '[Schedule Page] Load',
-  props<{ departmentSchedule: boolean }>()
+export const load = createAction('[Schedule Page] Load');
+
+export const loadDepartmentSchedule = createAction(
+  '[Schedule Page] Load department schedule'
 );
 
 export const prev = createAction(

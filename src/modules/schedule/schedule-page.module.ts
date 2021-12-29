@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { SchedulePageComponent } from './schedule-page.component';
 import { TssScheduleComponent } from './schedule/schedule.component';
 import { ScheduleRoutingModule } from './schedule-page.routes';
@@ -10,29 +9,18 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { PipesModule } from '@pipes/pipes.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
-  TuiCheckboxLabeledModule,
-  TuiInputDateTimeModule,
-  TuiInputModule,
-  TuiTextAreaModule,
-  TuiDropdownContextModule,
-  TuiFieldErrorModule,
   TuiCalendarMonthModule,
+  TuiSelectModule,
+  TuiMultiSelectModule,
+  TuiDataListWrapperModule,
 } from '@taiga-ui/kit';
-import { ExamEditorDialogComponent } from './schedule/exam-editor-dialog/exam-editor-dialog.component';
-import {
-  TuiButtonModule,
-  TuiHintControllerModule,
-  TuiHintModule,
-  TuiHostedDropdownModule,
-  TuiTextfieldControllerModule,
-} from '@taiga-ui/core';
+import { TuiDataListModule, TuiHostedDropdownModule } from '@taiga-ui/core';
 import { ScheduleHeaderComponent } from './schedule/schedule-header/schedule-header.component';
 import { TuiRadioLabeledModule } from '@taiga-ui/kit';
 import { DirectivesModule } from '@directives/directives.module';
-import { StudyEditorDialogComponent } from './schedule/study-editor-dialog/study-editor-dialog.component';
 import { SharedScheduleModule } from './shared/shared-schedule.module';
+import { TuiActiveZoneModule } from '@taiga-ui/cdk';
 
 const NGRX = [
   ReactiveComponentModule,
@@ -43,26 +31,18 @@ const NGRX = [
   EffectsModule.forFeature([fromSchedule.ScheduleEffects]),
 ];
 const TAIGA_UI = [
-  TuiInputModule,
-  TuiInputDateTimeModule,
-  TuiCheckboxLabeledModule,
-  TuiTextAreaModule,
-  TuiHintControllerModule,
-  TuiHintModule,
-  TuiButtonModule,
-  TuiDropdownContextModule,
-  TuiFieldErrorModule,
-  TuiTextfieldControllerModule,
   TuiHostedDropdownModule,
   TuiCalendarMonthModule,
   TuiRadioLabeledModule,
+  TuiSelectModule,
+  TuiDataListModule,
+  TuiMultiSelectModule,
+  TuiDataListWrapperModule,
+  TuiActiveZoneModule,
 ];
 
 @NgModule({
   imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
     ScheduleRoutingModule,
     ScheduleModule,
     PipesModule,
@@ -74,9 +54,7 @@ const TAIGA_UI = [
   declarations: [
     SchedulePageComponent,
     TssScheduleComponent,
-    ExamEditorDialogComponent,
     ScheduleHeaderComponent,
-    StudyEditorDialogComponent,
   ],
 })
 export class SchedulePageModule {}

@@ -27,27 +27,32 @@
       </button>
     </tui-hosted-dropdown>
 
-    <ng-container
-      *tssPermission="permissionConstant.SEE_DEPARTMENT_EXAM_SCHEDULE"
+    <div [@fadeIn] class="divider"></div>
+    <tui-hosted-dropdown
+      [(open)]="openFilter"
+      [content]="filterDropdown"
+      (openChange)="onFilterOpenChange($event)"
+      [@fadeIn]
     >
-      <div [@fadeIn] class="divider"></div>
-      <tui-hosted-dropdown
-        [(open)]="openFilter"
-        [content]="filterDropdown"
-        (openChange)="onFilterOpenChange($event)"
-        [@fadeIn]
+      <button
+        *ngrxLet="filter$ as filter"
+        [class.active]="filter.showDepartmentSchedule"
+        tuiButton
+        icon="tuiIconFilter"
       >
-        <button
-          *ngrxLet="filter$ as filter"
-          [class.active]="filter.showDepartmentSchedule"
-          tuiButton
-          icon="tuiIconFilter"
-        >
-          Bộ lọc: Lịch
-          {{ filter.showDepartmentSchedule ? "bộ môn" : "cá nhân" }}
-        </button>
-      </tui-hosted-dropdown>
-    </ng-container>
+        Bộ lọc:
+        {{ filter.showDepartmentSchedule ? "Lịch bộ môn" : "Lịch cá nhân" }},
+        {{
+          filter.showDepartmentSchedule
+            ? filter.teachers.length === 0
+              ? "Tất cả giảng viên"
+              : filter.teachers.length === 1
+              ? filter.teachers[0]
+              : filter.teachers.length + " giảng viên"
+            : ""
+        }}
+      </button>
+    </tui-hosted-dropdown>
   </div>
 
   <!-- Right -->
@@ -99,28 +104,85 @@
 </ng-template>
 
 <!-- Filter dropdown -->
-<ng-template #filterDropdown>
-  <form [formGroup]="filterForm" (ngSubmit)="filter()">
-    <div class="d-flex">
-      <tui-radio-labeled
-        formControlName="showDepartmentSchedule"
-        class="tui-space_bottom-3"
-        [item]="false"
+<ng-template #filterDropdown let-activeZone>
+  <div class="filter-wrapper">
+    <table class="w-full">
+      <ng-container
+        *tssPermission="permissionConstant.SEE_DEPARTMENT_EXAM_SCHEDULE"
       >
-        Cá nhân
-      </tui-radio-labeled>
-      <tui-radio-labeled
-        formControlName="showDepartmentSchedule"
-        class="tui-space_bottom-3"
-        [item]="true"
-      >
-        Bộ môn
-      </tui-radio-labeled>
-    </div>
-    <div class="d-flex flex-end">
-      <button tuiButton appearance="primary" size="xs" type="submit">
-        Lọc
-      </button>
-    </div>
-  </form>
+        <tr>
+          <td>Lịch:</td>
+          <td>
+            <div class="d-flex radio-wrapper">
+              <tui-radio-labeled
+                [(ngModel)]="showDepartmentSchedule"
+                [item]="false"
+                class="tui-space_bottom-3"
+              >
+                Cá nhân
+              </tui-radio-labeled>
+              <tui-radio-labeled
+                [(ngModel)]="showDepartmentSchedule"
+                [item]="true"
+                class="tui-space_bottom-3"
+              >
+                Bộ môn
+              </tui-radio-labeled>
+            </div>
+          </td>
+        </tr>
+
+        <tr *ngIf="showDepartmentSchedule">
+          <td>Giảng viên:</td>
+          <td>
+            <div tuiTextfieldSize="s" class="">
+              <tui-select
+                [(ngModel)]="teachers"
+                [valueContent]="selectTeacher"
+                [tuiActiveZoneParent]="activeZone"
+              >
+                <ng-template tuiDataList>
+                  <tui-data-list>
+                    <tui-opt-group>
+                      <button tuiOption [value]="[]" size="s">Tất cả</button>
+                    </tui-opt-group>
+                    <tui-opt-group tuiMultiSelectGroup>
+                      <button
+                        tuiOption
+                        *ngFor="let teacher of teachersList; index as i"
+                        [value]="teacher"
+                        size="s"
+                      >
+                        {{ teacher }}
+                      </button>
+                    </tui-opt-group>
+                  </tui-data-list>
+                </ng-template>
+              </tui-select>
+            </div>
+          </td>
+        </tr>
+      </ng-container>
+
+      <tr>
+        <td></td>
+        <td></td>
+        <td>
+          <button tuiButton (click)="filter()" appearance="primary" size="xs">
+            Lọc
+          </button>
+        </td>
+      </tr>
+    </table>
+  </div>
+</ng-template>
+
+<ng-template #selectTeacher let-teachers>
+  {{
+    teachers.length === 0
+      ? "Tất cả"
+      : teachers.length === 1
+      ? teachers[0]
+      : teachers.length + " giảng viên"
+  }}
 </ng-template>

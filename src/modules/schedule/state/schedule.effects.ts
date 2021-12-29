@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import {
   catchError,
-  distinctUntilKeyChanged,
   map,
   mergeMap,
   switchMap,
@@ -20,84 +19,105 @@ import { Store } from '@ngrx/store';
 import { CommonInfoService } from '@services/common-info.service';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { SearchSchedule } from '@models/schedule/search-schedule.model';
+import { PermissionConstant } from '@constants/core/permission.constant';
 
 @Injectable()
 export class ScheduleEffects extends BaseComponent {
   /** EFFECTS */
-  public loadTeachingSchedule$ = createEffect(() => {
+  public loadPersonalTeachingSchedule$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.load),
-      mergeMap(({ departmentSchedule }) => {
-        const schedule$ = departmentSchedule
-          ? combineLatest([this.department$, this.currentTerm$]).pipe(
-              switchMap(([department, currentTerm]) =>
-                this.scheduleService.getDepartmentSchedule(
-                  department ?? '',
-                  getScheduleParam(currentTerm)
-                )
-              ),
-              take(1)
-            )
-          : this.currentTerm$.pipe(
-              switchMap((currentTerm) =>
-                this.scheduleService.getSchedule(getScheduleParam(currentTerm))
-              )
-            );
-
-        return schedule$.pipe(
-          map((schedules) => {
-            return ApiAction.loadStudySuccessful({ schedules });
-          }),
-          catchError(() => of(ApiAction.loadStudyFailure()))
+      mergeMap(() => {
+        return this.currentTerm$.pipe(
+          switchMap((currentTerm) =>
+            this.scheduleService.getSchedule(getScheduleParam(currentTerm))
+          ),
+          map((schedules) =>
+            ApiAction.loadPersonalStudySuccessful({ schedules })
+          ),
+          catchError(() => of(ApiAction.loadPersonalStudyFailure()))
         );
       })
     );
   });
 
-  public loadExamSchedule$ = createEffect(() => {
+  public loadPersonalExamSchedule$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.load),
-      mergeMap(({ departmentSchedule }) => {
-        const schedule$ = departmentSchedule
-          ? combineLatest([this.department$, this.currentTerm$]).pipe(
-              switchMap(([department, currentTerm]) =>
-                this.scheduleService.getDepartmentExamSchedule(
-                  department ?? '',
-                  getPrevScheduleParam(currentTerm)
-                )
-              ),
-              take(1)
+      mergeMap(() => {
+        return this.currentTerm$.pipe(
+          switchMap((currentTerm) =>
+            this.scheduleService.getExamSchedule(
+              getPrevScheduleParam(currentTerm)
             )
-          : this.currentTerm$.pipe(
-              switchMap((currentTerm) =>
-                this.scheduleService.getExamSchedule(
-                  getPrevScheduleParam(currentTerm)
-                )
-              )
-            );
-
-        return schedule$.pipe(
-          map((schedules) => {
-            return ApiAction.loadExamSuccessful({ schedules });
-          }),
-          catchError(() => of(ApiAction.loadExamFailure()))
+          ),
+          map((schedules) =>
+            ApiAction.loadPersonalExamSuccessful({ schedules })
+          ),
+          catchError(() => of(ApiAction.loadPersonalExamFailure()))
         );
       })
     );
   });
 
-  public filter$ = createEffect(() => {
+  public determineLoadDepartmentSchedule$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(PageAction.filter),
-      distinctUntilKeyChanged(
-        'filter',
-        (x, y) => x.showDepartmentSchedule === y.showDepartmentSchedule
-      ),
-      mergeMap(({ filter }) => {
-        return of(
-          PageAction.load({
-            departmentSchedule: filter.showDepartmentSchedule,
+      ofType(PageAction.load),
+      mergeMap(() => {
+        return this.permission$.pipe(
+          switchMap((permission) => {
+            if (
+              permission?.includes(
+                PermissionConstant.SEE_DEPARTMENT_EXAM_SCHEDULE
+              )
+            ) {
+              return of(PageAction.loadDepartmentSchedule());
+            }
+
+            return of(ApiAction.unauthorized());
           })
+        );
+      })
+    );
+  });
+
+  public loadDepartmentTeachingSchedule$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(PageAction.loadDepartmentSchedule),
+      mergeMap(() => {
+        return combineLatest([this.department$, this.currentTerm$]).pipe(
+          switchMap(([department, currentTerm]) =>
+            this.scheduleService.getDepartmentSchedule(
+              department ?? '',
+              getScheduleParam(currentTerm)
+            )
+          ),
+          map((schedules) => {
+            return ApiAction.loadDepartmentStudySuccessful({ schedules });
+          }),
+          catchError(() => of(ApiAction.loadDepartmentStudyFailure())),
+          take(1)
+        );
+      })
+    );
+  });
+
+  public loadDepartmentExamSchedule$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(PageAction.loadDepartmentSchedule),
+      mergeMap(() => {
+        return combineLatest([this.department$, this.currentTerm$]).pipe(
+          switchMap(([department, currentTerm]) =>
+            this.scheduleService.getDepartmentExamSchedule(
+              department ?? '',
+              getPrevScheduleParam(currentTerm)
+            )
+          ),
+          map((schedules) => {
+            return ApiAction.loadDepartmentExamSuccessful({ schedules });
+          }),
+          catchError(() => of(ApiAction.loadDepartmentExamFailure())),
+          take(1)
         );
       })
     );
@@ -105,6 +125,7 @@ export class ScheduleEffects extends BaseComponent {
 
   private department$: Observable<string | undefined>;
   private currentTerm$: Observable<string>;
+  private permission$: Observable<number[] | undefined>;
 
   /** CONSTRUCTOR */
   constructor(
@@ -121,9 +142,11 @@ export class ScheduleEffects extends BaseComponent {
       }),
       takeUntil(this.destroy$)
     );
-
     this.currentTerm$ = commonInfoService
       .getCurrentTerm()
+      .pipe(takeUntil(this.destroy$));
+    this.permission$ = appShellStore
+      .select(fromAppShell.selectPermission)
       .pipe(takeUntil(this.destroy$));
   }
 }

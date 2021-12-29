@@ -42,9 +42,14 @@ export interface EjsScheduleModel {
   Type: 'exam' | 'study';
 
   /**
-   * Module (subject) class at school of event
+   * Module ID (subject) class at school of event
    */
   IdModuleClass: string;
+
+  /**
+   * Module (subject) class at school of event
+   */
+  ModuleName?: string;
 
   /**
    * Note of event

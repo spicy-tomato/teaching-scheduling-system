@@ -17,7 +17,6 @@ import { Store } from '@ngrx/store';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { delay, map, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { PermissionConstant } from '@constants/core/permission.constant';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { ScheduleComponent, View } from '@syncfusion/ej2-angular-schedule';
 import { DateHelper } from 'src/shared/helpers/date.helper';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
@@ -55,20 +54,23 @@ export class ScheduleHeaderComponent
   public openSelectMonth = false;
   public month$: Observable<TuiMonth>;
   public dateRange$!: Observable<string>;
-  public filterForm!: FormGroup;
   public openFilter = false;
-  public selectedDate$: Observable<Date>;
   public activeToday$!: Observable<boolean>;
   public readonly clickToday$ = new Subject<void>();
   public readonly permissionConstant = PermissionConstant;
 
+  public showDepartmentSchedule = false;
+  public teachers: string[] = [];
+  public teachersList: string[] = [];
+
   /** PRIVATE PROPERTIES */
+  private teachers$: Observable<string[]>;
+  private selectedDate$: Observable<Date>;
   private canDisplayNotification = true;
   private readonly displayNotification$ = new Subject<void>();
 
   /** CONSTRUCTOR */
   constructor(
-    private readonly fb: FormBuilder,
     private readonly store: Store<fromSchedule.ScheduleState>,
     @Inject(TuiNotificationsService)
     private readonly notificationsService: TuiNotificationsService,
@@ -79,17 +81,17 @@ export class ScheduleHeaderComponent
     this.selectedDate$ = store
       .select(fromSchedule.selectSelectedDate)
       .pipe(takeUntil(this.destroy$));
-
     this.filter$ = store
       .select(fromSchedule.selectFilter)
       .pipe(takeUntil(this.destroy$));
-
-    this.month$ = this.store
+    this.month$ = store
       .select(fromSchedule.selectMonth)
       .pipe(takeUntil(this.destroy$));
-
-    this.view$ = this.store
+    this.view$ = store
       .select(fromSchedule.selectView)
+      .pipe(takeUntil(this.destroy$));
+    this.teachers$ = store
+      .select(fromSchedule.selectTeachers)
       .pipe(takeUntil(this.destroy$));
 
     this.initForm();
@@ -138,7 +140,13 @@ export class ScheduleHeaderComponent
 
   public filter(): void {
     this.store.dispatch(
-      fromSchedule.filter({ filter: this.filterForm.value as ScheduleFilter })
+      fromSchedule.filter({
+        filter: {
+          showDepartmentSchedule: this.showDepartmentSchedule,
+          teachers: this.teachers,
+          modules: [],
+        },
+      })
     );
     this.openFilter = false;
   }
@@ -157,12 +165,12 @@ export class ScheduleHeaderComponent
 
   /** PRIVATE METHODS */
   private initForm(): void {
-    this.filter$
+    combineLatest([this.filter$, this.teachers$])
       .pipe(
-        tap((filter) => {
-          this.filterForm = this.fb.group({
-            showDepartmentSchedule: [filter.showDepartmentSchedule],
-          });
+        tap(([filter, teachers]) => {
+          this.showDepartmentSchedule = filter.showDepartmentSchedule;
+          this.teachers = filter.teachers;
+          this.teachersList = teachers;
         })
       )
       .subscribe();

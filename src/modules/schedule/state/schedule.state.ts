@@ -9,8 +9,14 @@ export interface ScheduleState {
   status: EApiStatus;
   filter: ScheduleFilter;
   schedules: {
-    study: StudyScheduleModel[];
-    exam: ExamScheduleModel[];
+    personal: {
+      study: StudyScheduleModel[];
+      exam: ExamScheduleModel[];
+    };
+    department: {
+      study: StudyScheduleModel[];
+      exam: ExamScheduleModel[];
+    };
   };
   view: View;
   selectedDate: Date;

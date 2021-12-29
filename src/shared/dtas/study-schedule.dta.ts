@@ -8,4 +8,5 @@ export interface StudyScheduleDta {
   date: Date;
   color: string;
   teacher: string;
+  module_name: string;
 }

@@ -43,17 +43,26 @@
   }
 }
 
-form {
-  padding: 0.75rem 1rem;
+.filter-wrapper {
+  width: 25rem;
+  padding: 0.5rem 0.75rem;
 
-  tui-radio-labeled {
-    margin-right: 2rem;
+  td {
+    padding: 0.25rem;
+    &:first-child {
+      width: 90px;
+    }
   }
 
-  button {
-    &[tuiButton] {
-      border-radius: var(--tui-radius-xs);
+  .radio-wrapper {
+    column-gap: 2rem;
+    tui-radio-labeled {
+      margin-bottom: 0;
     }
+  }
+
+  button[tuiButton] {
+    border-radius: var(--tui-radius-xs);
   }
 }
 

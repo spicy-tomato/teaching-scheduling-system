@@ -9,12 +9,20 @@ const initialState: ScheduleState = {
   status: EApiStatus.unknown,
   filter: {
     showDepartmentSchedule: false,
+    teachers: [],
+    modules: [],
+  },
+  schedules: {
+    department: {
+      exam: [],
+      study: [],
+    },
+    personal: {
+      exam: [],
+      study: [],
+    },
   },
   selectedDate: new Date(),
-  schedules: {
-    study: [],
-    exam: [],
-  },
   view: 'Month',
   month: new TuiMonth(new Date().getFullYear(), new Date().getMonth()),
 };
@@ -81,32 +89,56 @@ export const scheduleReducer = createReducer(
     ...state,
     filter,
   })),
-  on(ApiAction.loadExamSuccessful, (state, { schedules }) => {
+  on(ApiAction.loadPersonalStudySuccessful, (state, { schedules }) => {
     return {
       ...state,
       schedules: {
         ...state.schedules,
-        exam: schedules,
+        personal: {
+          ...state.schedules.personal,
+          study: schedules,
+        },
       },
       status: EApiStatus.successful,
     };
   }),
-  on(ApiAction.loadExamFailure, (state) => ({
-    ...state,
-    status: EApiStatus.systemError,
-  })),
-  on(ApiAction.loadStudySuccessful, (state, { schedules }) => {
+  on(ApiAction.loadPersonalExamSuccessful, (state, { schedules }) => {
     return {
       ...state,
       schedules: {
         ...state.schedules,
-        study: schedules,
+        personal: {
+          ...state.schedules.personal,
+          exam: schedules,
+        },
       },
       status: EApiStatus.successful,
     };
   }),
-  on(ApiAction.loadStudyFailure, (state) => ({
-    ...state,
-    status: EApiStatus.systemError,
-  }))
+  on(ApiAction.loadDepartmentStudySuccessful, (state, { schedules }) => {
+    return {
+      ...state,
+      schedules: {
+        ...state.schedules,
+        department: {
+          ...state.schedules.personal,
+          study: schedules,
+        },
+      },
+      status: EApiStatus.successful,
+    };
+  }),
+  on(ApiAction.loadDepartmentExamSuccessful, (state, { schedules }) => {
+    return {
+      ...state,
+      schedules: {
+        ...state.schedules,
+        department: {
+          ...state.schedules.personal,
+          exam: schedules,
+        },
+      },
+      status: EApiStatus.successful,
+    };
+  })
 );
