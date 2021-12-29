@@ -1,6 +1,6 @@
-import { ErrorMapModel } from '@models/core/error-map.model';
-import { NotificationCreateFormModel } from '@models/notification/notification-create/notification-create-form.model';
 import { createAction, props } from '@ngrx/store';
+import { ErrorMapModel } from 'src/shared/models';
+import { NotificationCreateFormModel } from 'src/shared/models/notification/notification-create/notification-create-form.model';
 
 export const reset = createAction('[Notification - Create Page] Reset');
 

@@ -1,5 +1,5 @@
 import { EApiStatus } from 'src/shared/enums/api-status.enum';
-import { Teacher } from '@models/core/teacher.model';
+import { Teacher } from 'src/shared/models';
 
 export interface AppShellState {
   status: EApiStatus;

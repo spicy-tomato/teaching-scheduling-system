@@ -19,7 +19,6 @@ import { debounceTime, filter, mergeMap, takeUntil, tap } from 'rxjs/operators';
 import { BaseComponent } from '@modules/core/base/base.component';
 import isEmpty from 'lodash/isEmpty';
 
-import { NotificationCreateFormModel } from '@models/notification/notification-create/notification-create-form.model';
 import * as fromNotificationCreate from '../state';
 import { EApiStatus } from 'src/shared/enums/api-status.enum';
 
@@ -30,6 +29,7 @@ import {
   TuiNotificationsService,
 } from '@taiga-ui/core';
 import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
+import { NotificationCreateFormModel } from 'src/shared/models/notification/notification-create/notification-create-form.model';
 
 @Component({
   selector: 'tss-notification-create-shell',

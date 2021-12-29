@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { routerFade } from 'src/shared/animations/route-fade.animation';
-import { BreadcrumbItem } from '@models/main-view/breadcrumb-item.model';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import * as fromMainView from './state';
+import { BreadcrumbItem } from 'src/shared/models';
 
 @Component({
   selector: 'tss-main-view',

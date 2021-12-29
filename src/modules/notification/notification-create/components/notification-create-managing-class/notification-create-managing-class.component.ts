@@ -1,12 +1,10 @@
 /* eslint-disable @typescript-eslint/unbound-method */
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { AcademicYear } from '@models/core/academic-year.model';
-import { Faculty } from '@models/core/faculty.model';
-import { ManagingClass } from '@models/core/managing-class.model';
 import { Store } from '@ngrx/store';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, startWith, take, takeUntil, tap } from 'rxjs/operators';
+import { AcademicYear, Faculty, ManagingClass } from 'src/shared/models';
 import * as fromNotificationCreate from '../../state';
 import { NotificationCreateClassFormBaseComponent } from '../class-form-base/notification-create-class-form-base.component';
 

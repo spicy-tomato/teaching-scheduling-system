@@ -1,7 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { fadeInOut } from '@animations/fade.animation';
-import { ModuleClass } from '@models/class/module-class.model';
-import { SimpleModel } from '@models/core/simple.model';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';
 import { TuiNotificationsService, TuiNotification } from '@taiga-ui/core';
@@ -14,6 +12,7 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { EApiStatus } from 'src/shared/enums/api-status.enum';
+import { ModuleClass, Nullable, SimpleModel } from 'src/shared/models';
 import * as fromAssignSchedule from '../state';
 
 @Component({
@@ -27,7 +26,7 @@ export class AssignScheduleLeftTitleComponent extends BaseComponent {
   /** PUBLIC PROPERTIES */
   public needAssign$: Observable<ModuleClass[]>;
   public teachers$: Observable<SimpleModel[]>;
-  public selectedTeacher$: Observable<SimpleModel | null>;
+  public selectedTeacher$: Observable<Nullable<SimpleModel>>;
   public someNeedAssignCheckedChange$!: Observable<boolean>;
   public selectedNeedAssign$: Observable<boolean[]>;
   public assignStatus$: Observable<EApiStatus>;
@@ -35,7 +34,7 @@ export class AssignScheduleLeftTitleComponent extends BaseComponent {
   public readonly EApiStatus = EApiStatus;
 
   /** PRIVATE PROPERTIES */
-  private assignedTeacher$: Observable<SimpleModel | null>;
+  private assignedTeacher$: Observable<Nullable<SimpleModel>>;
 
   /** CONSTRUCTOR */
   constructor(
@@ -70,7 +69,7 @@ export class AssignScheduleLeftTitleComponent extends BaseComponent {
   }
 
   /** PUBLIC METHODS */
-  public selectedTeacherChange(teacher: SimpleModel | null): void {
+  public selectedTeacherChange(teacher: Nullable<SimpleModel>): void {
     this.store.dispatch(fromAssignSchedule.changeSelectingTeacher({ teacher }));
   }
 

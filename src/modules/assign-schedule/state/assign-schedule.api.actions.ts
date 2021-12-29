@@ -1,8 +1,10 @@
-import { ModuleClass } from '@models/class/module-class.model';
-import { AcademicYear } from '@models/core/academic-year.model';
-import { SimpleMapModel } from '@models/core/simple-map.model';
-import { SimpleModel } from '@models/core/simple.model';
 import { createAction, props } from '@ngrx/store';
+import {
+  AcademicYear,
+  SimpleMapModel,
+  SimpleModel,
+  ModuleClass,
+} from 'src/shared/models';
 
 export const loadCurrentTermSuccessful = createAction(
   '[Assign Schedule API] Load current term Successfully',

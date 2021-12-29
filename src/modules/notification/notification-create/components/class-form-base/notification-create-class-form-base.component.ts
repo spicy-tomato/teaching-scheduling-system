@@ -6,10 +6,11 @@ import { filter, take, takeUntil, tap } from 'rxjs/operators';
 
 import { SubFormBase } from '@modules/core/base/sub-form.base';
 import { ICanDeactivateComponent } from '@modules/core/base/can-deactivate.base';
-import { NotificationCreateClassModel } from '@models/notification/notification-create/notification-create-class.model';
 import { EApiStatus } from 'src/shared/enums/api-status.enum';
 import { NotificationCreateShellComponent } from '../../shell/notification-create-shell.component';
 import * as fromNotificationCreate from '../../state';
+import { NotificationCreateClassModel } from 'src/shared/models/notification/notification-create/notification-create-class.model';
+import { Nullable } from 'src/shared/models';
 
 @Directive()
 export abstract class NotificationCreateClassFormBaseComponent
@@ -37,7 +38,7 @@ export abstract class NotificationCreateClassFormBaseComponent
   //#endregion
 
   //#region IMPLEMENTATIONS
-  public canDeactivate(): boolean | null {
+  public canDeactivate(): Nullable<boolean> {
     if (this.shell.form.pristine) {
       return true;
     }

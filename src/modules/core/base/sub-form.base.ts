@@ -5,6 +5,7 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
+import { Nullable } from 'src/shared/models';
 import { BaseComponent } from './base.component';
 
 export abstract class SubFormBase<T>
@@ -58,7 +59,7 @@ export abstract class SubFormBase<T>
   }
 
   /** PUBLIC METHODS */
-  public validate(): ValidationErrors | null {
+  public validate(): Nullable<ValidationErrors> {
     if (this.form.valid) {
       return null;
     }

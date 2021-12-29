@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Resolve, Router } from '@angular/router';
-import { Teacher } from '@models/core/teacher.model';
 import { UserService } from '@services/user.service';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { Teacher } from '../models';
 
 @Injectable()
 export class UserInfoResolve implements Resolve<Teacher | undefined> {

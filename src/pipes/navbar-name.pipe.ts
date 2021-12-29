@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Teacher } from '@models/core/teacher.model';
+import { Teacher } from 'src/shared/models';
 
 @Pipe({
   name: 'navbarName',

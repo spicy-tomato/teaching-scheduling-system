@@ -18,8 +18,8 @@ import { ScheduleService } from '@services/schedule.service';
 import { Store } from '@ngrx/store';
 import { CommonInfoService } from '@services/common-info.service';
 import { BaseComponent } from '@modules/core/base/base.component';
-import { SearchSchedule } from '@models/schedule/search-schedule.model';
 import { PermissionConstant } from '@constants/core/permission.constant';
+import { SearchSchedule } from 'src/shared/models';
 
 @Injectable()
 export class ScheduleEffects extends BaseComponent {

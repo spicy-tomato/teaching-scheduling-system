@@ -1,5 +1,5 @@
-import { BreadcrumbItem } from '@models/main-view/breadcrumb-item.model';
 import { createAction, props } from '@ngrx/store';
+import { BreadcrumbItem } from 'src/shared/models';
 
 export const update = createAction(
   '[Main view] Update breadcrumb',

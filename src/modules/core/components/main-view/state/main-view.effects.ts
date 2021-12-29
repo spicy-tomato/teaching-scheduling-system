@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot } from '@angular/router';
-import { BreadcrumbItem } from '@models/main-view/breadcrumb-item.model';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { routerNavigatedAction } from '@ngrx/router-store';
 import { map } from 'rxjs/operators';
+import { BreadcrumbItem } from 'src/shared/models';
 import * as PageAction from './main-view.page.actions';
 
 @Injectable()

@@ -38,9 +38,9 @@ import { BehaviorSubject } from 'rxjs';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { ExamEditorDialogComponent } from '../shared/exam-editor-dialog/exam-editor-dialog.component';
-import { EjsScheduleModel } from '@models/schedule/ejs-schedule.model';
 import { EApiStatus } from 'src/shared/enums/api-status.enum';
 import { StudyEditorDialogComponent } from '../shared/study-editor-dialog/study-editor-dialog.component';
+import { EjsScheduleModel } from 'src/shared/models';
 
 loadCldr(numberingSystems, gregorian, numbers, timeZoneNames);
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access

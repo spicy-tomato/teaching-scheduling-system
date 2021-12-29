@@ -6,12 +6,12 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { EjsScheduleModel } from '@models/schedule/ejs-schedule.model';
 import { ScheduleService } from '@services/schedule.service';
 import { TuiDay } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { DateHelper } from 'src/shared/helpers/date.helper';
+import { EjsScheduleModel, Nullable } from 'src/shared/models';
 
 @Component({
   templateUrl: './exam-editor-dialog.component.html',
@@ -28,11 +28,11 @@ export class ExamEditorDialogComponent {
   public readonly noteMaxLength = 1000;
 
   /** GETTERS */
-  public get people(): FormArray | null {
+  public get people(): Nullable<FormArray> {
     return this.form.get('people') as FormArray;
   }
 
-  public get note(): AbstractControl | null {
+  public get note(): Nullable<AbstractControl> {
     return this.form.get('note');
   }
 

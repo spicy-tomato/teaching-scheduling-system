@@ -21,8 +21,8 @@ import { ScheduleComponent, View } from '@syncfusion/ej2-angular-schedule';
 import { DateHelper } from 'src/shared/helpers/date.helper';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
 import * as fromSchedule from '@modules/schedule/state';
-import { ScheduleFilter } from '@models/schedule/schedule-filter.model';
 import { fadeIn } from '@animations/fade.animation';
+import { ScheduleFilter } from 'src/shared/models';
 
 @Component({
   selector: 'tss-schedule-header',

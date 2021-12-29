@@ -1,5 +1,5 @@
-import { ChangePassword } from '@models/user/change-password.model';
 import { createAction, props } from '@ngrx/store';
+import { ChangePassword } from 'src/shared/models';
 
 export const change = createAction(
   '[Change password Page] Change',

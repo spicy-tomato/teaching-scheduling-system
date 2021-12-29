@@ -13,10 +13,10 @@ import { debounceTime, filter, mergeMap, takeUntil, tap } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 import * as fromLogin from './state';
-import { LoginForm } from '@models/login/login-form.model';
 import { EApiStatus } from 'src/shared/enums/api-status.enum';
 import { slideUp } from 'src/shared/animations/slide-up.animation';
 import { Md5 } from 'ts-md5';
+import { LoginForm, Nullable } from 'src/shared/models';
 
 @Component({
   templateUrl: './login.component.html',
@@ -36,11 +36,11 @@ export class LoginComponent extends BaseComponent {
   public readonly EApiStatus = EApiStatus;
 
   /** GETTERS */
-  public get username(): AbstractControl | null {
+  public get username(): Nullable<AbstractControl> {
     return this.loginForm.get('username');
   }
 
-  public get password(): AbstractControl | null {
+  public get password(): Nullable<AbstractControl> {
     return this.loginForm.get('password');
   }
 

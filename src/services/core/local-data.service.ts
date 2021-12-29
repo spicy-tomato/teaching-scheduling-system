@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { LocalStorageKeyConstant } from '@constants/core/local-storage-key.constant';
-import { AcademicYear } from '@models/core/academic-year.model';
-import { StorageTimeoutModel } from '@models/core/storage-timeout.model';
+import { AcademicYear, Nullable, StorageTimeoutModel } from 'src/shared/models';
 import { BaseDataService } from './base-data.service';
 import { LocalStorageService } from './storage/local-storage.service';
 
@@ -14,7 +13,7 @@ export class LocalDataService extends BaseDataService {
   }
 
   /** Academic year */
-  public getAcademicYear(): AcademicYear | null {
+  public getAcademicYear(): Nullable<AcademicYear> {
     const json = this.localStorageService.getItemWithType<
       StorageTimeoutModel<AcademicYear>
     >(LocalStorageKeyConstant.ACADEMIC_YEAR);
@@ -40,7 +39,7 @@ export class LocalDataService extends BaseDataService {
   }
 
   /** School year */
-  public getCurrentTerm(): string | null {
+  public getCurrentTerm(): Nullable<string> {
     const json = this.localStorageService.getItemWithType<
       StorageTimeoutModel<string>
     >(LocalStorageKeyConstant.CURRENT_TERM);

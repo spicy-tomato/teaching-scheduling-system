@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { SimpleModel } from '@models/core/simple.model';
 import { Observable } from 'rxjs';
+import { SimpleModel } from 'src/shared/models';
 import { BaseDataService } from './core/base-data.service';
 
 @Injectable({

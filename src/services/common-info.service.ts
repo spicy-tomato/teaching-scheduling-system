@@ -1,12 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AcademicYear } from '@models/core/academic-year.model';
-import { Faculty } from '@models/core/faculty.model';
-import { SimpleMapModel } from '@models/core/simple-map.model';
-import { SimpleModel } from '@models/core/simple.model';
 import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { FacultyDta } from 'src/shared/dtas/faculty.dta';
+import {
+  Faculty,
+  AcademicYear,
+  SimpleMapModel,
+  SimpleModel,
+} from 'src/shared/models';
 import { AppSettingsService } from './core/app-settings.service';
 import { BaseDataService } from './core/base-data.service';
 import { LocalDataService } from './core/local-data.service';

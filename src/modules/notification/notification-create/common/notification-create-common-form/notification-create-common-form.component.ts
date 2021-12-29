@@ -6,11 +6,11 @@ import {
   NG_VALUE_ACCESSOR,
   Validators,
 } from '@angular/forms';
-import { NotificationCreateCommonFormModel } from '@models/notification/notification-create/notification-create-common-form.model';
 import { SubFormBase } from '@modules/core/base/sub-form.base';
 import { Store } from '@ngrx/store';
 import { filter, take, tap } from 'rxjs/operators';
 import { EApiStatus } from 'src/shared/enums/api-status.enum';
+import { NotificationCreateCommonFormModel } from 'src/shared/models/notification/notification-create/notification-create-common-form.model';
 import * as fromNotificationCreate from '../../state';
 
 @Component({

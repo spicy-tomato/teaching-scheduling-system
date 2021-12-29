@@ -8,6 +8,7 @@ import {
 import { Store } from '@ngrx/store';
 import { Observable, of, Subject } from 'rxjs';
 import { delay, startWith, switchMap } from 'rxjs/operators';
+import { Nullable } from 'src/shared/models';
 import { NotificationCreateState } from '../../state/notification-create.state';
 import { NotificationCreateClassFormBaseComponent } from '../class-form-base/notification-create-class-form-base.component';
 
@@ -15,7 +16,7 @@ class User {
   constructor(
     public readonly firstName: string,
     public readonly lastName: string,
-    public readonly avatarUrl: string | null = null
+    public readonly avatarUrl: Nullable<string> = null
   ) {}
 
   public toString(): string {
@@ -42,7 +43,7 @@ const databaseMockData: ReadonlyArray<User> = [
 export class NotificationCreateModuleClassComponent extends NotificationCreateClassFormBaseComponent {
   private readonly search$ = new Subject<string>();
 
-  public readonly items$: Observable<ReadonlyArray<User> | null> =
+  public readonly items$: Observable<Nullable<ReadonlyArray<User>>> =
     this.search$.pipe(
       switchMap((search) => this.serverRequest(search).pipe(startWith(null))),
       startWith(databaseMockData)
@@ -62,7 +63,7 @@ export class NotificationCreateModuleClassComponent extends NotificationCreateCl
     });
   }
 
-  public onSearchChange(searchQuery: string | null): void {
+  public onSearchChange(searchQuery: Nullable<string>): void {
     this.search$.next(searchQuery ?? '');
   }
 

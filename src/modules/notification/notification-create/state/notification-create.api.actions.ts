@@ -1,8 +1,10 @@
-import { AcademicYear } from '@models/core/academic-year.model';
-import { ErrorMapModel } from '@models/core/error-map.model';
-import { Faculty } from '@models/core/faculty.model';
-import { ManagingClass } from '@models/core/managing-class.model';
 import { createAction, props } from '@ngrx/store';
+import {
+  ErrorMapModel,
+  AcademicYear,
+  Faculty,
+  ManagingClass,
+} from 'src/shared/models';
 
 export const invalidForm = createAction(
   '[Notification - Create API] Invalid form',

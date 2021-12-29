@@ -1,6 +1,5 @@
-import { ExamScheduleModel } from '@models/schedule/exam-schedule.model';
-import { StudyScheduleModel } from '@models/schedule/study-schedule.model';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { ExamScheduleModel, StudyScheduleModel } from 'src/shared/models';
 import { scheduleFeatureKey, ScheduleState } from '.';
 
 const scheduleSelector =

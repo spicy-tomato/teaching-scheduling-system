@@ -1,5 +1,5 @@
-import { LoginForm } from '@models/login/login-form.model';
 import { createAction, props } from '@ngrx/store';
+import { LoginForm } from 'src/shared/models';
 
 export const reset = createAction('[Login Page] Reset');
 

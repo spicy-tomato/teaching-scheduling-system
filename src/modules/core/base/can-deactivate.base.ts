@@ -1,5 +1,8 @@
 import { Observable } from 'rxjs';
+import { Nullable } from 'src/shared/models';
 
 export interface ICanDeactivateComponent {
-  canDeactivate: () => Observable<boolean> | Promise<boolean> | boolean | null;
+  canDeactivate: () => Nullable<
+    Observable<boolean> | Promise<boolean> | boolean
+  >;
 }

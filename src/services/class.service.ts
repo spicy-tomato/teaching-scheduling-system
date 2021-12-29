@@ -1,11 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ModuleClass } from '@models/class/module-class.model';
-import { ManagingClass } from '@models/core/managing-class.model';
-import { SearchSchedule } from '@models/schedule/search-schedule.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ManagingClassDta } from 'src/shared/dtas/managing-class.dta';
+import { ManagingClass, ModuleClass, SearchSchedule } from 'src/shared/models';
 import { BaseDataService } from './core/base-data.service';
 
 @Injectable({

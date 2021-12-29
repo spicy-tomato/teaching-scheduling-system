@@ -7,7 +7,6 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { ChangePassword } from '@models/user/change-password.model';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';
 import { TuiValidationError } from '@taiga-ui/cdk';
@@ -18,6 +17,7 @@ import { EApiStatus } from 'src/shared/enums/api-status.enum';
 import { Md5 } from 'ts-md5';
 import * as fromChangePassword from './state';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
+import { ChangePassword, Nullable } from 'src/shared/models';
 
 @Component({
   selector: 'tss-change-password',
@@ -30,17 +30,17 @@ export class ChangePasswordComponent extends BaseComponent {
   public form!: FormGroup;
   public status$: Observable<EApiStatus>;
   public nameTitle$!: Observable<string>;
-  public wrongPasswordError$ = new BehaviorSubject<TuiValidationError | null>(
-    null
-  );
+  public wrongPasswordError$ = new BehaviorSubject<
+    Nullable<TuiValidationError>
+  >(null);
   public readonly EApiStatus = EApiStatus;
 
   /** GETTERS */
-  public get password(): AbstractControl | null {
+  public get password(): Nullable<AbstractControl> {
     return this.form.get('password');
   }
 
-  public get newPassword(): AbstractControl | null {
+  public get newPassword(): Nullable<AbstractControl> {
     return this.form.get('newPassword');
   }
 
@@ -141,7 +141,7 @@ export class ChangePasswordComponent extends BaseComponent {
 
 const duplicatedValue: ValidatorFn = (
   control: AbstractControl
-): ValidationErrors | null => {
+): Nullable<ValidationErrors> => {
   const password = control.get('password');
   const newPassword = control.get('newPassword');
 

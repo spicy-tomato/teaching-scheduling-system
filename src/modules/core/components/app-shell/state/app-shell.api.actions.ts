@@ -1,5 +1,5 @@
-import { Teacher } from '@models/core/teacher.model';
 import { createAction, props } from '@ngrx/store';
+import { Teacher } from 'src/shared/models';
 
 export const autoLoginSuccessfully = createAction(
   '[App Shell API] Auto login Successfully',

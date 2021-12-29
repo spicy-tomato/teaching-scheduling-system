@@ -1,6 +1,5 @@
-import { ExamScheduleModel } from '@models/schedule/exam-schedule.model';
-import { StudyScheduleModel } from '@models/schedule/study-schedule.model';
 import { createAction, props } from '@ngrx/store';
+import { StudyScheduleModel, ExamScheduleModel } from 'src/shared/models';
 
 export const loadPersonalStudySuccessful = createAction(
   '[Schedule API] Load personal study Successfully',

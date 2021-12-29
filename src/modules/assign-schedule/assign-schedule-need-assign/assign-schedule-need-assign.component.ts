@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ModuleClass } from '@models/class/module-class.model';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { Action, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { ModuleClass } from 'src/shared/models';
 import * as fromAssignSchedule from '../state';
 
 @Component({

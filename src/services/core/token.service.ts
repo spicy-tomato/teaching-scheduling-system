@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { LocalStorageKeyConstant } from '@constants/core/local-storage-key.constant';
+import { Nullable } from 'src/shared/models';
 import { LocalStorageService } from './storage/local-storage.service';
 
 @Injectable({
@@ -10,7 +11,7 @@ export class TokenService {
   constructor(private readonly localStorageService: LocalStorageService) {}
 
   /** PUBLIC METHODS */
-  public get(): string | null {
+  public get(): Nullable<string> {
     return this.localStorageService.getItem(
       LocalStorageKeyConstant.ACCESS_TOKEN
     );

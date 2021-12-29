@@ -1,11 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Teacher } from '@models/core/teacher.model';
-import { ChangePassword } from '@models/user/change-password.model';
-import { SendFeedback } from '@models/user/send-feedback.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { TeacherDta } from 'src/shared/dtas/teacher.dta';
+import { ChangePassword, SendFeedback, Teacher } from 'src/shared/models';
 import { BaseDataService } from './core/base-data.service';
 
 @Injectable({

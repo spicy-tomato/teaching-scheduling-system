@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { BreadcrumbItem } from '@models/main-view/breadcrumb-item.model';
+import { BreadcrumbItem } from 'src/shared/models';
 
 @Component({
   selector: 'tss-breadcrumb',

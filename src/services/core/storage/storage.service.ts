@@ -1,17 +1,18 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 import { DateHelper } from 'src/shared/helpers/date.helper';
+import { Nullable } from 'src/shared/models';
 
 export abstract class StorageService {
   /** PRIVATE PROPERTIES */
-  private subjects = new Map<string, BehaviorSubject<string | null>>();
+  private subjects = new Map<string, BehaviorSubject<Nullable<string>>>();
 
   /** CONSTRUCTOR */
   constructor(protected storage: Storage) {}
 
   /** PUBLIC METHODS */
-  public watch(key: string): Observable<string | null> {
+  public watch(key: string): Observable<Nullable<string>> {
     if (!this.subjects.has(key)) {
-      this.subjects.set(key, new BehaviorSubject<string | null>(null));
+      this.subjects.set(key, new BehaviorSubject<Nullable<string>>(null));
     }
 
     const item = this.getItem(key);
@@ -21,11 +22,11 @@ export abstract class StorageService {
     return this.subjects.get(key)!;
   }
 
-  public getItem(key: string): string | null {
+  public getItem(key: string): Nullable<string> {
     return this.storage.getItem(key);
   }
 
-  public getItemWithType<T>(key: string): T | null {
+  public getItemWithType<T>(key: string): Nullable<T> {
     const item = this.storage.getItem(key);
     if (!item) return null;
     return JSON.parse(item, DateHelper.dateTimeReviver) as T;
@@ -34,7 +35,7 @@ export abstract class StorageService {
   public setItem(key: string, value: string): void {
     this.storage.setItem(key, value);
     if (!this.subjects.has(key)) {
-      this.subjects.set(key, new BehaviorSubject<string | null>(value));
+      this.subjects.set(key, new BehaviorSubject<Nullable<string>>(value));
     }
 
     this.subjects.get(key)?.next(value);

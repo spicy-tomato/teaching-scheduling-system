@@ -1,7 +1,7 @@
-import { ScheduleFilter, ScheduleFilterParams } from '@models/schedule/schedule-filter.model';
 import { createAction, props } from '@ngrx/store';
 import { View } from '@syncfusion/ej2-angular-schedule';
 import { TuiMonth } from '@taiga-ui/cdk';
+import { ScheduleFilter, ScheduleFilterParams } from 'src/shared/models';
 
 export const reset = createAction('[Schedule Page] Reset');
 

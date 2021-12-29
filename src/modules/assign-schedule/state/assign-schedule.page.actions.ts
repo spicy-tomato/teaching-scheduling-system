@@ -1,6 +1,5 @@
-import { SimpleModel } from '@models/core/simple.model';
-import { SearchSchedule } from '@models/schedule/search-schedule.model';
 import { createAction, props } from '@ngrx/store';
+import { Nullable, SearchSchedule, SimpleModel } from 'src/shared/models';
 
 export const reset = createAction('[Assign Schedule Page] Reset');
 
@@ -25,7 +24,7 @@ export const filter = createAction(
 
 export const changeSelectingTeacher = createAction(
   '[Assign Schedule Page] Change selecting teacher',
-  props<{ teacher: SimpleModel | null }>()
+  props<{ teacher: Nullable<SimpleModel> }>()
 );
 
 export const selectedAssignedChange = createAction(

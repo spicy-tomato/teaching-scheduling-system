@@ -11,7 +11,6 @@ import {
   FeedbackItem,
 } from '@constants/components/feedback-topic.constant';
 import { sqlDateFactory } from '@factories/sql-date.factory';
-import { SendFeedback } from '@models/user/send-feedback.model';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';
 import { TuiDialogService } from '@taiga-ui/core';
@@ -22,6 +21,7 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import * as fromFeedback from './state';
 import { SuccessDialogComponent } from './_shared/success-dialog/success-dialog.component';
 import { SuccessDialogHeaderComponent } from './_shared/success-dialog-header/success-dialog-header.component';
+import { SendFeedback } from 'src/shared/models';
 
 @Component({
   selector: 'tss-feedback',

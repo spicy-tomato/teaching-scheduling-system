@@ -6,8 +6,8 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { TokenService } from '@services/core/token.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Teacher } from '@models/core/teacher.model';
 import { UserService } from '@services/user.service';
+import { Teacher } from 'src/shared/models';
 
 @Injectable()
 export class AppShellEffects {

@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavbarConstants } from '@constants/components/navbar.constants';
-import { NavbarGroup } from '@models/navbar/navbar-item.model';
 import { TokenService } from '@services/core/token.service';
-import { Teacher } from '@models/core/teacher.model';
 import { Store } from '@ngrx/store';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
 import { Observable } from 'rxjs';
+import { NavbarGroup, Teacher } from 'src/shared/models';
 
 @Component({
   selector: 'tss-navbar',

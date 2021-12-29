@@ -48,9 +48,6 @@
       "@locales/*": [
         "src/shared/locales/*"
       ],
-      "@models/*": [
-        "src/shared/models/*"
-      ],
       "@modules/*": [
         "src/modules/*"
       ],

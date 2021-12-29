@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ModuleClass } from '@models/class/module-class.model';
-import { SimpleModel } from '@models/core/simple.model';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { Action, Store } from '@ngrx/store';
 import { combineLatest, Observable } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import * as fromAssignSchedule from '../state';
+import { ModuleClass, Nullable, SimpleModel } from 'src/shared/models';
 
 @Component({
   selector: 'tss-assign-schedule-assigned',
@@ -22,7 +21,7 @@ export class AssignScheduleAssignedComponent extends BaseComponent {
 
   /** PRIVATE METHODS */
   private assigned$: Observable<ModuleClass[]>;
-  private selectedTeacher$: Observable<SimpleModel | null>;
+  private selectedTeacher$: Observable<Nullable<SimpleModel>>;
 
   /** CONSTRUCTOR */
   constructor(store: Store<fromAssignSchedule.AssignScheduleState>) {

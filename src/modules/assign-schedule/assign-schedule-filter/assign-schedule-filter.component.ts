@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder } from '@angular/forms';
 import { CoreConstant } from '@constants/core/core.constant';
-import { AcademicYear } from '@models/core/academic-year.model';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
@@ -9,14 +8,18 @@ import { map, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { ArrayHelper } from 'src/shared/helpers/array.helper';
 import * as fromAssignSchedule from '../state';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
-import { SimpleMapModel } from '@models/core/simple-map.model';
-import { SimpleModel } from '@models/core/simple.model';
 import {
   tuiPure,
   TuiStringHandler,
   TuiContextWithImplicit,
 } from '@taiga-ui/cdk';
 import { EApiStatus } from 'src/shared/enums/api-status.enum';
+import {
+  AcademicYear,
+  Nullable,
+  SimpleMapModel,
+  SimpleModel,
+} from 'src/shared/models';
 
 @Component({
   selector: 'tss-assign-schedule-filter',
@@ -46,23 +49,23 @@ export class AssignScheduleFilterComponent
   public readonly EApiStatus = EApiStatus;
 
   /** GETTERS */
-  public get termInYear(): AbstractControl | null {
+  public get termInYear(): Nullable<AbstractControl> {
     return this.form.get('termInYear');
   }
 
-  public get trainingType(): AbstractControl | null {
+  public get trainingType(): Nullable<AbstractControl> {
     return this.form.get('trainingType');
   }
 
-  private get schoolYear(): AbstractControl | null {
+  private get schoolYear(): Nullable<AbstractControl> {
     return this.form.get('schoolYear');
   }
 
-  private get batchInTerm(): AbstractControl | null {
+  private get batchInTerm(): Nullable<AbstractControl> {
     return this.form.get('batchInTerm');
   }
 
-  private get department(): AbstractControl | null {
+  private get department(): Nullable<AbstractControl> {
     return this.form.get('department');
   }
 

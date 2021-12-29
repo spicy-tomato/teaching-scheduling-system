@@ -1,5 +1,5 @@
 import { PermissionConstant } from '@constants/core/permission.constant';
-import { SidebarItem } from '@models/sidebar/sidebar-item.model';
+import { SidebarItem } from 'src/shared/models';
 
 export class SidebarConstant {
   public static items: SidebarItem[] = [

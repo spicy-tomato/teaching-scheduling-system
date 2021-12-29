@@ -1,8 +1,11 @@
-import { ModuleClass } from '@models/class/module-class.model';
-import { AcademicYear } from '@models/core/academic-year.model';
-import { SimpleMapModel } from '@models/core/simple-map.model';
-import { SimpleModel } from '@models/core/simple.model';
 import { EApiStatus } from 'src/shared/enums/api-status.enum';
+import {
+  AcademicYear,
+  SimpleMapModel,
+  SimpleModel,
+  ModuleClass,
+  Nullable,
+} from 'src/shared/models';
 
 export interface AssignScheduleState {
   currentTerm: string;
@@ -17,8 +20,8 @@ export interface AssignScheduleState {
   };
   teacher: {
     data: SimpleModel[];
-    selected: SimpleModel | null;
-    action: SimpleModel | null;
+    selected: Nullable<SimpleModel>;
+    action: Nullable<SimpleModel>;
     actionCount: number;
   };
 }

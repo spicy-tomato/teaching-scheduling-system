@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SidebarConstant } from '@constants/components/sidebar.constants';
-import { SidebarItem } from '@models/sidebar/sidebar-item.model';
+import { SidebarItem } from 'src/shared/models';
 
 @Component({
   selector: 'tss-sidebar',

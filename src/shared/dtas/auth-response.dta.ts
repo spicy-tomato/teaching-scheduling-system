@@ -1,4 +1,4 @@
-import { CommonInfoModel } from '@models/core/common-info.model';
+import { CommonInfoModel } from '../models';
 import { TeacherDta } from './teacher.dta';
 
 export interface AuthResponseDta {

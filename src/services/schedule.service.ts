@@ -1,12 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ExamScheduleModel } from '@models/schedule/exam-schedule.model';
-import { SearchSchedule } from '@models/schedule/search-schedule.model';
-import { StudyScheduleModel } from '@models/schedule/study-schedule.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ExamScheduleDta } from 'src/shared/dtas/exam-schedule.dta';
 import { StudyScheduleDta } from 'src/shared/dtas/study-schedule.dta';
+import {
+  ExamScheduleModel,
+  SearchSchedule,
+  StudyScheduleModel,
+} from 'src/shared/models';
 import { BaseDataService } from './core/base-data.service';
 
 @Injectable({

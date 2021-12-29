@@ -5,12 +5,12 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { EjsScheduleModel } from '@models/schedule/ejs-schedule.model';
 import { ScheduleService } from '@services/schedule.service';
 import { TuiDay } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { DateHelper } from 'src/shared/helpers/date.helper';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import { EjsScheduleModel, Nullable } from 'src/shared/models';
 
 @Component({
   templateUrl: './study-editor-dialog.component.html',
@@ -25,11 +25,11 @@ export class StudyEditorDialogComponent {
   public readonly noteMaxLength = 1000;
 
   /** GETTERS */
-  public get people(): AbstractControl | null {
+  public get people(): Nullable<AbstractControl> {
     return this.form.get('people');
   }
 
-  public get note(): AbstractControl | null {
+  public get note(): Nullable<AbstractControl> {
     return this.form.get('note');
   }
 

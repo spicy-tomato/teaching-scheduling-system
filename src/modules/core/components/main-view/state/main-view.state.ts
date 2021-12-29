@@ -1,4 +1,4 @@
-import { BreadcrumbItem } from '@models/main-view/breadcrumb-item.model';
+import { BreadcrumbItem } from 'src/shared/models';
 
 export interface MainViewState {
   breadcrumbs: BreadcrumbItem[];

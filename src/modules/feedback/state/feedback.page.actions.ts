@@ -1,5 +1,5 @@
-import { SendFeedback } from '@models/user/send-feedback.model';
 import { createAction, props } from '@ngrx/store';
+import { SendFeedback } from 'src/shared/models';
 
 export const submit = createAction(
   '[Feedback Page] Submit',
