@@ -1,3 +1,5 @@
+import { ExamScheduleModel } from '@models/schedule/exam-schedule.model';
+import { StudyScheduleModel } from '@models/schedule/study-schedule.model';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { scheduleFeatureKey, ScheduleState } from '.';
 
@@ -107,10 +109,19 @@ export const selectFilteredSchedule = createSelector(
   selectTeachers,
   selectFilter,
   (schedules, teachers, filter) => {
-    return teachers.length === 0 || filter.teachers.length === 0
-      ? schedules
-      : schedules.filter((schedule) =>
-          schedule.people?.find((person) => filter.teachers.includes(person))
+    const result =
+      teachers.length === 0 || filter.teachers.length === 0
+        ? schedules
+        : schedules.filter((schedule) =>
+            schedule.people?.find((person) => filter.teachers.includes(person))
+          );
+    return filter.modules.length === 0
+      ? result
+      : result.filter(
+          (schedule) =>
+            schedule instanceof ExamScheduleModel ||
+            (schedule instanceof StudyScheduleModel &&
+              filter.modules.includes(schedule.moduleName))
         );
   }
 );
