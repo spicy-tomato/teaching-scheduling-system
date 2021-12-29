@@ -22,7 +22,7 @@ export class AssignScheduleNeedAssignComponent extends BaseComponent {
   /** CONSTRUCTOR */
   constructor(store: Store<fromAssignSchedule.AssignScheduleState>) {
     super();
-    
+
     this.data$ = store
       .select(fromAssignSchedule.selectNeedAssign)
       .pipe(takeUntil(this.destroy$));

@@ -40,7 +40,7 @@ export class AssignScheduleFilterComponent
   public departments$: Observable<SimpleMapModel<string, SimpleModel[]>[]>;
   public filter$ = new Subject<void>();
   public filterStatus$: Observable<EApiStatus>;
-  
+
   public readonly termsInYear = CoreConstant.TERMS_IN_YEAR;
   public readonly batchesInTerm = CoreConstant.BATCHES_IN_TERM;
   public readonly EApiStatus = EApiStatus;

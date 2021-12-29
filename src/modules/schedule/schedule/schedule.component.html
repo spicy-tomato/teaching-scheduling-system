@@ -56,7 +56,10 @@
             {{ data.Method }}
           </div>
         </div>
-        <div *ngFor="let person of data.People | filterSelf" class="e-module-class">
+        <div
+          *ngFor="let person of data.People | filterSelf"
+          class="e-module-class"
+        >
           <div class="mdi mdi-account"></div>
           <div class="e-location-details e-text-ellipsis">
             {{ person }}
