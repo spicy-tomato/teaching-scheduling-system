@@ -106,11 +106,10 @@ export const selectModules = createSelector(
 
 export const selectFilteredSchedule = createSelector(
   selectScheduleWithType,
-  selectTeachers,
   selectFilter,
-  (schedules, teachers, filter) => {
+  (schedules, filter) => {
     const result =
-      teachers.length === 0 || filter.teachers.length === 0
+      !filter.showDepartmentSchedule || filter.teachers.length === 0
         ? schedules
         : schedules.filter((schedule) =>
             schedule.people?.find((person) => filter.teachers.includes(person))
