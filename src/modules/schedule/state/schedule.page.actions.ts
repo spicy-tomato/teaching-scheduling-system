@@ -35,3 +35,8 @@ export const filter = createAction(
   '[Schedule Page] Filter',
   props<{ filter: ScheduleFilter }>()
 );
+
+export const changeSelectingType = createAction(
+  '[Schedule Page] Change selecting type',
+  props<{ selectingDepartment: boolean }>()
+);

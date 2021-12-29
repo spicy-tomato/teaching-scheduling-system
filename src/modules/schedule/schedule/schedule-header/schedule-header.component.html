@@ -41,7 +41,7 @@
         icon="tuiIconFilter"
       >
         Bộ lọc:
-        {{ filter.showDepartmentSchedule ? "Lịch bộ môn" : "Lịch cá nhân" }},
+        {{ filter.showDepartmentSchedule ? "Lịch bộ môn," : "Lịch cá nhân" }}
         {{
           filter.showDepartmentSchedule
             ? filter.teachers.length === 0
@@ -50,6 +50,13 @@
               ? filter.teachers[0]
               : filter.teachers.length + " giảng viên"
             : ""
+        }},
+        {{
+          filter.modules.length === 0
+            ? "Tất cả học phần"
+            : filter.modules.length === 1
+            ? filter.modules[0]
+            : filter.modules.length + " học phần"
         }}
       </button>
     </tui-hosted-dropdown>
@@ -117,6 +124,7 @@
               <tui-radio-labeled
                 [(ngModel)]="showDepartmentSchedule"
                 [item]="false"
+                (ngModelChange)="onSelectingDepartmentChange($event)"
                 class="tui-space_bottom-3"
               >
                 Cá nhân
@@ -124,6 +132,7 @@
               <tui-radio-labeled
                 [(ngModel)]="showDepartmentSchedule"
                 [item]="true"
+                (ngModelChange)="onSelectingDepartmentChange($event)"
                 class="tui-space_bottom-3"
               >
                 Bộ môn
@@ -135,16 +144,16 @@
         <tr *ngIf="showDepartmentSchedule">
           <td>Giảng viên:</td>
           <td>
-            <div tuiTextfieldSize="s" class="">
+            <div tuiTextfieldSize="s">
               <tui-select
                 [(ngModel)]="filteredTeachers"
-                [valueContent]="selectTeacher"
+                [valueContent]="selectTeacherTemplate"
                 [tuiActiveZoneParent]="activeZone"
               >
                 <ng-template tuiDataList>
                   <tui-data-list>
                     <tui-opt-group>
-                      <button tuiOption [value]="[]" size="s">Tất cả</button>
+                      <button tuiOption [value]="[]" size="xs">Tất cả</button>
                     </tui-opt-group>
                     <tui-opt-group
                       tuiMultiSelectGroup
@@ -154,7 +163,7 @@
                         tuiOption
                         *ngFor="let teacher of teachers; index as i"
                         [value]="teacher"
-                        size="s"
+                        size="xs"
                       >
                         {{ teacher }}
                       </button>
@@ -166,6 +175,40 @@
           </td>
         </tr>
       </ng-container>
+
+      <tr>
+        <td>Học phần:</td>
+        <td>
+          <div tuiTextfieldSize="s">
+            <tui-select
+              [(ngModel)]="filteredModules"
+              [valueContent]="selectModuleTemplate"
+              [tuiActiveZoneParent]="activeZone"
+            >
+              <ng-template tuiDataList>
+                <tui-data-list>
+                  <tui-opt-group>
+                    <button tuiOption [value]="[]" size="xs">Tất cả</button>
+                  </tui-opt-group>
+                  <tui-opt-group
+                    tuiMultiSelectGroup
+                    *ngrxLet="modules$ as modules"
+                  >
+                    <button
+                      tuiOption
+                      *ngFor="let module of modules; index as i"
+                      [value]="module"
+                      size="xs"
+                    >
+                      {{ module }}
+                    </button>
+                  </tui-opt-group>
+                </tui-data-list>
+              </ng-template>
+            </tui-select>
+          </div>
+        </td>
+      </tr>
 
       <tr>
         <td></td>
@@ -180,12 +223,22 @@
   </div>
 </ng-template>
 
-<ng-template #selectTeacher let-teachers>
+<ng-template #selectTeacherTemplate let-teachers>
   {{
     teachers.length === 0
       ? "Tất cả"
       : teachers.length === 1
       ? teachers[0]
       : teachers.length + " giảng viên"
+  }}
+</ng-template>
+
+<ng-template #selectModuleTemplate let-modules>
+  {{
+    modules.length === 0
+      ? "Tất cả"
+      : modules.length === 1
+      ? modules[0]
+      : modules.length + " học phần"
   }}
 </ng-template>

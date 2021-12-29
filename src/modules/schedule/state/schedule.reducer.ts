@@ -25,6 +25,7 @@ const initialState: ScheduleState = {
   selectedDate: new Date(),
   view: 'Month',
   month: new TuiMonth(new Date().getFullYear(), new Date().getMonth()),
+  selectingDepartment: false,
 };
 
 export const scheduleFeatureKey = 'schedule';
@@ -88,6 +89,10 @@ export const scheduleReducer = createReducer(
   on(PageAction.filter, (state, { filter }) => ({
     ...state,
     filter,
+  })),
+  on(PageAction.changeSelectingType, (state, { selectingDepartment }) => ({
+    ...state,
+    selectingDepartment,
   })),
   on(ApiAction.loadPersonalStudySuccessful, (state, { schedules }) => {
     return {

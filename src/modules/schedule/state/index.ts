@@ -6,6 +6,7 @@ export {
   changeMonth,
   changeView,
   filter,
+  changeSelectingType,
 } from './schedule.page.actions';
 export { scheduleReducer, scheduleFeatureKey } from './schedule.reducer';
 export { ScheduleState } from './schedule.state';
@@ -16,6 +17,7 @@ export {
   selectStatus,
   selectFilter,
   selectTeachers,
+  selectModules,
   selectFilteredSchedule,
 } from './schedule.selectors';
 export { ScheduleEffects } from './schedule.effects';

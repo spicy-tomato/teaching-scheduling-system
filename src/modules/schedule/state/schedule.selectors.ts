@@ -79,16 +79,27 @@ export const selectTeachers = createSelector(
     )
 );
 
-export const selectModules = createSelector(selectStudy, (schedule) =>
-  Array.from(
-    schedule.reduce((acc, curr) => {
-      if (!acc.get(curr.moduleName)) {
-        acc.set(curr.moduleName, true);
-      }
-      return acc;
-    }, new Map<string, boolean>()),
-    ([key]) => key
-  )
+const selectSelectingDepartment = createSelector(
+  scheduleSelector,
+  (state) => state.selectingDepartment
+);
+
+export const selectModules = createSelector(
+  scheduleSelector,
+  selectSelectingDepartment,
+  (state, selectingDepartment) =>
+    Array.from(
+      (selectingDepartment
+        ? state.schedules.department.study
+        : state.schedules.personal.study
+      ).reduce((acc, curr) => {
+        if (!acc.get(curr.moduleName)) {
+          acc.set(curr.moduleName, true);
+        }
+        return acc;
+      }, new Map<string, boolean>()),
+      ([key]) => key
+    )
 );
 
 export const selectFilteredSchedule = createSelector(

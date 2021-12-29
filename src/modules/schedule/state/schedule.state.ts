@@ -21,4 +21,5 @@ export interface ScheduleState {
   view: View;
   selectedDate: Date;
   month: TuiMonth;
+  selectingDepartment: boolean;
 }

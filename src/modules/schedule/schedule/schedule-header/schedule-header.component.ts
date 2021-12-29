@@ -57,15 +57,18 @@ export class ScheduleHeaderComponent
   public openFilter = false;
   public activeToday$!: Observable<boolean>;
   public teachers$: Observable<string[]>;
+  public modules$: Observable<string[]>;
   public readonly clickToday$ = new Subject<void>();
   public readonly permissionConstant = PermissionConstant;
 
   public showDepartmentSchedule = false;
   public filteredTeachers: string[] = [];
+  public filteredModules: string[] = [];
 
   /** PRIVATE PROPERTIES */
   private selectedDate$: Observable<Date>;
   private canDisplayNotification = true;
+  private readonly closeFilter$ = new Subject<void>();
   private readonly displayNotification$ = new Subject<void>();
 
   /** CONSTRUCTOR */
@@ -92,8 +95,11 @@ export class ScheduleHeaderComponent
     this.teachers$ = store
       .select(fromSchedule.selectTeachers)
       .pipe(takeUntil(this.destroy$));
+    this.modules$ = store
+      .select(fromSchedule.selectModules)
+      .pipe(takeUntil(this.destroy$));
 
-    this.initForm();
+    this.triggerFilter();
     this.handleClickToday();
     this.handleDisplayNotification();
   }
@@ -106,6 +112,7 @@ export class ScheduleHeaderComponent
 
   public ngOnDestroy(): void {
     this.clickToday$.complete();
+    this.closeFilter$.complete();
     super.ngOnDestroy();
   }
 
@@ -133,8 +140,14 @@ export class ScheduleHeaderComponent
 
   public onFilterOpenChange(open: boolean): void {
     if (!open) {
-      this.initForm();
+      this.closeFilter$.next();
     }
+  }
+
+  public onSelectingDepartmentChange(selectingDepartment: boolean): void {
+    this.store.dispatch(
+      fromSchedule.changeSelectingType({ selectingDepartment })
+    );
   }
 
   public filter(): void {
@@ -143,7 +156,7 @@ export class ScheduleHeaderComponent
         filter: {
           showDepartmentSchedule: this.showDepartmentSchedule,
           teachers: this.filteredTeachers,
-          modules: [],
+          modules: this.filteredModules,
         },
       })
     );
@@ -163,14 +176,9 @@ export class ScheduleHeaderComponent
   }
 
   /** PRIVATE METHODS */
-  private initForm(): void {
-    this.filter$
-      .pipe(
-        tap((filter) => {
-          this.showDepartmentSchedule = filter.showDepartmentSchedule;
-          this.filteredTeachers = filter.teachers;
-        })
-      )
+  private triggerFilter(): void {
+    combineLatest([this.filter$, this.closeFilter$])
+      .pipe(tap(([filter]) => this.resetFilter(filter)))
       .subscribe();
   }
 
@@ -259,6 +267,12 @@ export class ScheduleHeaderComponent
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       map(([_, view]) => this.dayInCurrentView(view, new Date()))
     );
+  }
+
+  private resetFilter(filter: ScheduleFilter): void {
+    this.showDepartmentSchedule = filter.showDepartmentSchedule;
+    this.filteredTeachers = filter.teachers;
+    this.filteredModules = filter.modules;
   }
 
   private dayInCurrentView(view: View, date: Date): boolean {
