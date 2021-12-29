@@ -144,9 +144,15 @@ export class ScheduleHeaderComponent
     }
   }
 
-  public onSelectingDepartmentChange(selectingDepartment: boolean): void {
+  public onSelectingDepartmentChange(showDepartmentSchedule: boolean): void {
     this.store.dispatch(
-      fromSchedule.changeSelectingType({ selectingDepartment })
+      fromSchedule.changeSelectingState({ changes: { showDepartmentSchedule } })
+    );
+  }
+
+  public onSelectingTeachersChange(teachers: string[]): void {
+    this.store.dispatch(
+      fromSchedule.changeSelectingState({ changes: { teachers } })
     );
   }
 

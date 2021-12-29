@@ -3,3 +3,8 @@ export interface ScheduleFilter {
   teachers: string[];
   modules: string[];
 }
+
+export interface ScheduleFilterParams {
+  showDepartmentSchedule?: boolean;
+  teachers?: string[];
+}

@@ -4,10 +4,11 @@ import { View } from '@syncfusion/ej2-angular-schedule';
 import { TuiMonth } from '@taiga-ui/cdk';
 import { EApiStatus } from 'src/shared/enums/api-status.enum';
 import { StudyScheduleModel } from '@models/schedule/study-schedule.model';
+import { Activatable } from '@models/core/activatable.model';
 
 export interface ScheduleState {
   status: EApiStatus;
-  filter: ScheduleFilter;
+  filter: Activatable<ScheduleFilter>;
   schedules: {
     personal: {
       study: StudyScheduleModel[];
@@ -21,5 +22,4 @@ export interface ScheduleState {
   view: View;
   selectedDate: Date;
   month: TuiMonth;
-  selectingDepartment: boolean;
 }

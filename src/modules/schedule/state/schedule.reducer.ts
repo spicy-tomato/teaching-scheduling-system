@@ -8,9 +8,16 @@ import * as PageAction from './schedule.page.actions';
 const initialState: ScheduleState = {
   status: EApiStatus.unknown,
   filter: {
-    showDepartmentSchedule: false,
-    teachers: [],
-    modules: [],
+    active: {
+      showDepartmentSchedule: false,
+      teachers: [],
+      modules: [],
+    },
+    selecting: {
+      showDepartmentSchedule: false,
+      teachers: [],
+      modules: [],
+    },
   },
   schedules: {
     department: {
@@ -25,7 +32,6 @@ const initialState: ScheduleState = {
   selectedDate: new Date(),
   view: 'Month',
   month: new TuiMonth(new Date().getFullYear(), new Date().getMonth()),
-  selectingDepartment: false,
 };
 
 export const scheduleFeatureKey = 'schedule';
@@ -88,11 +94,20 @@ export const scheduleReducer = createReducer(
   })),
   on(PageAction.filter, (state, { filter }) => ({
     ...state,
-    filter,
+    filter: {
+      ...state.filter,
+      active: filter,
+    },
   })),
-  on(PageAction.changeSelectingType, (state, { selectingDepartment }) => ({
+  on(PageAction.changeSelectingState, (state, { changes }) => ({
     ...state,
-    selectingDepartment,
+    filter: {
+      ...state.filter,
+      selecting: {
+        ...state.filter.selecting,
+        ...changes,
+      },
+    },
   })),
   on(ApiAction.loadPersonalStudySuccessful, (state, { schedules }) => {
     return {

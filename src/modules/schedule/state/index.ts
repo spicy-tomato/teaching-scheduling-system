@@ -6,7 +6,7 @@ export {
   changeMonth,
   changeView,
   filter,
-  changeSelectingType,
+  changeSelectingState,
 } from './schedule.page.actions';
 export { scheduleReducer, scheduleFeatureKey } from './schedule.reducer';
 export { ScheduleState } from './schedule.state';

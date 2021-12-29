@@ -149,6 +149,7 @@
                 [(ngModel)]="filteredTeachers"
                 [valueContent]="selectTeacherTemplate"
                 [tuiActiveZoneParent]="activeZone"
+                (ngModelChange)="onSelectingTeachersChange($event)"
               >
                 <ng-template tuiDataList>
                   <tui-data-list>

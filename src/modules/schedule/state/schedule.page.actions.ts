@@ -1,4 +1,4 @@
-import { ScheduleFilter } from '@models/schedule/schedule-filter.model';
+import { ScheduleFilter, ScheduleFilterParams } from '@models/schedule/schedule-filter.model';
 import { createAction, props } from '@ngrx/store';
 import { View } from '@syncfusion/ej2-angular-schedule';
 import { TuiMonth } from '@taiga-ui/cdk';
@@ -36,7 +36,7 @@ export const filter = createAction(
   props<{ filter: ScheduleFilter }>()
 );
 
-export const changeSelectingType = createAction(
+export const changeSelectingState = createAction(
   '[Schedule Page] Change selecting type',
-  props<{ selectingDepartment: boolean }>()
+  props<{ changes: ScheduleFilterParams }>()
 );
