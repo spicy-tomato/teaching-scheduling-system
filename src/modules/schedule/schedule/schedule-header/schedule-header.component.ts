@@ -56,15 +56,14 @@ export class ScheduleHeaderComponent
   public dateRange$!: Observable<string>;
   public openFilter = false;
   public activeToday$!: Observable<boolean>;
+  public teachers$: Observable<string[]>;
   public readonly clickToday$ = new Subject<void>();
   public readonly permissionConstant = PermissionConstant;
 
   public showDepartmentSchedule = false;
-  public teachers: string[] = [];
-  public teachersList: string[] = [];
+  public filteredTeachers: string[] = [];
 
   /** PRIVATE PROPERTIES */
-  private teachers$: Observable<string[]>;
   private selectedDate$: Observable<Date>;
   private canDisplayNotification = true;
   private readonly displayNotification$ = new Subject<void>();
@@ -143,7 +142,7 @@ export class ScheduleHeaderComponent
       fromSchedule.filter({
         filter: {
           showDepartmentSchedule: this.showDepartmentSchedule,
-          teachers: this.teachers,
+          teachers: this.filteredTeachers,
           modules: [],
         },
       })
@@ -165,12 +164,11 @@ export class ScheduleHeaderComponent
 
   /** PRIVATE METHODS */
   private initForm(): void {
-    combineLatest([this.filter$, this.teachers$])
+    this.filter$
       .pipe(
-        tap(([filter, teachers]) => {
+        tap((filter) => {
           this.showDepartmentSchedule = filter.showDepartmentSchedule;
-          this.teachers = filter.teachers;
-          this.teachersList = teachers;
+          this.filteredTeachers = filter.teachers;
         })
       )
       .subscribe();

@@ -137,7 +137,7 @@
           <td>
             <div tuiTextfieldSize="s" class="">
               <tui-select
-                [(ngModel)]="teachers"
+                [(ngModel)]="filteredTeachers"
                 [valueContent]="selectTeacher"
                 [tuiActiveZoneParent]="activeZone"
               >
@@ -146,10 +146,13 @@
                     <tui-opt-group>
                       <button tuiOption [value]="[]" size="s">Tất cả</button>
                     </tui-opt-group>
-                    <tui-opt-group tuiMultiSelectGroup>
+                    <tui-opt-group
+                      tuiMultiSelectGroup
+                      *ngrxLet="teachers$ as teachers"
+                    >
                       <button
                         tuiOption
-                        *ngFor="let teacher of teachersList; index as i"
+                        *ngFor="let teacher of teachers; index as i"
                         [value]="teacher"
                         size="s"
                       >

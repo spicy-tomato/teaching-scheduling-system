@@ -34,32 +34,61 @@ const selectSchedule = createSelector(
   (state) => state.schedules
 );
 
-const selectScheduleWithType = createSelector(
+const selectStudy = createSelector(
   selectSchedule,
   selectFilter,
   (schedules, filter) =>
     filter.showDepartmentSchedule
-      ? [...schedules.department.exam, ...schedules.department.study]
-      : [...schedules.personal.exam, ...schedules.personal.study]
+      ? schedules.department.study
+      : schedules.personal.study
 );
 
-export const selectTeachers = createSelector(
-  selectScheduleWithType,
+const selectExam = createSelector(
+  selectSchedule,
   selectFilter,
-  (schedule, filter) =>
+  (schedules, filter) =>
     filter.showDepartmentSchedule
-      ? Array.from(
-          schedule.reduce((acc, curr) => {
-            curr.people?.forEach((person) => {
-              if (!acc.get(person)) {
-                acc.set(person, true);
-              }
-            });
-            return acc;
-          }, new Map<string, boolean>()),
-          ([key]) => key
-        )
-      : []
+      ? schedules.department.exam
+      : schedules.personal.exam
+);
+
+const selectScheduleWithType = createSelector(
+  selectStudy,
+  selectExam,
+  (study, exam) => [...study, ...exam]
+);
+
+const selectDepartmentSchedule = createSelector(selectSchedule, (schedule) => [
+  ...schedule.department.study,
+  ...schedule.department.exam,
+]);
+
+export const selectTeachers = createSelector(
+  selectDepartmentSchedule,
+  (schedule) =>
+    Array.from(
+      schedule.reduce((acc, curr) => {
+        curr.people?.forEach((person) => {
+          if (!acc.get(person)) {
+            acc.set(person, true);
+          }
+        });
+        return acc;
+      }, new Map<string, boolean>()),
+      ([key]) => key
+    )
+);
+
+export const selectModules = createSelector(selectStudy, (schedule) =>
+  Array.from(
+    schedule.reduce((acc, curr) => {
+      if (!acc.get(curr.moduleName)) {
+        acc.set(curr.moduleName, true);
+      }
+      return acc;
+    }, new Map<string, boolean>()),
+    ([key]) => key
+  )
 );
 
 export const selectFilteredSchedule = createSelector(
@@ -67,7 +96,6 @@ export const selectFilteredSchedule = createSelector(
   selectTeachers,
   selectFilter,
   (schedules, teachers, filter) => {
-    console.log(schedules, teachers);
     return teachers.length === 0 || filter.teachers.length === 0
       ? schedules
       : schedules.filter((schedule) =>
