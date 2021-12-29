@@ -12,24 +12,20 @@ import { TuiCheckboxModule } from '@taiga-ui/kit';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ReactiveComponentModule } from '@ngrx/component';
 
-const NGRX = [ReactiveComponentModule];
+const EXPORT_NGRX = [ReactiveComponentModule];
 const TAIGA_UI = [
   TuiTableModule,
   TuiScrollbarModule,
   TuiCheckboxModule,
   TuiLoaderModule,
 ];
+const EXPORT = [CommonModule, FormsModule, ReactiveFormsModule];
+const COMPONENTS = [AssignScheduleTableComponent];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    ...NGRX,
-    ...TAIGA_UI,
-  ],
-  declarations: [AssignScheduleTableComponent],
-  exports: [AssignScheduleTableComponent],
+  imports: [...EXPORT, ...EXPORT_NGRX, ...TAIGA_UI],
+  declarations: [...COMPONENTS],
+  exports: [...COMPONENTS, ...EXPORT, ...EXPORT_NGRX],
   providers: [
     {
       provide: TUI_BUTTON_OPTIONS,

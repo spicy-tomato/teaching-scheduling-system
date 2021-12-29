@@ -1,13 +1,10 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { AssignScheduleComponent } from './assign-schedule.component';
 import { AssignScheduleRoutingModule } from './assign-schedule.routes';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TuiDataListWrapperModule, TuiSelectModule } from '@taiga-ui/kit';
 import * as fromFeedback from './state';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { ReactiveComponentModule } from '@ngrx/component';
 import { AssignScheduleFilterComponent } from './assign-schedule-filter/assign-schedule-filter.component';
 import { AssignScheduleNeedAssignComponent } from './assign-schedule-need-assign/assign-schedule-need-assign.component';
 import { AssignScheduleAssignedComponent } from './assign-schedule-assigned/assign-schedule-assigned.component';
@@ -22,7 +19,6 @@ import { AssignScheduleLeftTitleComponent } from './assign-schedule-left-title/a
 import { AssignScheduleRightTitleComponent } from './assign-schedule-right-title/assign-schedule-right-title.component';
 
 const NGRX = [
-  ReactiveComponentModule,
   StoreModule.forFeature(
     fromFeedback.assignScheduleFeatureKey,
     fromFeedback.assignScheduleReducer
@@ -40,9 +36,6 @@ const TAIGA_UI = [
 
 @NgModule({
   imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
     AssignScheduleRoutingModule,
     AssignScheduleSharedModule,
     ...NGRX,

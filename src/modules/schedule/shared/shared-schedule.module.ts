@@ -26,20 +26,11 @@ const TAIGA_UI = [
   ...EXPORT_TAIGA_UI,
 ];
 const EXPORT = [CommonModule, FormsModule, ReactiveFormsModule];
+const COMPONENTS = [ExamEditorDialogComponent, StudyEditorDialogComponent];
 
 @NgModule({
   imports: [...EXPORT, ...TAIGA_UI],
-  declarations: [
-    FilterSelfPipe,
-    ExamEditorDialogComponent,
-    StudyEditorDialogComponent,
-  ],
-  exports: [
-    FilterSelfPipe,
-    ExamEditorDialogComponent,
-    StudyEditorDialogComponent,
-    ...EXPORT,
-    ...EXPORT_TAIGA_UI,
-  ],
+  declarations: [FilterSelfPipe, ...COMPONENTS],
+  exports: [FilterSelfPipe, ...COMPONENTS, ...EXPORT, ...EXPORT_TAIGA_UI],
 })
 export class SharedScheduleModule {}
