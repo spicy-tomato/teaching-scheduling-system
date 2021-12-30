@@ -20,4 +20,12 @@ export class ArrayHelper {
       [[], []]
     );
   }
+
+  public static equals<T>(a: T[], b: T[]): boolean {
+    return this.onlyIn(a, b).length === 0 && this.onlyIn(b, a).length === 0;
+  }
+
+  public static onlyIn<T>(a: T[], b: T[]): T[] {
+    return a.filter((x) => !b.includes(x));
+  }
 }

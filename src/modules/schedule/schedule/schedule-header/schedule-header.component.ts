@@ -148,12 +148,14 @@ export class ScheduleHeaderComponent
     this.store.dispatch(
       fromSchedule.changeSelectingState({ changes: { showDepartmentSchedule } })
     );
+    this.filteredModules = [];
   }
 
   public onSelectingTeachersChange(teachers: string[]): void {
     this.store.dispatch(
       fromSchedule.changeSelectingState({ changes: { teachers } })
     );
+    this.filteredModules = [];
   }
 
   public filter(): void {
