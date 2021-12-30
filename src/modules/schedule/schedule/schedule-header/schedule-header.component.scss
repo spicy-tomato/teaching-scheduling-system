@@ -50,7 +50,8 @@
   td {
     padding: 0.25rem;
     &:first-child {
-      width: 90px;
+      max-width: 80px;
+      width: 80px;
     }
     &:last-child {
       width: 50px;

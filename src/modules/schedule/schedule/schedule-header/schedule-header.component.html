@@ -141,38 +141,44 @@
           </td>
         </tr>
 
-        <tr *ngIf="showDepartmentSchedule">
-          <td>Giảng viên:</td>
+        <tr>
           <td>
-            <div tuiTextfieldSize="s">
-              <tui-select
-                [(ngModel)]="filteredTeachers"
-                [valueContent]="selectTeacherTemplate"
-                [tuiActiveZoneParent]="activeZone"
-                (ngModelChange)="onSelectingTeachersChange($event)"
-              >
-                <ng-template tuiDataList>
-                  <tui-data-list>
-                    <tui-opt-group>
-                      <button tuiOption [value]="[]" size="xs">Tất cả</button>
-                    </tui-opt-group>
-                    <tui-opt-group
-                      tuiMultiSelectGroup
-                      *ngrxLet="teachers$ as teachers"
-                    >
-                      <button
-                        tuiOption
-                        *ngFor="let teacher of teachers; index as i"
-                        [value]="teacher"
-                        size="xs"
+            <tui-expand [expanded]="showDepartmentSchedule">
+              Giảng viên:
+            </tui-expand>
+          </td>
+          <td>
+            <tui-expand [expanded]="showDepartmentSchedule">
+              <div tuiTextfieldSize="s">
+                <tui-select
+                  [(ngModel)]="filteredTeachers"
+                  [valueContent]="selectTeacherTemplate"
+                  [tuiActiveZoneParent]="activeZone"
+                  (ngModelChange)="onSelectingTeachersChange($event)"
+                >
+                  <ng-template tuiDataList>
+                    <tui-data-list>
+                      <tui-opt-group>
+                        <button tuiOption [value]="[]" size="xs">Tất cả</button>
+                      </tui-opt-group>
+                      <tui-opt-group
+                        tuiMultiSelectGroup
+                        *ngrxLet="teachers$ as teachers"
                       >
-                        {{ teacher }}
-                      </button>
-                    </tui-opt-group>
-                  </tui-data-list>
-                </ng-template>
-              </tui-select>
-            </div>
+                        <button
+                          tuiOption
+                          *ngFor="let teacher of teachers; index as i"
+                          [value]="teacher"
+                          size="xs"
+                        >
+                          {{ teacher }}
+                        </button>
+                      </tui-opt-group>
+                    </tui-data-list>
+                  </ng-template>
+                </tui-select>
+              </div>
+            </tui-expand>
           </td>
         </tr>
       </ng-container>
