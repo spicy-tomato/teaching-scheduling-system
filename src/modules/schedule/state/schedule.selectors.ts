@@ -75,7 +75,7 @@ export const selectTeachers = createSelector(
     Array.from(
       schedule.reduce((acc, curr) => {
         curr.people?.forEach((person) => {
-          if (!acc.get(person)) {
+          if (person !== 'self' && !acc.get(person)) {
             acc.set(person, true);
           }
         });
