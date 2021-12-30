@@ -6,8 +6,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { ScheduleService } from '@services/schedule.service';
-import { TuiDay } from '@taiga-ui/cdk';
-import { TuiDialogContext } from '@taiga-ui/core';
+
+import {
 import { DateHelper } from 'src/shared/helpers/date.helper';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { EjsScheduleModel, Nullable } from 'src/shared/models';
@@ -76,48 +76,21 @@ export class StudyEditorDialogComponent {
     const startDate = data?.StartTime as Date;
     const endDate = data?.EndTime as Date;
     const today = new Date();
+    const startTuiDate = startDate
+      ? DateHelper.toTuiDay(startDate)
+      : DateHelper.toTuiDay(today);
+    const endTuiDate = endDate
+      ? DateHelper.toTuiDay(endDate)
+      : DateHelper.toTuiDay(today);
     this.initialNote = data?.Note as string;
 
     this.form = this.fb.group({
       id: [data?.Id],
       subject: [data?.Subject],
       location: [data?.Location],
-      method: [data?.Method],
       people: [data?.People?.[0]],
-      start: [
-        [
-          startDate
-            ? new TuiDay(
-                startDate.getFullYear(),
-                startDate.getMonth(),
-                startDate.getDate()
-              )
-            : new TuiDay(
-                today.getFullYear(),
-                today.getMonth(),
-                today.getDate()
-              ),
-          DateHelper.beautifyTime(startDate ?? today),
-        ],
-      ],
-      end: [
-        [
-          endDate
-            ? new TuiDay(
-                endDate.getFullYear(),
-                endDate.getMonth(),
-                endDate.getDate()
-              )
-            : new TuiDay(
-                today.getFullYear(),
-                today.getMonth(),
-                today.getDate()
-              ),
-          DateHelper.beautifyTime(endDate ?? today),
-        ],
-      ],
-      allDay: [data?.IsAllDay ?? false],
-      description: [data?.Description],
+      start: [[startTuiDate, DateHelper.beautifyTime(startDate ?? today)]],
+      end: [[endTuiDate, DateHelper.beautifyTime(endDate ?? today)]],
       note: [this.initialNote, Validators.maxLength(this.noteMaxLength)],
     });
   }
