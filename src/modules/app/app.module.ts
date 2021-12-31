@@ -24,10 +24,8 @@ import { loadAppSettings } from '@shared/factories';
 import { InterceptorsModule } from 'src/shared/interceptors/interceptors.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routes';
-import { HeaderInterceptor } from 'src/shared/interceptors/header.interceptor';
 import { UserInfoResolve } from '@resolves/user-info.resolve';
 import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
-import { maxLengthFactory, requiredFactory } from '@shared/factories';
 
 const TAIGA_UI = [TuiRootModule, TuiDialogModule, TuiNotificationsModule];
 const NGRX = [
@@ -57,11 +55,6 @@ const NGRX = [
       useFactory: loadAppSettings,
       multi: true,
       deps: [AppSettingsService],
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HeaderInterceptor,
-      multi: true,
     },
     {
       provide: TUI_LANGUAGE,
