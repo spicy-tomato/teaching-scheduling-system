@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { EApiStatus } from 'src/shared/enums/api-status.enum';
+import { EApiStatus } from '@shared/enums';
 import { AppShellState } from '.';
 import * as ApiAction from './app-shell.api.actions';
 import * as PageAction from './app-shell.page.actions';

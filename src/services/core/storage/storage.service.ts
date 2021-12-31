@@ -1,5 +1,5 @@
 import { BehaviorSubject, Observable } from 'rxjs';
-import { DateHelper } from 'src/shared/helpers/date.helper';
+import { DateHelper } from '@shared/helpers';
 import { Nullable } from 'src/shared/models';
 
 export abstract class StorageService {

@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { EApiStatus } from 'src/shared/enums/api-status.enum';
+import { EApiStatus } from '@shared/enums';
 import { NotificationCreateState } from '.';
 import * as ApiAction from './notification-create.api.actions';
 import * as PageAction from './notification-create.page.actions';

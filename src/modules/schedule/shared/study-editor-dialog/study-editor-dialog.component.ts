@@ -3,7 +3,6 @@ import {
   AbstractControl,
   FormBuilder,
   FormGroup,
-  Validators,
 } from '@angular/forms';
 import { ScheduleService } from '@services/schedule.service';
 import {
@@ -11,10 +10,10 @@ import {
   TuiDialogContext,
   TUI_BUTTON_OPTIONS,
 } from '@taiga-ui/core';
-import { DateHelper } from 'src/shared/helpers/date.helper';
+import { DateHelper } from '@shared/helpers';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { EjsScheduleModel, Nullable } from 'src/shared/models';
-import { CoreConstant } from '@constants/core/core.constant';
+import { CoreConstant } from '@shared/constants';
 import { sameValueValidator } from 'src/shared/validators';
 
 @Component({

@@ -24,23 +24,11 @@
       "dom"
     ],
     "paths": {
-      "@animations/*": [
-        "src/shared/animations/*"
-      ],
-      "@constants/*": [
-        "src/shared/constants/*"
-      ],
       "@directives/*": [
         "src/directives/*"
       ],
       "@environments/*": [
         "src/environments/*"
-      ],
-      "@factories/*": [
-        "src/shared/factories/*"
-      ],
-      "@guards/*": [
-        "src/shared/guards/*"
       ],
       "@interceptors/*": [
         "src/shared/interceptors/*"
@@ -57,12 +45,16 @@
       "@resolves/*": [
         "src/shared/resolves/*"
       ],
+      "@shared/*": [
+        "src/shared/*"
+      ],
       "@services/*": [
         "src/services/*"
       ],
       "lodash/*": [
         "node_modules/@types/lodash/*"
-      ]
+      ],
+      
     },
   },
   "angularCompilerOptions": {

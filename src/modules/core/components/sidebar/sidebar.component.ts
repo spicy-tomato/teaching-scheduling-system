@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { SidebarConstant } from '@constants/components/sidebar.constants';
+import { SidebarConstant } from '@shared/constants';
 import { SidebarItem } from 'src/shared/models';
 
 @Component({

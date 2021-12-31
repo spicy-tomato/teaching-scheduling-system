@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { DateHelper } from 'src/shared/helpers/date.helper';
+import { DateHelper } from '@shared/helpers';
 
 @Pipe({
   name: 'dateTime',

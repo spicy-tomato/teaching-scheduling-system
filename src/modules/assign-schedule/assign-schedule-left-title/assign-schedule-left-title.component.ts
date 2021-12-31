@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { fadeInOut } from '@animations/fade.animation';
+import { fadeInOut } from '@shared/animations';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';
 import { TuiNotificationsService, TuiNotification } from '@taiga-ui/core';
@@ -11,7 +11,7 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { EApiStatus } from 'src/shared/enums/api-status.enum';
+import { EApiStatus } from '@shared/enums';
 import { ModuleClass, Nullable, SimpleModel } from 'src/shared/models';
 import * as fromAssignSchedule from '../state';
 

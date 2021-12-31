@@ -1,4 +1,4 @@
-import { PermissionConstant } from '@constants/core/permission.constant';
+import { PermissionConstant } from '@shared/constants';
 import { SidebarItem } from 'src/shared/models';
 
 export class SidebarConstant {

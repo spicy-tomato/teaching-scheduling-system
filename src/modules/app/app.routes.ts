@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { KeepUserGuard } from '@guards/keep-user.guard';
+import { KeepUserGuard } from '@shared/guards';
 import { UserInfoResolve } from '@resolves/user-info.resolve';
 import {
   ForbiddenComponent,

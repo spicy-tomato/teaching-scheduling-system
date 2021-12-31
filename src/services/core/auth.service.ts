@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AuthResponseDta } from 'src/shared/dtas/auth-response.dta';
+import { AuthResponseDta } from '@shared/dtas';
 import { AuthResponse, LoginForm, Teacher } from 'src/shared/models';
 import { BaseDataService } from './base-data.service';
 

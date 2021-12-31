@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ManagingClassDta } from 'src/shared/dtas/managing-class.dta';
+import { ManagingClassDta } from '@shared/dtas';
 import { ManagingClass, ModuleClass, SearchSchedule } from 'src/shared/models';
 import { BaseDataService } from './core/base-data.service';
 

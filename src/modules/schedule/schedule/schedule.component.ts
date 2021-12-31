@@ -38,11 +38,10 @@ import { BehaviorSubject } from 'rxjs';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { ExamEditorDialogComponent } from '../shared/exam-editor-dialog/exam-editor-dialog.component';
-import { EApiStatus } from 'src/shared/enums/api-status.enum';
+import { EApiStatus } from '@shared/enums';
 import { StudyEditorDialogComponent } from '../shared/study-editor-dialog/study-editor-dialog.component';
 import { EjsScheduleModel } from 'src/shared/models';
-import { ScheduleHelper } from 'src/shared/helpers/schedule.helper';
-import { DateHelper } from 'src/shared/helpers/date.helper';
+import { ScheduleHelper, DateHelper } from '@shared/helpers';
 
 loadCldr(numberingSystems, gregorian, numbers, timeZoneNames);
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access

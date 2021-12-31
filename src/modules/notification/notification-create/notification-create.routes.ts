@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { FormDiscardGuard } from '@guards/form-discard.guard';
+import { FormDiscardGuard } from '@shared/guards';
 import { NotificationCreateManagingClassComponent } from './components/notification-create-managing-class/notification-create-managing-class.component';
 import { NotificationCreateModuleClassComponent } from './components/notification-create-module-class/notification-create-module-class.component';
 

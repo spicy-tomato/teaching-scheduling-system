@@ -1,5 +1,5 @@
-import { StudyScheduleDta } from 'src/shared/dtas/study-schedule.dta';
-import { DateHelper } from 'src/shared/helpers/date.helper';
+import { StudyScheduleDta } from '@shared/dtas';
+import { DateHelper } from '@shared/helpers';
 import { EjsScheduleModel } from './ejs-schedule.model';
 import { ScheduleModel } from './schedule.model';
 

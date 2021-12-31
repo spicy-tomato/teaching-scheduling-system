@@ -1,4 +1,4 @@
-import { LocalStorageKeyConstant } from '@constants/core/local-storage-key.constant';
+import { LocalStorageKeyConstant } from '@shared/constants';
 
 export class StorageTimeoutModel<T> {
   public data!: T;

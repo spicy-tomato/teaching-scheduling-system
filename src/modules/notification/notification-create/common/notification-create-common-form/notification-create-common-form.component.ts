@@ -9,7 +9,7 @@ import {
 import { SubFormBase } from '@modules/core/base/sub-form.base';
 import { Store } from '@ngrx/store';
 import { filter, take, tap } from 'rxjs/operators';
-import { EApiStatus } from 'src/shared/enums/api-status.enum';
+import { EApiStatus } from '@shared/enums';
 import { NotificationCreateCommonFormModel } from 'src/shared/models/notification/notification-create/notification-create-common-form.model';
 import * as fromNotificationCreate from '../../state';
 

@@ -6,7 +6,7 @@ import { filter, take, takeUntil, tap } from 'rxjs/operators';
 
 import { SubFormBase } from '@modules/core/base/sub-form.base';
 import { ICanDeactivateComponent } from '@modules/core/base/can-deactivate.base';
-import { EApiStatus } from 'src/shared/enums/api-status.enum';
+import { EApiStatus } from '@shared/enums';
 import { NotificationCreateShellComponent } from '../../shell/notification-create-shell.component';
 import * as fromNotificationCreate from '../../state';
 import { NotificationCreateClassModel } from 'src/shared/models/notification/notification-create/notification-create-class.model';
