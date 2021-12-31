@@ -23,6 +23,7 @@ import * as fromAppShell from '@modules/core/components/app-shell/state';
 import * as fromSchedule from '@modules/schedule/state';
 import { fadeIn } from '@animations/fade.animation';
 import { ScheduleFilter } from 'src/shared/models';
+import { ScheduleHelper } from 'src/shared/helpers/schedule.helper';
 
 @Component({
   selector: 'tss-schedule-header',
@@ -217,7 +218,13 @@ export class ScheduleHeaderComponent
         tap(([_, view, filter]) => {
           const today = new Date();
 
-          if (!this.dayInCurrentView(view, today)) {
+          if (
+            !ScheduleHelper.dayInCurrentView(
+              this.scheduleComponent,
+              view,
+              today
+            )
+          ) {
             this.scheduleComponent.selectedDate = today;
             this.store.dispatch(
               fromSchedule.changeMonth({
@@ -273,7 +280,9 @@ export class ScheduleHeaderComponent
     this.activeToday$ = combineLatest([this.selectedDate$, this.view$]).pipe(
       delay(0),
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      map(([_, view]) => this.dayInCurrentView(view, new Date()))
+      map(([_, view]) =>
+        ScheduleHelper.dayInCurrentView(this.scheduleComponent, view)
+      )
     );
   }
 
@@ -281,21 +290,6 @@ export class ScheduleHeaderComponent
     this.showDepartmentSchedule = filter.showDepartmentSchedule;
     this.filteredTeachers = filter.teachers;
     this.filteredModules = filter.modules;
-  }
-
-  private dayInCurrentView(view: View, date: Date): boolean {
-    const schedule = this.scheduleComponent;
-    const currentViewDates = schedule.getCurrentViewDates();
-    const first = currentViewDates[0];
-    const last = currentViewDates[currentViewDates.length - 1];
-
-    return (
-      (view !== 'Day' && first <= date && date <= last) ||
-      (view === 'Day' &&
-        first.getDate() === date.getDate() &&
-        first.getMonth() === date.getMonth() &&
-        first.getFullYear() === date.getFullYear())
-    );
   }
 
   private monthDateRange(): string {

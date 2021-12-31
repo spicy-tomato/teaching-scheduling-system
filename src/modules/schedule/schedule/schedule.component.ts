@@ -41,6 +41,8 @@ import { ExamEditorDialogComponent } from '../shared/exam-editor-dialog/exam-edi
 import { EApiStatus } from 'src/shared/enums/api-status.enum';
 import { StudyEditorDialogComponent } from '../shared/study-editor-dialog/study-editor-dialog.component';
 import { EjsScheduleModel } from 'src/shared/models';
+import { ScheduleHelper } from 'src/shared/helpers/schedule.helper';
+import { DateHelper } from 'src/shared/helpers/date.helper';
 
 loadCldr(numberingSystems, gregorian, numbers, timeZoneNames);
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
@@ -156,6 +158,28 @@ export class TssScheduleComponent
         distinctUntilChanged(),
         filter((view) => !!view),
         tap((view) => {
+          const today = new Date();
+          if (
+            view !== 'Month' &&
+            ScheduleHelper.dayInCurrentView(
+              this.scheduleComponent,
+              this.scheduleComponent.currentView,
+              today
+            )
+          ) {
+            this.scheduleComponent.selectedDate = today;
+          } else if (
+            view === 'Month' &&
+            DateHelper.weekIncludedByTwoMonths(today) &&
+            ScheduleHelper.dayInCurrentView(
+              this.scheduleComponent,
+              this.scheduleComponent.currentView,
+              today
+            )
+          ) {
+            today.setDate(today.getDate() + 7);
+            this.scheduleComponent.selectedDate = today;
+          }
           this.scheduleComponent.changeView(view);
         }),
         takeUntil(this.destroy$)

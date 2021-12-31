@@ -1,3 +1,5 @@
+import { TuiDay } from '@taiga-ui/cdk';
+
 export class DateHelper {
   public static beautifyTime(dt: Date): string {
     const hours = `0${dt.getHours()}`.slice(-2);
@@ -52,5 +54,25 @@ export class DateHelper {
     end.setMinutes(map[shift].end[1]);
 
     return [date, end];
+  }
+
+  public static toTuiDay(date: Date): TuiDay {
+    return new TuiDay(date.getFullYear(), date.getMonth(), date.getDate());
+  }
+
+  public static weekIncludedByTwoMonths(date: Date): boolean {
+    const dow = date.getDay();
+    const first = new Date(date);
+    const last = new Date(date);
+    const lastSunday = date.getDate() - dow;
+
+    if (dow) {
+      first.setDate(lastSunday + 1);
+      last.setDate(lastSunday + 1);
+    } else {
+      first.setDate(date.getDate() - 6);
+    }
+
+    return first.getMonth() === last.getMonth();
   }
 }
