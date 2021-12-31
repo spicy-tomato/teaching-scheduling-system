@@ -13,7 +13,7 @@ import { TuiValidationError } from '@taiga-ui/cdk';
 import { TuiNotification, TuiNotificationsService } from '@taiga-ui/core';
 import { BehaviorSubject, merge, Observable } from 'rxjs';
 import { filter, map, takeUntil, tap } from 'rxjs/operators';
-import { EApiStatus } from 'src/shared/enums/api-status.enum';
+import { EApiStatus } from '@shared/enums';
 import { Md5 } from 'ts-md5';
 import * as fromChangePassword from './state';
 import * as fromAppShell from '@modules/core/components/app-shell/state';

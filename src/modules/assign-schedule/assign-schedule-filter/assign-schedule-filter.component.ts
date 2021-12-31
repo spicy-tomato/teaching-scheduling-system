@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder } from '@angular/forms';
-import { CoreConstant } from '@constants/core/core.constant';
+import { CoreConstant } from '@shared/constants';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { map, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
-import { ArrayHelper } from 'src/shared/helpers/array.helper';
+import { ArrayHelper } from '@shared/helpers';
 import * as fromAssignSchedule from '../state';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
 import {
@@ -13,7 +13,7 @@ import {
   TuiStringHandler,
   TuiContextWithImplicit,
 } from '@taiga-ui/cdk';
-import { EApiStatus } from 'src/shared/enums/api-status.enum';
+import { EApiStatus } from '@shared/enums';
 import {
   AcademicYear,
   Nullable,

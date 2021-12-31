@@ -20,15 +20,14 @@ import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
 
 import { environment } from '@environments/environment';
 import { AppSettingsService } from '@services/core/app-settings.service';
-import { loadAppSettings } from 'src/shared/factories/load-app-settings.factory';
+import { loadAppSettings } from '@shared/factories';
 import { InterceptorsModule } from 'src/shared/interceptors/interceptors.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routes';
 import { HeaderInterceptor } from 'src/shared/interceptors/header.interceptor';
 import { UserInfoResolve } from '@resolves/user-info.resolve';
 import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
-import { maxLengthFactory } from '@factories/max-length.factory';
-import { requiredFactory } from '@factories/required.factory';
+import { maxLengthFactory, requiredFactory } from '@shared/factories';
 
 const TAIGA_UI = [TuiRootModule, TuiDialogModule, TuiNotificationsModule];
 const NGRX = [

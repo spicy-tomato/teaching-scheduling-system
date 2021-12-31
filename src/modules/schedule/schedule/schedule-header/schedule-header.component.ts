@@ -16,14 +16,13 @@ import { combineLatest, Observable, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { delay, map, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
-import { PermissionConstant } from '@constants/core/permission.constant';
+import { PermissionConstant } from '@shared/constants';
 import { ScheduleComponent, View } from '@syncfusion/ej2-angular-schedule';
-import { DateHelper } from 'src/shared/helpers/date.helper';
+import { DateHelper, ScheduleHelper } from '@shared/helpers';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
 import * as fromSchedule from '@modules/schedule/state';
-import { fadeIn } from '@animations/fade.animation';
+import { fadeIn } from '@shared/animations';
 import { ScheduleFilter } from 'src/shared/models';
-import { ScheduleHelper } from 'src/shared/helpers/schedule.helper';
 
 @Component({
   selector: 'tss-schedule-header',

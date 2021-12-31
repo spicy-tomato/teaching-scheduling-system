@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { LocalStorageKeyConstant } from '@constants/core/local-storage-key.constant';
+import { LocalStorageKeyConstant } from '@shared/constants';
 import { AcademicYear, Nullable, StorageTimeoutModel } from 'src/shared/models';
 import { BaseDataService } from './base-data.service';
 import { LocalStorageService } from './storage/local-storage.service';

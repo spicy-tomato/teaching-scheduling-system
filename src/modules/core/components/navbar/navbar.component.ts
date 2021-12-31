@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { NavbarConstants } from '@constants/components/navbar.constants';
+import { NavbarConstants } from '@shared/constants';
 import { TokenService } from '@services/core/token.service';
 import { Store } from '@ngrx/store';
 import * as fromAppShell from '@modules/core/components/app-shell/state';

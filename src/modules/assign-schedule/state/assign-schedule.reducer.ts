@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
-import { EApiStatus } from 'src/shared/enums/api-status.enum';
-import { ArrayHelper } from 'src/shared/helpers/array.helper';
+import { EApiStatus } from '@shared/enums';
+import { ArrayHelper } from '@shared/helpers';
 import { ModuleClass } from 'src/shared/models';
 import { AssignScheduleState } from '.';
 import * as ApiAction from './assign-schedule.api.actions';

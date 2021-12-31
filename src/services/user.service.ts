@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { TeacherDta } from 'src/shared/dtas/teacher.dta';
+import { TeacherDta } from '@shared/dtas';
 import { ChangePassword, SendFeedback, Teacher } from 'src/shared/models';
 import { BaseDataService } from './core/base-data.service';
 

@@ -1,4 +1,4 @@
-import { ExamScheduleDta } from 'src/shared/dtas/exam-schedule.dta';
+import { ExamScheduleDta } from '@shared/dtas';
 import { EjsScheduleModel } from './ejs-schedule.model';
 import { ScheduleModel } from './schedule.model';
 

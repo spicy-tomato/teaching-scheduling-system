@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { EApiStatus } from 'src/shared/enums/api-status.enum';
+import { EApiStatus } from '@shared/enums';
 import { ChangePasswordState } from '.';
 import * as ApiAction from './change-password.api.actions';
 import * as PageAction from './change-password.page.actions';

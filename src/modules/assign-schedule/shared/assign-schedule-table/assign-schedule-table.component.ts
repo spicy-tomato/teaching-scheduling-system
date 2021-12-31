@@ -11,13 +11,13 @@ import {
   FormBuilder,
   FormGroup,
 } from '@angular/forms';
-import { CoreConstant } from '@constants/core/core.constant';
+import { CoreConstant } from '@shared/constants';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { Action, Store } from '@ngrx/store';
 import { defaultSort } from '@taiga-ui/addon-table';
 import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { EApiStatus } from 'src/shared/enums/api-status.enum';
+import { EApiStatus } from '@shared/enums';
 import { ModuleClass } from 'src/shared/models';
 import * as fromAssignSchedule from '../../state';
 

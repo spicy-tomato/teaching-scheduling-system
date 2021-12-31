@@ -20,7 +20,7 @@ import { BaseComponent } from '@modules/core/base/base.component';
 import isEmpty from 'lodash/isEmpty';
 
 import * as fromNotificationCreate from '../state';
-import { EApiStatus } from 'src/shared/enums/api-status.enum';
+import { EApiStatus } from '@shared/enums';
 
 import {
   TuiDialogContext,

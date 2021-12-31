@@ -5,18 +5,19 @@ import {
   Injector,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { EditorConstant } from '@constants/components/editor.constant';
 import {
+  EditorConstant,
   FeedbackConstant,
   FeedbackItem,
-} from '@constants/components/feedback-topic.constant';
-import { sqlDateFactory } from '@factories/sql-date.factory';
+} from '@shared/constants';
+
+import { sqlDateFactory } from '@shared/factories';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';
 import { TuiDialogService } from '@taiga-ui/core';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, takeUntil, tap } from 'rxjs/operators';
-import { EApiStatus } from 'src/shared/enums/api-status.enum';
+import { EApiStatus } from '@shared/enums';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import * as fromFeedback from './state';
 import { SuccessDialogComponent } from './_shared/success-dialog/success-dialog.component';

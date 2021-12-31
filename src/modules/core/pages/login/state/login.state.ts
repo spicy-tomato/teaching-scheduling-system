@@ -1,4 +1,4 @@
-import { EApiStatus } from 'src/shared/enums/api-status.enum';
+import { EApiStatus } from '@shared/enums';
 
 export interface LoginState {
   status: EApiStatus;

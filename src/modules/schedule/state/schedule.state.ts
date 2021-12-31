@@ -1,6 +1,6 @@
 import { View } from '@syncfusion/ej2-angular-schedule';
 import { TuiMonth } from '@taiga-ui/cdk';
-import { EApiStatus } from 'src/shared/enums/api-status.enum';
+import { EApiStatus } from '@shared/enums';
 import {
   Activatable,
   ScheduleFilter,

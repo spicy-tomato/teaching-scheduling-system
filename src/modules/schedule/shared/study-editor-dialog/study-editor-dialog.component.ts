@@ -6,7 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ScheduleService } from '@services/schedule.service';
-import { DateHelper } from 'src/shared/helpers/date.helper';
+import { DateHelper } from '@shared/helpers';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { EjsScheduleModel, Nullable } from 'src/shared/models';
 import { TuiDialogContext } from '@taiga-ui/core';

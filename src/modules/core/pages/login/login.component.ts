@@ -13,8 +13,8 @@ import { debounceTime, filter, mergeMap, takeUntil, tap } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 import * as fromLogin from './state';
-import { EApiStatus } from 'src/shared/enums/api-status.enum';
-import { slideUp } from 'src/shared/animations/slide-up.animation';
+import { EApiStatus } from '@shared/enums';
+import { slideUp } from '@shared/animations';
 import { Md5 } from 'ts-md5';
 import { LoginForm, Nullable } from 'src/shared/models';
 

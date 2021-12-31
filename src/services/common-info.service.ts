@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { FacultyDta } from 'src/shared/dtas/faculty.dta';
+import { FacultyDta } from '@shared/dtas';
 import {
   Faculty,
   AcademicYear,

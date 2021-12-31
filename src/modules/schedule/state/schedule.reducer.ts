@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { TuiMonth } from '@taiga-ui/cdk';
-import { EApiStatus } from 'src/shared/enums/api-status.enum';
+import { EApiStatus } from '@shared/enums';
 import { ScheduleState } from '.';
 import * as ApiAction from './schedule.api.actions';
 import * as PageAction from './schedule.page.actions';

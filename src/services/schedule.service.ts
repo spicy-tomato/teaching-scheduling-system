@@ -2,8 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ExamScheduleDta } from 'src/shared/dtas/exam-schedule.dta';
-import { StudyScheduleDta } from 'src/shared/dtas/study-schedule.dta';
+import { ExamScheduleDta, StudyScheduleDta } from '@shared/dtas';
 import {
   ExamScheduleModel,
   SearchSchedule,

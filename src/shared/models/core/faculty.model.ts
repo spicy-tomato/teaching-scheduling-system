@@ -1,4 +1,4 @@
-import { FacultyDta } from 'src/shared/dtas/faculty.dta';
+import { FacultyDta } from '@shared/dtas';
 
 export class Faculty {
   public readonly id!: string;

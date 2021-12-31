@@ -1,4 +1,4 @@
-import { ManagingClassDta } from 'src/shared/dtas/managing-class.dta';
+import { ManagingClassDta } from '@shared/dtas';
 
 export class ManagingClass {
   public readonly academicYear!: number;

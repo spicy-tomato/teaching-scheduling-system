@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PermissionConstant } from '@constants/core/permission.constant';
-import { PermissionGuard } from '@guards/permission.guard';
+import { PermissionConstant } from '@shared/constants';
+import { PermissionGuard } from '@shared/guards';
 import { AppShellComponent } from './app-shell.component';
 
 const routes: Routes = [
