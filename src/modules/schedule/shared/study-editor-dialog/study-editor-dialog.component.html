@@ -28,7 +28,7 @@
   <tui-expand [expanded]="requestingChangeSchedule" formGroupName="request">
     <h3 class="tui-form__header">Yêu cầu thay đổi lịch giảng</h3>
     <div class="tui-form__row">
-      <tui-input-date formControlName="date"> Ngày học </tui-input-date>
+      <tui-input-date formControlName="date"> Chọn ngày học </tui-input-date>
     </div>
     <div class="tui-form__row">
       <tui-select [valueContent]="shiftSelectContent" formControlName="shift">
@@ -45,6 +45,15 @@
           </tui-opt-group>
         </tui-data-list>
       </tui-select>
+    </div>
+    <div class="tui-form__row">
+      <tui-combo-box *ngrxLet="rooms$ as rooms" formControlName="room">
+        Chọn phòng:
+        <tui-data-list-wrapper
+          *tuiDataList
+          [items]="rooms | tuiFilterByInput"
+        ></tui-data-list-wrapper>
+      </tui-combo-box>
     </div>
   </tui-expand>
 

@@ -7,12 +7,7 @@ import { ScheduleModule } from '@syncfusion/ej2-angular-schedule';
 import * as fromSchedule from './state';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { ReactiveComponentModule } from '@ngrx/component';
-import {
-  TuiCalendarMonthModule,
-  TuiDataListWrapperModule,
-  TuiMultiSelectModule,
-} from '@taiga-ui/kit';
+import { TuiCalendarMonthModule, TuiMultiSelectModule } from '@taiga-ui/kit';
 import { TuiHostedDropdownModule } from '@taiga-ui/core';
 import { ScheduleHeaderComponent } from './schedule/schedule-header/schedule-header.component';
 import { TuiRadioLabeledModule } from '@taiga-ui/kit';
@@ -21,7 +16,6 @@ import { SharedScheduleModule } from './shared/shared-schedule.module';
 import { TuiActiveZoneModule } from '@taiga-ui/cdk';
 
 const NGRX = [
-  ReactiveComponentModule,
   StoreModule.forFeature(
     fromSchedule.scheduleFeatureKey,
     fromSchedule.scheduleReducer
@@ -34,7 +28,6 @@ const TAIGA_UI = [
   TuiRadioLabeledModule,
   TuiMultiSelectModule,
   TuiActiveZoneModule,
-  TuiDataListWrapperModule,
 ];
 
 @NgModule({

@@ -5,7 +5,10 @@ import { ExamEditorDialogComponent } from './exam-editor-dialog/exam-editor-dial
 import { StudyEditorDialogComponent } from './study-editor-dialog/study-editor-dialog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
+  TuiComboBoxModule,
+  TuiDataListWrapperModule,
   TuiFieldErrorModule,
+  TuiFilterByInputPipeModule,
   TuiInputDateModule,
   TuiInputDateTimeModule,
   TuiInputModule,
@@ -21,6 +24,13 @@ import {
 } from '@taiga-ui/core';
 import { PipesModule } from '@pipes/pipes.module';
 import { ShiftPipe } from './study-editor-dialog/shift.pipe';
+import { ReactiveComponentModule } from '@ngrx/component';
+
+const EXPORT = [CommonModule, FormsModule, ReactiveFormsModule, PipesModule];
+const COMPONENTS = [ExamEditorDialogComponent, StudyEditorDialogComponent];
+
+const EXPORT_NGRX = [ReactiveComponentModule];
+const NGRX = [...EXPORT_NGRX];
 
 const EXPORT_TAIGA_UI = [
   TuiButtonModule,
@@ -28,6 +38,7 @@ const EXPORT_TAIGA_UI = [
   TuiExpandModule,
   TuiSelectModule,
   TuiDataListModule,
+  TuiDataListWrapperModule,
 ];
 const TAIGA_UI = [
   TuiInputModule,
@@ -36,14 +47,20 @@ const TAIGA_UI = [
   TuiHintControllerModule,
   TuiFieldErrorModule,
   TuiInputDateModule,
+  TuiComboBoxModule,
+  TuiFilterByInputPipeModule,
   ...EXPORT_TAIGA_UI,
 ];
-const EXPORT = [CommonModule, FormsModule, ReactiveFormsModule, PipesModule];
-const COMPONENTS = [ExamEditorDialogComponent, StudyEditorDialogComponent];
 
 @NgModule({
-  imports: [...EXPORT, ...TAIGA_UI],
+  imports: [...EXPORT, ...TAIGA_UI, ...NGRX],
   declarations: [FilterSelfPipe, ...COMPONENTS, ShiftPipe],
-  exports: [FilterSelfPipe, ...COMPONENTS, ...EXPORT, ...EXPORT_TAIGA_UI],
+  exports: [
+    FilterSelfPipe,
+    ...COMPONENTS,
+    ...EXPORT,
+    ...EXPORT_NGRX,
+    ...EXPORT_TAIGA_UI,
+  ],
 })
 export class SharedScheduleModule {}

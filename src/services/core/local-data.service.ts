@@ -55,8 +55,8 @@ export class LocalDataService extends BaseDataService {
     return null;
   }
 
-  public setCurrentTerm(commonInfo?: string): void {
-    if (!commonInfo) {
+  public setCurrentTerm(currentTerm?: string): void {
+    if (!currentTerm) {
       return;
     }
 
@@ -64,9 +64,39 @@ export class LocalDataService extends BaseDataService {
       LocalStorageKeyConstant.CURRENT_TERM,
       JSON.stringify(
         new StorageTimeoutModel(
-          commonInfo,
+          currentTerm,
           LocalStorageKeyConstant.LONG_TIMEOUT
         )
+      )
+    );
+  }
+
+  /** Room */
+  public getRooms(): Nullable<string[]> {
+    const json = this.localStorageService.getItemWithType<
+      StorageTimeoutModel<string[]>
+    >(LocalStorageKeyConstant.ROOM);
+
+    if (json) {
+      const cache = StorageTimeoutModel.fromObject(json);
+      if (cache.isValid()) {
+        return cache.data;
+      }
+      this.localStorageService.removeItem(LocalStorageKeyConstant.ROOM);
+    }
+
+    return null;
+  }
+
+  public setRooms(rooms?: string[]): void {
+    if (!rooms) {
+      return;
+    }
+
+    this.localStorageService.setItem(
+      LocalStorageKeyConstant.ROOM,
+      JSON.stringify(
+        new StorageTimeoutModel(rooms, LocalStorageKeyConstant.MEDIUM_TIMEOUT)
       )
     );
   }

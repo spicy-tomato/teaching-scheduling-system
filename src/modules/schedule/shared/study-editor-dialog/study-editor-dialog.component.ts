@@ -1,9 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-} from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { ScheduleService } from '@services/schedule.service';
 import {
   TuiAppearance,
@@ -15,6 +11,11 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { EjsScheduleModel, Nullable } from 'src/shared/models';
 import { CoreConstant } from '@shared/constants';
 import { sameValueValidator } from 'src/shared/validators';
+import { Observable } from 'rxjs';
+import { BaseComponent } from '@modules/core/base/base.component';
+import * as fromAppShell from '@modules/core/components/app-shell/state';
+import { Store } from '@ngrx/store';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   templateUrl: './study-editor-dialog.component.html',
@@ -31,12 +32,13 @@ import { sameValueValidator } from 'src/shared/validators';
     },
   ],
 })
-export class StudyEditorDialogComponent {
+export class StudyEditorDialogComponent extends BaseComponent {
   /** PUBLIC PROPERTIES */
   public form!: FormGroup;
   public requestingChangeSchedule = false;
   public sending = false;
   public validRequestChangeSchedule = true;
+  public rooms$: Observable<string[]>;
 
   public readonly shifts = CoreConstant.SHIFTS;
   public readonly shiftKeys = Object.keys(CoreConstant.SHIFTS);
@@ -53,11 +55,18 @@ export class StudyEditorDialogComponent {
 
   /** CONSTRUCTOR */
   constructor(
+    private fb: FormBuilder,
+    private scheduleService: ScheduleService,
     @Inject(POLYMORPHEUS_CONTEXT)
     private readonly context: TuiDialogContext<string, EjsScheduleModel>,
-    private scheduleService: ScheduleService,
-    private fb: FormBuilder
+    appShellStore: Store<fromAppShell.AppShellState>
   ) {
+    super();
+
+    this.rooms$ = appShellStore
+      .select(fromAppShell.selectRooms)
+      .pipe(takeUntil(this.destroy$));
+
     this.initForm(context.data);
   }
 
@@ -98,9 +107,9 @@ export class StudyEditorDialogComponent {
   }
 
   /** PRIVATE METHODS */
-  private initForm(data?: EjsScheduleModel): void {
-    const startDate = data?.StartTime as Date;
-    const endDate = data?.EndTime as Date;
+  private initForm(data: EjsScheduleModel): void {
+    const startDate = data.StartTime as Date;
+    const endDate = data.EndTime as Date;
     const today = new Date();
     const startTuiDate = startDate
       ? DateHelper.toTuiDay(startDate)
@@ -108,18 +117,20 @@ export class StudyEditorDialogComponent {
     const endTuiDate = endDate
       ? DateHelper.toTuiDay(endDate)
       : DateHelper.toTuiDay(today);
+    const room = data.Location;
+
     const initialRequest = {
-      note: data?.Note,
+      note: data.Note,
       date: startTuiDate,
-      shift: data?.Shift ?? '1',
-      room: data?.Location ?? '',
+      shift: data.Shift ?? '1',
+      room,
     };
 
     this.form = this.fb.group({
-      id: [data?.Id],
-      subject: [data?.Subject],
-      location: [data?.Location],
-      people: [data?.People?.[0]],
+      id: [data.Id],
+      subject: [data.Subject],
+      location: [room],
+      people: [data.People?.[0]],
       start: [[startTuiDate, DateHelper.beautifyTime(startDate ?? today)]],
       end: [[endTuiDate, DateHelper.beautifyTime(endDate ?? today)]],
       request: this.fb.group(
