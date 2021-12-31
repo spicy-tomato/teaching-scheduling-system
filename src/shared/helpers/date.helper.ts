@@ -38,4 +38,20 @@ export class DateHelper {
   public static toTuiDay(date: Date): TuiDay {
     return new TuiDay(date.getFullYear(), date.getMonth(), date.getDate());
   }
+
+  public static weekIncludedByTwoMonths(date: Date): boolean {
+    const dow = date.getDay();
+    const first = new Date(date);
+    const last = new Date(date);
+    const lastSunday = date.getDate() - dow;
+
+    if (dow) {
+      first.setDate(lastSunday + 1);
+      last.setDate(lastSunday + 1);
+    } else {
+      first.setDate(date.getDate() - 6);
+    }
+
+    return first.getMonth() === last.getMonth();
+  }
 }
