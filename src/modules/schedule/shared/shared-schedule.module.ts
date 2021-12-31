@@ -14,6 +14,7 @@ import {
   TuiInputModule,
   TuiSelectModule,
   TuiTextAreaModule,
+  TuiUnfinishedValidatorModule,
 } from '@taiga-ui/kit';
 import {
   TuiButtonModule,
@@ -49,6 +50,7 @@ const TAIGA_UI = [
   TuiInputDateModule,
   TuiComboBoxModule,
   TuiFilterByInputPipeModule,
+  TuiUnfinishedValidatorModule,
   ...EXPORT_TAIGA_UI,
 ];
 

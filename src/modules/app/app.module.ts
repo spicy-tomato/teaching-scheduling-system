@@ -1,6 +1,6 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { of } from 'rxjs';
@@ -20,7 +20,12 @@ import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
 
 import { environment } from '@environments/environment';
 import { AppSettingsService } from '@services/core/app-settings.service';
-import { loadAppSettings } from '@shared/factories';
+import {
+  loadAppSettings,
+  maxLengthFactory,
+  requiredFactory,
+  notContainValueFactory,
+} from '@shared/factories';
 import { InterceptorsModule } from 'src/shared/interceptors/interceptors.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routes';
@@ -73,6 +78,7 @@ const NGRX = [
       useValue: {
         maxlength: maxLengthFactory,
         required: requiredFactory,
+        notContainValue: notContainValueFactory,
       },
     },
   ],

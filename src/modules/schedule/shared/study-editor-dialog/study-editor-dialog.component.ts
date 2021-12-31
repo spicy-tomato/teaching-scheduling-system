@@ -10,12 +10,15 @@ import { DateHelper } from '@shared/helpers';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { EjsScheduleModel, Nullable } from 'src/shared/models';
 import { CoreConstant } from '@shared/constants';
-import { sameValueValidator } from 'src/shared/validators';
+import {
+  notContainValueValidator,
+  sameValueValidator,
+} from 'src/shared/validators';
 import { Observable } from 'rxjs';
 import { BaseComponent } from '@modules/core/base/base.component';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
 import { Store } from '@ngrx/store';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 
 @Component({
   templateUrl: './study-editor-dialog.component.html',
@@ -67,7 +70,7 @@ export class StudyEditorDialogComponent extends BaseComponent {
       .select(fromAppShell.selectRooms)
       .pipe(takeUntil(this.destroy$));
 
-    this.initForm(context.data);
+    this.triggerInitForm(context.data);
   }
 
   /** PUBLIC METHODS */
@@ -107,7 +110,11 @@ export class StudyEditorDialogComponent extends BaseComponent {
   }
 
   /** PRIVATE METHODS */
-  private initForm(data: EjsScheduleModel): void {
+  private triggerInitForm(data: EjsScheduleModel): void {
+    this.rooms$.pipe(tap((rooms) => this.initForm(data, rooms))).subscribe();
+  }
+
+  private initForm(data: EjsScheduleModel, rooms: string[]): void {
     const startDate = data.StartTime as Date;
     const endDate = data.EndTime as Date;
     const today = new Date();
@@ -138,7 +145,10 @@ export class StudyEditorDialogComponent extends BaseComponent {
           note: [initialRequest.note],
           shift: [initialRequest.shift],
           date: [initialRequest.date],
-          room: [initialRequest.room],
+          room: [
+            initialRequest.room,
+            notContainValueValidator(rooms, 'Mã phòng'),
+          ],
         },
         {
           validators: sameValueValidator(initialRequest),

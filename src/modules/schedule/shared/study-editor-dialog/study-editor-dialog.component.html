@@ -28,7 +28,13 @@
   <tui-expand [expanded]="requestingChangeSchedule" formGroupName="request">
     <h3 class="tui-form__header">Yêu cầu thay đổi lịch giảng</h3>
     <div class="tui-form__row">
-      <tui-input-date formControlName="date"> Chọn ngày học </tui-input-date>
+      <tui-input-date
+        formControlName="date"
+        tuiUnfinishedValidator="Ngày không hợp lệ!"
+      >
+        Chọn ngày học
+      </tui-input-date>
+      <tui-field-error formControlName="date"></tui-field-error>
     </div>
     <div class="tui-form__row">
       <tui-select [valueContent]="shiftSelectContent" formControlName="shift">
@@ -54,6 +60,7 @@
           [items]="rooms | tuiFilterByInput"
         ></tui-data-list-wrapper>
       </tui-combo-box>
+      <tui-field-error formControlName="room"></tui-field-error>
     </div>
   </tui-expand>
 
