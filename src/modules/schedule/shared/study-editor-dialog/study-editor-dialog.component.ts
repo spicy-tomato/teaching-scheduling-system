@@ -15,6 +15,7 @@ import { DateHelper } from 'src/shared/helpers/date.helper';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { EjsScheduleModel, Nullable } from 'src/shared/models';
 import { CoreConstant } from '@constants/core/core.constant';
+import { sameValueValidator } from 'src/shared/validators';
 
 @Component({
   templateUrl: './study-editor-dialog.component.html',
@@ -36,7 +37,6 @@ export class StudyEditorDialogComponent {
   public form!: FormGroup;
   public requestingChangeSchedule = false;
   public sending = false;
-  public initialNote?: string;
   public validRequestChangeSchedule = true;
 
   public readonly shifts = CoreConstant.SHIFTS;
@@ -109,7 +109,12 @@ export class StudyEditorDialogComponent {
     const endTuiDate = endDate
       ? DateHelper.toTuiDay(endDate)
       : DateHelper.toTuiDay(today);
-    this.initialNote = data?.Note as string;
+    const initialRequest = {
+      note: data?.Note,
+      date: startTuiDate,
+      shift: data?.Shift ?? '1',
+      room: data?.Location ?? '',
+    };
 
     this.form = this.fb.group({
       id: [data?.Id],
@@ -118,9 +123,17 @@ export class StudyEditorDialogComponent {
       people: [data?.People?.[0]],
       start: [[startTuiDate, DateHelper.beautifyTime(startDate ?? today)]],
       end: [[endTuiDate, DateHelper.beautifyTime(endDate ?? today)]],
-      note: [this.initialNote, Validators.maxLength(this.noteMaxLength)],
-      shift: [data?.Shift ?? '1'],
-      date: [startTuiDate],
+      request: this.fb.group(
+        {
+          note: [initialRequest.note],
+          shift: [initialRequest.shift],
+          date: [initialRequest.date],
+          room: [initialRequest.room],
+        },
+        {
+          validators: sameValueValidator(initialRequest),
+        }
+      ),
     });
 
     this.validRequestChangeSchedule = startDate > new Date();
