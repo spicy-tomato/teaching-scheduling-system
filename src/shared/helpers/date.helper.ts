@@ -1,4 +1,4 @@
-import { CoreConstant } from '@constants/core/core.constant';
+import { CoreConstant } from '@shared/constants';
 import { TuiDay } from '@taiga-ui/cdk';
 
 export class DateHelper {

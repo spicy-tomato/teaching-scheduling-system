@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { CoreConstant } from '@constants/core/core.constant';
+import { CoreConstant } from '@shared/constants';
 import { BeautifyTimePipe } from '@pipes/beautify-date-time.pipe';
 
 @Pipe({
