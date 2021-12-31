@@ -70,4 +70,9 @@ export interface EjsScheduleModel {
    * Color of event
    */
   Color?: string;
+
+  /**
+   * Color of event
+   */
+  Shift?: string;
 }

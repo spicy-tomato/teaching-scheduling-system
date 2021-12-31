@@ -6,22 +6,41 @@ import {
   Validators,
 } from '@angular/forms';
 import { ScheduleService } from '@services/schedule.service';
-
 import {
+  TuiAppearance,
+  TuiDialogContext,
+  TUI_BUTTON_OPTIONS,
+} from '@taiga-ui/core';
 import { DateHelper } from 'src/shared/helpers/date.helper';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { EjsScheduleModel, Nullable } from 'src/shared/models';
+import { CoreConstant } from '@constants/core/core.constant';
 
 @Component({
   templateUrl: './study-editor-dialog.component.html',
   styleUrls: ['./study-editor-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: TUI_BUTTON_OPTIONS,
+      useValue: {
+        shape: null,
+        appearance: TuiAppearance.Primary,
+        size: 'm',
+      },
+    },
+  ],
 })
 export class StudyEditorDialogComponent {
   /** PUBLIC PROPERTIES */
   public form!: FormGroup;
-  public updating = false;
+  public requestingChangeSchedule = false;
+  public sending = false;
   public initialNote?: string;
+  public validRequestChangeSchedule = true;
+
+  public readonly shifts = CoreConstant.SHIFTS;
+  public readonly shiftKeys = Object.keys(CoreConstant.SHIFTS);
   public readonly noteMaxLength = 1000;
 
   /** GETTERS */
@@ -49,20 +68,28 @@ export class StudyEditorDialogComponent {
     const note = this.form.get('note')?.value as string;
 
     if (id) {
-      this.updating = true;
+      this.sending = true;
       this.scheduleService.updateNote({ id, note }).subscribe(
         () => {
-          this.updating = false;
+          this.sending = false;
           this.context.completeWith(note);
         },
         () => {
-          this.updating = false;
+          this.sending = false;
           this.onCancel();
         }
       );
     } else {
       this.onCancel();
     }
+  }
+
+  public onClickRequestingChangeSchedule(): void {
+    this.requestingChangeSchedule = true;
+  }
+
+  public onClickCancelRequestingChangeSchedule(): void {
+    this.requestingChangeSchedule = false;
   }
 
   public onCancel(): void {
@@ -92,6 +119,10 @@ export class StudyEditorDialogComponent {
       start: [[startTuiDate, DateHelper.beautifyTime(startDate ?? today)]],
       end: [[endTuiDate, DateHelper.beautifyTime(endDate ?? today)]],
       note: [this.initialNote, Validators.maxLength(this.noteMaxLength)],
+      shift: [data?.Shift ?? '1'],
+      date: [startTuiDate],
     });
+
+    this.validRequestChangeSchedule = startDate > new Date();
   }
 }

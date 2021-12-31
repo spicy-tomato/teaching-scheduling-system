@@ -1,3 +1,6 @@
+import { CoreConstant } from '@constants/core/core.constant';
+import { TuiDay } from '@taiga-ui/cdk';
+
 export class DateHelper {
   public static beautifyTime(dt: Date): string {
     const hours = `0${dt.getHours()}`.slice(-2);
@@ -22,29 +25,7 @@ export class DateHelper {
 
   public static fromShift(date: Date, shift: string): [Date, Date] {
     const end = new Date(date.getTime());
-
-    const map: { [key: string]: { start: number[]; end: number[] } } = {
-      '1': {
-        start: [7, 0],
-        end: [9, 25],
-      },
-      '2': {
-        start: [9, 35],
-        end: [12, 0],
-      },
-      '3': {
-        start: [13, 0],
-        end: [15, 25],
-      },
-      '4': {
-        start: [15, 35],
-        end: [18, 0],
-      },
-      '5': {
-        start: [19, 0],
-        end: [21, 25],
-      },
-    };
+    const map = CoreConstant.SHIFTS;
 
     date.setHours(map[shift].start[0]);
     date.setMinutes(map[shift].start[1]);
@@ -52,5 +33,9 @@ export class DateHelper {
     end.setMinutes(map[shift].end[1]);
 
     return [date, end];
+  }
+
+  public static toTuiDay(date: Date): TuiDay {
+    return new TuiDay(date.getFullYear(), date.getMonth(), date.getDate());
   }
 }

@@ -25,37 +25,72 @@
     </tui-input>
   </div>
 
-  <!-- <div class="tui-form__row">
-    <tui-text-area
-      formControlName="note"
-      [tuiTextfieldMaxLength]="noteMaxLength"
-    >
-      Ghi chú
-    </tui-text-area>
-    <tui-field-error formControlName="note"></tui-field-error>
-  </div> -->
+  <div [class.tui-form__row]="requestingChangeSchedule">
+    <tui-expand [expanded]="requestingChangeSchedule">
+      <tui-input-date formControlName="date"> Ngày học </tui-input-date>
+      <div class="tui-form__row">
+        <tui-select [valueContent]="shiftSelectContent" formControlName="shift">
+          Chọn ca học:
+          <tui-data-list *tuiDataList>
+            <tui-opt-group>
+              <button
+                tuiOption
+                *ngFor="let shiftKey of shiftKeys"
+                [value]="shiftKey"
+              >
+                {{ shiftKey | shift }}
+              </button>
+            </tui-opt-group>
+          </tui-data-list>
+        </tui-select>
+      </div>
+    </tui-expand>
+  </div>
 
   <div class="tui-form__buttons tui-form__buttons_align_end">
-    <!-- <button
-      [showLoader]="updating"
-      [disabled]="
-        initialNote === note?.value || (!note && !initialNote) || form.invalid
-      "
-      (click)="onSubmit()"
-      tuiButton
-      size="m"
-      class="tui-form__button"
-    >
-      Lưu
-    </button> -->
-    <button
-      (click)="onCancel()"
-      tuiButton
-      appearance="outline"
-      size="m"
-      class="tui-form__button"
-    >
-      Đóng
-    </button>
+    <ng-container *ngIf="requestingChangeSchedule; else notEditing">
+      <button
+        [showLoader]="sending"
+        [disabled]="
+          initialNote === note?.value || (!note && !initialNote) || form.invalid
+        "
+        (click)="onSubmit()"
+        tuiButton
+        size="m"
+        class="tui-form__button"
+      >
+        Gửi yêu cầu
+      </button>
+      <button
+        tuiButton
+        (click)="onClickCancelRequestingChangeSchedule()"
+        appearance="outline"
+        class="tui-form__button"
+      >
+        Hủy
+      </button>
+    </ng-container>
+    <ng-template #notEditing>
+      <button
+        tuiButton
+        [hidden]="!validRequestChangeSchedule"
+        (click)="onClickRequestingChangeSchedule()"
+        class="tui-form__button"
+      >
+        Yêu cầu thay đổi giờ giảng
+      </button>
+      <button
+        tuiButton
+        (click)="onCancel()"
+        appearance="outline"
+        class="tui-form__button"
+      >
+        Đóng
+      </button>
+    </ng-template>
   </div>
 </form>
+
+<ng-template #shiftSelectContent let-shiftKey>
+  {{ shiftKey | shift }}
+</ng-template>

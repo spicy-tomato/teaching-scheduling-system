@@ -8,18 +8,12 @@ import * as fromSchedule from './state';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { ReactiveComponentModule } from '@ngrx/component';
-import { PipesModule } from '@pipes/pipes.module';
 import {
   TuiCalendarMonthModule,
-  TuiSelectModule,
-  TuiMultiSelectModule,
   TuiDataListWrapperModule,
+  TuiMultiSelectModule,
 } from '@taiga-ui/kit';
-import {
-  TuiDataListModule,
-  TuiExpandModule,
-  TuiHostedDropdownModule,
-} from '@taiga-ui/core';
+import { TuiHostedDropdownModule } from '@taiga-ui/core';
 import { ScheduleHeaderComponent } from './schedule/schedule-header/schedule-header.component';
 import { TuiRadioLabeledModule } from '@taiga-ui/kit';
 import { DirectivesModule } from '@directives/directives.module';
@@ -38,19 +32,15 @@ const TAIGA_UI = [
   TuiHostedDropdownModule,
   TuiCalendarMonthModule,
   TuiRadioLabeledModule,
-  TuiSelectModule,
-  TuiDataListModule,
   TuiMultiSelectModule,
-  TuiDataListWrapperModule,
   TuiActiveZoneModule,
-  TuiExpandModule,
+  TuiDataListWrapperModule,
 ];
 
 @NgModule({
   imports: [
     ScheduleRoutingModule,
     ScheduleModule,
-    PipesModule,
     DirectivesModule,
     SharedScheduleModule,
     ...NGRX,
