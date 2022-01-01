@@ -11,6 +11,7 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { EjsScheduleModel, Nullable } from 'src/shared/models';
 import { CoreConstant } from '@shared/constants';
 import {
+  beforeTodayValidator,
   notContainValueValidator,
   sameValueValidator,
 } from 'src/shared/validators';
@@ -19,6 +20,8 @@ import { BaseComponent } from '@modules/core/base/base.component';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
 import { Store } from '@ngrx/store';
 import { takeUntil, tap } from 'rxjs/operators';
+import { TuiDay } from '@taiga-ui/cdk';
+import { sqlDateFactory } from '@shared/factories';
 
 @Component({
   templateUrl: './study-editor-dialog.component.html',
@@ -61,7 +64,7 @@ export class StudyEditorDialogComponent extends BaseComponent {
     private fb: FormBuilder,
     private scheduleService: ScheduleService,
     @Inject(POLYMORPHEUS_CONTEXT)
-    private readonly context: TuiDialogContext<string, EjsScheduleModel>,
+    private readonly context: TuiDialogContext<boolean, EjsScheduleModel>,
     appShellStore: Store<fromAppShell.AppShellState>
   ) {
     super();
@@ -75,24 +78,36 @@ export class StudyEditorDialogComponent extends BaseComponent {
 
   /** PUBLIC METHODS */
   public onSubmit(): void {
-    const id = this.form.get('id')?.value as number;
-    const note = this.form.get('note')?.value as string;
+    const request = this.form.get('request');
+    if (!request) return;
 
-    if (id) {
-      this.sending = true;
-      this.scheduleService.updateNote({ id, note }).subscribe(
+    this.sending = true;
+
+    const idSchedule = parseInt(this.form.get('id')?.value as string);
+    const newIdRoom = request.get('room')?.value as string;
+    const newShift = request.get('shift')?.value as string;
+    const newDate = DateHelper.toDateOnlyString(
+      (request.get('date')?.value as TuiDay).toLocalNativeDate()
+    );
+
+    this.scheduleService
+      .requestChangeSchedule({
+        idSchedule,
+        newDate,
+        newIdRoom,
+        newShift,
+        timeRequest: sqlDateFactory(),
+      })
+      .subscribe(
         () => {
           this.sending = false;
-          this.context.completeWith(note);
+          this.context.completeWith(true);
         },
         () => {
           this.sending = false;
-          this.onCancel();
+          this.context.completeWith(false);
         }
       );
-    } else {
-      this.onCancel();
-    }
   }
 
   public onClickRequestingChangeSchedule(): void {
@@ -144,7 +159,7 @@ export class StudyEditorDialogComponent extends BaseComponent {
         {
           note: [initialRequest.note],
           shift: [initialRequest.shift],
-          date: [initialRequest.date],
+          date: [initialRequest.date, beforeTodayValidator()],
           room: [
             initialRequest.room,
             notContainValueValidator(rooms, 'Mã phòng'),

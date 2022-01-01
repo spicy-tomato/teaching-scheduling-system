@@ -25,6 +25,7 @@ import {
   maxLengthFactory,
   requiredFactory,
   notContainValueFactory,
+  beforeTodayFactory,
 } from '@shared/factories';
 import { InterceptorsModule } from 'src/shared/interceptors/interceptors.module';
 import { AppComponent } from './app.component';
@@ -79,6 +80,7 @@ const NGRX = [
         maxlength: maxLengthFactory,
         required: requiredFactory,
         notContainValue: notContainValueFactory,
+        beforeToday: beforeTodayFactory,
       },
     },
   ],

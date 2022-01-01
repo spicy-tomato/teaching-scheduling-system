@@ -35,7 +35,11 @@ import {
   tap,
 } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
-import { TuiDialogService } from '@taiga-ui/core';
+import {
+  TuiDialogService,
+  TuiNotification,
+  TuiNotificationsService,
+} from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { ExamEditorDialogComponent } from '../shared/exam-editor-dialog/exam-editor-dialog.component';
 import { EApiStatus } from '@shared/enums';
@@ -76,6 +80,8 @@ export class TssScheduleComponent
   constructor(
     @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
     @Inject(Injector) private readonly injector: Injector,
+    @Inject(TuiNotificationsService)
+    private readonly notificationsService: TuiNotificationsService,
     private readonly store: Store<fromSchedule.ScheduleState>
   ) {
     super();
@@ -238,7 +244,7 @@ export class TssScheduleComponent
 
   private showStudyEditorDialog(data?: EjsScheduleModel): void {
     this.dialogService
-      .open<string | undefined>(
+      .open<boolean | undefined>(
         new PolymorpheusComponent(StudyEditorDialogComponent, this.injector),
         {
           data,
@@ -247,13 +253,33 @@ export class TssScheduleComponent
         }
       )
       .pipe(
-        tap((note) => {
-          if (note !== undefined) {
-            const newData = { ...data, Note: note };
-            this.scheduleComponent.saveEvent(newData);
+        filter((x) => x !== undefined),
+        tap((success) => {
+          if (success) {
+            this.showNotificationRequestChangeSuccessful();
+          } else {
+            this.showNotificationRequestChangeError();
           }
         })
       )
+      .subscribe();
+  }
+
+  private showNotificationRequestChangeSuccessful(): void {
+    this.notificationsService
+      .show('Hãy chờ phản hồi của trưởng bộ môn', {
+        label: 'Gửi yêu cầu thành công',
+        status: TuiNotification.Success,
+      })
+      .subscribe();
+  }
+
+  private showNotificationRequestChangeError(): void {
+    this.notificationsService
+      .show('Hãy thử lại sau', {
+        label: 'Đã có lỗi xảy ra',
+        status: TuiNotification.Error,
+      })
       .subscribe();
   }
 }

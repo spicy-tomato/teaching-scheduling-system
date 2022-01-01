@@ -54,4 +54,12 @@ export class DateHelper {
 
     return first.getMonth() === last.getMonth();
   }
+
+  public static toDateOnlyString(date: Date): string {
+    return date.toISOString().split('T')[0];
+  }
+
+  public static toSqlDate(date: Date): string {
+    return date.toISOString().slice(0, 19).replace('T', ' ');
+  }
 }
