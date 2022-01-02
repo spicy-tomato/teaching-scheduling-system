@@ -37,4 +37,9 @@ export class CoreConstant {
       end: [21, 20],
     },
   };
+  public static REQUEST_CHANGE_SCHEDULE_STATUS: { [key: number]: string } = {
+    '-1': 'Đã từ chối',
+    0: 'Đang chờ phê duyệt',
+    1: 'Đã chấp thuận',
+  };
 }

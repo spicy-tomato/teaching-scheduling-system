@@ -1,0 +1,31 @@
+@import "src/styles/variables";
+
+tui-checkbox-labeled {
+  margin: 0.75rem 0;
+}
+
+tui-loader {
+  width: $content-width;
+}
+
+table {
+  th {
+    text-align: center;
+    &.border {
+      border-left: none;
+    }
+
+    tui-toggle {
+      margin-left: 0.5rem;
+    }
+  }
+
+  td {
+    button {
+      margin: 0 0.25rem;
+    }
+    ::ng-deep .wrapper {
+      white-space: nowrap;
+    }
+  }
+}

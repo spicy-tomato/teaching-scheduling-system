@@ -2,8 +2,11 @@ $nav-height: 65px;
 $sidebar-width: 190px;
 $main-view-height: calc(100vh - 65px);
 $content-height: calc(#{$main-view-height} - 62px);
+$main-view-width: calc(100vw - #{$sidebar-width});
+$content-width: calc(#{$main-view-width} - 2.5rem);
 
 $tuiPositive: var(--tui-positive);
+$tuiPositiveHover: var(--tui-positive-hover);
 $tuiWarningFill: var(--tui-warning-fill);
 $tuiWarningBg: var(--tui-warning-bg);
 $tuiWarningHover: var(--tui-warning-hover);
@@ -52,6 +55,9 @@ $u: 0.25rem;
 }
 .w-full {
   width: 100%;
+}
+.min-w-full {
+  min-width: 100%;
 }
 
 .overflow-hidden {

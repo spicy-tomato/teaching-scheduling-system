@@ -35,6 +35,11 @@ export class SidebarConstant {
       routerLink: '/assign-schedule',
       permission: PermissionConstant.ASSIGN_SCHEDULE,
     },
+    {
+      name: 'Thay đổi lịch',
+      icon: 'fas fa-exchange-alt',
+      routerLink: '/change-schedule',
+    },
     // {
     //   name: 'Nhập file',
     //   icon: 'far fa-file-import',

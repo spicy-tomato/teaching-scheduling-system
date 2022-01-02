@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ExamScheduleDta, StudyScheduleDta } from '@shared/dtas';
 import {
+  ChangeScheduleResponse,
+  ChangeScheduleSearch,
   ExamScheduleModel,
   SearchSchedule,
   StudyScheduleModel,
@@ -93,5 +95,13 @@ export class ScheduleService extends BaseDataService {
       this.url + 'fixed-schedules/create',
       ObjectHelper.toSnakeCase(body)
     );
+  }
+
+  public getChangeScheduleRequests(
+    params: ChangeScheduleSearch
+  ): Observable<ChangeScheduleResponse> {
+    return this.http.get<ChangeScheduleResponse>(this.url + 'fixed-schedules', {
+      params: { ...params },
+    });
   }
 }

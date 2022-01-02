@@ -24,7 +24,6 @@ import {
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
 import { PipesModule } from '@pipes/pipes.module';
-import { ShiftPipe } from './study-editor-dialog/shift.pipe';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 const EXPORT = [CommonModule, FormsModule, ReactiveFormsModule, PipesModule];
@@ -56,7 +55,7 @@ const TAIGA_UI = [
 
 @NgModule({
   imports: [...EXPORT, ...TAIGA_UI, ...NGRX],
-  declarations: [FilterSelfPipe, ...COMPONENTS, ShiftPipe],
+  declarations: [FilterSelfPipe, ...COMPONENTS],
   exports: [
     FilterSelfPipe,
     ...COMPONENTS,
