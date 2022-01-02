@@ -14,7 +14,17 @@ export const selectChangeSchedules = createSelector(
   (state) => state.changeSchedules
 );
 
-export const selectQuery = createSelector(
+export const selectPage = createSelector(
   feedbackSelector,
-  (state) => state.query
+  (state) => state.query.page
+);
+
+export const selectRequestQueue = createSelector(
+  feedbackSelector,
+  (state) => state.status.queue
+);
+
+export const selectPageCount = createSelector(
+  feedbackSelector,
+  (state) => state.total
 );

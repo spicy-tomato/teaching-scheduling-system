@@ -104,4 +104,18 @@ export class ScheduleService extends BaseDataService {
       params: { ...params },
     });
   }
+
+  public acceptChangeScheduleRequests(id: number): Observable<void> {
+    return this.http.put<void>(this.url + 'fixed-schedules/update', {
+      id,
+      status: '1',
+    });
+  }
+
+  public denyChangeScheduleRequests(id: number): Observable<void> {
+    return this.http.put<void>(this.url + 'fixed-schedules/update', {
+      id,
+      status: '-1',
+    });
+  }
 }

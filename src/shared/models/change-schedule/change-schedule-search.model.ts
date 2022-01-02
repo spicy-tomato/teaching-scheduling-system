@@ -1,4 +1,4 @@
 export interface ChangeScheduleSearch {
-  status?: number | string;
-  page?: number;
+  status: number | string;
+  page: number;
 }

@@ -17,9 +17,35 @@ export class RequestsEffects {
       mergeMap(({ query: params }) => {
         return this.scheduleService.getChangeScheduleRequests(params).pipe(
           map((changeSchedules) =>
-            ApiAction.loadSuccessful({ changeSchedulesResponse: changeSchedules })
+            ApiAction.loadSuccessful({
+              changeSchedulesResponse: changeSchedules,
+            })
           ),
           catchError(() => of(ApiAction.loadFailure()))
+        );
+      })
+    );
+  });
+
+  public accept$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(PageAction.accept),
+      mergeMap(({ id }) => {
+        return this.scheduleService.acceptChangeScheduleRequests(id).pipe(
+          map(() => ApiAction.acceptSuccessful({ id })),
+          catchError(() => of(ApiAction.acceptFailure()))
+        );
+      })
+    );
+  });
+
+  public deny$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(PageAction.deny),
+      mergeMap(({ id }) => {
+        return this.scheduleService.denyChangeScheduleRequests(id).pipe(
+          map(() => ApiAction.denySuccessful({ id })),
+          catchError(() => of(ApiAction.denyFailure()))
         );
       })
     );

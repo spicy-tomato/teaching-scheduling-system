@@ -1,8 +1,11 @@
-import { EApiStatus } from '@shared/enums';
-import { ChangeSchedule, ChangeScheduleSearch } from '@shared/models';
+import {
+  ChangeSchedule,
+  ChangeScheduleSearch,
+  ChangeScheduleStatus,
+} from '@shared/models';
 
 export interface RequestsState {
-  status: EApiStatus;
+  status: ChangeScheduleStatus;
   changeSchedules: ChangeSchedule[];
   total: number;
   query: ChangeScheduleSearch;

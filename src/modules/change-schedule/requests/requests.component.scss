@@ -1,31 +1,53 @@
 @import "src/styles/variables";
 
-tui-checkbox-labeled {
-  margin: 0.75rem 0;
-}
+.wrapper {
+  max-height: 100%;
+  grid-template-rows: auto minmax(0, 1fr) auto;
 
-tui-loader {
-  width: $content-width;
-}
+  tui-checkbox-labeled {
+    margin: 0.75rem 0;
+  }
 
-table {
-  th {
-    text-align: center;
-    &.border {
-      border-left: none;
+  tui-scrollbar tui-loader table {
+    tr {
+      &:nth-child(2) {
+        top: 2.75rem;
+        th {
+          top: 2.75rem;
+        }
+      }
+      th {
+        text-align: center;
+        &.border {
+          border-left: none;
+        }
+
+        tui-toggle {
+          margin-left: 0.5rem;
+        }
+      }
     }
 
-    tui-toggle {
-      margin-left: 0.5rem;
+    td {
+      &.status {
+        font-weight: 600;
+        .accept {
+          color: var(--tui-positive);
+        }
+        .deny {
+          color: var(--tui-negative);
+        }
+      }
+      button {
+        margin: 0 0.25rem;
+      }
+      ::ng-deep .wrapper {
+        white-space: nowrap;
+      }
     }
   }
 
-  td {
-    button {
-      margin: 0 0.25rem;
-    }
-    ::ng-deep .wrapper {
-      white-space: nowrap;
-    }
+  tui-pagination {
+    margin-top: 0.75rem;
   }
 }

@@ -13,7 +13,7 @@ import {
   TuiLoaderModule,
   TuiScrollbarModule,
 } from '@taiga-ui/core';
-import { TuiCheckboxLabeledModule } from '@taiga-ui/kit';
+import { TuiCheckboxLabeledModule, TuiPaginationModule } from '@taiga-ui/kit';
 import { FormsModule } from '@angular/forms';
 import { PipesModule } from '@pipes/pipes.module';
 
@@ -33,6 +33,7 @@ const TAIGA_UI = [
   TuiCheckboxLabeledModule,
   TuiButtonModule,
   TuiHintModule,
+  TuiPaginationModule,
 ];
 
 @NgModule({

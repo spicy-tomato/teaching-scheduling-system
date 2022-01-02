@@ -5,7 +5,10 @@ import * as ApiAction from './requests.api.actions';
 import * as PageAction from './requests.page.actions';
 
 const initialState: RequestsState = {
-  status: EApiStatus.unknown,
+  status: {
+    data: EApiStatus.unknown,
+    queue: [],
+  },
   changeSchedules: [],
   total: 0,
   query: {
@@ -22,18 +25,72 @@ export const requestsReducer = createReducer(
   on(PageAction.load, (state, { query }) => ({
     ...state,
     query,
-    status: EApiStatus.loading,
+    status: { ...state.status, data: EApiStatus.loading },
+  })),
+  on(PageAction.accept, (state, { id }) => ({
+    ...state,
+    status: {
+      ...state.status,
+      queue: [...state.status.queue, id],
+    },
+  })),
+  on(PageAction.deny, (state, { id }) => ({
+    ...state,
+    status: {
+      ...state.status,
+      queue: [...state.status.queue, id],
+    },
   })),
   on(ApiAction.loadSuccessful, (state, { changeSchedulesResponse }) => {
     return {
       ...state,
       changeSchedules: changeSchedulesResponse.data,
-      total: changeSchedulesResponse.meta.total,
-      status: EApiStatus.successful,
+      total: changeSchedulesResponse.meta.last_page,
+      status: { ...state.status, data: EApiStatus.successful },
     };
   }),
   on(ApiAction.loadFailure, (state) => ({
     ...state,
-    status: EApiStatus.clientError,
+    status: { ...state.status, data: EApiStatus.systemError },
+  })),
+  on(ApiAction.acceptSuccessful, (state, { id }) => {
+    return {
+      ...state,
+      changeSchedules: state.changeSchedules.map((x) => {
+        if (x.id === id) {
+          const newObj = { ...x, status: 1 };
+          return newObj;
+        }
+        return x;
+      }),
+      status: {
+        ...state.status,
+        queue: state.status.queue.filter((x) => x !== id),
+      },
+    };
+  }),
+  on(ApiAction.acceptFailure, (state) => ({
+    ...state,
+    status: { ...state.status, accept: EApiStatus.systemError },
+  })),
+  on(ApiAction.denySuccessful, (state, { id }) => {
+    return {
+      ...state,
+      changeSchedules: state.changeSchedules.map((x) => {
+        if (x.id === id) {
+          const newObj = { ...x, status: -1 };
+          return newObj;
+        }
+        return x;
+      }),
+      status: {
+        ...state.status,
+        queue: state.status.queue.filter((x) => x !== id),
+      },
+    };
+  }),
+  on(ApiAction.denyFailure, (state) => ({
+    ...state,
+    status: { ...state.status, deny: EApiStatus.systemError },
   }))
 );
