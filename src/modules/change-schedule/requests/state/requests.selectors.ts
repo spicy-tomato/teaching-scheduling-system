@@ -9,15 +9,22 @@ export const selectStatus = createSelector(
   (state) => state.status
 );
 
+export const selectOptions = createSelector(
+  feedbackSelector,
+  (state) => state.options
+);
+
 export const selectChangeSchedules = createSelector(
   feedbackSelector,
   (state) => state.changeSchedules
 );
 
-export const selectPage = createSelector(
+export const selectQuery = createSelector(
   feedbackSelector,
-  (state) => state.query.page
+  (state) => state.query
 );
+
+export const selectPage = createSelector(selectQuery, (query) => query.page);
 
 export const selectRequestQueue = createSelector(
   feedbackSelector,

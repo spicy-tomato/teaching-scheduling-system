@@ -9,6 +9,11 @@ const initialState: RequestsState = {
     data: EApiStatus.unknown,
     queue: [],
   },
+  options: {
+    selectedStatus: null,
+    showTime: false,
+    showTimeInsteadOfShift: false,
+  },
   changeSchedules: [],
   total: 0,
   query: {
@@ -26,6 +31,10 @@ export const requestsReducer = createReducer(
     ...state,
     query,
     status: { ...state.status, data: EApiStatus.loading },
+  })),
+  on(PageAction.changeOptions, (state, { options }) => ({
+    ...state,
+    options: { ...state.options, ...options },
   })),
   on(PageAction.accept, (state, { id }) => ({
     ...state,

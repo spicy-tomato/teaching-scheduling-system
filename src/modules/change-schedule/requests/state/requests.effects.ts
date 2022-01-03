@@ -1,17 +1,26 @@
 import { Injectable } from '@angular/core';
-
-import { of } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
-
+import { Observable, of } from 'rxjs';
+import {
+  catchError,
+  filter,
+  map,
+  mergeMap,
+  take,
+  takeUntil,
+} from 'rxjs/operators';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as PageAction from './requests.page.actions';
 import * as ApiAction from './requests.api.actions';
+import * as fromRequests from '.';
 import { ScheduleService } from '@services/schedule.service';
+import { BaseComponent } from '@modules/core/base/base.component';
+import { ChangeScheduleOptions } from '@shared/models';
+import { Store } from '@ngrx/store';
 
 @Injectable()
-export class RequestsEffects {
+export class RequestsEffects extends BaseComponent {
   /** EFFECTS */
-  public submit$ = createEffect(() => {
+  public load$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.load),
       mergeMap(({ query: params }) => {
@@ -22,6 +31,45 @@ export class RequestsEffects {
             })
           ),
           catchError(() => of(ApiAction.loadFailure()))
+        );
+      })
+    );
+  });
+
+  public changeSelectedStatus$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(PageAction.changeOptions),
+      map((x) => x.options.selectedStatus),
+      filter((x) => x !== undefined),
+      mergeMap((status) => {
+        console.log('load 1');
+        return of(
+          PageAction.load({
+            query: {
+              status: status ?? 'all',
+              page: 1,
+            },
+          })
+        );
+      })
+    );
+  });
+
+  public changePage$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(PageAction.changePage),
+      mergeMap(({ page }) => {
+        console.log('load 2');
+        return this.options$.pipe(
+          map((options) =>
+            PageAction.load({
+              query: {
+                status: options.selectedStatus ?? 'all',
+                page: page + 1,
+              },
+            })
+          ),
+          take(1)
         );
       })
     );
@@ -51,9 +99,19 @@ export class RequestsEffects {
     );
   });
 
+  /** PRIVATE PROPERTIES */
+  private options$: Observable<ChangeScheduleOptions>;
+
   /** CONSTRUCTOR */
   constructor(
     private readonly actions$: Actions,
-    private readonly scheduleService: ScheduleService
-  ) {}
+    private readonly scheduleService: ScheduleService,
+    store: Store<fromRequests.RequestsState>
+  ) {
+    super();
+
+    this.options$ = store
+      .select(fromRequests.selectOptions)
+      .pipe(takeUntil(this.destroy$));
+  }
 }

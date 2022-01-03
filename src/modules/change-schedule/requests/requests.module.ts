@@ -22,6 +22,9 @@ import {
 } from '@taiga-ui/kit';
 import { FormsModule } from '@angular/forms';
 import { PipesModule } from '@pipes/pipes.module';
+import { RequestsOptionsComponent } from './requests-options/requests-options.component';
+import { RequestsListComponent } from './requests-list/requests-list.component';
+import { RequestsPaginationComponent } from './requests-pagination/requests-pagination.component';
 
 const NGRX = [
   ReactiveComponentModule,
@@ -54,6 +57,6 @@ const TAIGA_UI = [
     ...NGRX,
     ...TAIGA_UI,
   ],
-  declarations: [RequestsComponent],
+  declarations: [RequestsComponent, RequestsOptionsComponent, RequestsListComponent, RequestsPaginationComponent],
 })
 export class RequestsModule {}
