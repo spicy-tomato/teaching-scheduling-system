@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';
-import { CoreConstant } from '@shared/constants';
+import { CoreConstant, TableConstant } from '@shared/constants';
 import { EApiStatus } from '@shared/enums';
-import { ChangeSchedule, ChangeScheduleStatus } from '@shared/models';
+import { ObjectHelper } from '@shared/helpers';
+import { ChangeSchedule, ChangeScheduleStatus, Nullable } from '@shared/models';
 import { TUI_BUTTON_OPTIONS, TuiAppearance } from '@taiga-ui/core';
 import { Observable } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
@@ -31,15 +32,20 @@ export class RequestsComponent extends BaseComponent implements OnInit {
   public requesting$: Observable<number[]>;
   public pageCount$: Observable<number>;
   public page$: Observable<number>;
+
+  public selectedStatus: Nullable<number> = null;
   public showTimeInsteadOfShift = false;
   public showTime = false;
 
   public readonly EApiStatus = EApiStatus;
   public readonly statusList = CoreConstant.REQUEST_CHANGE_SCHEDULE_STATUS;
+  public readonly statusArray = ObjectHelper.toArray(this.statusList);
   public readonly shifts = CoreConstant.SHIFTS;
+  public readonly itemsPerPage = TableConstant.REQUESTS_LIST_ITEMS_PER_PAGE;
   public readonly columns = [
     'index',
     'teacher',
+    'moduleClass',
     'oldDate',
     'newDate',
     'oldShift',
@@ -89,6 +95,17 @@ export class RequestsComponent extends BaseComponent implements OnInit {
   }
 
   /** PUBLIC METHODS */
+  public onSelectedStatusChange(id: number): void {
+    this.store.dispatch(
+      fromRequests.load({
+        query: {
+          status: id ?? 'all',
+          page: 1,
+        },
+      })
+    );
+  }
+
   public onAccept(id: number): void {
     this.store.dispatch(fromRequests.accept({ id }));
   }
@@ -101,7 +118,7 @@ export class RequestsComponent extends BaseComponent implements OnInit {
     this.store.dispatch(
       fromRequests.load({
         query: {
-          status: 'all',
+          status: this.selectedStatus ?? 'all',
           page: page + 1,
         },
       })

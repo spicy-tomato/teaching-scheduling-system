@@ -1,6 +1,7 @@
 export interface ChangeSchedule {
   id: number;
   teacher: string;
+  moduleClassName: string;
   oldSchedule: {
     date: string;
     shift: string;

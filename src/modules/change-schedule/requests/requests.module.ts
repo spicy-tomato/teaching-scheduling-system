@@ -9,11 +9,17 @@ import * as fromRequests from './state';
 import { TuiTableModule } from '@taiga-ui/addon-table';
 import {
   TuiButtonModule,
+  TuiDataListModule,
   TuiHintModule,
   TuiLoaderModule,
   TuiScrollbarModule,
+  TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
-import { TuiCheckboxLabeledModule, TuiPaginationModule } from '@taiga-ui/kit';
+import {
+  TuiCheckboxLabeledModule,
+  TuiPaginationModule,
+  TuiSelectModule,
+} from '@taiga-ui/kit';
 import { FormsModule } from '@angular/forms';
 import { PipesModule } from '@pipes/pipes.module';
 
@@ -34,6 +40,9 @@ const TAIGA_UI = [
   TuiButtonModule,
   TuiHintModule,
   TuiPaginationModule,
+  TuiSelectModule,
+  TuiDataListModule,
+  TuiTextfieldControllerModule,
 ];
 
 @NgModule({

@@ -1,5 +1,29 @@
 <div *ngrxLet="page$ as page" class="wrapper grid">
-  <div class="display">
+  <div tuiTextfieldSize="s" class="options w-full d-flex align-items-center">
+    <tui-select
+      [(ngModel)]="selectedStatus"
+      [valueContent]="selectStatusTemplate"
+      (ngModelChange)="onSelectedStatusChange($event)"
+    >
+      Trạng thái
+      <ng-template tuiDataList>
+        <tui-data-list>
+          <tui-opt-group>
+            <button tuiOption [value]="null" size="xs">Tất cả</button>
+          </tui-opt-group>
+          <tui-opt-group tuiMultiSelectGroup>
+            <button
+              tuiOption
+              *ngFor="let status of statusArray"
+              [value]="status.id"
+              size="xs"
+            >
+              {{ status.value }}
+            </button>
+          </tui-opt-group>
+        </tui-data-list>
+      </ng-template>
+    </tui-select>
     <tui-checkbox-labeled [(ngModel)]="showTimeInsteadOfShift">
       Hiển thị thời gian thay cho ca
     </tui-checkbox-labeled>
@@ -21,6 +45,9 @@
             <th tuiTh *tuiHead="'index'" [sorter]="null" rowspan="2">STT</th>
             <th tuiTh *tuiHead="'teacher'" [sorter]="null" rowspan="2">
               Giảng viên
+            </th>
+            <th tuiTh *tuiHead="'moduleClass'" [sorter]="null" rowspan="2">
+              Lớp
             </th>
             <th tuiTh *tuiHead="'oldDate'" [sorter]="null" colspan="2">Ngày</th>
             <ng-container *tuiHead="'newDate'"></ng-container>
@@ -62,18 +89,19 @@
           <tr *tuiRow="let item of data; index as i" tuiTr>
             <td *tuiCell="'index'" tuiTd>
               <div class="text-center">
-                {{ 20 * (page - 1) + i + 1 }}
+                {{ itemsPerPage * (page - 1) + i + 1 }}
               </div>
             </td>
             <td *tuiCell="'teacher'" tuiTd>{{ item.teacher }}</td>
+            <td *tuiCell="'moduleClass'" tuiTd>{{ item.moduleClassName }}</td>
             <td *tuiCell="'oldDate'" tuiTd>
               <div class="text-center">
-                {{ item.oldSchedule.date }}
+                {{ item.oldSchedule.date | date: "dd-MM-Y" }}
               </div>
             </td>
             <td *tuiCell="'newDate'" tuiTd>
               <div class="text-center">
-                {{ item.newSchedule.date }}
+                {{ item.newSchedule.date | date: "dd-MM-Y" }}
               </div>
             </td>
             <td *tuiCell="'oldShift'" tuiTd>
@@ -187,3 +215,7 @@
     ></tui-pagination>
   </ng-container>
 </div>
+
+<ng-template #selectStatusTemplate let-status>
+  {{ statusList[status] }}
+</ng-template>
