@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';
-import { TUI_BUTTON_OPTIONS, TuiAppearance } from '@taiga-ui/core';
 import * as fromRequests from './state';
 
 @Component({

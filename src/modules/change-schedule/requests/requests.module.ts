@@ -57,6 +57,11 @@ const TAIGA_UI = [
     ...NGRX,
     ...TAIGA_UI,
   ],
-  declarations: [RequestsComponent, RequestsOptionsComponent, RequestsListComponent, RequestsPaginationComponent],
+  declarations: [
+    RequestsComponent,
+    RequestsOptionsComponent,
+    RequestsListComponent,
+    RequestsPaginationComponent,
+  ],
 })
 export class RequestsModule {}

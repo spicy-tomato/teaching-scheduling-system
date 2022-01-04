@@ -21,7 +21,7 @@ export interface ScheduleState {
       exam: ExamScheduleModel[];
     };
   };
-  ranges: TuiDayRange[],
+  ranges: TuiDayRange[];
   view: View;
   selectedDate: Date;
   month: TuiMonth;

@@ -50,5 +50,5 @@ export const next = createAction(
 
 export const changeMonth = createAction(
   '[Schedule API] Choose Month',
-  props<{ month: TuiMonth, date: Date }>()
+  props<{ month: TuiMonth; date: Date }>()
 );

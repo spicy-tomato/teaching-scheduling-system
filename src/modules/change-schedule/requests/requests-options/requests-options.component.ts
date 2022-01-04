@@ -43,8 +43,6 @@ export class RequestsOptionsComponent extends BaseComponent {
   }
 
   public onShowTimeChange(showTime: boolean): void {
-    this.store.dispatch(
-      fromRequests.changeOptions({ options: { showTime } })
-    );
+    this.store.dispatch(fromRequests.changeOptions({ options: { showTime } }));
   }
 }
