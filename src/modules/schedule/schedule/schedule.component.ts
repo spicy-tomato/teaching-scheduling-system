@@ -48,7 +48,6 @@ import { EjsScheduleModel } from 'src/shared/models';
 import { ScheduleHelper, DateHelper } from '@shared/helpers';
 
 loadCldr(numberingSystems, gregorian, numbers, timeZoneNames);
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
 L10n.load({ vi: EJS_LOCALE.vi });
 setCulture('vi');
 
