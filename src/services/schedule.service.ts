@@ -13,6 +13,7 @@ import {
 import { BaseDataService } from './core/base-data.service';
 import { RequestChangeSchedulePayload } from '@shared/models/schedule/request-change-schedule-payload.model';
 import { ObjectHelper } from '@shared/helpers';
+import { ChangeScheduleResponsePayload } from '@shared/models/change-schedule/change-schedule-response-payload.model';
 
 @Injectable({
   providedIn: 'root',
@@ -105,17 +106,12 @@ export class ScheduleService extends BaseDataService {
     });
   }
 
-  public acceptChangeScheduleRequests(id: number): Observable<void> {
-    return this.http.put<void>(this.url + 'fixed-schedules/update', {
-      id,
-      status: '1',
-    });
-  }
-
-  public denyChangeScheduleRequests(id: number): Observable<void> {
-    return this.http.put<void>(this.url + 'fixed-schedules/update', {
-      id,
-      status: '-1',
-    });
+  public responseChangeScheduleRequests(
+    body: ChangeScheduleResponsePayload
+  ): Observable<void> {
+    return this.http.put<void>(
+      this.url + 'fixed-schedules/update',
+      ObjectHelper.toSnakeCase(body)
+    );
   }
 }

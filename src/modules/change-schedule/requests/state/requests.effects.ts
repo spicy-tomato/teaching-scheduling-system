@@ -16,6 +16,7 @@ import { ScheduleService } from '@services/schedule.service';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { ChangeScheduleOptions } from '@shared/models';
 import { Store } from '@ngrx/store';
+import { DateHelper } from '@shared/helpers';
 
 @Injectable()
 export class RequestsEffects extends BaseComponent {
@@ -79,10 +80,17 @@ export class RequestsEffects extends BaseComponent {
     return this.actions$.pipe(
       ofType(PageAction.accept),
       mergeMap(({ id }) => {
-        return this.scheduleService.acceptChangeScheduleRequests(id).pipe(
-          map(() => ApiAction.acceptSuccessful({ id })),
-          catchError(() => of(ApiAction.acceptFailure()))
-        );
+        return this.scheduleService
+          .responseChangeScheduleRequests({
+            id,
+            status: 1,
+            timeAccept: DateHelper.toSqlDate(new Date()),
+            comment: '',
+          })
+          .pipe(
+            map(() => ApiAction.acceptSuccessful({ id })),
+            catchError(() => of(ApiAction.acceptFailure()))
+          );
       })
     );
   });
@@ -91,10 +99,17 @@ export class RequestsEffects extends BaseComponent {
     return this.actions$.pipe(
       ofType(PageAction.deny),
       mergeMap(({ id }) => {
-        return this.scheduleService.denyChangeScheduleRequests(id).pipe(
-          map(() => ApiAction.denySuccessful({ id })),
-          catchError(() => of(ApiAction.denyFailure()))
-        );
+        return this.scheduleService
+          .responseChangeScheduleRequests({
+            id,
+            status: -1,
+            timeAccept: DateHelper.toSqlDate(new Date()),
+            comment: '',
+          })
+          .pipe(
+            map(() => ApiAction.denySuccessful({ id })),
+            catchError(() => of(ApiAction.denyFailure()))
+          );
       })
     );
   });
