@@ -1,1 +1,11 @@
-<router-outlet></router-outlet>
+<div class="wrapper grid">
+  <a tuiAction icon="tuiIconLockLarge" routerLink="change-password">
+    Đổi mật khẩu
+  </a>
+  <tui-action
+    (click)="connectGoogle()"
+    icon="<i class='mdi mdi-google' style='font-size: 23px'></i>"
+  >
+    Kết nối tới Google
+  </tui-action>
+</div>

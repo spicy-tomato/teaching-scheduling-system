@@ -6,4 +6,9 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styleUrls: ['./user-setting.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UserSettingComponent {}
+export class UserSettingComponent {
+  /** PUBLIC METHODS */
+  public connectGoogle(): void {
+    //
+  }
+}
