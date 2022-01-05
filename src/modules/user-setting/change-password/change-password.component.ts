@@ -23,7 +23,7 @@ import { ChangePassword, Nullable } from 'src/shared/models';
   selector: 'tss-change-password',
   templateUrl: './change-password.component.html',
   styleUrls: ['./change-password.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChangePasswordComponent extends BaseComponent {
   /** PUBLIC METHODS */
