@@ -25,6 +25,11 @@ export const selectStatus = createSelector(
   (state) => state.status
 );
 
+export const selectRanges = createSelector(
+  scheduleSelector,
+  (state) => state.ranges
+);
+
 const selectFilterStates = createSelector(
   scheduleSelector,
   (state) => state.filter

@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'tss-permission',
   templateUrl: './permission.component.html',
   styleUrls: ['./permission.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PermissionComponent {
   public data = dummyData;

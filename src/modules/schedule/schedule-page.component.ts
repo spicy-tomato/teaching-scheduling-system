@@ -17,6 +17,6 @@ export class SchedulePageComponent extends BaseComponent implements OnInit {
 
   /** LIFE CYCLE */
   public ngOnInit(): void {
-    this.store.dispatch(fromSchedule.load());
+    this.store.dispatch(fromSchedule.load({ date: new Date() }));
   }
 }

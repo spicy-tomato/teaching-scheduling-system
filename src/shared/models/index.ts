@@ -1,3 +1,4 @@
+export * from './assign-schedule';
 export * from './class';
 export * from './change-schedule';
 export * from './core';

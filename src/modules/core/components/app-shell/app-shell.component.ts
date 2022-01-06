@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';
+import { GoogleService } from '@services/core/google.service';
 import { takeUntil, tap } from 'rxjs/operators';
 import * as fromAppShell from './state';
 
@@ -14,10 +15,12 @@ export class AppShellComponent extends BaseComponent implements OnInit {
   /** CONSTRUCTOR */
   constructor(
     private readonly route: ActivatedRoute,
-    private readonly store: Store<fromAppShell.AppShellState>
+    private readonly store: Store<fromAppShell.AppShellState>,
+    googleService: GoogleService
   ) {
     super();
     this.store.dispatch(fromAppShell.reset());
+    googleService.load();
   }
 
   /** LIFE CYCLE */

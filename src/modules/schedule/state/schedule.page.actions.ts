@@ -5,10 +5,9 @@ import { ScheduleFilter, ScheduleFilterParams } from 'src/shared/models';
 
 export const reset = createAction('[Schedule Page] Reset');
 
-export const load = createAction('[Schedule Page] Load');
-
-export const loadDepartmentSchedule = createAction(
-  '[Schedule Page] Load department schedule'
+export const load = createAction(
+  '[Schedule Page] Load',
+  props<{ date: Date }>()
 );
 
 export const prev = createAction(
