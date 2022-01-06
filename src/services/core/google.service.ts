@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { environment } from '@environments/environment';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { filter, takeUntil, tap } from 'rxjs/operators';
+import { APP_SETTINGS } from './app-settings.service';
 
 @Injectable({
   providedIn: 'root',
@@ -99,8 +99,8 @@ export class GoogleService extends BaseComponent {
   private initClient(): void {
     void gapi.client
       .init({
-        apiKey: environment.googleApiKey,
-        clientId: environment.googleApiClientId,
+        apiKey: APP_SETTINGS.googleApiKey,
+        clientId: APP_SETTINGS.googleApiClientId,
         discoveryDocs: [
           'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest',
         ],
