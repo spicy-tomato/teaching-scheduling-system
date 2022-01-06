@@ -47,11 +47,23 @@ export class GoogleService extends BaseComponent {
   }
 
   public auth(): void {
-    void gapi.auth2.getAuthInstance().signIn();
+    this.loggedIn$.next(null);
+    void gapi.auth2
+      .getAuthInstance()
+      .signIn()
+      .then(
+        () => this.loggedIn$.next(true),
+        () => this.loggedIn$.next(false)
+      );
   }
 
   public signOut(): void {
     void gapi.auth2.getAuthInstance().signOut();
+    this.loggedIn$.next(false);
+  }
+
+  public getInfo(): gapi.auth2.CurrentUser {
+    return gapi.auth2.getAuthInstance().currentUser;
   }
 
   private listUpcomingEvents(): Observable<
