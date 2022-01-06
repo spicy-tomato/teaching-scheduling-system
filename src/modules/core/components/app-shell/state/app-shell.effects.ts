@@ -8,6 +8,7 @@ import { TokenService } from '@services/core/token.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '@services/user.service';
 import { Teacher } from 'src/shared/models';
+import { CommonInfoService } from '@services/common-info.service';
 
 @Injectable()
 export class AppShellEffects {
@@ -52,12 +53,25 @@ export class AppShellEffects {
     { dispatch: false }
   );
 
+  public loadRooms$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ApiAction.autoLoginSuccessfully),
+      mergeMap(() => {
+        return this.commonInfoService.getRooms().pipe(
+          map((rooms) => ApiAction.loadRoomsSuccessfully({ rooms })),
+          catchError(() => of(ApiAction.loadRoomsFailure()))
+        );
+      })
+    );
+  });
+
   /** CONSTRUCTOR */
   constructor(
     private readonly actions$: Actions,
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly userService: UserService,
+    private readonly commonInfoService: CommonInfoService,
     private readonly tokenService: TokenService
   ) {}
 }

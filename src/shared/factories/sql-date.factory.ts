@@ -1,3 +1,5 @@
+import { DateHelper } from '@shared/helpers';
+
 export function sqlDateFactory(): string {
-  return new Date().toISOString().slice(0, 19).replace('T', ' ');
+  return DateHelper.toSqlDate(new Date());
 }

@@ -1,26 +1,53 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { ScheduleService } from '@services/schedule.service';
+import {
+  TuiAppearance,
+  TuiDialogContext,
+  TUI_BUTTON_OPTIONS,
+} from '@taiga-ui/core';
 import { DateHelper } from '@shared/helpers';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { EjsScheduleModel, Nullable } from 'src/shared/models';
-import { TuiDialogContext } from '@taiga-ui/core';
+import { CoreConstant } from '@shared/constants';
+import {
+  beforeTodayValidator,
+  notContainValueValidator,
+  sameValueValidator,
+} from 'src/shared/validators';
+import { Observable } from 'rxjs';
+import { BaseComponent } from '@modules/core/base/base.component';
+import * as fromAppShell from '@modules/core/components/app-shell/state';
+import { Store } from '@ngrx/store';
+import { takeUntil, tap } from 'rxjs/operators';
+import { TuiDay } from '@taiga-ui/cdk';
+import { sqlDateFactory } from '@shared/factories';
 
 @Component({
   templateUrl: './study-editor-dialog.component.html',
   styleUrls: ['./study-editor-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: TUI_BUTTON_OPTIONS,
+      useValue: {
+        shape: null,
+        appearance: TuiAppearance.Primary,
+        size: 'm',
+      },
+    },
+  ],
 })
-export class StudyEditorDialogComponent {
+export class StudyEditorDialogComponent extends BaseComponent {
   /** PUBLIC PROPERTIES */
   public form!: FormGroup;
-  public updating = false;
-  public initialNote?: string;
+  public requestingChangeSchedule = false;
+  public sending = false;
+  public validRequestChangeSchedule = true;
+  public rooms$: Observable<string[]>;
+
+  public readonly shifts = CoreConstant.SHIFTS;
+  public readonly shiftKeys = Object.keys(CoreConstant.SHIFTS);
   public readonly noteMaxLength = 1000;
 
   /** GETTERS */
@@ -34,34 +61,61 @@ export class StudyEditorDialogComponent {
 
   /** CONSTRUCTOR */
   constructor(
-    @Inject(POLYMORPHEUS_CONTEXT)
-    private readonly context: TuiDialogContext<string, EjsScheduleModel>,
+    private fb: FormBuilder,
     private scheduleService: ScheduleService,
-    private fb: FormBuilder
+    @Inject(POLYMORPHEUS_CONTEXT)
+    private readonly context: TuiDialogContext<boolean, EjsScheduleModel>,
+    appShellStore: Store<fromAppShell.AppShellState>
   ) {
-    this.initForm(context.data);
+    super();
+
+    this.rooms$ = appShellStore
+      .select(fromAppShell.selectRooms)
+      .pipe(takeUntil(this.destroy$));
+
+    this.triggerInitForm(context.data);
   }
 
   /** PUBLIC METHODS */
   public onSubmit(): void {
-    const id = this.form.get('id')?.value as number;
-    const note = this.form.get('note')?.value as string;
+    const request = this.form.get('request');
+    if (!request) return;
 
-    if (id) {
-      this.updating = true;
-      this.scheduleService.updateNote({ id, note }).subscribe(
+    this.sending = true;
+
+    const idSchedule = parseInt(this.form.get('id')?.value as string);
+    const newIdRoom = request.get('room')?.value as string;
+    const newShift = request.get('shift')?.value as string;
+    const newDate = DateHelper.toDateOnlyString(
+      (request.get('date')?.value as TuiDay).toLocalNativeDate()
+    );
+
+    this.scheduleService
+      .requestChangeSchedule({
+        idSchedule,
+        newDate,
+        newIdRoom,
+        newShift,
+        timeRequest: sqlDateFactory(),
+      })
+      .subscribe(
         () => {
-          this.updating = false;
-          this.context.completeWith(note);
+          this.sending = false;
+          this.context.completeWith(true);
         },
         () => {
-          this.updating = false;
-          this.onCancel();
+          this.sending = false;
+          this.context.completeWith(false);
         }
       );
-    } else {
-      this.onCancel();
-    }
+  }
+
+  public onClickRequestingChangeSchedule(): void {
+    this.requestingChangeSchedule = true;
+  }
+
+  public onClickCancelRequestingChangeSchedule(): void {
+    this.requestingChangeSchedule = false;
   }
 
   public onCancel(): void {
@@ -71,9 +125,13 @@ export class StudyEditorDialogComponent {
   }
 
   /** PRIVATE METHODS */
-  private initForm(data?: EjsScheduleModel): void {
-    const startDate = data?.StartTime as Date;
-    const endDate = data?.EndTime as Date;
+  private triggerInitForm(data: EjsScheduleModel): void {
+    this.rooms$.pipe(tap((rooms) => this.initForm(data, rooms))).subscribe();
+  }
+
+  private initForm(data: EjsScheduleModel, rooms: string[]): void {
+    const startDate = data.StartTime as Date;
+    const endDate = data.EndTime as Date;
     const today = new Date();
     const startTuiDate = startDate
       ? DateHelper.toTuiDay(startDate)
@@ -81,16 +139,38 @@ export class StudyEditorDialogComponent {
     const endTuiDate = endDate
       ? DateHelper.toTuiDay(endDate)
       : DateHelper.toTuiDay(today);
-    this.initialNote = data?.Note as string;
+    const room = data.Location;
+
+    const initialRequest = {
+      note: data.Note,
+      date: startTuiDate,
+      shift: data.Shift ?? '1',
+      room,
+    };
 
     this.form = this.fb.group({
-      id: [data?.Id],
-      subject: [data?.Subject],
-      location: [data?.Location],
-      people: [data?.People?.[0]],
+      id: [data.Id],
+      subject: [data.Subject],
+      location: [room],
+      people: [data.People?.[0]],
       start: [[startTuiDate, DateHelper.beautifyTime(startDate ?? today)]],
       end: [[endTuiDate, DateHelper.beautifyTime(endDate ?? today)]],
-      note: [this.initialNote, Validators.maxLength(this.noteMaxLength)],
+      request: this.fb.group(
+        {
+          note: [initialRequest.note],
+          shift: [initialRequest.shift],
+          date: [initialRequest.date, beforeTodayValidator()],
+          room: [
+            initialRequest.room,
+            notContainValueValidator(rooms, 'Mã phòng'),
+          ],
+        },
+        {
+          validators: sameValueValidator(initialRequest),
+        }
+      ),
     });
+
+    this.validRequestChangeSchedule = startDate > new Date();
   }
 }

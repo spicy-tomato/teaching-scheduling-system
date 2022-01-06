@@ -61,4 +61,15 @@ export class CommonInfoService extends BaseDataService {
       this.url + 'departments'
     );
   }
+
+  public getRooms(): Observable<string[]> {
+    const cache = this.localDataService.getRooms();
+    if (cache) {
+      return of(cache);
+    }
+
+    return this.http
+      .get<string[]>(this.url + 'rooms')
+      .pipe(tap((data) => this.localDataService.setRooms(data)));
+  }
 }

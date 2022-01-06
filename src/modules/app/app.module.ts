@@ -1,6 +1,6 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { of } from 'rxjs';
@@ -20,14 +20,18 @@ import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
 
 import { environment } from '@environments/environment';
 import { AppSettingsService } from '@services/core/app-settings.service';
-import { loadAppSettings } from '@shared/factories';
+import {
+  loadAppSettings,
+  maxLengthFactory,
+  requiredFactory,
+  notContainValueFactory,
+  beforeTodayFactory,
+} from '@shared/factories';
 import { InterceptorsModule } from 'src/shared/interceptors/interceptors.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routes';
-import { HeaderInterceptor } from 'src/shared/interceptors/header.interceptor';
 import { UserInfoResolve } from '@resolves/user-info.resolve';
 import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
-import { maxLengthFactory, requiredFactory } from '@shared/factories';
 
 const TAIGA_UI = [TuiRootModule, TuiDialogModule, TuiNotificationsModule];
 const NGRX = [
@@ -59,11 +63,6 @@ const NGRX = [
       deps: [AppSettingsService],
     },
     {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HeaderInterceptor,
-      multi: true,
-    },
-    {
       provide: TUI_LANGUAGE,
       useValue: of(TUI_VIETNAMESE_LANGUAGE),
     },
@@ -80,6 +79,8 @@ const NGRX = [
       useValue: {
         maxlength: maxLengthFactory,
         required: requiredFactory,
+        notContainValue: notContainValueFactory,
+        beforeToday: beforeTodayFactory,
       },
     },
   ],

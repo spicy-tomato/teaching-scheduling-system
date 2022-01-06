@@ -114,9 +114,7 @@
 <ng-template #filterDropdown let-activeZone>
   <div class="filter-wrapper">
     <table class="w-full">
-      <ng-container
-        *tssPermission="permissionConstant.SEE_DEPARTMENT_EXAM_SCHEDULE"
-      >
+      <ng-container *tssPermission="permissionConstant.SEE_DEPARTMENT_SCHEDULE">
         <tr>
           <td>Lịch:</td>
           <td>
@@ -167,7 +165,7 @@
                       >
                         <button
                           tuiOption
-                          *ngFor="let teacher of teachers; index as i"
+                          *ngFor="let teacher of teachers"
                           [value]="teacher"
                           size="xs"
                         >
@@ -203,7 +201,7 @@
                   >
                     <button
                       tuiOption
-                      *ngFor="let module of modules; index as i"
+                      *ngFor="let module of modules"
                       [value]="module"
                       size="xs"
                     >

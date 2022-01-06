@@ -67,6 +67,7 @@ export class StudyScheduleModel extends ScheduleModel {
       Note: this.note,
       People: this.people,
       Color: this.color,
+      Shift: this.shift,
     };
   }
 }

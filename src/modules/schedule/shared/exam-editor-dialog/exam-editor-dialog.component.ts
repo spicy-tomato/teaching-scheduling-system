@@ -1,16 +1,11 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import {
-  AbstractControl,
-  FormArray,
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ScheduleService } from '@services/schedule.service';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { DateHelper } from '@shared/helpers';
 import { EjsScheduleModel, Nullable } from 'src/shared/models';
+import { sameValueValidator } from 'src/shared/validators';
 
 @Component({
   templateUrl: './exam-editor-dialog.component.html',
@@ -20,8 +15,7 @@ import { EjsScheduleModel, Nullable } from 'src/shared/models';
 export class ExamEditorDialogComponent {
   /** PUBLIC PROPERTIES */
   public form!: FormGroup;
-  public updating = false;
-  public initialNote?: string;
+  public showLoader = false;
   public readonly notAllowFieldHint =
     'Không thể thay đổi thông tin của lịch thi';
   public readonly noteMaxLength = 1000;
@@ -29,10 +23,6 @@ export class ExamEditorDialogComponent {
   /** GETTERS */
   public get people(): Nullable<FormArray> {
     return this.form.get('people') as FormArray;
-  }
-
-  public get note(): Nullable<AbstractControl> {
-    return this.form.get('note');
   }
 
   /** CONSTRUCTOR */
@@ -51,14 +41,14 @@ export class ExamEditorDialogComponent {
     const note = this.form.get('note')?.value as string;
 
     if (id) {
-      this.updating = true;
+      this.showLoader = true;
       this.scheduleService.updateNote({ id, note }).subscribe(
         () => {
-          this.updating = false;
+          this.showLoader = false;
           this.context.completeWith(note);
         },
         () => {
-          this.updating = false;
+          this.showLoader = false;
           this.onCancel();
         }
       );
@@ -84,7 +74,10 @@ export class ExamEditorDialogComponent {
     const endTuiDate = endDate
       ? DateHelper.toTuiDay(endDate)
       : DateHelper.toTuiDay(today);
-    this.initialNote = data?.Note as string;
+
+    const initialChange = {
+      note: data?.Note,
+    };
 
     this.form = this.fb.group({
       id: [data?.Id],
@@ -94,9 +87,14 @@ export class ExamEditorDialogComponent {
       people: this.fb.array(data?.People?.map((x) => this.fb.control(x)) ?? []),
       start: [[startTuiDate, DateHelper.beautifyTime(startDate ?? today)]],
       end: [[endTuiDate, DateHelper.beautifyTime(endDate ?? today)]],
-      allDay: [data?.IsAllDay ?? false],
-      description: [data?.Description],
-      note: [this.initialNote, Validators.maxLength(this.noteMaxLength)],
+      change: this.fb.group(
+        {
+          note: [initialChange.note, Validators.maxLength(this.noteMaxLength)],
+        },
+        {
+          validators: sameValueValidator(initialChange),
+        }
+      ),
     });
   }
 }

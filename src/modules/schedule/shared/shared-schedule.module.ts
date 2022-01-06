@@ -5,32 +5,63 @@ import { ExamEditorDialogComponent } from './exam-editor-dialog/exam-editor-dial
 import { StudyEditorDialogComponent } from './study-editor-dialog/study-editor-dialog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
+  TuiComboBoxModule,
+  TuiDataListWrapperModule,
   TuiFieldErrorModule,
+  TuiFilterByInputPipeModule,
+  TuiInputDateModule,
   TuiInputDateTimeModule,
   TuiInputModule,
+  TuiSelectModule,
   TuiTextAreaModule,
+  TuiUnfinishedValidatorModule,
 } from '@taiga-ui/kit';
 import {
   TuiButtonModule,
+  TuiDataListModule,
+  TuiExpandModule,
   TuiHintControllerModule,
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
+import { PipesModule } from '@pipes/pipes.module';
+import { ReactiveComponentModule } from '@ngrx/component';
 
-const EXPORT_TAIGA_UI = [TuiButtonModule, TuiTextfieldControllerModule];
+const EXPORT = [CommonModule, FormsModule, ReactiveFormsModule, PipesModule];
+const COMPONENTS = [ExamEditorDialogComponent, StudyEditorDialogComponent];
+
+const EXPORT_NGRX = [ReactiveComponentModule];
+const NGRX = [...EXPORT_NGRX];
+
+const EXPORT_TAIGA_UI = [
+  TuiButtonModule,
+  TuiTextfieldControllerModule,
+  TuiExpandModule,
+  TuiSelectModule,
+  TuiDataListModule,
+  TuiDataListWrapperModule,
+];
 const TAIGA_UI = [
   TuiInputModule,
   TuiInputDateTimeModule,
   TuiTextAreaModule,
   TuiHintControllerModule,
   TuiFieldErrorModule,
+  TuiInputDateModule,
+  TuiComboBoxModule,
+  TuiFilterByInputPipeModule,
+  TuiUnfinishedValidatorModule,
   ...EXPORT_TAIGA_UI,
 ];
-const EXPORT = [CommonModule, FormsModule, ReactiveFormsModule];
-const COMPONENTS = [ExamEditorDialogComponent, StudyEditorDialogComponent];
 
 @NgModule({
-  imports: [...EXPORT, ...TAIGA_UI],
+  imports: [...EXPORT, ...TAIGA_UI, ...NGRX],
   declarations: [FilterSelfPipe, ...COMPONENTS],
-  exports: [FilterSelfPipe, ...COMPONENTS, ...EXPORT, ...EXPORT_TAIGA_UI],
+  exports: [
+    FilterSelfPipe,
+    ...COMPONENTS,
+    ...EXPORT,
+    ...EXPORT_NGRX,
+    ...EXPORT_TAIGA_UI,
+  ],
 })
 export class SharedScheduleModule {}
