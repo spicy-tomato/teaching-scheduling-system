@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  Injector,
+} from '@angular/core';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';
 import { CoreConstant, TableConstant } from '@shared/constants';
@@ -7,11 +12,18 @@ import {
   ChangeSchedule,
   ChangeScheduleOptions,
   ChangeScheduleStatus,
+  Nullable,
 } from '@shared/models';
-import { TUI_BUTTON_OPTIONS, TuiAppearance } from '@taiga-ui/core';
+import {
+  TUI_BUTTON_OPTIONS,
+  TuiAppearance,
+  TuiDialogService,
+} from '@taiga-ui/core';
 import { Observable } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { filter, takeUntil, tap } from 'rxjs/operators';
 import * as fromRequests from '../state';
+import { DenyDialogComponent } from '../_shared/deny-dialog/deny-dialog.component';
+import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 
 @Component({
   selector: 'tss-requests-list',
@@ -57,7 +69,11 @@ export class RequestsListComponent extends BaseComponent {
   ];
 
   /** CONSTRUCTOR */
-  constructor(private readonly store: Store<fromRequests.RequestsState>) {
+  constructor(
+    private readonly store: Store<fromRequests.RequestsState>,
+    @Inject(Injector) private injector: Injector,
+    @Inject(TuiDialogService) private readonly dialogService: TuiDialogService
+  ) {
     super();
 
     this.options$ = store
@@ -83,6 +99,20 @@ export class RequestsListComponent extends BaseComponent {
   }
 
   public onDeny(id: number): void {
-    this.store.dispatch(fromRequests.deny({ id }));
+    this.dialogService
+      .open<Nullable<string>>(
+        new PolymorpheusComponent(DenyDialogComponent, this.injector),
+        {
+          label: 'Từ chối yêu cầu thay đổi lịch giảng',
+          dismissible: false,
+        }
+      )
+      .pipe(
+        filter((x) => !!x),
+        tap((reason) =>
+          this.store.dispatch(fromRequests.deny({ id, reason: reason ?? '' }))
+        )
+      )
+      .subscribe();
   }
 }

@@ -23,7 +23,7 @@ export const accept = createAction(
 
 export const deny = createAction(
   '[Change schedule - Requests Page] Deny',
-  props<{ id: number }>()
+  props<{ id: number, reason: string }>()
 );
 
 export const changePage = createAction(

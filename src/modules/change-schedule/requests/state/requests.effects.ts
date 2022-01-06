@@ -7,11 +7,13 @@ import {
   mergeMap,
   take,
   takeUntil,
+  withLatestFrom,
 } from 'rxjs/operators';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as PageAction from './requests.page.actions';
 import * as ApiAction from './requests.api.actions';
 import * as fromRequests from '.';
+import * as fromAppShell from '@modules/core/components/app-shell/state';
 import { ScheduleService } from '@services/schedule.service';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { ChangeScheduleOptions } from '@shared/models';
@@ -20,6 +22,12 @@ import { DateHelper } from '@shared/helpers';
 
 @Injectable()
 export class RequestsEffects extends BaseComponent {
+  /** PRIVATE PROPERTIES */
+  private options$: Observable<ChangeScheduleOptions>;
+  private nameTitle$: Observable<string> = this.appShellStore
+    .select(fromAppShell.selectNameTitle)
+    .pipe(takeUntil(this.destroy$));
+    
   /** EFFECTS */
   public load$ = createEffect(() => {
     return this.actions$.pipe(
@@ -79,13 +87,14 @@ export class RequestsEffects extends BaseComponent {
   public accept$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.accept),
-      mergeMap(({ id }) => {
+      withLatestFrom(this.nameTitle$),
+      mergeMap(([{ id }, nameTitle]) => {
         return this.scheduleService
           .responseChangeScheduleRequests({
             id,
             status: 1,
             timeAccept: DateHelper.toSqlDate(new Date()),
-            comment: '',
+            comment: `Trưởng bộ môn đã phê duyệt yêu cầu thay đổi của ${nameTitle.toLocaleLowerCase()}`,
           })
           .pipe(
             map(() => ApiAction.acceptSuccessful({ id })),
@@ -98,13 +107,14 @@ export class RequestsEffects extends BaseComponent {
   public deny$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.deny),
-      mergeMap(({ id }) => {
+      withLatestFrom(this.nameTitle$),
+      mergeMap(([{ id, reason }, nameTitle]) => {
         return this.scheduleService
           .responseChangeScheduleRequests({
             id,
             status: -1,
             timeAccept: DateHelper.toSqlDate(new Date()),
-            comment: '',
+            comment: `Trưởng bộ môn đã từ chối yêu cầu thay đổi của ${nameTitle.toLocaleLowerCase()} với lý do: ${reason}`,
           })
           .pipe(
             map(() => ApiAction.denySuccessful({ id })),
@@ -114,13 +124,11 @@ export class RequestsEffects extends BaseComponent {
     );
   });
 
-  /** PRIVATE PROPERTIES */
-  private options$: Observable<ChangeScheduleOptions>;
-
   /** CONSTRUCTOR */
   constructor(
     private readonly actions$: Actions,
     private readonly scheduleService: ScheduleService,
+    private readonly appShellStore: Store<fromAppShell.AppShellState>,
     store: Store<fromRequests.RequestsState>
   ) {
     super();

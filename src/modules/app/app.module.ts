@@ -14,7 +14,7 @@ import {
   TuiNotificationsModule,
   TuiRootModule,
 } from '@taiga-ui/core';
-import { TUI_DIALOG_CLOSES_ON_BACK, TUI_SANITIZER } from '@taiga-ui/cdk';
+import { TUI_SANITIZER } from '@taiga-ui/cdk';
 import { TUI_LANGUAGE, TUI_VIETNAMESE_LANGUAGE } from '@taiga-ui/i18n';
 import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
 
@@ -65,10 +65,6 @@ const NGRX = [
     {
       provide: TUI_LANGUAGE,
       useValue: of(TUI_VIETNAMESE_LANGUAGE),
-    },
-    {
-      provide: TUI_DIALOG_CLOSES_ON_BACK,
-      useValue: of(false),
     },
     {
       provide: TUI_SANITIZER,

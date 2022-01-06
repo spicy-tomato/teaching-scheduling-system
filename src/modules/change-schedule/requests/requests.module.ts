@@ -8,7 +8,6 @@ import { StoreModule } from '@ngrx/store';
 import * as fromRequests from './state';
 import { TuiTableModule } from '@taiga-ui/addon-table';
 import {
-  TuiButtonModule,
   TuiDataListModule,
   TuiHintModule,
   TuiLoaderModule,
@@ -20,11 +19,11 @@ import {
   TuiPaginationModule,
   TuiSelectModule,
 } from '@taiga-ui/kit';
-import { FormsModule } from '@angular/forms';
 import { PipesModule } from '@pipes/pipes.module';
 import { RequestsOptionsComponent } from './requests-options/requests-options.component';
 import { RequestsListComponent } from './requests-list/requests-list.component';
 import { RequestsPaginationComponent } from './requests-pagination/requests-pagination.component';
+import { SharedRequestsModule } from './_shared/shared-requests.module';
 
 const NGRX = [
   ReactiveComponentModule,
@@ -40,7 +39,6 @@ const TAIGA_UI = [
   TuiLoaderModule,
   TuiScrollbarModule,
   TuiCheckboxLabeledModule,
-  TuiButtonModule,
   TuiHintModule,
   TuiPaginationModule,
   TuiSelectModule,
@@ -51,12 +49,17 @@ const TAIGA_UI = [
 @NgModule({
   imports: [
     CommonModule,
-    FormsModule,
     RequestsRoutingModule,
+    SharedRequestsModule,
     PipesModule,
     ...NGRX,
     ...TAIGA_UI,
   ],
-  declarations: [RequestsComponent, RequestsOptionsComponent, RequestsListComponent, RequestsPaginationComponent],
+  declarations: [
+    RequestsComponent,
+    RequestsOptionsComponent,
+    RequestsListComponent,
+    RequestsPaginationComponent,
+  ],
 })
 export class RequestsModule {}
