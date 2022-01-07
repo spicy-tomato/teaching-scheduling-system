@@ -4,7 +4,7 @@ import * as ApiAction from './app-shell.api.actions';
 import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { TokenService } from '@services/core/token.service';
+import { AccessTokenService } from '@services/core/access-token.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '@services/user.service';
 import { Teacher } from 'src/shared/models';
@@ -43,7 +43,7 @@ export class AppShellEffects {
         mergeMap(() =>
           of({}).pipe(
             tap(() => {
-              this.tokenService.clear();
+              this.accessTokenService.clear();
               void this.router.navigate(['']);
             })
           )
@@ -72,6 +72,6 @@ export class AppShellEffects {
     private readonly router: Router,
     private readonly userService: UserService,
     private readonly commonInfoService: CommonInfoService,
-    private readonly tokenService: TokenService
+    private readonly accessTokenService: AccessTokenService
   ) {}
 }
