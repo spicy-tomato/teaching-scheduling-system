@@ -38,6 +38,7 @@
         <th tuiTh *tuiHead="'status'" [sorter]="null" rowspan="2">
           Trạng thái
         </th>
+        <th tuiTh *tuiHead="'actions'" [sorter]="null" rowspan="2">Thao tác</th>
       </tr>
       <tr tuiThGroup>
         <th tuiTh *tuiHead="'oldDate'" [sorter]="null" class="border">Cũ</th>
@@ -128,8 +129,9 @@
           <div
             *ngIf="item.status; else actions"
             [ngClass]="{
+              deny: item.status === -1,
               accept: item.status === 1,
-              deny: item.status === -1
+              complete: item.status === 2
             }"
             class="text-center"
           >
@@ -148,22 +150,35 @@
                   [tuiHintShowDelay]="300"
                   [tuiHintHideDelay]="100"
                   (click)="onAccept(item.id)"
+                  tuiHint="Chấp nhận"
                   icon="tuiIconCheck"
                   appearance="positive"
-                  tuiHint="Chấp nhận"
                 ></button>
                 <button
                   tuiIconButton
                   [tuiHintShowDelay]="300"
                   [tuiHintHideDelay]="100"
                   (click)="onDeny(item.id)"
+                  tuiHint="Từ chối"
                   icon="tuiIconClose"
                   appearance="negative"
-                  tuiHint="Từ chối"
                 ></button>
               </div>
             </tui-loader>
           </ng-template>
+        </td>
+        <td *tuiCell="'actions'" tuiTd>
+          <div *ngIf="item.status > 0" class="d-flex justify-content-center">
+            <button
+              tuiIconButton
+              [tuiHintShowDelay]="300"
+              [tuiHintHideDelay]="100"
+              [icon]="IconConstant.exportVariantLarge"
+              (click)="onExport(item)"
+              tuiHint="Xuất file yêu cầu"
+              appearance="icon"
+            ></button>
+          </div>
         </td>
       </tr>
     </tbody>

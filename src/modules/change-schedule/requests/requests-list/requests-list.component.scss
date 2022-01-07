@@ -20,11 +20,14 @@ tr {
 td {
   &.status {
     font-weight: 600;
-    .accept {
-      color: var(--tui-positive);
-    }
     .deny {
       color: var(--tui-negative);
+    }
+    .accept {
+      color: var(--tui-link);
+    }
+    .complete {
+      color: var(--tui-positive);
     }
   }
   button {
