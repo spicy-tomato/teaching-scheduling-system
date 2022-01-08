@@ -52,7 +52,10 @@ export class GoogleService extends BaseComponent {
       .getAuthInstance()
       .signIn()
       .then(
-        () => this.loggedIn$.next(true),
+        (x) => {
+          console.log(x);
+          this.loggedIn$.next(true);
+        },
         () => this.loggedIn$.next(false)
       );
   }

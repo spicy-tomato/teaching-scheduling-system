@@ -49,6 +49,20 @@ export class UserSettingComponent extends BaseComponent implements OnInit {
 
   public other(): void {
     void gapi.auth2
+      .getAuthInstance().currentUser.get()
+      .grantOfflineAccess({
+        prompt: 'consent',
+        scope: 'https://www.googleapis.com/auth/calendar',
+      })
+      .then(function (resp) {
+        console.log(resp.code);
+      });
+
+    // console.log(gapi.client.getToken());
+  }
+
+  public other2(): void {
+    void gapi.auth2
       .getAuthInstance()
       .grantOfflineAccess({
         scope: 'https://www.googleapis.com/auth/calendar',
