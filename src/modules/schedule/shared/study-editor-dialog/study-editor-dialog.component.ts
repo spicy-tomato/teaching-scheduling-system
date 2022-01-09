@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ScheduleService } from '@services/schedule.service';
 import {
   TuiAppearance,
@@ -12,14 +12,8 @@ import { EjsScheduleModel } from 'src/shared/models';
 import { CoreConstant } from '@shared/constants';
 import {
   beforeTodayValidator,
-  notContainValueValidator,
   sameValueValidator,
 } from 'src/shared/validators';
-import { Observable } from 'rxjs';
-import { BaseComponent } from '@modules/core/base/base.component';
-import * as fromAppShell from '@modules/core/components/app-shell/state';
-import { Store } from '@ngrx/store';
-import { takeUntil, tap } from 'rxjs/operators';
 import { TuiDay } from '@taiga-ui/cdk';
 import { sqlDateFactory } from '@shared/factories';
 
@@ -38,42 +32,25 @@ import { sqlDateFactory } from '@shared/factories';
     },
   ],
 })
-export class StudyEditorDialogComponent extends BaseComponent {
+export class StudyEditorDialogComponent {
   /** PUBLIC PROPERTIES */
   public form!: FormGroup;
   public requestingChangeSchedule = false;
   public sending = false;
   public validRequestChangeSchedule = true;
-  public rooms$: Observable<string[]>;
 
   public readonly shifts = CoreConstant.SHIFTS;
   public readonly shiftKeys = Object.keys(CoreConstant.SHIFTS);
   public readonly noteMaxLength = 1000;
-
-  /** GETTERS */
-  public get people(): AbstractControl {
-    return this.form.controls['people'];
-  }
-
-  public get note(): AbstractControl {
-    return this.form.controls['note'];
-  }
 
   /** CONSTRUCTOR */
   constructor(
     private fb: FormBuilder,
     private scheduleService: ScheduleService,
     @Inject(POLYMORPHEUS_CONTEXT)
-    private readonly context: TuiDialogContext<boolean, EjsScheduleModel>,
-    appShellStore: Store<fromAppShell.AppShellState>
+    private readonly context: TuiDialogContext<boolean, EjsScheduleModel>
   ) {
-    super();
-
-    this.rooms$ = appShellStore
-      .select(fromAppShell.selectRooms)
-      .pipe(takeUntil(this.destroy$));
-
-    this.triggerInitForm(context.data);
+    this.initForm(context.data);
   }
 
   /** PUBLIC METHODS */
@@ -124,11 +101,7 @@ export class StudyEditorDialogComponent extends BaseComponent {
   }
 
   /** PRIVATE METHODS */
-  private triggerInitForm(data: EjsScheduleModel): void {
-    this.rooms$.pipe(tap((rooms) => this.initForm(data, rooms))).subscribe();
-  }
-
-  private initForm(data: EjsScheduleModel, rooms: string[]): void {
+  private initForm(data: EjsScheduleModel): void {
     const startDate = data.StartTime as Date;
     const endDate = data.EndTime as Date;
     const today = new Date();
@@ -159,10 +132,7 @@ export class StudyEditorDialogComponent extends BaseComponent {
           note: [initialRequest.note],
           shift: [initialRequest.shift],
           date: [initialRequest.date, beforeTodayValidator()],
-          room: [
-            initialRequest.room,
-            notContainValueValidator(rooms, 'Mã phòng'),
-          ],
+          room: [initialRequest.room],
         },
         {
           validators: sameValueValidator(initialRequest),

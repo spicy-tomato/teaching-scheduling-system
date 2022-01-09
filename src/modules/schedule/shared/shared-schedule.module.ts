@@ -5,10 +5,8 @@ import { ExamEditorDialogComponent } from './exam-editor-dialog/exam-editor-dial
 import { StudyEditorDialogComponent } from './study-editor-dialog/study-editor-dialog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
-  TuiComboBoxModule,
   TuiDataListWrapperModule,
   TuiFieldErrorModule,
-  TuiFilterByInputPipeModule,
   TuiInputDateModule,
   TuiInputDateTimeModule,
   TuiInputModule,
@@ -47,8 +45,6 @@ const TAIGA_UI = [
   TuiHintControllerModule,
   TuiFieldErrorModule,
   TuiInputDateModule,
-  TuiComboBoxModule,
-  TuiFilterByInputPipeModule,
   TuiUnfinishedValidatorModule,
   ...EXPORT_TAIGA_UI,
 ];

@@ -19,7 +19,7 @@
       </tui-input-date-time>
     </div>
   </div>
-  <div *ngIf="people.value !== 'self'" class="tui-form__row">
+  <div *ngIf="form.controls['people'].value !== 'self'" class="tui-form__row">
     <tui-input [readOnly]="true" formControlName="people">
       Giảng viên
     </tui-input>
@@ -52,14 +52,21 @@
         </tui-data-list>
       </tui-select>
     </div>
-    <div class="tui-form__row">
-      <tui-combo-box *ngrxLet="rooms$ as rooms" formControlName="room">
+    <div
+      *ngIf="form.controls['location'].value !== 'PHTT'"
+      class="tui-form__row"
+    >
+      <tui-select formControlName="room">
         Chọn phòng:
-        <tui-data-list-wrapper
-          *tuiDataList
-          [items]="rooms | tuiFilterByInput"
-        ></tui-data-list-wrapper>
-      </tui-combo-box>
+        <ng-template tuiDataList>
+          <tui-data-list>
+            <button tuiOption value="PHTT">Phòng học trực tuyến</button>
+            <button tuiOption [value]="null">
+              {{ form.controls["location"].value }}
+            </button>
+          </tui-data-list>
+        </ng-template>
+      </tui-select>
       <tui-field-error formControlName="room"></tui-field-error>
     </div>
   </tui-expand>
