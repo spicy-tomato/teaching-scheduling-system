@@ -4,6 +4,7 @@ import { EApiStatus } from '@shared/enums';
 import { ScheduleState } from '.';
 import * as ApiAction from './schedule.api.actions';
 import * as PageAction from './schedule.page.actions';
+import { ArrayHelper } from '@shared/helpers';
 
 const initialState: ScheduleState = {
   status: EApiStatus.unknown,
@@ -92,7 +93,11 @@ export const scheduleReducer = createReducer(
         ...state.schedules,
         personal: {
           ...state.schedules.personal,
-          study: [...state.schedules.personal.study, ...schedules],
+          study: ArrayHelper.mergeWith(
+            'id',
+            state.schedules.personal.study,
+            schedules
+          ),
         },
       },
       status: EApiStatus.successful,
@@ -106,7 +111,11 @@ export const scheduleReducer = createReducer(
         ...state.schedules,
         personal: {
           ...state.schedules.personal,
-          exam: [...state.schedules.personal.exam, ...schedules],
+          exam: ArrayHelper.mergeWith(
+            'id',
+            state.schedules.personal.exam,
+            schedules
+          ),
         },
       },
       status: EApiStatus.successful,
@@ -122,7 +131,11 @@ export const scheduleReducer = createReducer(
           ...state.schedules,
           department: {
             ...state.schedules.personal,
-            study: [...state.schedules.department.study, ...schedules],
+            study: ArrayHelper.mergeWith(
+              'id',
+              state.schedules.department.study,
+              schedules
+            ),
           },
         },
         status: EApiStatus.successful,
@@ -137,7 +150,11 @@ export const scheduleReducer = createReducer(
         ...state.schedules,
         department: {
           ...state.schedules.personal,
-          exam: [...state.schedules.department.exam, ...schedules],
+          exam: ArrayHelper.mergeWith(
+            'id',
+            state.schedules.department.exam,
+            schedules
+          ),
         },
       },
       status: EApiStatus.successful,
