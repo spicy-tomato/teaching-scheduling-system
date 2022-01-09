@@ -8,7 +8,7 @@ import {
 } from '@taiga-ui/core';
 import { DateHelper } from '@shared/helpers';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { EjsScheduleModel, Nullable } from 'src/shared/models';
+import { EjsScheduleModel } from 'src/shared/models';
 import { CoreConstant } from '@shared/constants';
 import {
   beforeTodayValidator,
@@ -51,12 +51,12 @@ export class StudyEditorDialogComponent extends BaseComponent {
   public readonly noteMaxLength = 1000;
 
   /** GETTERS */
-  public get people(): Nullable<AbstractControl> {
-    return this.form.get('people');
+  public get people(): AbstractControl {
+    return this.form.controls['people'];
   }
 
-  public get note(): Nullable<AbstractControl> {
-    return this.form.get('note');
+  public get note(): AbstractControl {
+    return this.form.controls['note'];
   }
 
   /** CONSTRUCTOR */
@@ -78,12 +78,11 @@ export class StudyEditorDialogComponent extends BaseComponent {
 
   /** PUBLIC METHODS */
   public onSubmit(): void {
-    const request = this.form.get('request');
-    if (!request) return;
+    const request = this.form.controls['request'];
 
     this.sending = true;
 
-    const idSchedule = parseInt(this.form.get('id')?.value as string);
+    const idSchedule = parseInt(this.form.controls['id'].value as string);
     const newIdRoom = request.get('room')?.value as string;
     const newShift = request.get('shift')?.value as string;
     const newDate = DateHelper.toDateOnlyString(

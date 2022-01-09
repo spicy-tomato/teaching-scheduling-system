@@ -19,7 +19,7 @@
       </tui-input-date-time>
     </div>
   </div>
-  <div *ngIf="people && people.value !== 'self'" class="tui-form__row">
+  <div *ngIf="people.value !== 'self'" class="tui-form__row">
     <tui-input [readOnly]="true" formControlName="people">
       Giảng viên
     </tui-input>
