@@ -67,7 +67,7 @@ export const requestsReducer = createReducer(
       ...state,
       changeSchedules: state.changeSchedules.map((x) => {
         if (x.id === id) {
-          const newObj = { ...x, status: 1 };
+          const newObj = { ...x, status: 1, timeAccept: new Date() };
           return newObj;
         }
         return x;

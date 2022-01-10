@@ -55,15 +55,16 @@ export class StudyEditorDialogComponent {
 
   /** PUBLIC METHODS */
   public onSubmit(): void {
-    const request = this.form.controls['request'];
+    const request = this.form.controls['request'] as FormGroup;
 
     this.sending = true;
 
     const idSchedule = parseInt(this.form.controls['id'].value as string);
-    const newIdRoom = request.get('room')?.value as string;
-    const newShift = request.get('shift')?.value as string;
+    const newIdRoom =
+      (request.controls['room'].value as string) === 'PHTT' ? 'PHTT' : null;
+    const newShift = request.controls['shift'].value as string;
     const newDate = DateHelper.toDateOnlyString(
-      (request.get('date')?.value as TuiDay).toLocalNativeDate()
+      (request.controls['date'].value as TuiDay).toLocalNativeDate()
     );
 
     this.scheduleService
@@ -140,6 +141,7 @@ export class StudyEditorDialogComponent {
       ),
     });
 
-    this.validRequestChangeSchedule = startDate > new Date() && data.People?.[0] === 'self';
+    this.validRequestChangeSchedule =
+      startDate > new Date() && data.People?.[0] === 'self';
   }
 }
