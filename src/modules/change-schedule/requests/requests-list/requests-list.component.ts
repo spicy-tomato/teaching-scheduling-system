@@ -38,7 +38,7 @@ import {
   VerticalAlign,
 } from 'docx';
 import { saveAs } from 'file-saver';
-import { DateHelper } from '@shared/helpers';
+import { DateHelper, StringHelper } from '@shared/helpers';
 import { IconConstant } from '@shared/constants/components/icon.constant';
 import { DatePipe } from '@angular/common';
 import { TokenService } from '@services/core/token.service';
@@ -143,7 +143,7 @@ export class RequestsListComponent extends BaseComponent {
 
   public onExport(schedule: ChangeSchedule): void {
     const document = this.generateFile(schedule);
-    this.export(document);
+    this.export(document, schedule.teacher);
   }
 
   /** PRIVATE METHODS */
@@ -579,13 +579,17 @@ export class RequestsListComponent extends BaseComponent {
     });
   }
 
-  private export(doc: Document): void {
+  private export(doc: Document, name: string): void {
     const mimeType =
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
     void Packer.toBlob(doc).then((blob) => {
       const docBlob = blob.slice(0, blob.size, mimeType);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      saveAs(docBlob, 'New Document.docx');
+      saveAs(
+        docBlob,
+        `Giay-xin-thay-doi-gio-giang_${StringHelper.toLatinText(name)
+          .split(' ')
+          .join('-')}.docx`
+      );
     });
   }
 }
