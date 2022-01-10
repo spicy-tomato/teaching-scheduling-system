@@ -140,6 +140,6 @@ export class StudyEditorDialogComponent {
       ),
     });
 
-    this.validRequestChangeSchedule = startDate > new Date();
+    this.validRequestChangeSchedule = startDate > new Date() && data.People?.[0] === 'self';
   }
 }

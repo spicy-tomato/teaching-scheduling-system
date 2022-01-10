@@ -51,7 +51,6 @@ export class RequestsEffects extends BaseComponent {
       map((x) => x.options.selectedStatus),
       filter((x) => x !== undefined),
       mergeMap((status) => {
-        console.log('load 1');
         return of(
           PageAction.load({
             query: {
@@ -68,7 +67,6 @@ export class RequestsEffects extends BaseComponent {
     return this.actions$.pipe(
       ofType(PageAction.changePage),
       mergeMap(({ page }) => {
-        console.log('load 2');
         return this.options$.pipe(
           map((options) =>
             PageAction.load({

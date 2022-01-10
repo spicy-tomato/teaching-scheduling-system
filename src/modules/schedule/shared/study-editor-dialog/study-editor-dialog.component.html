@@ -95,7 +95,7 @@
     <ng-template #notEditing>
       <button
         tuiButton
-        [hidden]="!validRequestChangeSchedule"
+        *ngIf="validRequestChangeSchedule"
         (click)="onClickRequestingChangeSchedule()"
         class="tui-form__button"
       >

@@ -24,13 +24,14 @@ const initialState: ScheduleState = {
     department: {
       exam: [],
       study: [],
+      ranges: [],
     },
     personal: {
       exam: [],
       study: [],
+      ranges: [],
     },
   },
-  ranges: [],
   view: 'Month',
   selectedDate: new Date(),
   month: new TuiMonth(new Date().getFullYear(), new Date().getMonth()),
@@ -88,11 +89,11 @@ export const scheduleReducer = createReducer(
   on(ApiAction.loadPersonalStudySuccessful, (state, { schedules, ranges }) => {
     return {
       ...state,
-      ranges,
       schedules: {
         ...state.schedules,
         personal: {
           ...state.schedules.personal,
+          ranges,
           study: ArrayHelper.mergeWith(
             'id',
             state.schedules.personal.study,
@@ -106,11 +107,11 @@ export const scheduleReducer = createReducer(
   on(ApiAction.loadPersonalExamSuccessful, (state, { schedules, ranges }) => {
     return {
       ...state,
-      ranges,
       schedules: {
         ...state.schedules,
         personal: {
           ...state.schedules.personal,
+          ranges,
           exam: ArrayHelper.mergeWith(
             'id',
             state.schedules.personal.exam,
@@ -126,11 +127,11 @@ export const scheduleReducer = createReducer(
     (state, { schedules, ranges }) => {
       return {
         ...state,
-        ranges,
         schedules: {
           ...state.schedules,
           department: {
             ...state.schedules.personal,
+            ranges,
             study: ArrayHelper.mergeWith(
               'id',
               state.schedules.department.study,
@@ -145,11 +146,11 @@ export const scheduleReducer = createReducer(
   on(ApiAction.loadDepartmentExamSuccessful, (state, { schedules, ranges }) => {
     return {
       ...state,
-      ranges,
       schedules: {
         ...state.schedules,
         department: {
           ...state.schedules.personal,
+          ranges,
           exam: ArrayHelper.mergeWith(
             'id',
             state.schedules.department.exam,

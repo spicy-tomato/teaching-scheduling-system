@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, OperatorFunction } from 'rxjs';
 import {
   catchError,
   filter,
@@ -45,7 +45,7 @@ export class ScheduleEffects extends BaseComponent {
   public loadPersonalTeachingSchedule$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.load),
-      calculateRangeO(this.ranges$),
+      calculateRangeO(this.ranges$.pipe(map((x) => x.personal))),
       mergeMap(({ fetch, ranges }) => {
         return this.scheduleService.getSchedule(fetch).pipe(
           map((schedules) =>
@@ -60,7 +60,7 @@ export class ScheduleEffects extends BaseComponent {
   public loadPersonalExamSchedule$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.load),
-      calculateRangeO(this.ranges$),
+      calculateRangeO(this.ranges$.pipe(map((x) => x.personal))),
       mergeMap(({ fetch, ranges }) => {
         return this.scheduleService.getExamSchedule(fetch).pipe(
           map((schedules) =>
@@ -79,8 +79,8 @@ export class ScheduleEffects extends BaseComponent {
         this.permission$,
         PermissionConstant.SEE_DEPARTMENT_SCHEDULE
       ),
-      calculateRangeO(this.ranges$),
-      withLatestFrom(this.department$.pipe(ObservableHelper.filterNullish())),
+      calculateRangeO(this.ranges$.pipe(map((x) => x.department))),
+      ObservableHelper.waitNullish(this.department$),
       mergeMap(([{ fetch, ranges }, department]) => {
         return this.scheduleService
           .getDepartmentSchedule(department, fetch)
@@ -104,8 +104,8 @@ export class ScheduleEffects extends BaseComponent {
         this.permission$,
         PermissionConstant.SEE_DEPARTMENT_SCHEDULE
       ),
-      calculateRangeO(this.ranges$),
-      withLatestFrom(this.department$.pipe(ObservableHelper.filterNullish())),
+      calculateRangeO(this.ranges$.pipe(map((x) => x.department))),
+      ObservableHelper.waitNullish(this.department$),
       mergeMap(([{ fetch, ranges }, department]) => {
         return this.scheduleService
           .getDepartmentExamSchedule(department, fetch)
@@ -306,12 +306,12 @@ function resolveConflictRanges(ranges: TuiDayRange[]): TuiDayRange[] {
   return ranges;
 }
 
-function calculateRangeO(ranges$: Observable<TuiDayRange[]>): (
-  source$: Observable<{ date: Date }>
-) => Observable<{
-  fetch: SearchSchedule;
-  ranges: TuiDayRange[];
-}> {
+function calculateRangeO(
+  ranges$: Observable<TuiDayRange[]>
+): OperatorFunction<
+  { date: Date },
+  { fetch: SearchSchedule; ranges: TuiDayRange[] }
+> {
   return (source$) =>
     source$.pipe(
       withLatestFrom(ranges$),
