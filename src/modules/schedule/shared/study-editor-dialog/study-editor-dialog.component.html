@@ -53,22 +53,16 @@
         </tui-data-list>
       </tui-select>
     </div>
-    <div
-      *ngIf="form.controls['location'].value !== 'PHTT'"
-      class="tui-form__row"
-    >
-      <tui-select formControlName="room">
-        Chọn phòng:
+    <div class="tui-form__row">
+      <tui-select [valueContent]="studyTypeContent" formControlName="online">
+        Chọn hình thức học:
         <ng-template tuiDataList>
           <tui-data-list>
-            <button tuiOption value="PHTT">Phòng học trực tuyến</button>
-            <button tuiOption value="Học trực tiếp">
-              Học trục tiếp
-            </button>
+            <button tuiOption [value]="true">Phòng học trực tuyến</button>
+            <button tuiOption [value]="false">Học trục tiếp</button>
           </tui-data-list>
         </ng-template>
       </tui-select>
-      <tui-field-error formControlName="room"></tui-field-error>
     </div>
   </tui-expand>
 
@@ -116,4 +110,8 @@
 
 <ng-template #shiftSelectContent let-shiftKey>
   {{ shiftKey | shift }}
+</ng-template>
+
+<ng-template #studyTypeContent let-online>
+  {{ online ? "Phòng học trục tuyến" : "Học trực tiếp" }}
 </ng-template>

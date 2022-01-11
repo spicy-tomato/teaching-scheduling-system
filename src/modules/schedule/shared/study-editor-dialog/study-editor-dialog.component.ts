@@ -58,8 +58,9 @@ export class StudyEditorDialogComponent {
     this.sending = true;
 
     const idSchedule = parseInt(this.form.controls['id'].value as string);
-    const newIdRoom =
-      (request.controls['room'].value as string) === 'PHTT' ? 'PHTT' : null;
+    const newIdRoom = (request.controls['room'].value as boolean)
+      ? 'PHTT'
+      : null;
     const newShift = request.controls['shift'].value as string;
     const newDate = DateHelper.toDateOnlyString(
       (request.controls['date'].value as TuiDay).toLocalNativeDate()
@@ -116,7 +117,7 @@ export class StudyEditorDialogComponent {
       note: data.Note,
       date: startTuiDate,
       shift: data.Shift ?? '1',
-      room,
+      online: room === 'PHTT',
     };
 
     this.form = this.fb.group({
@@ -131,6 +132,7 @@ export class StudyEditorDialogComponent {
           note: [initialRequest.note],
           shift: [initialRequest.shift],
           date: [initialRequest.date, Validators.required],
+          online: [initialRequest.online],
         },
         {
           validators: sameValueValidator(initialRequest),
