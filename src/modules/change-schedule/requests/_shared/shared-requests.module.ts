@@ -11,7 +11,7 @@ const EXPORT_TAIGA_UI = [TuiButtonModule];
 const TAIGA_UI = [TuiTextAreaModule, ...EXPORT_TAIGA_UI];
 
 @NgModule({
-  imports: [CommonModule, ...TAIGA_UI, ...EXPORT],
+  imports: [CommonModule, ...EXPORT, ...TAIGA_UI],
   declarations: [...COMPONENTS],
   exports: [...EXPORT, ...EXPORT_TAIGA_UI],
 })

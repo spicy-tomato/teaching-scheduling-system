@@ -37,7 +37,7 @@ export class StudyEditorDialogComponent {
   public form!: FormGroup;
   public requestingChangeSchedule = false;
   public sending = false;
-  public validRequestChangeSchedule = true;
+  public validRequestChangeSchedule!: boolean;
 
   public readonly shifts = CoreConstant.SHIFTS;
   public readonly shiftKeys = Object.keys(CoreConstant.SHIFTS);
@@ -142,6 +142,7 @@ export class StudyEditorDialogComponent {
     });
 
     this.validRequestChangeSchedule =
-      startDate > new Date() && data.People?.[0] === 'self';
+      startDate > DateHelper.subtract(new Date(), 3) &&
+      data.People?.[0] === 'self';
   }
 }

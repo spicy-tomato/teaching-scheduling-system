@@ -62,4 +62,9 @@ export class DateHelper {
   public static toSqlDate(date: Date): string {
     return date.toISOString().slice(0, 19).replace('T', ' ');
   }
+
+  public static subtract(day: Date, amount: number): Date {
+    day.setDate(day.getDate() - amount);
+    return day;
+  }
 }
