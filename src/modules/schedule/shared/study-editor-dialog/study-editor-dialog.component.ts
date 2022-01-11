@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ScheduleService } from '@services/schedule.service';
 import {
   TuiAppearance,
@@ -10,10 +10,7 @@ import { DateHelper } from '@shared/helpers';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { EjsScheduleModel } from 'src/shared/models';
 import { CoreConstant } from '@shared/constants';
-import {
-  beforeTodayValidator,
-  sameValueValidator,
-} from 'src/shared/validators';
+import { sameValueValidator } from 'src/shared/validators';
 import { TuiDay } from '@taiga-ui/cdk';
 import { sqlDateFactory } from '@shared/factories';
 
@@ -38,6 +35,7 @@ export class StudyEditorDialogComponent {
   public requestingChangeSchedule = false;
   public sending = false;
   public validRequestChangeSchedule!: boolean;
+  public firstDateAllowRequestChange!: Date;
 
   public readonly shifts = CoreConstant.SHIFTS;
   public readonly shiftKeys = Object.keys(CoreConstant.SHIFTS);
@@ -132,8 +130,7 @@ export class StudyEditorDialogComponent {
         {
           note: [initialRequest.note],
           shift: [initialRequest.shift],
-          date: [initialRequest.date, beforeTodayValidator()],
-          room: [initialRequest.room],
+          date: [initialRequest.date, Validators.required],
         },
         {
           validators: sameValueValidator(initialRequest),
@@ -141,8 +138,12 @@ export class StudyEditorDialogComponent {
       ),
     });
 
+    this.firstDateAllowRequestChange =
+      startDate < DateHelper.dateAtZero()
+        ? DateHelper.subtract(today, 3)
+        : today;
     this.validRequestChangeSchedule =
-      startDate > DateHelper.subtract(new Date(), 3) &&
+      startDate > this.firstDateAllowRequestChange &&
       data.People?.[0] === 'self';
   }
 }

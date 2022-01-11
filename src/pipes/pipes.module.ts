@@ -4,8 +4,15 @@ import { DateTimePipe } from './date-time.pipe';
 import { NavbarNamePipe } from './navbar-name.pipe';
 import { BeautifyTimePipe } from './beautify-date-time.pipe';
 import { ShiftPipe } from './shift.pipe';
+import { TuiDayPipe } from './tui-day.pipe';
 
-const PIPES = [DateTimePipe, NavbarNamePipe, BeautifyTimePipe, ShiftPipe];
+const PIPES = [
+  DateTimePipe,
+  NavbarNamePipe,
+  BeautifyTimePipe,
+  ShiftPipe,
+  TuiDayPipe,
+];
 
 @NgModule({
   imports: [CommonModule],

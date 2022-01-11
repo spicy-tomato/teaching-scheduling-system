@@ -1,4 +1,5 @@
 import { ScheduleComponent, View } from '@syncfusion/ej2-angular-schedule';
+import { DateHelper } from './date.helper';
 
 export class ScheduleHelper {
   public static dayInCurrentView(
@@ -12,10 +13,7 @@ export class ScheduleHelper {
 
     return (
       (view !== 'Day' && first <= date && date <= last) ||
-      (view === 'Day' &&
-        first.getDate() === date.getDate() &&
-        first.getMonth() === date.getMonth() &&
-        first.getFullYear() === date.getFullYear())
+      (view === 'Day' && DateHelper.sameDay(first, date))
     );
   }
 }

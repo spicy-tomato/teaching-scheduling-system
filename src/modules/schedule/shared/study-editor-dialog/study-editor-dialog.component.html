@@ -27,8 +27,9 @@
 
   <tui-expand [expanded]="requestingChangeSchedule" formGroupName="request">
     <h3 class="tui-form__header">Yêu cầu thay đổi lịch giảng</h3>
-    <div class="tui-form__row">
+    <div [tuiTextfieldCleaner]="true" class="tui-form__row">
       <tui-input-date
+        [min]="firstDateAllowRequestChange | tuiDay"
         formControlName="date"
         tuiUnfinishedValidator="Ngày không hợp lệ!"
       >
