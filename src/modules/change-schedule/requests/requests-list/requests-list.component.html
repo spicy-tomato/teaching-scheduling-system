@@ -169,15 +169,19 @@
         </td>
         <td *tuiCell="'actions'" tuiTd>
           <div *ngIf="item.status > 0" class="d-flex justify-content-center">
-            <button
-              tuiIconButton
-              [tuiHintShowDelay]="300"
-              [tuiHintHideDelay]="100"
-              [icon]="IconConstant.exportVariantLarge"
-              (click)="onExport(item)"
-              tuiHint="Xuất file yêu cầu"
-              appearance="icon"
-            ></button>
+            <ng-container
+              *tssVar="item.timeRequest | date: 'dd-MM-Y' as timeRequest"
+            >
+              <button
+                tuiIconButton
+                [tuiHintShowDelay]="300"
+                [tuiHintHideDelay]="100"
+                [icon]="IconConstant.exportVariantLarge"
+                (click)="onExport(item, timeRequest)"
+                tuiHint="Xuất file yêu cầu"
+                appearance="icon"
+              ></button>
+            </ng-container>
           </div>
         </td>
       </tr>

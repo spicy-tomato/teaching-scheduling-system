@@ -36,6 +36,8 @@ import {
   TextRun,
   WidthType,
   VerticalAlign,
+  SectionType,
+  ColumnBreak,
 } from 'docx';
 import { saveAs } from 'file-saver';
 import { DateHelper, StringHelper } from '@shared/helpers';
@@ -141,15 +143,20 @@ export class RequestsListComponent extends BaseComponent {
       .subscribe();
   }
 
-  public onExport(schedule: ChangeSchedule): void {
+  public onExport(schedule: ChangeSchedule, timeRequest: string): void {
     const document = this.generateFile(schedule);
-    this.export(document, schedule.teacher);
+    this.export(document, schedule.teacher, timeRequest);
   }
 
   /** PRIVATE METHODS */
   private generateFile(schedule: ChangeSchedule): Document {
     const alignment = AlignmentType.CENTER;
     const today = new Date();
+    const page = {
+      size: {
+        orientation: PageOrientation.LANDSCAPE,
+      },
+    };
 
     return new Document({
       styles: {
@@ -170,11 +177,7 @@ export class RequestsListComponent extends BaseComponent {
       sections: [
         {
           properties: {
-            page: {
-              size: {
-                orientation: PageOrientation.LANDSCAPE,
-              },
-            },
+            page,
           },
           children: [
             new Paragraph({
@@ -187,11 +190,7 @@ export class RequestsListComponent extends BaseComponent {
                   text: 'Cộng hòa xã hội chủ nghĩa Việt Nam',
                   allCaps: true,
                 }),
-              ],
-            }),
-            new Paragraph({
-              alignment,
-              children: [
+                new TextRun({ break: 1 }),
                 new TextRun({
                   text: 'Độc lập – Tự do – Hạnh phúc',
                   bold: true,
@@ -216,6 +215,9 @@ export class RequestsListComponent extends BaseComponent {
               indent: {
                 firstLine: '0.5in',
               },
+              spacing: {
+                line: 375,
+              },
               children: [
                 new TextRun({
                   text: 'Kính gửi: ',
@@ -224,30 +226,19 @@ export class RequestsListComponent extends BaseComponent {
                 new TextRun({
                   text: 'Ban Quản lý Giảng đường',
                 }),
-              ],
-            }),
-            new Paragraph({
-              children: [
+                new TextRun({ break: 1 }),
                 new TextRun({
                   text: `Họ và tên giảng viên: ${schedule.teacher}`,
                 }),
-              ],
-            }),
-            new Paragraph({
-              children: [
+                new TextRun({ break: 1 }),
                 new TextRun({
                   text: `Bộ môn: ${schedule.teacher}`,
                 }),
-              ],
-            }),
-            new Paragraph({
-              spacing: {
-                after: 260,
-              },
-              children: [
+                new TextRun({ break: 1 }),
                 new TextRun({
                   text: `Lý do thay đổi: ${schedule.teacher}`,
                 }),
+                new TextRun({ break: 1 }),
               ],
             }),
             new Table({
@@ -542,34 +533,38 @@ export class RequestsListComponent extends BaseComponent {
                 }),
               ],
             }),
+          ],
+        },
+        {
+          properties: {
+            page,
+            column: {
+              count: 3,
+              equalWidth: true,
+            },
+            type: SectionType.CONTINUOUS,
+          },
+          children: [
             new Paragraph({
-              indent: {
-                left: '8in',
-                firstLine: '0.1in',
+              alignment,
+              spacing: {
+                before: 280,
               },
-              children: [
-                new TextRun({
-                  text: 'Giảng viên',
-                }),
-              ],
-            }),
-            new Paragraph({
               children: [
                 new TextRun({
                   text: 'Ý kiến của bộ môn',
                 }),
-              ],
-            }),
-            new Paragraph({
-              indent: {
-                left: '7.75in',
-              },
-              spacing: {
-                before: 1200,
-              },
-              children: [
+                new ColumnBreak(),
                 new TextRun({
                   text: 'Ý kiến của Điều độ',
+                }),
+                new ColumnBreak(),
+                new TextRun({
+                  text: 'Giảng viên',
+                }),
+                new TextRun({ break: 5 }),
+                new TextRun({
+                  text: schedule.teacher,
                 }),
               ],
             }),
@@ -579,17 +574,16 @@ export class RequestsListComponent extends BaseComponent {
     });
   }
 
-  private export(doc: Document, name: string): void {
+  private export(doc: Document, name: string, timeRequest: string): void {
     const mimeType =
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
     void Packer.toBlob(doc).then((blob) => {
       const docBlob = blob.slice(0, blob.size, mimeType);
-      saveAs(
-        docBlob,
-        `Giay-xin-thay-doi-gio-giang_${StringHelper.toLatinText(name)
-          .split(' ')
-          .join('-')}.docx`
-      );
+      const commonName = 'Giay-xin-thay-doi-gio-giang';
+      const teacherName = `${commonName}_${StringHelper.toLatinText(name)
+        .split(' ')
+        .join('-')}`;
+      saveAs(docBlob, `${commonName}_${teacherName}_${timeRequest}.docx`);
     });
   }
 }

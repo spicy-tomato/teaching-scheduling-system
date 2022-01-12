@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RequestsComponent } from './requests.component';
 import { RequestsRoutingModule } from './requests.routes';
 import { ReactiveComponentModule } from '@ngrx/component';
@@ -24,6 +23,7 @@ import { RequestsOptionsComponent } from './requests-options/requests-options.co
 import { RequestsListComponent } from './requests-list/requests-list.component';
 import { RequestsPaginationComponent } from './requests-pagination/requests-pagination.component';
 import { SharedRequestsModule } from './_shared/shared-requests.module';
+import { SharedChangeScheduleModule } from '../_shared/shared.module';
 
 const NGRX = [
   ReactiveComponentModule,
@@ -48,7 +48,7 @@ const TAIGA_UI = [
 
 @NgModule({
   imports: [
-    CommonModule,
+    SharedChangeScheduleModule,
     RequestsRoutingModule,
     SharedRequestsModule,
     PipesModule,

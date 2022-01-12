@@ -1,4 +1,5 @@
 import { ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
+import { ObjectHelper } from '../helpers/object.helper';
 
 export function sameValueValidator(obj: Record<string, unknown>): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
@@ -8,7 +9,10 @@ export function sameValueValidator(obj: Record<string, unknown>): ValidatorFn {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const controlValue = control.get(key)?.value;
       const value = obj[key];
-      if (value === undefined) {
+      if (
+        ObjectHelper.isNullOrUndefined(value) &&
+        ObjectHelper.isNullOrUndefined(controlValue)
+      ) {
         continue;
       }
 
