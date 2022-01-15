@@ -98,12 +98,27 @@ export class ScheduleService extends BaseDataService {
     );
   }
 
-  public getChangeScheduleRequests(
+  public getDepartmentChangeScheduleRequests(
+    department: string,
     params: ChangeScheduleSearch
   ): Observable<ChangeScheduleResponse> {
-    return this.http.get<ChangeScheduleResponse>(this.url + 'fixed-schedules', {
-      params: { ...params },
-    });
+    return this.http.get<ChangeScheduleResponse>(
+      this.url + `departments/${department}/fixed-schedules`,
+      {
+        params: { ...params },
+      }
+    );
+  }
+
+  public getChangePersonalScheduleRequests(
+    params: ChangeScheduleSearch
+  ): Observable<ChangeScheduleResponse> {
+    return this.http.get<ChangeScheduleResponse>(
+      this.url + 'teachers/01/fixed-schedules',
+      {
+        params: { ...params },
+      }
+    );
   }
 
   public responseChangeScheduleRequests(
