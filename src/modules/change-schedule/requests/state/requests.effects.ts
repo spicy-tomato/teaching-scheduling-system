@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Injectable, OnDestroy } from '@angular/core';
+import { combineLatest, Observable, of, Subject } from 'rxjs';
 import {
   catchError,
   filter,
@@ -7,6 +7,7 @@ import {
   mergeMap,
   take,
   takeUntil,
+  tap,
   withLatestFrom,
 } from 'rxjs/operators';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -16,34 +17,30 @@ import * as fromRequests from '.';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
 import { ScheduleService } from '@services/schedule.service';
 import { BaseComponent } from '@modules/core/base/base.component';
-import { ChangeScheduleOptions } from '@shared/models';
+import { ChangeScheduleOptions, ChangeScheduleSearch } from '@shared/models';
 import { Store } from '@ngrx/store';
-import { DateHelper } from '@shared/helpers';
+import { DateHelper, ObservableHelper } from '@shared/helpers';
 
 @Injectable()
-export class RequestsEffects extends BaseComponent {
+export class RequestsEffects extends BaseComponent implements OnDestroy {
   /** PRIVATE PROPERTIES */
-  private options$: Observable<ChangeScheduleOptions>;
-  private nameTitle$: Observable<string> = this.appShellStore
+  private readonly options$: Observable<ChangeScheduleOptions>;
+  private readonly department$: Observable<string | undefined>;
+  private readonly loadSubject$ = new Subject<ChangeScheduleSearch>();
+  private readonly nameTitle$ = this.appShellStore
     .select(fromAppShell.selectNameTitle)
     .pipe(takeUntil(this.destroy$));
-    
+
   /** EFFECTS */
-  public load$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(PageAction.load),
-      mergeMap(({ query: params }) => {
-        return this.scheduleService.getChangeScheduleRequests(params).pipe(
-          map((changeSchedules) =>
-            ApiAction.loadSuccessful({
-              changeSchedulesResponse: changeSchedules,
-            })
-          ),
-          catchError(() => of(ApiAction.loadFailure()))
-        );
-      })
-    );
-  });
+  public load$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(PageAction.load),
+        tap(({ query }) => this.loadSubject$.next(query))
+      );
+    },
+    { dispatch: false }
+  );
 
   public changeSelectedStatus$ = createEffect(() => {
     return this.actions$.pipe(
@@ -126,13 +123,52 @@ export class RequestsEffects extends BaseComponent {
   constructor(
     private readonly actions$: Actions,
     private readonly scheduleService: ScheduleService,
-    private readonly appShellStore: Store<fromAppShell.AppShellState>,
-    store: Store<fromRequests.RequestsState>
+    private readonly store: Store<fromRequests.RequestsState>,
+    private readonly appShellStore: Store<fromAppShell.AppShellState>
   ) {
     super();
 
     this.options$ = store
       .select(fromRequests.selectOptions)
       .pipe(takeUntil(this.destroy$));
+    this.department$ = appShellStore
+      .select(fromAppShell.selectDepartment)
+      .pipe(takeUntil(this.destroy$));
+    this.nameTitle$ = appShellStore
+      .select(fromAppShell.selectNameTitle)
+      .pipe(takeUntil(this.destroy$));
+
+    this.handleLoad();
+  }
+
+  /** LIFE CYCLES */
+  public ngOnDestroy(): void {
+    this.loadSubject$.complete();
+    super.ngOnDestroy();
+  }
+
+  /** PRIVATE METHODS */
+  private handleLoad(): void {
+    combineLatest([
+      this.department$.pipe(ObservableHelper.filterNullish()),
+      this.loadSubject$,
+    ])
+      .pipe(
+        mergeMap((x) => {
+          return this.scheduleService
+            .getDepartmentChangeScheduleRequests(...x)
+            .pipe(
+              tap((changeSchedules) => {
+                this.store.dispatch(
+                  ApiAction.loadSuccessful({
+                    changeSchedulesResponse: changeSchedules,
+                  })
+                );
+              }),
+              catchError(() => of(this.store.dispatch(ApiAction.loadFailure())))
+            );
+        })
+      )
+      .subscribe();
   }
 }

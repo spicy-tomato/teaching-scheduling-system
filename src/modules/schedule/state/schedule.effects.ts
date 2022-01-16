@@ -1,17 +1,18 @@
-import { Injectable } from '@angular/core';
-import { Observable, of, OperatorFunction } from 'rxjs';
+import { Injectable, OnDestroy } from '@angular/core';
+import { combineLatest, Observable, of, OperatorFunction, Subject } from 'rxjs';
 import {
   catchError,
   filter,
   map,
   mergeMap,
   takeUntil,
+  tap,
   withLatestFrom,
 } from 'rxjs/operators';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import * as fromAppShell from '@modules/core/components/app-shell/state';
 import * as PageAction from './schedule.page.actions';
 import * as ApiAction from './schedule.api.actions';
-import * as fromAppShell from '@modules/core/components/app-shell/state';
 import * as fromSchedule from '.';
 import { ScheduleService } from '@services/schedule.service';
 import { Store } from '@ngrx/store';
@@ -23,23 +24,19 @@ import { ArrayHelper, ObservableHelper } from '@shared/helpers';
 import { View } from '@syncfusion/ej2-angular-schedule';
 
 @Injectable()
-export class ScheduleEffects extends BaseComponent {
+export class ScheduleEffects extends BaseComponent implements OnDestroy {
   /** PRIVATE PROPERTIES */
-  private department$ = this.appShellStore
-    .select(fromAppShell.selectTeacher)
-    .pipe(
-      map((teacher) => teacher?.idDepartment),
-      takeUntil(this.destroy$)
-    );
-  private permission$ = this.appShellStore
-    .select(fromAppShell.selectPermission)
-    .pipe(takeUntil(this.destroy$));
   private ranges$ = this.store
     .select(fromSchedule.selectRanges)
     .pipe(takeUntil(this.destroy$));
   private view$ = this.store
     .select(fromSchedule.selectView)
     .pipe(takeUntil(this.destroy$));
+
+  private readonly permissions$: Observable<number[] | undefined>;
+  private readonly department$: Observable<string | undefined>;
+  private readonly loadDepartmentExamSubject$ = new Subject<Date>();
+  private readonly loadDepartmentScheduleSubject$ = new Subject<Date>();
 
   /** EFFECTS */
   public loadPersonalTeachingSchedule$ = createEffect(() => {
@@ -72,55 +69,18 @@ export class ScheduleEffects extends BaseComponent {
     );
   });
 
-  public loadDepartmentSchedule$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(PageAction.load),
-      ObservableHelper.permission(
-        this.permission$,
-        PermissionConstant.SEE_DEPARTMENT_SCHEDULE
-      ),
-      calculateRangeO(this.ranges$.pipe(map((x) => x.department))),
-      ObservableHelper.waitNullish(this.department$),
-      mergeMap(([{ fetch, ranges }, department]) => {
-        return this.scheduleService
-          .getDepartmentSchedule(department, fetch)
-          .pipe(
-            map((schedules) => {
-              return ApiAction.loadDepartmentStudySuccessful({
-                schedules,
-                ranges,
-              });
-            }),
-            catchError(() => of(ApiAction.loadDepartmentStudyFailure()))
-          );
-      })
-    );
-  });
-
-  public loadDepartmentExamSchedule$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(PageAction.load),
-      ObservableHelper.permission(
-        this.permission$,
-        PermissionConstant.SEE_DEPARTMENT_SCHEDULE
-      ),
-      calculateRangeO(this.ranges$.pipe(map((x) => x.department))),
-      ObservableHelper.waitNullish(this.department$),
-      mergeMap(([{ fetch, ranges }, department]) => {
-        return this.scheduleService
-          .getDepartmentExamSchedule(department, fetch)
-          .pipe(
-            map((schedules) => {
-              return ApiAction.loadDepartmentExamSuccessful({
-                schedules,
-                ranges,
-              });
-            }),
-            catchError(() => of(ApiAction.loadDepartmentExamFailure()))
-          );
-      })
-    );
-  });
+  public loadDepartmentSchedule$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(PageAction.load),
+        tap(({ date }) => {
+          this.loadDepartmentScheduleSubject$.next(date);
+          this.loadDepartmentExamSubject$.next(date);
+        })
+      );
+    },
+    { dispatch: false }
+  );
 
   public prev$ = createEffect(() => {
     return this.actions$.pipe(
@@ -184,9 +144,106 @@ export class ScheduleEffects extends BaseComponent {
     private readonly actions$: Actions,
     private readonly scheduleService: ScheduleService,
     private readonly store: Store<fromSchedule.ScheduleState>,
-    private readonly appShellStore: Store<fromAppShell.AppShellState>
+    appShellStore: Store<fromAppShell.AppShellState>
   ) {
     super();
+
+    this.permissions$ = appShellStore
+      .select(fromAppShell.selectPermission)
+      .pipe(takeUntil(this.destroy$));
+    this.department$ = appShellStore
+      .select(fromAppShell.selectDepartment)
+      .pipe(takeUntil(this.destroy$));
+
+    this.handleLoadDepartmentSchedule();
+    this.handleLoadDepartmentExam();
+  }
+
+  /** LIFE CYCLES */
+  public ngOnDestroy(): void {
+    this.loadDepartmentScheduleSubject$.complete();
+    this.loadDepartmentExamSubject$.complete();
+    super.ngOnDestroy();
+  }
+
+  /** PRIVATE METHODS */
+  private handleLoadDepartmentSchedule(): void {
+    combineLatest([
+      this.loadDepartmentScheduleSubject$,
+      this.department$.pipe(ObservableHelper.filterNullish()),
+      this.permissions$.pipe(ObservableHelper.filterNullish()),
+    ])
+      .pipe(
+        this.commonPermissionObservable(),
+        mergeMap(({ fetch, ranges, department }) => {
+          return this.scheduleService
+            .getDepartmentSchedule(department, fetch)
+            .pipe(
+              tap((schedules) => {
+                this.store.dispatch(
+                  ApiAction.loadDepartmentStudySuccessful({
+                    schedules,
+                    ranges,
+                  })
+                );
+              }),
+              catchError(() =>
+                of(this.store.dispatch(ApiAction.loadDepartmentStudyFailure()))
+              )
+            );
+        })
+      )
+      .subscribe();
+  }
+
+  private handleLoadDepartmentExam(): void {
+    combineLatest([
+      this.loadDepartmentExamSubject$,
+      this.department$.pipe(ObservableHelper.filterNullish()),
+      this.permissions$.pipe(ObservableHelper.filterNullish()),
+    ])
+      .pipe(
+        this.commonPermissionObservable(),
+        mergeMap(({ fetch, ranges, department }) => {
+          return this.scheduleService
+            .getDepartmentExamSchedule(department, fetch)
+            .pipe(
+              tap((schedules) => {
+                this.store.dispatch(
+                  ApiAction.loadDepartmentExamSuccessful({
+                    schedules,
+                    ranges,
+                  })
+                );
+              }),
+              catchError(() =>
+                of(this.store.dispatch(ApiAction.loadDepartmentExamFailure()))
+              )
+            );
+        })
+      )
+      .subscribe();
+  }
+
+  private commonPermissionObservable(): OperatorFunction<
+    [Date, string, number[]],
+    {
+      department: string;
+      fetch: SearchSchedule;
+      ranges: TuiDayRange[];
+    }
+  > {
+    return (source$) =>
+      source$.pipe(
+        filter(
+          ({ 1: department, 2: permissions }) =>
+            !!permissions &&
+            !!department &&
+            permissions.includes(PermissionConstant.SEE_DEPARTMENT_SCHEDULE)
+        ),
+        map(([date, department]) => ({ date, department })),
+        calculateRangeO(this.ranges$.pipe(map((x) => x.department)))
+      );
   }
 }
 
@@ -309,24 +366,30 @@ function resolveConflictRanges(ranges: TuiDayRange[]): TuiDayRange[] {
 function calculateRangeO(
   ranges$: Observable<TuiDayRange[]>
 ): OperatorFunction<
-  { date: Date },
-  { fetch: SearchSchedule; ranges: TuiDayRange[] }
+  { department: string; date: Date },
+  { department: string; fetch: SearchSchedule; ranges: TuiDayRange[] }
 > {
   return (source$) =>
     source$.pipe(
       withLatestFrom(ranges$),
-      map(([{ date }, oldRanges]) => calculateFetchRange(date, oldRanges)),
+      map(([{ department, date }, oldRanges]) => ({
+        department,
+        ...calculateFetchRange(date, oldRanges),
+      })),
       filter(
         (data: {
+          department: string;
           fetch: Nullable<TuiDayRange>;
           ranges: TuiDayRange[];
         }): data is {
+          department: string;
           fetch: TuiDayRange;
           ranges: TuiDayRange[];
         } => data.fetch !== null
       ),
-      map(({ fetch, ranges }) => {
+      map(({ department, fetch, ranges }) => {
         return {
+          department,
           ranges,
           fetch: {
             start: fetch.from.getFormattedDay('YMD', '-'),

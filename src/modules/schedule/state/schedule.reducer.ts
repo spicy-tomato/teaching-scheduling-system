@@ -130,7 +130,7 @@ export const scheduleReducer = createReducer(
         schedules: {
           ...state.schedules,
           department: {
-            ...state.schedules.personal,
+            ...state.schedules.department,
             ranges,
             study: ArrayHelper.mergeWith(
               'id',
@@ -149,7 +149,7 @@ export const scheduleReducer = createReducer(
       schedules: {
         ...state.schedules,
         department: {
-          ...state.schedules.personal,
+          ...state.schedules.department,
           ranges,
           exam: ArrayHelper.mergeWith(
             'id',

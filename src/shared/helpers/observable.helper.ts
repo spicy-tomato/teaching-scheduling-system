@@ -8,38 +8,37 @@ import {
   Subscription,
   UnaryFunction,
 } from 'rxjs';
-import { filter, map, publish, take } from 'rxjs/operators';
+import { filter, publish } from 'rxjs/operators';
 import { ObjectHelper } from './object.helper';
 
 export class ObservableHelper {
-  public static readonly filterNullish = <T>(): UnaryFunction<
+  public static filterNullish<T>(): UnaryFunction<
     Observable<Nullable<T> | undefined>,
     Observable<T>
-  > => {
+  > {
     return pipe(
       filter((x) => !ObjectHelper.isNullOrUndefined(x)) as OperatorFunction<
         Nullable<T> | undefined,
         T
       >
     );
-  };
+  }
 
-  public static readonly waitNullish = <T1, T2>(
+  public static waitNullish<T1, T2>(
     ob$: Observable<Nullable<T2> | undefined>
-  ): OperatorFunction<T1, [T1, T2]> => {
+  ): OperatorFunction<T1, [T1, T2]> {
     return (source$) => {
       return combineLatest([source$, ob$]).pipe(
         filter(
           ({ 1: ob }) => !ObjectHelper.isNullOrUndefined(ob)
-        ) as OperatorFunction<[T1, Nullable<T2> | undefined], [T1, T2]>,
-        take(1)
+        ) as OperatorFunction<[T1, Nullable<T2> | undefined], [T1, T2]>
       );
     };
-  };
+  }
 
-  public static readonly delayUntil = <T>(
+  public static delayUntil<T>(
     notifier$: Observable<unknown>
-  ): OperatorFunction<T, T> => {
+  ): OperatorFunction<T, T> {
     return (source$) =>
       source$.pipe(
         publish((published) => {
@@ -73,18 +72,5 @@ export class ObservableHelper {
           return concat(delayed, published);
         })
       );
-  };
-
-  public static readonly permission = <T>(
-    permissions$: Observable<number[] | undefined>,
-    p: number
-  ): OperatorFunction<T, T> => {
-    return (source$) =>
-      combineLatest([source$, permissions$]).pipe(
-        filter(
-          ({ 1: permissions }) => !!permissions && permissions.includes(p)
-        ),
-        map(([x]) => x)
-      );
-  };
+  }
 }
