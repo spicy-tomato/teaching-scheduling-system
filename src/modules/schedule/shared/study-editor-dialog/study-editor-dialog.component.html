@@ -25,13 +25,25 @@
     </tui-input>
   </div>
 
+  <tui-expand [expanded]="!requestingChangeSchedule" formGroupName="change">
+    <div></div>
+    <div class="tui-form__row">
+      <tui-text-area
+        formControlName="note"
+        [tuiTextfieldMaxLength]="noteMaxLength"
+      >
+        Ghi chú
+      </tui-text-area>
+      <tui-field-error formControlName="note"></tui-field-error>
+    </div>
+  </tui-expand>
+
   <tui-expand [expanded]="requestingChangeSchedule" formGroupName="request">
     <h3 class="tui-form__header">Yêu cầu thay đổi lịch giảng</h3>
     <div [tuiTextfieldCleaner]="true" class="tui-form__row">
       <tui-input-date
         [min]="firstDateAllowRequestChange | tuiDay"
         formControlName="date"
-        tuiUnfinishedValidator="Ngày không hợp lệ!"
       >
         Chọn ngày học
       </tui-input-date>
@@ -64,13 +76,26 @@
         </ng-template>
       </tui-select>
     </div>
+    <div class="tui-form__row">
+      <tui-text-area
+        formControlName="reason"
+        [tuiTextfieldMaxLength]="reasonMaxLength"
+      >
+        Lý do
+      </tui-text-area>
+      <tui-field-error formControlName="reason"></tui-field-error>
+    </div>
   </tui-expand>
 
-  <div class="tui-form__buttons tui-form__buttons_align_end">
-    <ng-container *ngIf="requestingChangeSchedule; else notEditing">
+  <div class="btn-group d-flex justify-content-between">
+    <div
+      *ngIf="validRequestChangeSchedule"
+      class="tui-form__buttons tui-form__buttons_align_start"
+    >
       <button
+        *ngIf="requestingChangeSchedule; else request"
         [showLoader]="sending"
-        [disabled]="form.invalid"
+        [disabled]="form.controls['request'].invalid"
         (click)="onSubmit()"
         tuiButton
         size="m"
@@ -78,33 +103,48 @@
       >
         Gửi yêu cầu
       </button>
-      <button
-        tuiButton
-        (click)="onClickCancelRequestingChangeSchedule()"
-        appearance="outline"
-        class="tui-form__button"
-      >
-        Hủy
-      </button>
-    </ng-container>
-    <ng-template #notEditing>
-      <button
-        tuiButton
-        *ngIf="validRequestChangeSchedule"
-        (click)="onClickRequestingChangeSchedule()"
-        class="tui-form__button"
-      >
-        Yêu cầu thay đổi giờ giảng
-      </button>
-      <button
-        tuiButton
-        (click)="onCancel()"
-        appearance="outline"
-        class="tui-form__button"
-      >
-        Đóng
-      </button>
-    </ng-template>
+      <ng-template #request>
+        <button
+          tuiButton
+          *ngIf="validRequestChangeSchedule"
+          (click)="onClickRequestingChangeSchedule()"
+          appearance="secondary"
+          class="tui-form__button"
+        >
+          Yêu cầu thay đổi giờ giảng
+        </button>
+      </ng-template>
+    </div>
+    <div class="tui-form__buttons tui-form__buttons_align_end">
+      <ng-container *ngIf="requestingChangeSchedule; else notEditing">
+        <button
+          tuiButton
+          (click)="onClickCancelRequestingChangeSchedule()"
+          appearance="outline"
+          class="tui-form__button"
+        >
+          Hủy
+        </button>
+      </ng-container>
+      <ng-template #notEditing>
+        <button
+          tuiButton
+          (click)="onCancel()"
+          [disabled]="form.controls['change'].invalid"
+          class="tui-form__button"
+        >
+          Lưu
+        </button>
+        <button
+          tuiButton
+          (click)="onCancel()"
+          appearance="outline"
+          class="tui-form__button"
+        >
+          Đóng
+        </button>
+      </ng-template>
+    </div>
   </div>
 </form>
 
@@ -113,5 +153,5 @@
 </ng-template>
 
 <ng-template #studyTypeContent let-online>
-  {{ online ? "Phòng học trục tuyến" : "Học trực tiếp" }}
+  {{ online ? "Phòng học trực tuyến" : "Học trực tiếp" }}
 </ng-template>

@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Inject,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ScheduleService } from '@services/schedule.service';
 import {
@@ -44,6 +49,7 @@ export class StudyEditorDialogComponent {
   public readonly shifts = CoreConstant.SHIFTS;
   public readonly shiftKeys = Object.keys(CoreConstant.SHIFTS);
   public readonly noteMaxLength = 1000;
+  public readonly reasonMaxLength = 500;
 
   /** CONSTRUCTOR */
   constructor(
@@ -65,13 +71,14 @@ export class StudyEditorDialogComponent {
     this.sending = true;
 
     const idSchedule = parseInt(this.form.controls['id'].value as string);
-    const newIdRoom = (request.controls['room'].value as boolean)
+    const newIdRoom = (request.controls['online'].value as boolean)
       ? 'PHTT'
       : null;
     const newShift = request.controls['shift'].value as string;
     const newDate = DateHelper.toDateOnlyString(
       (request.controls['date'].value as TuiDay).toLocalNativeDate()
     );
+    const reason = request.controls['reason'].value as string;
 
     this.scheduleService
       .requestChangeSchedule({
@@ -79,6 +86,7 @@ export class StudyEditorDialogComponent {
         newDate,
         newIdRoom,
         newShift,
+        reason,
         timeRequest: sqlDateFactory(),
       })
       .pipe(
@@ -126,10 +134,13 @@ export class StudyEditorDialogComponent {
     const room = data.Location;
 
     const initialRequest = {
-      note: data.Note,
       date: startTuiDate,
       shift: data.Shift ?? '1',
       online: room === 'PHTT',
+    };
+
+    const initialChange = {
+      note: data.Note ?? '',
     };
 
     this.form = this.fb.group({
@@ -141,21 +152,33 @@ export class StudyEditorDialogComponent {
       end: [[endTuiDate, DateHelper.beautifyTime(endDate ?? today)]],
       request: this.fb.group(
         {
-          note: [initialRequest.note],
           shift: [initialRequest.shift],
           date: [initialRequest.date, Validators.required],
           online: [initialRequest.online],
+          reason: [
+            '',
+            [Validators.required, Validators.maxLength(this.reasonMaxLength)],
+          ],
         },
         {
           validators: sameValueValidator(initialRequest),
         }
       ),
+      change: this.fb.group(
+        {
+          note: [initialChange.note],
+        },
+        {
+          validators: sameValueValidator(initialChange),
+        }
+      ),
     });
 
+    const todayToZero = DateHelper.dateAtZero(today);
     this.firstDateAllowRequestChange =
-      startDate < DateHelper.dateAtZero()
-        ? DateHelper.subtract(today, 3)
-        : today;
+      startDate < todayToZero
+        ? DateHelper.subtract(todayToZero, 3)
+        : todayToZero;
     this.validRequestChangeSchedule =
       startDate > this.firstDateAllowRequestChange &&
       data.People?.[0] === 'self';

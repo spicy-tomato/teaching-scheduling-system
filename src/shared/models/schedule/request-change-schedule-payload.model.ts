@@ -1,4 +1,4 @@
-import { Nullable } from "../core";
+import { Nullable } from '../core';
 
 export interface RequestChangeSchedulePayload {
   idSchedule: number;
@@ -6,4 +6,5 @@ export interface RequestChangeSchedulePayload {
   newShift: string;
   newIdRoom: Nullable<string>;
   timeRequest: string;
+  reason: string;
 }
