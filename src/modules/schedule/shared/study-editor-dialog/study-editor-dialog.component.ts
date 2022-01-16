@@ -4,6 +4,8 @@ import { ScheduleService } from '@services/schedule.service';
 import {
   TuiAppearance,
   TuiDialogContext,
+  TuiNotification,
+  TuiNotificationsService,
   TUI_BUTTON_OPTIONS,
 } from '@taiga-ui/core';
 import { DateHelper } from '@shared/helpers';
@@ -13,6 +15,8 @@ import { CoreConstant } from '@shared/constants';
 import { sameValueValidator } from 'src/shared/validators';
 import { TuiDay } from '@taiga-ui/cdk';
 import { sqlDateFactory } from '@shared/factories';
+import { catchError, finalize, tap } from 'rxjs/operators';
+import { EMPTY, of } from 'rxjs';
 
 @Component({
   templateUrl: './study-editor-dialog.component.html',
@@ -43,10 +47,13 @@ export class StudyEditorDialogComponent {
 
   /** CONSTRUCTOR */
   constructor(
-    private fb: FormBuilder,
-    private scheduleService: ScheduleService,
+    private readonly fb: FormBuilder,
+    private readonly cdr: ChangeDetectorRef,
+    private readonly scheduleService: ScheduleService,
     @Inject(POLYMORPHEUS_CONTEXT)
-    private readonly context: TuiDialogContext<boolean, EjsScheduleModel>
+    private readonly context: TuiDialogContext<boolean, EjsScheduleModel>,
+    @Inject(TuiNotificationsService)
+    private readonly notificationsService: TuiNotificationsService
   ) {
     this.initForm(context.data);
   }
@@ -74,16 +81,21 @@ export class StudyEditorDialogComponent {
         newShift,
         timeRequest: sqlDateFactory(),
       })
-      .subscribe(
-        () => {
+      .pipe(
+        tap(() => {
+          this.showNotificationRequestChangeSuccessful();
+        }),
+        catchError(() => {
+          this.showNotificationRequestChangeError();
+          return of(EMPTY);
+        }),
+        finalize(() => {
           this.sending = false;
-          this.context.completeWith(true);
-        },
-        () => {
-          this.sending = false;
-          this.context.completeWith(false);
-        }
-      );
+          this.requestingChangeSchedule = false;
+          this.cdr.markForCheck();
+        })
+      )
+      .subscribe();
   }
 
   public onClickRequestingChangeSchedule(): void {
@@ -147,5 +159,23 @@ export class StudyEditorDialogComponent {
     this.validRequestChangeSchedule =
       startDate > this.firstDateAllowRequestChange &&
       data.People?.[0] === 'self';
+  }
+
+  private showNotificationRequestChangeSuccessful(): void {
+    this.notificationsService
+      .show('Hãy chờ phản hồi của trưởng bộ môn', {
+        label: 'Gửi yêu cầu thành công',
+        status: TuiNotification.Success,
+      })
+      .subscribe();
+  }
+
+  private showNotificationRequestChangeError(): void {
+    this.notificationsService
+      .show('Hãy thử lại sau', {
+        label: 'Đã có lỗi xảy ra',
+        status: TuiNotification.Error,
+      })
+      .subscribe();
   }
 }
