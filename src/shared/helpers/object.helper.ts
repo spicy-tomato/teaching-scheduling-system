@@ -35,4 +35,11 @@ export class ObjectHelper {
     }
     return result;
   }
+
+  public static parseDateProperties<T>(obj: T, props: string[]): T {
+    props.forEach((prop) => {
+      obj[prop] = new Date(obj[prop]);
+    });
+    return obj;
+  }
 }

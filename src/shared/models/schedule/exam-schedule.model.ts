@@ -1,4 +1,3 @@
-import { ExamScheduleDta } from '@shared/dtas';
 import { EjsScheduleModel } from './ejs-schedule.model';
 import { ScheduleModel } from './schedule.model';
 
@@ -6,6 +5,7 @@ export class ExamScheduleModel extends ScheduleModel {
   public readonly method!: string;
   public readonly timeStart!: Date;
   public readonly timeEnd!: Date;
+  public readonly teacher!: string;
 
   constructor(
     id: number,
@@ -16,26 +16,26 @@ export class ExamScheduleModel extends ScheduleModel {
     timeEnd: Date,
     idRoom: string,
     note: string,
-    people?: string[]
+    teacher: string
   ) {
-    super(id, idModuleClass, name, idRoom, 'exam', note, people);
+    super(id, idModuleClass, name, idRoom, 'exam', note, [teacher]);
 
     this.method = method;
     this.timeStart = timeStart;
     this.timeEnd = timeEnd;
   }
 
-  public static parse(obj: ExamScheduleDta): ExamScheduleModel {
+  public static parse(obj: ExamScheduleModel): ExamScheduleModel {
     return new ExamScheduleModel(
       obj.id,
-      obj.id_module_class,
+      obj.idModuleClass,
       obj.name,
       obj.method,
-      new Date(obj.time_start),
-      new Date(obj.time_end),
-      obj.id_room,
+      obj.timeStart,
+      obj.timeEnd,
+      obj.idRoom,
       obj.note,
-      obj.teachers
+      obj.teacher
     );
   }
 

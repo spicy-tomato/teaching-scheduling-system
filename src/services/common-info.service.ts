@@ -58,7 +58,7 @@ export class CommonInfoService extends BaseDataService {
 
   public getDepartments(): Observable<SimpleMapModel<string, SimpleModel[]>[]> {
     return this.http.get<SimpleMapModel<string, SimpleModel[]>[]>(
-      this.url + 'departments'
+      this.url + 'faculties'
     );
   }
 

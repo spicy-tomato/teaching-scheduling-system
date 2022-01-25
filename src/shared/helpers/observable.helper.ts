@@ -2,13 +2,14 @@ import { Nullable } from '@shared/models';
 import {
   combineLatest,
   concat,
+  MonoTypeOperatorFunction,
   Observable,
   OperatorFunction,
   pipe,
   Subscription,
   UnaryFunction,
 } from 'rxjs';
-import { filter, publish } from 'rxjs/operators';
+import { filter, map, publish } from 'rxjs/operators';
 import { ObjectHelper } from './object.helper';
 
 export class ObservableHelper {
@@ -72,5 +73,18 @@ export class ObservableHelper {
           return concat(delayed, published);
         })
       );
+  }
+
+  public static mapObjectArrayWithDateProperties<T>(
+    props: string[]
+  ): MonoTypeOperatorFunction<T> {
+    return pipe(
+      map((x) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-return
+        return (x as any).map((x: unknown) =>
+          ObjectHelper.parseDateProperties(x, props)
+        );
+      })
+    );
   }
 }

@@ -1,8 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { ExamScheduleDta, StudyScheduleDta } from '@shared/dtas';
 import {
   ChangeScheduleResponse,
   ChangeScheduleSearch,
@@ -12,8 +10,9 @@ import {
 } from 'src/shared/models';
 import { BaseDataService } from './core/base-data.service';
 import { RequestChangeSchedulePayload } from '@shared/models/schedule/request-change-schedule-payload.model';
-import { ObjectHelper } from '@shared/helpers';
+import { ObjectHelper, ObservableHelper } from '@shared/helpers';
 import { ChangeScheduleResponsePayload } from '@shared/models/change-schedule/change-schedule-response-payload.model';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -25,13 +24,12 @@ export class ScheduleService extends BaseDataService {
 
   public getSchedule(params: SearchSchedule): Observable<StudyScheduleModel[]> {
     return this.http
-      .get<StudyScheduleDta[]>(this.url + `teachers/4603/schedules`, {
+      .get<StudyScheduleModel[]>(this.url + `teachers/4603/schedules`, {
         params: { ...params },
       })
       .pipe(
-        map((response) => {
-          return response.map((x) => StudyScheduleModel.parse(x));
-        })
+        ObservableHelper.mapObjectArrayWithDateProperties(['date']),
+        map((res) => res.map((x) => StudyScheduleModel.parse(x)))
       );
   }
 
@@ -40,16 +38,15 @@ export class ScheduleService extends BaseDataService {
     params: SearchSchedule
   ): Observable<StudyScheduleModel[]> {
     return this.http
-      .get<StudyScheduleDta[]>(
+      .get<StudyScheduleModel[]>(
         this.url + `departments/${department}/schedules`,
         {
           params: { ...params },
         }
       )
       .pipe(
-        map((response) => {
-          return response.map((x) => StudyScheduleModel.parse(x));
-        })
+        ObservableHelper.mapObjectArrayWithDateProperties(['date']),
+        map((res) => res.map((x) => StudyScheduleModel.parse(x)))
       );
   }
 
@@ -57,13 +54,15 @@ export class ScheduleService extends BaseDataService {
     params: SearchSchedule
   ): Observable<ExamScheduleModel[]> {
     return this.http
-      .get<ExamScheduleDta[]>(this.url + 'teachers/0849/exam-schedules', {
+      .get<ExamScheduleModel[]>(this.url + 'teachers/0849/exam-schedules', {
         params: { ...params },
       })
       .pipe(
-        map((response) => {
-          return response.map((x) => ExamScheduleModel.parse(x));
-        })
+        ObservableHelper.mapObjectArrayWithDateProperties([
+          'timeStart',
+          'timeEnd',
+        ]),
+        map((res) => res.map((x) => ExamScheduleModel.parse(x)))
       );
   }
 
@@ -72,16 +71,18 @@ export class ScheduleService extends BaseDataService {
     params: SearchSchedule
   ): Observable<ExamScheduleModel[]> {
     return this.http
-      .get<ExamScheduleDta[]>(
+      .get<ExamScheduleModel[]>(
         this.url + `departments/${department}/exam-schedules`,
         {
           params: { ...params },
         }
       )
       .pipe(
-        map((response) => {
-          return response.map((x) => ExamScheduleModel.parse(x));
-        })
+        ObservableHelper.mapObjectArrayWithDateProperties([
+          'timeStart',
+          'timeEnd',
+        ]),
+        map((res) => res.map((x) => ExamScheduleModel.parse(x)))
       );
   }
 

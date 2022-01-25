@@ -4,7 +4,7 @@ import { ObjectHelper } from '../helpers/object.helper';
 export function sameValueValidator(obj: Record<string, unknown>): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     let same = true;
-
+    
     for (const key of Object.keys(obj)) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const controlValue = control.get(key)?.value;

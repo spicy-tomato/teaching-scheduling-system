@@ -1,4 +1,3 @@
-import { StudyScheduleDta } from '@shared/dtas';
 import { DateHelper } from '@shared/helpers';
 import { EjsScheduleModel } from './ejs-schedule.model';
 import { ScheduleModel } from './schedule.model';
@@ -8,6 +7,7 @@ export class StudyScheduleModel extends ScheduleModel {
   public readonly date!: Date;
   public readonly color!: string;
   public readonly moduleName!: string;
+  public readonly teacher!: string;
 
   constructor(
     id: number,
@@ -19,17 +19,9 @@ export class StudyScheduleModel extends ScheduleModel {
     date: Date,
     color: string,
     moduleName: string,
-    people?: string
+    teacher: string
   ) {
-    super(
-      id,
-      idModuleClass,
-      name,
-      idRoom,
-      'study',
-      note,
-      people ? [people] : []
-    );
+    super(id, idModuleClass, name, idRoom, 'study', note, [teacher]);
 
     this.shift = shift;
     this.date = date;
@@ -37,17 +29,17 @@ export class StudyScheduleModel extends ScheduleModel {
     this.moduleName = moduleName;
   }
 
-  public static parse(obj: StudyScheduleDta): StudyScheduleModel {
+  public static parse(obj: StudyScheduleModel): StudyScheduleModel {
     return new StudyScheduleModel(
       obj.id,
-      obj.id_module_class,
+      obj.idModuleClass,
       obj.name,
-      obj.id_room,
+      obj.idRoom,
       obj.note,
       obj.shift,
-      new Date(obj.date),
+      obj.date,
       obj.color,
-      obj.module_name,
+      obj.moduleName,
       obj.teacher
     );
   }
