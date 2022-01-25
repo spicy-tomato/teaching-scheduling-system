@@ -116,7 +116,7 @@ export class ScheduleService extends BaseDataService {
     );
   }
 
-  public getChangePersonalScheduleRequests(
+  public getPersonalChangeScheduleRequests(
     params: ChangeScheduleSearch
   ): Observable<ChangeScheduleResponse> {
     return this.http.get<ChangeScheduleResponse>(

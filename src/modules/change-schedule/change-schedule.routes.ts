@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PermissionConstant } from '@shared/constants';
+import { PermissionGuard } from '@shared/guards/permission.guard';
 import { ChangeScheduleComponent } from './change-schedule.component';
 
 const routes: Routes = [
@@ -14,14 +15,19 @@ const routes: Routes = [
       {
         path: 'my-requests',
         loadChildren: async () =>
-          (await import('./my-requests/my-requests.module')).MyRequestsModule,
+          (await import('./requests/requests.module')).RequestsModule,
+        data: {
+          personal: true,
+        },
       },
       {
         path: 'requests',
         loadChildren: async () =>
           (await import('./requests/requests.module')).RequestsModule,
+        canActivate: [PermissionGuard],
         data: {
           permissions: [PermissionConstant.ACCEPT_CHANGE_TEACHING_SCHEDULE],
+          personal: false,
         },
       },
       {

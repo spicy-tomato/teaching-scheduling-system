@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';
 import * as fromRequests from './state';
@@ -10,10 +11,14 @@ import * as fromRequests from './state';
 })
 export class RequestsComponent extends BaseComponent implements OnInit {
   /** CONSTRUCTOR */
-  constructor(private readonly store: Store<fromRequests.RequestsState>) {
+  constructor(
+    private readonly store: Store<fromRequests.RequestsState>,
+    route: ActivatedRoute
+  ) {
     super();
 
-    store.dispatch(fromRequests.reset());
+    const personal = route.snapshot.data['personal'] as boolean;
+    store.dispatch(fromRequests.reset({ personal }));
   }
 
   /** LIFE CYCLES */

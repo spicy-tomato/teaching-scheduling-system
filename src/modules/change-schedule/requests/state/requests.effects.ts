@@ -24,6 +24,7 @@ import { DateHelper, ObservableHelper } from '@shared/helpers';
 @Injectable()
 export class RequestsEffects extends BaseComponent implements OnDestroy {
   /** PRIVATE PROPERTIES */
+  private personal!: boolean;
   private readonly options$: Observable<ChangeScheduleOptions>;
   private readonly department$: Observable<string | undefined>;
   private readonly loadSubject$ = new Subject<ChangeScheduleSearch>();
@@ -32,11 +33,25 @@ export class RequestsEffects extends BaseComponent implements OnDestroy {
     .pipe(takeUntil(this.destroy$));
 
   /** EFFECTS */
+  public reset$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(PageAction.reset),
+        tap(({ personal }) => {
+          this.personal = personal;
+        })
+      );
+    },
+    { dispatch: false }
+  );
+
   public load$ = createEffect(
     () => {
       return this.actions$.pipe(
         ofType(PageAction.load),
-        tap(({ query }) => this.loadSubject$.next(query))
+        tap(({ query }) => {
+          this.loadSubject$.next(query);
+        })
       );
     },
     { dispatch: false }
@@ -138,7 +153,8 @@ export class RequestsEffects extends BaseComponent implements OnDestroy {
       .select(fromAppShell.selectNameTitle)
       .pipe(takeUntil(this.destroy$));
 
-    this.handleLoad();
+    this.handleLoadPersonal();
+    this.handleLoadDepartment();
   }
 
   /** LIFE CYCLES */
@@ -148,12 +164,34 @@ export class RequestsEffects extends BaseComponent implements OnDestroy {
   }
 
   /** PRIVATE METHODS */
-  private handleLoad(): void {
+  private handleLoadPersonal(): void {
+    this.loadSubject$
+      .pipe(
+        filter(() => this.personal),
+        mergeMap((x) => {
+          return this.scheduleService.getPersonalChangeScheduleRequests(x).pipe(
+            tap((changeSchedules) => {
+              this.store.dispatch(
+                ApiAction.loadSuccessful({
+                  changeSchedulesResponse: changeSchedules,
+                })
+              );
+            }),
+            catchError(() => of(this.store.dispatch(ApiAction.loadFailure())))
+          );
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
+  private handleLoadDepartment(): void {
     combineLatest([
       this.department$.pipe(ObservableHelper.filterNullish()),
       this.loadSubject$,
     ])
       .pipe(
+        filter(() => !this.personal),
         mergeMap((x) => {
           return this.scheduleService
             .getDepartmentChangeScheduleRequests(...x)
@@ -167,7 +205,8 @@ export class RequestsEffects extends BaseComponent implements OnDestroy {
               }),
               catchError(() => of(this.store.dispatch(ApiAction.loadFailure())))
             );
-        })
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe();
   }

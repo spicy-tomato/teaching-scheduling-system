@@ -4,7 +4,10 @@ import {
   ChangeScheduleSearch,
 } from '@shared/models';
 
-export const reset = createAction('[Change schedule - Requests Page] Reset');
+export const reset = createAction(
+  '[Change schedule - Requests Page] Reset',
+  props<{ personal: boolean }>()
+);
 
 export const load = createAction(
   '[Change schedule - Requests Page] Load',
@@ -23,7 +26,7 @@ export const accept = createAction(
 
 export const deny = createAction(
   '[Change schedule - Requests Page] Deny',
-  props<{ id: number, reason: string }>()
+  props<{ id: number; reason: string }>()
 );
 
 export const changePage = createAction(
