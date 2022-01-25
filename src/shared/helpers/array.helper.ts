@@ -40,4 +40,12 @@ export class ArrayHelper {
 
     return result;
   }
+
+  public static removeAt<T>(array: T[], index: number): void {
+    array.splice(index, 1);
+  }
+
+  public static insertAt<T>(array: T[], index: number, item: T): void {
+    array.splice(index, 0, item);
+  }
 }

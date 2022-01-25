@@ -23,6 +23,9 @@ td {
     .deny {
       color: var(--tui-negative);
     }
+    .no-response {
+      color: var(--tui-neutral-fill);
+    }
     .accept {
       color: var(--tui-link);
     }

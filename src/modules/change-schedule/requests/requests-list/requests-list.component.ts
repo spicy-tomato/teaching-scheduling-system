@@ -40,10 +40,11 @@ import {
   ColumnBreak,
 } from 'docx';
 import { saveAs } from 'file-saver';
-import { DateHelper, StringHelper } from '@shared/helpers';
+import { ArrayHelper, DateHelper, StringHelper } from '@shared/helpers';
 import { IconConstant } from '@shared/constants/components/icon.constant';
 import { DatePipe } from '@angular/common';
 import { TokenService } from '@services/core/token.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'tss-requests-list',
@@ -72,6 +73,7 @@ export class RequestsListComponent extends BaseComponent {
   public page$: Observable<number>;
   public requesting$: Observable<number[]>;
   public options$: Observable<ChangeScheduleOptions>;
+  public personal: boolean;
 
   public readonly EApiStatus = EApiStatus;
   public readonly statusList = CoreConstant.REQUEST_CHANGE_SCHEDULE_STATUS;
@@ -100,7 +102,8 @@ export class RequestsListComponent extends BaseComponent {
     private readonly tokenService: TokenService,
     private readonly store: Store<fromRequests.RequestsState>,
     @Inject(Injector) private injector: Injector,
-    @Inject(TuiDialogService) private readonly dialogService: TuiDialogService
+    @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
+    route: ActivatedRoute
   ) {
     super();
 
@@ -119,6 +122,12 @@ export class RequestsListComponent extends BaseComponent {
     this.requesting$ = store
       .select(fromRequests.selectRequestQueue)
       .pipe(takeUntil(this.destroy$));
+
+    this.personal = route.snapshot.data['personal'] as boolean;
+
+    if (this.personal) {
+      this.configureColumns();
+    }
   }
 
   /** PUBLIC METHODS */
@@ -150,6 +159,10 @@ export class RequestsListComponent extends BaseComponent {
   }
 
   /** PRIVATE METHODS */
+  private configureColumns(): void {
+    ArrayHelper.removeAt(this.columns, 1);
+  }
+
   private generateFile(schedule: ChangeSchedule): Document {
     const alignment = AlignmentType.CENTER;
     const today = new Date();

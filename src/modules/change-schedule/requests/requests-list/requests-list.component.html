@@ -136,9 +136,10 @@
         </td>
         <td *tuiCell="'status'" tuiTd class="status">
           <div
-            *ngIf="item.status; else actions"
+            *ngIf="item.status || personal; else actions"
             [ngClass]="{
               deny: item.status === -1,
+              'no-response': item.status === 0,
               accept: item.status === 1,
               complete: item.status === 2
             }"
