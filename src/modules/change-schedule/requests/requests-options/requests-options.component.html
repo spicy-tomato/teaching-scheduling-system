@@ -6,7 +6,7 @@
   <tui-select
     [ngModel]="options.selectedStatus"
     [valueContent]="selectTemplate"
-    (ngModelChange)="onSelectedStatusChange($event)"
+    (ngModelChange)="changeOptions({ selectedStatus: $event })"
   >
     Trạng thái
     <ng-template tuiDataList>
@@ -29,13 +29,13 @@
   </tui-select>
   <tui-checkbox-labeled
     [ngModel]="options.showTimeInsteadOfShift"
-    (ngModelChange)="onShowTimeInsteadOfShiftChange($event)"
+    (ngModelChange)="changeOptions({ showTimeInsteadOfShift: $event })"
   >
     Hiển thị thời gian thay cho ca
   </tui-checkbox-labeled>
   <tui-checkbox-labeled
     [ngModel]="options.showTime"
-    (ngModelChange)="onShowTimeChange($event)"
+    (ngModelChange)="changeOptions({ showTime: $event })"
   >
     Hiển thị giờ
   </tui-checkbox-labeled>

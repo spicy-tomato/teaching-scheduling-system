@@ -3,7 +3,10 @@ import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';
 import { CoreConstant } from '@shared/constants';
 import { ObjectHelper } from '@shared/helpers';
-import { ChangeScheduleOptions } from '@shared/models';
+import {
+  ChangeScheduleOptions,
+  ChangeScheduleOptionsParam,
+} from '@shared/models';
 import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import * as fromRequests from '../state';
@@ -30,19 +33,7 @@ export class RequestsOptionsComponent extends BaseComponent {
   }
 
   /** PUBLIC METHODS */
-  public onSelectedStatusChange(selectedStatus: number): void {
-    this.store.dispatch(
-      fromRequests.changeOptions({ options: { selectedStatus } })
-    );
-  }
-
-  public onShowTimeInsteadOfShiftChange(showTimeInsteadOfShift: boolean): void {
-    this.store.dispatch(
-      fromRequests.changeOptions({ options: { showTimeInsteadOfShift } })
-    );
-  }
-
-  public onShowTimeChange(showTime: boolean): void {
-    this.store.dispatch(fromRequests.changeOptions({ options: { showTime } }));
+  public changeOptions(options: ChangeScheduleOptionsParam): void {
+    this.store.dispatch(fromRequests.changeOptions({ options }));
   }
 }
