@@ -5,6 +5,7 @@ import {
   ChangeScheduleResponse,
   ChangeScheduleSearch,
   ExamScheduleModel,
+  Note,
   SearchSchedule,
   StudyScheduleModel,
 } from 'src/shared/models';
@@ -86,8 +87,12 @@ export class ScheduleService extends BaseDataService {
       );
   }
 
-  public updateNote(body: Record<string, number | string>): Observable<void> {
+  public updateExamNote(body: Note): Observable<void> {
     return this.http.put<void>(this.url + 'exam-schedules/update', body);
+  }
+
+  public updateStudyNote(body: Note): Observable<void> {
+    return this.http.put<void>(this.url + 'schedules/update', body);
   }
 
   public requestChangeSchedule(

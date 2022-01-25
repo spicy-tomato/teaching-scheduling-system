@@ -6,9 +6,9 @@
   <table
     tuiTable
     *ngrxLet="options$ as options"
-    class="min-w-full"
     [columns]="columns"
     size="m"
+    class="min-w-full"
   >
     <!-- Head -->
     <thead tuiThead>
@@ -26,19 +26,22 @@
         <ng-container *tuiHead="'newShift'"></ng-container>
         <th tuiTh *tuiHead="'oldRoom'" [sorter]="null" colspan="2">Phòng</th>
         <ng-container *tuiHead="'newRoom'"></ng-container>
+        <th tuiTh *tuiHead="'reason'" [sorter]="null" rowspan="2">Lý do</th>
         <th tuiTh *tuiHead="'timeRequest'" [sorter]="null" rowspan="2">
-          Yêu cầu
+          <div class="no-wrap">Yêu cầu</div>
         </th>
         <th tuiTh *tuiHead="'timeAccept'" [sorter]="null" rowspan="2">
-          Phê duyệt
+          <div class="no-wrap">Phê duyệt</div>
         </th>
         <th tuiTh *tuiHead="'timeSetRoom'" [sorter]="null" rowspan="2">
-          Xếp phòng
+          <div class="no-wrap">Xếp phòng</div>
         </th>
         <th tuiTh *tuiHead="'status'" [sorter]="null" rowspan="2">
-          Trạng thái
+          <div class="no-wrap">Trạng thái</div>
         </th>
-        <th tuiTh *tuiHead="'actions'" [sorter]="null" rowspan="2">Thao tác</th>
+        <th tuiTh *tuiHead="'actions'" [sorter]="null" rowspan="2">
+          <div class="no-wrap">Thao tác</div>
+        </th>
       </tr>
       <tr tuiThGroup>
         <th tuiTh *tuiHead="'oldDate'" [sorter]="null" class="border">Cũ</th>
@@ -98,6 +101,12 @@
             {{ item.newSchedule.room }}
           </div>
         </td>
+        <td *tuiCell="'reason'" tuiTd>
+          <div class="reason">
+            {{ item.reason }}
+          </div>
+        </td>
+        ed
         <td *tuiCell="'timeRequest'" tuiTd>
           <div class="text-center">
             {{

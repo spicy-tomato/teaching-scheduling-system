@@ -23,6 +23,10 @@ import { sqlDateFactory } from '@shared/factories';
 import { catchError, finalize, tap } from 'rxjs/operators';
 import { EMPTY, of } from 'rxjs';
 
+type Change = {
+  note: string;
+};
+
 @Component({
   templateUrl: './study-editor-dialog.component.html',
   styleUrls: ['./study-editor-dialog.component.scss'],
@@ -42,7 +46,8 @@ export class StudyEditorDialogComponent {
   /** PUBLIC PROPERTIES */
   public form!: FormGroup;
   public requestingChangeSchedule = false;
-  public sending = false;
+  public sendingRequest = false;
+  public sendingChange = false;
   public validRequestChangeSchedule!: boolean;
   public firstDateAllowRequestChange!: Date;
 
@@ -66,11 +71,10 @@ export class StudyEditorDialogComponent {
 
   /** PUBLIC METHODS */
   public onSubmit(): void {
+    this.sendingRequest = true;
+
+    const idSchedule = this.form.controls['id'].value as number;
     const request = this.form.controls['request'] as FormGroup;
-
-    this.sending = true;
-
-    const idSchedule = parseInt(this.form.controls['id'].value as string);
     const newIdRoom = (request.controls['online'].value as boolean)
       ? 'PHTT'
       : null;
@@ -94,11 +98,11 @@ export class StudyEditorDialogComponent {
           this.showNotificationRequestChangeSuccessful();
         }),
         catchError(() => {
-          this.showNotificationRequestChangeError();
+          this.showNotificationError();
           return of(EMPTY);
         }),
         finalize(() => {
-          this.sending = false;
+          this.sendingRequest = false;
           this.requestingChangeSchedule = false;
           this.cdr.markForCheck();
         })
@@ -106,12 +110,33 @@ export class StudyEditorDialogComponent {
       .subscribe();
   }
 
-  public onClickRequestingChangeSchedule(): void {
-    this.requestingChangeSchedule = true;
+  public toggleRequestArea(open: boolean): void {
+    this.requestingChangeSchedule = open;
   }
 
-  public onClickCancelRequestingChangeSchedule(): void {
-    this.requestingChangeSchedule = false;
+  public onUpdate(): void {
+    this.sendingChange = true;
+    const note = (this.form.controls['change'] as FormGroup).controls['note']
+      .value as string;
+    const id = this.form.controls['id'].value as number;
+
+    this.scheduleService
+      .updateStudyNote({ id, note })
+      .pipe(
+        tap(() => {
+          this.showNotificationUpdateSuccessful();
+          const change = { note };
+          (this.form.controls['change'] as FormGroup) =
+            this.getNewChangeControl(change);
+          this.sendingChange = false;
+          this.cdr.markForCheck();
+        }),
+        catchError(() => {
+          this.showNotificationError();
+          return of(EMPTY);
+        })
+      )
+      .subscribe();
   }
 
   public onCancel(): void {
@@ -164,14 +189,7 @@ export class StudyEditorDialogComponent {
           validators: sameValueValidator(initialRequest),
         }
       ),
-      change: this.fb.group(
-        {
-          note: [initialChange.note],
-        },
-        {
-          validators: sameValueValidator(initialChange),
-        }
-      ),
+      change: this.getNewChangeControl(initialChange),
     });
 
     const todayToZero = DateHelper.dateAtZero(today);
@@ -180,8 +198,9 @@ export class StudyEditorDialogComponent {
         ? DateHelper.subtract(todayToZero, 3)
         : todayToZero;
     this.validRequestChangeSchedule =
-      startDate > this.firstDateAllowRequestChange &&
-      data.People?.[0] === 'self';
+      true ||
+      (startDate > this.firstDateAllowRequestChange &&
+        data.People?.[0] === 'self');
   }
 
   private showNotificationRequestChangeSuccessful(): void {
@@ -193,12 +212,31 @@ export class StudyEditorDialogComponent {
       .subscribe();
   }
 
-  private showNotificationRequestChangeError(): void {
+  private showNotificationUpdateSuccessful(): void {
+    this.notificationsService
+      .show('Cập nhật lịch thành công!', {
+        status: TuiNotification.Success,
+      })
+      .subscribe();
+  }
+
+  private showNotificationError(): void {
     this.notificationsService
       .show('Hãy thử lại sau', {
         label: 'Đã có lỗi xảy ra',
         status: TuiNotification.Error,
       })
       .subscribe();
+  }
+
+  private getNewChangeControl(value: Change): FormGroup {
+    return this.fb.group(
+      {
+        note: [value.note],
+      },
+      {
+        validators: sameValueValidator(value),
+      }
+    );
   }
 }

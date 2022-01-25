@@ -33,6 +33,10 @@ td {
   button {
     margin: 0 0.25rem;
   }
+  .reason {
+    width: 250px;
+    white-space: normal;
+  }
   ::ng-deep .wrapper {
     white-space: nowrap;
   }

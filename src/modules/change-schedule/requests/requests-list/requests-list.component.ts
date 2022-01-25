@@ -87,6 +87,7 @@ export class RequestsListComponent extends BaseComponent {
     'newShift',
     'oldRoom',
     'newRoom',
+    'reason',
     'timeRequest',
     'timeAccept',
     'timeSetRoom',
@@ -195,6 +196,11 @@ export class RequestsListComponent extends BaseComponent {
                   text: 'Độc lập – Tự do – Hạnh phúc',
                   bold: true,
                 }),
+                new TextRun({ break: 1 }),
+                new TextRun({
+                  text: '-----------------------------------',
+                  bold: true,
+                }),
               ],
             }),
             new Paragraph({
@@ -238,7 +244,6 @@ export class RequestsListComponent extends BaseComponent {
                 new TextRun({
                   text: `Lý do thay đổi: ${schedule.teacher}`,
                 }),
-                new TextRun({ break: 1 }),
               ],
             }),
             new Table({

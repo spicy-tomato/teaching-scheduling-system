@@ -94,7 +94,7 @@
     >
       <button
         *ngIf="requestingChangeSchedule; else request"
-        [showLoader]="sending"
+        [showLoader]="sendingRequest"
         [disabled]="form.controls['request'].invalid"
         (click)="onSubmit()"
         tuiButton
@@ -107,7 +107,7 @@
         <button
           tuiButton
           *ngIf="validRequestChangeSchedule"
-          (click)="onClickRequestingChangeSchedule()"
+          (click)="toggleRequestArea(true)"
           appearance="secondary"
           class="tui-form__button"
         >
@@ -119,7 +119,7 @@
       <ng-container *ngIf="requestingChangeSchedule; else notEditing">
         <button
           tuiButton
-          (click)="onClickCancelRequestingChangeSchedule()"
+          (click)="toggleRequestArea(false)"
           appearance="outline"
           class="tui-form__button"
         >
@@ -129,14 +129,15 @@
       <ng-template #notEditing>
         <button
           tuiButton
-          (click)="onCancel()"
+          (click)="onUpdate()"
+          [showLoader]="sendingChange"
           [disabled]="form.controls['change'].invalid"
           class="tui-form__button"
         >
           Lưu
         </button>
         <button
-          tuiButton
+        tuiButton
           (click)="onCancel()"
           appearance="outline"
           class="tui-form__button"

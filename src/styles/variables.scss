@@ -71,6 +71,10 @@ $u: 0.25rem;
   text-align: center;
 }
 
+.no-wrap {
+  white-space: nowrap;
+}
+
 @mixin font($size: base) {
   @if $size==xs {
     font-size: 0.75rem;

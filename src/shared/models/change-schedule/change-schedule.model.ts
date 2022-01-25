@@ -12,6 +12,7 @@ export interface ChangeSchedule {
     shift: string;
     room: string;
   };
+  reason: string;
   timeRequest: Date;
   timeAccept: Date;
   timeSetRoom: Date;

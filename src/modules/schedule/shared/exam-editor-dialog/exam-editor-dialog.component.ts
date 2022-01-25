@@ -42,7 +42,7 @@ export class ExamEditorDialogComponent {
 
     if (id) {
       this.showLoader = true;
-      this.scheduleService.updateNote({ id, note }).subscribe(
+      this.scheduleService.updateExamNote({ id, note }).subscribe(
         () => {
           this.showLoader = false;
           this.context.completeWith(note);
