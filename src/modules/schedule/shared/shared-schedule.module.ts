@@ -6,6 +6,7 @@ import { StudyEditorDialogComponent } from './study-editor-dialog/study-editor-d
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   TuiDataListWrapperModule,
+  TuiDropdownHoverModule,
   TuiFieldErrorModule,
   TuiInputDateModule,
   TuiInputDateTimeModule,
@@ -18,12 +19,21 @@ import {
   TuiDataListModule,
   TuiExpandModule,
   TuiHintControllerModule,
+  TuiHostedDropdownModule,
+  TuiSvgModule,
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
 import { PipesModule } from '@pipes/pipes.module';
 import { ReactiveComponentModule } from '@ngrx/component';
+import { DirectivesModule } from '@directives/directives.module';
 
-const EXPORT = [CommonModule, FormsModule, ReactiveFormsModule, PipesModule];
+const EXPORT = [
+  CommonModule,
+  FormsModule,
+  ReactiveFormsModule,
+  PipesModule,
+  DirectivesModule,
+];
 const COMPONENTS = [ExamEditorDialogComponent, StudyEditorDialogComponent];
 
 const EXPORT_NGRX = [ReactiveComponentModule];
@@ -44,6 +54,9 @@ const TAIGA_UI = [
   TuiHintControllerModule,
   TuiFieldErrorModule,
   TuiInputDateModule,
+  TuiSvgModule,
+  TuiHostedDropdownModule,
+  TuiDropdownHoverModule,
   ...EXPORT_TAIGA_UI,
 ];
 

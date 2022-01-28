@@ -50,6 +50,7 @@ export class StudyEditorDialogComponent {
   public sendingChange = false;
   public validRequestChangeSchedule!: boolean;
   public firstDateAllowRequestChange!: Date;
+  public data: EjsScheduleModel;
 
   public readonly shifts = CoreConstant.SHIFTS;
   public readonly shiftKeys = Object.keys(CoreConstant.SHIFTS);
@@ -66,7 +67,8 @@ export class StudyEditorDialogComponent {
     @Inject(TuiNotificationsService)
     private readonly notificationsService: TuiNotificationsService
   ) {
-    this.initForm(context.data);
+    this.data = context.data;
+    this.initForm();
   }
 
   /** PUBLIC METHODS */
@@ -80,7 +82,7 @@ export class StudyEditorDialogComponent {
       : null;
     const newShift = request.controls['shift'].value as string;
     const newDate = DateHelper.toDateOnlyString(
-      (request.controls['date'].value as TuiDay).toLocalNativeDate()
+      (request.controls['date'].value as TuiDay).toUtcNativeDate()
     );
     const reason = request.controls['reason'].value as string;
 
@@ -146,9 +148,9 @@ export class StudyEditorDialogComponent {
   }
 
   /** PRIVATE METHODS */
-  private initForm(data: EjsScheduleModel): void {
-    const startDate = data.StartTime as Date;
-    const endDate = data.EndTime as Date;
+  private initForm(): void {
+    const startDate = this.data.StartTime as Date;
+    const endDate = this.data.EndTime as Date;
     const today = new Date();
     const startTuiDate = startDate
       ? DateHelper.toTuiDay(startDate)
@@ -156,23 +158,23 @@ export class StudyEditorDialogComponent {
     const endTuiDate = endDate
       ? DateHelper.toTuiDay(endDate)
       : DateHelper.toTuiDay(today);
-    const room = data.Location;
+    const room = this.data.Location;
 
     const initialRequest = {
       date: startTuiDate,
-      shift: data.Shift ?? '1',
+      shift: this.data.Shift ?? '1',
       online: room === 'PHTT',
     };
 
     const initialChange = {
-      note: data.Note ?? '',
+      note: this.data.Note ?? '',
     };
 
     this.form = this.fb.group({
-      id: [data.Id],
-      subject: [data.Subject],
+      id: [this.data.Id],
+      subject: [this.data.Subject],
       location: [room],
-      people: [data.People?.[0]],
+      people: [this.data.People?.[0]],
       start: [[startTuiDate, DateHelper.beautifyTime(startDate ?? today)]],
       end: [[endTuiDate, DateHelper.beautifyTime(endDate ?? today)]],
       request: this.fb.group(
@@ -200,7 +202,7 @@ export class StudyEditorDialogComponent {
     this.validRequestChangeSchedule =
       true ||
       (startDate > this.firstDateAllowRequestChange &&
-        data.People?.[0] === 'self');
+        this.data.People?.[0] === 'self');
   }
 
   private showNotificationRequestChangeSuccessful(): void {

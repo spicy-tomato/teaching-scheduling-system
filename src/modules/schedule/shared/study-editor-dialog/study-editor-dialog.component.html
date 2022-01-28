@@ -92,17 +92,28 @@
       *ngIf="validRequestChangeSchedule"
       class="tui-form__buttons tui-form__buttons_align_start"
     >
-      <button
-        *ngIf="requestingChangeSchedule; else request"
-        [showLoader]="sendingRequest"
-        [disabled]="form.controls['request'].invalid"
-        (click)="onSubmit()"
-        tuiButton
-        size="m"
-        class="tui-form__button"
+      <tui-hosted-dropdown
+        tuiDropdownHover
+        *ngIf="data.FixedSchedule && data.FixedSchedule.length > 0; else send"
+        [content]="fixedScheduleContent"
+        class="d-flex align-items-center cursor-default"
       >
-        Gửi yêu cầu
-      </button>
+        <tui-svg src="tuiIconAlertCircleLarge"></tui-svg>
+        Ca học này đã được yêu cầu thay đổi
+      </tui-hosted-dropdown>
+      <ng-template #send>
+        <button
+          *ngIf="requestingChangeSchedule; else request"
+          [showLoader]="sendingRequest"
+          [disabled]="form.controls['request'].invalid"
+          (click)="onSubmit()"
+          tuiButton
+          size="m"
+          class="tui-form__button"
+        >
+          Gửi yêu cầu
+        </button>
+      </ng-template>
       <ng-template #request>
         <button
           tuiButton
@@ -137,7 +148,7 @@
           Lưu
         </button>
         <button
-        tuiButton
+          tuiButton
           (click)="onCancel()"
           appearance="outline"
           class="tui-form__button"
@@ -155,4 +166,28 @@
 
 <ng-template #studyTypeContent let-online>
   {{ online ? "Phòng học trực tuyến" : "Học trực tiếp" }}
+</ng-template>
+
+<ng-template #fixedScheduleContent>
+  <div *tssVar="data.FixedSchedule![0] as fixedSchedule" class="fixed-schedule">
+    <table>
+      <tbody>
+        <tr>
+          <td>Ngày</td>
+          <td>:</td>
+          <td>{{ fixedSchedule.NewDate | date: "dd-MM-Y" }}</td>
+        </tr>
+        <tr>
+          <td>Thời gian</td>
+          <td>:</td>
+          <td>{{ fixedSchedule.NewShift | shift }}</td>
+        </tr>
+        <tr>
+          <td>Phòng</td>
+          <td>:</td>
+          <td>{{ fixedSchedule.NewIdRoom }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </ng-template>

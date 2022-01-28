@@ -75,4 +75,14 @@ export interface EjsScheduleModel {
    * Color of event
    */
   Shift?: string;
+
+  /**
+   * Fixed schedule
+   */
+  FixedSchedule?: {
+    IdSchedule: number;
+    NewDate: string;
+    NewShift: string;
+    NewIdRoom: string;
+  }[];
 }

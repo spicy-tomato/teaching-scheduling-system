@@ -75,6 +75,10 @@ $u: 0.25rem;
   white-space: nowrap;
 }
 
+.cursor-default {
+  cursor: default;
+}
+
 @mixin font($size: base) {
   @if $size==xs {
     font-size: 0.75rem;
