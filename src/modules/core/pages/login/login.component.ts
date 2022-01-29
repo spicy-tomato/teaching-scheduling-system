@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  ViewChild,
+} from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -9,14 +14,22 @@ import { TuiNotification, TuiNotificationsService } from '@taiga-ui/core';
 import { BaseComponent } from '@modules/core/base/base.component';
 
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, filter, mergeMap, takeUntil, tap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  mergeMap,
+  takeUntil,
+  tap,
+} from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 import * as fromLogin from './state';
 import { EApiStatus } from '@shared/enums';
 import { slideUp } from '@shared/animations';
 import { Md5 } from 'ts-md5';
-import { LoginForm, Nullable } from 'src/shared/models';
+import { LoginForm } from 'src/shared/models';
+import { TuiInputPasswordComponent } from '@taiga-ui/kit';
 
 @Component({
   templateUrl: './login.component.html',
@@ -25,6 +38,10 @@ import { LoginForm, Nullable } from 'src/shared/models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent extends BaseComponent {
+  /** VIEWCHILD */
+  @ViewChild(TuiInputPasswordComponent, { static: true })
+  public passwordComponent!: TuiInputPasswordComponent;
+
   /** PUBLIC PROPERTIES */
   public status$: Observable<EApiStatus>;
   public readonly submit$ = new Subject<void>();
@@ -36,12 +53,12 @@ export class LoginComponent extends BaseComponent {
   public readonly EApiStatus = EApiStatus;
 
   /** GETTERS */
-  public get username(): Nullable<AbstractControl> {
-    return this.loginForm.get('username');
+  public get username(): AbstractControl {
+    return this.loginForm.controls['username'];
   }
 
-  public get password(): Nullable<AbstractControl> {
-    return this.loginForm.get('password');
+  public get password(): AbstractControl {
+    return this.loginForm.controls['password'];
   }
 
   /** CONSTRUCTOR */
@@ -58,11 +75,34 @@ export class LoginComponent extends BaseComponent {
       .select(fromLogin.selectState)
       .pipe(takeUntil(this.destroy$));
 
+    this.handleStatusChange();
     this.handleLoginFailed();
     this.handleSubmit();
   }
 
   /** PRIVATE METHODS */
+  private handleStatusChange(): void {
+    this.status$
+      .pipe(
+        map(
+          (status) =>
+            status === EApiStatus.loading || status === EApiStatus.successful
+        ),
+        distinctUntilChanged(),
+        tap((disable) => {
+          if (disable) {
+            this.username.disable();
+            this.password.disable();
+          } else {
+            this.username.enable();
+            this.password.enable();
+          }
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
   private handleLoginFailed(): void {
     this.status$
       .pipe(
@@ -89,8 +129,12 @@ export class LoginComponent extends BaseComponent {
   private handleSubmit(): void {
     this.submit$
       .pipe(
-        debounceTime(300),
         tap(() => {
+          if (!this.passwordComponent.isPasswordHidden) {
+            this.passwordComponent.togglePasswordVisibility();
+            this.passwordComponent.checkControlUpdate();
+          }
+
           const username = this.username?.value as string;
           const password = this.password?.value as string;
 

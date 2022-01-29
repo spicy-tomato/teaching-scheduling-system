@@ -5,9 +5,9 @@
       <div class="slide-element">
         <tui-input
           [tuiHintContent]="
-            username?.valid || username?.untouched
+            username.valid || username.untouched
               ? null
-              : username?.value === ''
+              : username.value === ''
               ? 'Hãy nhập email hoặc tên đăng nhập'
               : 'Hãy nhập đúng định dạng email'
           "
@@ -19,26 +19,25 @@
       </div>
 
       <div class="slide-element password">
-        <tui-input-password [readOnly]="false" formControlName="password">
+        <tui-input-password formControlName="password">
           Mật khẩu
         </tui-input-password>
       </div>
 
       <div class="footer">
-        <ng-container *ngrxLet="status$ as status">
-          <button
-            [showLoader]="
-              status === EApiStatus.loading || status === EApiStatus.successful
-            "
-            [disabled]="loginForm.invalid"
-            tuiButton
-            size="m"
-            type="submit"
-            class="slide-element"
-          >
-            Đăng nhập
-          </button>
-        </ng-container>
+        <button
+          *ngrxLet="status$ as status"
+          [showLoader]="
+            status === EApiStatus.loading || status === EApiStatus.successful
+          "
+          [disabled]="loginForm.invalid"
+          tuiButton
+          size="m"
+          type="submit"
+          class="slide-element"
+        >
+          Đăng nhập
+        </button>
 
         <!-- <div class="slide-element">
           <tui-checkbox-labeled [@slideUp] formControlName="remember">
