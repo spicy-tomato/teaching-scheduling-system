@@ -41,7 +41,7 @@ export class AssignScheduleFilterComponent
   public trainingTypeChange$ = new Subject<string>();
   public schoolYears$!: Observable<string[]>;
   public departments$: Observable<SimpleMapModel<string, SimpleModel[]>[]>;
-  public filter$ = new Subject<void>();
+  public filter$ = new Subject();
   public filterStatus$: Observable<EApiStatus>;
 
   public readonly termsInYear = CoreConstant.TERMS_IN_YEAR;

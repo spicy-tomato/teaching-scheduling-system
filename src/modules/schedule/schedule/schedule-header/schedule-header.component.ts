@@ -4,7 +4,6 @@ import {
   Component,
   Inject,
   Input,
-  OnDestroy,
 } from '@angular/core';
 import { TuiMonth } from '@taiga-ui/cdk';
 import {
@@ -43,7 +42,7 @@ import { ScheduleFilter } from 'src/shared/models';
 })
 export class ScheduleHeaderComponent
   extends BaseComponent
-  implements AfterViewInit, OnDestroy
+  implements AfterViewInit
 {
   /** INPUT */
   @Input() public scheduleComponent!: ScheduleComponent;
@@ -58,7 +57,7 @@ export class ScheduleHeaderComponent
   public activeToday$!: Observable<boolean>;
   public teachers$: Observable<string[]>;
   public modules$: Observable<string[]>;
-  public readonly clickToday$ = new Subject<void>();
+  public readonly clickToday$ = new Subject();
   public readonly permissionConstant = PermissionConstant;
 
   public showDepartmentSchedule = false;
@@ -68,8 +67,8 @@ export class ScheduleHeaderComponent
   /** PRIVATE PROPERTIES */
   private selectedDate$: Observable<Date>;
   private canDisplayNotification = true;
-  private readonly closeFilter$ = new Subject<void>();
-  private readonly displayNotification$ = new Subject<void>();
+  private readonly closeFilter$ = new Subject();
+  private readonly displayNotification$ = new Subject();
 
   /** CONSTRUCTOR */
   constructor(
@@ -79,6 +78,8 @@ export class ScheduleHeaderComponent
     private readonly appShellStore: Store<fromAppShell.AppShellState>
   ) {
     super();
+
+    this.assignSubjects([this.clickToday$, this.closeFilter$]);
 
     this.selectedDate$ = store
       .select(fromSchedule.selectSelectedDate)
@@ -108,12 +109,6 @@ export class ScheduleHeaderComponent
   public ngAfterViewInit(): void {
     this.triggerDateRange();
     this.triggerActiveToday();
-  }
-
-  public ngOnDestroy(): void {
-    this.clickToday$.complete();
-    this.closeFilter$.complete();
-    super.ngOnDestroy();
   }
 
   /** PUBLIC METHODS */

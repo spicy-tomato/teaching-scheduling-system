@@ -2,7 +2,6 @@ import {
   ChangeDetectorRef,
   Directive,
   Input,
-  OnDestroy,
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
@@ -15,7 +14,7 @@ import { combineLatest, Observable, Subject } from 'rxjs';
 @Directive({
   selector: '[tssPermission]',
 })
-export class PermissionDirective extends BaseComponent implements OnDestroy {
+export class PermissionDirective extends BaseComponent {
   /** PRIVATE PROPERTIES */
   private _tssPermission?: number;
   private permissions$: Observable<number[]>;
@@ -36,17 +35,13 @@ export class PermissionDirective extends BaseComponent implements OnDestroy {
   ) {
     super();
 
+    this.assignSubjects([this.bind$]);
+
     this.permissions$ = appShellStore
       .select(fromAppShell.selectPermission)
       .pipe(takeUntil(this.destroy$));
 
     this.triggerUpdateView();
-  }
-
-  /** LIFE CYCLE */
-  public ngOnDestroy(): void {
-    this.bind$.complete();
-    super.ngOnDestroy();
   }
 
   /** PRIVATE METHODS */
