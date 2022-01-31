@@ -35,7 +35,7 @@ export class AssignScheduleFilterComponent
   public expanded = true;
   public form!: FormGroup;
   public currentTerm$: Observable<string>;
-  public myDepartment$: Observable<string | undefined>;
+  public myDepartment$: Observable<Nullable<string>>;
   public academicYears$: Observable<AcademicYear>;
   public trainingTypes$: Observable<string[]>;
   public trainingTypeChange$ = new Subject<string>();

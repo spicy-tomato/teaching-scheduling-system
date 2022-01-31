@@ -18,7 +18,7 @@ import { combineLatest, Observable, Subject } from 'rxjs';
 export class PermissionDirective extends BaseComponent implements OnDestroy {
   /** PRIVATE PROPERTIES */
   private _tssPermission?: number;
-  private permissions$: Observable<number[] | undefined>;
+  private permissions$: Observable<number[]>;
   private bind$ = new Subject();
 
   /** SETTER */

@@ -6,10 +6,10 @@ import { UserService } from '@services/user.service';
 import { LocalStorageKeyConstant } from '@shared/constants';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { Teacher } from '../models';
+import { Nullable, Teacher } from '../models';
 
 @Injectable()
-export class UserInfoResolve implements Resolve<Teacher | undefined> {
+export class UserInfoResolve implements Resolve<Nullable<Teacher>> {
   /** CONSTRUCTOR */
   constructor(
     private readonly appService: AppService,
@@ -18,13 +18,13 @@ export class UserInfoResolve implements Resolve<Teacher | undefined> {
   ) {}
 
   /** IMPLEMENTATIONS */
-  public resolve(): Observable<Teacher | undefined> | undefined {
+  public resolve(): Observable<Nullable<Teacher>> {
     const hasAccessToken = !!this.localStorageService.getItem(
       LocalStorageKeyConstant.ACCESS_TOKEN
     );
     if (!hasAccessToken) {
       this.appService.redirectToLogin();
-      return undefined;
+      return of(null);
     }
 
     return this.userService.me().pipe(
@@ -35,7 +35,7 @@ export class UserInfoResolve implements Resolve<Teacher | undefined> {
         },
         catchError(() => {
           this.appService.redirectToLogin();
-          return of(undefined);
+          return of(null);
         })
       )
     );
