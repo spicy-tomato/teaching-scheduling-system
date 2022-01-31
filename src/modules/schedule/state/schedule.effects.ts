@@ -19,7 +19,7 @@ import { Store } from '@ngrx/store';
 import { CommonInfoService } from '@services/common-info.service';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { PermissionConstant } from '@shared/constants';
-import { SearchSchedule } from 'src/shared/models';
+import { Nullable, SearchSchedule } from 'src/shared/models';
 
 @Injectable()
 export class ScheduleEffects extends BaseComponent {
@@ -123,9 +123,9 @@ export class ScheduleEffects extends BaseComponent {
     );
   });
 
-  private department$: Observable<string | undefined>;
+  private department$: Observable<Nullable<string>>;
   private currentTerm$: Observable<string>;
-  private permission$: Observable<number[] | undefined>;
+  private permission$: Observable<number[]>;
 
   /** CONSTRUCTOR */
   constructor(
@@ -136,12 +136,9 @@ export class ScheduleEffects extends BaseComponent {
   ) {
     super();
 
-    this.department$ = appShellStore.select(fromAppShell.selectTeacher).pipe(
-      map((teacher) => {
-        return teacher?.idDepartment;
-      }),
-      takeUntil(this.destroy$)
-    );
+    this.department$ = appShellStore
+      .select(fromAppShell.selectDepartment)
+      .pipe(takeUntil(this.destroy$));
     this.currentTerm$ = commonInfoService
       .getCurrentTerm()
       .pipe(takeUntil(this.destroy$));

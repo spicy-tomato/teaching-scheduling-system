@@ -5,7 +5,7 @@ import * as ApiAction from './app-shell.api.actions';
 import * as PageAction from './app-shell.page.actions';
 
 const initialState: AppShellState = {
-  teacher: undefined,
+  teacher: null,
   status: EApiStatus.unknown,
 };
 
@@ -23,7 +23,7 @@ export const appShellReducer = createReducer(
     teacher,
   })),
   on(ApiAction.autoLoginFailure, () => ({
-    teacher: undefined,
+    teacher: null,
     status: EApiStatus.clientError,
   }))
 );

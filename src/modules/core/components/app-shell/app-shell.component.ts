@@ -12,7 +12,7 @@ export class AppShellComponent extends BaseComponent {
   /** CONSTRUCTOR */
   constructor(private readonly store: Store<fromAppShell.AppShellState>) {
     super();
-    
+
     this.store.dispatch(fromAppShell.reset());
     this.store.dispatch(fromAppShell.tryAutoLogin());
   }

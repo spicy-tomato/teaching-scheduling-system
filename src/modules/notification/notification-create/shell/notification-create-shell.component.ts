@@ -52,8 +52,8 @@ export class NotificationCreateShellComponent
   public form!: FormGroup;
 
   public status$: Observable<EApiStatus>;
-  public readonly reset$ = new Subject<void>();
-  public readonly confirm$ = new Subject<void>();
+  public readonly reset$ = new Subject();
+  public readonly confirm$ = new Subject();
   //#endregion
 
   //#region Getters

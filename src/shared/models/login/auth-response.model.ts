@@ -1,7 +1,8 @@
 import { CommonInfoModel, Teacher } from '..';
+import { Nullable } from '../core';
 
 export interface AuthResponse {
   token: string;
-  teacher?: Teacher;
+  teacher: Nullable<Teacher>;
   commonInfo?: CommonInfoModel;
 }

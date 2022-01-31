@@ -10,7 +10,7 @@ import { BaseComponent } from '@modules/core/base/base.component';
   providedIn: 'root',
 })
 export class PermissionGuard extends BaseComponent implements CanActivate {
-  private permissions$: Observable<number[] | undefined>;
+  private permissions$: Observable<number[]>;
 
   /** CONSTRUCTOR */
   constructor(

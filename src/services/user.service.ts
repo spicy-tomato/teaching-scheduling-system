@@ -3,7 +3,12 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { TeacherDta } from '@shared/dtas';
-import { ChangePassword, SendFeedback, Teacher } from 'src/shared/models';
+import {
+  ChangePassword,
+  Nullable,
+  SendFeedback,
+  Teacher,
+} from 'src/shared/models';
 import { BaseDataService } from './core/base-data.service';
 
 @Injectable({
@@ -14,7 +19,7 @@ export class UserService extends BaseDataService {
     super();
   }
 
-  public me(): Observable<Teacher | undefined> {
+  public me(): Observable<Nullable<Teacher>> {
     return this.http
       .get<TeacherDta>(this.url + 'users')
       .pipe(map((response) => Teacher.parse(response)));
