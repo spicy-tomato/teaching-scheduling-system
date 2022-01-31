@@ -9,12 +9,15 @@ import {
 import { Observable } from 'rxjs';
 import { TokenService } from '@services/core/token.service';
 import { tap } from 'rxjs/operators';
-import { Router } from '@angular/router';
+import { AppService } from '@services/core/app.service';
 
 @Injectable()
 export class HeaderInterceptor implements HttpInterceptor {
   /** CONSTRUCTOR */
-  constructor(private router: Router, private tokenService: TokenService) {}
+  constructor(
+    private readonly appService: AppService,
+    private readonly tokenService: TokenService
+  ) {}
 
   /** IMPLEMENTATIONS */
   public intercept(
@@ -42,7 +45,7 @@ export class HeaderInterceptor implements HttpInterceptor {
                 this.tokenService.save(token);
               } else {
                 this.tokenService.clear();
-                void this.router.navigate(['/login']);
+                this.appService.redirectToLogin();
               }
             }
           }

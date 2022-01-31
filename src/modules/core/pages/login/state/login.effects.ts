@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { of } from 'rxjs';
 import { catchError, map, mergeMap, tap } from 'rxjs/operators';
@@ -9,8 +8,8 @@ import * as PageAction from './login.page.actions';
 import * as ApiAction from './login.api.actions';
 import { AuthService } from '@services/core/auth.service';
 import { TokenService } from '@services/core/token.service';
-import { LocalStorageService } from '@services/core/storage/local-storage.service';
-import { LocalDataService } from '@services/core/local-data.service';
+import { AppService } from '@services/core/app.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Injectable()
 export class LoginEffects {
@@ -41,9 +40,9 @@ export class LoginEffects {
         mergeMap(() =>
           of({}).pipe(
             tap(() => {
-              void this.router.navigate([''], {
-                state: { skipAutoLogin: true },
-              });
+              this.appService.redirectToApp(
+                this.route.snapshot.queryParamMap.get('redirect')
+              );
             })
           )
         )
@@ -55,10 +54,9 @@ export class LoginEffects {
   /** CONSTRUCTOR */
   constructor(
     private readonly actions$: Actions,
-    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly appService: AppService,
     private readonly authService: AuthService,
-    private readonly tokenService: TokenService,
-    private readonly localStorageService: LocalStorageService,
-    private readonly localDataService: LocalDataService
+    private readonly tokenService: TokenService
   ) {}
 }

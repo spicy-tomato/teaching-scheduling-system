@@ -10,12 +10,13 @@ import {
 const routes: Routes = [
   {
     path: 'login',
-    canLoad: [KeepUserGuard],
+    canActivate: [KeepUserGuard],
     loadChildren: async () =>
       (await import('@modules/core/pages/login/login.module')).LoginModule,
   },
   {
     path: '',
+    canActivate: [KeepUserGuard],
     resolve: { userInfo: UserInfoResolve },
     loadChildren: async () =>
       (await import('@modules/core/components/app-shell/app-shell.module'))
@@ -23,12 +24,14 @@ const routes: Routes = [
   },
   {
     path: '403',
+    canActivate: [KeepUserGuard],
     pathMatch: 'full',
     resolve: { userInfo: UserInfoResolve },
     component: ForbiddenComponent,
   },
   {
     path: '**',
+    canActivate: [KeepUserGuard],
     resolve: { userInfo: UserInfoResolve },
     component: NotFoundComponent,
   },
