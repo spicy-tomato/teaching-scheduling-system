@@ -137,7 +137,7 @@ export const assignScheduleReducer = createReducer(
     );
     const justUnassignedClasses = needAssign.map((x) => ({
       ...x,
-      teacher: undefined,
+      teacher: null,
     }));
 
     return {

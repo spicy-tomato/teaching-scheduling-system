@@ -33,8 +33,8 @@ export class ScheduleEffects extends BaseComponent implements OnDestroy {
     .select(fromSchedule.selectView)
     .pipe(takeUntil(this.destroy$));
 
-  private readonly permissions$: Observable<number[] | undefined>;
-  private readonly department$: Observable<string | undefined>;
+  private readonly permissions$: Observable<number[]>;
+  private readonly department$: Observable<Nullable<string>>;
   private readonly loadDepartmentExamSubject$ = new Subject<Date>();
   private readonly loadDepartmentScheduleSubject$ = new Subject<Date>();
 

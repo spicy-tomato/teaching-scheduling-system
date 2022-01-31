@@ -1,4 +1,5 @@
 import { TeacherDta } from '@shared/dtas';
+import { Nullable } from './nullable.model';
 
 export class Teacher {
   public readonly uuid!: string;
@@ -15,9 +16,9 @@ export class Teacher {
   public readonly isFemale!: boolean;
   public readonly permissions!: number[];
 
-  public static parse(obj?: TeacherDta): Teacher | undefined {
+  public static parse(obj?: TeacherDta): Nullable<Teacher> {
     if (!obj) {
-      return undefined;
+      return null;
     }
 
     return {

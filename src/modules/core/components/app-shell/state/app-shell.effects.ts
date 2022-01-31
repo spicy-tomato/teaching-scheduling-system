@@ -5,10 +5,11 @@ import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { AccessTokenService } from '@services/core/access-token.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { UserService } from '@services/user.service';
 import { Teacher } from 'src/shared/models';
 import { CommonInfoService } from '@services/common-info.service';
+import { AppService } from '@services/core/app.service';
 
 @Injectable()
 export class AppShellEffects {
@@ -44,7 +45,7 @@ export class AppShellEffects {
           of({}).pipe(
             tap(() => {
               this.accessTokenService.clear();
-              void this.router.navigate(['']);
+              this.appService.redirectToLogin();
             })
           )
         )
@@ -69,7 +70,7 @@ export class AppShellEffects {
   constructor(
     private readonly actions$: Actions,
     private readonly route: ActivatedRoute,
-    private readonly router: Router,
+    private readonly appService: AppService,
     private readonly userService: UserService,
     private readonly commonInfoService: CommonInfoService,
     private readonly accessTokenService: AccessTokenService

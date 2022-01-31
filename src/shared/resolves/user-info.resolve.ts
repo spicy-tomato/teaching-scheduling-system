@@ -1,20 +1,32 @@
 import { Injectable } from '@angular/core';
-import { Resolve, Router } from '@angular/router';
+import { Resolve } from '@angular/router';
+import { AppService } from '@services/core/app.service';
+import { LocalStorageService } from '@services/core/storage/local-storage.service';
 import { UserService } from '@services/user.service';
+import { LocalStorageKeyConstant } from '@shared/constants';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { Teacher } from '../models';
+import { Nullable, Teacher } from '../models';
 
 @Injectable()
-export class UserInfoResolve implements Resolve<Teacher | undefined> {
+export class UserInfoResolve implements Resolve<Nullable<Teacher>> {
   /** CONSTRUCTOR */
   constructor(
-    private readonly router: Router,
-    private readonly userService: UserService
+    private readonly appService: AppService,
+    private readonly userService: UserService,
+    private readonly localStorageService: LocalStorageService
   ) {}
 
   /** IMPLEMENTATIONS */
-  public resolve(): Observable<Teacher | undefined> {
+  public resolve(): Observable<Nullable<Teacher>> {
+    const hasAccessToken = !!this.localStorageService.getItem(
+      LocalStorageKeyConstant.ACCESS_TOKEN
+    );
+    if (!hasAccessToken) {
+      this.appService.redirectToLogin();
+      return of(null);
+    }
+
     return this.userService.me().pipe(
       map(
         (teacher) => {
@@ -22,8 +34,8 @@ export class UserInfoResolve implements Resolve<Teacher | undefined> {
           return teacher;
         },
         catchError(() => {
-          void this.router.navigate(['/login']);
-          return of(undefined);
+          this.appService.redirectToLogin();
+          return of(null);
         })
       )
     );

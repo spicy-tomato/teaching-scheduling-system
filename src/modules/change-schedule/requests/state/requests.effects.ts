@@ -17,7 +17,7 @@ import * as fromRequests from '.';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
 import { ScheduleService } from '@services/schedule.service';
 import { BaseComponent } from '@modules/core/base/base.component';
-import { ChangeScheduleOptions, ChangeScheduleSearch } from '@shared/models';
+import { ChangeScheduleOptions, ChangeScheduleSearch, Nullable } from '@shared/models';
 import { Store } from '@ngrx/store';
 import { DateHelper, ObservableHelper } from '@shared/helpers';
 
@@ -26,7 +26,7 @@ export class RequestsEffects extends BaseComponent implements OnDestroy {
   /** PRIVATE PROPERTIES */
   private personal!: boolean;
   private readonly options$: Observable<ChangeScheduleOptions>;
-  private readonly department$: Observable<string | undefined>;
+  private readonly department$: Observable<Nullable<string>>;
   private readonly loadSubject$ = new Subject<ChangeScheduleSearch>();
   private readonly nameTitle$ = this.appShellStore
     .select(fromAppShell.selectNameTitle)

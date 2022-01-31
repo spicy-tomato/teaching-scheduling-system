@@ -35,13 +35,13 @@ export class AssignScheduleFilterComponent
   public expanded = true;
   public form!: FormGroup;
   public currentTerm$: Observable<string>;
-  public myDepartment$: Observable<string | undefined>;
+  public myDepartment$: Observable<Nullable<string>>;
   public academicYears$: Observable<AcademicYear>;
   public trainingTypes$: Observable<string[]>;
   public trainingTypeChange$ = new Subject<string>();
   public schoolYears$!: Observable<string[]>;
   public departments$: Observable<SimpleMapModel<string, SimpleModel[]>[]>;
-  public filter$ = new Subject<void>();
+  public filter$ = new Subject();
   public filterStatus$: Observable<EApiStatus>;
 
   public readonly termsInYear = CoreConstant.TERMS_IN_YEAR;
