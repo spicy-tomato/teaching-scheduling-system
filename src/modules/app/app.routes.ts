@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { KeepUserGuard } from '@shared/guards';
-import { UserInfoResolve } from '@resolves/user-info.resolve';
 import {
   ForbiddenComponent,
   NotFoundComponent,
@@ -17,7 +16,6 @@ const routes: Routes = [
   {
     path: '',
     canActivate: [KeepUserGuard],
-    resolve: { userInfo: UserInfoResolve },
     loadChildren: async () =>
       (await import('@modules/core/components/app-shell/app-shell.module'))
         .AppShellModule,
@@ -26,13 +24,11 @@ const routes: Routes = [
     path: '403',
     canActivate: [KeepUserGuard],
     pathMatch: 'full',
-    resolve: { userInfo: UserInfoResolve },
     component: ForbiddenComponent,
   },
   {
     path: '**',
     canActivate: [KeepUserGuard],
-    resolve: { userInfo: UserInfoResolve },
     component: NotFoundComponent,
   },
 ];

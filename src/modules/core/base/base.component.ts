@@ -18,7 +18,6 @@ export abstract class BaseComponent implements OnDestroy {
     this.destroy$.complete();
 
     this.subjects?.forEach((subject) => {
-      console.log(subject);
       subject.complete();
     });
   }

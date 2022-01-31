@@ -25,7 +25,6 @@ import { InterceptorsModule } from 'src/shared/interceptors/interceptors.module'
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routes';
 import { HeaderInterceptor } from 'src/shared/interceptors/header.interceptor';
-import { UserInfoResolve } from '@resolves/user-info.resolve';
 import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
 import { maxLengthFactory, requiredFactory } from '@shared/factories';
 
@@ -51,7 +50,6 @@ const NGRX = [
     ...TAIGA_UI,
   ],
   providers: [
-    UserInfoResolve,
     {
       provide: APP_INITIALIZER,
       useFactory: loadAppSettings,
