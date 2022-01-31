@@ -30,7 +30,6 @@ import {
 import { InterceptorsModule } from 'src/shared/interceptors/interceptors.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routes';
-import { UserInfoResolve } from '@resolves/user-info.resolve';
 import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
 
 const TAIGA_UI = [TuiRootModule, TuiDialogModule, TuiNotificationsModule];
@@ -55,7 +54,6 @@ const NGRX = [
     ...TAIGA_UI,
   ],
   providers: [
-    UserInfoResolve,
     {
       provide: APP_INITIALIZER,
       useFactory: loadAppSettings,

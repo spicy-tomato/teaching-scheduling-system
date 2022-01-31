@@ -5,9 +5,7 @@ import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { AccessTokenService } from '@services/core/access-token.service';
-import { ActivatedRoute } from '@angular/router';
 import { UserService } from '@services/user.service';
-import { Teacher } from 'src/shared/models';
 import { CommonInfoService } from '@services/common-info.service';
 import { AppService } from '@services/core/app.service';
 
@@ -18,13 +16,6 @@ export class AppShellEffects {
     return this.actions$.pipe(
       ofType(PageAction.tryAutoLogin),
       mergeMap(() => {
-        const cachedTeacher = this.route.snapshot.data['userInfo'] as Teacher;
-        if (cachedTeacher) {
-          return of(
-            ApiAction.autoLoginSuccessfully({ teacher: cachedTeacher })
-          );
-        }
-
         return this.userService.me().pipe(
           map((teacher) =>
             teacher
@@ -69,7 +60,6 @@ export class AppShellEffects {
   /** CONSTRUCTOR */
   constructor(
     private readonly actions$: Actions,
-    private readonly route: ActivatedRoute,
     private readonly appService: AppService,
     private readonly userService: UserService,
     private readonly commonInfoService: CommonInfoService,
