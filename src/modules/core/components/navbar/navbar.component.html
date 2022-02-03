@@ -10,6 +10,7 @@
     <tui-hosted-dropdown [(open)]="openDropDown" [content]="content">
       <button
         *ngrxLet="user$ as user"
+        [showLoader]="!user"
         size="m"
         tuiButton
         type="button"
