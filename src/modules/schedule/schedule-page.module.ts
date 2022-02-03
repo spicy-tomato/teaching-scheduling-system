@@ -19,6 +19,7 @@ import {
   TuiDataListModule,
   TuiExpandModule,
   TuiHostedDropdownModule,
+  TuiLoaderModule,
 } from '@taiga-ui/core';
 import { ScheduleHeaderComponent } from './schedule/schedule-header/schedule-header.component';
 import { TuiRadioLabeledModule } from '@taiga-ui/kit';
@@ -44,6 +45,7 @@ const TAIGA_UI = [
   TuiDataListWrapperModule,
   TuiActiveZoneModule,
   TuiExpandModule,
+  TuiLoaderModule,
 ];
 
 @NgModule({

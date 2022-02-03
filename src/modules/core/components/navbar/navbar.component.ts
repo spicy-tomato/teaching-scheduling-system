@@ -5,7 +5,9 @@ import { TokenService } from '@services/core/token.service';
 import { Store } from '@ngrx/store';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
 import { Observable } from 'rxjs';
-import { NavbarGroup, Nullable, Teacher } from 'src/shared/models';
+import { Nullable, Teacher } from 'src/shared/models';
+import { takeUntil } from 'rxjs/operators';
+import { BaseComponent } from '@modules/core/base/base.component';
 
 @Component({
   selector: 'tss-navbar',
@@ -13,10 +15,10 @@ import { NavbarGroup, Nullable, Teacher } from 'src/shared/models';
   styleUrls: ['./navbar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NavbarComponent {
+export class NavbarComponent extends BaseComponent {
   /** PUBLIC PROPERTIES */
-  public readonly items: NavbarGroup[] = NavbarConstants.items;
-  public user$!: Observable<Nullable<Teacher>>;
+  public readonly items = NavbarConstants.items;
+  public user$: Observable<Nullable<Teacher>>;
   public openDropDown = false;
 
   /** CONSTRUCTOR */
@@ -25,7 +27,11 @@ export class NavbarComponent {
     private readonly router: Router,
     private readonly tokenService: TokenService
   ) {
-    this.user$ = appShellStore.select(fromAppShell.selectTeacher);
+    super();
+
+    this.user$ = appShellStore
+      .select(fromAppShell.selectTeacher)
+      .pipe(takeUntil(this.destroy$));
   }
 
   /** PUBLIC METHODS */
