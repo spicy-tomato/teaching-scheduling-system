@@ -1,57 +1,63 @@
-<tui-scrollbar>
-  <ng-container *ngFor="let item of items">
-    <ng-container *tssPermission="item.permission">
-      <tui-accordion
-        *ngIf="item.subItems; else link"
-        [closeOthers]="false"
-        [rounded]="false"
-        tuiMode="onLight"
-      >
-        <tui-accordion-item
-          [borders]="null"
-          [showArrow]="!!item.subItems"
-          size="s"
+<ng-container *ngrxLet="user$ as user">
+  <tui-scrollbar *ngIf="user; else loader" [@fadeIn]>
+    <ng-container *ngFor="let item of items">
+      <ng-container *tssPermission="item.permission">
+        <tui-accordion
+          *ngIf="item.subItems; else link"
+          [closeOthers]="false"
+          [rounded]="false"
+          tuiMode="onLight"
         >
-          <span class="icon-wrapper">
-            <div>
-              <i [class]="item.icon"></i>
-            </div>
-          </span>
-          <strong>{{ item.name }}</strong>
-          <ng-template tuiAccordionItemContent>
-            <div class="sub-item">
+          <tui-accordion-item
+            [borders]="null"
+            [showArrow]="!!item.subItems"
+            size="s"
+          >
+            <span class="icon-wrapper">
               <div>
-                <a
-                  *ngFor="let subItem of item.subItems"
-                  [routerLink]="subItem.routerLink"
-                  [routerLinkActive]="['active']"
-                  [routerLinkActiveOptions]="{ exact: true }"
-                  tuiLink
-                >
-                  {{ subItem.name }}
-                </a>
+                <i [class]="item.icon"></i>
               </div>
-            </div>
-          </ng-template>
-        </tui-accordion-item>
-      </tui-accordion>
+            </span>
+            <strong>{{ item.name }}</strong>
+            <ng-template tuiAccordionItemContent>
+              <div class="sub-item">
+                <div>
+                  <a
+                    *ngFor="let subItem of item.subItems"
+                    [routerLink]="subItem.routerLink"
+                    [routerLinkActive]="['active']"
+                    [routerLinkActiveOptions]="{ exact: true }"
+                    tuiLink
+                  >
+                    {{ subItem.name }}
+                  </a>
+                </div>
+              </div>
+            </ng-template>
+          </tui-accordion-item>
+        </tui-accordion>
 
-      <ng-template #link>
-        <a
-          [routerLink]="item.routerLink ?? ''"
-          [routerLinkActive]="['active']"
-          [routerLinkActiveOptions]="{ exact: true }"
-          class="link"
-          tuiLink
-        >
-          <span class="icon-wrapper">
-            <div>
-              <i [class]="item.icon"></i>
-            </div>
-          </span>
-          <strong>{{ item.name }}</strong>
-        </a>
-      </ng-template>
+        <ng-template #link>
+          <a
+            [routerLink]="item.routerLink ?? ''"
+            [routerLinkActive]="['active']"
+            [routerLinkActiveOptions]="{ exact: true }"
+            class="link"
+            tuiLink
+          >
+            <span class="icon-wrapper">
+              <div>
+                <i [class]="item.icon"></i>
+              </div>
+            </span>
+            <strong>{{ item.name }}</strong>
+          </a>
+        </ng-template>
+      </ng-container>
     </ng-container>
-  </ng-container>
-</tui-scrollbar>
+  </tui-scrollbar>
+
+  <ng-template #loader>
+    <tui-loader [showLoader]="true" [@fadeOut] class="h-full"></tui-loader>
+  </ng-template>
+</ng-container>
