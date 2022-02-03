@@ -74,6 +74,11 @@
   }
 }
 
+.loader {
+  width: 25rem;
+  height: 7rem;
+}
+
 .ml {
   @include ml(2);
 }
