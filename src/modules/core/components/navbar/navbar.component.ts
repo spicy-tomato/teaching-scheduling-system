@@ -5,7 +5,7 @@ import { TokenService } from '@services/core/token.service';
 import { Store } from '@ngrx/store';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
 import { Observable } from 'rxjs';
-import { NavbarGroup, Nullable, Teacher } from 'src/shared/models';
+import { Nullable, Teacher } from 'src/shared/models';
 
 @Component({
   selector: 'tss-navbar',
@@ -15,8 +15,8 @@ import { NavbarGroup, Nullable, Teacher } from 'src/shared/models';
 })
 export class NavbarComponent {
   /** PUBLIC PROPERTIES */
-  public readonly items: NavbarGroup[] = NavbarConstants.items;
-  public user$!: Observable<Nullable<Teacher>>;
+  public readonly items = NavbarConstants.items;
+  public user$: Observable<Nullable<Teacher>>;
   public openDropDown = false;
 
   /** CONSTRUCTOR */
