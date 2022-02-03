@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of, OperatorFunction, Subject } from 'rxjs';
 import {
   catchError,
@@ -24,7 +24,7 @@ import { ArrayHelper, ObservableHelper } from '@shared/helpers';
 import { View } from '@syncfusion/ej2-angular-schedule';
 
 @Injectable()
-export class ScheduleEffects extends BaseComponent implements OnDestroy {
+export class ScheduleEffects extends BaseComponent {
   /** PRIVATE PROPERTIES */
   private ranges$ = this.store
     .select(fromSchedule.selectRanges)
@@ -148,6 +148,11 @@ export class ScheduleEffects extends BaseComponent implements OnDestroy {
   ) {
     super();
 
+    this.assignSubjects([
+      this.loadDepartmentScheduleSubject$,
+      this.loadDepartmentExamSubject$,
+    ]);
+
     this.permissions$ = appShellStore
       .select(fromAppShell.selectPermission)
       .pipe(takeUntil(this.destroy$));
@@ -157,13 +162,6 @@ export class ScheduleEffects extends BaseComponent implements OnDestroy {
 
     this.handleLoadDepartmentSchedule();
     this.handleLoadDepartmentExam();
-  }
-
-  /** LIFE CYCLES */
-  public ngOnDestroy(): void {
-    this.loadDepartmentScheduleSubject$.complete();
-    this.loadDepartmentExamSubject$.complete();
-    super.ngOnDestroy();
   }
 
   /** PRIVATE METHODS */

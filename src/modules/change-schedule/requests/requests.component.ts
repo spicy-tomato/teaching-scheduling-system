@@ -20,7 +20,7 @@ export class RequestsComponent extends BaseComponent implements OnInit {
     const personal = route.snapshot.data['personal'] as boolean;
     store.dispatch(fromRequests.reset({ personal }));
   }
-
+  
   /** LIFE CYCLES */
   public ngOnInit(): void {
     this.store.dispatch(

@@ -1,7 +1,8 @@
 import { Directive, OnDestroy } from '@angular/core';
 import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
 
-type SubjectType = Subject<unknown> | BehaviorSubject<any> | ReplaySubject<any>;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type SubjectType = Subject<any> | BehaviorSubject<any> | ReplaySubject<any>;
 
 @Directive()
 export abstract class BaseComponent implements OnDestroy {
