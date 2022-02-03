@@ -21,7 +21,7 @@ import { DateHelper, ScheduleHelper } from '@shared/helpers';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
 import * as fromSchedule from '@modules/schedule/state';
 import { fadeIn } from '@shared/animations';
-import { ScheduleFilter } from 'src/shared/models';
+import { Nullable, ScheduleFilter, Teacher } from 'src/shared/models';
 
 @Component({
   selector: 'tss-schedule-header',
@@ -57,6 +57,8 @@ export class ScheduleHeaderComponent
   public activeToday$!: Observable<boolean>;
   public teachers$: Observable<string[]>;
   public modules$: Observable<string[]>;
+  public user$: Observable<Nullable<Teacher>>;
+
   public readonly clickToday$ = new Subject();
   public readonly permissionConstant = PermissionConstant;
 
@@ -81,6 +83,9 @@ export class ScheduleHeaderComponent
 
     this.assignSubjects([this.clickToday$, this.closeFilter$]);
 
+    this.user$ = appShellStore
+      .select(fromAppShell.selectTeacher)
+      .pipe(takeUntil(this.destroy$));
     this.selectedDate$ = store
       .select(fromSchedule.selectSelectedDate)
       .pipe(takeUntil(this.destroy$));
