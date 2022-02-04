@@ -24,6 +24,7 @@ import {
 } from '@shared/models';
 import { Store } from '@ngrx/store';
 import { DateHelper, ObservableHelper } from '@shared/helpers';
+import { PermissionConstant } from '@shared/constants';
 
 @Injectable()
 export class RequestsEffects extends BaseComponent {
@@ -159,11 +160,37 @@ export class RequestsEffects extends BaseComponent {
       .select(fromAppShell.selectNameTitle)
       .pipe(takeUntil(this.destroy$));
 
-    this.handleLoadPersonal();
-    this.handleLoadDepartment();
+    this.handlePermissionChange();
   }
 
   /** PRIVATE METHODS */
+  private handlePermissionChange(): void {
+    this.appShellStore
+      .select(fromAppShell.selectPermission)
+      .pipe(
+        filter((permissions) => permissions.length > 0),
+        tap((permissions) => {
+          if (
+            permissions.includes(
+              PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE
+            )
+          ) {
+            this.handleLoadPersonal();
+          }
+          if (
+            permissions.includes(PermissionConstant.SEE_DEPARTMENT_SCHEDULE)
+          ) {
+            this.handleLoadDepartment();
+          }
+          if (permissions.includes(PermissionConstant.MANAGE_ROOM)) {
+            this.handleLoadManager();
+          }
+        }),
+        take(1)
+      )
+      .subscribe();
+  }
+
   private handleLoadPersonal(): void {
     this.loadSubject$
       .pipe(
@@ -205,6 +232,27 @@ export class RequestsEffects extends BaseComponent {
               }),
               catchError(() => of(this.store.dispatch(ApiAction.loadFailure())))
             );
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
+  private handleLoadManager(): void {
+    this.loadSubject$
+      .pipe(
+        filter(() => !this.personal),
+        mergeMap((x) => {
+          return this.scheduleService.getManagerChangeScheduleRequests(x).pipe(
+            tap((changeSchedules) => {
+              this.store.dispatch(
+                ApiAction.loadSuccessful({
+                  changeSchedulesResponse: changeSchedules,
+                })
+              );
+            }),
+            catchError(() => of(this.store.dispatch(ApiAction.loadFailure())))
+          );
         }),
         takeUntil(this.destroy$)
       )

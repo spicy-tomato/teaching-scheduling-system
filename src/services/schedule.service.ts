@@ -127,6 +127,17 @@ export class ScheduleService extends BaseDataService {
     );
   }
 
+  public getManagerChangeScheduleRequests(
+    params: ChangeScheduleSearch
+  ): Observable<ChangeScheduleResponse> {
+    return this.http.get<ChangeScheduleResponse>(
+      this.url + 'teachers/01/fixed-schedules',
+      {
+        params: { ...params },
+      }
+    );
+  }
+
   public responseChangeScheduleRequests(
     body: ChangeScheduleResponsePayload
   ): Observable<void> {

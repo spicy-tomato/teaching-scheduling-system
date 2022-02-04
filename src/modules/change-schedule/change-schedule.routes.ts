@@ -16,7 +16,10 @@ const routes: Routes = [
         path: 'my-requests',
         loadChildren: async () =>
           (await import('./requests/requests.module')).RequestsModule,
+        canActivate: [PermissionGuard],
         data: {
+          permissions: [PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE],
+          redirect: 'change-schedule/requests',
           personal: true,
         },
       },
@@ -26,7 +29,10 @@ const routes: Routes = [
           (await import('./requests/requests.module')).RequestsModule,
         canActivate: [PermissionGuard],
         data: {
-          permissions: [PermissionConstant.ACCEPT_CHANGE_TEACHING_SCHEDULE],
+          permissions: [
+            PermissionConstant.ACCEPT_CHANGE_TEACHING_SCHEDULE,
+            PermissionConstant.MANAGE_ROOM,
+          ],
           personal: false,
         },
       },
