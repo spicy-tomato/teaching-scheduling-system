@@ -1,12 +1,23 @@
-.inner {
-  margin: 0.75rem 0;
-  min-height: 64px;
-  white-space: normal;
+@import "src/styles/responsive";
 
-  .text {
-    font: var(--tui-font-text-s);
-    // margin-top: @space;
-    color: var(--tui-text-02);
-    width: 210px;
+tui-island {
+  padding: 0.5rem;
+  @include responsive(md) {
+    padding: 1rem;
+  }
+  .inner {
+    margin: 0.75rem 0;
+    min-height: 64px;
+    white-space: normal;
+
+    .text {
+      font: var(--tui-font-text-s);
+      font-size: 12px;
+      color: var(--tui-text-02);
+      width: 210px;
+      @include responsive(md) {
+        font: var(--tui-font-text-s);
+      }
+    }
   }
 }
