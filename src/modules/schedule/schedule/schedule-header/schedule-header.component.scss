@@ -1,4 +1,5 @@
 @import "src/styles/variables";
+@import "src/styles/responsive";
 
 .wrapper {
   @include p(2);
@@ -18,20 +19,24 @@
         width: auto;
         border-radius: var(--tui-radius-xs);
       }
-      &.active {
-        ::ng-deep > tui-wrapper {
-          background: var(--tui-secondary-active);
-        }
+      &.active ::ng-deep > tui-wrapper {
+        background: var(--tui-secondary-active);
       }
     }
   }
 
-  tui-hosted-dropdown {
-    button ::ng-deep .icon {
-      transition: all 0.25s ease-in-out;
-    }
-    button.rotate ::ng-deep .icon {
+  tui-hosted-dropdown button {
+    &.rotate ::ng-deep .icon {
       transform: rotate(180deg);
+    }
+    .filter-content {
+      display: none;
+      @include responsive(lg) {
+        display: block;
+      }
+    }
+    ::ng-deep .icon {
+      transition: all 0.25s ease-in-out;
     }
   }
 
