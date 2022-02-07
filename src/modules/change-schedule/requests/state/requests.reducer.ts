@@ -38,18 +38,18 @@ export const requestsReducer = createReducer(
     ...state,
     options: { ...state.options, ...options },
   })),
-  on(PageAction.accept, (state, { id }) => ({
+  on(PageAction.accept, (state, { schedule }) => ({
     ...state,
     status: {
       ...state.status,
-      queue: [...state.status.queue, id],
+      queue: [...state.status.queue, schedule.id],
     },
   })),
-  on(PageAction.deny, (state, { id }) => ({
+  on(PageAction.deny, (state, { schedule }) => ({
     ...state,
     status: {
       ...state.status,
-      queue: [...state.status.queue, id],
+      queue: [...state.status.queue, schedule.id],
     },
   })),
   on(ApiAction.loadSuccessful, (state, { changeSchedulesResponse }) => {

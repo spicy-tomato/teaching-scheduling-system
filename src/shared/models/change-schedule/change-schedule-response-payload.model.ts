@@ -1,6 +1,7 @@
 export interface ChangeScheduleResponsePayload {
   id: number;
+  idSchedule: number;
   status: number;
-  timeAccept: string;
+  time: string;
   comment: string;
 }

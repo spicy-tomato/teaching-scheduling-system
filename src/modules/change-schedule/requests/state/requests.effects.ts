@@ -108,19 +108,24 @@ export class RequestsEffects extends BaseComponent {
     return this.actions$.pipe(
       ofType(PageAction.accept),
       withLatestFrom(this.nameTitle$, this.permissions$),
-      mergeMap(([{ id }, nameTitle, permissions]) => {
-        const status = permissions.includes(
-          PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE
-        )
-          ? 1
-          : 2;
+      mergeMap(([{ schedule }, nameTitle, permissions]) => {
+        const { id, idSchedule } = schedule;
+        const status =
+          permissions.includes(
+            PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE
+          ) && !schedule.newSchedule.room
+            ? 1
+            : 2;
+        const time = DateHelper.toSqlDate(new Date());
+        const comment = `Trưởng bộ môn đã phê duyệt yêu cầu thay đổi của ${nameTitle.toLocaleLowerCase()}`;
 
         return this.scheduleService
           .responseChangeScheduleRequests({
             id,
+            idSchedule,
             status,
-            timeAccept: DateHelper.toSqlDate(new Date()),
-            comment: `Trưởng bộ môn đã phê duyệt yêu cầu thay đổi của ${nameTitle.toLocaleLowerCase()}`,
+            time,
+            comment,
           })
           .pipe(
             map(() => ApiAction.acceptSuccessful({ id, status })),
@@ -134,19 +139,23 @@ export class RequestsEffects extends BaseComponent {
     return this.actions$.pipe(
       ofType(PageAction.deny),
       withLatestFrom(this.nameTitle$, this.permissions$),
-      mergeMap(([{ id, reason }, nameTitle, permissions]) => {
+      mergeMap(([{ schedule, reason }, nameTitle, permissions]) => {
+        const { id, idSchedule } = schedule;
         const status = permissions.includes(
           PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE
         )
           ? -1
           : -2;
+        const time = DateHelper.toSqlDate(new Date());
+        const comment = `Trưởng bộ môn đã từ chối yêu cầu thay đổi của ${nameTitle.toLocaleLowerCase()} với lý do: ${reason}`;
 
         return this.scheduleService
           .responseChangeScheduleRequests({
             id,
+            idSchedule,
             status,
-            timeAccept: DateHelper.toSqlDate(new Date()),
-            comment: `Trưởng bộ môn đã từ chối yêu cầu thay đổi của ${nameTitle.toLocaleLowerCase()} với lý do: ${reason}`,
+            time,
+            comment,
           })
           .pipe(
             map(() => ApiAction.denySuccessful({ id, status })),

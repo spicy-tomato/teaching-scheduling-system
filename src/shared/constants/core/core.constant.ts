@@ -44,5 +44,6 @@ export class CoreConstant {
     0: 'Đang chờ phê duyệt',
     1: 'Đang chờ Ban QLGĐ',
     2: 'Đã chấp nhận',
+    3: 'Đã chấp nhận',
   };
 }

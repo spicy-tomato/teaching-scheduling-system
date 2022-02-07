@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import {
+  ChangeSchedule,
   ChangeScheduleOptionsParam,
   ChangeScheduleSearch,
 } from '@shared/models';
@@ -21,12 +22,12 @@ export const changeOptions = createAction(
 
 export const accept = createAction(
   '[Change schedule - Requests Page] Accept',
-  props<{ id: number }>()
+  props<{ schedule: ChangeSchedule }>()
 );
 
 export const deny = createAction(
   '[Change schedule - Requests Page] Deny',
-  props<{ id: number; reason: string }>()
+  props<{ schedule: ChangeSchedule; reason: string }>()
 );
 
 export const changePage = createAction(

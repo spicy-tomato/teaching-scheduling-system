@@ -15,10 +15,11 @@ import {
   TUI_BUTTON_OPTIONS,
 } from '@taiga-ui/core';
 import { Observable } from 'rxjs';
-import { filter, takeUntil, tap } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 import * as fromRequests from '../../state';
 import { DenyDialogComponent } from '../../_shared/deny-dialog/deny-dialog.component';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
+import { ObservableHelper } from '@shared/helpers';
 
 @Component({
   selector: 'tss-request-list-action',
@@ -60,7 +61,7 @@ export class RequestListActionComponent extends BaseComponent {
 
   /** PUBLIC METHODS */
   public onAccept(): void {
-    this.store.dispatch(fromRequests.accept({ id: this.item.id }));
+    this.store.dispatch(fromRequests.accept({ schedule: this.item }));
   }
 
   public onDeny(): void {
@@ -73,13 +74,10 @@ export class RequestListActionComponent extends BaseComponent {
         }
       )
       .pipe(
-        filter((x) => !!x),
+        ObservableHelper.filterNullish(),
         tap((reason) =>
           this.store.dispatch(
-            fromRequests.deny({
-              id: this.item.id,
-              reason: reason ?? '',
-            })
+            fromRequests.deny({ schedule: this.item, reason })
           )
         )
       )
