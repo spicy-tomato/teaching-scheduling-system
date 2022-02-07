@@ -39,6 +39,13 @@
   >
     Hiển thị giờ
   </tui-checkbox-labeled>
+  <tui-checkbox-labeled
+    *ngIf="personal"
+    [ngModel]="options.showReason"
+    (ngModelChange)="changeOptions({ showReason: $event })"
+  >
+    Hiển thị lý do
+  </tui-checkbox-labeled>
 </div>
 
 <ng-template #selectTemplate let-status>

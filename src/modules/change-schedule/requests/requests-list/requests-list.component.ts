@@ -14,7 +14,7 @@ import {
   ChangeScheduleStatus,
 } from '@shared/models';
 import { Observable } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, map, takeUntil, tap } from 'rxjs/operators';
 import * as fromRequests from '../state';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
 import {
@@ -60,12 +60,13 @@ export class RequestsListComponent extends BaseComponent {
   public permissions$: Observable<number[]>;
 
   public personal: boolean;
+  public columns: string[] = [];
 
   public readonly EApiStatus = EApiStatus;
   public readonly itemsPerPage = TableConstant.REQUESTS_LIST_ITEMS_PER_PAGE;
   public readonly IconConstant = IconConstant;
   public readonly PermissionConstant = PermissionConstant;
-  public readonly columns = [
+  public readonly initialColumns = [
     'index',
     'teacher',
     'moduleClass',
@@ -114,6 +115,8 @@ export class RequestsListComponent extends BaseComponent {
     if (this.personal) {
       this.configureColumns();
     }
+
+    this.handleOptionsChange();
   }
 
   /** PUBLIC METHODS */
@@ -124,7 +127,24 @@ export class RequestsListComponent extends BaseComponent {
 
   /** PRIVATE METHODS */
   private configureColumns(): void {
-    ArrayHelper.removeAt(this.columns, 1);
+    ArrayHelper.removeAt(this.initialColumns, 1);
+  }
+
+  private handleOptionsChange(): void {
+    this.options$
+      .pipe(
+        map((option) => option.showReason),
+        distinctUntilChanged(),
+        tap((showReason) => {
+          if (showReason) {
+            this.columns = this.initialColumns;
+          } else {
+            this.columns = this.initialColumns.filter((x) => x !== 'reason');
+          }
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
   }
 
   private getDatePipe(): DatePipe {

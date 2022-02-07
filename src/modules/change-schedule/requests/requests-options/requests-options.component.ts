@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';
 import { CoreConstant } from '@shared/constants';
@@ -20,16 +21,22 @@ import * as fromRequests from '../state';
 export class RequestsOptionsComponent extends BaseComponent {
   /** PUBLIC PROPERTIES */
   public options$: Observable<ChangeScheduleOptions>;
+  public personal: boolean;
   public readonly statusList = CoreConstant.REQUEST_CHANGE_SCHEDULE_STATUS;
   public readonly statusArray = ObjectHelper.toArray(this.statusList);
 
   /** CONSTRUCTOR */
-  constructor(private readonly store: Store<fromRequests.RequestsState>) {
+  constructor(
+    private readonly store: Store<fromRequests.RequestsState>,
+    route: ActivatedRoute
+  ) {
     super();
 
     this.options$ = store
       .select(fromRequests.selectOptions)
       .pipe(takeUntil(this.destroy$));
+
+    this.personal = route.snapshot.data['personal'] as boolean;
   }
 
   /** PUBLIC METHODS */
