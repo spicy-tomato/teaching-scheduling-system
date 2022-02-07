@@ -163,6 +163,10 @@ export class RequestsListComponent extends BaseComponent {
     ArrayHelper.removeAt(this.columns, 1);
   }
 
+  private getDatePipe(): DatePipe {
+    return this.injector.get(this.tokenService.getToken<DatePipe>('datePipe'));
+  }
+
   private generateFile(schedule: ChangeSchedule): Document {
     const alignment = AlignmentType.CENTER;
     const today = new Date();
@@ -435,14 +439,10 @@ export class RequestsListComponent extends BaseComponent {
                             after: 0,
                           },
                           text:
-                            this.injector
-                              .get(
-                                this.tokenService.getToken<DatePipe>('datePipe')
-                              )
-                              .transform(
-                                schedule.oldSchedule.date,
-                                'dd-MM-Y'
-                              ) ?? '',
+                            this.getDatePipe().transform(
+                              schedule.oldSchedule.date,
+                              'dd-MM-Y'
+                            ) ?? '',
                           alignment,
                         }),
                       ],
@@ -479,14 +479,10 @@ export class RequestsListComponent extends BaseComponent {
                             after: 0,
                           },
                           text:
-                            this.injector
-                              .get(
-                                this.tokenService.getToken<DatePipe>('datePipe')
-                              )
-                              .transform(
-                                schedule.newSchedule.date,
-                                'dd-MM-Y'
-                              ) ?? '',
+                            this.getDatePipe().transform(
+                              schedule.newSchedule.date,
+                              'dd-MM-Y'
+                            ) ?? '',
                           alignment,
                         }),
                       ],

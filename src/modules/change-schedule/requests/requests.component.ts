@@ -28,6 +28,7 @@ export class RequestsComponent extends BaseComponent implements OnInit {
         query: {
           status: 'all',
           page: 1,
+          pagination: 20
         },
       })
     );

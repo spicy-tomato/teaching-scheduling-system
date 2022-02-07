@@ -19,6 +19,7 @@ const initialState: RequestsState = {
   query: {
     status: 'all',
     page: 1,
+    pagination: 20,
   },
 };
 

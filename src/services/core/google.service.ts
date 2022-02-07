@@ -100,26 +100,26 @@ export class GoogleService extends BaseComponent {
   }
 
   private initClient(): void {
-    void gapi.client
-      .init({
-        apiKey: APP_SETTINGS.googleApiKey,
-        clientId: APP_SETTINGS.googleApiClientId,
-        discoveryDocs: [
-          'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest',
-        ],
-        scope: 'https://www.googleapis.com/auth/calendar',
-      })
-      .then(() => {
-        // Listen for sign-in state changes.
-        gapi.auth2
-          .getAuthInstance()
-          .isSignedIn.listen((isSignedIn) =>
-            this.updateSignInStatus(isSignedIn)
-          );
+    // void gapi.client
+    //   .init({
+    //     apiKey: APP_SETTINGS.googleApiKey,
+    //     clientId: APP_SETTINGS.googleApiClientId,
+    //     discoveryDocs: [
+    //       'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest',
+    //     ],
+    //     scope: 'https://www.googleapis.com/auth/calendar',
+    //   })
+    //   .then(() => {
+    //     // Listen for sign-in state changes.
+    //     gapi.auth2
+    //       .getAuthInstance()
+    //       .isSignedIn.listen((isSignedIn) =>
+    //         this.updateSignInStatus(isSignedIn)
+    //       );
 
-        // Handle the initial sign-in state.
-        this.updateSignInStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
-      });
+    //     // Handle the initial sign-in state.
+    //     this.updateSignInStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+    //   });
   }
 
   private updateSignInStatus(isSignedIn: boolean): void {

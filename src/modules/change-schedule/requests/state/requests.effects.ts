@@ -73,6 +73,7 @@ export class RequestsEffects extends BaseComponent {
             query: {
               status: status ?? 'all',
               page: 1,
+              pagination: 20,
             },
           })
         );
@@ -90,6 +91,7 @@ export class RequestsEffects extends BaseComponent {
               query: {
                 status: options.selectedStatus ?? 'all',
                 page: page + 1,
+                pagination: 20,
               },
             })
           ),

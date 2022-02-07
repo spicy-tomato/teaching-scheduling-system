@@ -131,7 +131,7 @@ export class ScheduleService extends BaseDataService {
     params: ChangeScheduleSearch
   ): Observable<ChangeScheduleResponse> {
     return this.http.get<ChangeScheduleResponse>(
-      this.url + 'teachers/01/fixed-schedules',
+      this.url + 'fixed-schedules',
       {
         params: { ...params },
       }
