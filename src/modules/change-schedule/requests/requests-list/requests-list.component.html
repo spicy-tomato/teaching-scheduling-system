@@ -135,47 +135,27 @@
           </div>
         </td>
         <td *tuiCell="'status'" tuiTd class="status">
-          <div
-            *ngIf="item.status || personal; else actions"
-            [ngClass]="{
-              deny: item.status === -1,
-              'no-response': item.status === 0,
-              accept: item.status === 1,
-              complete: item.status === 2
-            }"
-            class="text-center"
-          >
-            {{ statusList[item.status] }}
-          </div>
-          <ng-template #actions>
-            <tui-loader
-              *ngrxLet="requesting$ as requesting"
-              [showLoader]="requesting.includes(item.id)"
-              [overlay]="true"
-              class="w-full"
+          <ng-container *ngrxLet="permissions$ as permissions">
+            <ng-container
+              *ngIf="
+                permissions.includes(
+                  PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE
+                );
+                else roomManager
+              "
             >
-              <div class="d-flex justify-content-center">
-                <button
-                  tuiIconButton
-                  [tuiHintShowDelay]="300"
-                  [tuiHintHideDelay]="100"
-                  (click)="onAccept(item.id)"
-                  tuiHint="Chấp nhận"
-                  icon="tuiIconCheck"
-                  appearance="positive"
-                ></button>
-                <button
-                  tuiIconButton
-                  [tuiHintShowDelay]="300"
-                  [tuiHintHideDelay]="100"
-                  (click)="onDeny(item.id)"
-                  tuiHint="Từ chối"
-                  icon="tuiIconClose"
-                  appearance="negative"
-                ></button>
-              </div>
-            </tui-loader>
-          </ng-template>
+              <tss-request-list-action
+                [item]="item"
+                [displayText]="!!item.status || personal"
+              ></tss-request-list-action>
+            </ng-container>
+            <ng-template #roomManager>
+              <tss-request-list-action
+                [item]="item"
+                [displayText]="item.status !== 1"
+              ></tss-request-list-action>
+            </ng-template>
+          </ng-container>
         </td>
         <td *tuiCell="'actions'" tuiTd>
           <div *ngIf="item.status > 0" class="d-flex justify-content-center">

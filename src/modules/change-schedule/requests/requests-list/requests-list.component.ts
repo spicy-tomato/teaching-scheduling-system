@@ -6,24 +6,17 @@ import {
 } from '@angular/core';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';
-import { CoreConstant, TableConstant } from '@shared/constants';
+import { PermissionConstant, TableConstant } from '@shared/constants';
 import { EApiStatus } from '@shared/enums';
 import {
   ChangeSchedule,
   ChangeScheduleOptions,
   ChangeScheduleStatus,
-  Nullable,
 } from '@shared/models';
-import {
-  TUI_BUTTON_OPTIONS,
-  TuiAppearance,
-  TuiDialogService,
-} from '@taiga-ui/core';
 import { Observable } from 'rxjs';
-import { filter, takeUntil, tap } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import * as fromRequests from '../state';
-import { DenyDialogComponent } from '../_shared/deny-dialog/deny-dialog.component';
-import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
+import * as fromAppShell from '@modules/core/components/app-shell/state';
 import {
   AlignmentType,
   Document,
@@ -53,14 +46,6 @@ import { ActivatedRoute } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
-      provide: TUI_BUTTON_OPTIONS,
-      useValue: {
-        shape: 'square',
-        appearance: TuiAppearance.Primary,
-        size: 'xs',
-      },
-    },
-    {
       provide: TokenService.DATE_PIPE_TOKEN,
       useClass: DatePipe,
     },
@@ -71,14 +56,15 @@ export class RequestsListComponent extends BaseComponent {
   public data$: Observable<ChangeSchedule[]>;
   public status$: Observable<ChangeScheduleStatus>;
   public page$: Observable<number>;
-  public requesting$: Observable<number[]>;
   public options$: Observable<ChangeScheduleOptions>;
+  public permissions$: Observable<number[]>;
+
   public personal: boolean;
 
   public readonly EApiStatus = EApiStatus;
-  public readonly statusList = CoreConstant.REQUEST_CHANGE_SCHEDULE_STATUS;
   public readonly itemsPerPage = TableConstant.REQUESTS_LIST_ITEMS_PER_PAGE;
   public readonly IconConstant = IconConstant;
+  public readonly PermissionConstant = PermissionConstant;
   public readonly columns = [
     'index',
     'teacher',
@@ -100,9 +86,9 @@ export class RequestsListComponent extends BaseComponent {
   /** CONSTRUCTOR */
   constructor(
     private readonly tokenService: TokenService,
-    private readonly store: Store<fromRequests.RequestsState>,
     @Inject(Injector) private injector: Injector,
-    @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
+    store: Store<fromRequests.RequestsState>,
+    appShellStore: Store<fromAppShell.AppShellState>,
     route: ActivatedRoute
   ) {
     super();
@@ -119,8 +105,8 @@ export class RequestsListComponent extends BaseComponent {
     this.page$ = store
       .select(fromRequests.selectPage)
       .pipe(takeUntil(this.destroy$));
-    this.requesting$ = store
-      .select(fromRequests.selectRequestQueue)
+    this.permissions$ = appShellStore
+      .select(fromAppShell.selectPermission)
       .pipe(takeUntil(this.destroy$));
 
     this.personal = route.snapshot.data['personal'] as boolean;
@@ -131,28 +117,6 @@ export class RequestsListComponent extends BaseComponent {
   }
 
   /** PUBLIC METHODS */
-  public onAccept(id: number): void {
-    this.store.dispatch(fromRequests.accept({ id }));
-  }
-
-  public onDeny(id: number): void {
-    this.dialogService
-      .open<Nullable<string>>(
-        new PolymorpheusComponent(DenyDialogComponent, this.injector),
-        {
-          label: 'Từ chối yêu cầu thay đổi lịch giảng',
-          dismissible: false,
-        }
-      )
-      .pipe(
-        filter((x) => !!x),
-        tap((reason) =>
-          this.store.dispatch(fromRequests.deny({ id, reason: reason ?? '' }))
-        )
-      )
-      .subscribe();
-  }
-
   public onExport(schedule: ChangeSchedule, timeRequest: string): void {
     const document = this.generateFile(schedule);
     this.export(document, schedule.teacher, timeRequest);

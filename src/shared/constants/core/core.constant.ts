@@ -38,6 +38,8 @@ export class CoreConstant {
     },
   };
   public static REQUEST_CHANGE_SCHEDULE_STATUS: { [key: number]: string } = {
+    '-3': 'Đã hủy',
+    '-2': 'Phòng QLGĐ từ chối',
     '-1': 'Đã từ chối',
     0: 'Đang chờ phê duyệt',
     1: 'Đang chờ Ban QLGĐ',

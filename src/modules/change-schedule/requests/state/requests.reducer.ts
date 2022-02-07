@@ -63,12 +63,12 @@ export const requestsReducer = createReducer(
     ...state,
     status: { ...state.status, data: EApiStatus.systemError },
   })),
-  on(ApiAction.acceptSuccessful, (state, { id }) => {
+  on(ApiAction.acceptSuccessful, (state, { id, status }) => {
     return {
       ...state,
       changeSchedules: state.changeSchedules.map((x) => {
         if (x.id === id) {
-          const newObj = { ...x, status: 1, timeAccept: new Date() };
+          const newObj = { ...x, status, timeAccept: new Date() };
           return newObj;
         }
         return x;
@@ -83,12 +83,12 @@ export const requestsReducer = createReducer(
     ...state,
     status: { ...state.status, accept: EApiStatus.systemError },
   })),
-  on(ApiAction.denySuccessful, (state, { id }) => {
+  on(ApiAction.denySuccessful, (state, { id, status }) => {
     return {
       ...state,
       changeSchedules: state.changeSchedules.map((x) => {
         if (x.id === id) {
-          const newObj = { ...x, status: -1 };
+          const newObj = { ...x, status };
           return newObj;
         }
         return x;

@@ -1,0 +1,42 @@
+<div
+  *ngIf="displayText; else action"
+  [ngClass]="{
+    deny: item.status < 0,
+    'no-response': item.status === 0,
+    accept: item.status === 1,
+    complete: item.status === 2
+  }"
+  class="text-center"
+>
+  {{ statusList[item.status] }}
+</div>
+
+<ng-template #action>
+  <tui-loader
+    *ngrxLet="requesting$ as requesting"
+    [showLoader]="requesting.includes(item.id)"
+    [overlay]="true"
+    class="w-full"
+  >
+    <div class="d-flex justify-content-center">
+      <button
+        tuiIconButton
+        [tuiHintShowDelay]="300"
+        [tuiHintHideDelay]="100"
+        (click)="onAccept()"
+        tuiHint="Chấp nhận"
+        icon="tuiIconCheck"
+        appearance="positive"
+      ></button>
+      <button
+        tuiIconButton
+        [tuiHintShowDelay]="300"
+        [tuiHintHideDelay]="100"
+        (click)="onDeny()"
+        tuiHint="Từ chối"
+        icon="tuiIconClose"
+        appearance="negative"
+      ></button>
+    </div>
+  </tui-loader>
+</ng-template>

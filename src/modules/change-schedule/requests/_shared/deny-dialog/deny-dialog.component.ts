@@ -5,6 +5,7 @@ import {
   TuiAppearance,
   TuiDialogContext,
   TUI_BUTTON_OPTIONS,
+  TUI_TEXTFIELD_APPEARANCE,
 } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 
@@ -20,6 +21,10 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
         appearance: TuiAppearance.Primary,
         size: 'm',
       },
+    },
+    {
+      provide: TUI_TEXTFIELD_APPEARANCE,
+      useValue: TuiAppearance.Textfield,
     },
   ],
 })

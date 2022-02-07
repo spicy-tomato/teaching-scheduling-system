@@ -12,7 +12,7 @@ export const loadFailure = createAction(
 
 export const acceptSuccessful = createAction(
   '[Change schedule - Requests API] Accept Successfully',
-  props<{ id: number }>()
+  props<{ id: number; status: number }>()
 );
 
 export const acceptFailure = createAction(
@@ -21,7 +21,7 @@ export const acceptFailure = createAction(
 
 export const denySuccessful = createAction(
   '[Change schedule - Requests API] Deny Successfully',
-  props<{ id: number }>()
+  props<{ id: number; status: number }>()
 );
 
 export const denyFailure = createAction(

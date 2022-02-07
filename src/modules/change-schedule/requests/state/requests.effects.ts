@@ -33,6 +33,9 @@ export class RequestsEffects extends BaseComponent {
   private readonly options$: Observable<ChangeScheduleOptions>;
   private readonly department$: Observable<Nullable<string>>;
   private readonly loadSubject$ = new Subject<ChangeScheduleSearch>();
+  private readonly permissions$ = this.appShellStore
+    .select(fromAppShell.selectPermission)
+    .pipe(takeUntil(this.destroy$));
   private readonly nameTitle$ = this.appShellStore
     .select(fromAppShell.selectNameTitle)
     .pipe(takeUntil(this.destroy$));
@@ -104,17 +107,23 @@ export class RequestsEffects extends BaseComponent {
   public accept$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.accept),
-      withLatestFrom(this.nameTitle$),
-      mergeMap(([{ id }, nameTitle]) => {
+      withLatestFrom(this.nameTitle$, this.permissions$),
+      mergeMap(([{ id }, nameTitle, permissions]) => {
+        const status = permissions.includes(
+          PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE
+        )
+          ? 1
+          : 2;
+
         return this.scheduleService
           .responseChangeScheduleRequests({
             id,
-            status: 1,
+            status,
             timeAccept: DateHelper.toSqlDate(new Date()),
             comment: `Trưởng bộ môn đã phê duyệt yêu cầu thay đổi của ${nameTitle.toLocaleLowerCase()}`,
           })
           .pipe(
-            map(() => ApiAction.acceptSuccessful({ id })),
+            map(() => ApiAction.acceptSuccessful({ id, status })),
             catchError(() => of(ApiAction.acceptFailure()))
           );
       })
@@ -124,17 +133,23 @@ export class RequestsEffects extends BaseComponent {
   public deny$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.deny),
-      withLatestFrom(this.nameTitle$),
-      mergeMap(([{ id, reason }, nameTitle]) => {
+      withLatestFrom(this.nameTitle$, this.permissions$),
+      mergeMap(([{ id, reason }, nameTitle, permissions]) => {
+        const status = permissions.includes(
+          PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE
+        )
+          ? -1
+          : -2;
+
         return this.scheduleService
           .responseChangeScheduleRequests({
             id,
-            status: -1,
+            status,
             timeAccept: DateHelper.toSqlDate(new Date()),
             comment: `Trưởng bộ môn đã từ chối yêu cầu thay đổi của ${nameTitle.toLocaleLowerCase()} với lý do: ${reason}`,
           })
           .pipe(
-            map(() => ApiAction.denySuccessful({ id })),
+            map(() => ApiAction.denySuccessful({ id, status })),
             catchError(() => of(ApiAction.denyFailure()))
           );
       })
@@ -167,8 +182,7 @@ export class RequestsEffects extends BaseComponent {
 
   /** PRIVATE METHODS */
   private handlePermissionChange(): void {
-    this.appShellStore
-      .select(fromAppShell.selectPermission)
+    this.permissions$
       .pipe(
         filter((permissions) => permissions.length > 0),
         tap((permissions) => {
