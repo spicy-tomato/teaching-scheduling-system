@@ -6,9 +6,17 @@ type Item = {
 };
 
 export class ObjectHelper {
-  public static toArray(obj: Record<number | string, string>): Item[] {
+  public static toArray(
+    obj: Record<number | string, string>,
+    options?: {
+      uniqueValue?: boolean;
+    }
+  ): Item[] {
     const array: Item[] = [];
     Object.keys(obj).forEach((key) => {
+      if (options?.uniqueValue && array.find((x) => x.value === obj[key])) {
+        return;
+      }
       array.push({ id: key, value: obj[key] });
     });
     return array;

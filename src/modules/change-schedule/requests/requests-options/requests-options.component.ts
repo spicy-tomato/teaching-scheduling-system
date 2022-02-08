@@ -23,7 +23,9 @@ export class RequestsOptionsComponent extends BaseComponent {
   public options$: Observable<ChangeScheduleOptions>;
   public personal: boolean;
   public readonly statusList = CoreConstant.REQUEST_CHANGE_SCHEDULE_STATUS;
-  public readonly statusArray = ObjectHelper.toArray(this.statusList);
+  public readonly statusArray = ObjectHelper.toArray(this.statusList, {
+    uniqueValue: true,
+  }).sort((a, b) => (b.id as number) - (a.id as number));
 
   /** CONSTRUCTOR */
   constructor(

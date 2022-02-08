@@ -25,6 +25,18 @@ export class ObservableHelper {
     );
   }
 
+  public static filterUndefined<T>(): UnaryFunction<
+    Observable<T | undefined>,
+    Observable<T>
+  > {
+    return pipe(
+      filter((x) => !ObjectHelper.isNullOrUndefined(x)) as OperatorFunction<
+        T | undefined,
+        T
+      >
+    );
+  }
+
   public static waitNullish<T1, T2>(
     ob$: Observable<Nullable<T2> | undefined>
   ): OperatorFunction<T1, [T1, T2]> {

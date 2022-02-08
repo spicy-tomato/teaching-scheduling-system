@@ -69,12 +69,15 @@ export class RequestsEffects extends BaseComponent {
     return this.actions$.pipe(
       ofType(PageAction.changeOptions),
       map((x) => x.options.selectedStatus),
-      filter((x) => x !== undefined),
-      mergeMap((status) => {
+      ObservableHelper.filterUndefined(),
+      mergeMap((_status) => {
+        const status =
+          _status === null ? 'all' : _status == 2 ? '2,3' : _status;
+
         return of(
           PageAction.load({
             query: {
-              status: status ?? 'all',
+              status,
               page: 1,
               pagination: 20,
             },
@@ -89,15 +92,18 @@ export class RequestsEffects extends BaseComponent {
       ofType(PageAction.changePage),
       mergeMap(({ page }) => {
         return this.options$.pipe(
-          map((options) =>
-            PageAction.load({
+          map(({ selectedStatus: _status }) => {
+            const status =
+              _status === null ? 'all' : _status == 2 ? '2,3' : _status;
+
+            return PageAction.load({
               query: {
-                status: options.selectedStatus ?? 'all',
+                status,
                 page: page + 1,
                 pagination: 20,
               },
-            })
-          ),
+            });
+          }),
           take(1)
         );
       })
