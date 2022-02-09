@@ -20,7 +20,11 @@ import { BaseComponent } from '@modules/core/base/base.component';
 import { PermissionConstant } from '@shared/constants';
 import { Nullable, SearchSchedule } from 'src/shared/models';
 import { TuiDay, TuiDayRange } from '@taiga-ui/cdk';
-import { ArrayHelper, ObservableHelper } from '@shared/helpers';
+import {
+  ArrayHelper,
+  ObservableHelper,
+  PermissionHelper,
+} from '@shared/helpers';
 import { View } from '@syncfusion/ej2-angular-schedule';
 
 @Injectable()
@@ -237,7 +241,7 @@ export class ScheduleEffects extends BaseComponent {
           ({ 1: department, 2: permissions }) =>
             !!permissions &&
             !!department &&
-            permissions.includes(PermissionConstant.SEE_DEPARTMENT_SCHEDULE)
+            PermissionHelper.isDepartmentHead(permissions)
         ),
         map(([date, department]) => ({ date, department })),
         calculateRangeO(this.ranges$.pipe(map((x) => x.department)))

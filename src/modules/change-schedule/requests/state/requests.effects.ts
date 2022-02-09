@@ -23,13 +23,17 @@ import {
   Nullable,
 } from '@shared/models';
 import { Store } from '@ngrx/store';
-import { DateHelper, ObservableHelper } from '@shared/helpers';
-import { PermissionConstant } from '@shared/constants';
+import {
+  DateHelper,
+  ObservableHelper,
+  PermissionHelper,
+} from '@shared/helpers';
 
 @Injectable()
 export class RequestsEffects extends BaseComponent {
   /** PRIVATE PROPERTIES */
   private personal!: boolean;
+
   private readonly options$: Observable<ChangeScheduleOptions>;
   private readonly department$: Observable<Nullable<string>>;
   private readonly loadSubject$ = new Subject<ChangeScheduleSearch>();
@@ -147,11 +151,8 @@ export class RequestsEffects extends BaseComponent {
       withLatestFrom(this.nameTitle$, this.permissions$),
       mergeMap(([{ schedule, reason }, nameTitle, permissions]) => {
         const { id, idSchedule } = schedule;
-        const status = permissions.includes(
-          PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE
-        )
-          ? -1
-          : -2;
+        const isTeacher = PermissionHelper.isTeacher(permissions);
+        const status = isTeacher ? -1 : -2;
         const time = DateHelper.toSqlDate(new Date());
         const comment = `Trưởng bộ môn đã từ chối yêu cầu thay đổi của ${nameTitle.toLocaleLowerCase()} với lý do: ${reason}`;
 
@@ -201,20 +202,17 @@ export class RequestsEffects extends BaseComponent {
       .pipe(
         filter((permissions) => permissions.length > 0),
         tap((permissions) => {
-          if (
-            permissions.includes(
-              PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE
-            )
-          ) {
-            this.handleLoadPersonal();
-          }
-          if (
-            permissions.includes(PermissionConstant.SEE_DEPARTMENT_SCHEDULE)
-          ) {
-            this.handleLoadDepartment();
-          }
-          if (permissions.includes(PermissionConstant.MANAGE_ROOM)) {
-            this.handleLoadManager();
+          const role = PermissionHelper.getRole(permissions);
+          switch (role) {
+            case 'teacher':
+              this.handleLoadPersonal();
+              break;
+            case 'departmentHead':
+              this.handleLoadPersonal();
+              this.handleLoadDepartment();
+              break;
+            case 'roomManager':
+              this.handleLoadManager();
           }
         }),
         take(1)

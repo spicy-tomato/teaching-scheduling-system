@@ -53,14 +53,15 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class RequestsListComponent extends BaseComponent {
   /** PUBLIC PROPERTIES */
-  public data$: Observable<ChangeSchedule[]>;
-  public status$: Observable<ChangeScheduleStatus>;
-  public page$: Observable<number>;
-  public options$: Observable<ChangeScheduleOptions>;
-  public permissions$: Observable<number[]>;
-
-  public personal: boolean;
   public columns: string[] = [];
+
+  public readonly data$: Observable<ChangeSchedule[]>;
+  public readonly status$: Observable<ChangeScheduleStatus>;
+  public readonly page$: Observable<number>;
+  public readonly options$: Observable<ChangeScheduleOptions>;
+  public readonly permissions$: Observable<number[]>;
+
+  public readonly personal: boolean;
 
   public readonly EApiStatus = EApiStatus;
   public readonly itemsPerPage = TableConstant.REQUESTS_LIST_ITEMS_PER_PAGE;
@@ -87,7 +88,7 @@ export class RequestsListComponent extends BaseComponent {
   /** CONSTRUCTOR */
   constructor(
     private readonly tokenService: TokenService,
-    @Inject(Injector) private injector: Injector,
+    @Inject(Injector) private readonly injector: Injector,
     store: Store<fromRequests.RequestsState>,
     appShellStore: Store<fromAppShell.AppShellState>,
     route: ActivatedRoute
