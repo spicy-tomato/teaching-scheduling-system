@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RequestsComponent } from './requests.component';
 import { RequestsRoutingModule } from './requests.routes';
-import { ReactiveComponentModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import * as fromRequests from './state';
@@ -25,9 +24,9 @@ import { RequestsPaginationComponent } from './requests-pagination/requests-pagi
 import { SharedRequestsModule } from './_shared/shared-requests.module';
 import { SharedChangeScheduleModule } from '../_shared/shared.module';
 import { RequestListActionComponent } from './requests-list/request-list-action/request-list-action.component';
+import { DirectivesModule } from '@directives/directives.module';
 
 const NGRX = [
-  ReactiveComponentModule,
   StoreModule.forFeature(
     fromRequests.requestsFeatureKey,
     fromRequests.requestsReducer
@@ -53,6 +52,7 @@ const TAIGA_UI = [
     RequestsRoutingModule,
     SharedRequestsModule,
     PipesModule,
+    DirectivesModule,
     ...NGRX,
     ...TAIGA_UI,
   ],

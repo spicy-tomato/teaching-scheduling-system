@@ -117,15 +117,10 @@ export class RequestsEffects extends BaseComponent {
   public accept$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.accept),
-      withLatestFrom(this.nameTitle$, this.permissions$),
-      mergeMap(([{ schedule }, nameTitle, permissions]) => {
+      withLatestFrom(this.nameTitle$),
+      mergeMap(([{ schedule }, nameTitle]) => {
         const { id, idSchedule } = schedule;
-        const status =
-          permissions.includes(
-            PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE
-          ) && !schedule.newSchedule.room
-            ? 1
-            : 2;
+        const status = schedule.newSchedule.room ? 3 : 1;
         const time = DateHelper.toSqlDate(new Date());
         const comment = `Trưởng bộ môn đã phê duyệt yêu cầu thay đổi của ${nameTitle.toLocaleLowerCase()}`;
 
@@ -145,6 +140,35 @@ export class RequestsEffects extends BaseComponent {
     );
   });
 
+  public setRoom$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(PageAction.setRoom),
+      withLatestFrom(this.nameTitle$),
+      mergeMap(([{ schedule, newIdRoom }, nameTitle]) => {
+        const { id, idSchedule } = schedule;
+        const status = 2;
+        const time = DateHelper.toSqlDate(new Date());
+        const comment = `Trưởng bộ môn đã phê duyệt yêu cầu thay đổi của ${nameTitle.toLocaleLowerCase()}`;
+
+        return this.scheduleService
+          .responseChangeScheduleRequests({
+            id,
+            idSchedule,
+            status,
+            time,
+            comment,
+            newIdRoom,
+          })
+          .pipe(
+            map(() =>
+              ApiAction.setRoomSuccessful({ id, status, room: newIdRoom })
+            ),
+            catchError(() => of(ApiAction.setRoomFailure()))
+          );
+      })
+    );
+  });
+
   public deny$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.deny),
@@ -154,7 +178,9 @@ export class RequestsEffects extends BaseComponent {
         const isTeacher = PermissionHelper.isTeacher(permissions);
         const status = isTeacher ? -1 : -2;
         const time = DateHelper.toSqlDate(new Date());
-        const comment = `Trưởng bộ môn đã từ chối yêu cầu thay đổi của ${nameTitle.toLocaleLowerCase()} với lý do: ${reason}`;
+        const comment = `${
+          isTeacher ? 'Trưởng bộ môn' : 'Ban Quản lý giảng đường'
+        } đã từ chối yêu cầu thay đổi của ${nameTitle.toLocaleLowerCase()} với lý do: ${reason}`;
 
         return this.scheduleService
           .responseChangeScheduleRequests({
@@ -213,6 +239,7 @@ export class RequestsEffects extends BaseComponent {
               break;
             case 'roomManager':
               this.handleLoadManager();
+              break;
           }
         }),
         take(1)

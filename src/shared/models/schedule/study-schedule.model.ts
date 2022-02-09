@@ -1,5 +1,6 @@
 import { DateHelper } from '@shared/helpers';
 import { EjsScheduleModel } from './ejs-schedule.model';
+import { FixedScheduleModel } from './fixed-schedule.model';
 import { ScheduleModel } from './schedule.model';
 
 export class StudyScheduleModel extends ScheduleModel {
@@ -8,12 +9,8 @@ export class StudyScheduleModel extends ScheduleModel {
   public readonly color!: string;
   public readonly moduleName!: string;
   public readonly teacher!: string;
-  public readonly fixedSchedule!: {
-    id_schedule: number;
-    new_date: string;
-    new_shift: string;
-    new_id_room: string;
-  }[];
+  public readonly from!: FixedScheduleModel;
+  public readonly to!: FixedScheduleModel;
 
   constructor(
     id: number,
@@ -26,12 +23,8 @@ export class StudyScheduleModel extends ScheduleModel {
     color: string,
     moduleName: string,
     teacher: string,
-    fixedSchedule: {
-      id_schedule: number;
-      new_date: string;
-      new_shift: string;
-      new_id_room: string;
-    }[]
+    from: FixedScheduleModel,
+    to: FixedScheduleModel
   ) {
     super(id, idModuleClass, name, idRoom, 'study', note, [teacher]);
 
@@ -39,7 +32,8 @@ export class StudyScheduleModel extends ScheduleModel {
     this.date = date;
     this.color = color;
     this.moduleName = moduleName;
-    this.fixedSchedule = fixedSchedule;
+    this.from = from;
+    this.to = to;
   }
 
   public static parse(obj: StudyScheduleModel): StudyScheduleModel {
@@ -54,7 +48,8 @@ export class StudyScheduleModel extends ScheduleModel {
       obj.color,
       obj.moduleName,
       obj.teacher,
-      obj.fixedSchedule
+      obj.from,
+      obj.to
     );
   }
 
@@ -74,12 +69,8 @@ export class StudyScheduleModel extends ScheduleModel {
       People: this.people,
       Color: this.color,
       Shift: this.shift,
-      FixedSchedule: this.fixedSchedule.map((x) => ({
-        IdSchedule: x.id_schedule,
-        NewDate: x.new_date,
-        NewIdRoom: x.new_id_room,
-        NewShift: x.new_shift,
-      })),
+      From: this.from,
+      To: this.to,
     };
   }
 }

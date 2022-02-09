@@ -4,4 +4,5 @@ export interface ChangeScheduleResponsePayload {
   status: number;
   time: string;
   comment: string;
+  newIdRoom?: string;
 }

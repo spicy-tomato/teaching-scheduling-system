@@ -1,3 +1,5 @@
+import { FixedScheduleModel } from "./fixed-schedule.model";
+
 export interface EjsScheduleModel {
   /**
    * Assigns a unique ID value to each of the events.
@@ -79,10 +81,6 @@ export interface EjsScheduleModel {
   /**
    * Fixed schedule
    */
-  FixedSchedule?: {
-    IdSchedule: number;
-    NewDate: string;
-    NewShift: string;
-    NewIdRoom: string;
-  }[];
+  From?: FixedScheduleModel;
+  To?: FixedScheduleModel;
 }

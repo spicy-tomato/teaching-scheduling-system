@@ -3,6 +3,7 @@ export {
   load,
   changeOptions,
   accept,
+  setRoom,
   deny,
   changePage,
 } from './requests.page.actions';

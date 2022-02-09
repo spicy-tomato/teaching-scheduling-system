@@ -19,6 +19,15 @@ export const acceptFailure = createAction(
   '[Change schedule - Requests API] Accept Failed'
 );
 
+export const setRoomSuccessful = createAction(
+  '[Change schedule - Requests API] Set Room Successfully',
+  props<{ id: number; status: number; room: string }>()
+);
+
+export const setRoomFailure = createAction(
+  '[Change schedule - Requests API] Set Room Failed'
+);
+
 export const denySuccessful = createAction(
   '[Change schedule - Requests API] Deny Successfully',
   props<{ id: number; status: number }>()

@@ -14,12 +14,14 @@ import {
   TuiDialogService,
   TUI_BUTTON_OPTIONS,
 } from '@taiga-ui/core';
-import { Observable } from 'rxjs';
-import { takeUntil, tap } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import * as fromRequests from '../../state';
+import * as fromAppShell from '@modules/core/components/app-shell/state';
 import { DenyDialogComponent } from '../../_shared/deny-dialog/deny-dialog.component';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { ObservableHelper } from '@shared/helpers';
+import { ObservableHelper, PermissionHelper } from '@shared/helpers';
+import { SetRoomDialogComponent } from '../../_shared/set-room-dialog/set-room-dialog.component';
 
 @Component({
   selector: 'tss-request-list-action',
@@ -43,27 +45,31 @@ export class RequestListActionComponent extends BaseComponent {
   @Input() public item!: ChangeSchedule;
 
   /** PUBLIC PROPERTIES */
-  public requesting$: Observable<number[]>;
+  public readonly accept$ = new Subject();
+  public readonly requesting$: Observable<number[]>;
+  public readonly permissions$: Observable<number[]>;
   public readonly statusList = CoreConstant.REQUEST_CHANGE_SCHEDULE_STATUS;
 
   /** CONSTRUCTOR */
   constructor(
     private readonly store: Store<fromRequests.RequestsState>,
-    @Inject(Injector) private injector: Injector,
-    @Inject(TuiDialogService) private readonly dialogService: TuiDialogService
+    @Inject(Injector) private readonly injector: Injector,
+    @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
+    appShellStore: Store<fromAppShell.AppShellState>
   ) {
     super();
 
     this.requesting$ = store
       .select(fromRequests.selectRequestQueue)
       .pipe(takeUntil(this.destroy$));
+    this.permissions$ = appShellStore
+      .select(fromAppShell.selectPermission)
+      .pipe(takeUntil(this.destroy$));
+
+    this.handleAccept();
   }
 
   /** PUBLIC METHODS */
-  public onAccept(): void {
-    this.store.dispatch(fromRequests.accept({ schedule: this.item }));
-  }
-
   public onDeny(): void {
     this.dialogService
       .open<Nullable<string>>(
@@ -80,6 +86,40 @@ export class RequestListActionComponent extends BaseComponent {
             fromRequests.deny({ schedule: this.item, reason })
           )
         )
+      )
+      .subscribe();
+  }
+
+  /** PRIVATE METHODS */
+  private handleAccept(): void {
+    this.accept$
+      .pipe(
+        withLatestFrom(this.permissions$),
+        tap(({ 1: permissions }) => {
+          if (PermissionHelper.isDepartmentHead(permissions)) {
+            this.store.dispatch(fromRequests.accept({ schedule: this.item }));
+            return;
+          }
+
+          this.dialogService
+            .open<Nullable<string>>(
+              new PolymorpheusComponent(SetRoomDialogComponent, this.injector),
+              {
+                label: 'Xếp phòng cho giảng viên',
+                dismissible: false,
+              }
+            )
+            .pipe(
+              ObservableHelper.filterNullish(),
+              tap((newIdRoom) =>
+                this.store.dispatch(
+                  fromRequests.setRoom({ schedule: this.item, newIdRoom })
+                )
+              )
+            )
+            .subscribe();
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe();
   }

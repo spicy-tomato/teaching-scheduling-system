@@ -94,7 +94,7 @@
     >
       <tui-hosted-dropdown
         tuiDropdownHover
-        *ngIf="data.FixedSchedule && data.FixedSchedule.length > 0; else send"
+        *ngIf="data.To; else send"
         [content]="fixedScheduleContent"
         class="d-flex align-items-center cursor-default"
       >
@@ -169,23 +169,23 @@
 </ng-template>
 
 <ng-template #fixedScheduleContent>
-  <div *tssVar="data.FixedSchedule![0] as fixedSchedule" class="fixed-schedule">
+  <div *tssVar="data.To as fixedSchedule" class="fixed-schedule">
     <table>
       <tbody>
         <tr>
           <td>Ngày</td>
           <td>:</td>
-          <td>{{ fixedSchedule.NewDate | date: "dd-MM-Y" }}</td>
+          <td>{{ fixedSchedule.newDate | date: "dd-MM-Y" }}</td>
         </tr>
         <tr>
           <td>Thời gian</td>
           <td>:</td>
-          <td>{{ fixedSchedule.NewShift | shift }}</td>
+          <td>{{ fixedSchedule.newShift | shift }}</td>
         </tr>
-        <tr>
+        <tr *ngIf="fixedSchedule.newIdRoom">
           <td>Phòng</td>
           <td>:</td>
-          <td>{{ fixedSchedule.NewIdRoom }}</td>
+          <td>{{ fixedSchedule.newIdRoom }}</td>
         </tr>
       </tbody>
     </table>

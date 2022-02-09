@@ -1,0 +1,32 @@
+<form [formGroup]="form">
+  <tui-combo-box
+    *ngrxLet="rooms$ as rooms"
+    formControlName="newRoom"
+    class="tui-form__row"
+  >
+    Nhập phòng
+    <input tuiTextfield />
+    <tui-data-list-wrapper *tuiDataList [items]="rooms | tuiFilterByInput">
+    </tui-data-list-wrapper>
+  </tui-combo-box>
+  <div class="tui-form__buttons tui-form__buttons_align_end">
+    <button
+      tuiButton
+      [disabled]="form.invalid"
+      (click)="confirm()"
+      type="submit"
+      class="tui-form__button"
+    >
+      Xếp phòng
+    </button>
+    <button
+      tuiButton
+      (click)="cancel()"
+      type="button"
+      appearance="secondary"
+      class="tui-form__button"
+    >
+      Hủy bỏ
+    </button>
+  </div>
+</form>

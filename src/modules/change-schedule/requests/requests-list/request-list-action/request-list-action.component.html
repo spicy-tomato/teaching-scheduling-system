@@ -23,7 +23,7 @@
         tuiIconButton
         [tuiHintShowDelay]="300"
         [tuiHintHideDelay]="100"
-        (click)="onAccept()"
+        (click)="accept$.next()"
         tuiHint="Chấp nhận"
         icon="tuiIconCheck"
         appearance="positive"

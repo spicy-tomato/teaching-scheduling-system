@@ -1,5 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { EApiStatus } from '@shared/enums';
+import { ChangeSchedule } from '@shared/models';
 import { RequestsState } from '.';
 import * as ApiAction from './requests.api.actions';
 import * as PageAction from './requests.page.actions';
@@ -45,6 +46,13 @@ export const requestsReducer = createReducer(
       queue: [...state.status.queue, schedule.id],
     },
   })),
+  on(PageAction.setRoom, (state, { schedule }) => ({
+    ...state,
+    status: {
+      ...state.status,
+      queue: [...state.status.queue, schedule.id],
+    },
+  })),
   on(PageAction.deny, (state, { schedule }) => ({
     ...state,
     status: {
@@ -69,7 +77,11 @@ export const requestsReducer = createReducer(
       ...state,
       changeSchedules: state.changeSchedules.map((x) => {
         if (x.id === id) {
-          const newObj = { ...x, status, timeAccept: new Date() };
+          const newObj: ChangeSchedule = {
+            ...x,
+            status,
+            timeAccept: new Date(),
+          };
           return newObj;
         }
         return x;
@@ -84,12 +96,40 @@ export const requestsReducer = createReducer(
     ...state,
     status: { ...state.status, accept: EApiStatus.systemError },
   })),
+  on(ApiAction.setRoomSuccessful, (state, { id, status, room }) => {
+    return {
+      ...state,
+      changeSchedules: state.changeSchedules.map((x) => {
+        if (x.id === id) {
+          const newObj: ChangeSchedule = {
+            ...x,
+            status,
+            timeSetRoom: new Date(),
+            newSchedule: {
+              ...x.newSchedule,
+              room,
+            },
+          };
+          return newObj;
+        }
+        return x;
+      }),
+      status: {
+        ...state.status,
+        queue: state.status.queue.filter((x) => x !== id),
+      },
+    };
+  }),
+  on(ApiAction.setRoomFailure, (state) => ({
+    ...state,
+    status: { ...state.status, accept: EApiStatus.systemError },
+  })),
   on(ApiAction.denySuccessful, (state, { id, status }) => {
     return {
       ...state,
       changeSchedules: state.changeSchedules.map((x) => {
         if (x.id === id) {
-          const newObj = { ...x, status };
+          const newObj: ChangeSchedule = { ...x, status };
           return newObj;
         }
         return x;
