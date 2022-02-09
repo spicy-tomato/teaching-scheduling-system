@@ -1,18 +1,18 @@
 import { StringHelper } from './string.helper';
 
-type Item = {
+type Item<T> = {
   id: number | string;
-  value: string;
+  value: T;
 };
 
 export class ObjectHelper {
-  public static toArray(
-    obj: Record<number | string, string>,
+  public static toArray<T>(
+    obj: Record<number | string, T>,
     options?: {
       uniqueValue?: boolean;
     }
-  ): Item[] {
-    const array: Item[] = [];
+  ): Item<T>[] {
+    const array: Item<T>[] = [];
     Object.keys(obj).forEach((key) => {
       if (options?.uniqueValue && array.find((x) => x.value === obj[key])) {
         return;

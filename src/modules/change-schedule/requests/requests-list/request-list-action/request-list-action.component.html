@@ -4,11 +4,11 @@
     deny: item.status < 0,
     'no-response': item.status === 0,
     accept: item.status === 1,
-    complete: item.status === 2
+    complete: item.status >= 2
   }"
   class="text-center"
 >
-  {{ statusList[item.status] }}
+  {{ statusList[item.status].name }}
 </div>
 
 <ng-template #action>

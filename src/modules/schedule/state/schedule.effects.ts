@@ -395,7 +395,7 @@ function calculateRangeO(
           ranges,
           fetch: {
             start: fetch.from.getFormattedDay('YMD', '-'),
-            end: fetch.to.getFormattedDay('YMD', '-'),
+            end: fetch.to.append({ day: 1 }).getFormattedDay('YMD', '-'),
           },
         };
       })
