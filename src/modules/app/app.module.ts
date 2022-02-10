@@ -31,6 +31,8 @@ import { InterceptorsModule } from 'src/shared/interceptors/interceptors.module'
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routes';
 import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
+import { DatePipe } from '@angular/common';
+import { TokenService } from '@services/core/token.service';
 
 const TAIGA_UI = [TuiRootModule, TuiDialogModule, TuiNotificationsModule];
 const NGRX = [
@@ -54,6 +56,10 @@ const NGRX = [
     ...TAIGA_UI,
   ],
   providers: [
+    {
+      provide: TokenService.DATE_PIPE_TOKEN,
+      useClass: DatePipe,
+    },
     {
       provide: APP_INITIALIZER,
       useFactory: loadAppSettings,

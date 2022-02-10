@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Inject,
-  Injector,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';
 import { PermissionConstant, TableConstant } from '@shared/constants';
@@ -17,39 +12,17 @@ import { Observable } from 'rxjs';
 import { distinctUntilChanged, map, takeUntil, tap } from 'rxjs/operators';
 import * as fromRequests from '../state';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
-import {
-  AlignmentType,
-  Document,
-  Packer,
-  PageOrientation,
-  Paragraph,
-  Table,
-  TableCell,
-  TableRow,
-  TextRun,
-  WidthType,
-  VerticalAlign,
-  SectionType,
-  ColumnBreak,
-} from 'docx';
-import { saveAs } from 'file-saver';
-import { ArrayHelper, DateHelper, StringHelper } from '@shared/helpers';
+import { Document } from 'docx';
+import { ArrayHelper, StringHelper } from '@shared/helpers';
 import { IconConstant } from '@shared/constants/components/icon.constant';
-import { DatePipe } from '@angular/common';
-import { TokenService } from '@services/core/token.service';
 import { ActivatedRoute } from '@angular/router';
+import { ExportService } from '@services/export.service';
 
 @Component({
   selector: 'tss-requests-list',
   templateUrl: './requests-list.component.html',
   styleUrls: ['./requests-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {
-      provide: TokenService.DATE_PIPE_TOKEN,
-      useClass: DatePipe,
-    },
-  ],
 })
 export class RequestsListComponent extends BaseComponent {
   /** PUBLIC PROPERTIES */
@@ -87,8 +60,7 @@ export class RequestsListComponent extends BaseComponent {
 
   /** CONSTRUCTOR */
   constructor(
-    private readonly tokenService: TokenService,
-    @Inject(Injector) private readonly injector: Injector,
+    private readonly exportService: ExportService,
     store: Store<fromRequests.RequestsState>,
     appShellStore: Store<fromAppShell.AppShellState>,
     route: ActivatedRoute
@@ -122,8 +94,9 @@ export class RequestsListComponent extends BaseComponent {
 
   /** PUBLIC METHODS */
   public onExport(schedule: ChangeSchedule, timeRequest: string): void {
-    const document = this.generateFile(schedule);
-    this.export(document, schedule.teacher, timeRequest);
+    const document =
+      this.exportService.exportChangeScheduleRequestForTeacher(schedule);
+    this.exportBlob(document, schedule.teacher, timeRequest);
   }
 
   /** PRIVATE METHODS */
@@ -148,441 +121,18 @@ export class RequestsListComponent extends BaseComponent {
       .subscribe();
   }
 
-  private getDatePipe(): DatePipe {
-    return this.injector.get(this.tokenService.getToken<DatePipe>('datePipe'));
-  }
+  private exportBlob(doc: Document, name: string, timeRequest: string): void {
+    const commonName = 'Giay-xin-thay-doi-gio-giang';
+    const teacherName = `${commonName}_${StringHelper.toLatinText(name)
+      .split(' ')
+      .join('-')}`;
+    const fileName = `${commonName}_${teacherName}_${timeRequest}.docx`;
 
-  private generateFile(schedule: ChangeSchedule): Document {
-    const alignment = AlignmentType.CENTER;
-    const today = new Date();
-    const page = {
-      size: {
-        orientation: PageOrientation.LANDSCAPE,
-      },
-    };
-
-    return new Document({
-      styles: {
-        default: {
-          document: {
-            run: {
-              size: 26,
-            },
-            paragraph: {
-              spacing: {
-                after: 160,
-                line: 260,
-              },
-            },
-          },
-        },
-      },
-      sections: [
-        {
-          properties: {
-            page,
-          },
-          children: [
-            new Paragraph({
-              alignment,
-              spacing: {
-                after: 0,
-              },
-              children: [
-                new TextRun({
-                  text: 'Cộng hòa xã hội chủ nghĩa Việt Nam',
-                  allCaps: true,
-                }),
-                new TextRun({ break: 1 }),
-                new TextRun({
-                  text: 'Độc lập – Tự do – Hạnh phúc',
-                  bold: true,
-                }),
-                new TextRun({ break: 1 }),
-                new TextRun({
-                  text: '-----------------------------------',
-                  bold: true,
-                }),
-              ],
-            }),
-            new Paragraph({
-              alignment,
-              spacing: {
-                before: 320,
-                after: 320,
-              },
-              children: [
-                new TextRun({
-                  text: 'Giấy xin thay đổi thời khóa biểu hoặc dạy bù',
-                  bold: true,
-                  allCaps: true,
-                }),
-              ],
-            }),
-            new Paragraph({
-              indent: {
-                firstLine: '0.5in',
-              },
-              spacing: {
-                line: 375,
-              },
-              children: [
-                new TextRun({
-                  text: 'Kính gửi: ',
-                  italics: true,
-                }),
-                new TextRun({
-                  text: 'Ban Quản lý Giảng đường',
-                }),
-                new TextRun({ break: 1 }),
-                new TextRun({
-                  text: `Họ và tên giảng viên: ${schedule.teacher}`,
-                }),
-                new TextRun({ break: 1 }),
-                new TextRun({
-                  text: `Bộ môn: ${schedule.teacher}`,
-                }),
-                new TextRun({ break: 1 }),
-                new TextRun({
-                  text: `Lý do thay đổi: ${schedule.teacher}`,
-                }),
-              ],
-            }),
-            new Table({
-              width: {
-                size: 100,
-                type: WidthType.PERCENTAGE,
-              },
-              rows: [
-                new TableRow({
-                  children: [
-                    new TableCell({
-                      rowSpan: 2,
-                      verticalAlign: VerticalAlign.CENTER,
-                      children: [
-                        new Paragraph({
-                          spacing: {
-                            after: 0,
-                          },
-                          text: 'STT',
-                          alignment,
-                        }),
-                      ],
-                    }),
-                    new TableCell({
-                      rowSpan: 2,
-                      verticalAlign: VerticalAlign.CENTER,
-                      children: [
-                        new Paragraph({
-                          spacing: {
-                            after: 0,
-                          },
-                          text: 'Lớp học phần',
-                          alignment,
-                        }),
-                      ],
-                    }),
-                    new TableCell({
-                      columnSpan: 3,
-                      verticalAlign: VerticalAlign.CENTER,
-                      children: [
-                        new Paragraph({
-                          spacing: {
-                            before: 120,
-                            after: 120,
-                          },
-                          text: 'Lịch cũ',
-                          alignment,
-                        }),
-                      ],
-                    }),
-                    new TableCell({
-                      columnSpan: 3,
-                      verticalAlign: VerticalAlign.CENTER,
-                      children: [
-                        new Paragraph({
-                          spacing: {
-                            after: 0,
-                          },
-                          text: 'Lịch mới',
-                          alignment,
-                        }),
-                      ],
-                    }),
-                  ],
-                }),
-                new TableRow({
-                  children: [
-                    new TableCell({
-                      verticalAlign: VerticalAlign.CENTER,
-                      children: [
-                        new Paragraph({
-                          spacing: {
-                            before: 120,
-                            after: 120,
-                          },
-                          text: 'Thời gian',
-                          alignment,
-                        }),
-                      ],
-                    }),
-                    new TableCell({
-                      verticalAlign: VerticalAlign.CENTER,
-                      children: [
-                        new Paragraph({
-                          spacing: {
-                            after: 0,
-                          },
-                          text: 'Tiết',
-                          alignment,
-                        }),
-                      ],
-                    }),
-                    new TableCell({
-                      verticalAlign: VerticalAlign.CENTER,
-                      children: [
-                        new Paragraph({
-                          spacing: {
-                            after: 0,
-                          },
-                          text: 'Phòng',
-                          alignment,
-                        }),
-                      ],
-                    }),
-                    new TableCell({
-                      verticalAlign: VerticalAlign.CENTER,
-                      children: [
-                        new Paragraph({
-                          spacing: {
-                            after: 0,
-                          },
-                          text: 'Thời gian',
-                          alignment,
-                        }),
-                      ],
-                    }),
-                    new TableCell({
-                      verticalAlign: VerticalAlign.CENTER,
-                      children: [
-                        new Paragraph({
-                          spacing: {
-                            after: 0,
-                          },
-                          text: 'Tiết',
-                          alignment,
-                        }),
-                      ],
-                    }),
-                    new TableCell({
-                      verticalAlign: VerticalAlign.CENTER,
-                      children: [
-                        new Paragraph({
-                          spacing: {
-                            after: 0,
-                          },
-                          text: 'Phòng',
-                          alignment,
-                        }),
-                      ],
-                    }),
-                  ],
-                }),
-                new TableRow({
-                  children: [
-                    new TableCell({
-                      verticalAlign: VerticalAlign.CENTER,
-                      children: [
-                        new Paragraph({
-                          spacing: {
-                            after: 0,
-                          },
-                          text: '1',
-                          alignment,
-                        }),
-                      ],
-                    }),
-                    new TableCell({
-                      verticalAlign: VerticalAlign.CENTER,
-                      children: [
-                        new Paragraph({
-                          spacing: {
-                            before: 160,
-                          },
-                          indent: {
-                            firstLine: '0.1in',
-                          },
-                          text: schedule.moduleClassName,
-                        }),
-                      ],
-                    }),
-                    new TableCell({
-                      verticalAlign: VerticalAlign.CENTER,
-                      children: [
-                        new Paragraph({
-                          spacing: {
-                            after: 0,
-                          },
-                          text:
-                            this.getDatePipe().transform(
-                              schedule.oldSchedule.date,
-                              'dd-MM-Y'
-                            ) ?? '',
-                          alignment,
-                        }),
-                      ],
-                    }),
-                    new TableCell({
-                      verticalAlign: VerticalAlign.CENTER,
-                      children: [
-                        new Paragraph({
-                          spacing: {
-                            after: 0,
-                          },
-                          text: schedule.oldSchedule.shift,
-                          alignment,
-                        }),
-                      ],
-                    }),
-                    new TableCell({
-                      verticalAlign: VerticalAlign.CENTER,
-                      children: [
-                        new Paragraph({
-                          spacing: {
-                            after: 0,
-                          },
-                          text: schedule.oldSchedule.room,
-                          alignment,
-                        }),
-                      ],
-                    }),
-                    new TableCell({
-                      verticalAlign: VerticalAlign.CENTER,
-                      children: [
-                        new Paragraph({
-                          spacing: {
-                            after: 0,
-                          },
-                          text:
-                            this.getDatePipe().transform(
-                              schedule.newSchedule.date,
-                              'dd-MM-Y'
-                            ) ?? '',
-                          alignment,
-                        }),
-                      ],
-                    }),
-                    new TableCell({
-                      verticalAlign: VerticalAlign.CENTER,
-                      children: [
-                        new Paragraph({
-                          spacing: {
-                            after: 0,
-                          },
-                          text: schedule.newSchedule.shift,
-                          alignment,
-                        }),
-                      ],
-                    }),
-                    new TableCell({
-                      verticalAlign: VerticalAlign.CENTER,
-                      children: [
-                        new Paragraph({
-                          spacing: {
-                            after: 0,
-                          },
-                          text: schedule.newSchedule.room,
-                          alignment,
-                        }),
-                      ],
-                    }),
-                  ],
-                }),
-              ],
-            }),
-            new Paragraph({
-              spacing: {
-                before: 280,
-              },
-              indent: {
-                firstLine: '0.5in',
-              },
-              children: [
-                new TextRun({
-                  text: 'Trân trọng cảm ơn!',
-                  italics: true,
-                  bold: true,
-                }),
-              ],
-            }),
-            new Paragraph({
-              alignment: AlignmentType.RIGHT,
-              spacing: {
-                before: 160,
-                after: 0,
-              },
-              children: [
-                new TextRun({
-                  text: `Hà Nội, ngày ${DateHelper.beautifyDay(
-                    today.getDate()
-                  )} tháng ${DateHelper.beautifyDay(
-                    today.getMonth() + 1
-                  )} năm ${today.getFullYear()}`,
-                  italics: true,
-                }),
-              ],
-            }),
-          ],
-        },
-        {
-          properties: {
-            page,
-            column: {
-              count: 3,
-              equalWidth: true,
-            },
-            type: SectionType.CONTINUOUS,
-          },
-          children: [
-            new Paragraph({
-              alignment,
-              spacing: {
-                before: 280,
-              },
-              children: [
-                new TextRun({
-                  text: 'Ý kiến của bộ môn',
-                }),
-                new ColumnBreak(),
-                new TextRun({
-                  text: 'Ý kiến của Điều độ',
-                }),
-                new ColumnBreak(),
-                new TextRun({
-                  text: 'Giảng viên',
-                }),
-                new TextRun({ break: 5 }),
-                new TextRun({
-                  text: schedule.teacher,
-                }),
-              ],
-            }),
-          ],
-        },
-      ],
-    });
-  }
-
-  private export(doc: Document, name: string, timeRequest: string): void {
-    const mimeType =
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
-    void Packer.toBlob(doc).then((blob) => {
-      const docBlob = blob.slice(0, blob.size, mimeType);
-      const commonName = 'Giay-xin-thay-doi-gio-giang';
-      const teacherName = `${commonName}_${StringHelper.toLatinText(name)
-        .split(' ')
-        .join('-')}`;
-      saveAs(docBlob, `${commonName}_${teacherName}_${timeRequest}.docx`);
+    this.exportService.exportBlob({
+      doc,
+      name: fileName,
+      mimeType:
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
     });
   }
 }
