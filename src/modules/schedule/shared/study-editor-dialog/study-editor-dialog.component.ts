@@ -15,7 +15,11 @@ import {
 } from '@taiga-ui/core';
 import { DateHelper } from '@shared/helpers';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { EjsScheduleModel } from 'src/shared/models';
+import {
+  EjsScheduleModel,
+  JustRequestedScheduleModel,
+  Nullable,
+} from 'src/shared/models';
 import { CoreConstant } from '@shared/constants';
 import { sameValueValidator } from 'src/shared/validators';
 import { TuiDay } from '@taiga-ui/cdk';
@@ -50,8 +54,9 @@ export class StudyEditorDialogComponent {
   public sendingChange = false;
   public validRequestChangeSchedule!: boolean;
   public firstDateAllowRequestChange!: Date;
-  public data: EjsScheduleModel;
+  public justRequestedSchedule: Nullable<JustRequestedScheduleModel> = null;
 
+  public readonly data: EjsScheduleModel;
   public readonly shifts = CoreConstant.SHIFTS;
   public readonly shiftKeys = Object.keys(CoreConstant.SHIFTS);
   public readonly noteMaxLength = 1000;
@@ -63,7 +68,10 @@ export class StudyEditorDialogComponent {
     private readonly cdr: ChangeDetectorRef,
     private readonly scheduleService: ScheduleService,
     @Inject(POLYMORPHEUS_CONTEXT)
-    private readonly context: TuiDialogContext<boolean, EjsScheduleModel>,
+    private readonly context: TuiDialogContext<
+      Nullable<JustRequestedScheduleModel>,
+      EjsScheduleModel
+    >,
     @Inject(TuiNotificationsService)
     private readonly notificationsService: TuiNotificationsService
   ) {
@@ -98,6 +106,11 @@ export class StudyEditorDialogComponent {
       .pipe(
         tap(() => {
           this.showNotificationRequestChangeSuccessful();
+          this.justRequestedSchedule = {
+            newDate,
+            newIdRoom,
+            newShift,
+          };
         }),
         catchError(() => {
           this.showNotificationError();
@@ -143,7 +156,7 @@ export class StudyEditorDialogComponent {
 
   public onCancel(): void {
     setTimeout(() => {
-      this.context.$implicit.complete();
+      this.context.completeWith(this.justRequestedSchedule);
     });
   }
 

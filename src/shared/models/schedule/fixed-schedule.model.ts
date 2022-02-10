@@ -1,8 +1,13 @@
-export interface FixedScheduleModel {
-  idSchedule: number;
+import { Nullable } from "../core";
+
+export interface SimpleFixedScheduleModel {
   newDate: string;
   newShift: string;
-  newIdRoom: string;
+  newIdRoom: Nullable<string>;
+}
+
+export interface FixedScheduleModel extends SimpleFixedScheduleModel {
+  idSchedule: number;
   oldDate: string;
   oldIdRoom: string;
   oldShift: string;

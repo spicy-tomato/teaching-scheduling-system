@@ -38,6 +38,16 @@
     </div>
   </tui-expand>
 
+  <tui-hosted-dropdown
+    tuiDropdownHover
+    *ngIf="data.From"
+    [content]="fixedScheduleContent"
+    class="d-flex align-items-center cursor-default"
+  >
+    <tui-svg src="tuiIconAlertCircleLarge"></tui-svg>
+    Ca học này đã được chuyển từ ngày khác tới
+  </tui-hosted-dropdown>
+
   <tui-expand [expanded]="requestingChangeSchedule" formGroupName="request">
     <h3 class="tui-form__header">Yêu cầu thay đổi lịch giảng</h3>
     <div [tuiTextfieldCleaner]="true" class="tui-form__row">
@@ -94,7 +104,7 @@
     >
       <tui-hosted-dropdown
         tuiDropdownHover
-        *ngIf="data.To; else send"
+        *ngIf="data.To || justRequestedSchedule; else send"
         [content]="fixedScheduleContent"
         class="d-flex align-items-center cursor-default"
       >
@@ -169,7 +179,7 @@
 </ng-template>
 
 <ng-template #fixedScheduleContent>
-  <div *tssVar="data.To as fixedSchedule" class="fixed-schedule">
+  <div *tssVar="data.To || justRequestedSchedule as fixedSchedule" class="fixed-schedule">
     <table>
       <tbody>
         <tr>

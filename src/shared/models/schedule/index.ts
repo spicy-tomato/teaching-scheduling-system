@@ -1,5 +1,7 @@
 export * from './ejs-schedule.model';
 export * from './exam-schedule.model';
+export * from './fixed-schedule.model';
+export * from './just-request-schedule.model';
 export * from './note.model';
 export * from './request-change-schedule-payload.model';
 export * from './schedule.model';

@@ -14,7 +14,7 @@ const initialState: RequestsState = {
     selectedStatus: null,
     showTime: false,
     showTimeInsteadOfShift: false,
-    showReason: false,
+    showReason: true,
   },
   changeSchedules: [],
   total: 0,
