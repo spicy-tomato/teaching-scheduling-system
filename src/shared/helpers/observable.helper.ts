@@ -30,10 +30,7 @@ export class ObservableHelper {
     Observable<T>
   > {
     return pipe(
-      filter((x) => !ObjectHelper.isNullOrUndefined(x)) as OperatorFunction<
-        T | undefined,
-        T
-      >
+      filter((x) => x !== undefined) as OperatorFunction<T | undefined, T>
     );
   }
 
