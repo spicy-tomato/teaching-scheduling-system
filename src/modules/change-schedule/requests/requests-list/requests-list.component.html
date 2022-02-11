@@ -144,16 +144,16 @@
                 else roomManager
               "
             >
-              <tss-request-list-action
+              <tss-request-list-status
                 [item]="item"
                 [displayText]="!!item.status || personal"
-              ></tss-request-list-action>
+              ></tss-request-list-status>
             </ng-container>
             <ng-template #roomManager>
-              <tss-request-list-action
+              <tss-request-list-status
                 [item]="item"
                 [displayText]="item.status !== 1"
-              ></tss-request-list-action>
+              ></tss-request-list-status>
             </ng-template>
           </ng-container>
         </td>

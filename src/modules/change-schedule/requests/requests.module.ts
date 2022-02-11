@@ -23,7 +23,7 @@ import { RequestsListComponent } from './requests-list/requests-list.component';
 import { RequestsPaginationComponent } from './requests-pagination/requests-pagination.component';
 import { SharedRequestsModule } from './_shared/shared-requests.module';
 import { SharedChangeScheduleModule } from '../_shared/shared.module';
-import { RequestListActionComponent } from './requests-list/request-list-action/request-list-action.component';
+import { RequestListStatusComponent } from './requests-list/request-list-status/request-list-status.component';
 import { DirectivesModule } from '@directives/directives.module';
 
 const NGRX = [
@@ -61,7 +61,7 @@ const TAIGA_UI = [
     RequestsOptionsComponent,
     RequestsListComponent,
     RequestsPaginationComponent,
-    RequestListActionComponent,
+    RequestListStatusComponent,
   ],
 })
 export class RequestsModule {}

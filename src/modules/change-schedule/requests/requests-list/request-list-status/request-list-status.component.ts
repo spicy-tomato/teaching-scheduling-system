@@ -24,9 +24,9 @@ import { ObservableHelper, PermissionHelper } from '@shared/helpers';
 import { SetRoomDialogComponent } from '../../_shared/set-room-dialog/set-room-dialog.component';
 
 @Component({
-  selector: 'tss-request-list-action',
-  templateUrl: './request-list-action.component.html',
-  styleUrls: ['./request-list-action.component.scss'],
+  selector: 'tss-request-list-status',
+  templateUrl: './request-list-status.component.html',
+  styleUrls: ['./request-list-status.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
@@ -39,7 +39,7 @@ import { SetRoomDialogComponent } from '../../_shared/set-room-dialog/set-room-d
     },
   ],
 })
-export class RequestListActionComponent extends BaseComponent {
+export class RequestListStatusComponent extends BaseComponent {
   /** INPUT */
   @Input() public displayText!: boolean;
   @Input() public item!: ChangeSchedule;

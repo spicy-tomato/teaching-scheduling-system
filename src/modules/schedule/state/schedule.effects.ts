@@ -17,7 +17,6 @@ import * as fromSchedule from '.';
 import { ScheduleService } from '@services/schedule.service';
 import { Store } from '@ngrx/store';
 import { BaseComponent } from '@modules/core/base/base.component';
-import { PermissionConstant } from '@shared/constants';
 import { Nullable, SearchSchedule } from 'src/shared/models';
 import { TuiDay, TuiDayRange } from '@taiga-ui/cdk';
 import {

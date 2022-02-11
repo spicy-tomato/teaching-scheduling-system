@@ -30,7 +30,7 @@ export class ExportService {
   /** CONSTRUCTOR */
   constructor(
     private readonly tokenService: TokenService,
-    @Inject(Injector) private readonly injector: Injector
+    @Inject(Injector) injector: Injector
   ) {
     this.datePipe = injector.get(
       this.tokenService.getToken<DatePipe>('datePipe')
