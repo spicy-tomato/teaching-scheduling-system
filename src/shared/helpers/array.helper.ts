@@ -41,8 +41,16 @@ export class ArrayHelper {
     return result;
   }
 
-  public static removeAt<T>(array: T[], index: number): void {
-    array.splice(index, 1);
+  public static removeAt<T>(array: T[], index: number | number[]): void {
+    if (typeof index === 'number') {
+      array.splice(index, 1);
+      return;
+    }
+
+    index.sort((a, b) => b - a);
+    for (let i = 0; i < index.length; i++) {
+      array.splice(index[i], 1);
+    }
   }
 
   public static insertAt<T>(array: T[], index: number, item: T): void {

@@ -12,11 +12,8 @@ import { Observable } from 'rxjs';
 import { distinctUntilChanged, map, takeUntil, tap } from 'rxjs/operators';
 import * as fromRequests from '../state';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
-import { Document } from 'docx';
-import { ArrayHelper, StringHelper } from '@shared/helpers';
-import { IconConstant } from '@shared/constants/components/icon.constant';
+import { PermissionHelper } from '@shared/helpers';
 import { ActivatedRoute } from '@angular/router';
-import { ExportService } from '@services/export.service';
 
 @Component({
   selector: 'tss-requests-list',
@@ -27,20 +24,7 @@ import { ExportService } from '@services/export.service';
 export class RequestsListComponent extends BaseComponent {
   /** PUBLIC PROPERTIES */
   public columns: string[] = [];
-
-  public readonly data$: Observable<ChangeSchedule[]>;
-  public readonly status$: Observable<ChangeScheduleStatus>;
-  public readonly page$: Observable<number>;
-  public readonly options$: Observable<ChangeScheduleOptions>;
-  public readonly permissions$: Observable<number[]>;
-
-  public readonly personal: boolean;
-
-  public readonly EApiStatus = EApiStatus;
-  public readonly itemsPerPage = TableConstant.REQUESTS_LIST_ITEMS_PER_PAGE;
-  public readonly IconConstant = IconConstant;
-  public readonly PermissionConstant = PermissionConstant;
-  public readonly initialColumns = [
+  public initialColumns = [
     'index',
     'teacher',
     'moduleClass',
@@ -58,9 +42,20 @@ export class RequestsListComponent extends BaseComponent {
     'actions',
   ];
 
+  public readonly data$: Observable<ChangeSchedule[]>;
+  public readonly status$: Observable<ChangeScheduleStatus>;
+  public readonly page$: Observable<number>;
+  public readonly options$: Observable<ChangeScheduleOptions>;
+  public readonly permissions$: Observable<number[]>;
+
+  public readonly personal: boolean;
+
+  public readonly EApiStatus = EApiStatus;
+  public readonly itemsPerPage = TableConstant.REQUESTS_LIST_ITEMS_PER_PAGE;
+  public readonly PermissionConstant = PermissionConstant;
+
   /** CONSTRUCTOR */
   constructor(
-    private readonly exportService: ExportService,
     store: Store<fromRequests.RequestsState>,
     appShellStore: Store<fromAppShell.AppShellState>,
     route: ActivatedRoute
@@ -85,23 +80,27 @@ export class RequestsListComponent extends BaseComponent {
 
     this.personal = route.snapshot.data['personal'] as boolean;
 
-    if (this.personal) {
-      this.configureColumns();
-    }
-
+    this.configureColumns();
     this.handleOptionsChange();
-  }
-
-  /** PUBLIC METHODS */
-  public onExport(schedule: ChangeSchedule, timeRequest: string): void {
-    const document =
-      this.exportService.exportChangeScheduleRequestForTeacher(schedule);
-    this.exportBlob(document, schedule.teacher, timeRequest);
   }
 
   /** PRIVATE METHODS */
   private configureColumns(): void {
-    ArrayHelper.removeAt(this.initialColumns, 1);
+    if (this.personal) {
+      this.initialColumns = this.initialColumns.filter((x) => x !== 'teacher');
+    }
+    this.permissions$
+      .pipe(
+        tap((permissions) => {
+          if (PermissionHelper.isRoomManager(permissions)) {
+            this.initialColumns = this.initialColumns.filter(
+              (x) => x !== 'actions'
+            );
+          }
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
   }
 
   private handleOptionsChange(): void {
@@ -119,20 +118,5 @@ export class RequestsListComponent extends BaseComponent {
         takeUntil(this.destroy$)
       )
       .subscribe();
-  }
-
-  private exportBlob(doc: Document, name: string, timeRequest: string): void {
-    const commonName = 'Giay-xin-thay-doi-gio-giang';
-    const teacherName = `${commonName}_${StringHelper.toLatinText(name)
-      .split(' ')
-      .join('-')}`;
-    const fileName = `${commonName}_${teacherName}_${timeRequest}.docx`;
-
-    this.exportService.exportBlob({
-      doc,
-      name: fileName,
-      mimeType:
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    });
   }
 }

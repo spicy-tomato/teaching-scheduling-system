@@ -25,6 +25,7 @@ import { SharedRequestsModule } from './_shared/shared-requests.module';
 import { SharedChangeScheduleModule } from '../_shared/shared.module';
 import { RequestListStatusComponent } from './requests-list/request-list-status/request-list-status.component';
 import { DirectivesModule } from '@directives/directives.module';
+import { RequestListActionComponent } from './requests-list/request-list-action/request-list-action.component';
 
 const NGRX = [
   StoreModule.forFeature(
@@ -62,6 +63,7 @@ const TAIGA_UI = [
     RequestsListComponent,
     RequestsPaginationComponent,
     RequestListStatusComponent,
+    RequestListActionComponent,
   ],
 })
 export class RequestsModule {}

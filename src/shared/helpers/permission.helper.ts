@@ -11,13 +11,17 @@ export class PermissionHelper {
     return permissions.includes(PermissionConstant.SEE_DEPARTMENT_SCHEDULE);
   }
 
+  public static isRoomManager(permissions: number[]): boolean {
+    return permissions.includes(PermissionConstant.MANAGE_ROOM);
+  }
+
   public static getRole(
     permissions: number[]
   ): 'teacher' | 'departmentHead' | 'roomManager' {
-    if (permissions.includes(PermissionConstant.MANAGE_ROOM)) {
+    if (PermissionHelper.isRoomManager(permissions)) {
       return 'roomManager';
     }
-    if (permissions.includes(PermissionConstant.SEE_DEPARTMENT_SCHEDULE)) {
+    if (PermissionHelper.isDepartmentHead(permissions)) {
       return 'departmentHead';
     }
     return 'teacher';
