@@ -213,9 +213,8 @@ export class StudyEditorDialogComponent {
         ? DateHelper.subtract(todayToZero, 3)
         : todayToZero;
     this.validRequestChangeSchedule =
-      true ||
-      (startDate > this.firstDateAllowRequestChange &&
-        this.data.People?.[0] === 'self');
+      startDate > this.firstDateAllowRequestChange &&
+      this.data.People?.[0] === 'self';
   }
 
   private showNotificationRequestChangeSuccessful(): void {

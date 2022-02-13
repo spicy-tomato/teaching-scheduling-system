@@ -38,15 +38,17 @@
     </div>
   </tui-expand>
 
-  <tui-hosted-dropdown
-    tuiDropdownHover
-    *ngIf="data.From"
-    [content]="fixedScheduleContent"
-    class="d-flex align-items-center cursor-default"
-  >
-    <tui-svg src="tuiIconAlertCircleLarge"></tui-svg>
-    Ca học này đã được chuyển từ ngày khác tới
-  </tui-hosted-dropdown>
+  <div class="tui-form__row">
+    <tui-hosted-dropdown
+      tuiDropdownHover
+      *ngIf="data.From"
+      [content]="fixedScheduleFromContent"
+      class="d-flex align-items-center cursor-default"
+    >
+      <tui-svg src="tuiIconAlertCircleLarge"></tui-svg>
+      Đây là ca học mới được chuyển tới
+    </tui-hosted-dropdown>
+  </div>
 
   <tui-expand [expanded]="requestingChangeSchedule" formGroupName="request">
     <h3 class="tui-form__header">Yêu cầu thay đổi lịch giảng</h3>
@@ -105,7 +107,7 @@
       <tui-hosted-dropdown
         tuiDropdownHover
         *ngIf="data.To || justRequestedSchedule; else send"
-        [content]="fixedScheduleContent"
+        [content]="fixedScheduleToContent"
         class="d-flex align-items-center cursor-default"
       >
         <tui-svg src="tuiIconAlertCircleLarge"></tui-svg>
@@ -178,8 +180,11 @@
   {{ online ? "Phòng học trực tuyến" : "Học trực tiếp" }}
 </ng-template>
 
-<ng-template #fixedScheduleContent>
-  <div *tssVar="data.To || justRequestedSchedule as fixedSchedule" class="fixed-schedule">
+<ng-template #fixedScheduleToContent>
+  <div
+    *tssVar="data.To || justRequestedSchedule as fixedSchedule"
+    class="fixed-schedule"
+  >
     <table>
       <tbody>
         <tr>
@@ -196,6 +201,33 @@
           <td>Phòng</td>
           <td>:</td>
           <td>{{ fixedSchedule.newIdRoom }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</ng-template>
+
+<ng-template #fixedScheduleFromContent>
+  <div
+    *tssVar="data.From || justRequestedSchedule as fixedSchedule"
+    class="fixed-schedule"
+  >
+    <table>
+      <tbody>
+        <tr>
+          <td>Ngày</td>
+          <td>:</td>
+          <td>{{ fixedSchedule.oldDate | date: "dd-MM-Y" }}</td>
+        </tr>
+        <tr>
+          <td>Thời gian</td>
+          <td>:</td>
+          <td>{{ fixedSchedule.oldShift | shift }}</td>
+        </tr>
+        <tr *ngIf="fixedSchedule.oldIdRoom">
+          <td>Phòng</td>
+          <td>:</td>
+          <td>{{ fixedSchedule.oldIdRoom }}</td>
         </tr>
       </tbody>
     </table>
