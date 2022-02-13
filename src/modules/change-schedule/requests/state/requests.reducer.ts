@@ -76,11 +76,13 @@ export const requestsReducer = createReducer(
     return {
       ...state,
       changeSchedules: state.changeSchedules.map((x) => {
+        const current = new Date();
         if (x.id === id) {
           const newObj: ChangeSchedule = {
             ...x,
             status,
-            timeAccept: new Date(),
+            timeAccept: current,
+            timeSetRoom: status === 3 ? current : x.timeSetRoom,
           };
           return newObj;
         }
