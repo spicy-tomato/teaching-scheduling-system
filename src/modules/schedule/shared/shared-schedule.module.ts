@@ -1,31 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FilterSelfPipe } from './filter-self.pipe';
 import { ExamEditorDialogComponent } from './exam-editor-dialog/exam-editor-dialog.component';
 import { StudyEditorDialogComponent } from './study-editor-dialog/study-editor-dialog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {
-  TuiDataListWrapperModule,
-  TuiDropdownHoverModule,
-  TuiFieldErrorModule,
-  TuiInputDateModule,
-  TuiInputDateTimeModule,
-  TuiInputModule,
-  TuiSelectModule,
-  TuiTextAreaModule,
-} from '@taiga-ui/kit';
+import { TuiDataListWrapperModule, TuiSelectModule } from '@taiga-ui/kit';
 import {
   TuiButtonModule,
   TuiDataListModule,
   TuiExpandModule,
-  TuiHintControllerModule,
-  TuiHostedDropdownModule,
-  TuiSvgModule,
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
 import { PipesModule } from '@pipes/pipes.module';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { DirectivesModule } from '@directives/directives.module';
+import { StudyEditorDialogModule } from './study-editor-dialog/study-editor-dialog.module';
+import { ExamEditorDialogModule } from './exam-editor-dialog/exam-editor-dialog.module';
 
 const EXPORT = [
   CommonModule,
@@ -34,12 +23,10 @@ const EXPORT = [
   PipesModule,
   DirectivesModule,
 ];
-const COMPONENTS = [ExamEditorDialogComponent, StudyEditorDialogComponent];
 
-const EXPORT_NGRX = [ReactiveComponentModule];
-const NGRX = [...EXPORT_NGRX];
+const NGRX = [ReactiveComponentModule];
 
-const EXPORT_TAIGA_UI = [
+const TAIGA_UI = [
   TuiButtonModule,
   TuiTextfieldControllerModule,
   TuiExpandModule,
@@ -47,28 +34,15 @@ const EXPORT_TAIGA_UI = [
   TuiDataListModule,
   TuiDataListWrapperModule,
 ];
-const TAIGA_UI = [
-  TuiInputModule,
-  TuiInputDateTimeModule,
-  TuiTextAreaModule,
-  TuiHintControllerModule,
-  TuiFieldErrorModule,
-  TuiInputDateModule,
-  TuiSvgModule,
-  TuiHostedDropdownModule,
-  TuiDropdownHoverModule,
-  ...EXPORT_TAIGA_UI,
-];
 
 @NgModule({
-  imports: [...EXPORT, ...TAIGA_UI, ...NGRX],
-  declarations: [FilterSelfPipe, ...COMPONENTS],
+  imports: [ExamEditorDialogModule, StudyEditorDialogModule],
   exports: [
-    FilterSelfPipe,
-    ...COMPONENTS,
+    StudyEditorDialogComponent,
+    ExamEditorDialogComponent,
     ...EXPORT,
-    ...EXPORT_NGRX,
-    ...EXPORT_TAIGA_UI,
+    ...NGRX,
+    ...TAIGA_UI,
   ],
 })
 export class SharedScheduleModule {}

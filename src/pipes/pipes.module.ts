@@ -5,6 +5,7 @@ import { NavbarNamePipe } from './navbar-name.pipe';
 import { BeautifyTimePipe } from './beautify-date-time.pipe';
 import { ShiftPipe } from './shift.pipe';
 import { TuiDayPipe } from './tui-day.pipe';
+import { FilterSelfPipe } from './filter-self.pipe';
 
 const PIPES = [
   DateTimePipe,
@@ -12,6 +13,7 @@ const PIPES = [
   BeautifyTimePipe,
   ShiftPipe,
   TuiDayPipe,
+  FilterSelfPipe,
 ];
 
 @NgModule({
