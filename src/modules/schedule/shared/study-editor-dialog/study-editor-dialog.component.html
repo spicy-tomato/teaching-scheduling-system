@@ -38,10 +38,9 @@
     </div>
   </tui-expand>
 
-  <div class="tui-form__row">
+  <div *ngIf="data.From" class="tui-form__row">
     <tui-hosted-dropdown
       tuiDropdownHover
-      *ngIf="data.From"
       [content]="fixedScheduleFromContent"
       class="d-flex align-items-center cursor-default"
     >
