@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Nullable } from '@shared/models';
+import { Store } from '@ngrx/store';
+import { ChangeSchedule } from '@shared/models';
 import {
   TuiAppearance,
   TuiDialogContext,
@@ -8,6 +9,7 @@ import {
   TUI_TEXTFIELD_APPEARANCE,
 } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import * as fromRequests from '../../state';
 
 @Component({
   templateUrl: './deny-dialog.component.html',
@@ -35,15 +37,20 @@ export class DenyDialogComponent {
   /** CONSTRUCTOR */
   constructor(
     private readonly fb: FormBuilder,
+    private readonly store: Store<fromRequests.RequestsState>,
     @Inject(POLYMORPHEUS_CONTEXT)
-    private readonly context: TuiDialogContext<Nullable<string>>
+    private readonly context: TuiDialogContext<void, ChangeSchedule>
   ) {
     this.initForm();
   }
 
   /** PUBLIC METHODS */
   public confirm(): void {
-    this.context.completeWith(this.form.controls['reason'].value);
+    const reason = this.form.controls['reason'].value as string;
+    this.store.dispatch(
+      fromRequests.deny({ schedule: this.context.data, reason })
+    );
+    this.cancel();
   }
 
   public cancel(): void {

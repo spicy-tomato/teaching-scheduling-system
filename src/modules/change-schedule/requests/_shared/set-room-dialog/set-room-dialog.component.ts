@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Nullable } from '@shared/models';
+import { ChangeSchedule } from '@shared/models';
 import {
   TUI_BUTTON_OPTIONS,
   TuiAppearance,
@@ -13,6 +13,7 @@ import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { BaseComponent } from '@modules/core/base/base.component';
+import * as fromRequests from '../../state';
 
 @Component({
   templateUrl: './set-room-dialog.component.html',
@@ -41,8 +42,9 @@ export class SetRoomDialogComponent extends BaseComponent {
   /** CONSTRUCTOR */
   constructor(
     private readonly fb: FormBuilder,
+    private readonly store: Store<fromRequests.RequestsState>,
     @Inject(POLYMORPHEUS_CONTEXT)
-    private readonly context: TuiDialogContext<Nullable<string>>,
+    private readonly context: TuiDialogContext<void, ChangeSchedule>,
     appShellStore: Store<fromAppShell.AppShellState>
   ) {
     super();
@@ -56,7 +58,11 @@ export class SetRoomDialogComponent extends BaseComponent {
 
   /** PUBLIC METHODS */
   public confirm(): void {
-    this.context.completeWith(this.form.controls['newRoom'].value);
+    const newIdRoom = this.form.controls['newRoom'].value as string;
+    this.store.dispatch(
+      fromRequests.setRoom({ schedule: this.context.data, newIdRoom })
+    );
+    this.cancel();
   }
 
   public cancel(): void {

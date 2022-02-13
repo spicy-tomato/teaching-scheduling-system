@@ -20,7 +20,7 @@ import * as fromRequests from '../../state';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
 import { DenyDialogComponent } from '../../_shared/deny-dialog/deny-dialog.component';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { ObservableHelper, PermissionHelper } from '@shared/helpers';
+import { PermissionHelper } from '@shared/helpers';
 import { SetRoomDialogComponent } from '../../_shared/set-room-dialog/set-room-dialog.component';
 
 @Component({
@@ -76,16 +76,9 @@ export class RequestListStatusComponent extends BaseComponent {
         new PolymorpheusComponent(DenyDialogComponent, this.injector),
         {
           label: 'Từ chối yêu cầu thay đổi lịch giảng',
+          data: this.item,
           dismissible: false,
         }
-      )
-      .pipe(
-        ObservableHelper.filterNullish(),
-        tap((reason) =>
-          this.store.dispatch(
-            fromRequests.deny({ schedule: this.item, reason })
-          )
-        )
       )
       .subscribe();
   }
@@ -106,16 +99,9 @@ export class RequestListStatusComponent extends BaseComponent {
               new PolymorpheusComponent(SetRoomDialogComponent, this.injector),
               {
                 label: 'Xếp phòng cho giảng viên',
+                data: this.item,
                 dismissible: false,
               }
-            )
-            .pipe(
-              ObservableHelper.filterNullish(),
-              tap((newIdRoom) =>
-                this.store.dispatch(
-                  fromRequests.setRoom({ schedule: this.item, newIdRoom })
-                )
-              )
             )
             .subscribe();
         }),
