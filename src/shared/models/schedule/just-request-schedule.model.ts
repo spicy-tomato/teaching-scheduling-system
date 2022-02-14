@@ -1,7 +1,7 @@
 import { Nullable } from '../core/nullable.model';
+import { SimpleFixedScheduleModel } from './fixed-schedule.model';
 
-export interface JustRequestedScheduleModel {
-  newDate: string;
-  newShift: string;
-  newIdRoom: Nullable<string>;
+export interface ChangedScheduleModel {
+  to: Nullable<SimpleFixedScheduleModel>;
+  note?: Nullable<string>;
 }

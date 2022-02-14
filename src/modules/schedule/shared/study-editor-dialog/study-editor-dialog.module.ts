@@ -24,6 +24,7 @@ import { StoreModule } from '@ngrx/store';
 import * as fromStudyEditorDialog from './state';
 import { EffectsModule } from '@ngrx/effects';
 import { DirectivesModule } from '@directives/directives.module';
+import { ReactiveComponentModule } from '@ngrx/component';
 
 const NGRX = [
   StoreModule.forFeature(
@@ -31,6 +32,7 @@ const NGRX = [
     fromStudyEditorDialog.studyEditorDialogReducer
   ),
   EffectsModule.forFeature([fromStudyEditorDialog.StudyEditorDialogEffects]),
+  ReactiveComponentModule,
 ];
 
 const TAIGA_UI = [

@@ -40,10 +40,7 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { ExamEditorDialogComponent } from '../shared/exam-editor-dialog/exam-editor-dialog.component';
 import { EApiStatus } from '@shared/enums';
 import { StudyEditorDialogComponent } from '../shared/study-editor-dialog/study-editor-dialog.component';
-import {
-  EjsScheduleModel,
-  JustRequestedScheduleModel,
-} from 'src/shared/models';
+import { EjsScheduleModel, ChangedScheduleModel } from 'src/shared/models';
 import { ScheduleHelper, DateHelper, ObservableHelper } from '@shared/helpers';
 
 loadCldr(numberingSystems, gregorian, numbers, timeZoneNames);
@@ -241,7 +238,7 @@ export class TssScheduleComponent
 
   private showStudyEditorDialog(data: EjsScheduleModel): void {
     this.dialogService
-      .open<JustRequestedScheduleModel | undefined>(
+      .open<ChangedScheduleModel | undefined>(
         new PolymorpheusComponent(StudyEditorDialogComponent, this.injector),
         {
           data,
@@ -252,7 +249,15 @@ export class TssScheduleComponent
       .pipe(
         ObservableHelper.filterNullish(),
         tap((newRequestData) => {
-          const newData: EjsScheduleModel = { ...data, To: newRequestData };
+          const newData: EjsScheduleModel = {
+            ...data,
+          };
+          if (newRequestData.to) {
+            newData.To = newRequestData.to;
+          }
+          if (newRequestData.note) {
+            newData.Note = newRequestData.note;
+          }
           this.scheduleComponent.saveEvent(newData);
         })
       )

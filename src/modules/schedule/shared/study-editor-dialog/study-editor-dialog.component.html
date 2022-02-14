@@ -1,4 +1,7 @@
-<form [formGroup]="form">
+<form
+  [formGroup]="form"
+  *ngrxLet="requestingChangeSchedule$ as requestingChangeSchedule"
+>
   <div class="tui-form__row">
     <tui-input [readOnly]="true" formControlName="subject"> Lớp </tui-input>
   </div>
@@ -103,27 +106,31 @@
       *ngIf="validRequestChangeSchedule"
       class="tui-form__buttons tui-form__buttons_align_start"
     >
-      <tui-hosted-dropdown
-        tuiDropdownHover
-        *ngIf="data.To || justRequestedSchedule; else send"
-        [content]="fixedScheduleToContent"
-        class="d-flex align-items-center cursor-default"
-      >
-        <tui-svg src="tuiIconAlertCircleLarge"></tui-svg>
-        Ca học này đã được yêu cầu thay đổi
-      </tui-hosted-dropdown>
-      <ng-template #send>
-        <button
-          *ngIf="requestingChangeSchedule; else request"
-          [showLoader]="sendingRequest"
-          [disabled]="form.controls['request'].invalid"
-          (click)="onSubmit()"
-          tuiButton
-          size="m"
-          class="tui-form__button"
+      <ng-container *ngrxLet="justRequestedSchedule$ as justRequestedSchedule">
+        <tui-hosted-dropdown
+          tuiDropdownHover
+          *ngIf="data.To || justRequestedSchedule; else send"
+          [content]="fixedScheduleToContent"
+          class="d-flex align-items-center cursor-default"
         >
-          Gửi yêu cầu
-        </button>
+          <tui-svg src="tuiIconAlertCircleLarge"></tui-svg>
+          Ca học này đã được yêu cầu thay đổi
+        </tui-hosted-dropdown>
+      </ng-container>
+      <ng-template #send>
+        <ng-container *ngrxLet="requestStatus$ as requestStatus">
+          <button
+            *ngIf="requestingChangeSchedule; else request"
+            [showLoader]="requestStatus === EApiStatus.loading"
+            [disabled]="form.controls['request'].invalid"
+            (click)="onSubmitChangeRequest()"
+            tuiButton
+            size="m"
+            class="tui-form__button"
+          >
+            Gửi yêu cầu
+          </button>
+        </ng-container>
       </ng-template>
       <ng-template #request>
         <button
@@ -149,18 +156,20 @@
         </button>
       </ng-container>
       <ng-template #notEditing>
+        <ng-container *ngrxLet="updateStatus$ as updateStatus">
+          <button
+            tuiButton
+            (click)="onUpdate()"
+            [showLoader]="updateStatus === EApiStatus.loading"
+            [disabled]="form.controls['change'].invalid"
+            class="tui-form__button"
+          >
+            Lưu
+          </button>
+        </ng-container>
         <button
           tuiButton
-          (click)="onUpdate()"
-          [showLoader]="sendingChange"
-          [disabled]="form.controls['change'].invalid"
-          class="tui-form__button"
-        >
-          Lưu
-        </button>
-        <button
-          tuiButton
-          (click)="onCancel()"
+          (click)="cancel$.next()"
           appearance="outline"
           class="tui-form__button"
         >
@@ -180,55 +189,59 @@
 </ng-template>
 
 <ng-template #fixedScheduleToContent>
-  <div
-    *tssVar="data.To || justRequestedSchedule as fixedSchedule"
-    class="fixed-schedule"
-  >
-    <table>
-      <tbody>
-        <tr>
-          <td>Ngày</td>
-          <td>:</td>
-          <td>{{ fixedSchedule.newDate | date: "dd-MM-Y" }}</td>
-        </tr>
-        <tr>
-          <td>Thời gian</td>
-          <td>:</td>
-          <td>{{ fixedSchedule.newShift | shift }}</td>
-        </tr>
-        <tr *ngIf="fixedSchedule.newIdRoom">
-          <td>Phòng</td>
-          <td>:</td>
-          <td>{{ fixedSchedule.newIdRoom }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <ng-container *ngrxLet="justRequestedSchedule$ as justRequestedSchedule">
+    <div
+      *tssVar="data.To || justRequestedSchedule as fixedSchedule"
+      class="fixed-schedule"
+    >
+      <table>
+        <tbody>
+          <tr>
+            <td>Ngày</td>
+            <td>:</td>
+            <td>{{ fixedSchedule.newDate | date: "dd-MM-Y" }}</td>
+          </tr>
+          <tr>
+            <td>Thời gian</td>
+            <td>:</td>
+            <td>{{ fixedSchedule.newShift | shift }}</td>
+          </tr>
+          <tr *ngIf="fixedSchedule.newIdRoom">
+            <td>Phòng</td>
+            <td>:</td>
+            <td>{{ fixedSchedule.newIdRoom }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-container>
 </ng-template>
 
 <ng-template #fixedScheduleFromContent>
-  <div
-    *tssVar="data.From || justRequestedSchedule as fixedSchedule"
-    class="fixed-schedule"
-  >
-    <table>
-      <tbody>
-        <tr>
-          <td>Ngày</td>
-          <td>:</td>
-          <td>{{ fixedSchedule.oldDate | date: "dd-MM-Y" }}</td>
-        </tr>
-        <tr>
-          <td>Thời gian</td>
-          <td>:</td>
-          <td>{{ fixedSchedule.oldShift | shift }}</td>
-        </tr>
-        <tr *ngIf="fixedSchedule.oldIdRoom">
-          <td>Phòng</td>
-          <td>:</td>
-          <td>{{ fixedSchedule.oldIdRoom }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <ng-container *ngrxLet="justRequestedSchedule$ as justRequestedSchedule">
+    <div
+      *tssVar="data.From || justRequestedSchedule as fixedSchedule"
+      class="fixed-schedule"
+    >
+      <table>
+        <tbody>
+          <tr>
+            <td>Ngày</td>
+            <td>:</td>
+            <td>{{ fixedSchedule.oldDate | date: "dd-MM-Y" }}</td>
+          </tr>
+          <tr>
+            <td>Thời gian</td>
+            <td>:</td>
+            <td>{{ fixedSchedule.oldShift | shift }}</td>
+          </tr>
+          <tr *ngIf="fixedSchedule.oldIdRoom">
+            <td>Phòng</td>
+            <td>:</td>
+            <td>{{ fixedSchedule.oldIdRoom }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-container>
 </ng-template>

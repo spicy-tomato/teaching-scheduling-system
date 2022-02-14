@@ -5,7 +5,6 @@ import {
   Inject,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ScheduleService } from '@services/schedule.service';
 import {
   TuiAppearance,
   TuiDialogContext,
@@ -17,19 +16,20 @@ import { DateHelper } from '@shared/helpers';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import {
   EjsScheduleModel,
-  JustRequestedScheduleModel,
+  ChangedScheduleModel,
   Nullable,
+  SimpleFixedScheduleModel,
 } from 'src/shared/models';
 import { CoreConstant } from '@shared/constants';
 import { sameValueValidator } from 'src/shared/validators';
 import { TuiDay } from '@taiga-ui/cdk';
 import { sqlDateFactory } from '@shared/factories';
-import { catchError, finalize, tap } from 'rxjs/operators';
-import { EMPTY, of } from 'rxjs';
-
-type Change = {
-  note: string;
-};
+import { map, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { EApiStatus } from '@shared/enums';
+import { BaseComponent } from '@modules/core/base/base.component';
+import * as fromStudyEditorDialog from './state';
+import { Store } from '@ngrx/store';
 
 @Component({
   templateUrl: './study-editor-dialog.component.html',
@@ -46,16 +46,23 @@ type Change = {
     },
   ],
 })
-export class StudyEditorDialogComponent {
+export class StudyEditorDialogComponent extends BaseComponent {
   /** PUBLIC PROPERTIES */
   public form!: FormGroup;
-  public requestingChangeSchedule = false;
-  public sendingRequest = false;
-  public sendingChange = false;
   public validRequestChangeSchedule!: boolean;
   public firstDateAllowRequestChange!: Date;
-  public justRequestedSchedule: Nullable<JustRequestedScheduleModel> = null;
 
+  public readonly requestStatus$: Observable<EApiStatus>;
+  public readonly updateStatus$: Observable<EApiStatus>;
+  public readonly requestingChangeSchedule$: Observable<boolean>;
+  public readonly justRequestedSchedule$: Observable<
+    Nullable<SimpleFixedScheduleModel>
+  >;
+  private readonly change$: Observable<fromStudyEditorDialog.Change>;
+
+  public readonly cancel$ = new Subject();
+
+  public readonly EApiStatus = EApiStatus;
   public readonly data: EjsScheduleModel;
   public readonly shifts = CoreConstant.SHIFTS;
   public readonly shiftKeys = Object.keys(CoreConstant.SHIFTS);
@@ -66,98 +73,71 @@ export class StudyEditorDialogComponent {
   constructor(
     private readonly fb: FormBuilder,
     private readonly cdr: ChangeDetectorRef,
-    private readonly scheduleService: ScheduleService,
+    private readonly store: Store<fromStudyEditorDialog.StudyEditorDialogState>,
     @Inject(POLYMORPHEUS_CONTEXT)
     private readonly context: TuiDialogContext<
-      Nullable<JustRequestedScheduleModel>,
+      Nullable<ChangedScheduleModel>,
       EjsScheduleModel
     >,
     @Inject(TuiNotificationsService)
     private readonly notificationsService: TuiNotificationsService
   ) {
+    super();
+
     this.data = context.data;
     this.initForm();
+
+    this.requestStatus$ = store
+      .select(fromStudyEditorDialog.selectRequestStatus)
+      .pipe(takeUntil(this.destroy$));
+    this.updateStatus$ = store
+      .select(fromStudyEditorDialog.selectUpdateStatus)
+      .pipe(takeUntil(this.destroy$));
+    this.requestingChangeSchedule$ = store
+      .select(fromStudyEditorDialog.selectRequestingChangeSchedule)
+      .pipe(takeUntil(this.destroy$));
+    this.justRequestedSchedule$ = store
+      .select(fromStudyEditorDialog.selectJustRequestedSchedule)
+      .pipe(takeUntil(this.destroy$));
+    this.change$ = store
+      .select(fromStudyEditorDialog.selectChange)
+      .pipe(takeUntil(this.destroy$));
+
+    this.handleStatusChange();
+    this.handleChange();
+    this.handleCancel();
   }
 
   /** PUBLIC METHODS */
-  public onSubmit(): void {
-    this.sendingRequest = true;
-
-    const idSchedule = this.form.controls['id'].value as number;
+  public onSubmitChangeRequest(): void {
     const request = this.form.controls['request'] as FormGroup;
-    const newIdRoom = (request.controls['online'].value as boolean)
-      ? 'PHTT'
-      : null;
-    const newShift = request.controls['shift'].value as string;
-    const newDate = DateHelper.toDateOnlyString(
-      (request.controls['date'].value as TuiDay).toUtcNativeDate()
-    );
-    const reason = request.controls['reason'].value as string;
 
-    this.scheduleService
-      .requestChangeSchedule({
-        idSchedule,
-        newDate,
-        newIdRoom,
-        newShift,
-        reason,
-        timeRequest: sqlDateFactory(),
-      })
-      .pipe(
-        tap(() => {
-          this.showNotificationRequestChangeSuccessful();
-          this.justRequestedSchedule = {
-            newDate,
-            newIdRoom,
-            newShift,
-          };
-        }),
-        catchError(() => {
-          this.showNotificationError();
-          return of(EMPTY);
-        }),
-        finalize(() => {
-          this.sendingRequest = false;
-          this.requestingChangeSchedule = false;
-          this.cdr.markForCheck();
-        })
-      )
-      .subscribe();
+    const body = {
+      idSchedule: this.form.controls['id'].value as number,
+      newIdRoom: (request.controls['online'].value as boolean) ? 'PHTT' : null,
+      newShift: request.controls['shift'].value as string,
+      newDate: DateHelper.toDateOnlyString(
+        (request.controls['date'].value as TuiDay).toUtcNativeDate()
+      ),
+      reason: request.controls['reason'].value as string,
+      timeRequest: sqlDateFactory(),
+    };
+
+    this.store.dispatch(fromStudyEditorDialog.request({ body }));
   }
 
   public toggleRequestArea(open: boolean): void {
-    this.requestingChangeSchedule = open;
+    this.store.dispatch(fromStudyEditorDialog.toggleRequestChange({ open }));
   }
 
   public onUpdate(): void {
-    this.sendingChange = true;
-    const note = (this.form.controls['change'] as FormGroup).controls['note']
-      .value as string;
-    const id = this.form.controls['id'].value as number;
+    const body = {
+      note: (this.form.controls['change'] as FormGroup).controls['note']
+        .value as string,
+      id: this.form.controls['id'].value as number,
+    };
 
-    this.scheduleService
-      .updateStudyNote({ id, note })
-      .pipe(
-        tap(() => {
-          this.showNotificationUpdateSuccessful();
-          const change = { note };
-          (this.form.controls['change'] as FormGroup) =
-            this.getNewChangeControl(change);
-          this.sendingChange = false;
-          this.cdr.markForCheck();
-        }),
-        catchError(() => {
-          this.showNotificationError();
-          return of(EMPTY);
-        })
-      )
-      .subscribe();
-  }
-
-  public onCancel(): void {
-    setTimeout(() => {
-      this.context.completeWith(this.justRequestedSchedule);
-    });
+    this.store.dispatch(fromStudyEditorDialog.update({ body }));
   }
 
   /** PRIVATE METHODS */
@@ -215,6 +195,70 @@ export class StudyEditorDialogComponent {
     this.validRequestChangeSchedule =
       startDate > this.firstDateAllowRequestChange &&
       this.data.People?.[0] === 'self';
+
+    this.store.dispatch(fromStudyEditorDialog.reset({ change: initialChange }));
+  }
+
+  private handleStatusChange(): void {
+    this.updateStatus$
+      .pipe(
+        tap((status) => {
+          switch (status) {
+            case EApiStatus.successful:
+              this.showNotificationUpdateSuccessful();
+              break;
+            case EApiStatus.systemError:
+              this.showNotificationError();
+              break;
+          }
+        })
+      )
+      .subscribe();
+    this.requestStatus$
+      .pipe(
+        tap((status) => {
+          switch (status) {
+            case EApiStatus.successful:
+              this.showNotificationRequestChangeSuccessful();
+              break;
+            case EApiStatus.systemError:
+              this.showNotificationError();
+              break;
+          }
+        })
+      )
+      .subscribe();
+  }
+
+  private handleCancel(): void {
+    this.cancel$
+      .pipe(
+        withLatestFrom(this.change$, this.justRequestedSchedule$),
+        map(({ 1: update, 2: request }) => ({ update, request })),
+        tap(({ update, request }) => {
+          setTimeout(() => {
+            this.context.completeWith({
+              to: request,
+              note: update.note,
+            });
+          });
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
+  private handleChange(): void {
+    this.change$
+      .pipe(
+        tap((change) => {
+          (this.form.controls['change'] as FormGroup) =
+            this.getNewChangeControl(change);
+          this.cdr.markForCheck();
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
   }
 
   private showNotificationRequestChangeSuccessful(): void {
@@ -243,7 +287,7 @@ export class StudyEditorDialogComponent {
       .subscribe();
   }
 
-  private getNewChangeControl(value: Change): FormGroup {
+  private getNewChangeControl(value: fromStudyEditorDialog.Change): FormGroup {
     return this.fb.group(
       {
         note: [value.note],
