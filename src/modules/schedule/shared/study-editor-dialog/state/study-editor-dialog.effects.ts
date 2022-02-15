@@ -48,6 +48,20 @@ export class StudyEditorDialogEffects extends BaseComponent {
     );
   });
 
+  public search$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(PageAction.search),
+      mergeMap(({ params }) => {
+        return this.scheduleService.getSchedule(params).pipe(
+          map((searchSchedule) =>
+            ApiAction.searchSuccessful({ searchSchedule })
+          ),
+          catchError(() => of(ApiAction.searchFailure()))
+        );
+      })
+    );
+  });
+
   /** CONSTRUCTOR */
   constructor(
     private readonly actions$: Actions,

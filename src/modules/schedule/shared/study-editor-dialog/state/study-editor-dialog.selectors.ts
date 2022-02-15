@@ -15,6 +15,11 @@ export const selectUpdateStatus = createSelector(
   (state) => state.updateStatus
 );
 
+export const selectSearchStatus = createSelector(
+  studyEditorDialogSelector,
+  (state) => state.searchStatus
+);
+
 export const selectRequestingChangeSchedule = createSelector(
   studyEditorDialogSelector,
   (state) => state.requestingChangeSchedule
@@ -28,4 +33,9 @@ export const selectJustRequestedSchedule = createSelector(
 export const selectChange = createSelector(
   studyEditorDialogSelector,
   (state) => state.change
+);
+
+export const selectSearchSchedule = createSelector(
+  studyEditorDialogSelector,
+  (state) => state.searchSchedule
 );

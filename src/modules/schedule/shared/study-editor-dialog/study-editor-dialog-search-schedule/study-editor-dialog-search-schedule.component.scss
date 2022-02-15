@@ -1,0 +1,16 @@
+.text {
+  &-red {
+    color: var(--tui-error-fill);
+  }
+  &-green {
+    color: var(--tui-success-fill);
+  }
+}
+
+tui-svg {
+  margin-right: 5px;
+}
+
+.duplicate {
+  padding: 8px 16px;
+}

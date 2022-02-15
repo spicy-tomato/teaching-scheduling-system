@@ -15,8 +15,10 @@ import {
 import {
   TuiButtonModule,
   TuiDataListModule,
+  TuiDropdownControllerModule,
   TuiExpandModule,
   TuiHostedDropdownModule,
+  TuiLoaderModule,
   TuiSvgModule,
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
@@ -25,6 +27,7 @@ import * as fromStudyEditorDialog from './state';
 import { EffectsModule } from '@ngrx/effects';
 import { DirectivesModule } from '@directives/directives.module';
 import { ReactiveComponentModule } from '@ngrx/component';
+import { StudyEditorDialogSearchScheduleComponent } from './study-editor-dialog-search-schedule/study-editor-dialog-search-schedule.component';
 
 const NGRX = [
   StoreModule.forFeature(
@@ -49,6 +52,8 @@ const TAIGA_UI = [
   TuiDataListModule,
   TuiButtonModule,
   TuiDropdownHoverModule,
+  TuiDropdownControllerModule,
+  TuiLoaderModule,
 ];
 
 @NgModule({
@@ -61,7 +66,10 @@ const TAIGA_UI = [
     ...TAIGA_UI,
     ...NGRX,
   ],
-  declarations: [StudyEditorDialogComponent],
+  declarations: [
+    StudyEditorDialogComponent,
+    StudyEditorDialogSearchScheduleComponent,
+  ],
   exports: [StudyEditorDialogComponent],
 })
 export class StudyEditorDialogModule {}

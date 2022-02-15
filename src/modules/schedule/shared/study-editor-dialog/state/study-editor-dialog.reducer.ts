@@ -7,11 +7,13 @@ import * as PageAction from './study-editor-dialog.page.actions';
 const initialState: StudyEditorDialogState = {
   requestStatus: EApiStatus.unknown,
   updateStatus: EApiStatus.unknown,
+  searchStatus: EApiStatus.unknown,
   requestingChangeSchedule: false,
   justRequestedSchedule: null,
   change: {
     note: '',
   },
+  searchSchedule: null,
 };
 
 export const studyEditorDialogFeatureKey = 'studyEditorDialog';
@@ -26,6 +28,10 @@ export const studyEditorDialogReducer = createReducer(
   on(PageAction.update, (state) => ({
     ...state,
     updateStatus: EApiStatus.loading,
+  })),
+  on(PageAction.search, (state) => ({
+    ...state,
+    searchStatus: EApiStatus.loading,
   })),
   on(PageAction.toggleRequestChange, (state, { open }) => ({
     ...state,
@@ -50,5 +56,14 @@ export const studyEditorDialogReducer = createReducer(
   on(ApiAction.updateFailure, (state) => ({
     ...state,
     updateStatus: EApiStatus.systemError,
+  })),
+  on(ApiAction.searchSuccessful, (state, { searchSchedule }) => ({
+    ...state,
+    searchStatus: EApiStatus.successful,
+    searchSchedule,
+  })),
+  on(ApiAction.searchFailure, (state) => ({
+    ...state,
+    searchStatus: EApiStatus.systemError,
   }))
 );

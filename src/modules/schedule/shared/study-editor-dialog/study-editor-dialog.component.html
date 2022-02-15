@@ -56,6 +56,7 @@
     <h3 class="tui-form__header">Yêu cầu thay đổi lịch giảng</h3>
     <div [tuiTextfieldCleaner]="true" class="tui-form__row">
       <tui-input-date
+        (ngModelChange)="onChangeRequest()"
         [min]="firstDateAllowRequestChange | tuiDay"
         formControlName="date"
       >
@@ -64,7 +65,11 @@
       <tui-field-error formControlName="date"></tui-field-error>
     </div>
     <div class="tui-form__row">
-      <tui-select [valueContent]="shiftSelectContent" formControlName="shift">
+      <tui-select
+        (ngModelChange)="onChangeRequest()"
+        [valueContent]="shiftSelectContent"
+        formControlName="shift"
+      >
         Chọn ca học:
         <tui-data-list *tuiDataList>
           <tui-opt-group>
@@ -85,7 +90,7 @@
         <ng-template tuiDataList>
           <tui-data-list>
             <button tuiOption [value]="true">Phòng học trực tuyến</button>
-            <button tuiOption [value]="false">Học trục tiếp</button>
+            <button tuiOption [value]="false">Học trực tiếp</button>
           </tui-data-list>
         </ng-template>
       </tui-select>
@@ -98,6 +103,11 @@
         Lý do
       </tui-text-area>
       <tui-field-error formControlName="reason"></tui-field-error>
+      <div class="tui-form__row">
+        <tss-study-editor-dialog-search-schedule
+          [sameData]="form.controls['request'].errors?.sameValue"
+        ></tss-study-editor-dialog-search-schedule>
+      </div>
     </div>
   </tui-expand>
 
@@ -119,17 +129,22 @@
       </ng-container>
       <ng-template #send>
         <ng-container *ngrxLet="requestStatus$ as requestStatus">
-          <button
-            *ngIf="requestingChangeSchedule; else request"
-            [showLoader]="requestStatus === EApiStatus.loading"
-            [disabled]="form.controls['request'].invalid"
-            (click)="onSubmitChangeRequest()"
-            tuiButton
-            size="m"
-            class="tui-form__button"
-          >
-            Gửi yêu cầu
-          </button>
+          <ng-container *ngrxLet="searchStatus$ as searchStatus">
+            <button
+              *ngIf="requestingChangeSchedule; else request"
+              [showLoader]="requestStatus === EApiStatus.loading"
+              [disabled]="
+                form.controls['request'].invalid ||
+                searchStatus === EApiStatus.loading
+              "
+              (click)="submitRequestChange$.next()"
+              tuiButton
+              size="m"
+              class="tui-form__button"
+            >
+              Gửi yêu cầu
+            </button>
+          </ng-container>
         </ng-container>
       </ng-template>
       <ng-template #request>

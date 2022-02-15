@@ -1,5 +1,9 @@
 import { createAction, props } from '@ngrx/store';
-import { Note, RequestChangeSchedulePayload } from 'src/shared/models';
+import {
+  Note,
+  RequestChangeSchedulePayload,
+  SearchSchedule,
+} from 'src/shared/models';
 import { Change } from '.';
 
 export const reset = createAction(
@@ -15,6 +19,11 @@ export const request = createAction(
 export const update = createAction(
   '[Study Editor Dialog Page] Update',
   props<{ body: Note }>()
+);
+
+export const search = createAction(
+  '[Study Editor Dialog Page] Search',
+  props<{ params: SearchSchedule }>()
 );
 
 export const toggleRequestChange = createAction(

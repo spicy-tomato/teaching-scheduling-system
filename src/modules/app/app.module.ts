@@ -33,6 +33,7 @@ import { AppRoutingModule } from './app.routes';
 import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
 import { DatePipe } from '@angular/common';
 import { TokenService } from '@services/core/token.service';
+import { ConfirmModule } from '@services/dialog/confirm/confirm.module';
 
 const TAIGA_UI = [TuiRootModule, TuiDialogModule, TuiNotificationsModule];
 const NGRX = [
@@ -52,6 +53,7 @@ const NGRX = [
     HttpClientModule,
     InterceptorsModule,
     AppRoutingModule,
+    ConfirmModule,
     ...NGRX,
     ...TAIGA_UI,
   ],
