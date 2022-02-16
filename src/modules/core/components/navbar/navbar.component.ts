@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavbarConstants } from '@shared/constants';
-import { TokenService } from '@services/core/token.service';
+import { AccessTokenService } from '@services/core/access-token.service';
 import { Store } from '@ngrx/store';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
 import { Observable } from 'rxjs';
@@ -26,8 +26,8 @@ export class NavbarComponent extends BaseComponent {
   constructor(
     appShellStore: Store<fromAppShell.AppShellState>,
     private readonly router: Router,
+    private readonly accessTokenService: AccessTokenService,
     private readonly authService: AuthService,
-    private readonly tokenService: TokenService
   ) {
     super();
 
@@ -40,8 +40,8 @@ export class NavbarComponent extends BaseComponent {
   public onClickDropDownItem(action: string): void {
     this.openDropDown = false;
     if (action === NavbarConstants.keys.LOG_OUT) {
+      this.accessTokenService.clear();
       this.authService.logOut().subscribe();
-      this.tokenService.clear();
       void this.router.navigate(['/login']);
     }
   }

@@ -1,6 +1,6 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { of } from 'rxjs';
@@ -14,19 +14,26 @@ import {
   TuiNotificationsModule,
   TuiRootModule,
 } from '@taiga-ui/core';
-import { TUI_DIALOG_CLOSES_ON_BACK, TUI_SANITIZER } from '@taiga-ui/cdk';
+import { TUI_SANITIZER } from '@taiga-ui/cdk';
 import { TUI_LANGUAGE, TUI_VIETNAMESE_LANGUAGE } from '@taiga-ui/i18n';
 import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
 
 import { environment } from '@environments/environment';
 import { AppSettingsService } from '@services/core/app-settings.service';
-import { loadAppSettings } from '@shared/factories';
+import {
+  loadAppSettings,
+  maxLengthFactory,
+  requiredFactory,
+  notContainValueFactory,
+  beforeTodayFactory,
+} from '@shared/factories';
 import { InterceptorsModule } from 'src/shared/interceptors/interceptors.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routes';
-import { HeaderInterceptor } from 'src/shared/interceptors/header.interceptor';
 import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
-import { maxLengthFactory, requiredFactory } from '@shared/factories';
+import { DatePipe } from '@angular/common';
+import { TokenService } from '@services/core/token.service';
+import { ConfirmModule } from '@services/dialog/confirm/confirm.module';
 
 const TAIGA_UI = [TuiRootModule, TuiDialogModule, TuiNotificationsModule];
 const NGRX = [
@@ -46,10 +53,15 @@ const NGRX = [
     HttpClientModule,
     InterceptorsModule,
     AppRoutingModule,
+    ConfirmModule,
     ...NGRX,
     ...TAIGA_UI,
   ],
   providers: [
+    {
+      provide: TokenService.DATE_PIPE_TOKEN,
+      useClass: DatePipe,
+    },
     {
       provide: APP_INITIALIZER,
       useFactory: loadAppSettings,
@@ -57,17 +69,8 @@ const NGRX = [
       deps: [AppSettingsService],
     },
     {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HeaderInterceptor,
-      multi: true,
-    },
-    {
       provide: TUI_LANGUAGE,
       useValue: of(TUI_VIETNAMESE_LANGUAGE),
-    },
-    {
-      provide: TUI_DIALOG_CLOSES_ON_BACK,
-      useValue: of(false),
     },
     {
       provide: TUI_SANITIZER,
@@ -78,6 +81,8 @@ const NGRX = [
       useValue: {
         maxlength: maxLengthFactory,
         required: requiredFactory,
+        notContainValue: notContainValueFactory,
+        beforeToday: beforeTodayFactory,
       },
     },
   ],

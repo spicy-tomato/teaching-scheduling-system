@@ -1,0 +1,55 @@
+<div
+  *ngrxLet="options$ as options"
+  tuiTextfieldSize="s"
+  class="wrapper w-full d-flex align-items-center"
+>
+  <tui-select
+    [ngModel]="options.selectedStatus"
+    [valueContent]="selectTemplate"
+    (ngModelChange)="changeOptions({ selectedStatus: $event })"
+  >
+    Trạng thái
+    <ng-template tuiDataList>
+      <tui-data-list>
+        <tui-opt-group>
+          <button tuiOption [value]="null" size="xs">Tất cả</button>
+        </tui-opt-group>
+        <tui-opt-group tuiMultiSelectGroup>
+          <ng-container *ngFor="let status of statusArray">
+            <button
+              tuiOption
+              *tssPermission="status.value.feature"
+              [value]="status.id"
+              size="xs"
+            >
+              {{ status.value.name }}
+            </button>
+          </ng-container>
+        </tui-opt-group>
+      </tui-data-list>
+    </ng-template>
+  </tui-select>
+  <tui-checkbox-labeled
+    [ngModel]="options.showTimeInsteadOfShift"
+    (ngModelChange)="changeOptions({ showTimeInsteadOfShift: $event })"
+  >
+    Hiển thị thời gian thay cho ca
+  </tui-checkbox-labeled>
+  <tui-checkbox-labeled
+    [ngModel]="options.showTime"
+    (ngModelChange)="changeOptions({ showTime: $event })"
+  >
+    Hiển thị giờ
+  </tui-checkbox-labeled>
+  <tui-checkbox-labeled
+    *ngIf="personal"
+    [ngModel]="options.showReason"
+    (ngModelChange)="changeOptions({ showReason: $event })"
+  >
+    Hiển thị lý do
+  </tui-checkbox-labeled>
+</div>
+
+<ng-template #selectTemplate let-status>
+  {{ statusList[status].name }}
+</ng-template>

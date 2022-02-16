@@ -40,11 +40,10 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { ExamEditorDialogComponent } from '../shared/exam-editor-dialog/exam-editor-dialog.component';
 import { EApiStatus } from '@shared/enums';
 import { StudyEditorDialogComponent } from '../shared/study-editor-dialog/study-editor-dialog.component';
-import { EjsScheduleModel } from 'src/shared/models';
-import { ScheduleHelper, DateHelper } from '@shared/helpers';
+import { EjsScheduleModel, ChangedScheduleModel } from 'src/shared/models';
+import { ScheduleHelper, DateHelper, ObservableHelper } from '@shared/helpers';
 
 loadCldr(numberingSystems, gregorian, numbers, timeZoneNames);
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
 L10n.load({ vi: EJS_LOCALE.vi });
 setCulture('vi');
 
@@ -114,6 +113,8 @@ export class TssScheduleComponent
   }
 
   public onPopupOpen(args: PopupOpenEventArgs): void {
+    if (!args.data) return;
+
     if (args.type === 'Editor') {
       args.cancel = true;
       this.showEditorDialog(args.data as EjsScheduleModel);
@@ -204,8 +205,8 @@ export class TssScheduleComponent
       .subscribe();
   }
 
-  private showEditorDialog(data?: EjsScheduleModel): void {
-    switch (data?.Type) {
+  private showEditorDialog(data: EjsScheduleModel): void {
+    switch (data.Type) {
       case 'exam':
         this.showExamEditorDialog(data);
         break;
@@ -215,7 +216,7 @@ export class TssScheduleComponent
     }
   }
 
-  private showExamEditorDialog(data?: EjsScheduleModel): void {
+  private showExamEditorDialog(data: EjsScheduleModel): void {
     this.dialogService
       .open<string | undefined>(
         new PolymorpheusComponent(ExamEditorDialogComponent, this.injector),
@@ -226,19 +227,18 @@ export class TssScheduleComponent
         }
       )
       .pipe(
+        ObservableHelper.filterUndefined(),
         tap((note) => {
-          if (note !== undefined) {
-            const newData = { ...data, Note: note };
-            this.scheduleComponent.saveEvent(newData);
-          }
+          const newData: EjsScheduleModel = { ...data, Note: note };
+          this.scheduleComponent.saveEvent(newData);
         })
       )
       .subscribe();
   }
 
-  private showStudyEditorDialog(data?: EjsScheduleModel): void {
+  private showStudyEditorDialog(data: EjsScheduleModel): void {
     this.dialogService
-      .open<string | undefined>(
+      .open<ChangedScheduleModel | undefined>(
         new PolymorpheusComponent(StudyEditorDialogComponent, this.injector),
         {
           data,
@@ -247,11 +247,18 @@ export class TssScheduleComponent
         }
       )
       .pipe(
-        tap((note) => {
-          if (note !== undefined) {
-            const newData = { ...data, Note: note };
-            this.scheduleComponent.saveEvent(newData);
+        ObservableHelper.filterNullish(),
+        tap((newRequestData) => {
+          const newData: EjsScheduleModel = {
+            ...data,
+          };
+          if (newRequestData.to) {
+            newData.To = newRequestData.to;
           }
+          if (newRequestData.note) {
+            newData.Note = newRequestData.note;
+          }
+          this.scheduleComponent.saveEvent(newData);
         })
       )
       .subscribe();

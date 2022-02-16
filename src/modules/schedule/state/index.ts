@@ -15,6 +15,7 @@ export {
   selectMonth,
   selectView,
   selectStatus,
+  selectRanges,
   selectFilter,
   selectTeachers,
   selectModules,

@@ -1,0 +1,27 @@
+tr {
+  &:nth-child(2) {
+    top: 2.75rem;
+    th {
+      top: 2.75rem;
+    }
+  }
+  th {
+    text-align: center;
+    &.border {
+      border-left: none;
+    }
+
+    tui-toggle {
+      margin-left: 0.5rem;
+    }
+  }
+  td {
+    .reason {
+      width: 250px;
+      white-space: normal;
+    }
+    ::ng-deep .wrapper {
+      white-space: nowrap;
+    }
+  }
+}

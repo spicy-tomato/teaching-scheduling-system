@@ -1,3 +1,8 @@
+import {
+  FixedScheduleModel,
+  SimpleFixedScheduleModel,
+} from './fixed-schedule.model';
+
 export interface EjsScheduleModel {
   /**
    * Assigns a unique ID value to each of the events.
@@ -70,4 +75,15 @@ export interface EjsScheduleModel {
    * Color of event
    */
   Color?: string;
+
+  /**
+   * Color of event
+   */
+  Shift?: string;
+
+  /**
+   * Fixed schedule
+   */
+  From?: SimpleFixedScheduleModel | FixedScheduleModel;
+  To?: SimpleFixedScheduleModel | FixedScheduleModel;
 }

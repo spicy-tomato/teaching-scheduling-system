@@ -1,5 +1,5 @@
 import { View } from '@syncfusion/ej2-angular-schedule';
-import { TuiMonth } from '@taiga-ui/cdk';
+import { TuiDayRange, TuiMonth } from '@taiga-ui/cdk';
 import { EApiStatus } from '@shared/enums';
 import {
   Activatable,
@@ -15,10 +15,12 @@ export interface ScheduleState {
     personal: {
       study: StudyScheduleModel[];
       exam: ExamScheduleModel[];
+      ranges: TuiDayRange[];
     };
     department: {
       study: StudyScheduleModel[];
       exam: ExamScheduleModel[];
+      ranges: TuiDayRange[];
     };
   };
   view: View;

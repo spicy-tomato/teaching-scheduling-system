@@ -58,7 +58,18 @@ export class CommonInfoService extends BaseDataService {
 
   public getDepartments(): Observable<SimpleMapModel<string, SimpleModel[]>[]> {
     return this.http.get<SimpleMapModel<string, SimpleModel[]>[]>(
-      this.url + 'departments'
+      this.url + 'faculties'
     );
+  }
+
+  public getRooms(): Observable<string[]> {
+    const cache = this.localDataService.getRooms();
+    if (cache) {
+      return of(cache);
+    }
+
+    return this.http
+      .get<string[]>(this.url + 'rooms')
+      .pipe(tap((data) => this.localDataService.setRooms(data)));
   }
 }

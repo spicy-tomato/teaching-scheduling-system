@@ -3,6 +3,7 @@ export * from './activatable.model';
 export * from './app-settings.model';
 export * from './common-info.model';
 export * from './error-map.model';
+export * from './feature.model';
 export * from './faculty.model';
 export * from './managing-class.model';
 export * from './nullable.model';

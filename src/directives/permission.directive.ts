@@ -16,12 +16,12 @@ import { combineLatest, Observable, Subject } from 'rxjs';
 })
 export class PermissionDirective extends BaseComponent {
   /** PRIVATE PROPERTIES */
-  private _tssPermission?: number;
+  private _tssPermission?: number | null;
   private permissions$: Observable<number[]>;
   private bind$ = new Subject();
 
   /** SETTER */
-  @Input() public set tssPermission(permissions: number | undefined) {
+  @Input() public set tssPermission(permissions: number | undefined | null) {
     this._tssPermission = permissions;
     this.bind$.next();
   }

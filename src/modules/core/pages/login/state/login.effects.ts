@@ -7,9 +7,9 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as PageAction from './login.page.actions';
 import * as ApiAction from './login.api.actions';
 import { AuthService } from '@services/core/auth.service';
-import { TokenService } from '@services/core/token.service';
 import { AppService } from '@services/core/app.service';
 import { ActivatedRoute } from '@angular/router';
+import { AccessTokenService } from '@services/core/access-token.service';
 
 @Injectable()
 export class LoginEffects {
@@ -24,7 +24,7 @@ export class LoginEffects {
               return ApiAction.systemError();
             }
 
-            this.tokenService.save(token);
+            this.accessTokenService.save(token);
             return ApiAction.loginSuccessful({ teacher });
           }),
           catchError(() => of(ApiAction.wrongPassword()))
@@ -57,6 +57,6 @@ export class LoginEffects {
     private readonly route: ActivatedRoute,
     private readonly appService: AppService,
     private readonly authService: AuthService,
-    private readonly tokenService: TokenService
+    private readonly accessTokenService: AccessTokenService
   ) {}
 }

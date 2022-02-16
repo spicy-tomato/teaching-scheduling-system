@@ -1,5 +1,5 @@
-import { SidebarItem } from '@shared/models';
-import { PermissionConstant } from '../core';
+import { SidebarItem } from 'src/shared/models';
+import { PermissionConstant } from '../core/permission.constant';
 
 export class SidebarConstant {
   public static items: SidebarItem[] = [
@@ -34,6 +34,11 @@ export class SidebarConstant {
       icon: 'far fa-pencil-paintbrush',
       routerLink: '/assign-schedule',
       permission: PermissionConstant.ASSIGN_SCHEDULE,
+    },
+    {
+      name: 'Thay đổi lịch',
+      icon: 'fas fa-exchange-alt',
+      routerLink: '/change-schedule',
     },
     // {
     //   name: 'Nhập file',

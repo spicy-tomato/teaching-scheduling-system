@@ -6,11 +6,7 @@ import { DateHelper } from '@shared/helpers';
 })
 export class DateTimePipe implements PipeTransform {
   public transform(from: Date, to: Date): string {
-    if (
-      from.getDate() === to.getDate() &&
-      from.getMonth() === to.getMonth() &&
-      from.getFullYear() === to.getFullYear()
-    ) {
+    if (DateHelper.sameDay(from, to)) {
       return `${from.getDate()} Tháng ${
         from.getMonth() + 1
       }, ${from.getFullYear()} 

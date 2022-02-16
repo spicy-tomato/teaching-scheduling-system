@@ -37,12 +37,16 @@ export class PermissionGuard extends BaseComponent implements CanActivate {
             permissions.some((p) => acceptPermissions.includes(p))) ??
           false;
 
-        if (!canActivate) {
-          void this.router.navigate(['/403']);
+        if (canActivate) {
+          return true;
         }
 
-        return canActivate;
-      })
+        const redirect = route.data['redirect'] as string;
+        void this.router.navigate([redirect ?? '/403']);
+
+        return false;
+      }),
+      takeUntil(this.destroy$)
     );
   }
 }

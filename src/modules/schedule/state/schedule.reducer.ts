@@ -4,6 +4,7 @@ import { EApiStatus } from '@shared/enums';
 import { ScheduleState } from '.';
 import * as ApiAction from './schedule.api.actions';
 import * as PageAction from './schedule.page.actions';
+import { ArrayHelper } from '@shared/helpers';
 
 const initialState: ScheduleState = {
   status: EApiStatus.unknown,
@@ -23,14 +24,16 @@ const initialState: ScheduleState = {
     department: {
       exam: [],
       study: [],
+      ranges: [],
     },
     personal: {
       exam: [],
       study: [],
+      ranges: [],
     },
   },
-  selectedDate: new Date(),
   view: 'Month',
+  selectedDate: new Date(),
   month: new TuiMonth(new Date().getFullYear(), new Date().getMonth()),
 };
 
@@ -43,50 +46,10 @@ export const scheduleReducer = createReducer(
     ...state,
     status: EApiStatus.loading,
   })),
-  on(PageAction.prev, (state, { oldSelectedDate }) => {
-    switch (state.view) {
-      case 'Month':
-        oldSelectedDate.setMonth(oldSelectedDate.getMonth() - 1);
-        break;
-      case 'Week':
-        oldSelectedDate.setDate(oldSelectedDate.getDate() - 7);
-        break;
-      case 'Day':
-        oldSelectedDate.setDate(oldSelectedDate.getDate() - 1);
-    }
-    return {
-      ...state,
-      selectedDate: oldSelectedDate,
-      month: new TuiMonth(
-        oldSelectedDate.getFullYear(),
-        oldSelectedDate.getMonth()
-      ),
-    };
-  }),
-  on(PageAction.next, (state, { oldSelectedDate }) => {
-    switch (state.view) {
-      case 'Month':
-        oldSelectedDate.setMonth(oldSelectedDate.getMonth() + 1);
-        break;
-      case 'Week':
-        oldSelectedDate.setDate(oldSelectedDate.getDate() + 7);
-        break;
-      case 'Day':
-        oldSelectedDate.setDate(oldSelectedDate.getDate() + 1);
-    }
-    return {
-      ...state,
-      selectedDate: oldSelectedDate,
-      month: new TuiMonth(
-        oldSelectedDate.getFullYear(),
-        oldSelectedDate.getMonth()
-      ),
-    };
-  }),
-  on(PageAction.changeMonth, (state, { month }) => ({
+  on(ApiAction.changeMonth, (state, { month, date: selectedDate }) => ({
     ...state,
     month,
-    selectedDate: new Date(month.year, month.month, new Date().getDate()),
+    selectedDate,
   })),
   on(PageAction.changeView, (state, { view }) => ({
     ...state,
@@ -109,53 +72,90 @@ export const scheduleReducer = createReducer(
       },
     },
   })),
-  on(ApiAction.loadPersonalStudySuccessful, (state, { schedules }) => {
+  on(ApiAction.prev, (state, { date }) => {
+    return {
+      ...state,
+      selectedDate: date,
+      month: new TuiMonth(date.getFullYear(), date.getMonth()),
+    };
+  }),
+  on(ApiAction.next, (state, { date }) => {
+    return {
+      ...state,
+      selectedDate: date,
+      month: new TuiMonth(date.getFullYear(), date.getMonth()),
+    };
+  }),
+  on(ApiAction.loadPersonalStudySuccessful, (state, { schedules, ranges }) => {
     return {
       ...state,
       schedules: {
         ...state.schedules,
         personal: {
           ...state.schedules.personal,
-          study: schedules,
+          ranges,
+          study: ArrayHelper.mergeWith(
+            'id',
+            state.schedules.personal.study,
+            schedules
+          ),
         },
       },
       status: EApiStatus.successful,
     };
   }),
-  on(ApiAction.loadPersonalExamSuccessful, (state, { schedules }) => {
+  on(ApiAction.loadPersonalExamSuccessful, (state, { schedules, ranges }) => {
     return {
       ...state,
       schedules: {
         ...state.schedules,
         personal: {
           ...state.schedules.personal,
-          exam: schedules,
+          ranges,
+          exam: ArrayHelper.mergeWith(
+            'id',
+            state.schedules.personal.exam,
+            schedules
+          ),
         },
       },
       status: EApiStatus.successful,
     };
   }),
-  on(ApiAction.loadDepartmentStudySuccessful, (state, { schedules }) => {
-    return {
-      ...state,
-      schedules: {
-        ...state.schedules,
-        department: {
-          ...state.schedules.personal,
-          study: schedules,
+  on(
+    ApiAction.loadDepartmentStudySuccessful,
+    (state, { schedules, ranges }) => {
+      return {
+        ...state,
+        schedules: {
+          ...state.schedules,
+          department: {
+            ...state.schedules.department,
+            ranges,
+            study: ArrayHelper.mergeWith(
+              'id',
+              state.schedules.department.study,
+              schedules
+            ),
+          },
         },
-      },
-      status: EApiStatus.successful,
-    };
-  }),
-  on(ApiAction.loadDepartmentExamSuccessful, (state, { schedules }) => {
+        status: EApiStatus.successful,
+      };
+    }
+  ),
+  on(ApiAction.loadDepartmentExamSuccessful, (state, { schedules, ranges }) => {
     return {
       ...state,
       schedules: {
         ...state.schedules,
         department: {
-          ...state.schedules.personal,
-          exam: schedules,
+          ...state.schedules.department,
+          ranges,
+          exam: ArrayHelper.mergeWith(
+            'id',
+            state.schedules.department.exam,
+            schedules
+          ),
         },
       },
       status: EApiStatus.successful,

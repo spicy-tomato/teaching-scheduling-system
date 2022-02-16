@@ -28,4 +28,32 @@ export class ArrayHelper {
   public static onlyIn<T>(a: T[], b: T[]): T[] {
     return a.filter((x) => !b.includes(x));
   }
+
+  public static mergeWith<T>(prop: string, ...arrays: T[][]): T[] {
+    let result = arrays[0];
+
+    for (let i = 1; i < arrays.length; i++) {
+      result = result.concat(
+        arrays[i].filter((x) => !result.find((y) => y[prop] === x[prop]))
+      );
+    }
+
+    return result;
+  }
+
+  public static removeAt<T>(array: T[], index: number | number[]): void {
+    if (typeof index === 'number') {
+      array.splice(index, 1);
+      return;
+    }
+
+    index.sort((a, b) => b - a);
+    for (let i = 0; i < index.length; i++) {
+      array.splice(index[i], 1);
+    }
+  }
+
+  public static insertAt<T>(array: T[], index: number, item: T): void {
+    array.splice(index, 0, item);
+  }
 }

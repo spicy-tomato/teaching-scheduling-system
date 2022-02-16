@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Nullable, SearchSchedule, SimpleModel } from 'src/shared/models';
+import { Nullable, SearchAssignSchedule, SimpleModel } from 'src/shared/models';
 
 export const reset = createAction('[Assign Schedule Page] Reset');
 
@@ -19,7 +19,7 @@ export const loadDepartment = createAction(
 
 export const filter = createAction(
   '[Assign Schedule Page] Filter',
-  props<{ dep: string; params: SearchSchedule }>()
+  props<{ dep: string; params: SearchAssignSchedule }>()
 );
 
 export const changeSelectingTeacher = createAction(

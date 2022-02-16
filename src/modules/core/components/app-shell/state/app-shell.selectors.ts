@@ -23,3 +23,8 @@ export const selectDepartment = createSelector(
   selectTeacher,
   (teacher) => teacher?.idDepartment || null
 );
+
+export const selectRooms = createSelector(
+  appShellSelector,
+  (state) => state.rooms
+);

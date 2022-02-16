@@ -15,5 +15,5 @@ export class PermissionConstant {
   public static IMPORT_DATA = 14;
   public static AUTHORIZE_PERMISSION = 15;
   public static SEE_FEEDBACK = 16;
-  public static SEE_DEPARTMENT_EXAM_SCHEDULE = 17;
+  public static SEE_DEPARTMENT_SCHEDULE = 17;
 }

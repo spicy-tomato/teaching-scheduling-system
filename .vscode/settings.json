@@ -1,7 +1,12 @@
 {
   "typescript.tsdk": "node_modules\\typescript\\lib",
   "cSpell.words": [
+    "gapi",
+    "Giay",
     "hoverable",
-    "maxlength"
+    "maxlength",
+    "openxmlformats",
+    "PHTT",
+    "QLGĐ"
   ]
 }

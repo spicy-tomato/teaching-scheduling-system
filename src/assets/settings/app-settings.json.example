@@ -1,5 +1,7 @@
 {
   "appTitle": "",
   "baseUrl": "",
-  "currentTerm": ""
+  "currentTerm": "",
+  "googleApiKey": "",
+  "googleApiClientId": ""
 }
