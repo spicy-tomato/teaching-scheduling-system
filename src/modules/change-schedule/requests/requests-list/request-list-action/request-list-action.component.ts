@@ -11,7 +11,7 @@ import * as fromAppShell from '@modules/core/components/app-shell/state';
 import { Store } from '@ngrx/store';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { map, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
-import { ChangeSchedule } from '@shared/models';
+import { ChangeSchedule, Nullable, Teacher } from '@shared/models';
 import { PermissionHelper, StringHelper } from '@shared/helpers';
 import { ExportService } from '@services/export.service';
 import { TokenService } from '@services/core/token.service';
@@ -30,6 +30,7 @@ export class RequestListActionComponent extends BaseComponent {
 
   /** PUBLIC PROPERTIES */
   public readonly permissions$: Observable<number[]>;
+  public readonly teacher$: Observable<Nullable<Teacher>>;
   public readonly export$ = new Subject();
   public readonly IconConstant = IconConstant;
 
@@ -52,6 +53,9 @@ export class RequestListActionComponent extends BaseComponent {
     this.permissions$ = appShellStore
       .select(fromAppShell.selectPermission)
       .pipe(takeUntil(this.destroy$));
+    this.teacher$ = appShellStore
+      .select(fromAppShell.selectTeacher)
+      .pipe(takeUntil(this.destroy$));
 
     this.handleExport();
   }
@@ -60,13 +64,13 @@ export class RequestListActionComponent extends BaseComponent {
   private handleExport(): void {
     this.export$
       .pipe(
-        withLatestFrom(this.permissions$),
-        map(({ 1: permissions }) => permissions),
-        tap((permissions) => {
+        withLatestFrom(this.permissions$, this.teacher$),
+        map(({ 1: permissions, 2: teacher }) => ({ permissions, teacher })),
+        tap(({ permissions, teacher }) => {
           if (PermissionHelper.getRole(permissions) === 'roomManager') {
             this.exportForRoomManager();
           } else {
-            this.exportForTeacher();
+            this.exportForTeacher(teacher);
           }
         }),
         takeUntil(this.destroy$)
@@ -96,14 +100,14 @@ export class RequestListActionComponent extends BaseComponent {
     });
   }
 
-  private exportForTeacher(): void {
+  private exportForTeacher(teacher: Nullable<Teacher>): void {
     const document = this.exportService.exportChangeScheduleRequestForTeacher(
       this.schedule
     );
 
     const commonName = 'Giay-xin-thay-doi-gio-giang';
-    const teacherName = `${commonName}_${StringHelper.toLatinText(
-      this.schedule.teacher
+    const teacherName = StringHelper.toLatinText(
+      this.schedule.teacher ?? teacher?.name
     )
       .split(' ')
       .join('-')}`;
