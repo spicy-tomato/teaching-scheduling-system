@@ -30,4 +30,8 @@ export class AuthService extends BaseDataService {
         })
       );
   }
+
+  public logOut(): Observable<void> {
+    return this.http.post<void>(this.url + 'auth/logout', {});
+  }
 }
