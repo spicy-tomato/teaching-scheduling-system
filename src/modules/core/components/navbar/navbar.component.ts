@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { Nullable, Teacher } from 'src/shared/models';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from '@modules/core/base/base.component';
+import { AuthService } from '@services/core/auth.service';
 
 @Component({
   selector: 'tss-navbar',
@@ -25,6 +26,7 @@ export class NavbarComponent extends BaseComponent {
   constructor(
     appShellStore: Store<fromAppShell.AppShellState>,
     private readonly router: Router,
+    private readonly authService: AuthService,
     private readonly tokenService: TokenService
   ) {
     super();
@@ -38,6 +40,7 @@ export class NavbarComponent extends BaseComponent {
   public onClickDropDownItem(action: string): void {
     this.openDropDown = false;
     if (action === NavbarConstants.keys.LOG_OUT) {
+      this.authService.logOut().subscribe();
       this.tokenService.clear();
       void this.router.navigate(['/login']);
     }
