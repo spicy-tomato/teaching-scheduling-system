@@ -144,7 +144,7 @@ export class ExportService {
                 }),
                 new TextRun({ break: 1 }),
                 new TextRun({
-                  text: `Lý do thay đổi: ${schedule.teacher}`,
+                  text: `Lý do thay đổi: ${schedule.reason}`,
                 }),
               ],
             }),

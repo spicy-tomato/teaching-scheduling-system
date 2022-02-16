@@ -110,7 +110,7 @@ export class RequestListActionComponent extends BaseComponent {
       this.schedule.teacher ?? teacher?.name
     )
       .split(' ')
-      .join('-')}`;
+      .join('-');
     const timeRequest =
       this.datePipe.transform(this.schedule.timeRequest, 'dd-MM-Y') ?? '';
     const fileName = `${commonName}_${teacherName}_${timeRequest}.docx`;
