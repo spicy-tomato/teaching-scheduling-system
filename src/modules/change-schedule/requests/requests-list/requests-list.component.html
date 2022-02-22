@@ -61,7 +61,7 @@
             {{ itemsPerPage * (page - 1) + i + 1 }}
           </div>
         </td>
-        <td *tuiCell="'teacher'" tuiTd>{{ item.teacher }}</td>
+        <td *tuiCell="'teacher'" tuiTd>{{ item.teacher.name }}</td>
         <td *tuiCell="'moduleClass'" tuiTd>{{ item.moduleClassName }}</td>
         <td *tuiCell="'oldDate'" tuiTd>
           <div class="text-center">

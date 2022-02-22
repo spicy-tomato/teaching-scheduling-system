@@ -85,7 +85,7 @@ export class RequestListActionComponent extends BaseComponent {
 
     const commonName = 'Giay-dang-ly-phong-hoc';
     const teacherName = `${commonName}_${StringHelper.toLatinText(
-      this.schedule.teacher
+      this.schedule.teacher.name
     )
       .split(' ')
       .join('-')}`;
@@ -107,7 +107,7 @@ export class RequestListActionComponent extends BaseComponent {
 
     const commonName = 'Giay-xin-thay-doi-gio-giang';
     const teacherName = StringHelper.toLatinText(
-      this.schedule.teacher ?? teacher?.name
+      this.schedule.teacher.name ?? teacher?.name
     )
       .split(' ')
       .join('-');

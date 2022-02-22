@@ -136,11 +136,11 @@ export class ExportService {
                 }),
                 new TextRun({ break: 1 }),
                 new TextRun({
-                  text: `Họ và tên giảng viên: ${schedule.teacher}`,
+                  text: `Họ và tên giảng viên: ${schedule.teacher.name}`,
                 }),
                 new TextRun({ break: 1 }),
                 new TextRun({
-                  text: `Bộ môn: ${schedule.teacher}`,
+                  text: `Bộ môn: ${schedule.teacher.name}`,
                 }),
                 new TextRun({ break: 1 }),
                 new TextRun({
@@ -463,7 +463,7 @@ export class ExportService {
                 }),
                 new TextRun({ break: 5 }),
                 new TextRun({
-                  text: schedule.teacher,
+                  text: schedule.teacher.name,
                 }),
               ],
             }),
@@ -551,15 +551,15 @@ export class ExportService {
                 }),
                 new TextRun({ break: 1 }),
                 new TextRun({
-                  text: `Họ và tên giảng viên: ${schedule.teacher}`,
+                  text: `Họ và tên giảng viên: ${schedule.teacher.name}`,
                 }),
                 new TextRun({ break: 1 }),
                 new TextRun({
-                  text: `Bộ môn: ${schedule.teacher}`,
+                  text: `Bộ môn: ${schedule.teacher.name}`,
                 }),
                 new TextRun({ break: 1 }),
                 new TextRun({
-                  text: `Lý do thay đổi: ${schedule.teacher}`,
+                  text: `Lý do thay đổi: ${schedule.teacher.name}`,
                 }),
               ],
             }),
@@ -877,7 +877,7 @@ export class ExportService {
                 }),
                 new TextRun({ break: 5 }),
                 new TextRun({
-                  text: schedule.teacher,
+                  text: schedule.teacher.name,
                 }),
               ],
             }),
