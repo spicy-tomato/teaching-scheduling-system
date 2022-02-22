@@ -9,8 +9,7 @@ export class StudyScheduleModel extends ScheduleModel {
   public readonly color!: string;
   public readonly moduleName!: string;
   public readonly teacher!: string;
-  public readonly from!: FixedScheduleModel;
-  public readonly to!: FixedScheduleModel;
+  public readonly fixedSchedules!: FixedScheduleModel[];
 
   constructor(
     id: number,
@@ -23,8 +22,7 @@ export class StudyScheduleModel extends ScheduleModel {
     color: string,
     moduleName: string,
     teacher: string,
-    from: FixedScheduleModel,
-    to: FixedScheduleModel
+    fixedSchedules: FixedScheduleModel[]
   ) {
     super(id, idModuleClass, name, idRoom, 'study', note, [teacher]);
 
@@ -32,8 +30,7 @@ export class StudyScheduleModel extends ScheduleModel {
     this.date = date;
     this.color = color;
     this.moduleName = moduleName;
-    this.from = from;
-    this.to = to;
+    this.fixedSchedules = fixedSchedules;
   }
 
   public static parse(obj: StudyScheduleModel): StudyScheduleModel {
@@ -48,8 +45,7 @@ export class StudyScheduleModel extends ScheduleModel {
       obj.color,
       obj.moduleName,
       obj.teacher,
-      obj.from,
-      obj.to
+      obj.fixedSchedules
     );
   }
 
@@ -69,8 +65,7 @@ export class StudyScheduleModel extends ScheduleModel {
       People: this.people,
       Color: this.color,
       Shift: this.shift,
-      From: this.from,
-      To: this.to,
+      FixedSchedules: this.fixedSchedules,
     };
   }
 }

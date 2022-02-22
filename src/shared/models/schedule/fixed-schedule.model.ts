@@ -4,6 +4,8 @@ export interface SimpleFixedScheduleModel {
   newDate: string;
   newShift: string;
   newIdRoom: Nullable<string>;
+  status: number;
+  timeRequest: Date;
 }
 
 export interface FixedScheduleModel extends SimpleFixedScheduleModel {
@@ -11,5 +13,4 @@ export interface FixedScheduleModel extends SimpleFixedScheduleModel {
   oldDate: string;
   oldIdRoom: string;
   oldShift: string;
-  status: number;
 }

@@ -3,27 +3,30 @@ import {
   ChangeDetectorRef,
   Component,
   Inject,
+  Injector,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   TuiAppearance,
   TuiDialogContext,
+  TuiDialogService,
   TuiNotification,
   TuiNotificationsService,
   TUI_BUTTON_OPTIONS,
 } from '@taiga-ui/core';
-import { DateHelper } from '@shared/helpers';
+import { DateHelper, ObservableHelper } from '@shared/helpers';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import {
   EjsScheduleModel,
   ChangedScheduleModel,
   Nullable,
-  SimpleFixedScheduleModel,
   StudyScheduleModel,
+  SimpleFixedScheduleModel,
+  FixedScheduleModel,
 } from 'src/shared/models';
 import { CoreConstant } from '@shared/constants';
 import { sameValueValidator } from 'src/shared/validators';
-import { TuiDay } from '@taiga-ui/cdk';
+import { TuiDay, TuiTime } from '@taiga-ui/cdk';
 import { sqlDateFactory } from '@shared/factories';
 import { filter, map, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { Observable, Subject } from 'rxjs';
@@ -32,6 +35,9 @@ import { BaseComponent } from '@modules/core/base/base.component';
 import * as fromStudyEditorDialog from './state';
 import { Store } from '@ngrx/store';
 import { DialogService } from '@services/dialog/dialog.service';
+import { IconConstant } from '@shared/constants/components/icon.constant';
+import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
+import { StudyHistoryDialogComponent } from './study-history-dialog/study-history-dialog.component';
 
 @Component({
   templateUrl: './study-editor-dialog.component.html',
@@ -66,8 +72,9 @@ export class StudyEditorDialogComponent extends BaseComponent {
   public readonly cancel$ = new Subject();
   public readonly submitRequestChange$ = new Subject();
 
+  public readonly IconConstant = IconConstant;
   public readonly EApiStatus = EApiStatus;
-  public readonly data: EjsScheduleModel;
+  public readonly requestedChangeSchedule: Nullable<FixedScheduleModel>;
   public readonly shiftKeys = Object.keys(CoreConstant.SHIFTS);
   public readonly noteMaxLength = 1000;
   public readonly reasonMaxLength = 500;
@@ -80,23 +87,29 @@ export class StudyEditorDialogComponent extends BaseComponent {
     return this.form.controls['request'] as FormGroup;
   }
 
+  private get idSchedule(): number {
+    return this.form.controls['id'].value as number;
+  }
+
   /** CONSTRUCTOR */
   constructor(
+    @Inject(POLYMORPHEUS_CONTEXT)
+    public readonly context: TuiDialogContext<
+      Nullable<ChangedScheduleModel>,
+      EjsScheduleModel
+    >,
     private readonly fb: FormBuilder,
     private readonly cdr: ChangeDetectorRef,
     private readonly store: Store<fromStudyEditorDialog.StudyEditorDialogState>,
     private readonly dialogService: DialogService,
-    @Inject(POLYMORPHEUS_CONTEXT)
-    private readonly context: TuiDialogContext<
-      Nullable<ChangedScheduleModel>,
-      EjsScheduleModel
-    >,
+    @Inject(TuiDialogService)
+    private readonly tuiDialogService: TuiDialogService,
+    @Inject(Injector) private readonly injector: Injector,
     @Inject(TuiNotificationsService)
     private readonly notificationsService: TuiNotificationsService
   ) {
     super();
 
-    this.data = context.data;
     this.initForm();
 
     this.requestStatus$ = store
@@ -121,13 +134,31 @@ export class StudyEditorDialogComponent extends BaseComponent {
       .select(fromStudyEditorDialog.selectSearchSchedule)
       .pipe(takeUntil(this.destroy$));
 
+    this.requestedChangeSchedule =
+      this.context.data.FixedSchedules?.find(
+        (x) => x.status === 0 || x.status === 1
+      ) || null;
+
     this.handleStatusChange();
+    this.handleJustRequestedScheduleChange();
     this.handleChange();
     this.handleSubmitRequestChange();
     this.handleCancel();
   }
 
   /** PUBLIC METHODS */
+  public onShowHistory(): void {
+    this.tuiDialogService
+      .open(
+        new PolymorpheusComponent(StudyHistoryDialogComponent, this.injector),
+        {
+          data: this.context.data.FixedSchedules || [],
+          label: 'Lịch sử thay đổi giờ giảng',
+        }
+      )
+      .subscribe();
+  }
+
   public toggleRequestArea(open: boolean): void {
     this.store.dispatch(fromStudyEditorDialog.toggleRequestChange({ open }));
   }
@@ -136,7 +167,7 @@ export class StudyEditorDialogComponent extends BaseComponent {
     const body = {
       note: (this.form.controls['change'] as FormGroup).controls['note']
         .value as string,
-      id: this.form.controls['id'].value as number,
+      id: this.idSchedule,
     };
 
     this.store.dispatch(fromStudyEditorDialog.update({ body }));
@@ -166,8 +197,10 @@ export class StudyEditorDialogComponent extends BaseComponent {
 
   /** PRIVATE METHODS */
   private initForm(): void {
-    const startDate = this.data.StartTime as Date;
-    const endDate = this.data.EndTime as Date;
+    const data = this.context.data;
+
+    const startDate = data.StartTime as Date;
+    const endDate = data.EndTime as Date;
     const today = new Date();
     const startTuiDate = startDate
       ? DateHelper.toTuiDay(startDate)
@@ -175,23 +208,23 @@ export class StudyEditorDialogComponent extends BaseComponent {
     const endTuiDate = endDate
       ? DateHelper.toTuiDay(endDate)
       : DateHelper.toTuiDay(today);
-    const room = this.data.Location;
+    const room = data.Location;
 
     const initialRequest = {
       date: startTuiDate,
-      shift: this.data.Shift ?? '1',
+      shift: data.Shift ?? '1',
       online: room === 'PHTT',
     };
 
     const initialChange = {
-      note: this.data.Note ?? '',
+      note: data.Note ?? '',
     };
 
     this.form = this.fb.group({
-      id: [this.data.Id],
-      subject: [this.data.Subject],
+      id: [data.Id],
+      subject: [data.Subject],
       location: [room],
-      people: [this.data.People?.[0]],
+      people: [data.People?.[0]],
       start: [[startTuiDate, DateHelper.beautifyTime(startDate ?? today)]],
       end: [[endTuiDate, DateHelper.beautifyTime(endDate ?? today)]],
       request: this.fb.group(
@@ -218,7 +251,7 @@ export class StudyEditorDialogComponent extends BaseComponent {
         : todayToZero;
     this.validRequestChangeSchedule =
       startDate > this.firstDateAllowRequestChange &&
-      this.data.People?.[0] === 'self';
+      data.People?.[0] === 'self';
 
     this.store.dispatch(fromStudyEditorDialog.reset({ change: initialChange }));
   }
@@ -254,15 +287,37 @@ export class StudyEditorDialogComponent extends BaseComponent {
       .subscribe();
   }
 
+  private handleJustRequestedScheduleChange(): void {
+    this.justRequestedSchedule$
+      .pipe(
+        ObservableHelper.filterNullish(),
+        tap((request) => {
+          const controls = this.form.controls;
+
+          this.context.data.FixedSchedules?.push({
+            ...request,
+            idSchedule: this.idSchedule,
+            oldDate: (
+              controls['start'].value as [TuiDay, TuiTime]
+            )[0].getFormattedDay('DMY', '-'),
+            oldIdRoom: controls['location'].value as string,
+            oldShift: this.context.data.Shift ?? '1',
+          });
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
   private handleCancel(): void {
     this.cancel$
       .pipe(
-        withLatestFrom(this.change$, this.justRequestedSchedule$),
-        map(({ 1: update, 2: request }) => ({ update, request })),
-        tap(({ update, request }) => {
+        withLatestFrom(this.change$),
+        map(({ 1: update }) => update),
+        tap((update) => {
           setTimeout(() => {
             this.context.completeWith({
-              to: request,
+              fixedSchedules: this.context.data.FixedSchedules ?? null,
               note: update.note,
             });
           });
@@ -315,7 +370,7 @@ export class StudyEditorDialogComponent extends BaseComponent {
     const request = this.requestControl;
 
     const body = {
-      idSchedule: this.form.controls['id'].value as number,
+      idSchedule: this.idSchedule,
       newIdRoom: (request.controls['online'].value as boolean) ? 'PHTT' : null,
       newShift: request.controls['shift'].value as string,
       newDate: DateHelper.toDateOnlyString(

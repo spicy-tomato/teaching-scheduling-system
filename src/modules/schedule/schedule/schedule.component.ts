@@ -243,7 +243,6 @@ export class TssScheduleComponent
         {
           data,
           dismissible: false,
-          label: 'Chi tiết lịch học',
         }
       )
       .pipe(
@@ -252,8 +251,8 @@ export class TssScheduleComponent
           const newData: EjsScheduleModel = {
             ...data,
           };
-          if (newRequestData.to) {
-            newData.To = newRequestData.to;
+          if (newRequestData.fixedSchedules) {
+            newData.FixedSchedules = newRequestData.fixedSchedules;
           }
           if (newRequestData.note) {
             newData.Note = newRequestData.note;

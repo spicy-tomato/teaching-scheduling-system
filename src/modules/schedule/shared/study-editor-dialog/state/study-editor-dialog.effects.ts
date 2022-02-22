@@ -22,6 +22,8 @@ export class StudyEditorDialogEffects extends BaseComponent {
                 newDate,
                 newShift,
                 newIdRoom,
+                status: 0,
+                timeRequest: new Date(),
               },
             });
           }),

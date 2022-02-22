@@ -1,7 +1,4 @@
-import {
-  FixedScheduleModel,
-  SimpleFixedScheduleModel,
-} from './fixed-schedule.model';
+import { FixedScheduleModel } from './fixed-schedule.model';
 
 export interface EjsScheduleModel {
   /**
@@ -84,6 +81,5 @@ export interface EjsScheduleModel {
   /**
    * Fixed schedule
    */
-  From?: SimpleFixedScheduleModel | FixedScheduleModel;
-  To?: SimpleFixedScheduleModel | FixedScheduleModel;
+  FixedSchedules?: FixedScheduleModel[];
 }
