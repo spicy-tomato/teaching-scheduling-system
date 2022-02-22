@@ -79,6 +79,19 @@ $u: 0.25rem;
   cursor: default;
 }
 
+.text-success {
+  color: var(--tui-success-fill);
+}
+.text-error {
+  color: var(--tui-error-fill);
+}
+.text-warning {
+  color: var(--tui-warning-fill);
+}
+.text-info {
+  color: var(--tui-info-fill)
+}
+
 @mixin font($size: base) {
   @if $size==xs {
     font-size: 0.75rem;
