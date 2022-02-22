@@ -160,16 +160,16 @@
       </ng-template>
     </div>
     <div class="tui-form__buttons tui-form__buttons_align_end">
-      <ng-container *ngIf="requestingChangeSchedule; else notEditing">
-        <button
-          tuiButton
-          (click)="toggleRequestArea(false)"
-          appearance="outline"
-          class="tui-form__button"
-        >
-          Hủy
-        </button>
-      </ng-container>
+      <button
+        tuiButton
+        *ngIf="requestingChangeSchedule; else notEditing"
+        (click)="toggleRequestArea(false)"
+        [disabled]="requestStatus === EApiStatus.loading"
+        appearance="outline"
+        class="tui-form__button"
+      >
+        Hủy
+      </button>
       <ng-template #notEditing>
         <ng-container *ngrxLet="updateStatus$ as updateStatus">
           <button

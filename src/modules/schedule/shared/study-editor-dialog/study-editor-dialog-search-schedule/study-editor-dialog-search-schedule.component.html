@@ -16,17 +16,23 @@
         </div>
       </ng-template>
       <ng-template #duplicate>
-        <tui-hosted-dropdown
-          tuiDropdownHover
+        <div
           *ngIf="searchSchedule && searchSchedule.length > 0; else notDuplicate"
-          [content]="duplicateScheduleContent"
-          [@fadeIn]
-          tuiDropdownAlign="left"
-          class="text-red cursor-default"
+          class="text-red"
         >
           <tui-svg src="tuiIconAlertCircleLarge"></tui-svg>
           Ca học này đã bị trùng
-        </tui-hosted-dropdown>
+          <tui-hosted-dropdown
+            tuiDropdownHover
+            [content]="duplicateScheduleContent"
+            [@fadeIn]
+            tuiDropdownAlign="left"
+          >
+            <button tuiLink [pseudo]="true" mode="negative" class="details">
+              <i>Chi tiết</i>
+            </button>
+          </tui-hosted-dropdown>
+        </div>
       </ng-template>
       <ng-template #notDuplicate>
         <div [@fadeIn] class="text-green">
