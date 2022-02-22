@@ -125,9 +125,10 @@ export class RequestListActionComponent extends BaseComponent {
   }
 
   private exportForRoomManager(): void {
-    const document = this.exportService.exportChangeScheduleRequestForTeacher(
-      this.schedule
-    );
+    const document =
+      this.exportService.exportChangeScheduleRequestForRoomManager(
+        this.schedule
+      );
 
     const commonName = 'Giay-dang-ly-phong-hoc';
     const teacherName = `${commonName}_${StringHelper.toLatinText(
@@ -148,7 +149,8 @@ export class RequestListActionComponent extends BaseComponent {
 
   private exportForTeacher(teacher: Nullable<Teacher>): void {
     const document = this.exportService.exportChangeScheduleRequestForTeacher(
-      this.schedule
+      this.schedule,
+      this.schedule.teacher.name ?? teacher?.name
     );
 
     const commonName = 'Giay-xin-thay-doi-gio-giang';

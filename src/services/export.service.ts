@@ -51,7 +51,8 @@ export class ExportService {
   }
 
   public exportChangeScheduleRequestForTeacher(
-    schedule: ChangeSchedule
+    schedule: ChangeSchedule,
+    teacherName: string
   ): Document {
     const alignment = AlignmentType.CENTER;
     const today = new Date();
@@ -136,7 +137,7 @@ export class ExportService {
                 }),
                 new TextRun({ break: 1 }),
                 new TextRun({
-                  text: `Họ và tên giảng viên: ${schedule.teacher.name}`,
+                  text: `Họ và tên giảng viên: ${teacherName}`,
                 }),
                 new TextRun({ break: 1 }),
                 new TextRun({
@@ -463,7 +464,7 @@ export class ExportService {
                 }),
                 new TextRun({ break: 5 }),
                 new TextRun({
-                  text: schedule.teacher.name,
+                  text: teacherName,
                 }),
               ],
             }),
