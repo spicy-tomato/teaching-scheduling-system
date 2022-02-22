@@ -110,6 +110,8 @@ export class StudyEditorDialogComponent extends BaseComponent {
   ) {
     super();
 
+    this.assignSubjects([this.cancel$, this.submitRequestChange$]);
+
     this.initForm();
 
     this.requestStatus$ = store

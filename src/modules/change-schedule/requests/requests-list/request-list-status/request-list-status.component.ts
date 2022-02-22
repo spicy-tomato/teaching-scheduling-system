@@ -45,9 +45,9 @@ export class RequestListStatusComponent extends BaseComponent {
   @Input() public item!: ChangeSchedule;
 
   /** PUBLIC PROPERTIES */
-  public readonly accept$ = new Subject();
   public readonly requesting$: Observable<number[]>;
   public readonly permissions$: Observable<number[]>;
+  public readonly accept$ = new Subject();
   public readonly statusList = CoreConstant.REQUEST_CHANGE_SCHEDULE_STATUS;
 
   /** CONSTRUCTOR */
@@ -58,6 +58,8 @@ export class RequestListStatusComponent extends BaseComponent {
     appShellStore: Store<fromAppShell.AppShellState>
   ) {
     super();
+
+    this.assignSubjects([this.accept$]);
 
     this.requesting$ = store
       .select(fromRequests.selectRequestQueue)

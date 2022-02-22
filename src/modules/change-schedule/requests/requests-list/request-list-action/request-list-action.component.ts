@@ -56,6 +56,8 @@ export class RequestListActionComponent extends BaseComponent {
   ) {
     super();
 
+    this.assignSubjects([this.export$, this.cancel$]);
+
     this.datePipe = injector.get(
       this.tokenService.getToken<DatePipe>('datePipe')
     );
