@@ -12,7 +12,10 @@ import {
 import { BaseDataService } from './core/base-data.service';
 import { RequestChangeSchedulePayload } from '@shared/models/schedule/request-change-schedule-payload.model';
 import { ObjectHelper, ObservableHelper } from '@shared/helpers';
-import { ChangeScheduleResponsePayload } from '@shared/models/change-schedule/change-schedule-response-payload.model';
+import {
+  ChangeScheduleCancelPayload,
+  ChangeScheduleResponsePayload,
+} from '@shared/models/change-schedule/change-schedule-response-payload.model';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -130,16 +133,22 @@ export class ScheduleService extends BaseDataService {
   public getManagerChangeScheduleRequests(
     params: ChangeScheduleSearch
   ): Observable<ChangeScheduleResponse> {
-    return this.http.get<ChangeScheduleResponse>(
-      this.url + 'fixed-schedules',
-      {
-        params: { ...params },
-      }
-    );
+    return this.http.get<ChangeScheduleResponse>(this.url + 'fixed-schedules', {
+      params: { ...params },
+    });
   }
 
   public responseChangeScheduleRequests(
     body: ChangeScheduleResponsePayload
+  ): Observable<void> {
+    return this.http.put<void>(
+      this.url + 'fixed-schedules/update',
+      ObjectHelper.toSnakeCase(body)
+    );
+  }
+
+  public cancelChangeScheduleRequests(
+    body: ChangeScheduleCancelPayload
   ): Observable<void> {
     return this.http.put<void>(
       this.url + 'fixed-schedules/update',

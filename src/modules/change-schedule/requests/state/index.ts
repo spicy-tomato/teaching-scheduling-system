@@ -5,6 +5,7 @@ export {
   accept,
   setRoom,
   deny,
+  cancel,
   changePage,
 } from './requests.page.actions';
 export { requestsReducer, requestsFeatureKey } from './requests.reducer';

@@ -36,3 +36,12 @@ export const denySuccessful = createAction(
 export const denyFailure = createAction(
   '[Change schedule - Requests API] Deny Failed'
 );
+
+export const cancelSuccessful = createAction(
+  '[Change schedule - Requests API] Cancel Successfully',
+  props<{ id: number }>()
+);
+
+export const cancelFailure = createAction(
+  '[Change schedule - Requests API] Cancel Failed'
+);

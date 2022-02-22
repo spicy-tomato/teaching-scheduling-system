@@ -158,9 +158,10 @@
           </ng-container>
         </td>
         <td *tuiCell="'actions'" tuiTd>
-          <div *ngIf="item.status > 0" class="d-flex justify-content-center">
-            <tss-request-list-action [schedule]="item"></tss-request-list-action>
-          </div>
+          <tss-request-list-action
+            [schedule]="item"
+            [canCancel]="personal"
+          ></tss-request-list-action>
         </td>
       </tr>
     </tbody>

@@ -60,6 +60,13 @@ export const requestsReducer = createReducer(
       queue: [...state.status.queue, schedule.id],
     },
   })),
+  on(PageAction.cancel, (state, { schedule }) => ({
+    ...state,
+    status: {
+      ...state.status,
+      queue: [...state.status.queue, schedule.id],
+    },
+  })),
   on(ApiAction.loadSuccessful, (state, { changeSchedulesResponse }) => {
     return {
       ...state,
@@ -143,6 +150,26 @@ export const requestsReducer = createReducer(
     };
   }),
   on(ApiAction.denyFailure, (state) => ({
+    ...state,
+    status: { ...state.status, deny: EApiStatus.systemError },
+  })),
+  on(ApiAction.cancelSuccessful, (state, { id }) => {
+    return {
+      ...state,
+      changeSchedules: state.changeSchedules.map((x) => {
+        if (x.id === id) {
+          const newObj: ChangeSchedule = { ...x, status: -3 };
+          return newObj;
+        }
+        return x;
+      }),
+      status: {
+        ...state.status,
+        queue: state.status.queue.filter((x) => x !== id),
+      },
+    };
+  }),
+  on(ApiAction.cancelFailure, (state) => ({
     ...state,
     status: { ...state.status, deny: EApiStatus.systemError },
   }))

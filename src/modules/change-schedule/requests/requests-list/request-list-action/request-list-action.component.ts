@@ -7,16 +7,18 @@ import {
 } from '@angular/core';
 import { IconConstant } from '@shared/constants/components/icon.constant';
 import { Observable, Subject } from 'rxjs';
+import * as fromRequests from '../../state';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
 import { Store } from '@ngrx/store';
 import { BaseComponent } from '@modules/core/base/base.component';
-import { map, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
+import { filter, map, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { ChangeSchedule, Nullable, Teacher } from '@shared/models';
 import { PermissionHelper, StringHelper } from '@shared/helpers';
 import { ExportService } from '@services/export.service';
 import { TokenService } from '@services/core/token.service';
 import { DatePipe } from '@angular/common';
 import { FileType } from '@shared/enums';
+import { DialogService } from '@services/dialog/dialog.service';
 
 @Component({
   selector: 'tss-request-list-action',
@@ -27,11 +29,17 @@ import { FileType } from '@shared/enums';
 export class RequestListActionComponent extends BaseComponent {
   /** INPUT */
   @Input() public schedule!: ChangeSchedule;
+  @Input() public canCancel!: boolean;
 
   /** PUBLIC PROPERTIES */
+  public readonly requesting$: Observable<number[]>;
   public readonly permissions$: Observable<number[]>;
   public readonly teacher$: Observable<Nullable<Teacher>>;
+  public readonly nameTitle$: Observable<string>;
   public readonly export$ = new Subject();
+  public readonly cancel$ = new Subject();
+
+  public showLoader = false;
   public readonly IconConstant = IconConstant;
 
   /** PRIVATE PROPERTIES */
@@ -41,6 +49,8 @@ export class RequestListActionComponent extends BaseComponent {
   constructor(
     private readonly exportService: ExportService,
     private readonly tokenService: TokenService,
+    private readonly dialogService: DialogService,
+    private readonly store: Store<fromRequests.RequestsState>,
     @Inject(Injector) injector: Injector,
     appShellStore: Store<fromAppShell.AppShellState>
   ) {
@@ -50,14 +60,21 @@ export class RequestListActionComponent extends BaseComponent {
       this.tokenService.getToken<DatePipe>('datePipe')
     );
 
+    this.requesting$ = store
+      .select(fromRequests.selectRequestQueue)
+      .pipe(takeUntil(this.destroy$));
     this.permissions$ = appShellStore
       .select(fromAppShell.selectPermission)
       .pipe(takeUntil(this.destroy$));
     this.teacher$ = appShellStore
       .select(fromAppShell.selectTeacher)
       .pipe(takeUntil(this.destroy$));
+    this.nameTitle$ = appShellStore
+      .select(fromAppShell.selectNameTitle)
+      .pipe(takeUntil(this.destroy$));
 
     this.handleExport();
+    this.handleCancel();
   }
 
   /** PRIVATE METHODS */
@@ -72,6 +89,33 @@ export class RequestListActionComponent extends BaseComponent {
           } else {
             this.exportForTeacher(teacher);
           }
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
+  private handleCancel(): void {
+    this.cancel$
+      .pipe(
+        withLatestFrom(this.nameTitle$),
+        map(({ 1: title }) => title),
+        tap((title) => {
+          this.dialogService
+            .showConfirmDialog({
+              header: `${title} có chắc chắn muốn hủy yêu cầu này không?`,
+              positive: 'Có',
+              negative: 'Không',
+            })
+            .pipe(
+              filter((x) => x),
+              tap(() => {
+                this.store.dispatch(
+                  fromRequests.cancel({ schedule: this.schedule })
+                );
+              })
+            )
+            .subscribe();
         }),
         takeUntil(this.destroy$)
       )

@@ -198,6 +198,25 @@ export class RequestsEffects extends BaseComponent {
     );
   });
 
+  public cancel$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(PageAction.cancel),
+      mergeMap(({ schedule }) => {
+        const { id } = schedule;
+
+        return this.scheduleService
+          .cancelChangeScheduleRequests({
+            id,
+            status: -3,
+          })
+          .pipe(
+            map(() => ApiAction.cancelSuccessful({ id })),
+            catchError(() => of(ApiAction.cancelFailure()))
+          );
+      })
+    );
+  });
+
   /** CONSTRUCTOR */
   constructor(
     private readonly actions$: Actions,
