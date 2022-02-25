@@ -17,7 +17,7 @@ import * as fromSchedule from '.';
 import { ScheduleService } from '@services/schedule.service';
 import { Store } from '@ngrx/store';
 import { BaseComponent } from '@modules/core/base/base.component';
-import { Nullable, SearchSchedule } from 'src/shared/models';
+import { Nullable, SearchSchedule, SimpleModel } from 'src/shared/models';
 import { TuiDay, TuiDayRange } from '@taiga-ui/cdk';
 import {
   ArrayHelper,
@@ -37,7 +37,7 @@ export class ScheduleEffects extends BaseComponent {
     .pipe(takeUntil(this.destroy$));
 
   private readonly permissions$: Observable<number[]>;
-  private readonly department$: Observable<Nullable<string>>;
+  private readonly department$: Observable<Nullable<SimpleModel>>;
   private readonly loadDepartmentExamSubject$ = new Subject<Date>();
   private readonly loadDepartmentScheduleSubject$ = new Subject<Date>();
 
@@ -227,7 +227,7 @@ export class ScheduleEffects extends BaseComponent {
   }
 
   private commonPermissionObservable(): OperatorFunction<
-    [Date, string, number[]],
+    [Date, SimpleModel, number[]],
     {
       department: string;
       fetch: SearchSchedule;
@@ -242,7 +242,7 @@ export class ScheduleEffects extends BaseComponent {
             !!department &&
             PermissionHelper.isDepartmentHead(permissions)
         ),
-        map(([date, department]) => ({ date, department })),
+        map(([date, department]) => ({ date, department: department.id })),
         calculateRangeO(this.ranges$.pipe(map((x) => x.department)))
       );
   }

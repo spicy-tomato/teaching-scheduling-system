@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { TeacherDta } from '@shared/dtas';
+import { TeacherDataDta } from '@shared/dtas';
 import {
   ChangePassword,
   Nullable,
@@ -21,8 +21,8 @@ export class UserService extends BaseDataService {
 
   public me(): Observable<Nullable<Teacher>> {
     return this.http
-      .get<TeacherDta>(this.url + 'users')
-      .pipe(map((response) => Teacher.parse(response)));
+      .get<TeacherDataDta>(this.url + 'me')
+      .pipe(map((response) => Teacher.parse(response.data)));
   }
 
   public changePassword(body: ChangePassword): Observable<void> {

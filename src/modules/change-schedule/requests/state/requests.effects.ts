@@ -21,6 +21,7 @@ import {
   ChangeScheduleOptions,
   ChangeScheduleSearch,
   Nullable,
+  SimpleModel,
 } from '@shared/models';
 import { Store } from '@ngrx/store';
 import {
@@ -35,7 +36,7 @@ export class RequestsEffects extends BaseComponent {
   private personal!: boolean;
 
   private readonly options$: Observable<ChangeScheduleOptions>;
-  private readonly department$: Observable<Nullable<string>>;
+  private readonly department$: Observable<Nullable<SimpleModel>>;
   private readonly loadSubject$ = new Subject<ChangeScheduleSearch>();
   private readonly permissions$ = this.appShellStore
     .select(fromAppShell.selectPermission)
@@ -282,9 +283,13 @@ export class RequestsEffects extends BaseComponent {
     ])
       .pipe(
         filter(() => !this.personal),
-        mergeMap((x) => {
+        map(([department, params]) => ({
+          department: department.id,
+          params,
+        })),
+        mergeMap(({ department, params }) => {
           return this.scheduleService
-            .getDepartmentChangeScheduleRequests(...x)
+            .getDepartmentChangeScheduleRequests(department, params)
             .pipe(
               tap((changeSchedules) => {
                 this.store.dispatch(

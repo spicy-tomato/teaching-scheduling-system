@@ -21,7 +21,12 @@ export const selectPermission = createSelector(
 
 export const selectDepartment = createSelector(
   selectTeacher,
-  (teacher) => teacher?.idDepartment || null
+  (teacher) => teacher?.department || null
+);
+
+export const selectFaculty = createSelector(
+  selectTeacher,
+  (teacher) => teacher?.faculty || null
 );
 
 export const selectRooms = createSelector(

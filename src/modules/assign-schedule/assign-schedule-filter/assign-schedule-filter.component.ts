@@ -35,7 +35,6 @@ export class AssignScheduleFilterComponent
   public expanded = true;
   public form!: FormGroup;
   public currentTerm$: Observable<string>;
-  public myDepartment$: Observable<Nullable<string>>;
   public academicYears$: Observable<AcademicYear>;
   public trainingTypes$: Observable<string[]>;
   public trainingTypeChange$ = new Subject<string>();
@@ -47,6 +46,9 @@ export class AssignScheduleFilterComponent
   public readonly termsInYear = CoreConstant.TERMS_IN_YEAR;
   public readonly batchesInTerm = CoreConstant.BATCHES_IN_TERM;
   public readonly EApiStatus = EApiStatus;
+  
+  /** PRIVATE PROPERTIES */
+  private myDepartment$: Observable<Nullable<SimpleModel>>;
 
   /** GETTERS */
   public get termInYear(): Nullable<AbstractControl> {
