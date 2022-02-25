@@ -52,7 +52,8 @@ export class ExportService {
 
   public exportChangeScheduleRequestForTeacher(
     schedule: ChangeSchedule,
-    teacherName: string
+    teacherName: string,
+    department: string
   ): Document {
     const alignment = AlignmentType.CENTER;
     const today = new Date();
@@ -141,7 +142,7 @@ export class ExportService {
                 }),
                 new TextRun({ break: 1 }),
                 new TextRun({
-                  text: `Bộ môn: ${schedule.teacher.name}`,
+                  text: `Bộ môn: ${department}`,
                 }),
                 new TextRun({ break: 1 }),
                 new TextRun({

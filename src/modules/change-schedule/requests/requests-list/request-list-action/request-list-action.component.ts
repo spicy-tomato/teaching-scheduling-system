@@ -150,7 +150,8 @@ export class RequestListActionComponent extends BaseComponent {
   private exportForTeacher(teacher: Nullable<Teacher>): void {
     const document = this.exportService.exportChangeScheduleRequestForTeacher(
       this.schedule,
-      this.schedule.teacher.name ?? teacher?.name
+      this.schedule.teacher.name ?? teacher?.name,
+      teacher?.department.name || ''
     );
 
     const commonName = 'Giay-xin-thay-doi-gio-giang';
