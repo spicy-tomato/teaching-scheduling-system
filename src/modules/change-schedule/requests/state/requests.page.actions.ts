@@ -37,7 +37,7 @@ export const deny = createAction(
 
 export const cancel = createAction(
   '[Change schedule - Requests Page] Cancel',
-  props<{ schedule: ChangeSchedule }>()
+  props<{ id: number }>()
 );
 
 export const changePage = createAction(

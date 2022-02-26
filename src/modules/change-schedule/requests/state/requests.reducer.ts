@@ -60,11 +60,11 @@ export const requestsReducer = createReducer(
       queue: [...state.status.queue, schedule.id],
     },
   })),
-  on(PageAction.cancel, (state, { schedule }) => ({
+  on(PageAction.cancel, (state, { id }) => ({
     ...state,
     status: {
       ...state.status,
-      queue: [...state.status.queue, schedule.id],
+      queue: [...state.status.queue, id],
     },
   })),
   on(ApiAction.loadSuccessful, (state, { changeSchedulesResponse }) => {

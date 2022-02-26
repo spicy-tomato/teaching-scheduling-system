@@ -190,9 +190,7 @@ export class RequestsEffects extends BaseComponent {
   public cancel$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.cancel),
-      mergeMap(({ schedule }) => {
-        const { id } = schedule;
-
+      mergeMap(({ id }) => {
         return this.scheduleService
           .cancelChangeScheduleRequests({
             id,

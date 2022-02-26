@@ -113,7 +113,7 @@ export class RequestListActionComponent extends BaseComponent {
               filter((x) => x),
               tap(() => {
                 this.store.dispatch(
-                  fromRequests.cancel({ schedule: this.schedule })
+                  fromRequests.cancel({ id: this.schedule.id })
                 );
               })
             )
