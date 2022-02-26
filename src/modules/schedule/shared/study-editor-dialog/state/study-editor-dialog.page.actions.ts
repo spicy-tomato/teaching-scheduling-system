@@ -26,6 +26,11 @@ export const search = createAction(
   props<{ params: SearchSchedule }>()
 );
 
+export const cancel = createAction(
+  '[Study Editor Dialog Page] Cancel',
+  props<{ id: number }>()
+);
+
 export const toggleRequestChange = createAction(
   '[Study Editor Dialog Page] Toggle Request Change',
   props<{ open: boolean }>()

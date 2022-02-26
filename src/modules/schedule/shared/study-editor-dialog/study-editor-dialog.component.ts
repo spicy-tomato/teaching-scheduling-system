@@ -28,11 +28,19 @@ import { CoreConstant } from '@shared/constants';
 import { sameValueValidator } from 'src/shared/validators';
 import { TuiDay, TuiTime } from '@taiga-ui/cdk';
 import { sqlDateFactory } from '@shared/factories';
-import { filter, map, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
-import { Observable, Subject } from 'rxjs';
+import {
+  filter,
+  map,
+  mergeMap,
+  takeUntil,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
+import { iif, Observable, of, Subject } from 'rxjs';
 import { EApiStatus } from '@shared/enums';
 import { BaseComponent } from '@modules/core/base/base.component';
 import * as fromStudyEditorDialog from './state';
+import * as fromAppShell from '@modules/core/components/app-shell/state';
 import { Store } from '@ngrx/store';
 import { DialogService } from '@services/dialog/dialog.service';
 import { IconConstant } from '@shared/constants/components/icon.constant';
@@ -59,10 +67,12 @@ export class StudyEditorDialogComponent extends BaseComponent {
   public form!: FormGroup;
   public validRequestChangeSchedule!: boolean;
   public firstDateAllowRequestChange!: Date;
+  public requestedChangeSchedule: Nullable<FixedScheduleModel>;
 
   public readonly requestStatus$: Observable<EApiStatus>;
   public readonly updateStatus$: Observable<EApiStatus>;
   public readonly searchStatus$: Observable<EApiStatus>;
+  public readonly cancelStatus$: Observable<EApiStatus>;
   public readonly requestingChangeSchedule$: Observable<boolean>;
   public readonly justRequestedSchedule$: Observable<
     Nullable<SimpleFixedScheduleModel>
@@ -70,17 +80,18 @@ export class StudyEditorDialogComponent extends BaseComponent {
   public readonly searchSchedule$: Observable<Nullable<StudyScheduleModel[]>>;
 
   public readonly cancel$ = new Subject();
+  public readonly cancelRequest$ = new Subject();
   public readonly submitRequestChange$ = new Subject();
 
   public readonly IconConstant = IconConstant;
   public readonly EApiStatus = EApiStatus;
-  public readonly requestedChangeSchedule: Nullable<FixedScheduleModel>;
   public readonly shiftKeys = Object.keys(CoreConstant.SHIFTS);
   public readonly noteMaxLength = 1000;
   public readonly reasonMaxLength = 500;
 
   /** PRIVATE PROPERTIES */
   private readonly change$: Observable<fromStudyEditorDialog.Change>;
+  private readonly nameTitle$: Observable<string>;
 
   /** GETTERS */
   private get requestControl(): FormGroup {
@@ -106,11 +117,16 @@ export class StudyEditorDialogComponent extends BaseComponent {
     private readonly tuiDialogService: TuiDialogService,
     @Inject(Injector) private readonly injector: Injector,
     @Inject(TuiNotificationsService)
-    private readonly notificationsService: TuiNotificationsService
+    private readonly notificationsService: TuiNotificationsService,
+    appShellStore: Store<fromAppShell.AppShellState>
   ) {
     super();
 
-    this.assignSubjects([this.cancel$, this.submitRequestChange$]);
+    this.assignSubjects([
+      this.cancel$,
+      this.cancelRequest$,
+      this.submitRequestChange$,
+    ]);
 
     this.initForm();
 
@@ -122,6 +138,9 @@ export class StudyEditorDialogComponent extends BaseComponent {
       .pipe(takeUntil(this.destroy$));
     this.searchStatus$ = store
       .select(fromStudyEditorDialog.selectSearchStatus)
+      .pipe(takeUntil(this.destroy$));
+    this.cancelStatus$ = store
+      .select(fromStudyEditorDialog.selectCancelStatus)
       .pipe(takeUntil(this.destroy$));
     this.requestingChangeSchedule$ = store
       .select(fromStudyEditorDialog.selectRequestingChangeSchedule)
@@ -135,17 +154,21 @@ export class StudyEditorDialogComponent extends BaseComponent {
     this.searchSchedule$ = store
       .select(fromStudyEditorDialog.selectSearchSchedule)
       .pipe(takeUntil(this.destroy$));
-
-    this.requestedChangeSchedule =
-      this.context.data.FixedSchedules?.find(
-        (x) => x.status === 0 || x.status === 1
-      ) || null;
+    this.nameTitle$ = appShellStore
+      .select(fromAppShell.selectNameTitle)
+      .pipe(takeUntil(this.destroy$));
 
     this.handleStatusChange();
     this.handleJustRequestedScheduleChange();
     this.handleChange();
     this.handleSubmitRequestChange();
     this.handleCancel();
+    this.handleCancelRequest();
+
+    this.requestedChangeSchedule =
+      this.context.data.FixedSchedules?.find(
+        (x) => x.status === 0 || x.status === 1
+      ) || null;
   }
 
   /** PUBLIC METHODS */
@@ -270,7 +293,8 @@ export class StudyEditorDialogComponent extends BaseComponent {
               this.showNotificationError();
               break;
           }
-        })
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe();
     this.requestStatus$
@@ -284,7 +308,19 @@ export class StudyEditorDialogComponent extends BaseComponent {
               this.showNotificationError();
               break;
           }
-        })
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+    this.cancelStatus$
+      .pipe(
+        filter((status) => status === EApiStatus.successful),
+        tap(() => {
+          this.context.data.FixedSchedules =
+            this.context.data.FixedSchedules?.filter((x) => !x.isNew);
+          this.requestedChangeSchedule = null;
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe();
   }
@@ -292,20 +328,28 @@ export class StudyEditorDialogComponent extends BaseComponent {
   private handleJustRequestedScheduleChange(): void {
     this.justRequestedSchedule$
       .pipe(
-        ObservableHelper.filterNullish(),
-        tap((request) => {
-          const controls = this.form.controls;
+        mergeMap((request) =>
+          iif(
+            () => request !== null,
+            of(request).pipe(
+              ObservableHelper.filterNullish(),
+              tap((request) => {
+                const controls = this.form.controls;
 
-          this.context.data.FixedSchedules?.push({
-            ...request,
-            idSchedule: this.idSchedule,
-            oldDate: (
-              controls['start'].value as [TuiDay, TuiTime]
-            )[0].getFormattedDay('DMY', '-'),
-            oldIdRoom: controls['location'].value as string,
-            oldShift: this.context.data.Shift ?? '1',
-          });
-        }),
+                this.context.data.FixedSchedules?.push({
+                  ...request,
+                  idSchedule: this.idSchedule,
+                  oldDate: (
+                    controls['start'].value as [TuiDay, TuiTime]
+                  )[0].getFormattedDay('YMD', '-'),
+                  oldIdRoom: controls['location'].value as string,
+                  oldShift: this.context.data.Shift ?? '1',
+                  isNew: true,
+                });
+              })
+            )
+          )
+        ),
         takeUntil(this.destroy$)
       )
       .subscribe();
@@ -323,6 +367,38 @@ export class StudyEditorDialogComponent extends BaseComponent {
               note: update.note,
             });
           });
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
+  private handleCancelRequest(): void {
+    this.cancelRequest$
+      .pipe(
+        withLatestFrom(this.nameTitle$),
+        map(({ 1: title }) => title),
+        tap((title) => {
+          this.dialogService
+            .showConfirmDialog({
+              header: `${title} có chắc chắn muốn hủy yêu cầu này không?`,
+              positive: 'Có',
+              negative: 'Không',
+            })
+            .pipe(
+              filter((x) => x),
+              map(
+                () =>
+                  this.context.data.FixedSchedules?.find(
+                    (x) => x.status === 0 || x.status === 1
+                  )?.id
+              ),
+              ObservableHelper.filterNullish(),
+              tap((id) => {
+                this.store.dispatch(fromStudyEditorDialog.cancel({ id }));
+              })
+            )
+            .subscribe();
         }),
         takeUntil(this.destroy$)
       )

@@ -3,6 +3,7 @@ export {
   request,
   update,
   search,
+  cancel,
   toggleRequestChange,
 } from './study-editor-dialog.page.actions';
 export {
@@ -15,6 +16,7 @@ export {
   selectRequestingChangeSchedule,
   selectUpdateStatus,
   selectSearchStatus,
+  selectCancelStatus,
   selectJustRequestedSchedule,
   selectChange,
   selectSearchSchedule,

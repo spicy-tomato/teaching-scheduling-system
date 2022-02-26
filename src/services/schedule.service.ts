@@ -6,6 +6,7 @@ import {
   ChangeScheduleSearch,
   ExamScheduleModel,
   Note,
+  ResponseModel,
   SearchSchedule,
   StudyScheduleModel,
 } from 'src/shared/models';
@@ -100,8 +101,8 @@ export class ScheduleService extends BaseDataService {
 
   public requestChangeSchedule(
     body: RequestChangeSchedulePayload
-  ): Observable<void> {
-    return this.http.post<void>(
+  ): Observable<ResponseModel<number>> {
+    return this.http.post<ResponseModel<number>>(
       this.url + 'fixed-schedules/create',
       ObjectHelper.toSnakeCase(body)
     );

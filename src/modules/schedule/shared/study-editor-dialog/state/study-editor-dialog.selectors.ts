@@ -20,6 +20,11 @@ export const selectSearchStatus = createSelector(
   (state) => state.searchStatus
 );
 
+export const selectCancelStatus = createSelector(
+  studyEditorDialogSelector,
+  (state) => state.cancelStatus
+);
+
 export const selectRequestingChangeSchedule = createSelector(
   studyEditorDialogSelector,
   (state) => state.requestingChangeSchedule

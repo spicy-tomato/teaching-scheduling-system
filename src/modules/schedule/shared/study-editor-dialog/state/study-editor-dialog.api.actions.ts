@@ -30,3 +30,11 @@ export const searchSuccessful = createAction(
 export const searchFailure = createAction(
   '[Study Editor Dialog API] Search Failed'
 );
+
+export const cancelSuccessful = createAction(
+  '[Study Editor Dialog API] Cancel Successfully'
+);
+
+export const cancelFailure = createAction(
+  '[Study Editor Dialog API] Cancel Failed'
+);

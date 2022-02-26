@@ -13,6 +13,7 @@ export interface StudyEditorDialogState {
   requestStatus: EApiStatus;
   updateStatus: EApiStatus;
   searchStatus: EApiStatus;
+  cancelStatus: EApiStatus;
   requestingChangeSchedule: boolean;
   justRequestedSchedule: Nullable<SimpleFixedScheduleModel>;
   change: Change;

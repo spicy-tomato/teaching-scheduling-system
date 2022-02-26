@@ -62,12 +62,29 @@
       *tssVar="justRequestedSchedule || requestedChangeSchedule as schedule"
     >
       <div *ngIf="schedule" class="tui-form__row">
-        <tui-notification status="info">
-          Ca học này đang được yêu cầu chuyển tới ca {{ schedule.newShift }},
-          ngày
-          {{ schedule.newDate | date: "dd-MM-Y" }}
-          {{ schedule.newIdRoom ? "tại " + schedule.newIdRoom : "" }}
-        </tui-notification>
+        <ng-container *ngrxLet="cancelStatus$ as cancelStatus">
+          <tui-loader
+            [showLoader]="cancelStatus === EApiStatus.loading"
+            [overlay]="true"
+          >
+            <tui-notification status="info">
+              Ca học này đang được yêu cầu chuyển tới ca
+              {{ schedule.newShift }}, ngày
+              {{ schedule.newDate | date: "dd-MM-Y" }}
+              {{ schedule.newIdRoom ? "tại " + schedule.newIdRoom : "" }}
+              <br />
+              <button
+                tuiButton
+                (click)="cancelRequest$.next()"
+                appearance="accent"
+                size="xs"
+                class="cancel-request"
+              >
+                Hủy yêu cầu này
+              </button>
+            </tui-notification>
+          </tui-loader>
+        </ng-container>
       </div>
     </ng-container>
   </ng-container>

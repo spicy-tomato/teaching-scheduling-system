@@ -5,20 +5,20 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as PageAction from './study-editor-dialog.page.actions';
 import * as ApiAction from './study-editor-dialog.api.actions';
 import { ScheduleService } from '@services/schedule.service';
-import { BaseComponent } from '@modules/core/base/base.component';
 
 @Injectable()
-export class StudyEditorDialogEffects extends BaseComponent {
+export class StudyEditorDialogEffects {
   /** EFFECTS */
   public request$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.request),
       mergeMap(({ body }) => {
         return this.scheduleService.requestChangeSchedule(body).pipe(
-          map(() => {
+          map((response) => {
             const { newDate, newShift, newIdRoom } = body;
             return ApiAction.requestSuccessful({
               justRequestedSchedule: {
+                id: response.data,
                 newDate,
                 newShift,
                 newIdRoom,
@@ -64,11 +64,26 @@ export class StudyEditorDialogEffects extends BaseComponent {
     );
   });
 
+  public cancel$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(PageAction.cancel),
+      mergeMap(({ id }) => {
+        return this.scheduleService
+          .cancelChangeScheduleRequests({
+            id,
+            status: -3,
+          })
+          .pipe(
+            map(() => ApiAction.cancelSuccessful()),
+            catchError(() => of(ApiAction.cancelFailure()))
+          );
+      })
+    );
+  });
+
   /** CONSTRUCTOR */
   constructor(
     private readonly actions$: Actions,
     private readonly scheduleService: ScheduleService
-  ) {
-    super();
-  }
+  ) {}
 }

@@ -8,6 +8,7 @@ const initialState: StudyEditorDialogState = {
   requestStatus: EApiStatus.unknown,
   updateStatus: EApiStatus.unknown,
   searchStatus: EApiStatus.unknown,
+  cancelStatus: EApiStatus.unknown,
   requestingChangeSchedule: false,
   justRequestedSchedule: null,
   change: {
@@ -32,6 +33,10 @@ export const studyEditorDialogReducer = createReducer(
   on(PageAction.search, (state) => ({
     ...state,
     searchStatus: EApiStatus.loading,
+  })),
+  on(PageAction.cancel, (state) => ({
+    ...state,
+    cancelStatus: EApiStatus.loading,
   })),
   on(PageAction.toggleRequestChange, (state, { open }) => ({
     ...state,
@@ -65,5 +70,14 @@ export const studyEditorDialogReducer = createReducer(
   on(ApiAction.searchFailure, (state) => ({
     ...state,
     searchStatus: EApiStatus.systemError,
+  })),
+  on(ApiAction.cancelSuccessful, (state) => ({
+    ...state,
+    justRequestedSchedule: null,
+    cancelStatus: EApiStatus.successful,
+  })),
+  on(ApiAction.cancelFailure, (state) => ({
+    ...state,
+    cancelStatus: EApiStatus.systemError,
   }))
 );
