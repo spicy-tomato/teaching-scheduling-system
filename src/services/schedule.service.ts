@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
+  ChangeSchedulePayload,
   ChangeScheduleResponse,
   ChangeScheduleSearch,
   ExamScheduleModel,
@@ -100,6 +101,13 @@ export class ScheduleService extends BaseDataService {
 
   public updateStudyNote(body: Note): Observable<void> {
     return this.http.patch<void>(this.url + 'schedules/update', body);
+  }
+
+  public changeSchedule(body: ChangeSchedulePayload): Observable<void> {
+    return this.http.patch<void>(
+      this.url + 'schedules/update',
+      ObjectHelper.toSnakeCase(body)
+    );
   }
 
   public requestChangeSchedule(

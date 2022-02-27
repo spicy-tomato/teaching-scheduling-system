@@ -23,6 +23,9 @@ import {
   StudyScheduleModel,
   SimpleFixedScheduleModel,
   FixedScheduleModel,
+  ChangeSchedulePayload,
+  RequestChangeSchedulePayload,
+  SimpleModel,
 } from 'src/shared/models';
 import { CoreConstant } from '@shared/constants';
 import { sameValueValidator } from 'src/shared/validators';
@@ -65,10 +68,12 @@ import { StudyHistoryDialogComponent } from './study-history-dialog/study-histor
 export class StudyEditorDialogComponent extends BaseComponent {
   /** PUBLIC PROPERTIES */
   public form!: FormGroup;
+  public isPersonal!: boolean;
   public validRequestChangeSchedule!: boolean;
   public firstDateAllowRequestChange!: Date;
   public requestedChangeSchedule: Nullable<FixedScheduleModel>;
 
+  public readonly changeStatus$: Observable<EApiStatus>;
   public readonly requestStatus$: Observable<EApiStatus>;
   public readonly updateStatus$: Observable<EApiStatus>;
   public readonly searchStatus$: Observable<EApiStatus>;
@@ -78,10 +83,12 @@ export class StudyEditorDialogComponent extends BaseComponent {
     Nullable<SimpleFixedScheduleModel>
   >;
   public readonly searchSchedule$: Observable<Nullable<StudyScheduleModel[]>>;
+  public readonly rooms$: Observable<string[]>;
 
   public readonly cancel$ = new Subject();
   public readonly cancelRequest$ = new Subject();
   public readonly submitRequestChange$ = new Subject();
+  public readonly submitChange$ = new Subject();
 
   public readonly IconConstant = IconConstant;
   public readonly EApiStatus = EApiStatus;
@@ -130,6 +137,9 @@ export class StudyEditorDialogComponent extends BaseComponent {
 
     this.initForm();
 
+    this.changeStatus$ = store
+      .select(fromStudyEditorDialog.selectChangeStatus)
+      .pipe(takeUntil(this.destroy$));
     this.requestStatus$ = store
       .select(fromStudyEditorDialog.selectRequestStatus)
       .pipe(takeUntil(this.destroy$));
@@ -157,11 +167,15 @@ export class StudyEditorDialogComponent extends BaseComponent {
     this.nameTitle$ = appShellStore
       .select(fromAppShell.selectNameTitle)
       .pipe(takeUntil(this.destroy$));
+    this.rooms$ = appShellStore
+      .select(fromAppShell.selectRooms)
+      .pipe(takeUntil(this.destroy$));
 
     this.handleStatusChange();
     this.handleJustRequestedScheduleChange();
     this.handleChange();
     this.handleSubmitRequestChange();
+    this.handleSubmitChange();
     this.handleCancel();
     this.handleCancelRequest();
 
@@ -235,11 +249,26 @@ export class StudyEditorDialogComponent extends BaseComponent {
       : DateHelper.toTuiDay(today);
     const room = data.Location;
 
-    const initialRequest = {
-      date: startTuiDate,
-      shift: data.Shift ?? '1',
-      online: room === 'PHTT',
-    };
+    const todayToZero = DateHelper.dateAtZero(today);
+    this.firstDateAllowRequestChange =
+      startDate < todayToZero
+        ? DateHelper.subtract(todayToZero, 3)
+        : todayToZero;
+    this.isPersonal = data.People?.[0] === 'self';
+    this.validRequestChangeSchedule =
+      startDate > this.firstDateAllowRequestChange || !this.isPersonal;
+
+    const initialRequest = this.isPersonal
+      ? {
+          date: startTuiDate,
+          shift: data.Shift ?? '1',
+          online: room === 'PHTT',
+        }
+      : {
+          date: startTuiDate,
+          shift: data.Shift ?? '1',
+          room: room,
+        };
 
     const initialChange = {
       note: data.Note ?? '',
@@ -261,9 +290,15 @@ export class StudyEditorDialogComponent extends BaseComponent {
           shift: [initialRequest.shift],
           date: [initialRequest.date, Validators.required],
           online: [initialRequest.online],
+          room: ['', this.isPersonal ? [] : [Validators.required]],
           reason: [
             '',
-            [Validators.required, Validators.maxLength(this.reasonMaxLength)],
+            this.isPersonal
+              ? [
+                  Validators.required,
+                  Validators.maxLength(this.reasonMaxLength),
+                ]
+              : [],
           ],
         },
         {
@@ -272,15 +307,6 @@ export class StudyEditorDialogComponent extends BaseComponent {
       ),
       change: this.getNewChangeControl(initialChange),
     });
-
-    const todayToZero = DateHelper.dateAtZero(today);
-    this.firstDateAllowRequestChange =
-      startDate < todayToZero
-        ? DateHelper.subtract(todayToZero, 3)
-        : todayToZero;
-    this.validRequestChangeSchedule =
-      startDate > this.firstDateAllowRequestChange &&
-      data.People?.[0] === 'self';
 
     this.store.dispatch(fromStudyEditorDialog.reset({ change: initialChange }));
   }
@@ -307,6 +333,21 @@ export class StudyEditorDialogComponent extends BaseComponent {
           switch (status) {
             case EApiStatus.successful:
               this.showNotificationRequestChangeSuccessful();
+              break;
+            case EApiStatus.systemError:
+              this.showNotificationError();
+              break;
+          }
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+    this.changeStatus$
+      .pipe(
+        tap((status) => {
+          switch (status) {
+            case EApiStatus.successful:
+              this.showNotificationUpdateSuccessful();
               break;
             case EApiStatus.systemError:
               this.showNotificationError();
@@ -435,6 +476,32 @@ export class StudyEditorDialogComponent extends BaseComponent {
       .subscribe();
   }
 
+  private handleSubmitChange(): void {
+    this.submitChange$
+      .pipe(
+        withLatestFrom(this.searchSchedule$),
+        map(({ 1: searchSchedule }) => searchSchedule),
+        tap((searchSchedule) => {
+          if (searchSchedule?.length) {
+            this.dialogService
+              .showConfirmDialog({
+                header:
+                  'Ca học này đã bị trùng lớp học phần khác. Vẫn tiếp tục?',
+              })
+              .pipe(
+                filter((confirm) => confirm),
+                tap(() => this.submitChange())
+              )
+              .subscribe();
+          } else {
+            this.submitChange();
+          }
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
   private handleChange(): void {
     this.change$
       .pipe(
@@ -451,7 +518,7 @@ export class StudyEditorDialogComponent extends BaseComponent {
   private submitChangeRequest(): void {
     const request = this.requestControl;
 
-    const body = {
+    const body: RequestChangeSchedulePayload = {
       idSchedule: this.idSchedule,
       newIdRoom: (request.controls['online'].value as boolean) ? 'PHTT' : null,
       newShift: request.controls['shift'].value as string,
@@ -463,6 +530,21 @@ export class StudyEditorDialogComponent extends BaseComponent {
     };
 
     this.store.dispatch(fromStudyEditorDialog.request({ body }));
+  }
+
+  private submitChange(): void {
+    const request = this.requestControl;
+
+    const body: ChangeSchedulePayload = {
+      id: this.idSchedule,
+      idRoom: request.controls['room'].value as string,
+      shift: request.controls['shift'].value as string,
+      date: DateHelper.toDateOnlyString(
+        (request.controls['date'].value as TuiDay).toUtcNativeDate()
+      ),
+    };
+
+    this.store.dispatch(fromStudyEditorDialog.change({ body }));
   }
 
   private showNotificationRequestChangeSuccessful(): void {

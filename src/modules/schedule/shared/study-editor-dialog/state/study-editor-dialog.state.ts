@@ -10,6 +10,7 @@ export type Change = {
 };
 
 export interface StudyEditorDialogState {
+  changeStatus: EApiStatus;
   requestStatus: EApiStatus;
   updateStatus: EApiStatus;
   searchStatus: EApiStatus;

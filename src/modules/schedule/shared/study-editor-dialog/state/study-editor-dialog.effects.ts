@@ -48,6 +48,20 @@ export class StudyEditorDialogEffects extends BaseComponent {
     );
   });
 
+  public change$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(PageAction.change),
+      mergeMap(({ body }) => {
+        return this.scheduleService.changeSchedule(body).pipe(
+          map(() => {
+            return ApiAction.changeSuccessful();
+          }),
+          catchError(() => of(ApiAction.requestFailure()))
+        );
+      })
+    );
+  });
+
   public update$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.update),

@@ -90,7 +90,9 @@
   </ng-container>
 
   <tui-expand [expanded]="requestingChangeSchedule" formGroupName="request">
-    <h3 class="tui-form__header">Yêu cầu thay đổi lịch giảng</h3>
+    <h3 class="tui-form__header">
+      {{ isPersonal ? "Yêu cầu thay đổi lịch giảng" : "Thay đổi lịch giảng" }}
+    </h3>
     <div [tuiTextfieldCleaner]="true" class="tui-form__row">
       <tui-input-date
         (ngModelChange)="onChangeRequest()"
@@ -121,7 +123,7 @@
         </tui-data-list>
       </tui-select>
     </div>
-    <div class="tui-form__row">
+    <div *ngIf="isPersonal" class="tui-form__row">
       <tui-select [valueContent]="studyTypeContent" formControlName="online">
         Chọn hình thức học:
         <ng-template tuiDataList>
@@ -132,7 +134,22 @@
         </ng-template>
       </tui-select>
     </div>
-    <div class="tui-form__row">
+    <div *ngIf="!isPersonal" class="tui-form__row">
+      <tui-combo-box
+        *ngrxLet="rooms$ as rooms"
+        formControlName="room"
+        class="tui-form__row"
+      >
+        Nhập phòng
+        <input tuiTextfield />
+        <tui-data-list-wrapper
+          *tuiDataList
+          [items]="rooms | filter: 'PTTT' | tuiFilterByInput"
+        >
+        </tui-data-list-wrapper>
+      </tui-combo-box>
+    </div>
+    <div *ngIf="isPersonal" class="tui-form__row">
       <tui-text-area
         formControlName="reason"
         [tuiTextfieldMaxLength]="reasonMaxLength"
@@ -152,76 +169,102 @@
     *ngrxLet="requestStatus$ as requestStatus"
     class="btn-group d-flex justify-content-between"
   >
-    <div
-      *ngIf="validRequestChangeSchedule"
-      class="tui-form__buttons tui-form__buttons_align_start"
-    >
-      <ng-container *ngrxLet="justRequestedSchedule$ as justRequestedSchedule">
+    <ng-container *ngrxLet="changeStatus$ as changeStatus">
+      <div
+        *ngIf="validRequestChangeSchedule"
+        class="tui-form__buttons tui-form__buttons_align_start"
+      >
         <ng-container
-          *ngIf="!requestedChangeSchedule && !justRequestedSchedule"
+          *ngrxLet="justRequestedSchedule$ as justRequestedSchedule"
         >
-          <ng-container *ngrxLet="searchStatus$ as searchStatus">
-            <button
-              *ngIf="requestingChangeSchedule; else request"
-              (click)="submitRequestChange$.next()"
-              [showLoader]="requestStatus === EApiStatus.loading"
-              [disabled]="
-                form.controls['request'].invalid ||
-                searchStatus === EApiStatus.loading
-              "
-              tuiButton
-              class="tui-form__button"
-            >
-              Gửi yêu cầu
-            </button>
+          <ng-container
+            *ngIf="!requestedChangeSchedule && !justRequestedSchedule"
+          >
+            <ng-container *ngrxLet="searchStatus$ as searchStatus">
+              <button
+                tuiButton
+                *ngIf="
+                  requestingChangeSchedule && isPersonal;
+                  else changeSchedule
+                "
+                (click)="submitRequestChange$.next()"
+                [showLoader]="requestStatus === EApiStatus.loading"
+                [disabled]="
+                  form.controls['request'].invalid ||
+                  searchStatus === EApiStatus.loading
+                "
+                class="tui-form__button"
+              >
+                Gửi yêu cầu
+              </button>
+              <ng-template #changeSchedule>
+                <button
+                  tuiButton
+                  *ngIf="requestingChangeSchedule && !isPersonal; else request"
+                  (click)="submitChange$.next()"
+                  [showLoader]="changeStatus === EApiStatus.loading"
+                  [disabled]="
+                    form.controls['request'].invalid ||
+                    searchStatus === EApiStatus.loading
+                  "
+                  class="tui-form__button"
+                >
+                  Xác nhận thay đổi
+                </button>
+              </ng-template>
+            </ng-container>
           </ng-container>
         </ng-container>
-      </ng-container>
-      <ng-template #request>
-        <button
-          tuiButton
-          *ngIf="validRequestChangeSchedule"
-          (click)="toggleRequestArea(true)"
-          appearance="secondary"
-          class="tui-form__button"
-        >
-          Yêu cầu thay đổi giờ giảng
-        </button>
-      </ng-template>
-    </div>
-    <div class="tui-form__buttons tui-form__buttons_align_end">
-      <button
-        tuiButton
-        *ngIf="requestingChangeSchedule; else notEditing"
-        (click)="toggleRequestArea(false)"
-        [disabled]="requestStatus === EApiStatus.loading"
-        appearance="outline"
-        class="tui-form__button"
-      >
-        Hủy
-      </button>
-      <ng-template #notEditing>
-        <ng-container *ngrxLet="updateStatus$ as updateStatus">
+        <ng-template #request>
           <button
             tuiButton
-            (click)="onUpdate()"
-            [showLoader]="updateStatus === EApiStatus.loading"
-            [disabled]="form.controls['change'].invalid"
+            (click)="toggleRequestArea(true)"
+            appearance="secondary"
             class="tui-form__button"
           >
-            Lưu
+            {{
+              isPersonal ? "Yêu cầu thay đổi lịch giảng" : "Thay đổi lịch giảng"
+            }}
           </button>
-        </ng-container>
+        </ng-template>
+      </div>
+      <div class="tui-form__buttons tui-form__buttons_align_end">
         <button
           tuiButton
-          (click)="cancel$.next()"
+          *ngIf="requestingChangeSchedule; else notEditing"
+          (click)="toggleRequestArea(false)"
+          [disabled]="
+            requestStatus === EApiStatus.loading ||
+            changeStatus === EApiStatus.loading
+          "
           appearance="outline"
           class="tui-form__button"
         >
-          Đóng
+          Hủy
         </button>
-      </ng-template>
-    </div>
+        <ng-template #notEditing>
+          <ng-container *ngrxLet="updateStatus$ as updateStatus">
+            <button
+              tuiButton
+              (click)="onUpdate()"
+              [showLoader]="updateStatus === EApiStatus.loading"
+              [disabled]="form.controls['change'].invalid"
+              class="tui-form__button"
+            >
+              Lưu
+            </button>
+          </ng-container>
+          <button
+            tuiButton
+            (click)="cancel$.next()"
+            appearance="outline"
+            class="tui-form__button"
+          >
+            Đóng
+          </button>
+        </ng-template>
+      </div>
+    </ng-container>
   </div>
 </form>
 
