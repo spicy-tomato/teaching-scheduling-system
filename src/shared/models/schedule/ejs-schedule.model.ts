@@ -1,3 +1,4 @@
+import { SimpleModel } from '../core/simple.model';
 import { FixedScheduleModel } from './fixed-schedule.model';
 
 export interface EjsScheduleModel {
@@ -66,7 +67,7 @@ export interface EjsScheduleModel {
   /**
    * People of event
    */
-  People?: string[];
+  People?: string[] | SimpleModel[];
 
   /**
    * Color of event

@@ -249,7 +249,11 @@ export class StudyEditorDialogComponent extends BaseComponent {
       id: [data.Id],
       subject: [data.Subject],
       location: [room],
-      people: [data.People?.[0]],
+      people: [
+        typeof data.People?.[0] === 'string'
+          ? data.People?.[0]
+          : (data.People?.[0] as SimpleModel).name,
+      ],
       start: [[startTuiDate, DateHelper.beautifyTime(startDate ?? today)]],
       end: [[endTuiDate, DateHelper.beautifyTime(endDate ?? today)]],
       request: this.fb.group(
