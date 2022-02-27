@@ -99,7 +99,7 @@ export class ScheduleService extends BaseDataService {
   }
 
   public updateStudyNote(body: Note): Observable<void> {
-    return this.http.put<void>(this.url + 'schedules/update', body);
+    return this.http.patch<void>(this.url + 'schedules/update', body);
   }
 
   public requestChangeSchedule(

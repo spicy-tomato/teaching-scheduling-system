@@ -57,7 +57,7 @@
           </div>
         </div>
         <div
-          *ngFor="let person of data.People | filterSelf"
+          *ngFor="let person of data.People | filter: 'self'"
           class="e-module-class"
         >
           <div class="mdi mdi-account"></div>
