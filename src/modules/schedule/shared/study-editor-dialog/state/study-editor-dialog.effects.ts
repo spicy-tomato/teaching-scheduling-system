@@ -1,13 +1,28 @@
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import {
+  catchError,
+  map,
+  mergeMap,
+  takeUntil,
+  withLatestFrom,
+} from 'rxjs/operators';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as PageAction from './study-editor-dialog.page.actions';
 import * as ApiAction from './study-editor-dialog.api.actions';
+import * as fromAppShell from '@modules/core/components/app-shell/state';
 import { ScheduleService } from '@services/schedule.service';
+import { Store } from '@ngrx/store';
+import { BaseComponent } from '@modules/core/base/base.component';
+import { ObservableHelper } from '@shared/helpers';
 
 @Injectable()
-export class StudyEditorDialogEffects {
+export class StudyEditorDialogEffects extends BaseComponent {
+  /** PRIVATE PROPERTIES */
+  private readonly teacher$ = this.appShellStore
+    .select(fromAppShell.selectTeacher)
+    .pipe(takeUntil(this.destroy$));
+
   /** EFFECTS */
   public request$ = createEffect(() => {
     return this.actions$.pipe(
@@ -53,8 +68,14 @@ export class StudyEditorDialogEffects {
   public search$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.search),
-      mergeMap(({ params }) => {
-        return this.scheduleService.getSchedule(params).pipe(
+      withLatestFrom(
+        this.teacher$.pipe(
+          ObservableHelper.filterNullish(),
+          map((x) => x.id)
+        )
+      ),
+      mergeMap(([{ params }, teacherId]) => {
+        return this.scheduleService.getSchedule(params, teacherId).pipe(
           map((searchSchedule) =>
             ApiAction.searchSuccessful({ searchSchedule })
           ),
@@ -84,6 +105,9 @@ export class StudyEditorDialogEffects {
   /** CONSTRUCTOR */
   constructor(
     private readonly actions$: Actions,
-    private readonly scheduleService: ScheduleService
-  ) {}
+    private readonly scheduleService: ScheduleService,
+    private readonly appShellStore: Store<fromAppShell.AppShellState>
+  ) {
+    super();
+  }
 }

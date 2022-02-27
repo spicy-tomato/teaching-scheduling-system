@@ -11,7 +11,7 @@ export class Teacher {
   public readonly email?: string;
   public readonly department!: SimpleModel;
   public readonly faculty!: SimpleModel;
-  public readonly idAccount!: number;
+  public readonly id!: string;
   public readonly name!: string;
   public readonly scheduleDataVersion!: number;
   public readonly notificationDataVersion!: number;
@@ -30,7 +30,7 @@ export class Teacher {
       universityTeacherDegree: obj.university_teacher_degree,
       department: obj.department,
       faculty: obj.faculty,
-      idAccount: obj.id_account,
+      id: obj.id,
       scheduleDataVersion: obj.schedule_data_version,
       notificationDataVersion: obj.notification_data_version,
       isFemale: !!obj.is_female,

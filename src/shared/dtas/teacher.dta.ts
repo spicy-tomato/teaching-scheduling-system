@@ -13,7 +13,7 @@ export interface TeacherDta {
   email: string;
   department: SimpleModel;
   faculty: SimpleModel;
-  id_account: number;
+  id: string;
   name: string;
   schedule_data_version: number;
   notification_data_version: number;

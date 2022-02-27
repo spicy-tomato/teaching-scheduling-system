@@ -27,9 +27,12 @@ export class ScheduleService extends BaseDataService {
     super();
   }
 
-  public getSchedule(params: SearchSchedule): Observable<StudyScheduleModel[]> {
+  public getSchedule(
+    params: SearchSchedule,
+    idTeacher: string
+  ): Observable<StudyScheduleModel[]> {
     return this.http
-      .get<StudyScheduleModel[]>(this.url + `teachers/4603/schedules`, {
+      .get<StudyScheduleModel[]>(this.url + `teachers/${idTeacher}/schedules`, {
         params: { ...params },
       })
       .pipe(
