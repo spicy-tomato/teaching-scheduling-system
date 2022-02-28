@@ -2,11 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
+  ChangeSchedule,
   ChangeSchedulePayload,
-  ChangeScheduleResponse,
   ChangeScheduleSearch,
   ExamScheduleModel,
   Note,
+  PaginationResponseModel,
   ResponseModel,
   SearchSchedule,
   StudyScheduleModel,
@@ -122,8 +123,8 @@ export class ScheduleService extends BaseDataService {
   public getDepartmentChangeScheduleRequests(
     department: string,
     params: ChangeScheduleSearch
-  ): Observable<ChangeScheduleResponse> {
-    return this.http.get<ChangeScheduleResponse>(
+  ): Observable<PaginationResponseModel<ChangeSchedule>> {
+    return this.http.get<PaginationResponseModel<ChangeSchedule>>(
       this.url + `departments/${department}/fixed-schedules`,
       {
         params: { ...params },
@@ -133,8 +134,8 @@ export class ScheduleService extends BaseDataService {
 
   public getPersonalChangeScheduleRequests(
     params: ChangeScheduleSearch
-  ): Observable<ChangeScheduleResponse> {
-    return this.http.get<ChangeScheduleResponse>(
+  ): Observable<PaginationResponseModel<ChangeSchedule>> {
+    return this.http.get<PaginationResponseModel<ChangeSchedule>>(
       this.url + 'teachers/01/fixed-schedules',
       {
         params: { ...params },
@@ -144,10 +145,13 @@ export class ScheduleService extends BaseDataService {
 
   public getManagerChangeScheduleRequests(
     params: ChangeScheduleSearch
-  ): Observable<ChangeScheduleResponse> {
-    return this.http.get<ChangeScheduleResponse>(this.url + 'fixed-schedules', {
-      params: { ...params },
-    });
+  ): Observable<PaginationResponseModel<ChangeSchedule>> {
+    return this.http.get<PaginationResponseModel<ChangeSchedule>>(
+      this.url + 'fixed-schedules',
+      {
+        params: { ...params },
+      }
+    );
   }
 
   public responseChangeScheduleRequests(

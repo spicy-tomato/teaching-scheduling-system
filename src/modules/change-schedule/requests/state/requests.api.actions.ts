@@ -1,9 +1,12 @@
 import { createAction, props } from '@ngrx/store';
-import { ChangeScheduleResponse } from '@shared/models';
+import {
+  ChangeSchedule,
+  PaginationResponseModel,
+} from '@shared/models';
 
 export const loadSuccessful = createAction(
   '[Change schedule - Requests API] Load Successfully',
-  props<{ changeSchedulesResponse: ChangeScheduleResponse }>()
+  props<{ changeSchedulesResponse: PaginationResponseModel<ChangeSchedule> }>()
 );
 
 export const loadFailure = createAction(
