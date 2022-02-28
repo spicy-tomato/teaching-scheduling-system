@@ -8,7 +8,9 @@ export class PermissionHelper {
   }
 
   public static isDepartmentHead(permissions: number[]): boolean {
-    return permissions.includes(PermissionConstant.SEE_DEPARTMENT_SCHEDULE);
+    return permissions.includes(
+      PermissionConstant.SEE_DEPARTMENT_TEACHING_SCHEDULE
+    );
   }
 
   public static isRoomManager(permissions: number[]): boolean {
