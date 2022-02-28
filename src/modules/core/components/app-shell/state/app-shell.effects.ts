@@ -17,6 +17,7 @@ export class AppShellEffects {
       ofType(PageAction.tryAutoLogin),
       mergeMap(() => {
         return this.userService.me().pipe(
+          map((response) => response.data),
           map((teacher) =>
             teacher
               ? ApiAction.autoLoginSuccessfully({ teacher })

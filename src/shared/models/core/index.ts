@@ -11,4 +11,4 @@ export * from './response.model';
 export * from './simple-map.model';
 export * from './simple.model';
 export * from './storage-timeout.model';
-export * from './teacher.model';
+export * from './teacher';
