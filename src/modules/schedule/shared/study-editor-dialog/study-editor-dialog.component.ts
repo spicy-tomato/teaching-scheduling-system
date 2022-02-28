@@ -303,7 +303,10 @@ export class StudyEditorDialogComponent extends BaseComponent {
           ],
         },
         {
-          validators: sameValueValidator(initialRequest),
+          validators: sameValueValidator(initialRequest, {
+            date: (a: Nullable<TuiDay>, b: Nullable<TuiDay>) =>
+              !!a && !!b && a.daySame(b),
+          }),
         }
       ),
       change: this.getNewChangeControl(initialChange),
@@ -635,7 +638,10 @@ export class StudyEditorDialogComponent extends BaseComponent {
         note: [value.note],
       },
       {
-        validators: sameValueValidator(value),
+        validators: sameValueValidator(value, {
+          date: (a: Nullable<TuiDay>, b: Nullable<TuiDay>) =>
+            !!a && !!b && a.daySame(b),
+        }),
       }
     );
   }
