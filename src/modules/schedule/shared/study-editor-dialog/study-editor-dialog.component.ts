@@ -291,7 +291,7 @@ export class StudyEditorDialogComponent extends BaseComponent {
           shift: [initialRequest.shift],
           date: [initialRequest.date, Validators.required],
           online: [initialRequest.online],
-          room: ['', this.isPersonal ? [] : [Validators.required]],
+          room: [room, this.isPersonal ? [] : [Validators.required]],
           reason: [
             '',
             this.isPersonal
@@ -481,14 +481,12 @@ export class StudyEditorDialogComponent extends BaseComponent {
         withLatestFrom(this.teacher$),
         map(({ 1: teacher }) => teacher),
         tap((teacher) => {
-          if (this.form.controls['request'].errors?.sameValue) {
+          if (this.requestControl.errors?.sameValue || !this.dateControlValue) {
             return;
           }
 
-          const request = this.requestControl;
-
           const date = DateHelper.toDateOnlyString(
-            (request.controls['date'].value as TuiDay).toUtcNativeDate()
+            this.dateControlValue.toUtcNativeDate()
           );
 
           this.store.dispatch(
@@ -496,7 +494,7 @@ export class StudyEditorDialogComponent extends BaseComponent {
               params: {
                 start: date,
                 end: date,
-                shift: request.controls['shift'].value as string,
+                shift: this.shiftControlValue,
               },
               teacherId:
                 (this.isPersonal
@@ -581,9 +579,9 @@ export class StudyEditorDialogComponent extends BaseComponent {
     const body: RequestChangeSchedulePayload = {
       idSchedule: this.idSchedule,
       newIdRoom: (request.controls['online'].value as boolean) ? 'PHTT' : null,
-      newShift: request.controls['shift'].value as string,
+      newShift: this.shiftControlValue,
       newDate: DateHelper.toDateOnlyString(
-        (request.controls['date'].value as TuiDay).toUtcNativeDate()
+        this.dateControlValue.toUtcNativeDate()
       ),
       reason: request.controls['reason'].value as string,
       timeRequest: sqlDateFactory(),
