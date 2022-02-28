@@ -12,7 +12,6 @@ import { Observable } from 'rxjs';
 import { distinctUntilChanged, map, takeUntil, tap } from 'rxjs/operators';
 import * as fromRequests from '../state';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
-import { PermissionHelper } from '@shared/helpers';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -89,18 +88,6 @@ export class RequestsListComponent extends BaseComponent {
     if (this.personal) {
       this.initialColumns = this.initialColumns.filter((x) => x !== 'teacher');
     }
-    this.permissions$
-      .pipe(
-        tap((permissions) => {
-          if (PermissionHelper.isRoomManager(permissions)) {
-            this.initialColumns = this.initialColumns.filter(
-              (x) => x !== 'actions'
-            );
-          }
-        }),
-        takeUntil(this.destroy$)
-      )
-      .subscribe();
   }
 
   private handleOptionsChange(): void {

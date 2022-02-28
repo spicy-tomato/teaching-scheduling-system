@@ -13,12 +13,17 @@ import { Store } from '@ngrx/store';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { filter, map, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { ChangeSchedule, Nullable, Teacher } from '@shared/models';
-import { PermissionHelper, StringHelper } from '@shared/helpers';
+import {
+  ObservableHelper,
+  PermissionHelper,
+  StringHelper,
+} from '@shared/helpers';
 import { ExportService } from '@services/export.service';
 import { TokenService } from '@services/core/token.service';
 import { DatePipe } from '@angular/common';
 import { FileType } from '@shared/enums';
 import { DialogService } from '@services/dialog/dialog.service';
+import { TeacherService } from '@services/teacher.service';
 
 @Component({
   selector: 'tss-request-list-action',
@@ -32,14 +37,14 @@ export class RequestListActionComponent extends BaseComponent {
   @Input() public canCancel!: boolean;
 
   /** PUBLIC PROPERTIES */
+  public showLoader = false;
+
   public readonly requesting$: Observable<number[]>;
   public readonly permissions$: Observable<number[]>;
   public readonly teacher$: Observable<Nullable<Teacher>>;
   public readonly nameTitle$: Observable<string>;
   public readonly export$ = new Subject();
   public readonly cancel$ = new Subject();
-
-  public showLoader = false;
   public readonly IconConstant = IconConstant;
 
   /** PRIVATE PROPERTIES */
@@ -48,6 +53,7 @@ export class RequestListActionComponent extends BaseComponent {
   /** CONSTRUCTOR */
   constructor(
     private readonly exportService: ExportService,
+    private readonly teacherService: TeacherService,
     private readonly tokenService: TokenService,
     private readonly dialogService: DialogService,
     private readonly store: Store<fromRequests.RequestsState>,
@@ -125,26 +131,40 @@ export class RequestListActionComponent extends BaseComponent {
   }
 
   private exportForRoomManager(): void {
-    const document =
-      this.exportService.exportChangeScheduleRequestForRoomManager(
-        this.schedule
-      );
+    this.teacherService
+      .getTeacherInfo(this.schedule.teacher.id)
+      .pipe(
+        ObservableHelper.filterNullish(),
+        tap((teacher) => {
+          console.log(teacher);
+          const document =
+            this.exportService.exportChangeScheduleRequestForRoomManager(
+              this.schedule,
+              teacher.department,
+              teacher.faculty
+            );
 
-    const commonName = 'Giay-dang-ly-phong-hoc';
-    const teacherName = `${commonName}_${StringHelper.toLatinText(
-      this.schedule.teacher.name
-    )
-      .split(' ')
-      .join('-')}`;
-    const time =
-      this.datePipe.transform(this.schedule.newSchedule.date, 'dd-MM-Y') ?? '';
-    const fileName = `${commonName}_${teacherName}_${time}.docx`;
+          const commonName = 'Giay-dang-ky-phong-hoc';
+          const teacherName = StringHelper.toLatinText(
+            this.schedule.teacher.name
+          )
+            .split(' ')
+            .join('-');
+          const time =
+            this.datePipe.transform(
+              this.schedule.newSchedule.date,
+              'dd-MM-Y'
+            ) ?? '';
+          const fileName = `${commonName}_${teacherName}_${time}.docx`;
 
-    this.exportService.exportBlob({
-      document,
-      name: fileName,
-      mimeType: FileType.WORD,
-    });
+          this.exportService.exportBlob({
+            document,
+            name: fileName,
+            mimeType: FileType.WORD,
+          });
+        })
+      )
+      .subscribe();
   }
 
   private exportForTeacher(teacher: Nullable<Teacher>): void {

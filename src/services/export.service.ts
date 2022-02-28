@@ -93,6 +93,7 @@ export class ExportService {
               children: [
                 new TextRun({
                   text: 'Cộng hòa xã hội chủ nghĩa Việt Nam',
+                  bold: true,
                   allCaps: true,
                 }),
                 new TextRun({ break: 1 }),
@@ -476,10 +477,15 @@ export class ExportService {
   }
 
   public exportChangeScheduleRequestForRoomManager(
-    schedule: ChangeSchedule
+    schedule: ChangeSchedule,
+    department: string,
+    faculty: string
   ): Document {
     const alignment = AlignmentType.CENTER;
     const today = new Date();
+    const spacing = {
+      after: 0,
+    };
 
     return new Document({
       styles: {
@@ -502,12 +508,11 @@ export class ExportService {
           children: [
             new Paragraph({
               alignment,
-              spacing: {
-                after: 0,
-              },
+              spacing,
               children: [
                 new TextRun({
                   text: 'Cộng hòa xã hội chủ nghĩa Việt Nam',
+                  bold: true,
                   allCaps: true,
                 }),
                 new TextRun({ break: 1 }),
@@ -530,7 +535,7 @@ export class ExportService {
               },
               children: [
                 new TextRun({
-                  text: 'Giấy xin thay đổi thời khóa biểu hoặc dạy bù',
+                  text: 'Giấy đăng ký phòng học',
                   bold: true,
                   allCaps: true,
                 }),
@@ -549,19 +554,19 @@ export class ExportService {
                   italics: true,
                 }),
                 new TextRun({
-                  text: 'Ban Quản lý Giảng đường',
+                  text: 'Điều độ - Ban Quản lý Giảng đường',
                 }),
-                new TextRun({ break: 1 }),
+                new TextRun({ break: 2 }),
                 new TextRun({
                   text: `Họ và tên giảng viên: ${schedule.teacher.name}`,
                 }),
                 new TextRun({ break: 1 }),
                 new TextRun({
-                  text: `Bộ môn: ${schedule.teacher.name}`,
+                  text: `Bộ môn: ${department}`,
                 }),
                 new TextRun({ break: 1 }),
                 new TextRun({
-                  text: `Lý do thay đổi: ${schedule.teacher.name}`,
+                  text: `Khoa: ${faculty}`,
                 }),
               ],
             }),
@@ -574,54 +579,109 @@ export class ExportService {
                 new TableRow({
                   children: [
                     new TableCell({
-                      rowSpan: 2,
                       verticalAlign: VerticalAlign.CENTER,
                       children: [
                         new Paragraph({
-                          spacing: {
-                            after: 0,
-                          },
-                          text: 'STT',
+                          children: [
+                            new TextRun({
+                              text: 'STT',
+                              bold: true,
+                            }),
+                          ],
+                          spacing,
                           alignment,
                         }),
                       ],
                     }),
                     new TableCell({
-                      rowSpan: 2,
                       verticalAlign: VerticalAlign.CENTER,
                       children: [
                         new Paragraph({
-                          spacing: {
-                            after: 0,
-                          },
-                          text: 'Lớp học phần',
+                          spacing,
+                          children: [
+                            new TextRun({
+                              text: 'Ngày sử dụng',
+                              bold: true,
+                            }),
+                          ],
                           alignment,
                         }),
                       ],
                     }),
                     new TableCell({
-                      columnSpan: 3,
                       verticalAlign: VerticalAlign.CENTER,
                       children: [
                         new Paragraph({
+                          children: [
+                            new TextRun({
+                              text: 'Ca',
+                              bold: true,
+                            }),
+                          ],
                           spacing: {
                             before: 120,
                             after: 120,
                           },
-                          text: 'Lịch cũ',
                           alignment,
                         }),
                       ],
                     }),
                     new TableCell({
-                      columnSpan: 3,
                       verticalAlign: VerticalAlign.CENTER,
                       children: [
                         new Paragraph({
-                          spacing: {
-                            after: 0,
-                          },
-                          text: 'Lịch mới',
+                          children: [
+                            new TextRun({
+                              text: 'Sĩ số',
+                              bold: true,
+                            }),
+                          ],
+                          spacing,
+                          alignment,
+                        }),
+                      ],
+                    }),
+                    new TableCell({
+                      verticalAlign: VerticalAlign.CENTER,
+                      children: [
+                        new Paragraph({
+                          children: [
+                            new TextRun({
+                              text: 'Lý do sử dụng',
+                              bold: true,
+                            }),
+                          ],
+                          spacing,
+                          alignment,
+                        }),
+                      ],
+                    }),
+                    new TableCell({
+                      verticalAlign: VerticalAlign.CENTER,
+                      children: [
+                        new Paragraph({
+                          children: [
+                            new TextRun({
+                              text: 'Phòng học',
+                              bold: true,
+                            }),
+                          ],
+                          spacing,
+                          alignment,
+                        }),
+                      ],
+                    }),
+                    new TableCell({
+                      verticalAlign: VerticalAlign.CENTER,
+                      children: [
+                        new Paragraph({
+                          children: [
+                            new TextRun({
+                              text: 'Phòng nước',
+                              bold: true,
+                            }),
+                          ],
+                          spacing,
                           alignment,
                         }),
                       ],
@@ -634,11 +694,32 @@ export class ExportService {
                       verticalAlign: VerticalAlign.CENTER,
                       children: [
                         new Paragraph({
-                          spacing: {
-                            before: 120,
-                            after: 120,
-                          },
-                          text: 'Thời gian',
+                          children: [
+                            new TextRun({
+                              text: '(1)',
+                              bold: true,
+                            }),
+                          ],
+                          spacing,
+                          alignment,
+                        }),
+                      ],
+                    }),
+                    new TableCell({
+                      verticalAlign: VerticalAlign.CENTER,
+                      children: [new Paragraph({ spacing, alignment })],
+                    }),
+                    new TableCell({
+                      verticalAlign: VerticalAlign.CENTER,
+                      children: [
+                        new Paragraph({
+                          children: [
+                            new TextRun({
+                              text: '(3)',
+                              bold: true,
+                            }),
+                          ],
+                          spacing,
                           alignment,
                         }),
                       ],
@@ -647,10 +728,13 @@ export class ExportService {
                       verticalAlign: VerticalAlign.CENTER,
                       children: [
                         new Paragraph({
-                          spacing: {
-                            after: 0,
-                          },
-                          text: 'Tiết',
+                          children: [
+                            new TextRun({
+                              text: '(4)',
+                              bold: true,
+                            }),
+                          ],
+                          spacing,
                           alignment,
                         }),
                       ],
@@ -659,10 +743,13 @@ export class ExportService {
                       verticalAlign: VerticalAlign.CENTER,
                       children: [
                         new Paragraph({
-                          spacing: {
-                            after: 0,
-                          },
-                          text: 'Phòng',
+                          children: [
+                            new TextRun({
+                              text: '(5)',
+                              bold: true,
+                            }),
+                          ],
+                          spacing,
                           alignment,
                         }),
                       ],
@@ -671,10 +758,13 @@ export class ExportService {
                       verticalAlign: VerticalAlign.CENTER,
                       children: [
                         new Paragraph({
-                          spacing: {
-                            after: 0,
-                          },
-                          text: 'Thời gian',
+                          children: [
+                            new TextRun({
+                              text: '(6)',
+                              bold: true,
+                            }),
+                          ],
+                          spacing,
                           alignment,
                         }),
                       ],
@@ -683,22 +773,13 @@ export class ExportService {
                       verticalAlign: VerticalAlign.CENTER,
                       children: [
                         new Paragraph({
-                          spacing: {
-                            after: 0,
-                          },
-                          text: 'Tiết',
-                          alignment,
-                        }),
-                      ],
-                    }),
-                    new TableCell({
-                      verticalAlign: VerticalAlign.CENTER,
-                      children: [
-                        new Paragraph({
-                          spacing: {
-                            after: 0,
-                          },
-                          text: 'Phòng',
+                          children: [
+                            new TextRun({
+                              text: '(7)',
+                              bold: true,
+                            }),
+                          ],
+                          spacing,
                           alignment,
                         }),
                       ],
@@ -710,13 +791,7 @@ export class ExportService {
                     new TableCell({
                       verticalAlign: VerticalAlign.CENTER,
                       children: [
-                        new Paragraph({
-                          spacing: {
-                            after: 0,
-                          },
-                          text: '1',
-                          alignment,
-                        }),
+                        new Paragraph({ spacing, text: '1', alignment }),
                       ],
                     }),
                     new TableCell({
@@ -729,7 +804,7 @@ export class ExportService {
                           indent: {
                             firstLine: '0.1in',
                           },
-                          text: schedule.moduleClassName,
+                          text: schedule.newSchedule.date,
                         }),
                       ],
                     }),
@@ -737,65 +812,7 @@ export class ExportService {
                       verticalAlign: VerticalAlign.CENTER,
                       children: [
                         new Paragraph({
-                          spacing: {
-                            after: 0,
-                          },
-                          text:
-                            this.datePipe.transform(
-                              schedule.oldSchedule.date,
-                              'dd-MM-Y'
-                            ) ?? '',
-                          alignment,
-                        }),
-                      ],
-                    }),
-                    new TableCell({
-                      verticalAlign: VerticalAlign.CENTER,
-                      children: [
-                        new Paragraph({
-                          spacing: {
-                            after: 0,
-                          },
-                          text: schedule.oldSchedule.shift,
-                          alignment,
-                        }),
-                      ],
-                    }),
-                    new TableCell({
-                      verticalAlign: VerticalAlign.CENTER,
-                      children: [
-                        new Paragraph({
-                          spacing: {
-                            after: 0,
-                          },
-                          text: schedule.oldSchedule.room,
-                          alignment,
-                        }),
-                      ],
-                    }),
-                    new TableCell({
-                      verticalAlign: VerticalAlign.CENTER,
-                      children: [
-                        new Paragraph({
-                          spacing: {
-                            after: 0,
-                          },
-                          text:
-                            this.datePipe.transform(
-                              schedule.newSchedule.date,
-                              'dd-MM-Y'
-                            ) ?? '',
-                          alignment,
-                        }),
-                      ],
-                    }),
-                    new TableCell({
-                      verticalAlign: VerticalAlign.CENTER,
-                      children: [
-                        new Paragraph({
-                          spacing: {
-                            after: 0,
-                          },
+                          spacing,
                           text: schedule.newSchedule.shift,
                           alignment,
                         }),
@@ -805,30 +822,45 @@ export class ExportService {
                       verticalAlign: VerticalAlign.CENTER,
                       children: [
                         new Paragraph({
-                          spacing: {
-                            after: 0,
+                          spacing,
+                          text: '50',
+                          alignment,
+                        }),
+                      ],
+                    }),
+                    new TableCell({
+                      verticalAlign: VerticalAlign.CENTER,
+                      children: [
+                        new Paragraph({
+                          indent: {
+                            firstLine: '0.1in',
                           },
+                          spacing,
+                          text: schedule.reason,
+                        }),
+                      ],
+                    }),
+                    new TableCell({
+                      verticalAlign: VerticalAlign.CENTER,
+                      children: [
+                        new Paragraph({
+                          spacing,
                           text: schedule.newSchedule.room,
                           alignment,
                         }),
                       ],
                     }),
+                    new TableCell({
+                      verticalAlign: VerticalAlign.CENTER,
+                      children: [
+                        new Paragraph({
+                          spacing,
+                          text: 'Phòng nước',
+                          alignment,
+                        }),
+                      ],
+                    }),
                   ],
-                }),
-              ],
-            }),
-            new Paragraph({
-              spacing: {
-                before: 280,
-              },
-              indent: {
-                firstLine: '0.5in',
-              },
-              children: [
-                new TextRun({
-                  text: 'Trân trọng cảm ơn!',
-                  italics: true,
-                  bold: true,
                 }),
               ],
             }),
@@ -839,6 +871,7 @@ export class ExportService {
                 after: 0,
               },
               children: [
+                new TextRun({ break: 2 }),
                 new TextRun({
                   text: `Hà Nội, ngày ${DateHelper.beautifyDay(
                     today.getDate()
@@ -854,7 +887,7 @@ export class ExportService {
         {
           properties: {
             column: {
-              count: 3,
+              count: 2,
               equalWidth: true,
             },
             type: SectionType.CONTINUOUS,
@@ -867,19 +900,42 @@ export class ExportService {
               },
               children: [
                 new TextRun({
-                  text: 'Ý kiến của bộ môn',
-                }),
-                new ColumnBreak(),
-                new TextRun({
-                  text: 'Ý kiến của Điều độ',
-                }),
-                new ColumnBreak(),
-                new TextRun({
-                  text: 'Giảng viên',
+                  text: 'Người đăng ký phòng',
                 }),
                 new TextRun({ break: 5 }),
                 new TextRun({
                   text: schedule.teacher.name,
+                }),
+                new ColumnBreak(),
+                new TextRun({
+                  text: 'Xác nhận của Điều độ',
+                }),
+                new TextRun({ break: 5 }),
+                new TextRun({
+                  text: 'Khuất Minh Phúc',
+                }),
+              ],
+            }),
+          ],
+        },
+        {
+          properties: {
+            type: SectionType.CONTINUOUS,
+          },
+          children: [
+            new Paragraph({
+              children: [
+                new TextRun({ break: 2 }),
+                new TextRun({
+                  text: 'Lưu ý',
+                  bold: true,
+                  underline: {},
+                  italics: true,
+                }),
+                new TextRun({ break: 1 }),
+                new TextRun({
+                  text: 'GV gửi giấy theo cột (7) đến "Phòng nước" ít nhất trước 01 ngày',
+                  italics: true,
                 }),
               ],
             }),
