@@ -108,6 +108,18 @@ export class StudyEditorDialogComponent extends BaseComponent {
     return this.form.controls['request'] as FormGroup;
   }
 
+  private get roomControlValue(): string {
+    return this.requestControl.controls['room'].value as string;
+  }
+
+  private get shiftControlValue(): string {
+    return this.requestControl.controls['shift'].value as string;
+  }
+
+  private get dateControlValue(): TuiDay {
+    return this.requestControl.controls['date'].value as TuiDay;
+  }
+
   private get idSchedule(): number {
     return this.form.controls['id'].value as number;
   }
@@ -333,9 +345,22 @@ export class StudyEditorDialogComponent extends BaseComponent {
       .pipe(
         tap((status) => {
           switch (status) {
-            case EApiStatus.successful:
+            case EApiStatus.successful: {
+              const [start, end] = DateHelper.fromShift(
+                this.dateControlValue.toUtcNativeDate(),
+                this.shiftControlValue
+              );
+              this.form.patchValue({
+                location: this.roomControlValue,
+                start: [
+                  DateHelper.toTuiDay(start),
+                  DateHelper.beautifyTime(start),
+                ],
+                end: [DateHelper.toTuiDay(end), DateHelper.beautifyTime(end)],
+              });
               this.showNotificationUpdateSuccessful();
               break;
+            }
             case EApiStatus.systemError:
               this.showNotificationError();
               break;
@@ -555,14 +580,12 @@ export class StudyEditorDialogComponent extends BaseComponent {
   }
 
   private submitChange(): void {
-    const request = this.requestControl;
-
     const body: ChangeSchedulePayload = {
       id: this.idSchedule,
-      idRoom: request.controls['room'].value as string,
-      shift: request.controls['shift'].value as string,
+      idRoom: this.roomControlValue,
+      shift: this.shiftControlValue,
       date: DateHelper.toDateOnlyString(
-        (request.controls['date'].value as TuiDay).toUtcNativeDate()
+        this.dateControlValue.toUtcNativeDate()
       ),
     };
 
