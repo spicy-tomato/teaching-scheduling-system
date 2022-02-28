@@ -29,7 +29,7 @@ export const update = createAction(
 
 export const search = createAction(
   '[Study Editor Dialog Page] Search',
-  props<{ params: SearchSchedule }>()
+  props<{ params: SearchSchedule; teacherId: string }>()
 );
 
 export const cancel = createAction(

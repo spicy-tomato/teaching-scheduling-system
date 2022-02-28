@@ -95,7 +95,7 @@
     </h3>
     <div [tuiTextfieldCleaner]="true" class="tui-form__row">
       <tui-input-date
-        (ngModelChange)="onChangeRequest()"
+        (ngModelChange)="changeRequest$.next()"
         [min]="firstDateAllowRequestChange | tuiDay"
         formControlName="date"
       >
@@ -105,7 +105,7 @@
     </div>
     <div class="tui-form__row">
       <tui-select
-        (ngModelChange)="onChangeRequest()"
+        (ngModelChange)="changeRequest$.next()"
         [valueContent]="shiftSelectContent"
         formControlName="shift"
       >

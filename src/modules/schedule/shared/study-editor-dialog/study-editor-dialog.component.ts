@@ -26,6 +26,7 @@ import {
   ChangeSchedulePayload,
   RequestChangeSchedulePayload,
   SimpleModel,
+  Teacher,
 } from 'src/shared/models';
 import { CoreConstant } from '@shared/constants';
 import { sameValueValidator } from 'src/shared/validators';
@@ -73,6 +74,7 @@ export class StudyEditorDialogComponent extends BaseComponent {
   public firstDateAllowRequestChange!: Date;
   public requestedChangeSchedule: Nullable<FixedScheduleModel>;
 
+  public readonly teacher$: Observable<Nullable<Teacher>>;
   public readonly changeStatus$: Observable<EApiStatus>;
   public readonly requestStatus$: Observable<EApiStatus>;
   public readonly updateStatus$: Observable<EApiStatus>;
@@ -87,6 +89,7 @@ export class StudyEditorDialogComponent extends BaseComponent {
 
   public readonly cancel$ = new Subject();
   public readonly cancelRequest$ = new Subject();
+  public readonly changeRequest$ = new Subject();
   public readonly submitRequestChange$ = new Subject();
   public readonly submitChange$ = new Subject();
 
@@ -132,11 +135,16 @@ export class StudyEditorDialogComponent extends BaseComponent {
     this.assignSubjects([
       this.cancel$,
       this.cancelRequest$,
+      this.changeRequest$,
       this.submitRequestChange$,
+      this.submitChange$,
     ]);
 
     this.initForm();
 
+    this.teacher$ = appShellStore
+      .select(fromAppShell.selectTeacher)
+      .pipe(takeUntil(this.destroy$));
     this.changeStatus$ = store
       .select(fromStudyEditorDialog.selectChangeStatus)
       .pipe(takeUntil(this.destroy$));
@@ -174,6 +182,7 @@ export class StudyEditorDialogComponent extends BaseComponent {
     this.handleStatusChange();
     this.handleJustRequestedScheduleChange();
     this.handleChange();
+    this.handleChangeRequest();
     this.handleSubmitRequestChange();
     this.handleSubmitChange();
     this.handleCancel();
@@ -210,28 +219,6 @@ export class StudyEditorDialogComponent extends BaseComponent {
     };
 
     this.store.dispatch(fromStudyEditorDialog.update({ body }));
-  }
-
-  public onChangeRequest(): void {
-    if (this.form.controls['request'].errors?.sameValue) {
-      return;
-    }
-
-    const request = this.requestControl;
-
-    const date = DateHelper.toDateOnlyString(
-      (request.controls['date'].value as TuiDay).toUtcNativeDate()
-    );
-
-    this.store.dispatch(
-      fromStudyEditorDialog.search({
-        params: {
-          start: date,
-          end: date,
-          shift: request.controls['shift'].value as string,
-        },
-      })
-    );
   }
 
   /** PRIVATE METHODS */
@@ -444,6 +431,41 @@ export class StudyEditorDialogComponent extends BaseComponent {
               })
             )
             .subscribe();
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
+  private handleChangeRequest(): void {
+    this.changeRequest$
+      .pipe(
+        withLatestFrom(this.teacher$),
+        map(({ 1: teacher }) => teacher),
+        tap((teacher) => {
+          if (this.form.controls['request'].errors?.sameValue) {
+            return;
+          }
+
+          const request = this.requestControl;
+
+          const date = DateHelper.toDateOnlyString(
+            (request.controls['date'].value as TuiDay).toUtcNativeDate()
+          );
+
+          this.store.dispatch(
+            fromStudyEditorDialog.search({
+              params: {
+                start: date,
+                end: date,
+                shift: request.controls['shift'].value as string,
+              },
+              teacherId:
+                (this.isPersonal
+                  ? teacher?.id
+                  : (this.context.data.People?.[0] as Teacher).id) || '',
+            })
+          );
         }),
         takeUntil(this.destroy$)
       )
