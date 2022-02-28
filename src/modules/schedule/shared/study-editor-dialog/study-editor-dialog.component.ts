@@ -100,6 +100,8 @@ export class StudyEditorDialogComponent extends BaseComponent {
   public readonly reasonMaxLength = 500;
 
   /** PRIVATE PROPERTIES */
+  private changed = false;
+
   private readonly change$: Observable<fromStudyEditorDialog.Change>;
   private readonly nameTitle$: Observable<string>;
 
@@ -316,6 +318,7 @@ export class StudyEditorDialogComponent extends BaseComponent {
         tap((status) => {
           switch (status) {
             case EApiStatus.successful:
+              this.changed = true;
               this.showNotificationUpdateSuccessful();
               break;
             case EApiStatus.systemError:
@@ -346,6 +349,7 @@ export class StudyEditorDialogComponent extends BaseComponent {
         tap((status) => {
           switch (status) {
             case EApiStatus.successful: {
+              this.changed = true;
               const [start, end] = DateHelper.fromShift(
                 this.dateControlValue.toUtcNativeDate(),
                 this.shiftControlValue
@@ -421,7 +425,16 @@ export class StudyEditorDialogComponent extends BaseComponent {
           setTimeout(() => {
             this.context.completeWith({
               fixedSchedules: this.context.data.FixedSchedules ?? null,
-              note: update.note,
+              schedule: {
+                change: this.changed,
+                note: update.note,
+                data: {
+                  id: this.idSchedule,
+                  idRoom: this.roomControlValue,
+                  shift: this.shiftControlValue,
+                  date: this.dateControlValue.toUtcNativeDate(),
+                },
+              },
             });
           });
         }),

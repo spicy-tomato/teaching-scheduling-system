@@ -254,8 +254,17 @@ export class TssScheduleComponent
           if (newRequestData.fixedSchedules) {
             newData.FixedSchedules = newRequestData.fixedSchedules;
           }
-          if (newRequestData.note) {
-            newData.Note = newRequestData.note;
+          if (newRequestData.schedule.change) {
+            const [start, end] = DateHelper.fromShift(
+              newRequestData.schedule.data.date as Date,
+              newRequestData.schedule.data.shift
+            );
+
+            newData.Note = newRequestData.schedule.note;
+            newData.Shift = newRequestData.schedule.data.shift;
+            newData.Location = newRequestData.schedule.data.idRoom;
+            newData.StartTime = start;
+            newData.EndTime = end;
           }
           this.scheduleComponent.saveEvent(newData);
         })
