@@ -84,8 +84,7 @@ export class StatisticChangeScheduleComponent extends BaseComponent {
                 const document =
                   this.exportService.exportChangeScheduleStatistic(
                     changeSchedules,
-                    teacher.faculty.name,
-                    teacher.department.name,
+                    teacher,
                     range,
                     rangeOptions
                   );

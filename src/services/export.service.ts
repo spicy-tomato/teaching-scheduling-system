@@ -2,7 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Inject, Injectable, Injector } from '@angular/core';
 import { FileType } from '@shared/enums';
 import { DateHelper } from '@shared/helpers';
-import { ChangeSchedule } from '@shared/models';
+import { ChangeSchedule, Teacher } from '@shared/models';
 import { TuiDayRange } from '@taiga-ui/cdk';
 import {
   AlignmentType,
@@ -18,7 +18,7 @@ import {
   VerticalAlign,
   SectionType,
   ColumnBreak,
-  Column,
+  BorderStyle,
 } from 'docx';
 import { saveAs } from 'file-saver';
 import { TokenService } from './core/token.service';
@@ -949,8 +949,7 @@ export class ExportService {
 
   public exportChangeScheduleStatistic(
     schedules: ChangeSchedule[],
-    facultyName: string,
-    departmentName: string,
+    teacher: Teacher,
     range: TuiDayRange,
     rangeOptions: { sameMonth: boolean; inOneYear: boolean }
   ): Document {
@@ -977,7 +976,7 @@ export class ExportService {
       },
     };
     const width = {
-      size: 20,
+      size: 18,
       type: WidthType.PERCENTAGE,
     };
 
@@ -1001,37 +1000,88 @@ export class ExportService {
         {
           properties: {
             page,
-            column: {
-              count: 2,
-              equalWidth: false,
-              children: [
-                new Column({ width: '9.5cm' }),
-                new Column({ width: '8.5cm' }),
-              ],
-            },
           },
           children: [
-            new Paragraph({
-              children: [
-                new TextRun({
-                  text: `Khoa ${facultyName}`,
-                }),
-                new TextRun({ break: 1 }),
-                new TextRun({
-                  text: `Bộ môn ${departmentName}`,
-                }),
-              ],
-            }),
-            new Paragraph({
-              alignment,
-              children: [
-                new TextRun({
-                  text: 'Cộng hòa xã hội chủ nghĩa Việt Nam',
-                  allCaps: true,
-                }),
-                new TextRun({ break: 1 }),
-                new TextRun({
-                  text: 'Độc lập – Tự do – Hạnh phúc',
+            new Table({
+              width: {
+                size: 100,
+                type: WidthType.PERCENTAGE,
+              },
+              borders: {
+                insideHorizontal: {
+                  style: BorderStyle.NONE,
+                },
+                insideVertical: {
+                  style: BorderStyle.NONE,
+                },
+                top: {
+                  style: BorderStyle.NONE,
+                },
+                right: {
+                  style: BorderStyle.NONE,
+                },
+                bottom: {
+                  style: BorderStyle.NONE,
+                },
+                left: {
+                  style: BorderStyle.NONE,
+                },
+              },
+              rows: [
+                new TableRow({
+                  children: [
+                    new TableCell({
+                      verticalAlign,
+                      width: {
+                        size: 45,
+                        type: WidthType.PERCENTAGE,
+                      },
+                      children: [
+                        new Paragraph({
+                          children: [
+                            new TextRun({
+                              text: `Khoa ${teacher.faculty.name}`,
+                            }),
+                            new TextRun({ break: 1 }),
+                            new TextRun({
+                              text: `Bộ môn ${teacher.department.name}`,
+                              bold: true,
+                            }),
+                          ],
+                        }),
+                      ],
+                    }),
+                    new TableCell({
+                      verticalAlign,
+                      width: {
+                        size: 5,
+                        type: WidthType.PERCENTAGE,
+                      },
+                      children: [],
+                    }),
+                    new TableCell({
+                      verticalAlign,
+                      width: {
+                        size: 50,
+                        type: WidthType.PERCENTAGE,
+                      },
+                      children: [
+                        new Paragraph({
+                          alignment,
+                          children: [
+                            new TextRun({
+                              text: 'Cộng hòa xã hội chủ nghĩa Việt Nam',
+                              allCaps: true,
+                            }),
+                            new TextRun({ break: 1 }),
+                            new TextRun({
+                              text: 'Độc lập – Tự do – Hạnh phúc',
+                            }),
+                          ],
+                        }),
+                      ],
+                    }),
+                  ],
                 }),
               ],
             }),
@@ -1050,14 +1100,6 @@ export class ExportService {
                 }),
               ],
             }),
-          ],
-        },
-        {
-          properties: {
-            page,
-            type: SectionType.CONTINUOUS,
-          },
-          children: [
             new Paragraph({
               alignment,
               spacing: {
@@ -1089,13 +1131,13 @@ export class ExportService {
                   underline: {},
                 }),
                 new TextRun({
-                  text: ' Ban Quản lý Giảng đường',
+                  text: ' Phòng Thanh tra Pháp chế',
                   size: 26,
                   bold: true,
                 }),
                 new TextRun({ break: 2 }),
                 new TextRun({
-                  text: `Bộ môn ${departmentName} xin gửi tới Ban thanh tra thay đổi lịch giảng dạy trong bộ môn ${rangeText}:`,
+                  text: `Bộ môn ${teacher.department.name} xin gửi tới phòng Thanh tra Pháp chế thay đổi lịch giảng dạy trong bộ môn ${rangeText}:`,
                 }),
                 new TextRun({ break: 1 }),
               ],
@@ -1109,6 +1151,31 @@ export class ExportService {
                 new TableRow({
                   children: [
                     new TableCell({
+                      margins: {
+                        top: 100,
+                        bottom: 100,
+                      },
+                      verticalAlign,
+                      width: {
+                        size: 6,
+                        type: WidthType.PERCENTAGE,
+                      },
+                      children: [
+                        new Paragraph({
+                          spacing: {
+                            after: 0,
+                          },
+                          children: [
+                            new TextRun({
+                              text: 'STT',
+                              bold: true,
+                            }),
+                          ],
+                          alignment,
+                        }),
+                      ],
+                    }),
+                    new TableCell({
                       verticalAlign,
                       width,
                       children: [
@@ -1116,7 +1183,30 @@ export class ExportService {
                           spacing: {
                             after: 0,
                           },
-                          text: 'Ngày, tiết, phòng',
+                          children: [
+                            new TextRun({
+                              text: 'Ngày, tiết, phòng',
+                              bold: true,
+                            }),
+                          ],
+                          alignment,
+                        }),
+                      ],
+                    }),
+                    new TableCell({
+                      verticalAlign,
+                      width,
+                      children: [
+                        new Paragraph({
+                          spacing: {
+                            after: 0,
+                          },
+                          children: [
+                            new TextRun({
+                              text: 'Lớp - Môn',
+                              bold: true,
+                            }),
+                          ],
                           alignment,
                         }),
                       ],
@@ -1132,7 +1222,12 @@ export class ExportService {
                           spacing: {
                             after: 0,
                           },
-                          text: 'Lớp - Môn',
+                          children: [
+                            new TextRun({
+                              text: 'Giáo viên',
+                              bold: true,
+                            }),
+                          ],
                           alignment,
                         }),
                       ],
@@ -1145,20 +1240,12 @@ export class ExportService {
                           spacing: {
                             after: 0,
                           },
-                          text: 'Giáo viên',
-                          alignment,
-                        }),
-                      ],
-                    }),
-                    new TableCell({
-                      verticalAlign,
-                      width,
-                      children: [
-                        new Paragraph({
-                          spacing: {
-                            after: 0,
-                          },
-                          text: 'Lý do',
+                          children: [
+                            new TextRun({
+                              text: 'Lý do',
+                              bold: true,
+                            }),
+                          ],
                           alignment,
                         }),
                       ],
@@ -1166,7 +1253,7 @@ export class ExportService {
                     new TableCell({
                       verticalAlign,
                       width: {
-                        size: 23,
+                        size: 22,
                         type: WidthType.PERCENTAGE,
                       },
                       children: [
@@ -1174,7 +1261,12 @@ export class ExportService {
                           spacing: {
                             after: 0,
                           },
-                          text: 'Ngày, Phòng dạy bù',
+                          children: [
+                            new TextRun({
+                              text: 'Ngày, Phòng dạy bù',
+                              bold: true,
+                            }),
+                          ],
                           alignment,
                         }),
                       ],
@@ -1182,9 +1274,21 @@ export class ExportService {
                   ],
                 }),
                 ...schedules.map(
-                  (schedule) =>
+                  (schedule, row) =>
                     new TableRow({
                       children: [
+                        new TableCell({
+                          verticalAlign,
+                          children: [
+                            new Paragraph({
+                              spacing: {
+                                after: 0,
+                              },
+                              text: `${row + 1}`,
+                              alignment,
+                            }),
+                          ],
+                        }),
                         new TableCell({
                           verticalAlign,
                           children: [
@@ -1270,7 +1374,7 @@ export class ExportService {
               },
               children: [
                 new TextRun({
-                  text: 'Kính mong Ban thanh tra cập nhật giúp!',
+                  text: 'Kính mong phòng Thanh tra Pháp chế cập nhật giúp!',
                 }),
                 new TextRun({ break: 1 }),
                 new TextRun({
@@ -1302,7 +1406,7 @@ export class ExportService {
                 }),
                 new TextRun({ break: 5 }),
                 new TextRun({
-                  text: 'Bùi Ngọc Dũng',
+                  text: teacher.name,
                 }),
               ],
             }),
