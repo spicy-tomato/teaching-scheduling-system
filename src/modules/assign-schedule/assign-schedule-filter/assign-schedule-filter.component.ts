@@ -34,19 +34,22 @@ export class AssignScheduleFilterComponent
   /** PUBLIC PROPERTIES */
   public expanded = true;
   public form!: FormGroup;
-  public currentTerm$: Observable<string>;
-  public academicYears$: Observable<AcademicYear>;
-  public trainingTypes$: Observable<string[]>;
-  public trainingTypeChange$ = new Subject<string>();
   public schoolYears$!: Observable<string[]>;
-  public departments$: Observable<SimpleMapModel<string, SimpleModel[]>[]>;
-  public filter$ = new Subject();
-  public filterStatus$: Observable<EApiStatus>;
+
+  public readonly currentTerm$: Observable<string>;
+  public readonly academicYears$: Observable<AcademicYear>;
+  public readonly trainingTypes$: Observable<string[]>;
+  public readonly departments$: Observable<
+    SimpleMapModel<string, SimpleModel[]>[]
+  >;
+  public readonly filterStatus$: Observable<EApiStatus>;
 
   public readonly termsInYear = CoreConstant.TERMS_IN_YEAR;
   public readonly batchesInTerm = CoreConstant.BATCHES_IN_TERM;
   public readonly EApiStatus = EApiStatus;
-  
+  public readonly filter$ = new Subject();
+  public readonly trainingTypeChange$ = new Subject<string>();
+
   /** PRIVATE PROPERTIES */
   private myDepartment$: Observable<Nullable<SimpleModel>>;
 
@@ -78,6 +81,8 @@ export class AssignScheduleFilterComponent
     appShellStore: Store<fromAppShell.AppShellState>
   ) {
     super();
+
+    this.assignSubjects([this.filter$, this.trainingTypeChange$]);
 
     this.currentTerm$ = this.store
       .select(fromAssignSchedule.selectSchoolYear)

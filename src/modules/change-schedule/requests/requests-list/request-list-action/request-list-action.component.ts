@@ -38,17 +38,17 @@ export class RequestListActionComponent extends BaseComponent {
 
   /** PUBLIC PROPERTIES */
   public showLoader = false;
-
-  public readonly requesting$: Observable<number[]>;
-  public readonly permissions$: Observable<number[]>;
-  public readonly teacher$: Observable<Nullable<Teacher>>;
-  public readonly nameTitle$: Observable<string>;
   public readonly export$ = new Subject();
   public readonly cancel$ = new Subject();
   public readonly IconConstant = IconConstant;
-
+  
+  public readonly requesting$: Observable<number[]>;
+  
   /** PRIVATE PROPERTIES */
   private readonly datePipe: DatePipe;
+  private readonly nameTitle$: Observable<string>;
+  private readonly permissions$: Observable<number[]>;
+  private readonly teacher$: Observable<Nullable<Teacher>>;
 
   /** CONSTRUCTOR */
   constructor(

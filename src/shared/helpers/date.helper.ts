@@ -4,9 +4,10 @@ import { TuiDay } from '@taiga-ui/cdk';
 export class DateHelper {
   /** To string */
   public static beautifyTime(dt: Date): string {
-    const hours = `0${dt.getHours()}`.slice(-2);
-    const minutes = `0${dt.getMinutes()}`.slice(-2);
-    return `${hours}:${minutes}`;
+    return [
+      DateHelper.beautifyDay(dt.getHours()),
+      DateHelper.beautifyDay(dt.getMinutes()),
+    ].join(':');
   }
 
   public static beautifyDay(day: number): string {
