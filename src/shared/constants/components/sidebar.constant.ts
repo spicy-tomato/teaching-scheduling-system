@@ -67,7 +67,7 @@ export class SidebarConstant {
       name: 'Thống kê',
       icon: 'far fa-chart-pie',
       routerLink: '/statistic',
-      permission: PermissionConstant.ASSIGN_SCHEDULE,
+      permission: PermissionConstant.STATISTICIZE_CHANGE_SCHEDULE,
     },
   ];
 }

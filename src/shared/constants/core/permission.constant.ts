@@ -26,4 +26,5 @@ export class PermissionConstant {
   public static SEND_NOTIFICATION_TO_TEACHER_BY_DEPARTMENT = 25;
   public static IMPORT_DATA = 26;
   public static AUTHORIZE_PERMISSION = 27;
+  public static STATISTICIZE_CHANGE_SCHEDULE = 28;
 }
