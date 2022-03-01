@@ -123,8 +123,8 @@ export class ScheduleService extends BaseDataService {
   public getDepartmentChangeScheduleRequests(
     department: string,
     params: ChangeScheduleSearch
-  ): Observable<PaginationResponseModel<ChangeSchedule>> {
-    return this.http.get<PaginationResponseModel<ChangeSchedule>>(
+  ): Observable<PaginationResponseModel<ChangeSchedule[]>> {
+    return this.http.get<PaginationResponseModel<ChangeSchedule[]>>(
       this.url + `departments/${department}/fixed-schedules`,
       {
         params: { ...params },
@@ -134,8 +134,8 @@ export class ScheduleService extends BaseDataService {
 
   public getPersonalChangeScheduleRequests(
     params: ChangeScheduleSearch
-  ): Observable<PaginationResponseModel<ChangeSchedule>> {
-    return this.http.get<PaginationResponseModel<ChangeSchedule>>(
+  ): Observable<PaginationResponseModel<ChangeSchedule[]>> {
+    return this.http.get<PaginationResponseModel<ChangeSchedule[]>>(
       this.url + 'teachers/01/fixed-schedules',
       {
         params: { ...params },
@@ -145,8 +145,8 @@ export class ScheduleService extends BaseDataService {
 
   public getManagerChangeScheduleRequests(
     params: ChangeScheduleSearch
-  ): Observable<PaginationResponseModel<ChangeSchedule>> {
-    return this.http.get<PaginationResponseModel<ChangeSchedule>>(
+  ): Observable<PaginationResponseModel<ChangeSchedule[]>> {
+    return this.http.get<PaginationResponseModel<ChangeSchedule[]>>(
       this.url + 'fixed-schedules',
       {
         params: { ...params },

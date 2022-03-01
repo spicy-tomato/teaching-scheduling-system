@@ -6,7 +6,7 @@ import {
 
 export const loadSuccessful = createAction(
   '[Change schedule - Requests API] Load Successfully',
-  props<{ changeSchedulesResponse: PaginationResponseModel<ChangeSchedule> }>()
+  props<{ changeSchedulesResponse: PaginationResponseModel<ChangeSchedule[]> }>()
 );
 
 export const loadFailure = createAction(
