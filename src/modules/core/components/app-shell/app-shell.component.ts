@@ -17,8 +17,7 @@ export class AppShellComponent extends BaseComponent {
   ) {
     super();
     
-    this.store.dispatch(fromAppShell.reset());
-    this.store.dispatch(fromAppShell.tryAutoLogin());
+            store.dispatch(fromAppShell.keepLogin());
     googleService.load();
   }
 }

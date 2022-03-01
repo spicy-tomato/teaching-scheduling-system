@@ -14,7 +14,7 @@ export class AppShellEffects {
   /** EFFECTS */
   public autoLogin$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(PageAction.tryAutoLogin),
+      ofType(PageAction.keepLogin),
       mergeMap(() => {
         return this.userService.me().pipe(
           map((response) => response.data),
