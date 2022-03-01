@@ -46,6 +46,15 @@ const routes: Routes = [
           (await import('@modules/change-schedule/change-schedule.module'))
             .ChangeScheduleModule,
         canActivate: [PermissionGuard],
+        data: {
+          permissions: [PermissionConstant.ASSIGN_SCHEDULE],
+        },
+      },
+      {
+        path: 'statistic',
+        loadChildren: async () =>
+          (await import('@modules/statistic/statistic.module')).StatisticModule,
+        canActivate: [PermissionGuard],
       },
       {
         path: 'user-setting',

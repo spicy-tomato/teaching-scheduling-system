@@ -41,9 +41,9 @@ export class RequestListActionComponent extends BaseComponent {
   public readonly export$ = new Subject();
   public readonly cancel$ = new Subject();
   public readonly IconConstant = IconConstant;
-  
+
   public readonly requesting$: Observable<number[]>;
-  
+
   /** PRIVATE PROPERTIES */
   private readonly datePipe: DatePipe;
   private readonly nameTitle$: Observable<string>;
@@ -136,7 +136,6 @@ export class RequestListActionComponent extends BaseComponent {
       .pipe(
         ObservableHelper.filterNullish(),
         tap((teacher) => {
-          console.log(teacher);
           const document =
             this.exportService.exportChangeScheduleRequestForRoomManager(
               this.schedule,
@@ -154,7 +153,7 @@ export class RequestListActionComponent extends BaseComponent {
             this.datePipe.transform(
               this.schedule.newSchedule.date,
               'dd-MM-Y'
-            ) ?? '';
+            ) ?? this.schedule.newSchedule.date;
           const fileName = `${commonName}_${teacherName}_${time}.docx`;
 
           this.exportService.exportBlob({
@@ -181,7 +180,8 @@ export class RequestListActionComponent extends BaseComponent {
       .split(' ')
       .join('-');
     const timeRequest =
-      this.datePipe.transform(this.schedule.timeRequest, 'dd-MM-Y') ?? '';
+      this.datePipe.transform(this.schedule.timeRequest, 'dd-MM-Y') ??
+      this.schedule.timeRequest.toDateString();
     const fileName = `${commonName}_${teacherName}_${timeRequest}.docx`;
 
     this.exportService.exportBlob({

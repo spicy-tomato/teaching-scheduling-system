@@ -1,0 +1,19 @@
+<form [formGroup]="form" class="b-form">
+  <div class="tui-form__row tui-form__row_multi-fields">
+    <div class="tui-form__multi-field">
+      <tui-input-date-range formControlName="range" [items]="items" [min]="min">
+        Chọn khoảng thời gian
+      </tui-input-date-range>
+    </div>
+    <div class="tui-form__multi-field">
+      <button
+        tuiButton
+        (click)="export$.next()"
+        [showLoader]="exporting"
+        [disabled]="form.invalid"
+      >
+        Xuất thống kê
+      </button>
+    </div>
+  </div>
+</form>

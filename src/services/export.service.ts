@@ -3,6 +3,7 @@ import { Inject, Injectable, Injector } from '@angular/core';
 import { FileType } from '@shared/enums';
 import { DateHelper } from '@shared/helpers';
 import { ChangeSchedule } from '@shared/models';
+import { TuiDayRange } from '@taiga-ui/cdk';
 import {
   AlignmentType,
   Document,
@@ -17,6 +18,7 @@ import {
   VerticalAlign,
   SectionType,
   ColumnBreak,
+  Column,
 } from 'docx';
 import { saveAs } from 'file-saver';
 import { TokenService } from './core/token.service';
@@ -330,7 +332,7 @@ export class ExportService {
                             this.datePipe.transform(
                               schedule.oldSchedule.date,
                               'dd-MM-Y'
-                            ) ?? '',
+                            ) ?? schedule.oldSchedule.date,
                           alignment,
                         }),
                       ],
@@ -370,7 +372,7 @@ export class ExportService {
                             this.datePipe.transform(
                               schedule.newSchedule.date,
                               'dd-MM-Y'
-                            ) ?? '',
+                            ) ?? schedule.newSchedule.date,
                           alignment,
                         }),
                       ],
@@ -936,6 +938,371 @@ export class ExportService {
                 new TextRun({
                   text: 'GV gửi giấy theo cột (7) đến "Phòng nước" ít nhất trước 01 ngày',
                   italics: true,
+                }),
+              ],
+            }),
+          ],
+        },
+      ],
+    });
+  }
+
+  public exportChangeScheduleStatistic(
+    schedules: ChangeSchedule[],
+    facultyName: string,
+    departmentName: string,
+    range: TuiDayRange,
+    rangeOptions: { sameMonth: boolean; inOneYear: boolean }
+  ): Document {
+    const rangeText = rangeOptions.sameMonth
+      ? `tháng ${DateHelper.beautifyDay(range.from.month + 1)}/${
+          range.from.year
+        }`
+      : rangeOptions.inOneYear
+      ? `năm ${range.from.year}`
+      : `từ ${DateHelper.beautifyDay(range.from.day)}/${DateHelper.beautifyDay(
+          range.from.month + 1
+        )}/${range.from.year} đến ${DateHelper.beautifyDay(
+          range.to.day
+        )}/${DateHelper.beautifyDay(range.to.month + 1)}/${range.to.year}`;
+    const today = new Date();
+    const alignment = AlignmentType.CENTER;
+    const verticalAlign = VerticalAlign.CENTER;
+    const page = {
+      margin: {
+        top: '0.7in',
+        right: '0.6in',
+        bottom: '0.7in',
+        left: '0.6in',
+      },
+    };
+    const width = {
+      size: 20,
+      type: WidthType.PERCENTAGE,
+    };
+
+    return new Document({
+      styles: {
+        default: {
+          document: {
+            run: {
+              size: 24,
+            },
+            paragraph: {
+              spacing: {
+                after: 160,
+                line: 260,
+              },
+            },
+          },
+        },
+      },
+      sections: [
+        {
+          properties: {
+            page,
+            column: {
+              count: 2,
+              equalWidth: false,
+              children: [
+                new Column({ width: '9.5cm' }),
+                new Column({ width: '8.5cm' }),
+              ],
+            },
+          },
+          children: [
+            new Paragraph({
+              children: [
+                new TextRun({
+                  text: `Khoa ${facultyName}`,
+                }),
+                new TextRun({ break: 1 }),
+                new TextRun({
+                  text: `Bộ môn ${departmentName}`,
+                }),
+              ],
+            }),
+            new Paragraph({
+              alignment,
+              children: [
+                new TextRun({
+                  text: 'Cộng hòa xã hội chủ nghĩa Việt Nam',
+                  allCaps: true,
+                }),
+                new TextRun({ break: 1 }),
+                new TextRun({
+                  text: 'Độc lập – Tự do – Hạnh phúc',
+                }),
+              ],
+            }),
+            new Paragraph({
+              alignment: AlignmentType.END,
+              spacing: {
+                before: 320,
+                after: 320,
+              },
+              children: [
+                new TextRun({
+                  text: `Hà Nội, ngày ${DateHelper.beautifyDay(
+                    today.getDate()
+                  )} tháng ${today.getMonth() + 1} năm ${today.getFullYear()}`,
+                  italics: true,
+                }),
+              ],
+            }),
+          ],
+        },
+        {
+          properties: {
+            page,
+            type: SectionType.CONTINUOUS,
+          },
+          children: [
+            new Paragraph({
+              alignment,
+              spacing: {
+                before: 320,
+                after: 320,
+              },
+              children: [
+                new TextRun({
+                  text: 'Tờ trình',
+                  allCaps: true,
+                  size: 34,
+                }),
+                new TextRun({ break: 1 }),
+                new TextRun({
+                  text: `(V/v thay đổi lịch dạy ${rangeText})`,
+                  size: 26,
+                }),
+              ],
+            }),
+            new Paragraph({
+              spacing: {
+                line: 250,
+              },
+              children: [
+                new TextRun({
+                  text: 'Kính gửi:',
+                  size: 26,
+                  bold: true,
+                  underline: {},
+                }),
+                new TextRun({
+                  text: ' Ban Quản lý Giảng đường',
+                  size: 26,
+                  bold: true,
+                }),
+                new TextRun({ break: 2 }),
+                new TextRun({
+                  text: `Bộ môn ${departmentName} xin gửi tới Ban thanh tra thay đổi lịch giảng dạy trong bộ môn ${rangeText}:`,
+                }),
+                new TextRun({ break: 1 }),
+              ],
+            }),
+            new Table({
+              width: {
+                size: 100,
+                type: WidthType.PERCENTAGE,
+              },
+              rows: [
+                new TableRow({
+                  children: [
+                    new TableCell({
+                      verticalAlign,
+                      width,
+                      children: [
+                        new Paragraph({
+                          spacing: {
+                            after: 0,
+                          },
+                          text: 'Ngày, tiết, phòng',
+                          alignment,
+                        }),
+                      ],
+                    }),
+                    new TableCell({
+                      verticalAlign,
+                      width: {
+                        size: 17,
+                        type: WidthType.PERCENTAGE,
+                      },
+                      children: [
+                        new Paragraph({
+                          spacing: {
+                            after: 0,
+                          },
+                          text: 'Lớp - Môn',
+                          alignment,
+                        }),
+                      ],
+                    }),
+                    new TableCell({
+                      verticalAlign,
+                      width,
+                      children: [
+                        new Paragraph({
+                          spacing: {
+                            after: 0,
+                          },
+                          text: 'Giáo viên',
+                          alignment,
+                        }),
+                      ],
+                    }),
+                    new TableCell({
+                      verticalAlign,
+                      width,
+                      children: [
+                        new Paragraph({
+                          spacing: {
+                            after: 0,
+                          },
+                          text: 'Lý do',
+                          alignment,
+                        }),
+                      ],
+                    }),
+                    new TableCell({
+                      verticalAlign,
+                      width: {
+                        size: 23,
+                        type: WidthType.PERCENTAGE,
+                      },
+                      children: [
+                        new Paragraph({
+                          spacing: {
+                            after: 0,
+                          },
+                          text: 'Ngày, Phòng dạy bù',
+                          alignment,
+                        }),
+                      ],
+                    }),
+                  ],
+                }),
+                ...schedules.map(
+                  (schedule) =>
+                    new TableRow({
+                      children: [
+                        new TableCell({
+                          verticalAlign,
+                          children: [
+                            new Paragraph({
+                              spacing: {
+                                after: 0,
+                              },
+                              text: `${
+                                this.datePipe.transform(
+                                  schedule.oldSchedule.date,
+                                  'dd/MM/Y'
+                                ) ?? schedule.oldSchedule.date
+                              }, ca ${schedule.oldSchedule.shift}, ${
+                                schedule.oldSchedule.room
+                              }`,
+                              alignment,
+                            }),
+                          ],
+                        }),
+                        new TableCell({
+                          verticalAlign,
+                          children: [
+                            new Paragraph({
+                              spacing: {
+                                after: 0,
+                              },
+                              text: schedule.moduleClassName,
+                              alignment,
+                            }),
+                          ],
+                        }),
+                        new TableCell({
+                          verticalAlign,
+                          children: [
+                            new Paragraph({
+                              spacing: {
+                                after: 0,
+                              },
+                              text: schedule.teacher.name,
+                              alignment,
+                            }),
+                          ],
+                        }),
+                        new TableCell({
+                          verticalAlign,
+                          children: [
+                            new Paragraph({
+                              spacing: {
+                                after: 0,
+                              },
+                              text: schedule.reason,
+                              alignment,
+                            }),
+                          ],
+                        }),
+                        new TableCell({
+                          verticalAlign,
+                          children: [
+                            new Paragraph({
+                              spacing: {
+                                after: 0,
+                              },
+                              text: `${
+                                this.datePipe.transform(
+                                  schedule.oldSchedule.date,
+                                  'dd/MM/Y'
+                                ) ?? schedule.oldSchedule.date
+                              }, ca ${schedule.newSchedule.shift}, ${
+                                schedule.newSchedule.room
+                              }`,
+                              alignment,
+                            }),
+                          ],
+                        }),
+                      ],
+                    })
+                ),
+              ],
+            }),
+            new Paragraph({
+              spacing: {
+                before: 280,
+              },
+              children: [
+                new TextRun({
+                  text: 'Kính mong Ban thanh tra cập nhật giúp!',
+                }),
+                new TextRun({ break: 1 }),
+                new TextRun({
+                  text: 'Xin trân trọng cảm ơn!',
+                }),
+              ],
+            }),
+          ],
+        },
+        {
+          properties: {
+            column: {
+              count: 2,
+              equalWidth: true,
+            },
+            page,
+            type: SectionType.CONTINUOUS,
+          },
+          children: [
+            new Paragraph({
+              alignment,
+              spacing: {
+                before: 280,
+              },
+              children: [
+                new ColumnBreak(),
+                new TextRun({
+                  text: 'P. Trưởng bộ môn',
+                }),
+                new TextRun({ break: 5 }),
+                new TextRun({
+                  text: 'Bùi Ngọc Dũng',
                 }),
               ],
             }),

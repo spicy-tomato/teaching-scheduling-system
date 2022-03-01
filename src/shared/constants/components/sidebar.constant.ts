@@ -63,9 +63,11 @@ export class SidebarConstant {
     //   routerLink: '/user-setting/permission',
     //   permission: PermissionConstant.AUTHORIZE_DEPARTMENT_PERMISSION,
     // },
-    // {
-    //   name: 'Thống kê',
-    //   icon: 'far fa-chart-pie',
-    // },
+    {
+      name: 'Thống kê',
+      icon: 'far fa-chart-pie',
+      routerLink: '/statistic',
+      permission: PermissionConstant.ASSIGN_SCHEDULE,
+    },
   ];
 }
