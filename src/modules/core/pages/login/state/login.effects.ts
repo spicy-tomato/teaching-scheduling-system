@@ -27,7 +27,12 @@ export class LoginEffects {
             this.accessTokenService.save(token);
             return ApiAction.loginSuccessful({ teacher });
           }),
-          catchError(() => of(ApiAction.wrongPassword()))
+          catchError((e) =>
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+            e.status === 403
+              ? of(ApiAction.wrongPassword())
+              : of(ApiAction.systemError())
+          )
         );
       })
     );
