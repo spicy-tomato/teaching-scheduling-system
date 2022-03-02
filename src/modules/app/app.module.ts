@@ -1,6 +1,8 @@
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { APP_INITIALIZER, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
+import { registerLocaleData } from '@angular/common';
+import localeVi from '@angular/common/locales/vi';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { of } from 'rxjs';
@@ -35,6 +37,8 @@ import { DatePipe } from '@angular/common';
 import { TokenService } from '@services/core/token.service';
 import { ConfirmModule } from '@services/dialog/confirm/confirm.module';
 
+registerLocaleData(localeVi, 'vi');
+
 const TAIGA_UI = [TuiRootModule, TuiDialogModule, TuiNotificationsModule];
 const NGRX = [
   StoreModule.forRoot({ router: routerReducer }, {}),
@@ -67,6 +71,10 @@ const NGRX = [
       useFactory: loadAppSettings,
       multi: true,
       deps: [AppSettingsService],
+    },
+    {
+      provide: LOCALE_ID,
+      useValue: 'vi',
     },
     {
       provide: TUI_LANGUAGE,

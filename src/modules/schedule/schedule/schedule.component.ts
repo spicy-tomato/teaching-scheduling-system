@@ -40,8 +40,13 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { ExamEditorDialogComponent } from '../shared/exam-editor-dialog/exam-editor-dialog.component';
 import { EApiStatus } from '@shared/enums';
 import { StudyEditorDialogComponent } from '../shared/study-editor-dialog/study-editor-dialog.component';
-import { EjsScheduleModel, ChangedScheduleModel } from 'src/shared/models';
+import {
+  EjsScheduleModel,
+  ChangedScheduleModel,
+  FixedScheduleModel,
+} from 'src/shared/models';
 import { ScheduleHelper, DateHelper, ObservableHelper } from '@shared/helpers';
+import { StudyHistoryDialogComponent } from '../shared/study-editor-dialog/study-history-dialog/study-history-dialog.component';
 
 loadCldr(numberingSystems, gregorian, numbers, timeZoneNames);
 L10n.load({ vi: EJS_LOCALE.vi });
@@ -119,6 +124,18 @@ export class TssScheduleComponent
       args.cancel = true;
       this.showEditorDialog(args.data as EjsScheduleModel);
     }
+  }
+
+  public onShowHistory(fixedSchedules: FixedScheduleModel[]): void {
+    this.dialogService
+      .open(
+        new PolymorpheusComponent(StudyHistoryDialogComponent, this.injector),
+        {
+          data: fixedSchedules,
+          label: 'Lịch sử thay đổi giờ giảng',
+        }
+      )
+      .subscribe();
   }
 
   /** PRIVATE METHODS */
