@@ -588,6 +588,7 @@ export class StudyEditorDialogComponent extends BaseComponent {
       ),
       reason: request.controls['reason'].value as string,
       timeRequest: sqlDateFactory(),
+      status: 0,
     };
 
     this.store.dispatch(fromStudyEditorDialog.request({ body }));
