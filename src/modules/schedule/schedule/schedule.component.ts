@@ -45,7 +45,12 @@ import {
   ChangedScheduleModel,
   FixedScheduleModel,
 } from 'src/shared/models';
-import { ScheduleHelper, DateHelper, ObservableHelper } from '@shared/helpers';
+import {
+  ScheduleHelper,
+  DateHelper,
+  ObservableHelper,
+  ArrayHelper,
+} from '@shared/helpers';
 import { StudyHistoryDialogComponent } from '../shared/study-editor-dialog/study-history-dialog/study-history-dialog.component';
 
 loadCldr(numberingSystems, gregorian, numbers, timeZoneNames);
@@ -102,6 +107,17 @@ export class TssScheduleComponent
     }
     if (args.data.Color) {
       args.element.style.backgroundColor = args.data.Color as string;
+    }
+    if ((args.data.FixedSchedules as FixedScheduleModel[])?.length > 0) {
+      const lastFixedSchedules = ArrayHelper.lastItem(
+        args.data.FixedSchedules
+      ) as FixedScheduleModel;
+      if (lastFixedSchedules.status === 0 || lastFixedSchedules.status === 1) {
+        args.element.style.borderLeft = '4px solid red';
+      }
+      else {
+        args.element.style.borderLeft = '4px solid #3b79ff';
+      }
     }
   }
 
