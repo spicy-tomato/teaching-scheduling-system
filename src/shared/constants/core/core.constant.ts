@@ -62,5 +62,9 @@ export class CoreConstant {
       name: 'Đã chấp nhận',
       feature: PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE,
     },
+    4: {
+      name: 'Trưởng bộ môn thay đổi',
+      feature: PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE,
+    },
   };
 }
