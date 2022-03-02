@@ -7,6 +7,7 @@ export {
   changeView,
   filter,
   changeSelectingState,
+  changeScheduleInDialog,
 } from './schedule.page.actions';
 export { scheduleReducer, scheduleFeatureKey } from './schedule.reducer';
 export { ScheduleState } from './schedule.state';

@@ -1,6 +1,6 @@
 export interface ChangeSchedulePayload {
   id: number;
-  date: string | Date;
+  date: Date;
   shift: string;
   idRoom: string;
 }

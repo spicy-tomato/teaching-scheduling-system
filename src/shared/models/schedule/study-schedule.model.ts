@@ -4,12 +4,12 @@ import { FixedScheduleModel } from './fixed-schedule.model';
 import { ScheduleModel } from './schedule.model';
 
 export class StudyScheduleModel extends ScheduleModel {
-  public readonly shift!: string;
-  public readonly date!: Date;
+  public shift!: string;
+  public date!: Date;
   public readonly color!: string;
   public readonly moduleName!: string;
   public readonly teacher!: string;
-  public readonly fixedSchedules!: FixedScheduleModel[];
+  public fixedSchedules!: FixedScheduleModel[];
 
   constructor(
     id: number,

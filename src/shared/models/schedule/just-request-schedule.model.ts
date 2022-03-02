@@ -3,6 +3,7 @@ import { ChangeSchedulePayload } from './change-schedule-payload.model';
 import { FixedScheduleModel } from './fixed-schedule.model';
 
 export interface ChangedScheduleModel {
+  id: number;
   fixedSchedules: Nullable<FixedScheduleModel[]>;
   schedule: {
     change: boolean;

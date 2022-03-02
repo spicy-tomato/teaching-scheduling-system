@@ -264,26 +264,8 @@ export class TssScheduleComponent
       )
       .pipe(
         ObservableHelper.filterNullish(),
-        tap((newRequestData) => {
-          const newData: EjsScheduleModel = {
-            ...data,
-          };
-          if (newRequestData.fixedSchedules) {
-            newData.FixedSchedules = newRequestData.fixedSchedules;
-          }
-          if (newRequestData.schedule.change) {
-            const [start, end] = DateHelper.fromShift(
-              newRequestData.schedule.data.date as Date,
-              newRequestData.schedule.data.shift
-            );
-
-            newData.Note = newRequestData.schedule.note;
-            newData.Shift = newRequestData.schedule.data.shift;
-            newData.Location = newRequestData.schedule.data.idRoom;
-            newData.StartTime = start;
-            newData.EndTime = end;
-          }
-          this.scheduleComponent.saveEvent(newData);
+        tap((changes) => {
+          this.store.dispatch(fromSchedule.changeScheduleInDialog({ changes }));
         })
       )
       .subscribe();
