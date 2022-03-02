@@ -121,10 +121,6 @@ export class StudyEditorDialogComponent extends BaseComponent {
     return this.requestControl.controls['date'].value as TuiDay;
   }
 
-  private get idSchedule(): number {
-    return this.form.controls['id'].value as number;
-  }
-
   /** CONSTRUCTOR */
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT)
@@ -228,7 +224,7 @@ export class StudyEditorDialogComponent extends BaseComponent {
     const body = {
       note: (this.form.controls['change'] as FormGroup).controls['note']
         .value as string,
-      id: this.idSchedule,
+      id: this.context.data.Id,
     };
 
     this.store.dispatch(fromStudyEditorDialog.update({ body }));
@@ -401,7 +397,7 @@ export class StudyEditorDialogComponent extends BaseComponent {
 
                 this.context.data.FixedSchedules?.push({
                   ...request,
-                  idSchedule: this.idSchedule,
+                  idSchedule: this.context.data.Id,
                   oldDate: (
                     controls['start'].value as [TuiDay, TuiTime]
                   )[0].getFormattedDay('YMD', '-'),
@@ -426,12 +422,13 @@ export class StudyEditorDialogComponent extends BaseComponent {
         tap((update) => {
           setTimeout(() => {
             this.context.completeWith({
+              id: this.context.data.Id,
               fixedSchedules: this.context.data.FixedSchedules ?? null,
               schedule: {
                 change: this.changed,
                 note: update.note,
                 data: {
-                  id: this.idSchedule,
+                  id: this.context.data.Id,
                   idRoom: this.roomControlValue,
                   shift: this.shiftControlValue,
                   date: this.dateControlValue.toUtcNativeDate(),
@@ -579,7 +576,7 @@ export class StudyEditorDialogComponent extends BaseComponent {
     const request = this.requestControl;
 
     const body: RequestChangeSchedulePayload = {
-      idSchedule: this.idSchedule,
+      idSchedule: this.context.data.Id,
       newIdRoom: (request.controls['online'].value as boolean) ? 'PHTT' : null,
       newShift: this.shiftControlValue,
       newDate: DateHelper.toDateOnlyString(
@@ -595,7 +592,7 @@ export class StudyEditorDialogComponent extends BaseComponent {
 
   private submitChange(): void {
     const body: RequestChangeSchedulePayload = {
-      idSchedule: this.idSchedule,
+      idSchedule: this.context.data.Id,
       newIdRoom: this.roomControlValue,
       newShift: this.shiftControlValue,
       newDate: DateHelper.toDateOnlyString(

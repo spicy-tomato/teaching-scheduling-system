@@ -26,6 +26,7 @@ export class StudyScheduleModel extends ScheduleModel {
   ) {
     super(id, idModuleClass, name, idRoom, 'study', note, [teacher]);
 
+    this.teacher = teacher;
     this.shift = shift;
     this.date = date;
     this.color = color;

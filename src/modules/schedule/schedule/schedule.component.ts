@@ -245,8 +245,8 @@ export class TssScheduleComponent
       )
       .pipe(
         ObservableHelper.filterUndefined(),
-        tap((note) => {
-          const newData: EjsScheduleModel = { ...data, Note: note };
+        tap((Note) => {
+          const newData: EjsScheduleModel = { ...data, Note };
           this.scheduleComponent.saveEvent(newData);
         })
       )
