@@ -38,7 +38,7 @@ export class StudyEditorDialogEffects extends BaseComponent {
     return this.actions$.pipe(
       ofType(PageAction.change),
       mergeMap(({ body }) => {
-        return this.scheduleService.changeSchedule(body).pipe(
+        return this.scheduleService.requestChangeSchedule(body).pipe(
           map(() => {
             return ApiAction.changeSuccessful();
           }),

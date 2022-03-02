@@ -23,7 +23,6 @@ import {
   StudyScheduleModel,
   SimpleFixedScheduleModel,
   FixedScheduleModel,
-  ChangeSchedulePayload,
   RequestChangeSchedulePayload,
   SimpleModel,
   Teacher,
@@ -595,13 +594,16 @@ export class StudyEditorDialogComponent extends BaseComponent {
   }
 
   private submitChange(): void {
-    const body: ChangeSchedulePayload = {
-      id: this.idSchedule,
-      idRoom: this.roomControlValue,
-      shift: this.shiftControlValue,
-      date: DateHelper.toDateOnlyString(
+    const body: RequestChangeSchedulePayload = {
+      idSchedule: this.idSchedule,
+      newIdRoom: this.roomControlValue,
+      newShift: this.shiftControlValue,
+      newDate: DateHelper.toDateOnlyString(
         this.dateControlValue.toUtcNativeDate()
       ),
+      reason: 'Trưởng bộ môn thay đổi',
+      timeRequest: sqlDateFactory(),
+      status: 4,
     };
 
     this.store.dispatch(fromStudyEditorDialog.change({ body }));
