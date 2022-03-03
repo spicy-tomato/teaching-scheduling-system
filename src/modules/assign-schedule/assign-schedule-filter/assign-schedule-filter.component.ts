@@ -259,11 +259,11 @@ export class AssignScheduleFilterComponent
   }
 
   private generateSchoolYears(currentTerm: string): string[] {
-    const curr = +currentTerm.split('-')[0] + 1;
+    const curr = +currentTerm.split('_')[0] + 1;
     const result = [];
 
     for (let i = 0; i < 3; i++) {
-      result.unshift(`${curr - i}-${curr - i + 1}`);
+      result.unshift(`${curr - i}_${curr - i + 1}`);
     }
 
     return result;
