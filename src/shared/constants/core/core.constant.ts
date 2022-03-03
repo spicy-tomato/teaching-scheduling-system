@@ -53,10 +53,10 @@ export class CoreConstant {
       feature: PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE,
     },
     0: {
-      name: 'Đang chờ phê duyệt',
+      name: 'Đang chờ bộ môn phê duyệt',
       feature: PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE,
     },
-    1: { name: 'Đang chờ Ban QLGĐ', feature: null },
+    1: { name: 'Đang chờ Ban QLGĐ xếp phòng', feature: null },
     2: { name: 'Đã chấp nhận', feature: null },
     3: {
       name: 'Đã chấp nhận',
