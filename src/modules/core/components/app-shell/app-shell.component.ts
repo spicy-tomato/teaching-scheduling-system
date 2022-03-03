@@ -3,7 +3,7 @@ import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';
 import { GoogleService } from '@services/core/google.service';
 import { EApiStatus } from '@shared/enums';
-import { take, tap } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 import * as fromAppShell from './state';
 
 @Component({
@@ -19,16 +19,17 @@ export class AppShellComponent extends BaseComponent {
   ) {
     super();
 
+    store.dispatch(fromAppShell.reset());
+
     store
       .select(fromAppShell.selectStatus)
       .pipe(
         tap((status) => {
           if (status === EApiStatus.unknown) {
-            store.dispatch(fromAppShell.reset());
             store.dispatch(fromAppShell.keepLogin());
           }
         }),
-        take(1)
+        takeUntil(this.destroy$)
       )
       .subscribe();
 
