@@ -27,4 +27,7 @@ export class PermissionConstant {
   public static IMPORT_DATA = 26;
   public static AUTHORIZE_PERMISSION = 27;
   public static STATISTICIZE_CHANGE_SCHEDULE = 28;
+  public static SEE_PERSONAL_CHANGE_SCHEDULE_REQUESTS = 29;
+  public static SEE_DEPARTMENT_CHANGE_SCHEDULE_REQUESTS = 30;
+  public static SEE_CHANGE_SCHEDULE_REQUESTS_FOR_ROOM_MANAGER = 31;
 }
