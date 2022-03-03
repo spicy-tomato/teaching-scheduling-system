@@ -31,11 +31,11 @@ export class CoreConstant {
       start: [15, 35],
       end: [18, 0],
     },
-    '5-1': {
+    '5_1': {
       start: [18, 5],
       end: [20, 30],
     },
-    '5-2': {
+    '5_2': {
       start: [18, 5],
       end: [21, 20],
     },
