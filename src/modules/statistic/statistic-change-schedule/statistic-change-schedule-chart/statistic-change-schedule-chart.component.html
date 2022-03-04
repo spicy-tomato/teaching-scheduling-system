@@ -1,0 +1,25 @@
+<ng-container *ngrxLet="teachersList$ as teachersList">
+  <tui-axes
+    [axisXLabels]="labelsX"
+    [axisYLabels]="labelsY"
+    class="w-full h-full"
+  >
+    <tui-bar-chart
+      [max]="max"
+      [value]="value"
+      [hintContent]="hint"
+      size="l"
+    ></tui-bar-chart>
+  </tui-axes>
+
+  <ng-template #hint let-setIndex>
+    <p class="name">{{ teachersNameList[setIndex] }}</p>
+    <p
+      *ngFor="let item of value; let index = index"
+      class="d-flex align-items-center"
+    >
+      <span class="dot" [style.background]="getBackground(index)"></span>
+      <span>{{ setNames[index] }}: {{ item[setIndex] }}</span>
+    </p>
+  </ng-template>
+</ng-container>

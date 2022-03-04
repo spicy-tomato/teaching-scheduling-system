@@ -36,6 +36,7 @@ import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
 import { DatePipe } from '@angular/common';
 import { TokenService } from '@services/core/token.service';
 import { ConfirmModule } from '@services/dialog/confirm/confirm.module';
+import { ShortenNamePipe } from '@pipes/shorten-name.pipe';
 
 registerLocaleData(localeVi, 'vi');
 
@@ -65,6 +66,10 @@ const NGRX = [
     {
       provide: TokenService.DATE_PIPE_TOKEN,
       useClass: DatePipe,
+    },
+    {
+      provide: TokenService.SHORTEN_NAME_PIPE_TOKEN,
+      useClass: ShortenNamePipe,
     },
     {
       provide: APP_INITIALIZER,

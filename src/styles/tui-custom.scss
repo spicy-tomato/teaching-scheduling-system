@@ -2,6 +2,8 @@
 
 :root {
   --tui-selection: rgba(112, 182, 246, 0.4) !important;
+  --tui-chart-0: var(--tui-support-03);
+  --tui-chart-1: var(--tui-support-07);
 }
 
 tui-wrapper[data-appearance="nav-button"] {
