@@ -5,6 +5,11 @@ import { AppShellState } from './app-shell.state';
 const appShellSelector =
   createFeatureSelector<AppShellState>(appShellFeatureKey);
 
+export const selectPreResetInGuard = createSelector(
+  appShellSelector,
+  (state) => state.preResetInGuard
+);
+
 export const selectStatus = createSelector(
   appShellSelector,
   (state) => state.status

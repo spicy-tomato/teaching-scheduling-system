@@ -12,7 +12,7 @@ import { AppService } from '@services/core/app.service';
 @Injectable()
 export class AppShellEffects {
   /** EFFECTS */
-  public autoLogin$ = createEffect(() => {
+  public keepLogin$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.keepLogin),
       mergeMap(() => {
