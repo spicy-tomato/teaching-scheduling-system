@@ -1,4 +1,5 @@
 import { PermissionConstant } from '@shared/constants';
+import { Role } from '@shared/models';
 
 export class PermissionHelper {
   public static isTeacher(permissions: number[]): boolean {
@@ -17,9 +18,7 @@ export class PermissionHelper {
     return permissions.includes(PermissionConstant.MANAGE_ROOM);
   }
 
-  public static getRole(
-    permissions: number[]
-  ): 'teacher' | 'departmentHead' | 'roomManager' {
+  public static getRole(permissions: number[]): Role {
     if (PermissionHelper.isRoomManager(permissions)) {
       return 'roomManager';
     }

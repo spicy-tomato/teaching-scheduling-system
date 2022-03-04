@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of, Subject } from 'rxjs';
 import {
   catchError,
+  distinctUntilKeyChanged,
   filter,
   map,
   mergeMap,
@@ -27,6 +28,7 @@ import {
   ObservableHelper,
   PermissionHelper,
 } from '@shared/helpers';
+import { PermissionConstant } from '@shared/constants';
 
 @Injectable()
 export class RequestsEffects {
@@ -209,37 +211,19 @@ export class RequestsEffects {
     this.options$ = store.select(fromRequests.selectOptions);
     this.department$ = appShellStore.select(fromAppShell.selectDepartment);
 
-    this.handlePermissionChange();
+    this.handleLoadPersonal();
+    this.handleLoadDepartment();
+    this.handleLoadManager();
   }
 
   /** PRIVATE METHODS */
-  private handlePermissionChange(): void {
-    this.permissions$
-      .pipe(
-        filter((permissions) => permissions.length > 0),
-        tap((permissions) => {
-          const role = PermissionHelper.getRole(permissions);
-          switch (role) {
-            case 'teacher':
-              this.handleLoadPersonal();
-              break;
-            case 'departmentHead':
-              this.handleLoadPersonal();
-              this.handleLoadDepartment();
-              break;
-            case 'roomManager':
-              this.handleLoadManager();
-              break;
-          }
-        }),
-        take(1)
-      )
-      .subscribe();
-  }
-
   private handleLoadPersonal(): void {
     this.loadSubject$
       .pipe(
+        ObservableHelper.filterWith(
+          this.permissions$,
+          PermissionConstant.SEE_PERSONAL_CHANGE_SCHEDULE_REQUESTS
+        ),
         filter(() => this.personal),
         mergeMap((x) => {
           return this.scheduleService.getPersonalChangeScheduleRequests(x).pipe(
@@ -263,6 +247,11 @@ export class RequestsEffects {
       this.loadSubject$,
     ])
       .pipe(
+        ObservableHelper.filterWith(
+          this.permissions$,
+          PermissionConstant.SEE_DEPARTMENT_CHANGE_SCHEDULE_REQUESTS
+        ),
+        distinctUntilKeyChanged('0'),
         filter(() => !this.personal),
         map(([department, params]) => ({
           department: department.id,
@@ -289,6 +278,10 @@ export class RequestsEffects {
   private handleLoadManager(): void {
     this.loadSubject$
       .pipe(
+        ObservableHelper.filterWith(
+          this.permissions$,
+          PermissionConstant.SEE_CHANGE_SCHEDULE_REQUESTS_FOR_ROOM_MANAGER
+        ),
         filter(() => !this.personal),
         mergeMap((x) => {
           return this.scheduleService.getManagerChangeScheduleRequests(x).pipe(

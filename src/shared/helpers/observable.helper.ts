@@ -10,6 +10,7 @@ import {
   UnaryFunction,
 } from 'rxjs';
 import { filter, map, publish } from 'rxjs/operators';
+import { ArrayHelper } from './array.helper';
 import { ObjectHelper } from './object.helper';
 
 export class ObservableHelper {
@@ -32,6 +33,23 @@ export class ObservableHelper {
     return pipe(
       filter((x) => x !== undefined) as OperatorFunction<T | undefined, T>
     );
+  }
+
+  public static filterWith<T, U>(
+    other$: Observable<U[]>,
+    accept: U[] | U
+  ): MonoTypeOperatorFunction<T> {
+    return (source$) => {
+      return combineLatest([source$, other$]).pipe(
+        filter(({ 1: other }) => {
+          if (!ArrayHelper.isArray(accept)) {
+            return other.includes(accept as U);
+          }
+          return ArrayHelper.includesArray(other, accept as U[]);
+        }),
+        map(([source]) => source)
+      );
+    };
   }
 
   public static waitNullish<T1, T2>(
