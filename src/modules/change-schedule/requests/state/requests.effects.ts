@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of, Subject } from 'rxjs';
 import {
   catchError,
-  distinctUntilKeyChanged,
   filter,
   map,
   mergeMap,
@@ -251,7 +250,6 @@ export class RequestsEffects {
           this.permissions$,
           PermissionConstant.SEE_DEPARTMENT_CHANGE_SCHEDULE_REQUESTS
         ),
-        distinctUntilKeyChanged('0'),
         filter(() => !this.personal),
         map(([department, params]) => ({
           department: department.id,

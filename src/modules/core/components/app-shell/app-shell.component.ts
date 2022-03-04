@@ -2,7 +2,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';
 import { GoogleService } from '@services/core/google.service';
-import { filter, take, tap } from 'rxjs/operators';
+import { EApiStatus } from '@shared/enums';
+import { take, tap } from 'rxjs/operators';
 import * as fromAppShell from './state';
 
 @Component({
@@ -19,12 +20,13 @@ export class AppShellComponent extends BaseComponent {
     super();
 
     store
-      .select(fromAppShell.selectPreResetInGuard)
+      .select(fromAppShell.selectStatus)
       .pipe(
-        filter((fromGuard) => !fromGuard),
-        tap(() => {
-          store.dispatch(fromAppShell.reset({ fromGuard: false }));
-          store.dispatch(fromAppShell.keepLogin());
+        tap((status) => {
+          if (status !== EApiStatus.loading) {
+            store.dispatch(fromAppShell.reset());
+            store.dispatch(fromAppShell.keepLogin());
+          }
         }),
         take(1)
       )

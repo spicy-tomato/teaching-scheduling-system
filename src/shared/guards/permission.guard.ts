@@ -5,6 +5,7 @@ import * as fromAppShell from '@modules/core/components/app-shell/state';
 import { Store } from '@ngrx/store';
 import { filter, map, take, takeUntil, tap } from 'rxjs/operators';
 import { BaseComponent } from '@modules/core/base/base.component';
+import { EApiStatus } from '@shared/enums';
 
 @Injectable({
   providedIn: 'root',
@@ -20,11 +21,11 @@ export class PermissionGuard extends BaseComponent implements CanActivate {
     super();
 
     appShellStore
-      .select(fromAppShell.selectTeacher)
+      .select(fromAppShell.selectStatus)
       .pipe(
-        tap((teacher) => {
-          if (teacher === null) {
-            appShellStore.dispatch(fromAppShell.reset({ fromGuard: true }));
+        tap((status) => {
+          if (status !== EApiStatus.loading) {
+            appShellStore.dispatch(fromAppShell.reset());
             appShellStore.dispatch(fromAppShell.keepLogin());
           }
         }),

@@ -5,7 +5,6 @@ import * as ApiAction from './app-shell.api.actions';
 import * as PageAction from './app-shell.page.actions';
 
 const initialState: AppShellState = {
-  preResetInGuard: false,
   teacher: null,
   status: EApiStatus.unknown,
   rooms: [],
@@ -15,10 +14,7 @@ export const appShellFeatureKey = 'app-shell';
 
 export const appShellReducer = createReducer(
   initialState,
-  on(PageAction.reset, (_, { fromGuard }) => ({
-    ...initialState,
-    preResetInGuard: fromGuard,
-  })),
+  on(PageAction.reset, () => initialState),
   on(PageAction.keepLogin, (state) => ({
     ...state,
     status: EApiStatus.loading,

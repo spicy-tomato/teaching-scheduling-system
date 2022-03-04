@@ -6,10 +6,12 @@ import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as PageAction from './login.page.actions';
 import * as ApiAction from './login.api.actions';
+import * as fromAppShell from '@modules/core/components/app-shell/state';
 import { AuthService } from '@services/core/auth.service';
 import { AppService } from '@services/core/app.service';
 import { ActivatedRoute } from '@angular/router';
 import { AccessTokenService } from '@services/core/access-token.service';
+import { Store } from '@ngrx/store';
 
 @Injectable()
 export class LoginEffects {
@@ -45,6 +47,8 @@ export class LoginEffects {
         mergeMap(() =>
           of({}).pipe(
             tap(() => {
+              this.appShellStore.dispatch(fromAppShell.reset());
+              this.appShellStore.dispatch(fromAppShell.keepLogin());
               this.appService.redirectToApp(
                 this.route.snapshot.queryParamMap.get('redirect')
               );
@@ -62,6 +66,7 @@ export class LoginEffects {
     private readonly route: ActivatedRoute,
     private readonly appService: AppService,
     private readonly authService: AuthService,
-    private readonly accessTokenService: AccessTokenService
+    private readonly accessTokenService: AccessTokenService,
+    private readonly appShellStore: Store<fromAppShell.AppShellState>
   ) {}
 }

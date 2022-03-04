@@ -9,7 +9,7 @@ import {
   Subscription,
   UnaryFunction,
 } from 'rxjs';
-import { filter, map, publish } from 'rxjs/operators';
+import { filter, map, publish, withLatestFrom } from 'rxjs/operators';
 import { ArrayHelper } from './array.helper';
 import { ObjectHelper } from './object.helper';
 
@@ -40,7 +40,8 @@ export class ObservableHelper {
     accept: U[] | U
   ): MonoTypeOperatorFunction<T> {
     return (source$) => {
-      return combineLatest([source$, other$]).pipe(
+      return source$.pipe(
+        withLatestFrom(other$),
         filter(({ 1: other }) => {
           if (!ArrayHelper.isArray(accept)) {
             return other.includes(accept as U);
