@@ -175,6 +175,7 @@ export class ScheduleEffects extends BaseComponent {
       ),
     ])
       .pipe(
+        distinctUntilKeyChanged('1'),
         this.commonPersonalObservable(),
         mergeMap(({ fetch, ranges, teacherId }) => {
           return this.scheduleService.getSchedule(fetch, teacherId).pipe(
@@ -201,6 +202,7 @@ export class ScheduleEffects extends BaseComponent {
       ),
     ])
       .pipe(
+        distinctUntilKeyChanged('1'),
         this.commonPersonalObservable(),
         mergeMap(({ fetch, ranges }) => {
           return this.scheduleService.getExamSchedule(fetch).pipe(

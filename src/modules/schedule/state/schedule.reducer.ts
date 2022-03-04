@@ -35,7 +35,7 @@ const initialState: ScheduleState = {
   },
   view: 'Month',
   selectedDate: new Date(),
-  month: new TuiMonth(new Date().getFullYear(), new Date().getMonth()),
+  month: TuiMonth.currentLocal(),
 };
 
 export const scheduleFeatureKey = 'schedule';

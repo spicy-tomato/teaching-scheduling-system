@@ -43,7 +43,7 @@ const TAIGA_UI = [TuiRootModule, TuiDialogModule, TuiNotificationsModule];
 const NGRX = [
   StoreModule.forRoot({ router: routerReducer }, {}),
   StoreDevtoolsModule.instrument({
-    maxAge: 25,
+    maxAge: 50,
     logOnly: environment.production,
   }),
   EffectsModule.forRoot([]),

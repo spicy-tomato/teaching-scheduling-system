@@ -29,7 +29,7 @@ export abstract class BaseComponent implements OnDestroy {
   }
 
   /** PROTECTED METHODS */
-  protected beforeDestroy(): unknown {
+  protected beforeDestroy(): void {
     return;
   }
 }

@@ -19,8 +19,6 @@ export class PermissionGuard extends BaseComponent implements CanActivate {
   ) {
     super();
 
-    appShellStore.dispatch(fromAppShell.keepLogin());
-
     this.permissions$ = appShellStore
       .select(fromAppShell.selectPermission)
       .pipe(takeUntil(this.destroy$));
