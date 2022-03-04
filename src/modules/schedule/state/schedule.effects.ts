@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of, OperatorFunction, Subject } from 'rxjs';
 import {
   catchError,
+  distinctUntilKeyChanged,
   filter,
   map,
   mergeMap,
-  takeUntil,
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
@@ -16,7 +16,6 @@ import * as ApiAction from './schedule.api.actions';
 import * as fromSchedule from '.';
 import { ScheduleService } from '@services/schedule.service';
 import { Store } from '@ngrx/store';
-import { BaseComponent } from '@modules/core/base/base.component';
 import {
   Nullable,
   SearchSchedule,
@@ -32,14 +31,10 @@ import {
 import { View } from '@syncfusion/ej2-angular-schedule';
 
 @Injectable()
-export class ScheduleEffects extends BaseComponent {
+export class ScheduleEffects {
   /** PRIVATE PROPERTIES */
-  private ranges$ = this.store
-    .select(fromSchedule.selectRanges)
-    .pipe(takeUntil(this.destroy$));
-  private view$ = this.store
-    .select(fromSchedule.selectView)
-    .pipe(takeUntil(this.destroy$));
+  private ranges$ = this.store.select(fromSchedule.selectRanges);
+  private view$ = this.store.select(fromSchedule.selectView);
 
   private readonly permissions$: Observable<number[]>;
   private readonly department$: Observable<Nullable<SimpleModel>>;
@@ -140,24 +135,9 @@ export class ScheduleEffects extends BaseComponent {
     private readonly store: Store<fromSchedule.ScheduleState>,
     appShellStore: Store<fromAppShell.AppShellState>
   ) {
-    super();
-
-    this.assignSubjects([
-      this.loadPersonalScheduleSubject$,
-      this.loadPersonalExamSubject$,
-      this.loadDepartmentScheduleSubject$,
-      this.loadDepartmentExamSubject$,
-    ]);
-
-    this.permissions$ = appShellStore
-      .select(fromAppShell.selectPermission)
-      .pipe(takeUntil(this.destroy$));
-    this.department$ = appShellStore
-      .select(fromAppShell.selectDepartment)
-      .pipe(takeUntil(this.destroy$));
-    this.teacher$ = appShellStore
-      .select(fromAppShell.selectTeacher)
-      .pipe(takeUntil(this.destroy$));
+    this.permissions$ = appShellStore.select(fromAppShell.selectPermission);
+    this.department$ = appShellStore.select(fromAppShell.selectDepartment);
+    this.teacher$ = appShellStore.select(fromAppShell.selectTeacher);
 
     this.handleLoadPersonalSchedule();
     this.handleLoadPersonalExam();

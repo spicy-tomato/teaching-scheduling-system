@@ -6,7 +6,6 @@ import {
   map,
   mergeMap,
   take,
-  takeUntil,
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
@@ -16,7 +15,6 @@ import * as ApiAction from './requests.api.actions';
 import * as fromRequests from '.';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
 import { ScheduleService } from '@services/schedule.service';
-import { BaseComponent } from '@modules/core/base/base.component';
 import {
   ChangeScheduleOptions,
   ChangeScheduleSearch,
@@ -31,19 +29,16 @@ import {
 } from '@shared/helpers';
 
 @Injectable()
-export class RequestsEffects extends BaseComponent {
+export class RequestsEffects {
   /** PRIVATE PROPERTIES */
   private personal!: boolean;
 
   private readonly options$: Observable<ChangeScheduleOptions>;
   private readonly department$: Observable<Nullable<SimpleModel>>;
   private readonly loadSubject$ = new Subject<ChangeScheduleSearch>();
-  private readonly permissions$ = this.appShellStore
-    .select(fromAppShell.selectPermission)
-    .pipe(takeUntil(this.destroy$));
-  private readonly nameTitle$ = this.appShellStore
-    .select(fromAppShell.selectNameTitle)
-    .pipe(takeUntil(this.destroy$));
+  private readonly permissions$ = this.appShellStore.select(
+    fromAppShell.selectPermission
+  );
 
   /** EFFECTS */
   public reset$ = createEffect(
@@ -211,19 +206,8 @@ export class RequestsEffects extends BaseComponent {
     private readonly store: Store<fromRequests.RequestsState>,
     private readonly appShellStore: Store<fromAppShell.AppShellState>
   ) {
-    super();
-
-    this.assignSubjects([this.loadSubject$]);
-
-    this.options$ = store
-      .select(fromRequests.selectOptions)
-      .pipe(takeUntil(this.destroy$));
-    this.department$ = appShellStore
-      .select(fromAppShell.selectDepartment)
-      .pipe(takeUntil(this.destroy$));
-    this.nameTitle$ = appShellStore
-      .select(fromAppShell.selectNameTitle)
-      .pipe(takeUntil(this.destroy$));
+    this.options$ = store.select(fromRequests.selectOptions);
+    this.department$ = appShellStore.select(fromAppShell.selectDepartment);
 
     this.handlePermissionChange();
   }
@@ -268,8 +252,7 @@ export class RequestsEffects extends BaseComponent {
             }),
             catchError(() => of(this.store.dispatch(ApiAction.loadFailure())))
           );
-        }),
-        takeUntil(this.destroy$)
+        })
       )
       .subscribe();
   }
@@ -298,8 +281,7 @@ export class RequestsEffects extends BaseComponent {
               }),
               catchError(() => of(this.store.dispatch(ApiAction.loadFailure())))
             );
-        }),
-        takeUntil(this.destroy$)
+        })
       )
       .subscribe();
   }
@@ -319,8 +301,7 @@ export class RequestsEffects extends BaseComponent {
             }),
             catchError(() => of(this.store.dispatch(ApiAction.loadFailure())))
           );
-        }),
-        takeUntil(this.destroy$)
+        })
       )
       .subscribe();
   }

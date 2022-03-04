@@ -5,10 +5,9 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as PageAction from './study-editor-dialog.page.actions';
 import * as ApiAction from './study-editor-dialog.api.actions';
 import { ScheduleService } from '@services/schedule.service';
-import { BaseComponent } from '@modules/core/base/base.component';
 
 @Injectable()
-export class StudyEditorDialogEffects extends BaseComponent {
+export class StudyEditorDialogEffects {
   /** EFFECTS */
   public request$ = createEffect(() => {
     return this.actions$.pipe(
@@ -100,7 +99,5 @@ export class StudyEditorDialogEffects extends BaseComponent {
   constructor(
     private readonly actions$: Actions,
     private readonly scheduleService: ScheduleService
-  ) {
-    super();
-  }
+  ) {}
 }
