@@ -10,6 +10,7 @@ export class Teacher {
   public readonly department!: SimpleModel;
   public readonly faculty!: SimpleModel;
   public readonly id!: string;
+  public readonly idRole!: number;
   public readonly name!: string;
   public readonly scheduleDataVersion!: number;
   public readonly notificationDataVersion!: number;

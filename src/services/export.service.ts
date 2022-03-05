@@ -1,5 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Inject, Injectable, Injector } from '@angular/core';
+import { RoleConstant } from '@shared/constants';
 import { FileType } from '@shared/enums';
 import { DateHelper } from '@shared/helpers';
 import { ChangeSchedule, Teacher } from '@shared/models';
@@ -1402,7 +1403,12 @@ export class ExportService {
               children: [
                 new ColumnBreak(),
                 new TextRun({
-                  text: 'P. Trưởng bộ môn',
+                  text:
+                    teacher.idRole === RoleConstant.DEPARTMENT_HEAD
+                      ? 'Trưởng bộ môn'
+                      : teacher.idRole === RoleConstant.DEPARTMENT_DEPUTY_HEAD
+                      ? 'P. Trưởng bộ môn'
+                      : 'Người làm đơn',
                 }),
                 new TextRun({ break: 5 }),
                 new TextRun({
