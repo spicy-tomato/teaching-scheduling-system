@@ -99,13 +99,13 @@ export class ExportService {
                   bold: true,
                   allCaps: true,
                 }),
-                new TextRun({ break: 1 }),
                 new TextRun({
+                  break: 1,
                   text: 'Độc lập – Tự do – Hạnh phúc',
                   bold: true,
                 }),
-                new TextRun({ break: 1 }),
                 new TextRun({
+                  break: 1,
                   text: '-----------------------------------',
                   bold: true,
                 }),
@@ -140,16 +140,16 @@ export class ExportService {
                 new TextRun({
                   text: 'Ban Quản lý Giảng đường',
                 }),
-                new TextRun({ break: 1 }),
                 new TextRun({
+                  break: 1,
                   text: `Họ và tên giảng viên: ${teacherName}`,
                 }),
-                new TextRun({ break: 1 }),
                 new TextRun({
+                  break: 1,
                   text: `Bộ môn: ${department}`,
                 }),
-                new TextRun({ break: 1 }),
                 new TextRun({
+                  break: 1,
                   text: `Lý do thay đổi: ${schedule.reason}`,
                 }),
               ],
@@ -467,8 +467,8 @@ export class ExportService {
                 new TextRun({
                   text: 'Giảng viên',
                 }),
-                new TextRun({ break: 5 }),
                 new TextRun({
+                  break: 5,
                   text: teacherName,
                 }),
               ],
@@ -518,13 +518,13 @@ export class ExportService {
                   bold: true,
                   allCaps: true,
                 }),
-                new TextRun({ break: 1 }),
                 new TextRun({
+                  break: 1,
                   text: 'Độc lập – Tự do – Hạnh phúc',
                   bold: true,
                 }),
-                new TextRun({ break: 1 }),
                 new TextRun({
+                  break: 1,
                   text: '-----------------------------------',
                   bold: true,
                 }),
@@ -559,16 +559,16 @@ export class ExportService {
                 new TextRun({
                   text: 'Điều độ - Ban Quản lý Giảng đường',
                 }),
-                new TextRun({ break: 2 }),
                 new TextRun({
+                  break: 2,
                   text: `Họ và tên giảng viên: ${schedule.teacher.name}`,
                 }),
-                new TextRun({ break: 1 }),
                 new TextRun({
+                  break: 1,
                   text: `Bộ môn: ${department}`,
                 }),
-                new TextRun({ break: 1 }),
                 new TextRun({
+                  break: 1,
                   text: `Khoa: ${faculty}`,
                 }),
               ],
@@ -874,8 +874,8 @@ export class ExportService {
                 after: 0,
               },
               children: [
-                new TextRun({ break: 2 }),
                 new TextRun({
+                  break: 2,
                   text: `Hà Nội, ngày ${DateHelper.beautifyDay(
                     today.getDate()
                   )} tháng ${DateHelper.beautifyDay(
@@ -905,16 +905,16 @@ export class ExportService {
                 new TextRun({
                   text: 'Người đăng ký phòng',
                 }),
-                new TextRun({ break: 5 }),
                 new TextRun({
+                  break: 5,
                   text: schedule.teacher.name,
                 }),
                 new ColumnBreak(),
                 new TextRun({
                   text: 'Xác nhận của Điều độ',
                 }),
-                new TextRun({ break: 5 }),
                 new TextRun({
+                  break: 5,
                   text: 'Khuất Minh Phúc',
                 }),
               ],
@@ -928,15 +928,15 @@ export class ExportService {
           children: [
             new Paragraph({
               children: [
-                new TextRun({ break: 2 }),
                 new TextRun({
+                  break: 2,
                   text: 'Lưu ý',
                   bold: true,
                   underline: {},
                   italics: true,
                 }),
-                new TextRun({ break: 1 }),
                 new TextRun({
+                  break: 1,
                   text: 'GV gửi giấy theo cột (7) đến "Phòng nước" ít nhất trước 01 ngày',
                   italics: true,
                 }),
@@ -1039,13 +1039,19 @@ export class ExportService {
                       },
                       children: [
                         new Paragraph({
+                          alignment,
                           children: [
                             new TextRun({
                               text: `Khoa ${teacher.faculty.name}`,
                             }),
-                            new TextRun({ break: 1 }),
                             new TextRun({
+                              break: 1,
                               text: `Bộ môn ${teacher.department.name}`,
+                              bold: true,
+                            }),
+                            new TextRun({
+                              break: 1,
+                              text: '_______________________',
                               bold: true,
                             }),
                           ],
@@ -1074,9 +1080,14 @@ export class ExportService {
                               text: 'Cộng hòa xã hội chủ nghĩa Việt Nam',
                               allCaps: true,
                             }),
-                            new TextRun({ break: 1 }),
                             new TextRun({
+                              break: 1,
                               text: 'Độc lập – Tự do – Hạnh phúc',
+                            }),
+                            new TextRun({
+                              break: 1,
+                              text: '_______________________',
+                              bold: true,
                             }),
                           ],
                         }),
@@ -1113,8 +1124,9 @@ export class ExportService {
                   allCaps: true,
                   size: 34,
                 }),
-                new TextRun({ break: 1 }),
                 new TextRun({
+                  break: 1,
+                  italics: true,
                   text: `(V/v thay đổi lịch dạy ${rangeText})`,
                   size: 26,
                 }),
@@ -1136,8 +1148,8 @@ export class ExportService {
                   size: 26,
                   bold: true,
                 }),
-                new TextRun({ break: 2 }),
                 new TextRun({
+                  break: 2,
                   text: `Bộ môn ${teacher.department.name} xin gửi tới phòng Thanh tra Pháp chế thay đổi lịch giảng dạy trong bộ môn ${rangeText}:`,
                 }),
                 new TextRun({ break: 1 }),
@@ -1377,8 +1389,8 @@ export class ExportService {
                 new TextRun({
                   text: 'Kính mong phòng Thanh tra Pháp chế cập nhật giúp!',
                 }),
-                new TextRun({ break: 1 }),
                 new TextRun({
+                  break: 1,
                   text: 'Xin trân trọng cảm ơn!',
                 }),
               ],
@@ -1410,8 +1422,8 @@ export class ExportService {
                       ? 'P. Trưởng bộ môn'
                       : 'Người làm đơn',
                 }),
-                new TextRun({ break: 5 }),
                 new TextRun({
+                  break: 5,
                   text: teacher.name,
                 }),
               ],
