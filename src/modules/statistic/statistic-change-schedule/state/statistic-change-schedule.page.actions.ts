@@ -7,3 +7,7 @@ export const statisticize = createAction(
   '[Statistic - Change Schedule Page] Statisticize',
   props<{ range: TuiDayRange }>()
 );
+
+export const loadTeacherList = createAction(
+  '[Statistic - Change Schedule Page] Load teacher list'
+);

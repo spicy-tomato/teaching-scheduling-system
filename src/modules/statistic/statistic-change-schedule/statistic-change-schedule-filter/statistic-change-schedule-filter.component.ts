@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  OnInit,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -29,7 +30,10 @@ import { FileType } from '@shared/enums';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StatisticChangeScheduleFilterComponent extends BaseComponent {
+export class StatisticChangeScheduleFilterComponent
+  extends BaseComponent
+  implements OnInit
+{
   /** PUBLIC PROPERTIES */
   public form!: FormGroup;
 
@@ -66,9 +70,13 @@ export class StatisticChangeScheduleFilterComponent extends BaseComponent {
       .pipe(takeUntil(this.destroy$));
 
     this.initForm();
-    this.statisticizeFirstTime();
     this.handleStatisticChange();
     this.handleExport();
+  }
+
+  /** LIFE CYCLE */
+  public ngOnInit(): void {
+    this.statisticizeFirstTime();
   }
 
   /** PUBLIC METHODS */
@@ -107,7 +115,10 @@ export class StatisticChangeScheduleFilterComponent extends BaseComponent {
           teacher,
         })),
         tap(({ changeSchedules, teacher }) =>
-          this.export(changeSchedules, teacher)
+          this.export(
+            changeSchedules.filter((schedule) => schedule.status > 0),
+            teacher
+          )
         ),
         takeUntil(this.destroy$)
       )

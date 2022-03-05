@@ -7,6 +7,7 @@ import * as PageAction from './statistic-change-schedule.page.actions';
 const initialState: StatisticChangeScheduleState = {
   status: EApiStatus.unknown,
   changeSchedules: [],
+  teachersList: [],
 };
 
 export const statisticChangeScheduleFeatureKey = 'statisticChangeSchedule';
@@ -24,6 +25,14 @@ export const statisticChangeScheduleReducer = createReducer(
     status: EApiStatus.successful,
   })),
   on(ApiAction.statisticizeFailure, (state) => ({
+    ...state,
+    status: EApiStatus.systemError,
+  })),
+  on(ApiAction.loadTeacherListSuccessful, (state, { teachersList }) => ({
+    ...state,
+    teachersList,
+  })),
+  on(ApiAction.loadTeacherListFailure, (state) => ({
     ...state,
     status: EApiStatus.systemError,
   }))

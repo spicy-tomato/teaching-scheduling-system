@@ -1,7 +1,8 @@
 import { EApiStatus } from '@shared/enums';
-import { ChangeSchedule } from 'src/shared/models';
+import { ChangeSchedule, SimpleModel } from 'src/shared/models';
 
 export interface StatisticChangeScheduleState {
   status: EApiStatus;
   changeSchedules: ChangeSchedule[];
+  teachersList: SimpleModel[];
 }

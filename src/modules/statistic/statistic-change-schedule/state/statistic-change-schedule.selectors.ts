@@ -18,3 +18,8 @@ export const selectChangeSchedules = createSelector(
   statisticChangeScheduleSelector,
   (state) => state.changeSchedules
 );
+
+export const selectTeachersList = createSelector(
+  statisticChangeScheduleSelector,
+  (state) => state.teachersList
+);
