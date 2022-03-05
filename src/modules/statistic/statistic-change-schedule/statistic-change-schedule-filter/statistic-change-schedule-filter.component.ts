@@ -16,7 +16,7 @@ import { BaseComponent } from '@modules/core/base/base.component';
 import { InputDateRangeConstant } from '@shared/constants';
 import { ChangeSchedule, Teacher } from '@shared/models';
 import { Subject, Observable } from 'rxjs';
-import { FileType } from '@shared/enums';
+import { EApiStatus, FileType } from '@shared/enums';
 
 @Component({
   selector: 'tss-statistic-change-schedule-filter',
@@ -37,10 +37,13 @@ export class StatisticChangeScheduleFilterComponent
   /** PUBLIC PROPERTIES */
   public form!: FormGroup;
 
+  public readonly changeSchedules$: Observable<ChangeSchedule[]>;
+  public readonly status$: Observable<EApiStatus>;
+
+  public readonly EApiStatus = EApiStatus;
+  public readonly items = InputDateRangeConstant.getPeriods();
   public readonly export$ = new Subject();
   public readonly min = new TuiDay(2021, 10, 1);
-  public readonly items = InputDateRangeConstant.getPeriods();
-  public readonly changeSchedules$: Observable<ChangeSchedule[]>;
 
   /** PRIVATE PROPERTIES */
   private readonly teacher$: Observable<Teacher>;
@@ -62,6 +65,9 @@ export class StatisticChangeScheduleFilterComponent
 
     this.assignSubjects([this.export$]);
 
+    this.status$ = store
+      .select(fromStatisticChangeSchedule.selectStatus)
+      .pipe(takeUntil(this.destroy$));
     this.teacher$ = appShellStore
       .select(fromAppShell.selectTeacher)
       .pipe(ObservableHelper.filterNullish(), takeUntil(this.destroy$));

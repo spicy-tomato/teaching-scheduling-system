@@ -4,7 +4,7 @@ import { StatisticChangeScheduleComponent } from './statistic-change-schedule.co
 import { StatisticChangeScheduleRoutingModule } from './statistic-change-schedule.routes';
 import { TuiInputDateRangeModule } from '@taiga-ui/kit';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TuiButtonModule } from '@taiga-ui/core';
+import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import * as fromStatisticChangeSchedule from './state';
@@ -29,6 +29,7 @@ const TAIGA_UI = [
   TuiButtonModule,
   TuiAxesModule,
   TuiBarChartModule,
+  TuiLoaderModule
 ];
 
 @NgModule({

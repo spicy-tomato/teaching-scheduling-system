@@ -15,6 +15,7 @@ import { filter, takeUntil, tap } from 'rxjs/operators';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { ShortenNamePipe } from '@pipes/shorten-name.pipe';
 import { TokenService } from '@services/core/token.service';
+import { EApiStatus } from '@shared/enums';
 
 type TeacherData = { [key: string]: { accept: number; deny: number } };
 
@@ -32,11 +33,13 @@ export class StatisticChangeScheduleChartComponent
   public value: [number[], number[]] = [[], []];
 
   public labelsX: string[] = [];
-  public teachersList$: Observable<SimpleModel[]>;
   public teachersNameList: string[] = [];
-  public labelsY = ['0', '10 000'];
+  public labelsY: string[] = [];
   public max = 0;
 
+  public readonly status$: Observable<EApiStatus>;
+  public readonly teachersList$: Observable<SimpleModel[]>;
+  public readonly EApiStatus = EApiStatus;
   public readonly setNames = ['Đã đổi', 'Đã hủy'];
 
   /** PRIVATE PROPERTIES */
@@ -56,6 +59,9 @@ export class StatisticChangeScheduleChartComponent
       this.tokenService.getToken<ShortenNamePipe>('shortenNamePipe')
     );
 
+    this.status$ = store
+      .select(fromStatisticChangeSchedule.selectStatus)
+      .pipe(takeUntil(this.destroy$));
     this.teachersList$ = store
       .select(fromStatisticChangeSchedule.selectTeachersList)
       .pipe(takeUntil(this.destroy$));
