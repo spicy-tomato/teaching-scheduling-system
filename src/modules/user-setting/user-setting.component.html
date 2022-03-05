@@ -2,7 +2,7 @@
   <a tuiAction icon="tuiIconLockLarge" routerLink="change-password">
     Đổi mật khẩu
   </a>
-  <ng-container *ngrxLet="loggedInGoogle$ as loggedInGoogle">
+  <!-- <ng-container *ngrxLet="loggedInGoogle$ as loggedInGoogle">
     <tui-loader [showLoader]="loggedInGoogle$.value === null" [overlay]="true">
       <tui-action
         *ngIf="loggedInGoogle$.value; else login"
@@ -26,5 +26,5 @@
     icon="<i class='mdi mdi-google' style='font-size: 23px'></i>"
   >
     Kết nối tới Google
-  </tui-action>
+  </tui-action> -->
 </div>
