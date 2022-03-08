@@ -1107,7 +1107,9 @@ export class ExportService {
                 new TextRun({
                   text: `Hà Nội, ngày ${DateHelper.beautifyDay(
                     today.getDate()
-                  )} tháng ${today.getMonth() + 1} năm ${today.getFullYear()}`,
+                  )} tháng ${DateHelper.beautifyDay(
+                    today.getMonth() + 1
+                  )} năm ${today.getFullYear()}`,
                   italics: true,
                 }),
               ],

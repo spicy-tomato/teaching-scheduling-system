@@ -5,7 +5,7 @@ import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { map, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
-import { ArrayHelper } from '@shared/helpers';
+import { ArrayHelper, ObservableHelper } from '@shared/helpers';
 import * as fromAssignSchedule from '../state';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
 import {
@@ -251,8 +251,9 @@ export class AssignScheduleFilterComponent
   private bindDepartment(): void {
     this.myDepartment$
       .pipe(
+        ObservableHelper.filterNullish(),
         tap((dep) => {
-          this.department?.setValue(dep);
+          this.department?.setValue(dep.id);
         })
       )
       .subscribe();

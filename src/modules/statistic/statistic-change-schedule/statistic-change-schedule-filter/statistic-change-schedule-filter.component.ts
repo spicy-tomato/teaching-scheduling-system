@@ -94,7 +94,7 @@ export class StatisticChangeScheduleFilterComponent
   /** PRIVATE METHODS */
   private initForm(): void {
     this.form = this.fb.group({
-      range: [this.items[0].range, Validators.required],
+      range: [this.items[1].range, Validators.required],
     });
   }
 

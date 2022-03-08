@@ -40,7 +40,7 @@ export class StatisticChangeScheduleChartComponent
   public readonly status$: Observable<EApiStatus>;
   public readonly teachersList$: Observable<SimpleModel[]>;
   public readonly EApiStatus = EApiStatus;
-  public readonly setNames = ['Đã đổi', 'Đã hủy'];
+  public readonly setNames = ['Đã đổi', 'Bị từ chối'];
 
   /** PRIVATE PROPERTIES */
   private readonly shortenNamePipe: ShortenNamePipe;
@@ -132,8 +132,8 @@ export class StatisticChangeScheduleChartComponent
     });
 
     this.value = value;
-    this.labelsY = ['0', (maxHeight + 1).toString()];
-    this.max = maxHeight + 1;
+    this.labelsY = ['0', maxHeight.toString()];
+    this.max = maxHeight;
     this.labelsX = labelsX;
     this.teachersNameList = newTeachersList;
     this.cdr.markForCheck();
