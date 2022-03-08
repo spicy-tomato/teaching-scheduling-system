@@ -1,12 +1,12 @@
 <div
   *ngrxLet="options$ as options"
   tuiTextfieldSize="s"
-  class="wrapper w-full d-flex align-items-center"
+  class="wrapper w-full d-flex align-items-center flex-wrap"
 >
   <tui-select
-    [ngModel]="options.selectedStatus"
+    [ngModel]="options.status"
     [valueContent]="selectTemplate"
-    (ngModelChange)="changeOptions({ selectedStatus: $event })"
+    (ngModelChange)="changeOptions({ status: $event })"
   >
     Trạng thái
     <ng-template tuiDataList>
@@ -31,6 +31,34 @@
       </tui-data-list>
     </ng-template>
   </tui-select>
+  <!-- <ng-container *ngIf="!personal">
+    <tui-select
+      *ngrxLet="data$ as data"
+      [ngModel]="options.teacher"
+      [valueContent]="teacherTemplate"
+      (ngModelChange)="changeOptions({ teacher: $event })"
+      tuiTextfieldSize="s"
+    >
+      Chọn giảng viên
+      <ng-template tuiDataList>
+        <tui-data-list>
+          <tui-opt-group>
+            <button tuiOption [value]="null" size="xs">Tất cả</button>
+          </tui-opt-group>
+          <tui-opt-group>
+            <button
+              *ngFor="let teacher of data.teachers"
+              tuiOption
+              [value]="teacher"
+              size="xs"
+            >
+              {{ teacher.name }}
+            </button>
+          </tui-opt-group>
+        </tui-data-list>
+      </ng-template>
+    </tui-select>
+  </ng-container> -->
   <tui-checkbox-labeled
     [ngModel]="options.showTimeInsteadOfShift"
     (ngModelChange)="changeOptions({ showTimeInsteadOfShift: $event })"
@@ -52,6 +80,14 @@
   </tui-checkbox-labeled>
 </div>
 
+<!-- Status templates -->
 <ng-template #selectTemplate let-status>
   {{ statusList[status].name }}
+</ng-template>
+
+<!-- Teacher templates -->
+<ng-template #teacherTemplate let-teacher>
+  <div class="tui-text_body-s">
+    {{ teacher.name }}
+  </div>
 </ng-template>

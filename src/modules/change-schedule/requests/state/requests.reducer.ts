@@ -11,12 +11,16 @@ const initialState: RequestsState = {
     queue: [],
   },
   options: {
-    selectedStatus: null,
+    teacher: null,
+    status: null,
     showTime: false,
     showTimeInsteadOfShift: false,
     showReason: true,
   },
-  changeSchedules: [],
+  data: {
+    changeSchedules: [],
+    teachers: [],
+  },
   total: 0,
   query: {
     status: 'all',
@@ -30,7 +34,7 @@ export const requestsFeatureKey = 'requests';
 export const requestsReducer = createReducer(
   initialState,
   on(PageAction.reset, () => initialState),
-  on(PageAction.load, (state, { query }) => ({
+  on(PageAction.filter, (state, { query }) => ({
     ...state,
     query,
     status: { ...state.status, data: EApiStatus.loading },
@@ -67,34 +71,54 @@ export const requestsReducer = createReducer(
       queue: [...state.status.queue, id],
     },
   })),
-  on(ApiAction.loadSuccessful, (state, { changeSchedulesResponse }) => {
+  on(ApiAction.filterSuccessful, (state, { changeSchedulesResponse }) => {
     return {
       ...state,
-      changeSchedules: changeSchedulesResponse.data,
+      data: {
+        ...state.data,
+        changeSchedules: changeSchedulesResponse.data,
+      },
       total: changeSchedulesResponse.meta.last_page,
       status: { ...state.status, data: EApiStatus.successful },
     };
   }),
-  on(ApiAction.loadFailure, (state) => ({
+  on(ApiAction.filterFailure, (state) => ({
+    ...state,
+    status: { ...state.status, data: EApiStatus.systemError },
+  })),
+  on(ApiAction.loadTeachersListSuccessful, (state, { teachers }) => {
+    return {
+      ...state,
+      data: {
+        ...state.data,
+        teachers
+      },
+      status: { ...state.status, data: EApiStatus.successful },
+    };
+  }),
+  on(ApiAction.loadTeachersListSuccessful, (state) => ({
     ...state,
     status: { ...state.status, data: EApiStatus.systemError },
   })),
   on(ApiAction.acceptSuccessful, (state, { id, status }) => {
     return {
       ...state,
-      changeSchedules: state.changeSchedules.map((x) => {
-        const current = new Date();
-        if (x.id === id) {
-          const newObj: ChangeSchedule = {
-            ...x,
-            status,
-            timeAccept: current,
-            timeSetRoom: status === 3 ? current : x.timeSetRoom,
-          };
-          return newObj;
-        }
-        return x;
-      }),
+      data: {
+        ...state.data,
+        changeSchedules: state.data.changeSchedules.map((x) => {
+          const current = new Date();
+          if (x.id === id) {
+            const newObj: ChangeSchedule = {
+              ...x,
+              status,
+              timeAccept: current,
+              timeSetRoom: status === 3 ? current : x.timeSetRoom,
+            };
+            return newObj;
+          }
+          return x;
+        }),
+      },
       status: {
         ...state.status,
         queue: state.status.queue.filter((x) => x !== id),
@@ -108,21 +132,24 @@ export const requestsReducer = createReducer(
   on(ApiAction.setRoomSuccessful, (state, { id, status, room }) => {
     return {
       ...state,
-      changeSchedules: state.changeSchedules.map((x) => {
-        if (x.id === id) {
-          const newObj: ChangeSchedule = {
-            ...x,
-            status,
-            timeSetRoom: new Date(),
-            newSchedule: {
-              ...x.newSchedule,
-              room,
-            },
-          };
-          return newObj;
-        }
-        return x;
-      }),
+      data: {
+        ...state.data,
+        changeSchedules: state.data.changeSchedules.map((x) => {
+          if (x.id === id) {
+            const newObj: ChangeSchedule = {
+              ...x,
+              status,
+              timeSetRoom: new Date(),
+              newSchedule: {
+                ...x.newSchedule,
+                room,
+              },
+            };
+            return newObj;
+          }
+          return x;
+        }),
+      },
       status: {
         ...state.status,
         queue: state.status.queue.filter((x) => x !== id),
@@ -136,13 +163,16 @@ export const requestsReducer = createReducer(
   on(ApiAction.denySuccessful, (state, { id, status }) => {
     return {
       ...state,
-      changeSchedules: state.changeSchedules.map((x) => {
-        if (x.id === id) {
-          const newObj: ChangeSchedule = { ...x, status };
-          return newObj;
-        }
-        return x;
-      }),
+      data: {
+        ...state.data,
+        changeSchedules: state.data.changeSchedules.map((x) => {
+          if (x.id === id) {
+            const newObj: ChangeSchedule = { ...x, status };
+            return newObj;
+          }
+          return x;
+        }),
+      },
       status: {
         ...state.status,
         queue: state.status.queue.filter((x) => x !== id),
@@ -156,13 +186,16 @@ export const requestsReducer = createReducer(
   on(ApiAction.cancelSuccessful, (state, { id }) => {
     return {
       ...state,
-      changeSchedules: state.changeSchedules.map((x) => {
-        if (x.id === id) {
-          const newObj: ChangeSchedule = { ...x, status: -3 };
-          return newObj;
-        }
-        return x;
-      }),
+      data: {
+        ...state.data,
+        changeSchedules: state.data.changeSchedules.map((x) => {
+          if (x.id === id) {
+            const newObj: ChangeSchedule = { ...x, status: -3 };
+            return newObj;
+          }
+          return x;
+        }),
+      },
       status: {
         ...state.status,
         queue: state.status.queue.filter((x) => x !== id),

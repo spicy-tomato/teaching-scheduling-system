@@ -54,8 +54,8 @@
     </thead>
 
     <!-- Body -->
-    <tbody tuiTbody *ngrxLet="data$ as data" [data]="data">
-      <tr *tuiRow="let item of data; index as i" tuiTr>
+    <tbody tuiTbody *ngrxLet="data$ as data" [data]="data.changeSchedules">
+      <tr *tuiRow="let item of data.changeSchedules; index as i" tuiTr>
         <td tuiTd *tuiCell="'index'">
           <div *ngrxLet="page$ as page" class="text-center">
             {{ itemsPerPage * (page - 1) + i + 1 }}

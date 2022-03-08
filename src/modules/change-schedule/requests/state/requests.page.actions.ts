@@ -10,9 +10,14 @@ export const reset = createAction(
   props<{ personal: boolean }>()
 );
 
-export const load = createAction(
-  '[Change schedule - Requests Page] Load',
+export const filter = createAction(
+  '[Change schedule - Requests Page] Filter',
   props<{ query: ChangeScheduleSearch }>()
+);
+
+export const loadTeachersList = createAction(
+  '[Change schedule - Requests Page] Load teachers list',
+  props<{ dep: string }>()
 );
 
 export const changeOptions = createAction(

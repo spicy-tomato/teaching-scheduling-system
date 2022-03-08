@@ -14,9 +14,9 @@ export const selectOptions = createSelector(
   (state) => state.options
 );
 
-export const selectChangeSchedules = createSelector(
+export const selectData = createSelector(
   feedbackSelector,
-  (state) => state.changeSchedules
+  (state) => state.data
 );
 
 export const selectQuery = createSelector(

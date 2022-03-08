@@ -1,15 +1,12 @@
 import { Nullable } from '..';
+import { SimpleModel } from '../core';
 
 export interface ChangeScheduleOptions {
-  selectedStatus: Nullable<number>;
+  status: Nullable<number>;
+  teacher: Nullable<SimpleModel>;
   showTimeInsteadOfShift: boolean;
   showTime: boolean;
   showReason: boolean;
 }
 
-export interface ChangeScheduleOptionsParam {
-  selectedStatus?: Nullable<number>;
-  showTimeInsteadOfShift?: boolean;
-  showTime?: boolean;
-  showReason?: boolean;
-}
+export type ChangeScheduleOptionsParam = Partial<ChangeScheduleOptions>;

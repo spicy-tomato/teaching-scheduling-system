@@ -28,6 +28,7 @@ import {
   PermissionHelper,
 } from '@shared/helpers';
 import { PermissionConstant } from '@shared/constants';
+import { TeacherService } from '@services/teacher.service';
 
 @Injectable()
 export class RequestsEffects {
@@ -54,10 +55,10 @@ export class RequestsEffects {
     { dispatch: false }
   );
 
-  public load$ = createEffect(
+  public loadChangeSchedules$ = createEffect(
     () => {
       return this.actions$.pipe(
-        ofType(PageAction.load),
+        ofType(PageAction.filter),
         tap(({ query }) => {
           this.loadSubject$.next(query);
         })
@@ -66,19 +67,35 @@ export class RequestsEffects {
     { dispatch: false }
   );
 
+  public loadTeacher$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(PageAction.loadTeachersList),
+      mergeMap(({ dep }) => {
+        return this.teacherService.getByDepartment(dep).pipe(
+          map((teachers) => {
+            return ApiAction.loadTeachersListSuccessful({ teachers });
+          }),
+          catchError(() => of(ApiAction.loadTeachersListFailure()))
+        );
+      })
+    );
+  });
+
   public changeSelectedStatus$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.changeOptions),
-      map((x) => x.options.selectedStatus),
-      ObservableHelper.filterUndefined(),
-      mergeMap((_status) => {
-        const status =
-          _status === null ? 'all' : _status == 2 ? '2,3' : _status;
+      map((x) => ({
+        status: x.options.status,
+        teacherId: x.options.teacher?.id,
+      })),
+      mergeMap(({ status, teacherId }) => {
+        const _status = this.getQueryForStatus(status);
 
         return of(
-          PageAction.load({
+          PageAction.filter({
             query: {
-              status,
+              status: _status,
+              teacherId: teacherId,
               page: 1,
               pagination: 20,
             },
@@ -93,13 +110,13 @@ export class RequestsEffects {
       ofType(PageAction.changePage),
       mergeMap(({ page }) => {
         return this.options$.pipe(
-          map(({ selectedStatus: _status }) => {
-            const status =
-              _status === null ? 'all' : _status == 2 ? '2,3' : _status;
+          map(({ status, teacher }) => {
+            const _status = this.getQueryForStatus(status);
 
-            return PageAction.load({
+            return PageAction.filter({
               query: {
-                status,
+                status: _status,
+                teacherId: teacher?.id,
                 page: page + 1,
                 pagination: 20,
               },
@@ -203,6 +220,7 @@ export class RequestsEffects {
   /** CONSTRUCTOR */
   constructor(
     private readonly actions$: Actions,
+    private readonly teacherService: TeacherService,
     private readonly scheduleService: ScheduleService,
     private readonly store: Store<fromRequests.RequestsState>,
     private readonly appShellStore: Store<fromAppShell.AppShellState>
@@ -228,12 +246,12 @@ export class RequestsEffects {
           return this.scheduleService.getPersonalChangeScheduleRequests(x).pipe(
             tap((changeSchedules) => {
               this.store.dispatch(
-                ApiAction.loadSuccessful({
+                ApiAction.filterSuccessful({
                   changeSchedulesResponse: changeSchedules,
                 })
               );
             }),
-            catchError(() => of(this.store.dispatch(ApiAction.loadFailure())))
+            catchError(() => of(this.store.dispatch(ApiAction.filterFailure())))
           );
         })
       )
@@ -261,12 +279,14 @@ export class RequestsEffects {
             .pipe(
               tap((changeSchedules) => {
                 this.store.dispatch(
-                  ApiAction.loadSuccessful({
+                  ApiAction.filterSuccessful({
                     changeSchedulesResponse: changeSchedules,
                   })
                 );
               }),
-              catchError(() => of(this.store.dispatch(ApiAction.loadFailure())))
+              catchError(() =>
+                of(this.store.dispatch(ApiAction.filterFailure()))
+              )
             );
         })
       )
@@ -285,15 +305,25 @@ export class RequestsEffects {
           return this.scheduleService.getManagerChangeScheduleRequests(x).pipe(
             tap((changeSchedules) => {
               this.store.dispatch(
-                ApiAction.loadSuccessful({
+                ApiAction.filterSuccessful({
                   changeSchedulesResponse: changeSchedules,
                 })
               );
             }),
-            catchError(() => of(this.store.dispatch(ApiAction.loadFailure())))
+            catchError(() => of(this.store.dispatch(ApiAction.filterFailure())))
           );
         })
       )
       .subscribe();
+  }
+
+  private getQueryForStatus(
+    status: Nullable<number> | undefined
+  ): number | 'all' | '2,3' {
+    return status === null || status === undefined
+      ? 'all'
+      : status == 2
+      ? '2,3'
+      : status;
   }
 }

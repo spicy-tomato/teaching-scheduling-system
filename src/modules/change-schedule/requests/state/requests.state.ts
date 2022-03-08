@@ -1,14 +1,14 @@
 import {
-  ChangeSchedule,
   ChangeScheduleOptions,
   ChangeScheduleSearch,
   ChangeScheduleStatus,
+  RequestDataState,
 } from '@shared/models';
 
 export interface RequestsState {
   status: ChangeScheduleStatus;
   options: ChangeScheduleOptions;
-  changeSchedules: ChangeSchedule[];
+  data: RequestDataState;
   total: number;
   query: ChangeScheduleSearch;
 }

@@ -2,15 +2,27 @@ import { createAction, props } from '@ngrx/store';
 import {
   ChangeSchedule,
   PaginationResponseModel,
+  SimpleModel,
 } from '@shared/models';
 
-export const loadSuccessful = createAction(
-  '[Change schedule - Requests API] Load Successfully',
-  props<{ changeSchedulesResponse: PaginationResponseModel<ChangeSchedule[]> }>()
+export const filterSuccessful = createAction(
+  '[Change schedule - Requests API] Filter Successfully',
+  props<{
+    changeSchedulesResponse: PaginationResponseModel<ChangeSchedule[]>;
+  }>()
 );
 
-export const loadFailure = createAction(
-  '[Change schedule - Requests API] Load Failed'
+export const filterFailure = createAction(
+  '[Change schedule - Requests API] Filter Failed'
+);
+
+export const loadTeachersListSuccessful = createAction(
+  '[Change schedule - Requests API] Load Teachers List Successfully',
+  props<{ teachers: SimpleModel[] }>()
+);
+
+export const loadTeachersListFailure = createAction(
+  '[Change schedule - Requests API] Load Teachers List Failed'
 );
 
 export const acceptSuccessful = createAction(

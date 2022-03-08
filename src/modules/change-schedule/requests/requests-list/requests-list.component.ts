@@ -4,9 +4,9 @@ import { Store } from '@ngrx/store';
 import { PermissionConstant, TableConstant } from '@shared/constants';
 import { EApiStatus } from '@shared/enums';
 import {
-  ChangeSchedule,
   ChangeScheduleOptions,
   ChangeScheduleStatus,
+  RequestDataState,
 } from '@shared/models';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, map, takeUntil, tap } from 'rxjs/operators';
@@ -41,7 +41,7 @@ export class RequestsListComponent extends BaseComponent {
     'actions',
   ];
 
-  public readonly data$: Observable<ChangeSchedule[]>;
+  public readonly data$: Observable<RequestDataState>;
   public readonly status$: Observable<ChangeScheduleStatus>;
   public readonly page$: Observable<number>;
   public readonly options$: Observable<ChangeScheduleOptions>;
@@ -65,7 +65,7 @@ export class RequestsListComponent extends BaseComponent {
       .select(fromRequests.selectOptions)
       .pipe(takeUntil(this.destroy$));
     this.data$ = store
-      .select(fromRequests.selectChangeSchedules)
+      .select(fromRequests.selectData)
       .pipe(takeUntil(this.destroy$));
     this.status$ = store
       .select(fromRequests.selectStatus)
