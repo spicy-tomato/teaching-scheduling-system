@@ -13,25 +13,25 @@ export class InputDateRangeConstant {
           startOfMonth,
           startOfMonth.append({ month: 1, day: -1 })
         ),
-        'Tháng này'
+        `Tháng hiện tại (tháng ${startOfMonth.month + 1})`
       ),
       new TuiDayRangePeriod(
         new TuiDayRange(
           startOfMonth.append({ month: -1 }),
           startOfMonth.append({ day: -1 })
         ),
-        'Tháng trước'
+        `Tháng trước (tháng ${startOfMonth.month})`
       ),
       new TuiDayRangePeriod(
         new TuiDayRange(startOfYear, startOfYear.append({ year: 1, day: -1 })),
-        'Năm nay'
+        `Năm hiện tại (năm ${startOfYear.year})`
       ),
       new TuiDayRangePeriod(
         new TuiDayRange(
           startOfYear.append({ year: -1 }),
           startOfYear.append({ day: -1 })
         ),
-        'Năm trước'
+        `Năm trước (năm ${startOfYear.year - 1})`
       ),
     ];
   }
