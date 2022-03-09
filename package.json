@@ -8,7 +8,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "high": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng serve"
+    "high": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng serve",
+    "prepare": "husky install"
   },
   "private": true,
   "dependencies": {
@@ -23,6 +24,8 @@
     "@angular/platform-browser": "~12.2.15",
     "@angular/platform-browser-dynamic": "~12.2.15",
     "@angular/router": "~12.2.15",
+    "@commitlint/cli": "^16.2.1",
+    "@commitlint/config-conventional": "^16.2.1",
     "@ngrx/component": "^12.5.1",
     "@ngrx/effects": "^12.5.1",
     "@ngrx/router-store": "^12.5.1",
@@ -68,6 +71,7 @@
     "@typescript-eslint/eslint-plugin": "4.28.2",
     "@typescript-eslint/parser": "4.28.2",
     "eslint": "^7.26.0",
+    "husky": "^7.0.0",
     "jasmine-core": "~3.8.0",
     "karma": "~6.3.0",
     "karma-chrome-launcher": "~3.1.0",
