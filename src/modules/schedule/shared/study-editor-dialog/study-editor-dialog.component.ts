@@ -246,10 +246,7 @@ export class StudyEditorDialogComponent extends BaseComponent {
     const room = data.Location;
 
     const todayToZero = DateHelper.dateAtZero(today);
-    this.firstDateAllowRequestChange =
-      startDate < todayToZero
-        ? DateHelper.subtract(todayToZero, 14)
-        : todayToZero;
+    this.firstDateAllowRequestChange = DateHelper.subtract(todayToZero, 14);
     this.isPersonal = data.People?.[0] === 'self';
     this.validRequestChangeSchedule =
       startDate > this.firstDateAllowRequestChange || !this.isPersonal;
