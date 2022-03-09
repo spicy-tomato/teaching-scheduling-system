@@ -5,9 +5,11 @@ import * as ApiAction from './study-editor-dialog.api.actions';
 import * as PageAction from './study-editor-dialog.page.actions';
 
 const initialState: StudyEditorDialogState = {
+  changeStatus: EApiStatus.unknown,
   requestStatus: EApiStatus.unknown,
   updateStatus: EApiStatus.unknown,
   searchStatus: EApiStatus.unknown,
+  cancelStatus: EApiStatus.unknown,
   requestingChangeSchedule: false,
   justRequestedSchedule: null,
   change: {
@@ -21,6 +23,10 @@ export const studyEditorDialogFeatureKey = 'studyEditorDialog';
 export const studyEditorDialogReducer = createReducer(
   initialState,
   on(PageAction.reset, (_, { change }) => ({ ...initialState, change })),
+  on(PageAction.change, (state) => ({
+    ...state,
+    changeStatus: EApiStatus.loading,
+  })),
   on(PageAction.request, (state) => ({
     ...state,
     requestStatus: EApiStatus.loading,
@@ -33,9 +39,23 @@ export const studyEditorDialogReducer = createReducer(
     ...state,
     searchStatus: EApiStatus.loading,
   })),
+  on(PageAction.cancel, (state) => ({
+    ...state,
+    cancelStatus: EApiStatus.loading,
+  })),
   on(PageAction.toggleRequestChange, (state, { open }) => ({
     ...state,
     requestingChangeSchedule: open,
+  })),
+  on(ApiAction.changeSuccessful, (state) => ({
+    ...state,
+    changeStatus: EApiStatus.successful,
+    requestingChangeSchedule: false,
+  })),
+  on(ApiAction.changeFailure, (state) => ({
+    ...state,
+    changeStatus: EApiStatus.systemError,
+    requestingChangeSchedule: false,
   })),
   on(ApiAction.requestSuccessful, (state, { justRequestedSchedule }) => ({
     ...state,
@@ -65,5 +85,14 @@ export const studyEditorDialogReducer = createReducer(
   on(ApiAction.searchFailure, (state) => ({
     ...state,
     searchStatus: EApiStatus.systemError,
+  })),
+  on(ApiAction.cancelSuccessful, (state) => ({
+    ...state,
+    justRequestedSchedule: null,
+    cancelStatus: EApiStatus.successful,
+  })),
+  on(ApiAction.cancelFailure, (state) => ({
+    ...state,
+    cancelStatus: EApiStatus.systemError,
   }))
 );

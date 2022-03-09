@@ -4,8 +4,12 @@ import { StudyEditorDialogComponent } from './study-editor-dialog.component';
 import { PipesModule } from '@pipes/pipes.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
+  TuiBadgeModule,
+  TuiComboBoxModule,
+  TuiDataListWrapperModule,
   TuiDropdownHoverModule,
   TuiFieldErrorModule,
+  TuiFilterByInputPipeModule,
   TuiInputDateModule,
   TuiInputDateTimeModule,
   TuiInputModule,
@@ -18,7 +22,9 @@ import {
   TuiDropdownControllerModule,
   TuiExpandModule,
   TuiHostedDropdownModule,
+  TuiLinkModule,
   TuiLoaderModule,
+  TuiNotificationModule,
   TuiSvgModule,
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
@@ -28,6 +34,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { DirectivesModule } from '@directives/directives.module';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { StudyEditorDialogSearchScheduleComponent } from './study-editor-dialog-search-schedule/study-editor-dialog-search-schedule.component';
+import { StudyHistoryDialogComponent } from './study-history-dialog/study-history-dialog.component';
 
 const NGRX = [
   StoreModule.forFeature(
@@ -54,6 +61,12 @@ const TAIGA_UI = [
   TuiDropdownHoverModule,
   TuiDropdownControllerModule,
   TuiLoaderModule,
+  TuiNotificationModule,
+  TuiBadgeModule,
+  TuiLinkModule,
+  TuiComboBoxModule,
+  TuiDataListWrapperModule,
+  TuiFilterByInputPipeModule,
 ];
 
 @NgModule({
@@ -69,7 +82,8 @@ const TAIGA_UI = [
   declarations: [
     StudyEditorDialogComponent,
     StudyEditorDialogSearchScheduleComponent,
+    StudyHistoryDialogComponent,
   ],
-  exports: [StudyEditorDialogComponent],
+  exports: [StudyEditorDialogComponent, StudyHistoryDialogComponent],
 })
 export class StudyEditorDialogModule {}

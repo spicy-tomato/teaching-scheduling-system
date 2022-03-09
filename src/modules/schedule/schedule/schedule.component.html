@@ -56,13 +56,52 @@
             {{ data.Method }}
           </div>
         </div>
+        <div *ngIf="data.FixedSchedules?.length > 0" class="e-module-class">
+          <div class="mdi mdi-swap-horizontal-bold"></div>
+          <div
+            *tssVar="
+              data.FixedSchedules[
+                data.FixedSchedules.length - 1
+              ] as lastFixedSchedule
+            "
+            class="e-location-details e-text-ellipsis"
+          >
+            <ng-container
+              *ngIf="
+                lastFixedSchedule.status === 0 ||
+                  lastFixedSchedule.status === 1;
+                else requestMoveTo
+              "
+            >
+              Đang được yêu cầu đổi đến ca {{ lastFixedSchedule.newShift }},
+              ngày {{ lastFixedSchedule.newDate | date: "longDate":"+0700" }}
+              {{
+                lastFixedSchedule.newIdRoom
+                  ? " tại " + lastFixedSchedule.newIdRoom
+                  : ""
+              }}
+            </ng-container>
+            <ng-template #requestMoveTo>
+              Đổi từ ca {{ lastFixedSchedule.oldShift }}, ngày
+              {{ lastFixedSchedule.oldDate | date: "longDate":"+0700" }}
+            </ng-template>
+            <button
+              tuiLink
+              [pseudo]="true"
+              (click)="onShowHistory(data.FixedSchedules)"
+              class="details"
+            >
+              <i>Chi tiết</i>
+            </button>
+          </div>
+        </div>
         <div
-          *ngFor="let person of data.People | filterSelf"
+          *ngFor="let person of data.People | filter: 'self'"
           class="e-module-class"
         >
           <div class="mdi mdi-account"></div>
           <div class="e-location-details e-text-ellipsis">
-            {{ person }}
+            {{ $any(person).name }}
           </div>
         </div>
       </div>

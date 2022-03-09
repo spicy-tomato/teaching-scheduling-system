@@ -40,8 +40,8 @@ export class NavbarComponent extends BaseComponent {
   public onClickDropDownItem(action: string): void {
     this.openDropDown = false;
     if (action === NavbarConstants.keys.LOG_OUT) {
-      this.accessTokenService.clear();
       this.authService.logOut().subscribe();
+      this.accessTokenService.clear();
       void this.router.navigate(['/login']);
     }
   }

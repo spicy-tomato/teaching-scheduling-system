@@ -1,7 +1,9 @@
+import { SimpleModel } from "../core";
+
 export interface ChangeSchedule {
   id: number;
   idSchedule: number;
-  teacher: string;
+  teacher: SimpleModel;
   moduleClassName: string;
   oldSchedule: {
     date: string;

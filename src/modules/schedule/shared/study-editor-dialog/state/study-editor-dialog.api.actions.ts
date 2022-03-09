@@ -1,5 +1,8 @@
 import { createAction, props } from '@ngrx/store';
-import { SimpleFixedScheduleModel, StudyScheduleModel } from '@shared/models';
+import {
+  SimpleFixedScheduleModel,
+  StudyScheduleModel,
+} from '@shared/models';
 import { Change } from '.';
 
 export const requestSuccessful = createAction(
@@ -9,6 +12,14 @@ export const requestSuccessful = createAction(
 
 export const requestFailure = createAction(
   '[Study Editor Dialog API] Request Failed'
+);
+
+export const changeSuccessful = createAction(
+  '[Study Editor Dialog API] Change Successfully'
+);
+
+export const changeFailure = createAction(
+  '[Study Editor Dialog API] Change Failed'
 );
 
 export const updateSuccessful = createAction(
@@ -29,4 +40,12 @@ export const searchSuccessful = createAction(
 
 export const searchFailure = createAction(
   '[Study Editor Dialog API] Search Failed'
+);
+
+export const cancelSuccessful = createAction(
+  '[Study Editor Dialog API] Cancel Successfully'
+);
+
+export const cancelFailure = createAction(
+  '[Study Editor Dialog API] Cancel Failed'
 );

@@ -48,6 +48,12 @@ const routes: Routes = [
         canActivate: [PermissionGuard],
       },
       {
+        path: 'statistic',
+        loadChildren: async () =>
+          (await import('@modules/statistic/statistic.module')).StatisticModule,
+        canActivate: [PermissionGuard],
+      },
+      {
         path: 'user-setting',
         loadChildren: async () =>
           (await import('@modules/user-setting/user-setting.module'))

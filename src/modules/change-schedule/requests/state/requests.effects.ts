@@ -6,7 +6,6 @@ import {
   map,
   mergeMap,
   take,
-  takeUntil,
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
@@ -16,11 +15,11 @@ import * as ApiAction from './requests.api.actions';
 import * as fromRequests from '.';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
 import { ScheduleService } from '@services/schedule.service';
-import { BaseComponent } from '@modules/core/base/base.component';
 import {
   ChangeScheduleOptions,
   ChangeScheduleSearch,
   Nullable,
+  SimpleModel,
 } from '@shared/models';
 import { Store } from '@ngrx/store';
 import {
@@ -28,21 +27,20 @@ import {
   ObservableHelper,
   PermissionHelper,
 } from '@shared/helpers';
+import { PermissionConstant } from '@shared/constants';
+import { TeacherService } from '@services/teacher.service';
 
 @Injectable()
-export class RequestsEffects extends BaseComponent {
+export class RequestsEffects {
   /** PRIVATE PROPERTIES */
   private personal!: boolean;
 
   private readonly options$: Observable<ChangeScheduleOptions>;
-  private readonly department$: Observable<Nullable<string>>;
+  private readonly department$: Observable<Nullable<SimpleModel>>;
   private readonly loadSubject$ = new Subject<ChangeScheduleSearch>();
-  private readonly permissions$ = this.appShellStore
-    .select(fromAppShell.selectPermission)
-    .pipe(takeUntil(this.destroy$));
-  private readonly nameTitle$ = this.appShellStore
-    .select(fromAppShell.selectNameTitle)
-    .pipe(takeUntil(this.destroy$));
+  private readonly permissions$ = this.appShellStore.select(
+    fromAppShell.selectPermission
+  );
 
   /** EFFECTS */
   public reset$ = createEffect(
@@ -57,10 +55,10 @@ export class RequestsEffects extends BaseComponent {
     { dispatch: false }
   );
 
-  public load$ = createEffect(
+  public loadChangeSchedules$ = createEffect(
     () => {
       return this.actions$.pipe(
-        ofType(PageAction.load),
+        ofType(PageAction.filter),
         tap(({ query }) => {
           this.loadSubject$.next(query);
         })
@@ -69,19 +67,35 @@ export class RequestsEffects extends BaseComponent {
     { dispatch: false }
   );
 
+  public loadTeacher$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(PageAction.loadTeachersList),
+      mergeMap(({ dep }) => {
+        return this.teacherService.getByDepartment(dep).pipe(
+          map((teachers) => {
+            return ApiAction.loadTeachersListSuccessful({ teachers });
+          }),
+          catchError(() => of(ApiAction.loadTeachersListFailure()))
+        );
+      })
+    );
+  });
+
   public changeSelectedStatus$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.changeOptions),
-      map((x) => x.options.selectedStatus),
-      ObservableHelper.filterUndefined(),
-      mergeMap((_status) => {
-        const status =
-          _status === null ? 'all' : _status == 2 ? '2,3' : _status;
+      map((x) => ({
+        status: x.options.status,
+        teacherId: x.options.teacher?.id,
+      })),
+      mergeMap(({ status, teacherId }) => {
+        const _status = this.getQueryForStatus(status);
 
         return of(
-          PageAction.load({
+          PageAction.filter({
             query: {
-              status,
+              status: _status,
+              teacherId: teacherId,
               page: 1,
               pagination: 20,
             },
@@ -96,13 +110,13 @@ export class RequestsEffects extends BaseComponent {
       ofType(PageAction.changePage),
       mergeMap(({ page }) => {
         return this.options$.pipe(
-          map(({ selectedStatus: _status }) => {
-            const status =
-              _status === null ? 'all' : _status == 2 ? '2,3' : _status;
+          map(({ status, teacher }) => {
+            const _status = this.getQueryForStatus(status);
 
-            return PageAction.load({
+            return PageAction.filter({
               query: {
-                status,
+                status: _status,
+                teacherId: teacher?.id,
                 page: page + 1,
                 pagination: 20,
               },
@@ -117,20 +131,16 @@ export class RequestsEffects extends BaseComponent {
   public accept$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.accept),
-      withLatestFrom(this.nameTitle$),
-      mergeMap(([{ schedule }, nameTitle]) => {
-        const { id, idSchedule } = schedule;
+      mergeMap(({ schedule }) => {
+        const { id } = schedule;
         const status = schedule.newSchedule.room ? 3 : 1;
         const time = DateHelper.toSqlDate(new Date());
-        const comment = `Trưởng bộ môn đã phê duyệt yêu cầu thay đổi của ${nameTitle.toLocaleLowerCase()}`;
 
         return this.scheduleService
           .responseChangeScheduleRequests({
             id,
-            idSchedule,
             status,
             time,
-            comment,
           })
           .pipe(
             map(() => ApiAction.acceptSuccessful({ id, status })),
@@ -143,20 +153,16 @@ export class RequestsEffects extends BaseComponent {
   public setRoom$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.setRoom),
-      withLatestFrom(this.nameTitle$),
-      mergeMap(([{ schedule, newIdRoom }, nameTitle]) => {
-        const { id, idSchedule } = schedule;
+      mergeMap(({ schedule, newIdRoom }) => {
+        const { id } = schedule;
         const status = 2;
         const time = DateHelper.toSqlDate(new Date());
-        const comment = `Trưởng bộ môn đã phê duyệt yêu cầu thay đổi của ${nameTitle.toLocaleLowerCase()}`;
 
         return this.scheduleService
           .responseChangeScheduleRequests({
             id,
-            idSchedule,
             status,
             time,
-            comment,
             newIdRoom,
           })
           .pipe(
@@ -172,23 +178,19 @@ export class RequestsEffects extends BaseComponent {
   public deny$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.deny),
-      withLatestFrom(this.nameTitle$, this.permissions$),
-      mergeMap(([{ schedule, reason }, nameTitle, permissions]) => {
-        const { id, idSchedule } = schedule;
+      withLatestFrom(this.permissions$),
+      mergeMap(([{ schedule, reason }, permissions]) => {
+        const { id } = schedule;
         const isTeacher = PermissionHelper.isTeacher(permissions);
         const status = isTeacher ? -1 : -2;
         const time = DateHelper.toSqlDate(new Date());
-        const comment = `${
-          isTeacher ? 'Trưởng bộ môn' : 'Ban Quản lý giảng đường'
-        } đã từ chối yêu cầu thay đổi của ${nameTitle.toLocaleLowerCase()} với lý do: ${reason}`;
 
         return this.scheduleService
           .responseChangeScheduleRequests({
             id,
-            idSchedule,
             status,
             time,
-            comment,
+            reasonDeny: reason,
           })
           .pipe(
             map(() => ApiAction.denySuccessful({ id, status })),
@@ -198,72 +200,60 @@ export class RequestsEffects extends BaseComponent {
     );
   });
 
+  public cancel$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(PageAction.cancel),
+      mergeMap(({ id }) => {
+        return this.scheduleService
+          .cancelChangeScheduleRequests({
+            id,
+            status: -3,
+          })
+          .pipe(
+            map(() => ApiAction.cancelSuccessful({ id })),
+            catchError(() => of(ApiAction.cancelFailure()))
+          );
+      })
+    );
+  });
+
   /** CONSTRUCTOR */
   constructor(
     private readonly actions$: Actions,
+    private readonly teacherService: TeacherService,
     private readonly scheduleService: ScheduleService,
     private readonly store: Store<fromRequests.RequestsState>,
     private readonly appShellStore: Store<fromAppShell.AppShellState>
   ) {
-    super();
+    this.options$ = store.select(fromRequests.selectOptions);
+    this.department$ = appShellStore.select(fromAppShell.selectDepartment);
 
-    this.assignSubjects([this.loadSubject$]);
-
-    this.options$ = store
-      .select(fromRequests.selectOptions)
-      .pipe(takeUntil(this.destroy$));
-    this.department$ = appShellStore
-      .select(fromAppShell.selectDepartment)
-      .pipe(takeUntil(this.destroy$));
-    this.nameTitle$ = appShellStore
-      .select(fromAppShell.selectNameTitle)
-      .pipe(takeUntil(this.destroy$));
-
-    this.handlePermissionChange();
+    this.handleLoadPersonal();
+    this.handleLoadDepartment();
+    this.handleLoadManager();
   }
 
   /** PRIVATE METHODS */
-  private handlePermissionChange(): void {
-    this.permissions$
-      .pipe(
-        filter((permissions) => permissions.length > 0),
-        tap((permissions) => {
-          const role = PermissionHelper.getRole(permissions);
-          switch (role) {
-            case 'teacher':
-              this.handleLoadPersonal();
-              break;
-            case 'departmentHead':
-              this.handleLoadPersonal();
-              this.handleLoadDepartment();
-              break;
-            case 'roomManager':
-              this.handleLoadManager();
-              break;
-          }
-        }),
-        take(1)
-      )
-      .subscribe();
-  }
-
   private handleLoadPersonal(): void {
     this.loadSubject$
       .pipe(
+        ObservableHelper.filterWith(
+          this.permissions$,
+          PermissionConstant.SEE_PERSONAL_CHANGE_SCHEDULE_REQUESTS
+        ),
         filter(() => this.personal),
         mergeMap((x) => {
           return this.scheduleService.getPersonalChangeScheduleRequests(x).pipe(
             tap((changeSchedules) => {
               this.store.dispatch(
-                ApiAction.loadSuccessful({
+                ApiAction.filterSuccessful({
                   changeSchedulesResponse: changeSchedules,
                 })
               );
             }),
-            catchError(() => of(this.store.dispatch(ApiAction.loadFailure())))
+            catchError(() => of(this.store.dispatch(ApiAction.filterFailure())))
           );
-        }),
-        takeUntil(this.destroy$)
+        })
       )
       .subscribe();
   }
@@ -274,22 +264,31 @@ export class RequestsEffects extends BaseComponent {
       this.loadSubject$,
     ])
       .pipe(
+        ObservableHelper.filterWith(
+          this.permissions$,
+          PermissionConstant.SEE_DEPARTMENT_CHANGE_SCHEDULE_REQUESTS
+        ),
         filter(() => !this.personal),
-        mergeMap((x) => {
+        map(([department, params]) => ({
+          department: department.id,
+          params,
+        })),
+        mergeMap(({ department, params }) => {
           return this.scheduleService
-            .getDepartmentChangeScheduleRequests(...x)
+            .getDepartmentChangeScheduleRequests(department, params)
             .pipe(
               tap((changeSchedules) => {
                 this.store.dispatch(
-                  ApiAction.loadSuccessful({
+                  ApiAction.filterSuccessful({
                     changeSchedulesResponse: changeSchedules,
                   })
                 );
               }),
-              catchError(() => of(this.store.dispatch(ApiAction.loadFailure())))
+              catchError(() =>
+                of(this.store.dispatch(ApiAction.filterFailure()))
+              )
             );
-        }),
-        takeUntil(this.destroy$)
+        })
       )
       .subscribe();
   }
@@ -297,21 +296,34 @@ export class RequestsEffects extends BaseComponent {
   private handleLoadManager(): void {
     this.loadSubject$
       .pipe(
+        ObservableHelper.filterWith(
+          this.permissions$,
+          PermissionConstant.SEE_CHANGE_SCHEDULE_REQUESTS_FOR_ROOM_MANAGER
+        ),
         filter(() => !this.personal),
         mergeMap((x) => {
           return this.scheduleService.getManagerChangeScheduleRequests(x).pipe(
             tap((changeSchedules) => {
               this.store.dispatch(
-                ApiAction.loadSuccessful({
+                ApiAction.filterSuccessful({
                   changeSchedulesResponse: changeSchedules,
                 })
               );
             }),
-            catchError(() => of(this.store.dispatch(ApiAction.loadFailure())))
+            catchError(() => of(this.store.dispatch(ApiAction.filterFailure())))
           );
-        }),
-        takeUntil(this.destroy$)
+        })
       )
       .subscribe();
+  }
+
+  private getQueryForStatus(
+    status: Nullable<number> | undefined
+  ): number | 'all' | '2,3' {
+    return status === null || status === undefined
+      ? 'all'
+      : status == 2
+      ? '2,3'
+      : status;
   }
 }

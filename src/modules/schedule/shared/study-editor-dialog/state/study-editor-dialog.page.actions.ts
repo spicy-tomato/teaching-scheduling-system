@@ -16,6 +16,11 @@ export const request = createAction(
   props<{ body: RequestChangeSchedulePayload }>()
 );
 
+export const change = createAction(
+  '[Study Editor Dialog Page] Change',
+  props<{ body: RequestChangeSchedulePayload }>()
+);
+
 export const update = createAction(
   '[Study Editor Dialog Page] Update',
   props<{ body: Note }>()
@@ -23,7 +28,12 @@ export const update = createAction(
 
 export const search = createAction(
   '[Study Editor Dialog Page] Search',
-  props<{ params: SearchSchedule }>()
+  props<{ params: SearchSchedule; teacherId: string }>()
+);
+
+export const cancel = createAction(
+  '[Study Editor Dialog Page] Cancel',
+  props<{ id: number }>()
 );
 
 export const toggleRequestChange = createAction(

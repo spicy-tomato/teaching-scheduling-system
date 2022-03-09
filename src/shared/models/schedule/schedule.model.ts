@@ -1,3 +1,4 @@
+import { SimpleModel } from '../core';
 import { EjsScheduleModel } from './ejs-schedule.model';
 
 type ScheduleType = 'exam' | 'study';
@@ -6,10 +7,10 @@ export abstract class ScheduleModel {
   public readonly id!: number;
   public readonly idModuleClass!: string;
   public readonly name!: string;
-  public readonly idRoom!: string;
+  public idRoom!: string;
   public readonly type!: ScheduleType;
-  public readonly note!: string;
-  public readonly people?: string[];
+  public note!: string;
+  public readonly people?: string[] | SimpleModel[];
 
   constructor(
     id: number,

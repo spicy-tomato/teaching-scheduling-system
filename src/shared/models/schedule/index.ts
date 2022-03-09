@@ -1,3 +1,4 @@
+export * from './change-schedule-payload.model';
 export * from './ejs-schedule.model';
 export * from './exam-schedule.model';
 export * from './fixed-schedule.model';

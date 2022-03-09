@@ -15,6 +15,7 @@ import {
 import {
   TuiExpandModule,
   TuiHostedDropdownModule,
+  TuiLinkModule,
   TuiLoaderModule,
 } from '@taiga-ui/core';
 import { TuiActiveZoneModule } from '@taiga-ui/cdk';
@@ -38,6 +39,7 @@ const TAIGA_UI = [
   TuiActiveZoneModule,
   TuiExpandModule,
   TuiLoaderModule,
+  TuiLinkModule,
 ];
 
 @NgModule({

@@ -2,17 +2,22 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
-  ChangeScheduleResponse,
+  ChangeSchedule,
   ChangeScheduleSearch,
   ExamScheduleModel,
   Note,
+  PaginationResponseModel,
+  ResponseModel,
   SearchSchedule,
   StudyScheduleModel,
 } from 'src/shared/models';
 import { BaseDataService } from './core/base-data.service';
 import { RequestChangeSchedulePayload } from '@shared/models/schedule/request-change-schedule-payload.model';
 import { ObjectHelper, ObservableHelper } from '@shared/helpers';
-import { ChangeScheduleResponsePayload } from '@shared/models/change-schedule/change-schedule-response-payload.model';
+import {
+  ChangeScheduleCancelPayload,
+  ChangeScheduleResponsePayload,
+} from '@shared/models/change-schedule/change-schedule-response-payload.model';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -23,9 +28,12 @@ export class ScheduleService extends BaseDataService {
     super();
   }
 
-  public getSchedule(params: SearchSchedule): Observable<StudyScheduleModel[]> {
+  public getSchedule(
+    params: SearchSchedule,
+    idTeacher: string
+  ): Observable<StudyScheduleModel[]> {
     return this.http
-      .get<StudyScheduleModel[]>(this.url + `teachers/4603/schedules`, {
+      .get<StudyScheduleModel[]>(this.url + `teachers/${idTeacher}/schedules`, {
         params: { ...params },
       })
       .pipe(
@@ -92,13 +100,13 @@ export class ScheduleService extends BaseDataService {
   }
 
   public updateStudyNote(body: Note): Observable<void> {
-    return this.http.put<void>(this.url + 'schedules/update', body);
+    return this.http.patch<void>(this.url + 'schedules/update', body);
   }
 
   public requestChangeSchedule(
     body: RequestChangeSchedulePayload
-  ): Observable<void> {
-    return this.http.post<void>(
+  ): Observable<ResponseModel<number>> {
+    return this.http.post<ResponseModel<number>>(
       this.url + 'fixed-schedules/create',
       ObjectHelper.toSnakeCase(body)
     );
@@ -107,8 +115,8 @@ export class ScheduleService extends BaseDataService {
   public getDepartmentChangeScheduleRequests(
     department: string,
     params: ChangeScheduleSearch
-  ): Observable<ChangeScheduleResponse> {
-    return this.http.get<ChangeScheduleResponse>(
+  ): Observable<PaginationResponseModel<ChangeSchedule[]>> {
+    return this.http.get<PaginationResponseModel<ChangeSchedule[]>>(
       this.url + `departments/${department}/fixed-schedules`,
       {
         params: { ...params },
@@ -118,8 +126,8 @@ export class ScheduleService extends BaseDataService {
 
   public getPersonalChangeScheduleRequests(
     params: ChangeScheduleSearch
-  ): Observable<ChangeScheduleResponse> {
-    return this.http.get<ChangeScheduleResponse>(
+  ): Observable<PaginationResponseModel<ChangeSchedule[]>> {
+    return this.http.get<PaginationResponseModel<ChangeSchedule[]>>(
       this.url + 'teachers/01/fixed-schedules',
       {
         params: { ...params },
@@ -129,8 +137,8 @@ export class ScheduleService extends BaseDataService {
 
   public getManagerChangeScheduleRequests(
     params: ChangeScheduleSearch
-  ): Observable<ChangeScheduleResponse> {
-    return this.http.get<ChangeScheduleResponse>(
+  ): Observable<PaginationResponseModel<ChangeSchedule[]>> {
+    return this.http.get<PaginationResponseModel<ChangeSchedule[]>>(
       this.url + 'fixed-schedules',
       {
         params: { ...params },
@@ -140,6 +148,15 @@ export class ScheduleService extends BaseDataService {
 
   public responseChangeScheduleRequests(
     body: ChangeScheduleResponsePayload
+  ): Observable<void> {
+    return this.http.put<void>(
+      this.url + 'fixed-schedules/update',
+      ObjectHelper.toSnakeCase(body)
+    );
+  }
+
+  public cancelChangeScheduleRequests(
+    body: ChangeScheduleCancelPayload
   ): Observable<void> {
     return this.http.put<void>(
       this.url + 'fixed-schedules/update',

@@ -14,9 +14,9 @@ export class ShiftPipe implements PipeTransform {
     if (!shiftKey) return '';
 
     const shift = CoreConstant.SHIFTS[shiftKey];
-    return `${this.beautify(shift.start[0])}:${this.beautify(
+    return `Ca ${shiftKey} (${this.beautify(shift.start[0])}:${this.beautify(
       shift.start[1]
-    )} - ${this.beautify(shift.end[0])}:${this.beautify(shift.end[1])}`;
+    )} - ${this.beautify(shift.end[0])}:${this.beautify(shift.end[1])})`;
   }
 
   /** PRIVATE METHODS */

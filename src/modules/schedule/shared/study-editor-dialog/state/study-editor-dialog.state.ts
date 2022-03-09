@@ -10,9 +10,11 @@ export type Change = {
 };
 
 export interface StudyEditorDialogState {
+  changeStatus: EApiStatus;
   requestStatus: EApiStatus;
   updateStatus: EApiStatus;
   searchStatus: EApiStatus;
+  cancelStatus: EApiStatus;
   requestingChangeSchedule: boolean;
   justRequestedSchedule: Nullable<SimpleFixedScheduleModel>;
   change: Change;

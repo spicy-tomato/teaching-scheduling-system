@@ -1,7 +1,7 @@
 <ng-container *ngrxLet="searchStatus$ as searchStatus">
   <ng-container *ngIf="searchStatus !== EApiStatus.loading; else loading">
     <ng-container *ngrxLet="searchSchedule$ as searchSchedule">
-      <div *ngIf="sameData; else duplicate" [@fadeIn] class="text-red">
+      <div *ngIf="sameData; else duplicate" [@fadeIn] class="text-error">
         <tui-svg src="tuiIconAlertCircleLarge"></tui-svg>
         Thông tin ca học chưa thay đổi
       </div>
@@ -9,27 +9,33 @@
         <div
           *ngIf="searchStatus === EApiStatus.systemError; else duplicate"
           [@fadeIn]
-          class="text-red"
+          class="text-error"
         >
           <tui-svg src="tuiIconAlertCircleLarge"></tui-svg>
           Lỗi hệ thống: Không thể tìm thấy lịch trùng
         </div>
       </ng-template>
       <ng-template #duplicate>
-        <tui-hosted-dropdown
-          tuiDropdownHover
+        <div
           *ngIf="searchSchedule && searchSchedule.length > 0; else notDuplicate"
-          [content]="duplicateScheduleContent"
-          [@fadeIn]
-          tuiDropdownAlign="left"
-          class="text-red cursor-default"
+          class="text-warning"
         >
           <tui-svg src="tuiIconAlertCircleLarge"></tui-svg>
           Ca học này đã bị trùng
-        </tui-hosted-dropdown>
+          <tui-hosted-dropdown
+            tuiDropdownHover
+            [content]="duplicateScheduleContent"
+            [@fadeIn]
+            tuiDropdownAlign="left"
+          >
+            <button tuiLink [pseudo]="true" class="details">
+              <i>Chi tiết</i>
+            </button>
+          </tui-hosted-dropdown>
+        </div>
       </ng-template>
       <ng-template #notDuplicate>
-        <div [@fadeIn] class="text-green">
+        <div [@fadeIn] class="text-success">
           <tui-svg src="tuiIconCheckCircleLarge"></tui-svg>
           Ca học này không bị trùng
         </div>

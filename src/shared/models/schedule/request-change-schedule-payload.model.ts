@@ -7,4 +7,5 @@ export interface RequestChangeSchedulePayload {
   newIdRoom: Nullable<string>;
   timeRequest: string;
   reason: string;
+  status: number;
 }

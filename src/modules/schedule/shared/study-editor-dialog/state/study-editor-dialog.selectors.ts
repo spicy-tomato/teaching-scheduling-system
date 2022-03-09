@@ -5,6 +5,11 @@ const studyEditorDialogSelector = createFeatureSelector<StudyEditorDialogState>(
   studyEditorDialogFeatureKey
 );
 
+export const selectChangeStatus = createSelector(
+  studyEditorDialogSelector,
+  (state) => state.changeStatus
+);
+
 export const selectRequestStatus = createSelector(
   studyEditorDialogSelector,
   (state) => state.requestStatus
@@ -18,6 +23,11 @@ export const selectUpdateStatus = createSelector(
 export const selectSearchStatus = createSelector(
   studyEditorDialogSelector,
   (state) => state.searchStatus
+);
+
+export const selectCancelStatus = createSelector(
+  studyEditorDialogSelector,
+  (state) => state.cancelStatus
 );
 
 export const selectRequestingChangeSchedule = createSelector(

@@ -8,6 +8,7 @@ import * as PageAction from './main-view.page.actions';
 
 @Injectable()
 export class MainViewEffects {
+  /** EFFECTS */
   public changeRouter$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(routerNavigatedAction),
@@ -20,8 +21,10 @@ export class MainViewEffects {
     );
   });
 
+  /** CONSTRUCTOR */
   constructor(private actions$: Actions) {}
 
+  /** PRIVATE METHODS */
   private createBreadcrumbs(
     route: ActivatedRouteSnapshot,
     url = '',

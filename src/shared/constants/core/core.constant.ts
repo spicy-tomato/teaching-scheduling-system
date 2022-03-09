@@ -31,11 +31,11 @@ export class CoreConstant {
       start: [15, 35],
       end: [18, 0],
     },
-    '5-1': {
+    '5_1': {
       start: [18, 5],
       end: [20, 30],
     },
-    '5-2': {
+    '5_2': {
       start: [18, 5],
       end: [21, 20],
     },
@@ -53,13 +53,17 @@ export class CoreConstant {
       feature: PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE,
     },
     0: {
-      name: 'Đang chờ phê duyệt',
+      name: 'Đang chờ bộ môn phê duyệt',
       feature: PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE,
     },
-    1: { name: 'Đang chờ Ban QLGĐ', feature: null },
+    1: { name: 'Đang chờ Ban QLGĐ xếp phòng', feature: null },
     2: { name: 'Đã chấp nhận', feature: null },
     3: {
       name: 'Đã chấp nhận',
+      feature: PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE,
+    },
+    4: {
+      name: 'Trưởng bộ môn thay đổi',
       feature: PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE,
     },
   };

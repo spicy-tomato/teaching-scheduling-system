@@ -54,26 +54,26 @@
     </thead>
 
     <!-- Body -->
-    <tbody tuiTbody *ngrxLet="data$ as data" [data]="data">
-      <tr *tuiRow="let item of data; index as i" tuiTr>
-        <td *tuiCell="'index'" tuiTd>
+    <tbody tuiTbody *ngrxLet="data$ as data" [data]="data.changeSchedules">
+      <tr *tuiRow="let item of data.changeSchedules; index as i" tuiTr>
+        <td tuiTd *tuiCell="'index'">
           <div *ngrxLet="page$ as page" class="text-center">
             {{ itemsPerPage * (page - 1) + i + 1 }}
           </div>
         </td>
-        <td *tuiCell="'teacher'" tuiTd>{{ item.teacher }}</td>
-        <td *tuiCell="'moduleClass'" tuiTd>{{ item.moduleClassName }}</td>
-        <td *tuiCell="'oldDate'" tuiTd>
+        <td tuiTd *tuiCell="'teacher'">{{ item.teacher.name }}</td>
+        <td tuiTd *tuiCell="'moduleClass'">{{ item.moduleClassName }}</td>
+        <td tuiTd *tuiCell="'oldDate'">
           <div class="text-center">
             {{ item.oldSchedule.date | date: "dd-MM-Y" }}
           </div>
         </td>
-        <td *tuiCell="'newDate'" tuiTd>
+        <td tuiTd *tuiCell="'newDate'">
           <div class="text-center">
             {{ item.newSchedule.date | date: "dd-MM-Y" }}
           </div>
         </td>
-        <td *tuiCell="'oldShift'" tuiTd>
+        <td tuiTd *tuiCell="'oldShift'">
           <div class="text-center">
             {{
               options.showTimeInsteadOfShift
@@ -82,7 +82,7 @@
             }}
           </div>
         </td>
-        <td *tuiCell="'newShift'" tuiTd>
+        <td tuiTd *tuiCell="'newShift'">
           <div class="text-center">
             {{
               options.showTimeInsteadOfShift
@@ -91,23 +91,23 @@
             }}
           </div>
         </td>
-        <td *tuiCell="'oldRoom'" tuiTd>
+        <td tuiTd *tuiCell="'oldRoom'">
           <div class="text-center">
             {{ item.oldSchedule.room }}
           </div>
         </td>
-        <td *tuiCell="'newRoom'" tuiTd>
+        <td tuiTd *tuiCell="'newRoom'">
           <div class="text-center">
             {{ item.newSchedule.room }}
           </div>
         </td>
-        <td *tuiCell="'reason'" tuiTd>
+        <td tuiTd *tuiCell="'reason'">
           <div class="reason">
             {{ item.reason }}
           </div>
         </td>
         ed
-        <td *tuiCell="'timeRequest'" tuiTd>
+        <td tuiTd *tuiCell="'timeRequest'">
           <div class="text-center">
             {{
               options.showTime
@@ -116,7 +116,7 @@
             }}
           </div>
         </td>
-        <td *tuiCell="'timeAccept'" tuiTd>
+        <td tuiTd *tuiCell="'timeAccept'">
           <div class="text-center">
             {{
               options.showTime
@@ -125,7 +125,7 @@
             }}
           </div>
         </td>
-        <td *tuiCell="'timeSetRoom'" tuiTd>
+        <td tuiTd *tuiCell="'timeSetRoom'">
           <div class="text-center">
             {{
               options.showTime
@@ -134,7 +134,7 @@
             }}
           </div>
         </td>
-        <td *tuiCell="'status'" tuiTd class="status">
+        <td tuiTd *tuiCell="'status'" class="status">
           <ng-container *ngrxLet="permissions$ as permissions">
             <ng-container
               *ngIf="
@@ -157,10 +157,11 @@
             </ng-template>
           </ng-container>
         </td>
-        <td *tuiCell="'actions'" tuiTd>
-          <div *ngIf="item.status > 0" class="d-flex justify-content-center">
-            <tss-request-list-action [schedule]="item"></tss-request-list-action>
-          </div>
+        <td tuiTd *tuiCell="'actions'">
+          <tss-request-list-action
+            [schedule]="item"
+            [canCancel]="personal"
+          ></tss-request-list-action>
         </td>
       </tr>
     </tbody>

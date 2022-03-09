@@ -6,18 +6,20 @@ import { DateHelper } from '@shared/helpers';
 })
 export class DateTimePipe implements PipeTransform {
   public transform(from: Date, to: Date): string {
+    const fromDate = from.getDate();
+    const fromMonth = from.getMonth() + 1;
+    const fromYear = from.getFullYear();
+    const fromTime = DateHelper.beautifyTime(from);
+    const toTime = DateHelper.beautifyTime(to);
+
     if (DateHelper.sameDay(from, to)) {
-      return `${from.getDate()} Tháng ${
-        from.getMonth() + 1
-      }, ${from.getFullYear()} 
-      (${DateHelper.beautifyTime(from)} - ${DateHelper.beautifyTime(to)})`;
+      return `${fromDate} Tháng ${fromMonth}, ${fromYear} 
+      (${fromTime} - ${toTime})`;
     }
 
-    return `${from.getDate()} Tháng ${
-      from.getMonth() + 1
-    }, ${from.getFullYear()} 
-    (${DateHelper.beautifyTime(from)}) -
+    return `${fromDate} Tháng ${fromMonth}, ${fromYear} 
+    (${fromTime}) -
     ${to.getDate()} Tháng ${to.getMonth() + 1}, ${to.getFullYear()} 
-    (${DateHelper.beautifyTime(to)})`;
+    (${toTime})`;
   }
 }

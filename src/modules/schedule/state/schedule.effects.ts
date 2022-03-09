@@ -5,7 +5,6 @@ import {
   filter,
   map,
   mergeMap,
-  takeUntil,
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
@@ -16,8 +15,12 @@ import * as ApiAction from './schedule.api.actions';
 import * as fromSchedule from '.';
 import { ScheduleService } from '@services/schedule.service';
 import { Store } from '@ngrx/store';
-import { BaseComponent } from '@modules/core/base/base.component';
-import { Nullable, SearchSchedule } from 'src/shared/models';
+import {
+  Nullable,
+  SearchSchedule,
+  SimpleModel,
+  Teacher,
+} from 'src/shared/models';
 import { TuiDay, TuiDayRange } from '@taiga-ui/cdk';
 import {
   ArrayHelper,
@@ -27,50 +30,32 @@ import {
 import { View } from '@syncfusion/ej2-angular-schedule';
 
 @Injectable()
-export class ScheduleEffects extends BaseComponent {
+export class ScheduleEffects {
   /** PRIVATE PROPERTIES */
-  private ranges$ = this.store
-    .select(fromSchedule.selectRanges)
-    .pipe(takeUntil(this.destroy$));
-  private view$ = this.store
-    .select(fromSchedule.selectView)
-    .pipe(takeUntil(this.destroy$));
+  private ranges$ = this.store.select(fromSchedule.selectRanges);
+  private view$ = this.store.select(fromSchedule.selectView);
 
   private readonly permissions$: Observable<number[]>;
-  private readonly department$: Observable<Nullable<string>>;
+  private readonly department$: Observable<Nullable<SimpleModel>>;
+  private readonly teacher$: Observable<Nullable<Teacher>>;
+  private readonly loadPersonalExamSubject$ = new Subject<Date>();
+  private readonly loadPersonalScheduleSubject$ = new Subject<Date>();
   private readonly loadDepartmentExamSubject$ = new Subject<Date>();
   private readonly loadDepartmentScheduleSubject$ = new Subject<Date>();
 
   /** EFFECTS */
-  public loadPersonalTeachingSchedule$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(PageAction.load),
-      calculateRangeO(this.ranges$.pipe(map((x) => x.personal))),
-      mergeMap(({ fetch, ranges }) => {
-        return this.scheduleService.getSchedule(fetch).pipe(
-          map((schedules) =>
-            ApiAction.loadPersonalStudySuccessful({ schedules, ranges })
-          ),
-          catchError(() => of(ApiAction.loadPersonalStudyFailure()))
-        );
-      })
-    );
-  });
-
-  public loadPersonalExamSchedule$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(PageAction.load),
-      calculateRangeO(this.ranges$.pipe(map((x) => x.personal))),
-      mergeMap(({ fetch, ranges }) => {
-        return this.scheduleService.getExamSchedule(fetch).pipe(
-          map((schedules) =>
-            ApiAction.loadPersonalExamSuccessful({ schedules, ranges })
-          ),
-          catchError(() => of(ApiAction.loadPersonalExamFailure()))
-        );
-      })
-    );
-  });
+  public loadPersonalSchedule$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(PageAction.load),
+        tap(({ date }) => {
+          this.loadPersonalScheduleSubject$.next(date);
+          this.loadPersonalExamSubject$.next(date);
+        })
+      );
+    },
+    { dispatch: false }
+  );
 
   public loadDepartmentSchedule$ = createEffect(
     () => {
@@ -149,25 +134,69 @@ export class ScheduleEffects extends BaseComponent {
     private readonly store: Store<fromSchedule.ScheduleState>,
     appShellStore: Store<fromAppShell.AppShellState>
   ) {
-    super();
+    this.permissions$ = appShellStore.select(fromAppShell.selectPermission);
+    this.department$ = appShellStore.select(fromAppShell.selectDepartment);
+    this.teacher$ = appShellStore.select(fromAppShell.selectTeacher);
 
-    this.assignSubjects([
-      this.loadDepartmentScheduleSubject$,
-      this.loadDepartmentExamSubject$,
-    ]);
-
-    this.permissions$ = appShellStore
-      .select(fromAppShell.selectPermission)
-      .pipe(takeUntil(this.destroy$));
-    this.department$ = appShellStore
-      .select(fromAppShell.selectDepartment)
-      .pipe(takeUntil(this.destroy$));
-
+    this.handleLoadPersonalSchedule();
+    this.handleLoadPersonalExam();
     this.handleLoadDepartmentSchedule();
     this.handleLoadDepartmentExam();
   }
 
   /** PRIVATE METHODS */
+  private handleLoadPersonalSchedule(): void {
+    combineLatest([
+      this.loadPersonalScheduleSubject$,
+      this.teacher$.pipe(
+        ObservableHelper.filterNullish(),
+        map((x) => x.id)
+      ),
+    ])
+      .pipe(
+        this.commonPersonalObservable(),
+        mergeMap(({ fetch, ranges, teacherId }) => {
+          return this.scheduleService.getSchedule(fetch, teacherId).pipe(
+            tap((schedules) => {
+              this.store.dispatch(
+                ApiAction.loadPersonalStudySuccessful({ schedules, ranges })
+              );
+            }),
+            catchError(() =>
+              of(this.store.dispatch(ApiAction.loadPersonalStudyFailure()))
+            )
+          );
+        })
+      )
+      .subscribe();
+  }
+
+  private handleLoadPersonalExam(): void {
+    combineLatest([
+      this.loadPersonalExamSubject$,
+      this.teacher$.pipe(
+        ObservableHelper.filterNullish(),
+        map((x) => x.id)
+      ),
+    ])
+      .pipe(
+        this.commonPersonalObservable(),
+        mergeMap(({ fetch, ranges }) => {
+          return this.scheduleService.getExamSchedule(fetch).pipe(
+            tap((schedules) => {
+              this.store.dispatch(
+                ApiAction.loadPersonalExamSuccessful({ schedules, ranges })
+              );
+            }),
+            catchError(() =>
+              of(this.store.dispatch(ApiAction.loadPersonalExamFailure()))
+            )
+          );
+        })
+      )
+      .subscribe();
+  }
+
   private handleLoadDepartmentSchedule(): void {
     combineLatest([
       this.loadDepartmentScheduleSubject$,
@@ -226,8 +255,23 @@ export class ScheduleEffects extends BaseComponent {
       .subscribe();
   }
 
+  private commonPersonalObservable(): OperatorFunction<
+    [Date, string],
+    {
+      teacherId: string;
+      fetch: SearchSchedule;
+      ranges: TuiDayRange[];
+    }
+  > {
+    return (source$) =>
+      source$.pipe(
+        map(([date, teacherId]) => ({ date, teacherId })),
+        calculateRangeO(this.ranges$.pipe(map((x) => x.department)))
+      );
+  }
+
   private commonPermissionObservable(): OperatorFunction<
-    [Date, string, number[]],
+    [Date, SimpleModel, number[]],
     {
       department: string;
       fetch: SearchSchedule;
@@ -242,8 +286,10 @@ export class ScheduleEffects extends BaseComponent {
             !!department &&
             PermissionHelper.isDepartmentHead(permissions)
         ),
-        map(([date, department]) => ({ date, department })),
-        calculateRangeO(this.ranges$.pipe(map((x) => x.department)))
+        map(([date, department]) => ({ date, department: department.id })),
+        calculateRangeWithDepartmentO(
+          this.ranges$.pipe(map((x) => x.department))
+        )
       );
   }
 }
@@ -365,6 +411,43 @@ function resolveConflictRanges(ranges: TuiDayRange[]): TuiDayRange[] {
 }
 
 function calculateRangeO(
+  ranges$: Observable<TuiDayRange[]>
+): OperatorFunction<
+  { teacherId: string; date: Date },
+  { teacherId: string; fetch: SearchSchedule; ranges: TuiDayRange[] }
+> {
+  return (source$) =>
+    source$.pipe(
+      withLatestFrom(ranges$),
+      map(([{ teacherId: teacherId, date }, oldRanges]) => ({
+        teacherId,
+        ...calculateFetchRange(date, oldRanges),
+      })),
+      filter(
+        (data: {
+          teacherId: string;
+          fetch: Nullable<TuiDayRange>;
+          ranges: TuiDayRange[];
+        }): data is {
+          teacherId: string;
+          fetch: TuiDayRange;
+          ranges: TuiDayRange[];
+        } => data.fetch !== null
+      ),
+      map(({ teacherId, fetch, ranges }) => {
+        return {
+          teacherId,
+          ranges,
+          fetch: {
+            start: fetch.from.getFormattedDay('YMD', '-'),
+            end: fetch.to.append({ day: 1 }).getFormattedDay('YMD', '-'),
+          },
+        };
+      })
+    );
+}
+
+function calculateRangeWithDepartmentO(
   ranges$: Observable<TuiDayRange[]>
 ): OperatorFunction<
   { department: string; date: Date },

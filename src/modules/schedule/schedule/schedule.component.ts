@@ -40,8 +40,18 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { ExamEditorDialogComponent } from '../shared/exam-editor-dialog/exam-editor-dialog.component';
 import { EApiStatus } from '@shared/enums';
 import { StudyEditorDialogComponent } from '../shared/study-editor-dialog/study-editor-dialog.component';
-import { EjsScheduleModel, ChangedScheduleModel } from 'src/shared/models';
-import { ScheduleHelper, DateHelper, ObservableHelper } from '@shared/helpers';
+import {
+  EjsScheduleModel,
+  ChangedScheduleModel,
+  FixedScheduleModel,
+} from 'src/shared/models';
+import {
+  ScheduleHelper,
+  DateHelper,
+  ObservableHelper,
+  ArrayHelper,
+} from '@shared/helpers';
+import { StudyHistoryDialogComponent } from '../shared/study-editor-dialog/study-history-dialog/study-history-dialog.component';
 
 loadCldr(numberingSystems, gregorian, numbers, timeZoneNames);
 L10n.load({ vi: EJS_LOCALE.vi });
@@ -98,6 +108,17 @@ export class TssScheduleComponent
     if (args.data.Color) {
       args.element.style.backgroundColor = args.data.Color as string;
     }
+    if ((args.data.FixedSchedules as FixedScheduleModel[])?.length > 0) {
+      const lastFixedSchedules = ArrayHelper.lastItem(
+        args.data.FixedSchedules
+      ) as FixedScheduleModel;
+      if (lastFixedSchedules.status === 0 || lastFixedSchedules.status === 1) {
+        args.element.style.borderLeft = '4px solid red';
+      }
+      else {
+        args.element.style.borderLeft = '4px solid #3b79ff';
+      }
+    }
   }
 
   public onEventClick(): void {
@@ -119,6 +140,18 @@ export class TssScheduleComponent
       args.cancel = true;
       this.showEditorDialog(args.data as EjsScheduleModel);
     }
+  }
+
+  public onShowHistory(fixedSchedules: FixedScheduleModel[]): void {
+    this.dialogService
+      .open(
+        new PolymorpheusComponent(StudyHistoryDialogComponent, this.injector),
+        {
+          data: fixedSchedules,
+          label: 'Lịch sử thay đổi giờ giảng',
+        }
+      )
+      .subscribe();
   }
 
   /** PRIVATE METHODS */
@@ -228,8 +261,8 @@ export class TssScheduleComponent
       )
       .pipe(
         ObservableHelper.filterUndefined(),
-        tap((note) => {
-          const newData: EjsScheduleModel = { ...data, Note: note };
+        tap((Note) => {
+          const newData: EjsScheduleModel = { ...data, Note };
           this.scheduleComponent.saveEvent(newData);
         })
       )
@@ -243,22 +276,12 @@ export class TssScheduleComponent
         {
           data,
           dismissible: false,
-          label: 'Chi tiết lịch học',
         }
       )
       .pipe(
         ObservableHelper.filterNullish(),
-        tap((newRequestData) => {
-          const newData: EjsScheduleModel = {
-            ...data,
-          };
-          if (newRequestData.to) {
-            newData.To = newRequestData.to;
-          }
-          if (newRequestData.note) {
-            newData.Note = newRequestData.note;
-          }
-          this.scheduleComponent.saveEvent(newData);
+        tap((changes) => {
+          this.store.dispatch(fromSchedule.changeScheduleInDialog({ changes }));
         })
       )
       .subscribe();

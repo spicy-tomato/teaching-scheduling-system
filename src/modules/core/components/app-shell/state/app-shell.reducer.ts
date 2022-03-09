@@ -15,7 +15,7 @@ export const appShellFeatureKey = 'app-shell';
 export const appShellReducer = createReducer(
   initialState,
   on(PageAction.reset, () => initialState),
-  on(PageAction.tryAutoLogin, (state) => ({
+  on(PageAction.keepLogin, (state) => ({
     ...state,
     status: EApiStatus.loading,
   })),

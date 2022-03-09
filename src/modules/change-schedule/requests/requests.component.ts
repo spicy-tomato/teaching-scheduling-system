@@ -24,7 +24,7 @@ export class RequestsComponent extends BaseComponent implements OnInit {
   /** LIFE CYCLES */
   public ngOnInit(): void {
     this.store.dispatch(
-      fromRequests.load({
+      fromRequests.filter({
         query: {
           status: 'all',
           page: 1,

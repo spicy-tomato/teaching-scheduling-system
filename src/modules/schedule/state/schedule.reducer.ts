@@ -5,6 +5,7 @@ import { ScheduleState } from '.';
 import * as ApiAction from './schedule.api.actions';
 import * as PageAction from './schedule.page.actions';
 import { ArrayHelper } from '@shared/helpers';
+import { ChangedScheduleModel, StudyScheduleModel } from '@shared/models';
 
 const initialState: ScheduleState = {
   status: EApiStatus.unknown,
@@ -34,7 +35,7 @@ const initialState: ScheduleState = {
   },
   view: 'Month',
   selectedDate: new Date(),
-  month: new TuiMonth(new Date().getFullYear(), new Date().getMonth()),
+  month: TuiMonth.currentLocal(),
 };
 
 export const scheduleFeatureKey = 'schedule';
@@ -69,6 +70,23 @@ export const scheduleReducer = createReducer(
       selecting: {
         ...state.filter.selecting,
         ...changes,
+      },
+    },
+  })),
+  on(PageAction.changeScheduleInDialog, (state, { changes }) => ({
+    ...state,
+    schedules: {
+      personal: {
+        ...state.schedules.personal,
+        study: state.schedules.personal.study.map((x) =>
+          updateSchedule(x, changes)
+        ),
+      },
+      department: {
+        ...state.schedules.department,
+        study: state.schedules.department.study.map((x) =>
+          updateSchedule(x, changes)
+        ),
       },
     },
   })),
@@ -162,3 +180,25 @@ export const scheduleReducer = createReducer(
     };
   })
 );
+
+function updateSchedule(
+  schedule: StudyScheduleModel,
+  changes: ChangedScheduleModel
+): StudyScheduleModel {
+  if (schedule.id !== changes.id) {
+    return schedule;
+  }
+
+  const newSchedule = StudyScheduleModel.parse(schedule);
+  if (changes.fixedSchedules) {
+    newSchedule.fixedSchedules = changes.fixedSchedules;
+  }
+  if (changes.schedule.change) {
+    newSchedule.note = changes.schedule.note;
+    newSchedule.shift = changes.schedule.data.shift;
+    newSchedule.idRoom = changes.schedule.data.idRoom;
+    newSchedule.date = changes.schedule.data.date;
+  }
+
+  return newSchedule;
+}

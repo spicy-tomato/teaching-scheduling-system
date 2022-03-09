@@ -1,18 +1,15 @@
-.btn-group > * {
-  flex-grow: 1;
-  tui-svg {
+form {
+  margin-top: 2rem;
+  .btn-group > * {
+    flex-grow: 1;
+    tui-svg {
+      margin-right: 5px;
+    }
+  }
+  tui-svg[src="tuiIconAlertCircleLarge"] {
     margin-right: 5px;
   }
-}
-
-.fixed-schedule {
-  padding: 8px 16px;
-  td:nth-child(2) {
-    padding-left: 3px;
-    padding-right: 10px;
+  .cancel-request {
+    margin-top: 0.25rem;
   }
-}
-
-tui-svg[src="tuiIconAlertCircleLarge"] {
-  margin-right: 5px;
 }

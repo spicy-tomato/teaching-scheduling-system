@@ -1,8 +1,12 @@
 export interface ChangeScheduleResponsePayload {
   id: number;
-  idSchedule: number;
   status: number;
   time: string;
-  comment: string;
+  reasonDeny?: string;
   newIdRoom?: string;
 }
+
+export type ChangeScheduleCancelPayload = Omit<
+  ChangeScheduleResponsePayload,
+  'time' | 'comment'
+>;

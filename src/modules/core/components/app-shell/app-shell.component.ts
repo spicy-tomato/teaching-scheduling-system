@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';
 import { GoogleService } from '@services/core/google.service';
+import { EApiStatus } from '@shared/enums';
+import { take, tap } from 'rxjs/operators';
 import * as fromAppShell from './state';
 
 @Component({
@@ -12,13 +14,24 @@ import * as fromAppShell from './state';
 export class AppShellComponent extends BaseComponent {
   /** CONSTRUCTOR */
   constructor(
-    private readonly store: Store<fromAppShell.AppShellState>,
+    store: Store<fromAppShell.AppShellState>,
     googleService: GoogleService
   ) {
     super();
-    
-    this.store.dispatch(fromAppShell.reset());
-    this.store.dispatch(fromAppShell.tryAutoLogin());
+
+    store
+      .select(fromAppShell.selectStatus)
+      .pipe(
+        tap((status) => {
+          if (status !== EApiStatus.loading) {
+            store.dispatch(fromAppShell.reset());
+            store.dispatch(fromAppShell.keepLogin());
+          }
+        }),
+        take(1)
+      )
+      .subscribe();
+
     googleService.load();
   }
 }

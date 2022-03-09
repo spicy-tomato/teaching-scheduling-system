@@ -4,7 +4,8 @@
     deny: item.status < 0,
     'no-response': item.status === 0,
     accept: item.status === 1,
-    complete: item.status >= 2
+    complete: item.status === 2 || item.status === 3,
+    change: item.status === 4
   }"
   class="text-center"
 >
