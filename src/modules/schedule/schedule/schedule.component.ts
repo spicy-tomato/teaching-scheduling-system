@@ -114,8 +114,7 @@ export class TssScheduleComponent
       ) as FixedScheduleModel;
       if (lastFixedSchedules.status === 0 || lastFixedSchedules.status === 1) {
         args.element.style.borderLeft = '4px solid red';
-      }
-      else {
+      } else {
         args.element.style.borderLeft = '4px solid #3b79ff';
       }
     }
@@ -139,6 +138,21 @@ export class TssScheduleComponent
     if (args.type === 'Editor') {
       args.cancel = true;
       this.showEditorDialog(args.data as EjsScheduleModel);
+    }
+  }
+
+  public onCloseClick(): void {
+    this.scheduleComponent.quickPopup.quickPopupHide();
+  }
+
+  public showEditorDialog(data: EjsScheduleModel): void {
+    switch (data.Type) {
+      case 'exam':
+        this.showExamEditorDialog(data);
+        break;
+      case 'study':
+        this.showStudyEditorDialog(data);
+        break;
     }
   }
 
@@ -236,17 +250,6 @@ export class TssScheduleComponent
         takeUntil(this.destroy$)
       )
       .subscribe();
-  }
-
-  private showEditorDialog(data: EjsScheduleModel): void {
-    switch (data.Type) {
-      case 'exam':
-        this.showExamEditorDialog(data);
-        break;
-      case 'study':
-        this.showStudyEditorDialog(data);
-        break;
-    }
   }
 
   private showExamEditorDialog(data: EjsScheduleModel): void {

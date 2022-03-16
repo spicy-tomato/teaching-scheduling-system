@@ -27,6 +27,38 @@
       <!-- <e-view option="Agenda"></e-view> -->
     </e-views>
 
+    <!-- Header template -->
+    <ng-template #quickInfoTemplatesHeader let-data>
+      <div *ngIf="data.elementType === 'cell' || data.elementType === 'event'">
+        <div [ngStyle]="{'background-color': data.Color || ''}" class="e-popup-header">
+          <div class="e-header-icon-wrapper">
+            <button
+              (click)="showEditorDialog(data)"
+              class="e-edit e-btn e-lib e-flat e-round e-small e-icon-btn edit-info"
+              title="Xem thông tin"
+            >
+              <i
+                class="mdi mdi-information-outline"
+                style="color: white; font-size: 18px"
+              ></i>
+            </button>
+            <button
+              (click)="onCloseClick()"
+              class="e-close e-btn e-lib e-flat e-round e-small e-icon-btn"
+              title="Đóng"
+            >
+              <span class="e-btn-icon e-icons e-close-icon"></span>
+            </button>
+          </div>
+          <div class="e-subject-wrap">
+            <div [title]="data.Subject" class="e-subject e-text-ellipsis">
+              {{ data.Subject }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
     <!-- Quick info -->
     <ng-template #quickInfoTemplatesContent let-data>
       <div *ngIf="data.elementType === 'event'">
@@ -106,5 +138,8 @@
         </div>
       </div>
     </ng-template>
+
+    <!-- Footer Template -->
+    <ng-template #quickInfoTemplatesFooter let-data> </ng-template>
   </ejs-schedule>
 </ng-container>
