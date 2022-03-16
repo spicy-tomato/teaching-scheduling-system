@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v1.2.0...v1.2.1) (2022-03-16)
+
+
+### Bug Fixes
+
+* edit icons of popup schedule ([4832cce](https://github.com/annguyen-it/teaching-scheduling-system/commits/4832cce581a6cfa317412ce664f59d9de74fca4b))
+
 ## [1.2.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v1.1.0...v1.2.0) (2022-03-09)
 
 
