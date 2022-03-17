@@ -96,7 +96,7 @@ export class LocalDataService extends BaseDataService {
     this.localStorageService.setItem(
       LocalStorageKeyConstant.ROOM,
       JSON.stringify(
-        new StorageTimeoutModel(rooms, LocalStorageKeyConstant.MEDIUM_TIMEOUT)
+        new StorageTimeoutModel(rooms, LocalStorageKeyConstant.SHORT_TIMEOUT)
       )
     );
   }
