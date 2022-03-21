@@ -12,7 +12,7 @@
     display: flex;
     align-items: center;
     button {
-      ::ng-deep .wrapper .content {
+      ::ng-deep .t-wrapper .t-content {
         color: var(--tui-text-01);
       }
       &[tuiButton] {
