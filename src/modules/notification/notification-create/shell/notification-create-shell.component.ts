@@ -17,7 +17,6 @@ import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, filter, mergeMap, takeUntil, tap } from 'rxjs/operators';
 import { BaseComponent } from '@modules/core/base/base.component';
-import isEmpty from 'lodash/isEmpty';
 
 import * as fromNotificationCreate from '../state';
 import { EApiStatus } from '@shared/enums';
@@ -158,7 +157,7 @@ export class NotificationCreateShellComponent
     this.store
       .select(fromNotificationCreate.selectErrors)
       .pipe(
-        filter((errors) => !isEmpty(errors)),
+        // filter((errors) => !isEmpty(errors)),
         mergeMap(() =>
           this.notificationsService.show('Hãy thử lại', {
             label: 'Hãy nhập đúng dữ liệu các trường!',

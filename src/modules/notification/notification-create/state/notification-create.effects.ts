@@ -4,7 +4,6 @@ import * as PageAction from './notification-create.page.actions';
 import * as ApiAction from './notification-create.api.actions';
 import { catchError, debounceTime, map, mergeMap } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { isEmpty } from 'lodash';
 import { NotificationService } from '@services/notification.service';
 import { CommonInfoService } from '@services/common-info.service';
 import { SessionStorageKeyConstant } from '@shared/constants';
@@ -19,9 +18,9 @@ export class NotificationCreateEffects {
       ofType(PageAction.clickConfirm),
       debounceTime(300),
       mergeMap(({ value, errors }) => {
-        if (!isEmpty(errors)) {
-          return of(ApiAction.invalidForm({ errors }));
-        }
+        // if (!isEmpty(errors)) {
+        //   return of(ApiAction.invalidForm({ errors }));
+        // }
 
         return this.notificationService.createModuleNotification(value).pipe(
           map(() => ApiAction.submitSuccessful()),
