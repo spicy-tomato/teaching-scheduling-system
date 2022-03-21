@@ -1,5 +1,9 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { ExamScheduleModel, StudyScheduleModel } from 'src/shared/models';
+import {
+  ExamScheduleModel,
+  SimpleModel,
+  StudyScheduleModel,
+} from 'src/shared/models';
 import { scheduleFeatureKey, ScheduleState } from '.';
 
 const scheduleSelector =
@@ -24,6 +28,11 @@ export const selectStatus = createSelector(
   scheduleSelector,
   (state) => state.status
 );
+
+export const selectRanges = createSelector(scheduleSelector, (state) => ({
+  personal: state.schedules.personal.ranges,
+  department: state.schedules.department.ranges,
+}));
 
 const selectFilterStates = createSelector(
   scheduleSelector,
@@ -75,13 +84,14 @@ export const selectTeachers = createSelector(
     Array.from(
       schedule.reduce((acc, curr) => {
         curr.people?.forEach((person) => {
-          if (person !== 'self' && !acc.get(person)) {
-            acc.set(person, true);
+          const id = (person as SimpleModel).id;
+          if (id && !acc.get(id)) {
+            acc.set(id, (person as SimpleModel).name);
           }
         });
         return acc;
-      }, new Map<string, boolean>()),
-      ([key]) => key
+      }, new Map<string, string>()),
+      ([id, name]) => ({ id, name })
     )
 );
 
@@ -120,7 +130,9 @@ export const selectModules = createSelector(
       schedules.reduce((acc, curr) => {
         if (
           !acc.get(curr.moduleName) &&
-          curr.people?.find((person) => selectingTeachers.includes(person))
+          (curr.people as SimpleModel[])?.find((person) =>
+            selectingTeachers.find((p) => p.id === person.id)
+          )
         ) {
           acc.set(curr.moduleName, true);
         }
@@ -139,7 +151,9 @@ export const selectFilteredSchedule = createSelector(
       !filter.showDepartmentSchedule || filter.teachers.length === 0
         ? schedules
         : schedules.filter((schedule) =>
-            schedule.people?.find((person) => filter.teachers.includes(person))
+            (schedule.people as SimpleModel[])?.find((person) =>
+              filter.teachers.find((p) => p.id === person.id)
+            )
           );
     return filter.modules.length === 0
       ? result

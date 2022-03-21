@@ -21,7 +21,12 @@ import { DateHelper, ScheduleHelper } from '@shared/helpers';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
 import * as fromSchedule from '@modules/schedule/state';
 import { fadeIn } from '@shared/animations';
-import { Nullable, ScheduleFilter, Teacher } from 'src/shared/models';
+import {
+  Nullable,
+  ScheduleFilter,
+  SimpleModel,
+  Teacher,
+} from 'src/shared/models';
 
 @Component({
   selector: 'tss-schedule-header',
@@ -55,7 +60,7 @@ export class ScheduleHeaderComponent
   public dateRange$!: Observable<string>;
   public openFilter = false;
   public activeToday$!: Observable<boolean>;
-  public teachers$: Observable<string[]>;
+  public teachers$: Observable<SimpleModel[]>;
   public modules$: Observable<string[]>;
   public user$: Observable<Nullable<Teacher>>;
 
@@ -63,7 +68,7 @@ export class ScheduleHeaderComponent
   public readonly permissionConstant = PermissionConstant;
 
   public showDepartmentSchedule = false;
-  public filteredTeachers: string[] = [];
+  public filteredTeachers: SimpleModel[] = [];
   public filteredModules: string[] = [];
 
   /** PRIVATE PROPERTIES */
@@ -151,7 +156,7 @@ export class ScheduleHeaderComponent
     this.filteredModules = [];
   }
 
-  public onSelectingTeachersChange(teachers: string[]): void {
+  public onSelectingTeachersChange(teachers: SimpleModel[]): void {
     this.store.dispatch(
       fromSchedule.changeSelectingState({ changes: { teachers } })
     );

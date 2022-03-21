@@ -7,7 +7,7 @@ import {
   HttpErrorResponse,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { TokenService } from '@services/core/token.service';
+import { AccessTokenService } from '@services/core/access-token.service';
 import { tap } from 'rxjs/operators';
 import { AppService } from '@services/core/app.service';
 
@@ -15,8 +15,8 @@ import { AppService } from '@services/core/app.service';
 export class HeaderInterceptor implements HttpInterceptor {
   /** CONSTRUCTOR */
   constructor(
-    private readonly appService: AppService,
-    private readonly tokenService: TokenService
+    private readonly accessTokenService: AccessTokenService,
+    private readonly appService: AppService
   ) {}
 
   /** IMPLEMENTATIONS */
@@ -24,7 +24,7 @@ export class HeaderInterceptor implements HttpInterceptor {
     req: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    const token = this.tokenService.get() || '';
+    const token = this.accessTokenService.get() || '';
 
     const headers = req.headers
       .set('Content-Type', 'application/json')
@@ -42,9 +42,9 @@ export class HeaderInterceptor implements HttpInterceptor {
             case 401: {
               const token = error.headers.get('Authorization');
               if (token) {
-                this.tokenService.save(token);
+                this.accessTokenService.save(token);
               } else {
-                this.tokenService.clear();
+                this.accessTokenService.clear();
                 this.appService.redirectToLogin();
               }
             }

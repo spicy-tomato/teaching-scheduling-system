@@ -41,6 +41,19 @@ const routes: Routes = [
         },
       },
       {
+        path: 'change-schedule',
+        loadChildren: async () =>
+          (await import('@modules/change-schedule/change-schedule.module'))
+            .ChangeScheduleModule,
+        canActivate: [PermissionGuard],
+      },
+      {
+        path: 'statistic',
+        loadChildren: async () =>
+          (await import('@modules/statistic/statistic.module')).StatisticModule,
+        canActivate: [PermissionGuard],
+      },
+      {
         path: 'user-setting',
         loadChildren: async () =>
           (await import('@modules/user-setting/user-setting.module'))

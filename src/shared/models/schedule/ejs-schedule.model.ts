@@ -1,3 +1,6 @@
+import { SimpleModel } from '../core/simple.model';
+import { FixedScheduleModel } from './fixed-schedule.model';
+
 export interface EjsScheduleModel {
   /**
    * Assigns a unique ID value to each of the events.
@@ -64,10 +67,20 @@ export interface EjsScheduleModel {
   /**
    * People of event
    */
-  People?: string[];
+  People?: string[] | SimpleModel[];
 
   /**
    * Color of event
    */
   Color?: string;
+
+  /**
+   * Color of event
+   */
+  Shift?: string;
+
+  /**
+   * Fixed schedule
+   */
+  FixedSchedules?: FixedScheduleModel[];
 }

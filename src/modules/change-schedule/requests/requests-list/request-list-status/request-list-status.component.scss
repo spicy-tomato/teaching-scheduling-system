@@ -1,0 +1,22 @@
+:host {
+  font-weight: 600;
+  .deny {
+    color: var(--tui-negative);
+  }
+  .no-response {
+    color: var(--tui-neutral-fill);
+  }
+  .accept {
+    color: var(--tui-link);
+  }
+  .complete {
+    color: var(--tui-positive);
+  }
+  .change {
+    color: var(--tui-neutral-fill);
+  }
+
+  button {
+    margin: 0 0.25rem;
+  }
+}

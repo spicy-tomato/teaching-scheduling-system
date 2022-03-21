@@ -1,3 +1,6 @@
+import { FeatureModel, Nullable } from '@shared/models';
+import { PermissionConstant } from './permission.constant';
+
 export class CoreConstant {
   public static readonly TERMS_IN_YEAR = [1, 2];
   public static readonly BATCHES_IN_TERM: { [key: number]: number[] } = {
@@ -28,13 +31,40 @@ export class CoreConstant {
       start: [15, 35],
       end: [18, 0],
     },
-    '5-1': {
+    '5_1': {
       start: [18, 5],
       end: [20, 30],
     },
-    '5-2': {
+    '5_2': {
       start: [18, 5],
       end: [21, 20],
+    },
+  };
+  public static REQUEST_CHANGE_SCHEDULE_STATUS: {
+    [key: number]: FeatureModel<string, Nullable<number>>;
+  } = {
+    '-3': {
+      name: 'Đã hủy',
+      feature: PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE,
+    },
+    '-2': { name: 'Phòng QLGĐ từ chối', feature: null },
+    '-1': {
+      name: 'Đã từ chối',
+      feature: PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE,
+    },
+    0: {
+      name: 'Đang chờ bộ môn phê duyệt',
+      feature: PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE,
+    },
+    1: { name: 'Đang chờ Ban QLGĐ xếp phòng', feature: null },
+    2: { name: 'Đã chấp nhận', feature: null },
+    3: {
+      name: 'Đã chấp nhận',
+      feature: PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE,
+    },
+    4: {
+      name: 'Trưởng bộ môn thay đổi',
+      feature: PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE,
     },
   };
 }

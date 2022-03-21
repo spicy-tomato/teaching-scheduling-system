@@ -1,4 +1,4 @@
-import { tuiIconLikeLarge, tuiIconLockLarge } from '@taiga-ui/icons';
+import { tuiIconLikeLarge, tuiIconSettingsLarge } from '@taiga-ui/icons';
 import { NavbarGroup } from 'src/shared/models';
 
 export class NavbarConstants {
@@ -32,9 +32,9 @@ export class NavbarConstants {
         },
         {
           key: NavbarConstants.keys.CHANGE_PASSWORD,
-          label: 'Đổi mật khẩu',
+          label: 'Cài đặt',
           routerLink: '/user-setting',
-          icon: tuiIconLockLarge,
+          icon: tuiIconSettingsLarge,
         },
       ],
     },

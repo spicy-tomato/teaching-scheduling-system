@@ -4,18 +4,20 @@ import * as ApiAction from './app-shell.api.actions';
 import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { TokenService } from '@services/core/token.service';
+import { AccessTokenService } from '@services/core/access-token.service';
 import { UserService } from '@services/user.service';
+import { CommonInfoService } from '@services/common-info.service';
 import { AppService } from '@services/core/app.service';
 
 @Injectable()
 export class AppShellEffects {
   /** EFFECTS */
-  public autoLogin$ = createEffect(() => {
+  public keepLogin$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(PageAction.tryAutoLogin),
+      ofType(PageAction.keepLogin),
       mergeMap(() => {
         return this.userService.me().pipe(
+          map((response) => response.data),
           map((teacher) =>
             teacher
               ? ApiAction.autoLoginSuccessfully({ teacher })
@@ -34,7 +36,7 @@ export class AppShellEffects {
         mergeMap(() =>
           of({}).pipe(
             tap(() => {
-              this.tokenService.clear();
+              this.accessTokenService.clear();
               this.appService.redirectToLogin();
             })
           )
@@ -44,11 +46,24 @@ export class AppShellEffects {
     { dispatch: false }
   );
 
+  public loadRooms$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ApiAction.autoLoginSuccessfully),
+      mergeMap(() => {
+        return this.commonInfoService.getRooms().pipe(
+          map((rooms) => ApiAction.loadRoomsSuccessfully({ rooms })),
+          catchError(() => of(ApiAction.loadRoomsFailure()))
+        );
+      })
+    );
+  });
+
   /** CONSTRUCTOR */
   constructor(
     private readonly actions$: Actions,
     private readonly appService: AppService,
     private readonly userService: UserService,
-    private readonly tokenService: TokenService
+    private readonly commonInfoService: CommonInfoService,
+    private readonly accessTokenService: AccessTokenService
   ) {}
 }

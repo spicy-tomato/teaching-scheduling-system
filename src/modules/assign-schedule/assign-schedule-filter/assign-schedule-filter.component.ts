@@ -5,7 +5,7 @@ import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { map, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
-import { ArrayHelper } from '@shared/helpers';
+import { ArrayHelper, ObservableHelper } from '@shared/helpers';
 import * as fromAssignSchedule from '../state';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
 import {
@@ -34,19 +34,24 @@ export class AssignScheduleFilterComponent
   /** PUBLIC PROPERTIES */
   public expanded = true;
   public form!: FormGroup;
-  public currentTerm$: Observable<string>;
-  public myDepartment$: Observable<Nullable<string>>;
-  public academicYears$: Observable<AcademicYear>;
-  public trainingTypes$: Observable<string[]>;
-  public trainingTypeChange$ = new Subject<string>();
   public schoolYears$!: Observable<string[]>;
-  public departments$: Observable<SimpleMapModel<string, SimpleModel[]>[]>;
-  public filter$ = new Subject();
-  public filterStatus$: Observable<EApiStatus>;
+
+  public readonly currentTerm$: Observable<string>;
+  public readonly academicYears$: Observable<AcademicYear>;
+  public readonly trainingTypes$: Observable<string[]>;
+  public readonly departments$: Observable<
+    SimpleMapModel<string, SimpleModel[]>[]
+  >;
+  public readonly filterStatus$: Observable<EApiStatus>;
 
   public readonly termsInYear = CoreConstant.TERMS_IN_YEAR;
   public readonly batchesInTerm = CoreConstant.BATCHES_IN_TERM;
   public readonly EApiStatus = EApiStatus;
+  public readonly filter$ = new Subject();
+  public readonly trainingTypeChange$ = new Subject<string>();
+
+  /** PRIVATE PROPERTIES */
+  private myDepartment$: Observable<Nullable<SimpleModel>>;
 
   /** GETTERS */
   public get termInYear(): Nullable<AbstractControl> {
@@ -76,6 +81,8 @@ export class AssignScheduleFilterComponent
     appShellStore: Store<fromAppShell.AppShellState>
   ) {
     super();
+
+    this.assignSubjects([this.filter$, this.trainingTypeChange$]);
 
     this.currentTerm$ = this.store
       .select(fromAssignSchedule.selectSchoolYear)
@@ -244,19 +251,20 @@ export class AssignScheduleFilterComponent
   private bindDepartment(): void {
     this.myDepartment$
       .pipe(
+        ObservableHelper.filterNullish(),
         tap((dep) => {
-          this.department?.setValue(dep);
+          this.department?.setValue(dep.id);
         })
       )
       .subscribe();
   }
 
   private generateSchoolYears(currentTerm: string): string[] {
-    const curr = +currentTerm.split('-')[0] + 1;
+    const curr = +currentTerm.split('_')[0] + 1;
     const result = [];
 
     for (let i = 0; i < 3; i++) {
-      result.unshift(`${curr - i}-${curr - i + 1}`);
+      result.unshift(`${curr - i}_${curr - i + 1}`);
     }
 
     return result;

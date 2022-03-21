@@ -48,7 +48,7 @@
               ? filter.teachers.length === 0
                 ? "Tất cả giảng viên"
                 : filter.teachers.length === 1
-                ? filter.teachers[0]
+                ? filter.teachers[0].name
                 : filter.teachers.length + " giảng viên"
               : ""
           }},
@@ -118,7 +118,7 @@
     <div *ngIf="user; else loader" [@fadeIn] class="filter-wrapper">
       <table class="w-full">
         <ng-container
-          *tssPermission="permissionConstant.SEE_DEPARTMENT_EXAM_SCHEDULE"
+          *tssPermission="permissionConstant.SEE_DEPARTMENT_TEACHING_SCHEDULE"
         >
           <tr>
             <td>Lịch:</td>
@@ -176,7 +176,7 @@
                             [value]="teacher"
                             size="xs"
                           >
-                            {{ teacher }}
+                            {{ teacher.name }}
                           </button>
                         </tui-opt-group>
                       </tui-data-list>
@@ -245,7 +245,7 @@
     teachers.length === 0
       ? "Tất cả"
       : teachers.length === 1
-      ? teachers[0]
+      ? teachers[0].name
       : teachers.length + " giảng viên"
   }}
 </ng-template>

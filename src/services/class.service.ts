@@ -3,7 +3,11 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ManagingClassDta } from '@shared/dtas';
-import { ManagingClass, ModuleClass, SearchSchedule } from 'src/shared/models';
+import {
+  ManagingClass,
+  ModuleClass,
+  SearchAssignSchedule,
+} from 'src/shared/models';
 import { BaseDataService } from './core/base-data.service';
 
 @Injectable({
@@ -29,7 +33,7 @@ export class ClassService extends BaseDataService {
 
   public getDepartmentModuleClass(
     department: string,
-    params: SearchSchedule
+    params: SearchAssignSchedule
   ): Observable<ModuleClass[]> {
     return this.http.get<ModuleClass[]>(
       this.url + `departments/${department}/module-classes`,

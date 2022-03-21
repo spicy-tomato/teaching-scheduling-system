@@ -7,6 +7,7 @@ import * as PageAction from './app-shell.page.actions';
 const initialState: AppShellState = {
   teacher: null,
   status: EApiStatus.unknown,
+  rooms: [],
 };
 
 export const appShellFeatureKey = 'app-shell';
@@ -14,7 +15,7 @@ export const appShellFeatureKey = 'app-shell';
 export const appShellReducer = createReducer(
   initialState,
   on(PageAction.reset, () => initialState),
-  on(PageAction.tryAutoLogin, (state) => ({
+  on(PageAction.keepLogin, (state) => ({
     ...state,
     status: EApiStatus.loading,
   })),
@@ -22,8 +23,13 @@ export const appShellReducer = createReducer(
     ...state,
     teacher,
   })),
-  on(ApiAction.autoLoginFailure, () => ({
+  on(ApiAction.autoLoginFailure, (state) => ({
+    ...state,
     teacher: null,
     status: EApiStatus.clientError,
+  })),
+  on(ApiAction.loadRoomsSuccessfully, (state, { rooms }) => ({
+    ...state,
+    rooms,
   }))
 );

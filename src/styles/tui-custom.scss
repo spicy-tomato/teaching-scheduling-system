@@ -2,6 +2,8 @@
 
 :root {
   --tui-selection: rgba(112, 182, 246, 0.4) !important;
+  --tui-chart-0: var(--tui-support-03);
+  --tui-chart-1: var(--tui-support-07);
 }
 
 tui-wrapper[data-appearance="nav-button"] {
@@ -14,6 +16,40 @@ tui-wrapper[data-appearance="nav-button"] {
 
   &[data-state="pressed"] {
     @include bg($tuiBase04);
+  }
+
+  &[data-state="disabled"] {
+    background: #eaecee;
+  }
+}
+
+tui-wrapper[data-appearance="positive"] {
+  color: var(--tui-success-fill);
+  @include bg(var(--tui-success-bg));
+
+  &[data-state="hovered"] {
+    @include bg(var(--tui-success-bg-hover));
+  }
+
+  &[data-state="pressed"] {
+    @include bg(rgba(74, 201, 155, 0.4));
+  }
+
+  &[data-state="disabled"] {
+    background: #eaecee;
+  }
+}
+
+tui-wrapper[data-appearance="negative"] {
+  color: var(--tui-error-fill);
+  @include bg(var(--tui-error-bg));
+
+  &[data-state="hovered"] {
+    @include bg(var(--tui-error-bg-hover));
+  }
+
+  &[data-state="pressed"] {
+    @include bg(rgba(244, 87, 37, 0.4));
   }
 
   &[data-state="disabled"] {

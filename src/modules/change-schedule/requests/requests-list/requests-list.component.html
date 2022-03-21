@@ -1,0 +1,169 @@
+<tui-loader
+  *ngrxLet="status$ as status"
+  [showLoader]="status.data === EApiStatus.loading"
+  [overlay]="true"
+>
+  <table
+    tuiTable
+    *ngrxLet="options$ as options"
+    [columns]="columns"
+    size="m"
+    class="min-w-full"
+  >
+    <!-- Head -->
+    <thead tuiThead>
+      <tr tuiThGroup>
+        <th tuiTh *tuiHead="'index'" [sorter]="null" rowspan="2">STT</th>
+        <th tuiTh *tuiHead="'teacher'" [sorter]="null" rowspan="2">
+          Giảng viên
+        </th>
+        <th tuiTh *tuiHead="'moduleClass'" [sorter]="null" rowspan="2">Lớp</th>
+        <th tuiTh *tuiHead="'oldDate'" [sorter]="null" colspan="2">Ngày</th>
+        <ng-container *tuiHead="'newDate'"></ng-container>
+        <th tuiTh *tuiHead="'oldShift'" [sorter]="null" colspan="2">
+          {{ options.showTimeInsteadOfShift ? "Thời gian" : "Ca" }}
+        </th>
+        <ng-container *tuiHead="'newShift'"></ng-container>
+        <th tuiTh *tuiHead="'oldRoom'" [sorter]="null" colspan="2">Phòng</th>
+        <ng-container *tuiHead="'newRoom'"></ng-container>
+        <th tuiTh *tuiHead="'reason'" [sorter]="null" rowspan="2">Lý do</th>
+        <th tuiTh *tuiHead="'timeRequest'" [sorter]="null" rowspan="2">
+          <div class="no-wrap">Yêu cầu</div>
+        </th>
+        <th tuiTh *tuiHead="'timeAccept'" [sorter]="null" rowspan="2">
+          <div class="no-wrap">Phê duyệt</div>
+        </th>
+        <th tuiTh *tuiHead="'timeSetRoom'" [sorter]="null" rowspan="2">
+          <div class="no-wrap">Xếp phòng</div>
+        </th>
+        <th tuiTh *tuiHead="'status'" [sorter]="null" rowspan="2">
+          <div class="no-wrap">Trạng thái</div>
+        </th>
+        <th tuiTh *tuiHead="'actions'" [sorter]="null" rowspan="2">
+          <div class="no-wrap">Thao tác</div>
+        </th>
+      </tr>
+      <tr tuiThGroup>
+        <th tuiTh *tuiHead="'oldDate'" [sorter]="null" class="border">Cũ</th>
+        <th tuiTh *tuiHead="'newDate'" [sorter]="null">Mới</th>
+        <th tuiTh *tuiHead="'oldShift'" [sorter]="null">Cũ</th>
+        <th tuiTh *tuiHead="'newShift'" [sorter]="null">Mới</th>
+        <th tuiTh *tuiHead="'oldRoom'" [sorter]="null">Cũ</th>
+        <th tuiTh *tuiHead="'newRoom'" [sorter]="null">Mới</th>
+      </tr>
+    </thead>
+
+    <!-- Body -->
+    <tbody tuiTbody *ngrxLet="data$ as data" [data]="data.changeSchedules">
+      <tr *tuiRow="let item of data.changeSchedules; index as i" tuiTr>
+        <td tuiTd *tuiCell="'index'">
+          <div *ngrxLet="page$ as page" class="text-center">
+            {{ itemsPerPage * (page - 1) + i + 1 }}
+          </div>
+        </td>
+        <td tuiTd *tuiCell="'teacher'">{{ item.teacher.name }}</td>
+        <td tuiTd *tuiCell="'moduleClass'">{{ item.moduleClassName }}</td>
+        <td tuiTd *tuiCell="'oldDate'">
+          <div class="text-center">
+            {{ item.oldSchedule.date | date: "dd-MM-Y" }}
+          </div>
+        </td>
+        <td tuiTd *tuiCell="'newDate'">
+          <div class="text-center">
+            {{ item.newSchedule.date | date: "dd-MM-Y" }}
+          </div>
+        </td>
+        <td tuiTd *tuiCell="'oldShift'">
+          <div class="text-center">
+            {{
+              options.showTimeInsteadOfShift
+                ? (item.oldSchedule.shift | shift)
+                : item.oldSchedule.shift
+            }}
+          </div>
+        </td>
+        <td tuiTd *tuiCell="'newShift'">
+          <div class="text-center">
+            {{
+              options.showTimeInsteadOfShift
+                ? (item.newSchedule.shift | shift)
+                : item.newSchedule.shift
+            }}
+          </div>
+        </td>
+        <td tuiTd *tuiCell="'oldRoom'">
+          <div class="text-center">
+            {{ item.oldSchedule.room }}
+          </div>
+        </td>
+        <td tuiTd *tuiCell="'newRoom'">
+          <div class="text-center">
+            {{ item.newSchedule.room }}
+          </div>
+        </td>
+        <td tuiTd *tuiCell="'reason'">
+          <div class="reason">
+            {{ item.reason }}
+          </div>
+        </td>
+        ed
+        <td tuiTd *tuiCell="'timeRequest'">
+          <div class="text-center">
+            {{
+              options.showTime
+                ? (item.timeRequest | date: "dd-MM-Y, HH:mm")
+                : (item.timeRequest | date: "dd-MM-Y")
+            }}
+          </div>
+        </td>
+        <td tuiTd *tuiCell="'timeAccept'">
+          <div class="text-center">
+            {{
+              options.showTime
+                ? (item.timeAccept | date: "dd-MM-Y, HH:mm")
+                : (item.timeAccept | date: "dd-MM-Y")
+            }}
+          </div>
+        </td>
+        <td tuiTd *tuiCell="'timeSetRoom'">
+          <div class="text-center">
+            {{
+              options.showTime
+                ? (item.timeSetRoom | date: "dd-MM-Y, HH:mm")
+                : (item.timeSetRoom | date: "dd-MM-Y")
+            }}
+          </div>
+        </td>
+        <td tuiTd *tuiCell="'status'" class="status">
+          <ng-container *ngrxLet="permissions$ as permissions">
+            <ng-container
+              *ngIf="
+                permissions.includes(
+                  PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE
+                );
+                else roomManager
+              "
+            >
+              <tss-request-list-status
+                [item]="item"
+                [displayText]="!!item.status || personal"
+              ></tss-request-list-status>
+            </ng-container>
+            <ng-template #roomManager>
+              <tss-request-list-status
+                [item]="item"
+                [displayText]="item.status !== 1"
+              ></tss-request-list-status>
+            </ng-template>
+          </ng-container>
+        </td>
+        <td tuiTd *tuiCell="'actions'">
+          <tss-request-list-action
+            [schedule]="item"
+            [canCancel]="personal"
+          ></tss-request-list-action>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</tui-loader>

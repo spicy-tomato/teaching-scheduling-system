@@ -6,10 +6,12 @@ import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as PageAction from './login.page.actions';
 import * as ApiAction from './login.api.actions';
+import * as fromAppShell from '@modules/core/components/app-shell/state';
 import { AuthService } from '@services/core/auth.service';
-import { TokenService } from '@services/core/token.service';
 import { AppService } from '@services/core/app.service';
 import { ActivatedRoute } from '@angular/router';
+import { AccessTokenService } from '@services/core/access-token.service';
+import { Store } from '@ngrx/store';
 
 @Injectable()
 export class LoginEffects {
@@ -24,10 +26,15 @@ export class LoginEffects {
               return ApiAction.systemError();
             }
 
-            this.tokenService.save(token);
+            this.accessTokenService.save(token);
             return ApiAction.loginSuccessful({ teacher });
           }),
-          catchError(() => of(ApiAction.wrongPassword()))
+          catchError((e) =>
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+            e.status === 403
+              ? of(ApiAction.wrongPassword())
+              : of(ApiAction.systemError())
+          )
         );
       })
     );
@@ -40,6 +47,8 @@ export class LoginEffects {
         mergeMap(() =>
           of({}).pipe(
             tap(() => {
+              this.appShellStore.dispatch(fromAppShell.reset());
+              this.appShellStore.dispatch(fromAppShell.keepLogin());
               this.appService.redirectToApp(
                 this.route.snapshot.queryParamMap.get('redirect')
               );
@@ -57,6 +66,7 @@ export class LoginEffects {
     private readonly route: ActivatedRoute,
     private readonly appService: AppService,
     private readonly authService: AuthService,
-    private readonly tokenService: TokenService
+    private readonly accessTokenService: AccessTokenService,
+    private readonly appShellStore: Store<fromAppShell.AppShellState>
   ) {}
 }

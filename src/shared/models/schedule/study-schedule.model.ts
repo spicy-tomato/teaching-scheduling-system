@@ -1,13 +1,15 @@
-import { StudyScheduleDta } from '@shared/dtas';
 import { DateHelper } from '@shared/helpers';
 import { EjsScheduleModel } from './ejs-schedule.model';
+import { FixedScheduleModel } from './fixed-schedule.model';
 import { ScheduleModel } from './schedule.model';
 
 export class StudyScheduleModel extends ScheduleModel {
-  public readonly shift!: string;
-  public readonly date!: Date;
+  public shift!: string;
+  public date!: Date;
   public readonly color!: string;
   public readonly moduleName!: string;
+  public readonly teacher!: string;
+  public fixedSchedules!: FixedScheduleModel[];
 
   constructor(
     id: number,
@@ -19,36 +21,32 @@ export class StudyScheduleModel extends ScheduleModel {
     date: Date,
     color: string,
     moduleName: string,
-    people?: string
+    teacher: string,
+    fixedSchedules: FixedScheduleModel[]
   ) {
-    super(
-      id,
-      idModuleClass,
-      name,
-      idRoom,
-      'study',
-      note,
-      people ? [people] : []
-    );
+    super(id, idModuleClass, name, idRoom, 'study', note, [teacher]);
 
+    this.teacher = teacher;
     this.shift = shift;
     this.date = date;
     this.color = color;
     this.moduleName = moduleName;
+    this.fixedSchedules = fixedSchedules;
   }
 
-  public static parse(obj: StudyScheduleDta): StudyScheduleModel {
+  public static parse(obj: StudyScheduleModel): StudyScheduleModel {
     return new StudyScheduleModel(
       obj.id,
-      obj.id_module_class,
+      obj.idModuleClass,
       obj.name,
-      obj.id_room,
+      obj.idRoom,
       obj.note,
       obj.shift,
-      new Date(obj.date),
+      obj.date,
       obj.color,
-      obj.module_name,
-      obj.teacher
+      obj.moduleName,
+      obj.teacher,
+      obj.fixedSchedules
     );
   }
 
@@ -67,6 +65,8 @@ export class StudyScheduleModel extends ScheduleModel {
       Note: this.note,
       People: this.people,
       Color: this.color,
+      Shift: this.shift,
+      FixedSchedules: this.fixedSchedules,
     };
   }
 }

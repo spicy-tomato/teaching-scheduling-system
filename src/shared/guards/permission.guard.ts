@@ -3,8 +3,9 @@ import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
 import { Store } from '@ngrx/store';
-import { filter, map, takeUntil } from 'rxjs/operators';
+import { filter, map, take, takeUntil, tap } from 'rxjs/operators';
 import { BaseComponent } from '@modules/core/base/base.component';
+import { EApiStatus } from '@shared/enums';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +20,18 @@ export class PermissionGuard extends BaseComponent implements CanActivate {
   ) {
     super();
 
-    appShellStore.dispatch(fromAppShell.tryAutoLogin());
+    appShellStore
+      .select(fromAppShell.selectStatus)
+      .pipe(
+        tap((status) => {
+          if (status !== EApiStatus.loading) {
+            appShellStore.dispatch(fromAppShell.reset());
+            appShellStore.dispatch(fromAppShell.keepLogin());
+          }
+        }),
+        take(1)
+      )
+      .subscribe();
 
     this.permissions$ = appShellStore
       .select(fromAppShell.selectPermission)
@@ -37,12 +49,16 @@ export class PermissionGuard extends BaseComponent implements CanActivate {
             permissions.some((p) => acceptPermissions.includes(p))) ??
           false;
 
-        if (!canActivate) {
-          void this.router.navigate(['/403']);
+        if (canActivate) {
+          return true;
         }
 
-        return canActivate;
-      })
+        const redirect = route.data['redirect'] as string;
+        void this.router.navigate([redirect ?? '/403']);
+
+        return false;
+      }),
+      takeUntil(this.destroy$)
     );
   }
 }

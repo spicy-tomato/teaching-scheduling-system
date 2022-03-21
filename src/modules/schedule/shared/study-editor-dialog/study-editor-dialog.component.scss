@@ -1,0 +1,15 @@
+form {
+  margin-top: 2rem;
+  .btn-group > * {
+    flex-grow: 1;
+    tui-svg {
+      margin-right: 5px;
+    }
+  }
+  tui-svg[src="tuiIconAlertCircleLarge"] {
+    margin-right: 5px;
+  }
+  .cancel-request {
+    margin-top: 0.25rem;
+  }
+}

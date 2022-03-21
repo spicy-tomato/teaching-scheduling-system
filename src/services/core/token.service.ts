@@ -1,30 +1,25 @@
-import { Injectable } from '@angular/core';
-import { LocalStorageKeyConstant } from '@shared/constants';
-import { Nullable } from 'src/shared/models';
-import { LocalStorageService } from './storage/local-storage.service';
+import { DatePipe } from '@angular/common';
+import { Injectable, InjectionToken } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TokenService {
-  /** CONSTRUCTOR */
-  constructor(private readonly localStorageService: LocalStorageService) {}
+  public static readonly DATE_PIPE_TOKEN = new InjectionToken<DatePipe>(
+    'datePipe'
+  );
+  public static readonly SHORTEN_NAME_PIPE_TOKEN = new InjectionToken<DatePipe>(
+    'shortenNamePipe'
+  );
 
-  /** PUBLIC METHODS */
-  public get(): Nullable<string> {
-    return this.localStorageService.getItem(
-      LocalStorageKeyConstant.ACCESS_TOKEN
-    );
-  }
+  public getToken<T>(name: string): InjectionToken<T> {
+    if (name === 'datePipe') {
+      return TokenService.DATE_PIPE_TOKEN;
+    }
+    if (name === 'shortenNamePipe') {
+      return TokenService.SHORTEN_NAME_PIPE_TOKEN;
+    }
 
-  public save(token: string): void {
-    this.localStorageService.setItem(
-      LocalStorageKeyConstant.ACCESS_TOKEN,
-      token
-    );
-  }
-
-  public clear(): void {
-    this.localStorageService.removeItem(LocalStorageKeyConstant.ACCESS_TOKEN);
+    throw `No token with name ${name} found`;
   }
 }

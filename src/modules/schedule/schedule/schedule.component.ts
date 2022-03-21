@@ -40,11 +40,20 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { ExamEditorDialogComponent } from '../shared/exam-editor-dialog/exam-editor-dialog.component';
 import { EApiStatus } from '@shared/enums';
 import { StudyEditorDialogComponent } from '../shared/study-editor-dialog/study-editor-dialog.component';
-import { EjsScheduleModel } from 'src/shared/models';
-import { ScheduleHelper, DateHelper } from '@shared/helpers';
+import {
+  EjsScheduleModel,
+  ChangedScheduleModel,
+  FixedScheduleModel,
+} from 'src/shared/models';
+import {
+  ScheduleHelper,
+  DateHelper,
+  ObservableHelper,
+  ArrayHelper,
+} from '@shared/helpers';
+import { StudyHistoryDialogComponent } from '../shared/study-editor-dialog/study-history-dialog/study-history-dialog.component';
 
 loadCldr(numberingSystems, gregorian, numbers, timeZoneNames);
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
 L10n.load({ vi: EJS_LOCALE.vi });
 setCulture('vi');
 
@@ -99,6 +108,16 @@ export class TssScheduleComponent
     if (args.data.Color) {
       args.element.style.backgroundColor = args.data.Color as string;
     }
+    if ((args.data.FixedSchedules as FixedScheduleModel[])?.length > 0) {
+      const lastFixedSchedules = ArrayHelper.lastItem(
+        args.data.FixedSchedules
+      ) as FixedScheduleModel;
+      if (lastFixedSchedules.status === 0 || lastFixedSchedules.status === 1) {
+        args.element.style.borderLeft = '4px solid red';
+      } else {
+        args.element.style.borderLeft = '4px solid #3b79ff';
+      }
+    }
   }
 
   public onEventClick(): void {
@@ -114,10 +133,39 @@ export class TssScheduleComponent
   }
 
   public onPopupOpen(args: PopupOpenEventArgs): void {
+    if (!args.data) return;
+
     if (args.type === 'Editor') {
       args.cancel = true;
       this.showEditorDialog(args.data as EjsScheduleModel);
     }
+  }
+
+  public onCloseClick(): void {
+    this.scheduleComponent.quickPopup.quickPopupHide();
+  }
+
+  public showEditorDialog(data: EjsScheduleModel): void {
+    switch (data.Type) {
+      case 'exam':
+        this.showExamEditorDialog(data);
+        break;
+      case 'study':
+        this.showStudyEditorDialog(data);
+        break;
+    }
+  }
+
+  public onShowHistory(fixedSchedules: FixedScheduleModel[]): void {
+    this.dialogService
+      .open(
+        new PolymorpheusComponent(StudyHistoryDialogComponent, this.injector),
+        {
+          data: fixedSchedules,
+          label: 'Lịch sử thay đổi giờ giảng',
+        }
+      )
+      .subscribe();
   }
 
   /** PRIVATE METHODS */
@@ -204,18 +252,7 @@ export class TssScheduleComponent
       .subscribe();
   }
 
-  private showEditorDialog(data?: EjsScheduleModel): void {
-    switch (data?.Type) {
-      case 'exam':
-        this.showExamEditorDialog(data);
-        break;
-      case 'study':
-        this.showStudyEditorDialog(data);
-        break;
-    }
-  }
-
-  private showExamEditorDialog(data?: EjsScheduleModel): void {
+  private showExamEditorDialog(data: EjsScheduleModel): void {
     this.dialogService
       .open<string | undefined>(
         new PolymorpheusComponent(ExamEditorDialogComponent, this.injector),
@@ -226,32 +263,28 @@ export class TssScheduleComponent
         }
       )
       .pipe(
-        tap((note) => {
-          if (note !== undefined) {
-            const newData = { ...data, Note: note };
-            this.scheduleComponent.saveEvent(newData);
-          }
+        ObservableHelper.filterUndefined(),
+        tap((Note) => {
+          const newData: EjsScheduleModel = { ...data, Note };
+          this.scheduleComponent.saveEvent(newData);
         })
       )
       .subscribe();
   }
 
-  private showStudyEditorDialog(data?: EjsScheduleModel): void {
+  private showStudyEditorDialog(data: EjsScheduleModel): void {
     this.dialogService
-      .open<string | undefined>(
+      .open<ChangedScheduleModel | undefined>(
         new PolymorpheusComponent(StudyEditorDialogComponent, this.injector),
         {
           data,
           dismissible: false,
-          label: 'Chi tiết lịch học',
         }
       )
       .pipe(
-        tap((note) => {
-          if (note !== undefined) {
-            const newData = { ...data, Note: note };
-            this.scheduleComponent.saveEvent(newData);
-          }
+        ObservableHelper.filterNullish(),
+        tap((changes) => {
+          this.store.dispatch(fromSchedule.changeScheduleInDialog({ changes }));
         })
       )
       .subscribe();

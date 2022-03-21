@@ -1,0 +1,25 @@
+<form [formGroup]="form">
+  <tui-text-area formControlName="reason" class="tui-form__row">
+    Nhập lý do
+  </tui-text-area>
+  <div class="tui-form__buttons tui-form__buttons_align_end">
+    <button
+      tuiButton
+      [disabled]="form.invalid"
+      (click)="confirm()"
+      type="submit"
+      class="tui-form__button"
+    >
+      Xác nhận từ chối
+    </button>
+    <button
+      tuiButton
+      (click)="cancel()"
+      type="button"
+      appearance="secondary"
+      class="tui-form__button"
+    >
+      Hủy bỏ
+    </button>
+  </div>
+</form>

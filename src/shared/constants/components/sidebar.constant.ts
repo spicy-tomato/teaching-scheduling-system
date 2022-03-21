@@ -1,5 +1,5 @@
-import { SidebarItem } from '@shared/models';
-import { PermissionConstant } from '../core';
+import { SidebarItem } from 'src/shared/models';
+import { PermissionConstant } from '../core/permission.constant';
 
 export class SidebarConstant {
   public static items: SidebarItem[] = [
@@ -35,6 +35,11 @@ export class SidebarConstant {
       routerLink: '/assign-schedule',
       permission: PermissionConstant.ASSIGN_SCHEDULE,
     },
+    {
+      name: 'Thay đổi lịch',
+      icon: 'fas fa-exchange-alt',
+      routerLink: '/change-schedule',
+    },
     // {
     //   name: 'Nhập file',
     //   icon: 'far fa-file-import',
@@ -58,9 +63,11 @@ export class SidebarConstant {
     //   routerLink: '/user-setting/permission',
     //   permission: PermissionConstant.AUTHORIZE_DEPARTMENT_PERMISSION,
     // },
-    // {
-    //   name: 'Thống kê',
-    //   icon: 'far fa-chart-pie',
-    // },
+    {
+      name: 'Thống kê',
+      icon: 'far fa-chart-pie',
+      routerLink: '/statistic',
+      permission: PermissionConstant.STATISTICIZE_CHANGE_SCHEDULE,
+    },
   ];
 }

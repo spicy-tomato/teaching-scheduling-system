@@ -1,0 +1,17 @@
+:host {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "filter"
+    "chart";
+  gap: 1.75rem;
+
+  tss-statistic-change-schedule-filter {
+    grid-area: filter;
+  }
+  tss-statistic-change-schedule-chart {
+    grid-area: chart;
+  }
+}

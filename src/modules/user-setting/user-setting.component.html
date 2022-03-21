@@ -1,1 +1,30 @@
-<router-outlet></router-outlet>
+<div class="wrapper grid">
+  <a tuiAction icon="tuiIconLockLarge" routerLink="change-password">
+    Đổi mật khẩu
+  </a>
+  <!-- <ng-container *ngrxLet="loggedInGoogle$ as loggedInGoogle">
+    <tui-loader [showLoader]="loggedInGoogle$.value === null" [overlay]="true">
+      <tui-action
+        *ngIf="loggedInGoogle$.value; else login"
+        (click)="signOutGoogle()"
+        icon="<i class='mdi mdi-google' style='font-size: 23px'></i>"
+      >
+        Đăng xuất Google
+      </tui-action>
+      <ng-template #login>
+        <tui-action
+          (click)="connectGoogle()"
+          icon="<i class='mdi mdi-google' style='font-size: 23px'></i>"
+        >
+          Kết nối tới Google
+        </tui-action>
+      </ng-template>
+    </tui-loader>
+  </ng-container>
+  <tui-action
+    (click)="other()"
+    icon="<i class='mdi mdi-google' style='font-size: 23px'></i>"
+  >
+    Kết nối tới Google
+  </tui-action> -->
+</div>

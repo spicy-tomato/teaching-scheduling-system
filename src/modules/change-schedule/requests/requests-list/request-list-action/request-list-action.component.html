@@ -1,0 +1,28 @@
+<tui-loader
+  *ngrxLet="requesting$ as requesting"
+  [showLoader]="requesting.includes(schedule.id)"
+  [overlay]="true"
+>
+  <div class="d-flex justify-content-center">
+    <button
+      tuiIconButton
+      *ngIf="schedule.status > 0"
+      (click)="export$.next()"
+      [tuiHintShowDelay]="300"
+      [tuiHintHideDelay]="100"
+      [icon]="IconConstant.exportVariantLarge"
+      tuiHint="Xuất file yêu cầu"
+      appearance="icon"
+    ></button>
+    <button
+      tuiIconButton
+      *ngIf="canCancel && (schedule.status === 0 || schedule.status === 1)"
+      (click)="cancel$.next()"
+      [tuiHintShowDelay]="300"
+      [tuiHintHideDelay]="100"
+      icon="tuiIconTrashLarge"
+      tuiHint="Hủy yêu cầu"
+      appearance="icon"
+    ></button>
+  </div>
+</tui-loader>
