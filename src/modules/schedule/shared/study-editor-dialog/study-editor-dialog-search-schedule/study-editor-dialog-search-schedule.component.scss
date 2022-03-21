@@ -1,11 +1,17 @@
-tui-svg {
-  margin-right: 5px;
-}
+:host {
+  > * {
+    padding: 1px 0;
+  }
 
-.duplicate {
-  padding: 8px 16px;
-}
+  tui-svg {
+    margin-right: 5px;
+  }
 
-.details {
-  margin-left: 0.5rem;
+  .duplicate {
+    padding: 8px 16px;
+  }
+
+  .details {
+    margin-left: 0.5rem;
+  }
 }

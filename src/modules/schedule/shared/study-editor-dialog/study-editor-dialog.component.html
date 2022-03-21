@@ -157,11 +157,13 @@
       >
         Lý do
       </tui-text-area>
-      <tui-field-error formControlName="reason"></tui-field-error>
     </div>
     <div class="tui-form__row">
       <tss-study-editor-dialog-search-schedule
-        [sameData]="form.controls['request'].errors?.sameValue"
+        [sameData]="requestControl.errors?.sameValue || false"
+        [hadReason]="
+          requestControl.controls['reason'].errors?.required !== true
+        "
       ></tss-study-editor-dialog-search-schedule>
     </div>
   </tui-expand>

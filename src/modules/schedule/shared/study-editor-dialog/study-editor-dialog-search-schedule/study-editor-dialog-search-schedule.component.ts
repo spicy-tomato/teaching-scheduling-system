@@ -17,7 +17,8 @@ import * as fromStudyEditorDialog from '../state';
 })
 export class StudyEditorDialogSearchScheduleComponent extends BaseComponent {
   /** INPUTS */
-  @Input() public sameData!: Nullable<boolean>;
+  @Input() public sameData!: boolean;
+  @Input() public hadReason!: boolean;
 
   /** PUBLIC PROPERTIES */
   public readonly searchStatus$: Observable<EApiStatus>;

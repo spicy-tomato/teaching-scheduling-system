@@ -105,7 +105,7 @@ export class StudyEditorDialogComponent extends BaseComponent {
   private readonly nameTitle$: Observable<string>;
 
   /** GETTERS */
-  private get requestControl(): FormGroup {
+  public get requestControl(): FormGroup {
     return this.form.controls['request'] as FormGroup;
   }
 
