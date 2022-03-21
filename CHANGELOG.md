@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v1.2.1...v1.3.0) (2022-03-21)
+
+
+### Features
+
+* display checklist requirement of change schedule ([d2a4030](https://github.com/annguyen-it/teaching-scheduling-system/commits/d2a403077ad8a9552239f5513fad4bc560fec073))
+
+
+### Bug Fixes
+
+* reduce timeout for room data in local storage ([a0e2fec](https://github.com/annguyen-it/teaching-scheduling-system/commits/a0e2fec603296a05b34bc0d948a103d078e6a6a1))
+
 ### [1.2.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v1.2.0...v1.2.1) (2022-03-16)
 
 
