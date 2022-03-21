@@ -35,7 +35,7 @@
     "@ngrx/router-store": "^12.5.1",
     "@ngrx/store": "^12.5.1",
     "@ngrx/store-devtools": "^12.5.1",
-    "@syncfusion/ej2-angular-schedule": "^19.4.50",
+    "@syncfusion/ej2-angular-schedule": "^19.4.55",
     "@syncfusion/ej2-locale": "^19.4.41",
     "@taiga-ui/addon-charts": "^2.36.0",
     "@taiga-ui/addon-editor": "^2.33.0",
