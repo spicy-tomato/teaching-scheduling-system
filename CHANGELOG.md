@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.2](https://github.com/annguyen-it/teaching-scheduling-system/compare/v1.3.1...v1.3.2) (2022-03-22)
+
+
+### Bug Fixes
+
+* add label and lines to chart ([560dca1](https://github.com/annguyen-it/teaching-scheduling-system/commits/560dca18d485ffed3a5e3d8ca18faff648efca0c))
+* export file for room manager ([1b83c2c](https://github.com/annguyen-it/teaching-scheduling-system/commits/1b83c2cf52e0b71f76a4f319ddc275d57f6116ca))
+* export file for teacher ([25c5624](https://github.com/annguyen-it/teaching-scheduling-system/commits/25c5624a987ef0a010cc54df732630cbb072378a))
+* export file for teacher ([90a054c](https://github.com/annguyen-it/teaching-scheduling-system/commits/90a054c503a83a71b5e0838aae280750b55e3f54))
+
 ### [1.3.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v1.3.0...v1.3.1) (2022-03-21)
 
 
