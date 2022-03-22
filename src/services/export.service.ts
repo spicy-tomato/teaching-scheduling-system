@@ -343,13 +343,14 @@ export class ExportService {
                       verticalAlign: VerticalAlign.CENTER,
                       children: [
                         new Paragraph({
+                          alignment,
                           spacing: {
                             before: 160,
                           },
                           indent: {
                             firstLine: '0.1in',
                           },
-                          text: `${schedule.numberReality || ''}`,
+                          text: `${schedule.moduleClassNumberReality || ''}`,
                         }),
                       ],
                     }),
