@@ -189,6 +189,19 @@ export class ExportService {
                       ],
                     }),
                     new TableCell({
+                      rowSpan: 2,
+                      verticalAlign: VerticalAlign.CENTER,
+                      children: [
+                        new Paragraph({
+                          spacing: {
+                            after: 0,
+                          },
+                          text: 'Sĩ số',
+                          alignment,
+                        }),
+                      ],
+                    }),
+                    new TableCell({
                       columnSpan: 3,
                       verticalAlign: VerticalAlign.CENTER,
                       children: [
@@ -281,6 +294,10 @@ export class ExportService {
                       ],
                     }),
                     new TableCell({
+                      width: {
+                        size: 15,
+                        type: WidthType.PERCENTAGE,
+                      },
                       verticalAlign: VerticalAlign.CENTER,
                       children: [
                         new Paragraph({
@@ -319,6 +336,20 @@ export class ExportService {
                             firstLine: '0.1in',
                           },
                           text: schedule.moduleClassName,
+                        }),
+                      ],
+                    }),
+                    new TableCell({
+                      verticalAlign: VerticalAlign.CENTER,
+                      children: [
+                        new Paragraph({
+                          spacing: {
+                            before: 160,
+                          },
+                          indent: {
+                            firstLine: '0.1in',
+                          },
+                          text: `${schedule.numberReality || ''}`,
                         }),
                       ],
                     }),

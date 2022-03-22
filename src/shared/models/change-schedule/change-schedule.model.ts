@@ -20,4 +20,5 @@ export interface ChangeSchedule {
   timeAccept: Date;
   timeSetRoom: Date;
   status: number;
+  numberReality: number;
 }
