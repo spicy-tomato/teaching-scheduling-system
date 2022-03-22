@@ -565,6 +565,11 @@ export class ExportService {
                 }),
                 new TextRun({
                   break: 1,
+                  // TODO
+                  text: `Số điện thoại: `,
+                }),
+                new TextRun({
+                  break: 1,
                   text: `Bộ môn: ${department}`,
                 }),
                 new TextRun({
@@ -801,13 +806,18 @@ export class ExportService {
                       verticalAlign: VerticalAlign.CENTER,
                       children: [
                         new Paragraph({
+                          alignment,
                           spacing: {
                             before: 160,
                           },
                           indent: {
                             firstLine: '0.1in',
                           },
-                          text: schedule.newSchedule.date,
+                          text:
+                            this.datePipe.transform(
+                              schedule.newSchedule.date,
+                              'dd/MM/Y'
+                            ) ?? schedule.newSchedule.date,
                         }),
                       ],
                     }),

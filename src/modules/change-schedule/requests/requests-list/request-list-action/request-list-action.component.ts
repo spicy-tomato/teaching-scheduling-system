@@ -139,8 +139,8 @@ export class RequestListActionComponent extends BaseComponent {
           const document =
             this.exportService.exportChangeScheduleRequestForRoomManager(
               this.schedule,
-              teacher.department,
-              teacher.faculty
+              teacher.department.name,
+              teacher.faculty.name
             );
 
           const commonName = 'Giay-dang-ky-phong-hoc';
