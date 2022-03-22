@@ -16,6 +16,7 @@ import { BaseComponent } from '@modules/core/base/base.component';
 import { ShortenNamePipe } from '@pipes/shorten-name.pipe';
 import { TokenService } from '@services/core/token.service';
 import { EApiStatus } from '@shared/enums';
+import { TuiLineHandler } from '@taiga-ui/addon-charts';
 
 type TeacherData = { [key: string]: { accept: number; deny: number } };
 
@@ -30,17 +31,21 @@ export class StatisticChangeScheduleChartComponent
   implements OnInit
 {
   /** PUBLIC PROPERTIES */
-  public value: [number[], number[]] = [[], []];
-
-  public labelsX: string[] = [];
   public teachersNameList: string[] = [];
+
+  public value: [number[], number[]] = [[], []];
+  public labelsX: string[] = [];
   public labelsY: string[] = [];
+  public axisYLabels: string[] = [];
   public max = 0;
 
   public readonly status$: Observable<EApiStatus>;
   public readonly teachersList$: Observable<SimpleModel[]>;
   public readonly EApiStatus = EApiStatus;
   public readonly setNames = ['Đã đổi', 'Bị từ chối'];
+  public readonly horizontalLinesHandler: TuiLineHandler = (index, total) => {
+    return index === 0 || (total - index) % 5 === 0 ? 'dashed' : 'none';
+  };
 
   /** PRIVATE PROPERTIES */
   private readonly shortenNamePipe: ShortenNamePipe;
@@ -105,7 +110,6 @@ export class StatisticChangeScheduleChartComponent
       return acc;
     }, {});
 
-    // debugger;
     changeSchedules.forEach((changeSchedule) => {
       const id = changeSchedule.teacher.id;
       if (changeSchedule.status > 0) {
@@ -132,7 +136,9 @@ export class StatisticChangeScheduleChartComponent
     });
 
     this.value = value;
-    this.labelsY = ['0', maxHeight.toString()];
+    this.labelsY = [...Array(maxHeight + 1).keys()].map((x, i, arr) =>
+      x % 5 === 0 || i === arr.length - 1 ? `${x}` : ''
+    );
     this.max = maxHeight;
     this.labelsX = labelsX;
     this.teachersNameList = newTeachersList;
