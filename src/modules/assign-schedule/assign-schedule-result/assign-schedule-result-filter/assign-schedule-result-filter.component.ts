@@ -22,17 +22,18 @@ import {
 } from 'src/shared/models';
 
 @Component({
-  selector: 'tss-assign-schedule-filter',
-  templateUrl: './assign-schedule-filter.component.html',
-  styleUrls: ['./assign-schedule-filter.component.scss'],
+  selector: 'tss-assign-schedule-result-filter',
+  templateUrl: './assign-schedule-result-filter.component.html',
+  styleUrls: ['./assign-schedule-result-filter.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AssignScheduleFilterComponent
+export class AssignScheduleResultFilterComponent
   extends BaseComponent
   implements OnInit
 {
   /** PUBLIC PROPERTIES */
   public expanded = true;
+  public openImportDialog = false;
   public form!: FormGroup;
   public schoolYears$!: Observable<string[]>;
 
@@ -129,6 +130,10 @@ export class AssignScheduleFilterComponent
 
   public onToggle(): void {
     this.expanded = !this.expanded;
+  }
+
+  public onOpenImportDialog(): void {
+    this.openImportDialog = true;
   }
 
   @tuiPure

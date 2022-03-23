@@ -7,9 +7,9 @@ import * as fromAssignSchedule from '../state';
 import { ModuleClass, Nullable, SimpleModel } from 'src/shared/models';
 
 @Component({
-  selector: 'tss-assign-schedule-assigned',
-  templateUrl: './assign-schedule-assigned.component.html',
-  styleUrls: ['./assign-schedule-assigned.component.scss'],
+  selector: 'tss-assign-schedule-result-assigned',
+  templateUrl: './assign-schedule-result-assigned.component.html',
+  styleUrls: ['./assign-schedule-result-assigned.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AssignScheduleAssignedComponent extends BaseComponent {

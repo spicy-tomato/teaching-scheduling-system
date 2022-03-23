@@ -9,6 +9,17 @@ const routes: Routes = [
       breadcrumb: 'Phân giảng',
     },
     component: AssignScheduleComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: async () =>
+          (
+            await import(
+              '@modules/assign-schedule/assign-schedule-result/assign-schedule-result.module'
+            )
+          ).AssignScheduleResultModule,
+      },
+    ],
   },
 ];
 

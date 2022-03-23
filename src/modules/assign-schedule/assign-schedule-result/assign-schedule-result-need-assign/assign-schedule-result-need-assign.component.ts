@@ -7,12 +7,12 @@ import { ModuleClass } from 'src/shared/models';
 import * as fromAssignSchedule from '../state';
 
 @Component({
-  selector: 'tss-assign-schedule-need-assign',
-  templateUrl: './assign-schedule-need-assign.component.html',
-  styleUrls: ['./assign-schedule-need-assign.component.scss'],
+  selector: 'tss-assign-schedule-result-need-assign',
+  templateUrl: './assign-schedule-result-need-assign.component.html',
+  styleUrls: ['./assign-schedule-result-need-assign.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AssignScheduleNeedAssignComponent extends BaseComponent {
+export class AssignScheduleResultNeedAssignComponent extends BaseComponent {
   /** PUBLIC PROPERTIES */
   public data$: Observable<ModuleClass[]>;
   public readonly checkboxChangeAction: (checkbox: boolean[]) => Action = (

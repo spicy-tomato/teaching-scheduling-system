@@ -16,13 +16,13 @@ import { ModuleClass, Nullable, SimpleModel } from 'src/shared/models';
 import * as fromAssignSchedule from '../state';
 
 @Component({
-  selector: 'tss-assign-schedule-right-title',
-  templateUrl: './assign-schedule-right-title.component.html',
-  styleUrls: ['./assign-schedule-right-title.component.scss'],
+  selector: 'tss-assign-schedule-result-right-title',
+  templateUrl: './assign-schedule-result-right-title.component.html',
+  styleUrls: ['./assign-schedule-result-right-title.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [fadeInOut],
 })
-export class AssignScheduleRightTitleComponent extends BaseComponent {
+export class AssignScheduleResultRightTitleComponent extends BaseComponent {
   /** PUBLIC PROPERTIES */
   public assigned$: Observable<ModuleClass[]>;
   public selectedAssigned$: Observable<boolean[]>;
