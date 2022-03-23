@@ -4,7 +4,7 @@ import { CoreConstant } from '@shared/constants';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
-import { map, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
+import { map, take, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { ArrayHelper, ObservableHelper } from '@shared/helpers';
 import * as fromAssignSchedule from '../state';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
@@ -118,6 +118,13 @@ export class AssignScheduleResultFilterComponent
   /** LIFE CYCLE */
   public ngOnInit(): void {
     this.store.dispatch(fromAssignSchedule.loadFilter());
+    this.myDepartment$
+      .pipe(
+        ObservableHelper.filterNullish(),
+        tap(() => this.filter$.next()),
+        take(1)
+      )
+      .subscribe();
   }
 
   /** PUBLIC METHODS */
