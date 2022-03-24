@@ -5,7 +5,7 @@ import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { map, take, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
-import { ArrayHelper, ObservableHelper } from '@shared/helpers';
+import { ArrayHelper, ObservableHelper, UtilsHelper } from '@shared/helpers';
 import * as fromAssignSchedule from '../state';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
 import {
@@ -85,23 +85,23 @@ export class AssignScheduleResultFilterComponent
 
     this.assignSubjects([this.filter$, this.trainingTypeChange$]);
 
-    this.currentTerm$ = this.store
-      .select(fromAssignSchedule.selectSchoolYear)
-      .pipe(takeUntil(this.destroy$));
-    this.academicYears$ = this.store
-      .select(fromAssignSchedule.selectAcademicYear)
-      .pipe(takeUntil(this.destroy$));
-    this.trainingTypes$ = this.store
-      .select(fromAssignSchedule.selectTrainingType)
-      .pipe(takeUntil(this.destroy$));
     this.departments$ = this.store
       .select(fromAssignSchedule.selectDepartments)
+      .pipe(takeUntil(this.destroy$));
+    this.filterStatus$ = store
+      .select(fromAssignSchedule.selectFilterStatus)
       .pipe(takeUntil(this.destroy$));
     this.myDepartment$ = appShellStore
       .select(fromAppShell.selectDepartment)
       .pipe(takeUntil(this.destroy$));
-    this.filterStatus$ = store
-      .select(fromAssignSchedule.selectFilterStatus)
+    this.currentTerm$ = appShellStore
+      .select(fromAppShell.selectSchoolYear)
+      .pipe(takeUntil(this.destroy$));
+    this.academicYears$ = appShellStore
+      .select(fromAppShell.selectAcademicYear)
+      .pipe(takeUntil(this.destroy$));
+    this.trainingTypes$ = appShellStore
+      .select(fromAppShell.selectTrainingType)
       .pipe(takeUntil(this.destroy$));
 
     this.initForm();
@@ -173,7 +173,7 @@ export class AssignScheduleResultFilterComponent
 
   private triggerSchoolYearChange(): void {
     this.schoolYears$ = this.currentTerm$.pipe(
-      map((currentTerm) => this.generateSchoolYears(currentTerm))
+      map((currentTerm) => UtilsHelper.generateSchoolYears(currentTerm))
     );
   }
 
@@ -269,16 +269,5 @@ export class AssignScheduleResultFilterComponent
         })
       )
       .subscribe();
-  }
-
-  private generateSchoolYears(currentTerm: string): string[] {
-    const curr = +currentTerm.split('_')[0] + 1;
-    const result = [];
-
-    for (let i = 0; i < 3; i++) {
-      result.unshift(`${curr - i}_${curr - i + 1}`);
-    }
-
-    return result;
   }
 }

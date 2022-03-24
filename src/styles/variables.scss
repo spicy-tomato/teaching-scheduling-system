@@ -1,5 +1,5 @@
 $nav-height: 65px;
-$sidebar-width: 190px;
+$sidebar-width: 240px;
 $main-view-height: calc(100vh - 65px);
 $content-height: calc(#{$main-view-height} - 62px);
 $main-view-width: calc(100vw - #{$sidebar-width});
@@ -49,6 +49,12 @@ $u: 0.25rem;
 .grid {
   display: grid;
 }
+.d-block {
+  display: block;
+}
+.d-inline-block {
+  display: inline-block;
+}
 
 .h-full {
   height: 100%;
@@ -90,6 +96,11 @@ $u: 0.25rem;
 }
 .text-info {
   color: var(--tui-info-fill)
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 @mixin font($size: base) {

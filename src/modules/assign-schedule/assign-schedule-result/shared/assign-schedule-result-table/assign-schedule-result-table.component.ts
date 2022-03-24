@@ -22,12 +22,12 @@ import { ModuleClass } from 'src/shared/models';
 import * as fromAssignSchedule from '../../state';
 
 @Component({
-  selector: 'tss-assign-schedule-table',
-  templateUrl: './assign-schedule-table.component.html',
-  styleUrls: ['./assign-schedule-table.component.scss'],
+  selector: 'tss-assign-result-schedule-table',
+  templateUrl: './assign-schedule-result-table.component.html',
+  styleUrls: ['./assign-schedule-result-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AssignScheduleTableComponent
+export class AssignScheduleResultTableComponent
   extends BaseComponent
   implements OnChanges
 {

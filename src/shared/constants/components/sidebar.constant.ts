@@ -32,8 +32,20 @@ export class SidebarConstant {
     {
       name: 'Phân giảng',
       icon: 'far fa-pencil-paintbrush',
-      routerLink: '/assign-schedule',
       permission: PermissionConstant.ASSIGN_SCHEDULE,
+      subItems: [
+        {
+          name: 'Danh sách phân giảng',
+          routerLink: '/assign-schedule',
+          icon: 'mdi mdi-format-list-bulleted',
+        },
+        {
+          name: 'Import',
+          routerLink: '/assign-schedule/import',
+          icon: 'tuiIconUpload',
+          useTaigaIcon: true,
+        },
+      ],
     },
     {
       name: 'Thay đổi lịch',

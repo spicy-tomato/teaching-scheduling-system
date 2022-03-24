@@ -1,28 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import {
-  AcademicYear,
-  SimpleMapModel,
-  SimpleModel,
-  ModuleClass,
-} from 'src/shared/models';
-
-export const loadCurrentTermSuccessful = createAction(
-  '[Assign Schedule API] Load current term Successfully',
-  props<{ currentTerm: string }>()
-);
-
-export const loadCurrentTermFailure = createAction(
-  '[Assign Schedule API] Load current term Failed'
-);
-
-export const loadAcademicYearSuccessful = createAction(
-  '[Assign Schedule API] Load academic year Successfully',
-  props<{ academicYears: AcademicYear }>()
-);
-
-export const loadAcademicYearFailure = createAction(
-  '[Assign Schedule API] Load academic year Failed'
-);
+import { SimpleMapModel, SimpleModel, ModuleClass } from 'src/shared/models';
 
 export const loadDepartmentSuccessful = createAction(
   '[Assign Schedule API] Load department year Successfully',

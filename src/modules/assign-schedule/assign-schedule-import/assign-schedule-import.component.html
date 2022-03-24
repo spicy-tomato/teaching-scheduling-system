@@ -1,0 +1,81 @@
+<div class="tui-form__row">
+  <form [formGroup]="form">
+    <div class="tui-form__row">
+      <h3 class="tui-form__header tui-form__header_margin-top_none">
+        Import dữ liệu lịch học
+      </h3>
+    </div>
+    <div class="tui-form__row tui-form__row_multi-fields">
+      <div class="tui-form__multi-field">
+        <tui-select formControlName="schoolYear">
+          Năm học
+          <ng-container *ngrxLet="schoolYears$ as schoolYears">
+            <tui-data-list-wrapper
+              *tuiDataList
+              [items]="schoolYears"
+            ></tui-data-list-wrapper>
+          </ng-container>
+        </tui-select>
+      </div>
+      <div class="tui-form__multi-field">
+        <tui-select
+          (ngModelChange)="onTermInYearChange($event)"
+          formControlName="termInYear"
+        >
+          Học kỳ
+          <tui-data-list-wrapper
+            *tuiDataList
+            [items]="termsInYear"
+          ></tui-data-list-wrapper>
+        </tui-select>
+      </div>
+      <div class="tui-form__multi-field">
+        <tui-select formControlName="batchInTerm">
+          Đợt học
+          <tui-data-list-wrapper
+            *tuiDataList
+            [items]="batchesInTerm[termInYearControl?.value]"
+          ></tui-data-list-wrapper>
+        </tui-select>
+      </div>
+    </div>
+    <div class="tui-form__row">
+      <tui-input-files
+        *ngIf="!file"
+        (reject)="onReject($event)"
+        (ngModelChange)="rejectedFiles$.next(null)"
+        formControlName="file"
+        accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        link="Chọn tệp lịch học"
+        label="hoặc kéo thả vào đây"
+      ></tui-input-files>
+      <tui-files class="tui-space_top-1">
+        <tui-file
+          *ngIf="file"
+          (removed)="removeFile()"
+          [file]="file"
+          size="l"
+        ></tui-file>
+
+        <tui-file
+          *ngIf="rejectedFiles$ | async as rejectedFiles"
+          (removed)="rejectedFiles$.next(null)"
+          [file]="rejectedFiles"
+          state="error"
+          size="l"
+        ></tui-file>
+      </tui-files>
+    </div>
+  </form>
+</div>
+<div class="tui-form__buttons tui-form__buttons_align_end">
+  <button
+    tuiButton
+    (click)="import$.next()"
+    [showLoader]="showLoader"
+    [disabled]="form.invalid"
+    class="tui-form__button"
+  >
+    Xác nhận
+  </button>
+</div>

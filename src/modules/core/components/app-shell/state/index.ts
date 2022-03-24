@@ -9,5 +9,8 @@ export {
   selectDepartment,
   selectFaculty,
   selectRooms,
+  selectAcademicYear,
+  selectSchoolYear,
+  selectTrainingType,
 } from './app-shell.selectors';
 export { AppShellEffects } from './app-shell.effects';

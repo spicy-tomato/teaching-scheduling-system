@@ -13,35 +13,6 @@ import { TeacherService } from '@services/teacher.service';
 @Injectable()
 export class AssignScheduleEffects {
   /** EFFECTS */
-  public loadSchoolYear$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(PageAction.loadFilter),
-      mergeMap(() => {
-        return this.commonInfoService
-          .getCurrentTerm()
-          .pipe(
-            map((currentTerm) =>
-              ApiAction.loadCurrentTermSuccessful({ currentTerm })
-            )
-          );
-      })
-    );
-  });
-
-  public loadAcademicYear$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(PageAction.loadFilter),
-      mergeMap(() => {
-        return this.commonInfoService.getAcademicYear().pipe(
-          map((academicYears) =>
-            ApiAction.loadAcademicYearSuccessful({ academicYears })
-          ),
-          catchError(() => of(ApiAction.loadAcademicYearFailure()))
-        );
-      })
-    );
-  });
-
   public loadDepartment$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.loadFilter),

@@ -1,11 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AssignScheduleResultComponent } from './assign-schedule-result.component';
+import { AssignScheduleImportComponent } from './assign-schedule-import.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: AssignScheduleResultComponent,
+    data: {
+      breadcrumb: 'Import',
+    },
+    component: AssignScheduleImportComponent,
   },
 ];
 
@@ -13,4 +16,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class AssignScheduleResultRoutingModule {}
+export class AssignScheduleImportRoutingModule {}

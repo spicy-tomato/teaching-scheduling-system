@@ -11,6 +11,15 @@ const routes: Routes = [
     component: AssignScheduleComponent,
     children: [
       {
+        path: 'import',
+        loadChildren: async () =>
+          (
+            await import(
+              '@modules/assign-schedule/assign-schedule-import/assign-schedule-import.module'
+            )
+          ).AssignScheduleImportModule,
+      },
+      {
         path: '',
         loadChildren: async () =>
           (

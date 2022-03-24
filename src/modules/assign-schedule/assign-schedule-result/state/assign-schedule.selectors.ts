@@ -5,21 +5,6 @@ const assignScheduleSelector = createFeatureSelector<AssignScheduleState>(
   assignScheduleFeatureKey
 );
 
-export const selectSchoolYear = createSelector(
-  assignScheduleSelector,
-  (state) => state.currentTerm
-);
-
-export const selectAcademicYear = createSelector(
-  assignScheduleSelector,
-  (state) => state.academicYears
-);
-
-export const selectTrainingType = createSelector(
-  selectAcademicYear,
-  (academicYears) => Object.keys(academicYears)
-);
-
 export const selectDepartments = createSelector(
   assignScheduleSelector,
   (state) => state.departments

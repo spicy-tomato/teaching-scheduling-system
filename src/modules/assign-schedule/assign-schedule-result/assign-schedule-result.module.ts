@@ -8,20 +8,15 @@ import {
   TuiExpandModule,
   TuiTextfieldControllerModule,
   TuiDataListModule,
-  TuiDialogModule,
 } from '@taiga-ui/core';
-import {
-  TuiSelectModule,
-  TuiDataListWrapperModule,
-  TuiInputFilesModule,
-} from '@taiga-ui/kit';
+import { TuiSelectModule, TuiDataListWrapperModule } from '@taiga-ui/kit';
 import { AssignScheduleAssignedComponent as AssignScheduleResultAssignedComponent } from './assign-schedule-result-assigned/assign-schedule-result-assigned.component';
 import { AssignScheduleResultFilterComponent } from './assign-schedule-result-filter/assign-schedule-result-filter.component';
 import { AssignScheduleResultLeftTitleComponent } from './assign-schedule-result-left-title/assign-schedule-result-left-title.component';
 import { AssignScheduleResultNeedAssignComponent } from './assign-schedule-result-need-assign/assign-schedule-result-need-assign.component';
 import { AssignScheduleResultRightTitleComponent } from './assign-schedule-result-right-title/assign-schedule-result-right-title.component';
 import { AssignScheduleResultRoutingModule } from './assign-schedule-result.routes';
-import { AssignScheduleSharedModule } from './shared/assign-schedule-shared.module';
+import { AssignScheduleResultSharedModule } from './shared/assign-schedule-result-shared.module';
 
 const NGRX = [
   StoreModule.forFeature(
@@ -37,14 +32,12 @@ const TAIGA_UI = [
   TuiExpandModule,
   TuiTextfieldControllerModule,
   TuiDataListModule,
-  TuiInputFilesModule,
-  TuiDialogModule,
 ];
 
 @NgModule({
   imports: [
     AssignScheduleResultRoutingModule,
-    AssignScheduleSharedModule,
+    AssignScheduleResultSharedModule,
     ...NGRX,
     ...TAIGA_UI,
   ],

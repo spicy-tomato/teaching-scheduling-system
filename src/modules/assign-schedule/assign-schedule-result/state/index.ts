@@ -14,9 +14,6 @@ export {
 } from './assign-schedule.reducer';
 export { AssignScheduleState } from './assign-schedule.state';
 export {
-  selectSchoolYear,
-  selectAcademicYear,
-  selectTrainingType,
   selectDepartments,
   selectNeedAssign,
   selectAssigned,

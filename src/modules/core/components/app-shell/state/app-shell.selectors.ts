@@ -38,3 +38,18 @@ export const selectRooms = createSelector(
   appShellSelector,
   (state) => state.rooms
 );
+
+export const selectSchoolYear = createSelector(
+  appShellSelector,
+  (state) => state.currentTerm
+);
+
+export const selectAcademicYear = createSelector(
+  appShellSelector,
+  (state) => state.academicYears
+);
+
+export const selectTrainingType = createSelector(
+  selectAcademicYear,
+  (academicYears) => Object.keys(academicYears)
+);

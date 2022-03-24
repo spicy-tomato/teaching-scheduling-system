@@ -77,56 +77,18 @@
 
 <!-- Buttons -->
 <div class="d-flex tui-space_top-3">
-  <div class="d-flex tui-space_right-5">
-    <button
-      tuiButton
-      *ngrxLet="filterStatus$ as filterStatus"
-      (click)="filter$.next()"
-      [disabled]="!expanded"
-      [showLoader]="filterStatus === EApiStatus.loading"
-      icon="tuiIconFilter"
-      class="tui-space_right-3"
-    >
-      Lọc
-    </button>
-    <button tuiButton (click)="onToggle()" appearance="secondary">
-      {{ expanded ? "Ẩn bộ lọc" : "Hiện bộ lọc" }}
-    </button>
-  </div>
-  <div>
-    <button tuiButton (click)="onOpenImportDialog()" icon="tuiIconDownload">
-      Import file lịch giảng
-    </button>
-  </div>
+  <button
+    tuiButton
+    *ngrxLet="filterStatus$ as filterStatus"
+    (click)="filter$.next()"
+    [disabled]="!expanded"
+    [showLoader]="filterStatus === EApiStatus.loading"
+    icon="tuiIconFilter"
+    class="tui-space_right-3"
+  >
+    Lọc
+  </button>
+  <button tuiButton (click)="onToggle()" appearance="secondary">
+    {{ expanded ? "Ẩn bộ lọc" : "Hiện bộ lọc" }}
+  </button>
 </div>
-
-<ng-template
-  let-observer
-  [(tuiDialog)]="openImportDialog"
-  [tuiDialogOptions]="$any({ label: 'Declarative directive', size: 's' })"
->
-  <!-- <form [formGroup]="importForm">
-    <div>
-      <tui-import-files
-        formControlName="file"
-        accept="*.xlsx"
-      ></tui-import-files>
-      <div class="tui-form__buttons tui-form__buttons_align_end">
-        <button
-          tuiButton
-          (click)="observer.complete()"
-          class="tui-form__button"
-        >
-          Xác nhận
-        </button>
-        <button
-          tuiButton
-          (click)="observer.complete()"
-          class="tui-form__button"
-        >
-          Hủy
-        </button>
-      </div>
-    </div>
-  </form> -->
-</ng-template>

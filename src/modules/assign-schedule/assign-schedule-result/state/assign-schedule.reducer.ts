@@ -12,8 +12,6 @@ type ModuleClassList = {
 };
 
 const initialState: AssignScheduleState = {
-  currentTerm: '',
-  academicYears: {},
   departments: [],
   needAssign: { data: [], selected: [] },
   assigned: { data: [], selected: [] },
@@ -67,18 +65,6 @@ export const assignScheduleReducer = createReducer(
     return {
       ...state,
       assigned: { ...state.assigned, selected: checkbox },
-    };
-  }),
-  on(ApiAction.loadCurrentTermSuccessful, (state, { currentTerm }) => {
-    return {
-      ...state,
-      currentTerm,
-    };
-  }),
-  on(ApiAction.loadAcademicYearSuccessful, (state, { academicYears }) => {
-    return {
-      ...state,
-      academicYears,
     };
   }),
   on(ApiAction.loadDepartmentSuccessful, (state, { departments }) => {

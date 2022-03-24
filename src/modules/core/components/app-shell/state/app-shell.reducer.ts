@@ -5,6 +5,8 @@ import * as ApiAction from './app-shell.api.actions';
 import * as PageAction from './app-shell.page.actions';
 
 const initialState: AppShellState = {
+  currentTerm: '',
+  academicYears: {},
   teacher: null,
   status: EApiStatus.unknown,
   rooms: [],
@@ -31,5 +33,17 @@ export const appShellReducer = createReducer(
   on(ApiAction.loadRoomsSuccessfully, (state, { rooms }) => ({
     ...state,
     rooms,
-  }))
+  })),
+  on(ApiAction.loadCurrentTermSuccessful, (state, { currentTerm }) => {
+    return {
+      ...state,
+      currentTerm,
+    };
+  }),
+  on(ApiAction.loadAcademicYearSuccessful, (state, { academicYears }) => {
+    return {
+      ...state,
+      academicYears,
+    };
+  })
 );

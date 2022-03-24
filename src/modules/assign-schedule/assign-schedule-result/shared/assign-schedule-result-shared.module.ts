@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AssignScheduleTableComponent } from './assign-schedule-table/assign-schedule-table.component';
+import { AssignScheduleResultTableComponent } from './assign-schedule-result-table/assign-schedule-result-table.component';
 import { TuiTableModule } from '@taiga-ui/addon-table';
 import {
   TuiAppearance,
@@ -20,7 +20,7 @@ const TAIGA_UI = [
   TuiLoaderModule,
 ];
 const EXPORT = [CommonModule, FormsModule, ReactiveFormsModule];
-const COMPONENTS = [AssignScheduleTableComponent];
+const COMPONENTS = [AssignScheduleResultTableComponent];
 
 @NgModule({
   imports: [...EXPORT, ...EXPORT_NGRX, ...TAIGA_UI],
@@ -37,4 +37,4 @@ const COMPONENTS = [AssignScheduleTableComponent];
     },
   ],
 })
-export class AssignScheduleSharedModule {}
+export class AssignScheduleResultSharedModule {}
