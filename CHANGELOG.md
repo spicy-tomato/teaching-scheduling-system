@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v1.3.2...v1.4.0) (2022-03-24)
+
+
+### Features
+
+* import schedule ([f1affad](https://github.com/annguyen-it/teaching-scheduling-system/commits/f1affad8974b94a2df8b8552b2b83b5becb143d0))
+* remove module notification ([715156e](https://github.com/annguyen-it/teaching-scheduling-system/commits/715156eaeae91087c30a45b6bc23a7d3afde5e68))
+
+
+### Bug Fixes
+
+* migrate assign-schedule to module ([a1e6037](https://github.com/annguyen-it/teaching-scheduling-system/commits/a1e6037b2f62a2baf4a632cbe52239a4abf55228))
+* page assign schedule now load data on enter ([9a5c81f](https://github.com/annguyen-it/teaching-scheduling-system/commits/9a5c81fe64eb872cbc58462c5560a02ea93d2ab7))
+
 ### [1.3.2](https://github.com/annguyen-it/teaching-scheduling-system/compare/v1.3.1...v1.3.2) (2022-03-22)
 
 
