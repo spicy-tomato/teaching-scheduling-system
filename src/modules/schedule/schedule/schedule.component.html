@@ -30,7 +30,10 @@
     <!-- Header template -->
     <ng-template #quickInfoTemplatesHeader let-data>
       <div *ngIf="data.elementType === 'cell' || data.elementType === 'event'">
-        <div [ngStyle]="{'background-color': data.Color || ''}" class="e-popup-header">
+        <div
+          [ngStyle]="{ 'background-color': data.Color || '' }"
+          class="e-popup-header"
+        >
           <div class="e-header-icon-wrapper">
             <button
               (click)="showEditorDialog(data)"

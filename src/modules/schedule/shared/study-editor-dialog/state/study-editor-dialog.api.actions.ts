@@ -1,8 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import {
-  SimpleFixedScheduleModel,
-  StudyScheduleModel,
-} from '@shared/models';
+import { SimpleFixedScheduleModel, StudyScheduleModel } from '@shared/models';
 import { Change } from '.';
 
 export const requestSuccessful = createAction(

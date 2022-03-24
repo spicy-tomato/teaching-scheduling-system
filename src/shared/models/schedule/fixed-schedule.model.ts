@@ -1,4 +1,4 @@
-import { Nullable } from "../core";
+import { Nullable } from '../core';
 
 export interface SimpleFixedScheduleModel {
   id: number;

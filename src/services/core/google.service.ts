@@ -115,7 +115,6 @@ export class GoogleService extends BaseComponent {
     //       .isSignedIn.listen((isSignedIn) =>
     //         this.updateSignInStatus(isSignedIn)
     //       );
-
     //     // Handle the initial sign-in state.
     //     this.updateSignInStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
     //   });

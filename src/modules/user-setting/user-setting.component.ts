@@ -49,7 +49,8 @@ export class UserSettingComponent extends BaseComponent implements OnInit {
 
   public other(): void {
     void gapi.auth2
-      .getAuthInstance().currentUser.get()
+      .getAuthInstance()
+      .currentUser.get()
       .grantOfflineAccess({
         prompt: 'consent',
         scope: 'https://www.googleapis.com/auth/calendar',

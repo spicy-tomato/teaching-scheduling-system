@@ -27,7 +27,7 @@ export class NavbarComponent extends BaseComponent {
     appShellStore: Store<fromAppShell.AppShellState>,
     private readonly router: Router,
     private readonly accessTokenService: AccessTokenService,
-    private readonly authService: AuthService,
+    private readonly authService: AuthService
   ) {
     super();
 

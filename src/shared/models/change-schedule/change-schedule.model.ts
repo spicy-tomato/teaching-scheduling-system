@@ -1,4 +1,4 @@
-import { SimpleModel } from "../core";
+import { SimpleModel } from '../core';
 
 export interface ChangeSchedule {
   id: number;

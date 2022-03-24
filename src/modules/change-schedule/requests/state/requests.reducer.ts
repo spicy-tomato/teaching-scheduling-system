@@ -91,7 +91,7 @@ export const requestsReducer = createReducer(
       ...state,
       data: {
         ...state.data,
-        teachers
+        teachers,
       },
       status: { ...state.status, data: EApiStatus.successful },
     };
