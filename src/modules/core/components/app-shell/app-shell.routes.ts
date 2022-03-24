@@ -19,12 +19,6 @@ const routes: Routes = [
         redirectTo: 'schedule',
       },
       {
-        path: 'notification',
-        loadChildren: async () =>
-          (await import('@modules/notification/notification.module'))
-            .NotificationModule,
-      },
-      {
         path: 'schedule',
         loadChildren: async () =>
           (await import('@modules/schedule/schedule-page.module'))

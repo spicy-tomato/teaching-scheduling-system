@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { filter, takeUntil, tap } from 'rxjs/operators';
-import { APP_SETTINGS } from './app-settings.service';
 
 @Injectable({
   providedIn: 'root',
