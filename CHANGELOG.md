@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v1.4.0...v1.4.1) (2022-03-26)
+
+
+### Bug Fixes
+
+* schedule: add background color for today cell ([f5c327c](https://github.com/annguyen-it/teaching-scheduling-system/commits/f5c327cf637ff23ffd475115bba0fec7fd437674))
+
 ## [1.4.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v1.3.2...v1.4.0) (2022-03-24)
 
 
