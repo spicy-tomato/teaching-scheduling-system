@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.2](https://github.com/annguyen-it/teaching-scheduling-system/compare/v1.4.1...v1.4.2) (2022-03-26)
+
+
+### Bug Fixes
+
+* make time indicator bolder ([3a329af](https://github.com/annguyen-it/teaching-scheduling-system/commits/3a329af07b453f8de9d735ef85a6488b72b57e8a))
+
 ### [1.4.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v1.4.0...v1.4.1) (2022-03-26)
 
 
