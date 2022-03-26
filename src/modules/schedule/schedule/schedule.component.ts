@@ -13,6 +13,7 @@ import {
   EventSettingsModel,
   MonthService,
   PopupOpenEventArgs,
+  RenderCellEventArgs,
   ScheduleComponent,
   WeekService,
 } from '@syncfusion/ej2-angular-schedule';
@@ -99,6 +100,15 @@ export class TssScheduleComponent
     this.handleChangeStatus();
   }
 
+  /** PUBLIC METHODS */
+  public onRenderCell(args: RenderCellEventArgs): void {
+    if (args.element.classList.contains('e-work-cells')) {
+      if (args.date && DateHelper.sameDay(args.date, new Date())) {
+        args.element.classList.add('today');
+      }
+    }
+  }
+
   public onEventRendered(args: EventRenderedArgs): void {
     switch (args.data.Type) {
       case 'exam':
@@ -113,9 +123,9 @@ export class TssScheduleComponent
         args.data.FixedSchedules
       ) as FixedScheduleModel;
       if (lastFixedSchedules.status === 0 || lastFixedSchedules.status === 1) {
-        args.element.style.borderLeft = '4px solid red';
+        args.element.classList.add('requesting-change');
       } else {
-        args.element.style.borderLeft = '4px solid #3b79ff';
+        args.element.classList.add('changed');
       }
     }
   }

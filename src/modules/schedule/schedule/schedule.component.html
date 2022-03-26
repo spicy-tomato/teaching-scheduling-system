@@ -10,6 +10,7 @@
     [workHours]="{ highlight: false }"
     [timeScale]="{ slotCount: 1 }"
     [showHeaderBar]="false"
+    (renderCell)="onRenderCell($event)"
     (eventRendered)="onEventRendered($event)"
     (eventClick)="onEventClick()"
     (popupOpen)="onPopupOpen($event)"

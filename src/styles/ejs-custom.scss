@@ -6,6 +6,27 @@ $slot-height-per-minute: 0.75px;
     .e-time-slots {
       height: $slot-height-per-minute * 60 !important;
     }
+
+    .e-work-cells.today {
+      background-color: #ffedd8;
+    }
+  }
+
+  .e-table-wrap:not(.e-month-view)
+    .e-schedule-table
+    .e-header-cells.e-current-day {
+    background-color: #ffedd8;
+  }
+
+  .e-appointment {
+    cursor: pointer !important;
+
+    &.requesting-change {
+      border-left: 4px solid red;
+    }
+    &.changed {
+      border-left: 4px solid #3b79ff;
+    }
   }
 
   .e-quick-popup-wrapper .e-event-popup {
@@ -19,9 +40,5 @@ $slot-height-per-minute: 0.75px;
       cursor: default;
       font-size: 14px;
     }
-  }
-
-  .e-appointment {
-    cursor: pointer !important;
   }
 }
