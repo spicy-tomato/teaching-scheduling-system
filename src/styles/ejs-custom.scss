@@ -29,6 +29,11 @@ $slot-height-per-minute: 0.75px;
     }
   }
 
+  .e-current-timeline,
+  .e-previous-timeline {
+    border-top-width: 2px;
+  }
+
   .e-quick-popup-wrapper .e-event-popup {
     .e-module-class {
       color: rgba(0, 0, 0, 0.87);
