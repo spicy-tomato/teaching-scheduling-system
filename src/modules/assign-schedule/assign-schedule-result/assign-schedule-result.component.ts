@@ -3,7 +3,6 @@ import { Store } from '@ngrx/store';
 import * as fromAssignSchedule from './state';
 
 @Component({
-  selector: 'tss-assign-schedule-result',
   templateUrl: './assign-schedule-result.component.html',
   styleUrls: ['./assign-schedule-result.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

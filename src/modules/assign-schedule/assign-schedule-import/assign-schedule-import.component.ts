@@ -30,7 +30,6 @@ import { ImportService } from '@services/import.service';
 import { TuiNotification, TuiNotificationsService } from '@taiga-ui/core';
 
 @Component({
-  selector: 'tss-assign-schedule-import',
   templateUrl: './assign-schedule-import.component.html',
   styleUrls: ['./assign-schedule-import.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

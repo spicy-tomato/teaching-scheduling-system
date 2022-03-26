@@ -32,6 +32,6 @@ export class AppShellComponent extends BaseComponent {
       )
       .subscribe();
 
-    googleService.load();
+    // googleService.load();
   }
 }
