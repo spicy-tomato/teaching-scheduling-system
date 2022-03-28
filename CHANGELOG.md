@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.3](https://github.com/annguyen-it/teaching-scheduling-system/compare/v1.4.2...v1.4.3) (2022-03-28)
+
+
+### Bug Fixes
+
+* fix minor bugs for Firefox ([4f84cf6](https://github.com/annguyen-it/teaching-scheduling-system/commits/4f84cf65f1785c3abdca9af2df8ef8699dd42a8f))
+
 ### [1.4.2](https://github.com/annguyen-it/teaching-scheduling-system/compare/v1.4.1...v1.4.2) (2022-03-26)
 
 
