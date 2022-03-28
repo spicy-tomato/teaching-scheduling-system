@@ -66,7 +66,9 @@ export class SetRoomDialogComponent extends BaseComponent {
   }
 
   public cancel(): void {
-    this.context.$implicit.complete();
+    setTimeout(() => {
+      this.context.$implicit.complete();
+    });
   }
 
   /** PRIVATE METHODS */

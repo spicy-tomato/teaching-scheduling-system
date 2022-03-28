@@ -1,42 +1,45 @@
 @import "src/styles/variables";
 
-.wrapper {
-  @include h(full);
-  @include p(2, 5);
-  @include border(1, bottom, $tuiBase03);
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  box-shadow: 0 0.125rem 1rem rgb(0 0 0 / 8%);
-
-  .home {
+:host {
+  height: $nav-height;
+  .wrapper {
     @include h(full);
+    @include p(2, 5);
+    @include border(1, bottom, $tuiBase03);
+    position: relative;
     display: flex;
-    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 0.125rem 1rem rgb(0 0 0 / 8%);
 
-    a {
+    .home {
       @include h(full);
+      display: flex;
+      align-items: center;
 
-      img {
+      a {
         @include h(full);
-        display: block;
-        object-fit: cover;
+
+        img {
+          @include h(full);
+          display: block;
+          object-fit: cover;
+        }
+      }
+
+      h3 {
+        @include ml(3);
+        @include font(lg);
+        text-transform: uppercase;
       }
     }
-
-    h3 {
-      @include ml(3);
-      @include font(lg);
-      text-transform: uppercase;
-    }
   }
-}
 
-tui-data-list {
-  @include w(64);
+  tui-data-list {
+    @include w(64);
 
-  span {
-    @include ml(4);
-    flex-grow: 1;
+    span {
+      @include ml(4);
+      flex-grow: 1;
+    }
   }
 }
