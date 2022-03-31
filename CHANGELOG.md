@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.5](https://github.com/annguyen-it/teaching-scheduling-system/compare/v1.4.4...v1.4.5) (2022-03-31)
+
+
+### Bug Fixes
+
+* fix style of navbar dropdown ([f5b9519](https://github.com/annguyen-it/teaching-scheduling-system/commits/f5b951988d51c70c604a6a665acdf988f6895b62))
+
 ### [1.4.4](https://github.com/annguyen-it/teaching-scheduling-system/compare/v1.4.3...v1.4.4) (2022-03-31)
 
 
