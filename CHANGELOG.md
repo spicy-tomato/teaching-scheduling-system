@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.4](https://github.com/annguyen-it/teaching-scheduling-system/compare/v1.4.3...v1.4.4) (2022-03-31)
+
+
+### Bug Fixes
+
+* change valid change schedule condition ([4ebee6e](https://github.com/annguyen-it/teaching-scheduling-system/commits/4ebee6e8a8f30f00d25512f07a9a764b690ea086))
+* details text in schedule pop up is overlap ([afe5622](https://github.com/annguyen-it/teaching-scheduling-system/commits/afe562208061cdc6a9280202e3084d49fc6befb3))
+
 ### [1.4.3](https://github.com/annguyen-it/teaching-scheduling-system/compare/v1.4.2...v1.4.3) (2022-03-28)
 
 
