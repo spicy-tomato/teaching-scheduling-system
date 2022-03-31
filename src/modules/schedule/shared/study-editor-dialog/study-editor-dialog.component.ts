@@ -249,7 +249,7 @@ export class StudyEditorDialogComponent extends BaseComponent {
     this.firstDateAllowRequestChange = DateHelper.subtract(todayToZero, 14);
     this.isPersonal = data.People?.[0] === 'self';
     this.validRequestChangeSchedule =
-      startDate > this.firstDateAllowRequestChange || !this.isPersonal;
+      startDate >= new Date(2022, 2, 1) || !this.isPersonal;
 
     const initialRequest = this.isPersonal
       ? {
