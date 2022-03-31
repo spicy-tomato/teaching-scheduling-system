@@ -24,6 +24,10 @@ $tuiText02: var(--tui-text-02);
 
 $u: 0.25rem;
 
+.position-relative {
+  position: relative;
+}
+
 .d-flex {
   display: flex;
 }
@@ -35,6 +39,9 @@ $u: 0.25rem;
 }
 .flex-end {
   justify-content: end;
+}
+.justify-content-start {
+  justify-content: start;
 }
 .justify-content-center {
   justify-content: center;

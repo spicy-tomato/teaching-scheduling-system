@@ -76,3 +76,12 @@ table[tuiTable] {
     background: var(--tui-base-02);
   }
 }
+
+tui-data-list.navbar-dropdown {
+  @include w(64);
+
+  span {
+    @include ml(4);
+    flex-grow: 1;
+  }
+}
