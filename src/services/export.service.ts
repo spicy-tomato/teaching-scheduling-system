@@ -1410,9 +1410,9 @@ export class ExportService {
                               },
                               text: `${
                                 this.datePipe.transform(
-                                  schedule.oldSchedule.date,
+                                  schedule.newSchedule.date,
                                   'dd/MM/Y'
-                                ) ?? schedule.oldSchedule.date
+                                ) ?? schedule.newSchedule.date
                               }, ca ${schedule.newSchedule.shift}, ${
                                 schedule.newSchedule.room
                               }`,
