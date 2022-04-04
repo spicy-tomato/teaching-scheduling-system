@@ -96,9 +96,9 @@
     <div [tuiTextfieldCleaner]="true" class="tui-form__row">
       <tui-input-date
         (ngModelChange)="changeRequest$.next()"
-        [min]="firstDateAllowRequestChange | tuiDay"
         formControlName="date"
-      >
+        >
+        <!-- [min]="firstDateAllowRequestChange | tuiDay" -->
         Chọn ngày học
       </tui-input-date>
       <tui-field-error formControlName="date"></tui-field-error>
