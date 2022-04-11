@@ -17,9 +17,9 @@ export class AssignScheduleEffects {
     return this.actions$.pipe(
       ofType(PageAction.loadFilter),
       mergeMap(() => {
-        return this.commonInfoService.getDepartments().pipe(
-          map((departments) => {
-            return ApiAction.loadDepartmentSuccessful({ departments });
+        return this.commonInfoService.getFaculties().pipe(
+          map((response) => {
+            return ApiAction.loadDepartmentSuccessful({ departments: response.data });
           }),
           catchError(() => of(ApiAction.loadTeacherFailure()))
         );
@@ -32,8 +32,8 @@ export class AssignScheduleEffects {
       ofType(PageAction.filter),
       mergeMap(({ dep, params }) => {
         return this.classService.getDepartmentModuleClass(dep, params).pipe(
-          map((classes) => {
-            return ApiAction.filterSuccessful({ classes });
+          map((response) => {
+            return ApiAction.filterSuccessful({ classes: response.data });
           }),
           catchError(() => of(ApiAction.filterFailure()))
         );

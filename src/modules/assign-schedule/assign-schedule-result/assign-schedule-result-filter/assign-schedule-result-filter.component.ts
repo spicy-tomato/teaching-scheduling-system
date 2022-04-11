@@ -211,8 +211,9 @@ export class AssignScheduleResultFilterComponent
             fromAssignSchedule.filter({
               dep,
               params: {
-                ss: this.batchInTerm?.value as number,
-                term: `${schoolYear}_${term}`,
+                study_sessions: `${schoolYear}_${term}_${
+                  this.batchInTerm?.value as number
+                }`,
               },
             })
           );
