@@ -5,4 +5,5 @@ export * from './observable.helper';
 export * from './permission.helper';
 export * from './schedule.helper';
 export * from './string.helper';
+export * from './url.helper';
 export * from './utils.helper';

@@ -102,17 +102,4 @@ export class ObservableHelper {
         })
       );
   }
-
-  public static mapObjectArrayWithDateProperties<T>(
-    props: string[]
-  ): MonoTypeOperatorFunction<T> {
-    return pipe(
-      map((x) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-return
-        return (x as any).map((x: unknown) =>
-          ObjectHelper.parseDateProperties(x, props)
-        );
-      })
-    );
-  }
 }

@@ -30,7 +30,6 @@ import {
 import { CoreConstant } from '@shared/constants';
 import { sameValueValidator } from 'src/shared/validators';
 import { TuiDay, TuiTime } from '@taiga-ui/cdk';
-import { sqlDateFactory } from '@shared/factories';
 import {
   filter,
   map,
@@ -72,6 +71,7 @@ export class StudyEditorDialogComponent extends BaseComponent {
   public validRequestChangeSchedule!: boolean;
   public firstDateAllowRequestChange!: Date;
   public requestedChangeSchedule: Nullable<FixedScheduleModel>;
+  public requestChangeToUndeterminedDay = false;
 
   public readonly teacher$: Observable<Nullable<Teacher>>;
   public readonly changeStatus$: Observable<EApiStatus>;
@@ -97,6 +97,7 @@ export class StudyEditorDialogComponent extends BaseComponent {
   public readonly shiftKeys = Object.keys(CoreConstant.SHIFTS);
   public readonly noteMaxLength = 1000;
   public readonly reasonMaxLength = 500;
+  public readonly intendTimeMaxLength = 100;
 
   /** PRIVATE PROPERTIES */
   private changed = false;
@@ -107,6 +108,10 @@ export class StudyEditorDialogComponent extends BaseComponent {
   /** GETTERS */
   public get requestControl(): FormGroup {
     return this.form.controls['request'] as FormGroup;
+  }
+
+  public get requestIntendControl(): FormGroup {
+    return this.form.controls['requestIntend'] as FormGroup;
   }
 
   private get roomControlValue(): string {
@@ -301,6 +306,16 @@ export class StudyEditorDialogComponent extends BaseComponent {
           }),
         }
       ),
+      requestIntend: this.fb.group({
+        intendTime: [
+          '',
+          [Validators.required, Validators.maxLength(this.intendTimeMaxLength)],
+        ],
+        reason: [
+          '',
+          [Validators.required, Validators.maxLength(this.reasonMaxLength)],
+        ],
+      }),
       change: this.getNewChangeControl(initialChange),
     });
 
@@ -488,9 +503,11 @@ export class StudyEditorDialogComponent extends BaseComponent {
           this.store.dispatch(
             fromStudyEditorDialog.search({
               params: {
-                start: date,
-                end: date,
-                shift: this.shiftControlValue,
+                date: [date, date],
+                shift:
+                  this.shiftControlValue[0] === '5'
+                    ? '5_1,5_2'
+                    : this.shiftControlValue,
               },
               teacherId:
                 (this.isPersonal
@@ -510,6 +527,11 @@ export class StudyEditorDialogComponent extends BaseComponent {
         withLatestFrom(this.searchSchedule$),
         map(({ 1: searchSchedule }) => searchSchedule),
         tap((searchSchedule) => {
+          if (this.requestChangeToUndeterminedDay) {
+            this.submitChangeIntendTimeRequest();
+            return;
+          }
+
           if (searchSchedule?.length) {
             this.dialogService
               .showConfirmDialog({
@@ -580,8 +602,22 @@ export class StudyEditorDialogComponent extends BaseComponent {
         this.dateControlValue.toUtcNativeDate()
       ),
       reason: request.controls['reason'].value as string,
-      timeRequest: sqlDateFactory(),
-      status: 0,
+    };
+
+    this.store.dispatch(fromStudyEditorDialog.request({ body }));
+  }
+
+  private submitChangeIntendTimeRequest(): void {
+    const request = this.requestControl;
+
+    const body: RequestChangeSchedulePayload = {
+      idSchedule: this.context.data.Id,
+      newIdRoom: (request.controls['online'].value as boolean) ? 'PHTT' : null,
+      newShift: this.shiftControlValue,
+      newDate: DateHelper.toDateOnlyString(
+        this.dateControlValue.toUtcNativeDate()
+      ),
+      reason: request.controls['reason'].value as string,
     };
 
     this.store.dispatch(fromStudyEditorDialog.request({ body }));
@@ -596,8 +632,6 @@ export class StudyEditorDialogComponent extends BaseComponent {
         this.dateControlValue.toUtcNativeDate()
       ),
       reason: 'Trưởng bộ môn thay đổi',
-      timeRequest: sqlDateFactory(),
-      status: 4,
     };
 
     this.store.dispatch(fromStudyEditorDialog.change({ body }));

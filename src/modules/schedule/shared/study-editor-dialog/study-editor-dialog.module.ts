@@ -5,6 +5,7 @@ import { PipesModule } from '@pipes/pipes.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   TuiBadgeModule,
+  TuiCheckboxLabeledModule,
   TuiComboBoxModule,
   TuiDataListWrapperModule,
   TuiDropdownHoverModule,
@@ -67,6 +68,7 @@ const TAIGA_UI = [
   TuiComboBoxModule,
   TuiDataListWrapperModule,
   TuiFilterByInputPipeModule,
+  TuiCheckboxLabeledModule,
 ];
 
 @NgModule({

@@ -38,7 +38,7 @@ export class AssignScheduleResultFilterComponent
   public schoolYears$!: Observable<string[]>;
 
   public readonly currentTerm$: Observable<string>;
-  public readonly academicYears$: Observable<AcademicYear>;
+  public readonly academicYears$: Observable<AcademicYear[]>;
   public readonly trainingTypes$: Observable<string[]>;
   public readonly departments$: Observable<
     SimpleMapModel<string, SimpleModel[]>[]

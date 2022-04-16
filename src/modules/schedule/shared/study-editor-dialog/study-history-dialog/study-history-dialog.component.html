@@ -1,6 +1,6 @@
 <ng-container *ngFor="let schedule of context.data; last as last">
   <div class="item">
-    <h5>Ngày yêu cầu: {{ schedule.timeRequest | date: "dd-MM-Y" }}</h5>
+    <h5>Ngày yêu cầu: {{ schedule.createdAt | date: "dd-MM-Y" }}</h5>
     <div class="content d-flex justify-content-center">
       <table>
         <tr>
@@ -12,37 +12,42 @@
           <td>
             <tui-svg src="tuiIconChevronRight"></tui-svg>
           </td>
-          <td class="text-center">
-            {{ schedule.newDate | date: "dd-MM-Y" }}
-          </td>
+          <td class="text-center">{{ schedule.newDate | date: "dd-MM-Y" }}</td>
         </tr>
         <tr>
           <td>Ca</td>
           <td>:</td>
-          <td class="text-center">
-            {{ schedule.oldShift }}
-          </td>
+          <td class="text-center">{{ schedule.oldShift }}</td>
           <td>
             <tui-svg src="tuiIconChevronRight"></tui-svg>
           </td>
-          <td class="text-center">
-            {{ schedule.newShift }}
-          </td>
+          <td class="text-center">{{ schedule.newShift }}</td>
         </tr>
         <tr>
           <td>Phòng</td>
           <td>:</td>
-          <td class="text-center">
-            {{ schedule.oldIdRoom }}
-          </td>
+          <td class="text-center">{{ schedule.oldIdRoom }}</td>
           <td>
             <tui-svg src="tuiIconChevronRight"></tui-svg>
           </td>
           <td class="text-center">
             <i *ngIf="!schedule.newIdRoom; else room">(Chưa được xếp phòng)</i>
-            <ng-template #room>
-              {{ schedule.newIdRoom }}
-            </ng-template>
+            <ng-template #room> {{ schedule.newIdRoom }} </ng-template>
+          </td>
+        </tr>
+        <tr>
+          <td>Trạng thái</td>
+          <td>:</td>
+          <td class="pl" colspan="3">
+            {{
+              schedule.status === -3
+                ? "Đã hủy"
+                : schedule.status < 0
+                ? "Bị từ chối"
+                : schedule.status < 2
+                ? "Đang chờ phê duyệt"
+                : "Đã chấp nhận"
+            }}
           </td>
         </tr>
       </table>

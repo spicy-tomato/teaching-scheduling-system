@@ -26,6 +26,7 @@ import {
   ArrayHelper,
   ObservableHelper,
   PermissionHelper,
+  UrlHelper,
 } from '@shared/helpers';
 import { View } from '@syncfusion/ej2-angular-schedule';
 
@@ -156,16 +157,27 @@ export class ScheduleEffects {
       .pipe(
         this.commonPersonalObservable(),
         mergeMap(({ fetch, ranges, teacherId }) => {
-          return this.scheduleService.getSchedule(fetch, teacherId).pipe(
-            tap((schedules) => {
-              this.store.dispatch(
-                ApiAction.loadPersonalStudySuccessful({ schedules, ranges })
-              );
-            }),
-            catchError(() =>
-              of(this.store.dispatch(ApiAction.loadPersonalStudyFailure()))
+          return this.scheduleService
+            .getSchedule(
+              UrlHelper.queryFilter(fetch, {
+                date: 'between',
+                shift: 'in',
+              }),
+              teacherId
             )
-          );
+            .pipe(
+              tap((response) => {
+                this.store.dispatch(
+                  ApiAction.loadPersonalStudySuccessful({
+                    schedules: response.data,
+                    ranges,
+                  })
+                );
+              }),
+              catchError(() =>
+                of(this.store.dispatch(ApiAction.loadPersonalStudyFailure()))
+              )
+            );
         })
       )
       .subscribe();
@@ -183,9 +195,12 @@ export class ScheduleEffects {
         this.commonPersonalObservable(),
         mergeMap(({ fetch, ranges }) => {
           return this.scheduleService.getExamSchedule(fetch).pipe(
-            tap((schedules) => {
+            tap((response) => {
               this.store.dispatch(
-                ApiAction.loadPersonalExamSuccessful({ schedules, ranges })
+                ApiAction.loadPersonalExamSuccessful({
+                  schedules: response.data,
+                  ranges,
+                })
               );
             }),
             catchError(() =>
@@ -207,12 +222,18 @@ export class ScheduleEffects {
         this.commonPermissionObservable(),
         mergeMap(({ fetch, ranges, department }) => {
           return this.scheduleService
-            .getDepartmentSchedule(department, fetch)
+            .getDepartmentSchedule(
+              department,
+              UrlHelper.queryFilter(fetch, {
+                date: 'between',
+                shift: 'in',
+              })
+            )
             .pipe(
-              tap((schedules) => {
+              tap((response) => {
                 this.store.dispatch(
                   ApiAction.loadDepartmentStudySuccessful({
-                    schedules,
+                    schedules: response.data,
                     ranges,
                   })
                 );
@@ -238,10 +259,10 @@ export class ScheduleEffects {
           return this.scheduleService
             .getDepartmentExamSchedule(department, fetch)
             .pipe(
-              tap((schedules) => {
+              tap((response) => {
                 this.store.dispatch(
                   ApiAction.loadDepartmentExamSuccessful({
-                    schedules,
+                    schedules: response.data,
                     ranges,
                   })
                 );
@@ -439,8 +460,10 @@ function calculateRangeO(
           teacherId,
           ranges,
           fetch: {
-            start: fetch.from.getFormattedDay('YMD', '-'),
-            end: fetch.to.append({ day: 1 }).getFormattedDay('YMD', '-'),
+            date: [
+              fetch.from.getFormattedDay('YMD', '-'),
+              fetch.to.append({ day: 1 }).getFormattedDay('YMD', '-'),
+            ],
           },
         };
       })
@@ -476,8 +499,10 @@ function calculateRangeWithDepartmentO(
           department,
           ranges,
           fetch: {
-            start: fetch.from.getFormattedDay('YMD', '-'),
-            end: fetch.to.append({ day: 1 }).getFormattedDay('YMD', '-'),
+            date: [
+              fetch.from.getFormattedDay('YMD', '-'),
+              fetch.to.append({ day: 1 }).getFormattedDay('YMD', '-'),
+            ],
           },
         };
       })

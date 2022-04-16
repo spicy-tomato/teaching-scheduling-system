@@ -53,7 +53,9 @@ export class RequestsOptionsComponent extends BaseComponent {
 
     this.personal = route.snapshot.data['personal'] as boolean;
 
-    this.triggerLoadTeachersList();
+    if (!this.personal) {
+      this.triggerLoadTeachersList();
+    }
   }
 
   /** PUBLIC METHODS */

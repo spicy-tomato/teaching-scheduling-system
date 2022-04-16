@@ -6,5 +6,5 @@ export interface AppShellState {
   rooms: string[];
   teacher: Nullable<Teacher>;
   currentTerm: string;
-  academicYears: AcademicYear;
+  academicYears: AcademicYear[];
 }

@@ -31,6 +31,10 @@ export const studyEditorDialogReducer = createReducer(
     ...state,
     requestStatus: EApiStatus.loading,
   })),
+  on(PageAction.requestIntend, (state) => ({
+    ...state,
+    requestStatus: EApiStatus.loading,
+  })),
   on(PageAction.update, (state) => ({
     ...state,
     updateStatus: EApiStatus.loading,

@@ -30,7 +30,7 @@ export const loadCurrentTermFailure = createAction(
 
 export const loadAcademicYearSuccessful = createAction(
   '[App Shell API] Load academic year Successfully',
-  props<{ academicYears: AcademicYear }>()
+  props<{ academicYears: AcademicYear[] }>()
 );
 
 export const loadAcademicYearFailure = createAction(

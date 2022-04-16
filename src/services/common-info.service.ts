@@ -2,7 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { AcademicYear, ResponseModel, SimpleMapModel, SimpleModel } from 'src/shared/models';
+import {
+  AcademicYear,
+  ResponseModel,
+  SimpleMapModel,
+  SimpleModel,
+} from 'src/shared/models';
 import { AppSettingsService } from './core/app-settings.service';
 import { BaseDataService } from './core/base-data.service';
 import { LocalDataService } from './core/local-data.service';
@@ -19,15 +24,18 @@ export class CommonInfoService extends BaseDataService {
     super();
   }
 
-  public getAcademicYear(): Observable<AcademicYear> {
+  public getAcademicYear(): Observable<AcademicYear[]> {
     const cache = this.localDataService.getAcademicYear();
     if (cache) {
       return of(cache);
     }
 
     return this.http
-      .get<AcademicYear>(this.url + 'academic-year2')
-      .pipe(tap((data) => this.localDataService.setAcademicYear(data)));
+      .get<ResponseModel<AcademicYear[]>>(this.url + 'training-types')
+      .pipe(
+        map((response) => response.data),
+        tap((data) => this.localDataService.setAcademicYear(data))
+      );
   }
 
   public getCurrentTerm(): Observable<string> {

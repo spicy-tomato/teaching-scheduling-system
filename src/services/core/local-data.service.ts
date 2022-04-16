@@ -13,9 +13,9 @@ export class LocalDataService extends BaseDataService {
   }
 
   /** Academic year */
-  public getAcademicYear(): Nullable<AcademicYear> {
+  public getAcademicYear(): Nullable<AcademicYear[]> {
     const json = this.localStorageService.getItemWithType<
-      StorageTimeoutModel<AcademicYear>
+      StorageTimeoutModel<AcademicYear[]>
     >(LocalStorageKeyConstant.ACADEMIC_YEAR);
 
     if (json) {
@@ -31,7 +31,7 @@ export class LocalDataService extends BaseDataService {
     return null;
   }
 
-  public setAcademicYear(academicYear: AcademicYear): void {
+  public setAcademicYear(academicYear: AcademicYear[]): void {
     this.localStorageService.setItem(
       LocalStorageKeyConstant.ACADEMIC_YEAR,
       JSON.stringify(new StorageTimeoutModel(academicYear))

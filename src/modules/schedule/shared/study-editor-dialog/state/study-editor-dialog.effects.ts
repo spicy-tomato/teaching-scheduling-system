@@ -5,6 +5,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as PageAction from './study-editor-dialog.page.actions';
 import * as ApiAction from './study-editor-dialog.api.actions';
 import { ScheduleService } from '@services/schedule.service';
+import { UrlHelper } from '@shared/helpers';
 
 @Injectable()
 export class StudyEditorDialogEffects {
@@ -23,7 +24,29 @@ export class StudyEditorDialogEffects {
                 newShift,
                 newIdRoom,
                 status: 0,
-                timeRequest: new Date(),
+                createdAt: new Date(),
+              },
+            });
+          }),
+          catchError(() => of(ApiAction.requestFailure()))
+        );
+      })
+    );
+  });
+
+  public requestIntend$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(PageAction.requestIntend),
+      mergeMap(({ body }) => {
+        return this.scheduleService.requestIntendChangeSchedule(body).pipe(
+          map((response) => {
+            const { intendTime } = body;
+            return ApiAction.requestIntendSuccessful({
+              justRequestedSchedule: {
+                id: response.data,
+                createdAt: new Date(),
+                intendTime,
+                status: 0,
               },
             });
           }),
@@ -37,7 +60,7 @@ export class StudyEditorDialogEffects {
     return this.actions$.pipe(
       ofType(PageAction.change),
       mergeMap(({ body }) => {
-        return this.scheduleService.requestChangeSchedule(body).pipe(
+        return this.scheduleService.changeSchedule(body).pipe(
           map(() => {
             return ApiAction.changeSuccessful();
           }),
@@ -68,12 +91,20 @@ export class StudyEditorDialogEffects {
     return this.actions$.pipe(
       ofType(PageAction.search),
       mergeMap(({ params, teacherId }) => {
-        return this.scheduleService.getSchedule(params, teacherId).pipe(
-          map((searchSchedule) =>
-            ApiAction.searchSuccessful({ searchSchedule })
-          ),
-          catchError(() => of(ApiAction.searchFailure()))
-        );
+        return this.scheduleService
+          .getSchedule(
+            UrlHelper.queryFilter(params, {
+              date: 'between',
+              shift: 'in',
+            }),
+            teacherId
+          )
+          .pipe(
+            map((response) =>
+              ApiAction.searchSuccessful({ searchSchedule: response.data })
+            ),
+            catchError(() => of(ApiAction.searchFailure()))
+          );
       })
     );
   });
@@ -82,15 +113,10 @@ export class StudyEditorDialogEffects {
     return this.actions$.pipe(
       ofType(PageAction.cancel),
       mergeMap(({ id }) => {
-        return this.scheduleService
-          .cancelChangeScheduleRequests({
-            id,
-            status: -3,
-          })
-          .pipe(
-            map(() => ApiAction.cancelSuccessful()),
-            catchError(() => of(ApiAction.cancelFailure()))
-          );
+        return this.scheduleService.cancelChangeScheduleRequests(id).pipe(
+          map(() => ApiAction.cancelSuccessful()),
+          catchError(() => of(ApiAction.cancelFailure()))
+        );
       })
     );
   });

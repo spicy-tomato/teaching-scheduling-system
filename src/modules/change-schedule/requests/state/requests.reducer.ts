@@ -23,7 +23,7 @@ const initialState: RequestsState = {
   },
   total: 0,
   query: {
-    status: 'all',
+    status: [],
     page: 1,
     pagination: 20,
   },

@@ -6,7 +6,14 @@ export interface SimpleFixedScheduleModel {
   newShift: string;
   newIdRoom: Nullable<string>;
   status: number;
-  timeRequest: Date;
+  createdAt: Date;
+}
+
+export interface IntendFixedScheduleModel {
+  id: number;
+  intendTime: string;
+  status: number;
+  createdAt: Date;
 }
 
 export interface FixedScheduleModel extends SimpleFixedScheduleModel {

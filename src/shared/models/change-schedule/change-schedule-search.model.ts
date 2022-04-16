@@ -1,6 +1,6 @@
-export interface ChangeScheduleSearch {
-  status: number | 'all' | '2,3';
+export type ChangeScheduleSearch = {
+  status: number[];
   page: number;
   pagination: number;
   teacherId?: string;
-}
+};

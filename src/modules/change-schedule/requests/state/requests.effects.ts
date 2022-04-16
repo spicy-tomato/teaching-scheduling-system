@@ -26,6 +26,7 @@ import {
   DateHelper,
   ObservableHelper,
   PermissionHelper,
+  UrlHelper,
 } from '@shared/helpers';
 import { PermissionConstant } from '@shared/constants';
 import { TeacherService } from '@services/teacher.service';
@@ -134,14 +135,10 @@ export class RequestsEffects {
       mergeMap(({ schedule }) => {
         const { id } = schedule;
         const status = schedule.newSchedule.room ? 3 : 1;
-        const time = DateHelper.toSqlDate(new Date());
+        const acceptedAt = DateHelper.toSqlDate(new Date());
 
         return this.scheduleService
-          .responseChangeScheduleRequests({
-            id,
-            status,
-            time,
-          })
+          .acceptChangeScheduleRequests(id, { acceptedAt })
           .pipe(
             map(() => ApiAction.acceptSuccessful({ id, status })),
             catchError(() => of(ApiAction.acceptFailure()))
@@ -156,14 +153,12 @@ export class RequestsEffects {
       mergeMap(({ schedule, newIdRoom }) => {
         const { id } = schedule;
         const status = 2;
-        const time = DateHelper.toSqlDate(new Date());
+        const setRoomAt = DateHelper.toSqlDate(new Date());
 
         return this.scheduleService
-          .responseChangeScheduleRequests({
-            id,
-            status,
-            time,
+          .setRoomChangeScheduleRequests(id, {
             newIdRoom,
+            setRoomAt,
           })
           .pipe(
             map(() =>
@@ -183,13 +178,9 @@ export class RequestsEffects {
         const { id } = schedule;
         const isTeacher = PermissionHelper.isTeacher(permissions);
         const status = isTeacher ? -1 : -2;
-        const time = DateHelper.toSqlDate(new Date());
 
         return this.scheduleService
-          .responseChangeScheduleRequests({
-            id,
-            status,
-            time,
+          .denyChangeScheduleRequests(id, {
             reasonDeny: reason,
           })
           .pipe(
@@ -204,15 +195,10 @@ export class RequestsEffects {
     return this.actions$.pipe(
       ofType(PageAction.cancel),
       mergeMap(({ id }) => {
-        return this.scheduleService
-          .cancelChangeScheduleRequests({
-            id,
-            status: -3,
-          })
-          .pipe(
-            map(() => ApiAction.cancelSuccessful({ id })),
-            catchError(() => of(ApiAction.cancelFailure()))
-          );
+        return this.scheduleService.cancelChangeScheduleRequests(id).pipe(
+          map(() => ApiAction.cancelSuccessful({ id })),
+          catchError(() => of(ApiAction.cancelFailure()))
+        );
       })
     );
   });
@@ -243,16 +229,36 @@ export class RequestsEffects {
         ),
         filter(() => this.personal),
         mergeMap((x) => {
-          return this.scheduleService.getPersonalChangeScheduleRequests(x).pipe(
-            tap((changeSchedules) => {
-              this.store.dispatch(
-                ApiAction.filterSuccessful({
-                  changeSchedulesResponse: changeSchedules,
-                })
-              );
-            }),
-            catchError(() => of(this.store.dispatch(ApiAction.filterFailure())))
-          );
+          return this.scheduleService
+            .getPersonalChangeScheduleRequests(
+              x.teacherId || '',
+              UrlHelper.queryFilter(
+                x,
+                {
+                  status: 'equal',
+                },
+                {
+                  include: {
+                    id: {
+                      sort: 'desc',
+                    },
+                  },
+                  exclude: ['teacherId'],
+                }
+              )
+            )
+            .pipe(
+              tap((changeSchedules) => {
+                this.store.dispatch(
+                  ApiAction.filterSuccessful({
+                    changeSchedulesResponse: changeSchedules,
+                  })
+                );
+              }),
+              catchError(() =>
+                of(this.store.dispatch(ApiAction.filterFailure()))
+              )
+            );
         })
       )
       .subscribe();
@@ -275,7 +281,22 @@ export class RequestsEffects {
         })),
         mergeMap(({ department, params }) => {
           return this.scheduleService
-            .getDepartmentChangeScheduleRequests(department, params)
+            .getDepartmentChangeScheduleRequests(
+              department,
+              UrlHelper.queryFilter(
+                params,
+                {
+                  status: 'in',
+                },
+                {
+                  include: {
+                    id: {
+                      sort: 'desc',
+                    },
+                  },
+                }
+              )
+            )
             .pipe(
               tap((changeSchedules) => {
                 this.store.dispatch(
@@ -302,28 +323,41 @@ export class RequestsEffects {
         ),
         filter(() => !this.personal),
         mergeMap((x) => {
-          return this.scheduleService.getManagerChangeScheduleRequests(x).pipe(
-            tap((changeSchedules) => {
-              this.store.dispatch(
-                ApiAction.filterSuccessful({
-                  changeSchedulesResponse: changeSchedules,
-                })
-              );
-            }),
-            catchError(() => of(this.store.dispatch(ApiAction.filterFailure())))
-          );
+          console.log(x);
+          return this.scheduleService
+            .getManagerChangeScheduleRequests(
+              UrlHelper.queryFilter(
+                x,
+                {
+                  status: 'equal',
+                },
+                {
+                  exclude: ['teacherId'],
+                }
+              )
+            )
+            .pipe(
+              tap((changeSchedules) => {
+                this.store.dispatch(
+                  ApiAction.filterSuccessful({
+                    changeSchedulesResponse: changeSchedules,
+                  })
+                );
+              }),
+              catchError(() =>
+                of(this.store.dispatch(ApiAction.filterFailure()))
+              )
+            );
         })
       )
       .subscribe();
   }
 
-  private getQueryForStatus(
-    status: Nullable<number> | undefined
-  ): number | 'all' | '2,3' {
+  private getQueryForStatus(status: Nullable<number> | undefined): number[] {
     return status === null || status === undefined
-      ? 'all'
+      ? []
       : status == 2
-      ? '2,3'
-      : status;
+      ? [2, 3]
+      : [status];
   }
 }

@@ -12,13 +12,36 @@ import {
   StudyScheduleModel,
 } from 'src/shared/models';
 import { BaseDataService } from './core/base-data.service';
-import { RequestChangeSchedulePayload } from '@shared/models/schedule/request-change-schedule-payload.model';
-import { ObjectHelper, ObservableHelper } from '@shared/helpers';
 import {
-  ChangeScheduleCancelPayload,
-  ChangeScheduleResponsePayload,
+  RequestChangeSchedulePayload,
+  RequestIntendChangeSchedulePayload,
+} from '@shared/models/schedule/request-change-schedule-payload.model';
+import { ObjectHelper, QueryFilterResult } from '@shared/helpers';
+import {
+  AcceptChangeScheduleRequestPayload,
+  DenyChangeScheduleRequestPayload,
+  IntendTimeChangeScheduleRequestPayload,
+  SetRoomChangeScheduleRequestPayload,
 } from '@shared/models/change-schedule/change-schedule-response-payload.model';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
+
+const parseStudyScheduleModel = (
+  response: ResponseModel<StudyScheduleModel[]>
+) => ({
+  ...response,
+  data: response.data.map((x) =>
+    StudyScheduleModel.parse(ObjectHelper.parseDateProperties(x, 'date'))
+  ),
+});
+
+const parseExamSchedule = (response: ResponseModel<ExamScheduleModel[]>) => ({
+  ...response,
+  data: response.data.map((x) => {
+    return ExamScheduleModel.parse(
+      ObjectHelper.parseDateProperties(x, ['timeStart', 'timeEnd'])
+    );
+  }),
+});
 
 @Injectable({
   providedIn: 'root',
@@ -29,70 +52,50 @@ export class ScheduleService extends BaseDataService {
   }
 
   public getSchedule(
-    params: SearchSchedule,
+    params: QueryFilterResult<SearchSchedule, string>,
     idTeacher: string
-  ): Observable<StudyScheduleModel[]> {
+  ): Observable<ResponseModel<StudyScheduleModel[]>> {
     return this.http
-      .get<StudyScheduleModel[]>(this.url + `teachers/${idTeacher}/schedules`, {
-        params: { ...params },
-      })
-      .pipe(
-        ObservableHelper.mapObjectArrayWithDateProperties(['date']),
-        map((res) => res.map((x) => StudyScheduleModel.parse(x)))
-      );
+      .get<ResponseModel<StudyScheduleModel[]>>(
+        this.url + `teachers/${idTeacher}/schedules`,
+        { params }
+      )
+      .pipe(map(parseStudyScheduleModel));
   }
 
   public getDepartmentSchedule(
     department: string,
-    params: SearchSchedule
-  ): Observable<StudyScheduleModel[]> {
+    params: QueryFilterResult<SearchSchedule, string>
+  ): Observable<ResponseModel<StudyScheduleModel[]>> {
     return this.http
-      .get<StudyScheduleModel[]>(
+      .get<ResponseModel<StudyScheduleModel[]>>(
         this.url + `departments/${department}/schedules`,
-        {
-          params: { ...params },
-        }
+        { params }
       )
-      .pipe(
-        ObservableHelper.mapObjectArrayWithDateProperties(['date']),
-        map((res) => res.map((x) => StudyScheduleModel.parse(x)))
-      );
+      .pipe(map(parseStudyScheduleModel));
   }
 
   public getExamSchedule(
     params: SearchSchedule
-  ): Observable<ExamScheduleModel[]> {
+  ): Observable<ResponseModel<ExamScheduleModel[]>> {
     return this.http
-      .get<ExamScheduleModel[]>(this.url + 'teachers/0849/exam-schedules', {
-        params: { ...params },
-      })
-      .pipe(
-        ObservableHelper.mapObjectArrayWithDateProperties([
-          'timeStart',
-          'timeEnd',
-        ]),
-        map((res) => res.map((x) => ExamScheduleModel.parse(x)))
-      );
+      .get<ResponseModel<ExamScheduleModel[]>>(
+        this.url + 'teachers/0849/exam-schedules',
+        { params }
+      )
+      .pipe(map(parseExamSchedule));
   }
 
   public getDepartmentExamSchedule(
     department: string,
     params: SearchSchedule
-  ): Observable<ExamScheduleModel[]> {
+  ): Observable<ResponseModel<ExamScheduleModel[]>> {
     return this.http
-      .get<ExamScheduleModel[]>(
+      .get<ResponseModel<ExamScheduleModel[]>>(
         this.url + `departments/${department}/exam-schedules`,
-        {
-          params: { ...params },
-        }
+        { params }
       )
-      .pipe(
-        ObservableHelper.mapObjectArrayWithDateProperties([
-          'timeStart',
-          'timeEnd',
-        ]),
-        map((res) => res.map((x) => ExamScheduleModel.parse(x)))
-      );
+      .pipe(map(parseExamSchedule));
   }
 
   public updateExamNote(body: Note): Observable<void> {
@@ -112,54 +115,97 @@ export class ScheduleService extends BaseDataService {
     );
   }
 
-  public getDepartmentChangeScheduleRequests(
-    department: string,
-    params: ChangeScheduleSearch
-  ): Observable<PaginationResponseModel<ChangeSchedule[]>> {
-    return this.http.get<PaginationResponseModel<ChangeSchedule[]>>(
-      this.url + `departments/${department}/fixed-schedules`,
-      {
-        params: { ...params },
-      }
-    );
-  }
-
-  public getPersonalChangeScheduleRequests(
-    params: ChangeScheduleSearch
-  ): Observable<PaginationResponseModel<ChangeSchedule[]>> {
-    return this.http.get<PaginationResponseModel<ChangeSchedule[]>>(
-      this.url + 'teachers/01/fixed-schedules',
-      {
-        params: { ...params },
-      }
-    );
-  }
-
-  public getManagerChangeScheduleRequests(
-    params: ChangeScheduleSearch
-  ): Observable<PaginationResponseModel<ChangeSchedule[]>> {
-    return this.http.get<PaginationResponseModel<ChangeSchedule[]>>(
-      this.url + 'fixed-schedules',
-      {
-        params: { ...params },
-      }
-    );
-  }
-
-  public responseChangeScheduleRequests(
-    body: ChangeScheduleResponsePayload
-  ): Observable<void> {
-    return this.http.put<void>(
-      this.url + 'fixed-schedules/update',
+  public requestIntendChangeSchedule(
+    body: RequestIntendChangeSchedulePayload
+  ): Observable<ResponseModel<number>> {
+    return this.http.post<ResponseModel<number>>(
+      this.url + 'fixed-schedules/create?type=soft',
       ObjectHelper.toSnakeCase(body)
     );
   }
 
-  public cancelChangeScheduleRequests(
-    body: ChangeScheduleCancelPayload
+  public changeSchedule(
+    body: RequestChangeSchedulePayload
+  ): Observable<ResponseModel<number>> {
+    return this.http.post<ResponseModel<number>>(
+      this.url + 'fixed-schedules/create?type=hard',
+      ObjectHelper.toSnakeCase(body)
+    );
+  }
+
+  public getDepartmentChangeScheduleRequests(
+    department: string,
+    params: QueryFilterResult<ChangeScheduleSearch, string, string>
+  ): Observable<PaginationResponseModel<ChangeSchedule[]>> {
+    console.log(params);
+    return this.http.get<PaginationResponseModel<ChangeSchedule[]>>(
+      this.url + `departments/${department}/fixed-schedules`,
+      { params }
+    );
+  }
+
+  public getPersonalChangeScheduleRequests(
+    teacherId: string,
+    params: QueryFilterResult<ChangeScheduleSearch, string, string>
+  ): Observable<PaginationResponseModel<ChangeSchedule[]>> {
+    return this.http.get<PaginationResponseModel<ChangeSchedule[]>>(
+      this.url + `teachers/${teacherId}/fixed-schedules`,
+      { params }
+    );
+  }
+
+  public getManagerChangeScheduleRequests(
+    params: QueryFilterResult<ChangeScheduleSearch, string, string>
+  ): Observable<PaginationResponseModel<ChangeSchedule[]>> {
+    return this.http.get<PaginationResponseModel<ChangeSchedule[]>>(
+      this.url + 'fixed-schedules',
+      { params }
+    );
+  }
+
+  public acceptChangeScheduleRequests(
+    id: number,
+    body: AcceptChangeScheduleRequestPayload
   ): Observable<void> {
-    return this.http.put<void>(
-      this.url + 'fixed-schedules/update',
+    return this.http.patch<void>(
+      this.url + `fixed-schedules/update/${id}?type=accept`,
+      ObjectHelper.toSnakeCase(body)
+    );
+  }
+
+  public setRoomChangeScheduleRequests(
+    id: number,
+    body: SetRoomChangeScheduleRequestPayload
+  ): Observable<void> {
+    return this.http.patch<void>(
+      this.url + `fixed-schedules/update/${id}?type=set_room`,
+      ObjectHelper.toSnakeCase(body)
+    );
+  }
+
+  public denyChangeScheduleRequests(
+    id: number,
+    body: DenyChangeScheduleRequestPayload
+  ): Observable<void> {
+    return this.http.patch<void>(
+      this.url + `fixed-schedules/update/${id}?type=deny`,
+      ObjectHelper.toSnakeCase(body)
+    );
+  }
+
+  public cancelChangeScheduleRequests(id: number): Observable<void> {
+    return this.http.patch<void>(
+      this.url + `fixed-schedules/update/${id}?type=cancel`,
+      {}
+    );
+  }
+
+  public intendTimeChangeScheduleRequests(
+    id: number,
+    body: IntendTimeChangeScheduleRequestPayload
+  ): Observable<void> {
+    return this.http.patch<void>(
+      this.url + `fixed-schedules/update/${id}?type=intend_time`,
       ObjectHelper.toSnakeCase(body)
     );
   }
