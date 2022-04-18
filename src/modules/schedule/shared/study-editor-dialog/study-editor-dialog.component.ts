@@ -26,7 +26,7 @@ import {
   FixedScheduleModel,
   SimpleModel,
 } from 'src/shared/models';
-import { sameValueValidator } from 'src/shared/validators';
+import { sameGroupValueValidator } from 'src/shared/validators';
 import { TuiDay, TuiTime } from '@taiga-ui/cdk';
 import {
   filter,
@@ -44,12 +44,14 @@ import * as fromAppShell from '@modules/core/components/app-shell/state';
 import { Store } from '@ngrx/store';
 import { DialogService } from '@services/dialog/dialog.service';
 import { CoreConstant } from '@shared/constants';
+import { FormHelper } from '@shared/helpers/form.helper';
 
 @Component({
   templateUrl: './study-editor-dialog.component.html',
   styleUrls: ['./study-editor-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
+    FormHelper,
     {
       provide: TUI_BUTTON_OPTIONS,
       useValue: {
@@ -116,6 +118,7 @@ export class StudyEditorDialogComponent extends BaseComponent {
     private readonly fb: FormBuilder,
     private readonly cdr: ChangeDetectorRef,
     private readonly store: Store<fromStudyEditorDialog.StudyEditorDialogState>,
+    private readonly formHelper: FormHelper,
     private readonly dialogService: DialogService,
     @Inject(TuiNotificationsService)
     private readonly notificationsService: TuiNotificationsService,
@@ -255,7 +258,7 @@ export class StudyEditorDialogComponent extends BaseComponent {
           ],
         },
         {
-          validators: sameValueValidator(initialRequest, {
+          validators: sameGroupValueValidator(initialRequest, {
             date: (a: Nullable<TuiDay>, b: Nullable<TuiDay>) =>
               !!a && !!b && a.daySame(b),
           }),
@@ -466,8 +469,7 @@ export class StudyEditorDialogComponent extends BaseComponent {
     this.change$
       .pipe(
         tap((change) => {
-          (this.form.controls['change'] as FormGroup) =
-            this.getNewChangeControl(change);
+          this.form.controls['change'] = this.getNewChangeControl(change);
           this.cdr.markForCheck();
         }),
         takeUntil(this.destroy$)
@@ -493,16 +495,14 @@ export class StudyEditorDialogComponent extends BaseComponent {
   }
 
   private getNewChangeControl(value: fromStudyEditorDialog.Change): FormGroup {
-    return this.fb.group(
+    return this.formHelper.createNewFormGroup(
       {
         note: [value.note],
       },
-      {
-        validators: sameValueValidator(value, {
-          date: (a: Nullable<TuiDay>, b: Nullable<TuiDay>) =>
-            !!a && !!b && a.daySame(b),
-        }),
-      }
+      sameGroupValueValidator(value, {
+        date: (a: Nullable<TuiDay>, b: Nullable<TuiDay>) =>
+          !!a && !!b && a.daySame(b),
+      })
     );
   }
 }

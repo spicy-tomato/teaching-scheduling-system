@@ -1,0 +1,24 @@
+<tui-island size="l" class="mx-auto tui-col_8 tui-space_top-6">
+  <form [formGroup]="form">
+    <div class="tui-form__row">
+      <h3 class="tui-form__header tui-form__header_margin-top_none">
+        Thông tin cá nhân
+      </h3>
+    </div>
+    <div *ngFor="let field of fields" class="tui-form__row">
+      <tss-user-information-edit-field
+        *ngIf="field.editable; else readOnlyField"
+        [formControlName]="field.formControlName"
+        [field]="field.formControlName"
+      >
+        {{ field.placeholder }}
+      </tss-user-information-edit-field>
+      <ng-template #readOnlyField>
+        <tui-input [readOnly]="true" [formControlName]="field.formControlName">
+          {{ field.placeholder }}
+          <input tuiTextfield />
+        </tui-input>
+      </ng-template>
+    </div>
+  </form>
+</tui-island>

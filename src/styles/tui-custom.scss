@@ -23,6 +23,23 @@ tui-wrapper[data-appearance="nav-button"] {
   }
 }
 
+tui-wrapper[data-appearance="positive-primary"] {
+  color: var(--tui-base-01);
+  @include bg(var(--tui-success-fill));
+
+  &[data-state="hovered"] {
+    @include bg(#6ed3af);
+  }
+
+  &[data-state="pressed"] {
+    @include bg(rgba(74, 201, 155, 0.4));
+  }
+
+  &[data-state="disabled"] {
+    background: #eaecee;
+  }
+}
+
 tui-wrapper[data-appearance="positive"] {
   color: var(--tui-success-fill);
   @include bg(var(--tui-success-bg));

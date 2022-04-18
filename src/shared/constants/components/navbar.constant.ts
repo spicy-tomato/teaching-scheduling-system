@@ -3,7 +3,7 @@ import { NavbarGroup } from 'src/shared/models';
 
 export class NavbarConstants {
   public static keys = {
-    PERSONAL_INFORMATION: 'personal-information',
+    USER_INFORMATION: 'user-information',
     COMMENTS: 'comments',
     SETTINGS: 'settings',
     CHANGE_PASSWORD: 'change-password',
@@ -12,16 +12,16 @@ export class NavbarConstants {
   };
 
   public static items: NavbarGroup[] = [
-    // {
-    //   items: [
-    //     {
-    //       key: NavbarConstants.keys.PERSONAL_INFORMATION,
-    //       label: 'Thông tin cá nhân',
-    //       routerLink: '',
-    //       icon: '<i class="far fa-user" style="font-size: 23px"></i>',
-    //     },
-    //   ],
-    // },
+    {
+      items: [
+        {
+          key: NavbarConstants.keys.USER_INFORMATION,
+          label: 'Thông tin cá nhân',
+          routerLink: '/user-information',
+          icon: '<i class="far fa-user" style="font-size: 23px"></i>',
+        },
+      ],
+    },
     {
       items: [
         {

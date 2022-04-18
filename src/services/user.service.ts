@@ -31,4 +31,11 @@ export class UserService extends BaseDataService {
   public sendFeedback(body: SendFeedback): Observable<void> {
     return this.http.post<void>(this.url + 'feedback/create', body);
   }
+
+  public updateInformation(
+    body: { [key: string]: string },
+    id: string
+  ): Observable<void> {
+    return this.http.patch<void>(this.url + `accounts/update/${id}`, body);
+  }
 }

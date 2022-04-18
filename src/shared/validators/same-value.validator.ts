@@ -1,7 +1,7 @@
 import { ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { ObjectHelper } from '../helpers/object.helper';
 
-export function sameValueValidator(
+export function sameGroupValueValidator(
   obj: Record<string, unknown>,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   comp?: Record<string, (a: any, b: any) => boolean>
@@ -30,5 +30,30 @@ export function sameValueValidator(
     }
 
     return same ? { sameValue: true } : null;
+  };
+}
+
+export function sameControlValueValidator<T>(
+  value: T,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  comp?: (a: T, b: T) => boolean
+): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const controlValue = control.value as T;
+    if (
+      ObjectHelper.isNullOrUndefined(value) &&
+      ObjectHelper.isNullOrUndefined(controlValue)
+    ) {
+      return null;
+    }
+
+    if (
+      (controlValue !== value && !comp) ||
+      comp?.(controlValue, value) === false
+    ) {
+      return null;
+    }
+
+    return { sameValue: true };
   };
 }
