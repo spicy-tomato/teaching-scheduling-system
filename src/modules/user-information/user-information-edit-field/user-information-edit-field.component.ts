@@ -21,7 +21,7 @@ import {
 import * as fromAppShell from '@modules/core/components/app-shell/state';
 import { Store } from '@ngrx/store';
 import { ObservableHelper } from '@shared/helpers';
-import { Teacher } from '@shared/models';
+import { Teacher, UserInformationFields } from '@shared/models';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { TuiNotification, TuiNotificationsService } from '@taiga-ui/core';
 
@@ -113,8 +113,9 @@ export class UserInformationEditFieldComponent
         map((x) => x[1]),
         tap((teacher) => {
           this.processing = true;
-          const body = {};
-          body[this.field] = this.value;
+          const body = {
+            [this.field as UserInformationFields]: this.value,
+          };
 
           this.userService
             .updateInformation(body, teacher.uuidAccount)

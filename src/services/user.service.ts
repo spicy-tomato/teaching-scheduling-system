@@ -6,6 +6,7 @@ import {
   ResponseModel,
   SendFeedback,
   Teacher,
+  UserInformationFields,
 } from 'src/shared/models';
 import { BaseDataService } from './core/base-data.service';
 
@@ -33,7 +34,7 @@ export class UserService extends BaseDataService {
   }
 
   public updateInformation(
-    body: { [key: string]: string },
+    body: { [key in UserInformationFields]: string },
     id: string
   ): Observable<void> {
     return this.http.patch<void>(this.url + `accounts/update/${id}`, body);

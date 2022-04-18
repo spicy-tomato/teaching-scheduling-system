@@ -30,7 +30,7 @@ export class UserInformationComponent extends BaseComponent {
       placeholder: 'Khoa',
     },
     {
-      formControlName: 'phoneNumber',
+      formControlName: 'phone',
       placeholder: 'Số điện thoại',
       editable: true,
     },
@@ -60,7 +60,7 @@ export class UserInformationComponent extends BaseComponent {
       name: [],
       department: [],
       faculty: [],
-      phoneNumber: [],
+      phone: [],
     });
   }
 
@@ -72,7 +72,7 @@ export class UserInformationComponent extends BaseComponent {
             name: teacher.name,
             department: teacher.department.name,
             faculty: teacher.faculty.name,
-            phoneNumber: teacher.phoneNumber || '',
+            phone: teacher.phone || '',
           });
         }),
         take(1)
