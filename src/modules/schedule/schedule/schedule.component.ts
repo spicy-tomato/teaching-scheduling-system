@@ -51,6 +51,7 @@ import {
   DateHelper,
   ObservableHelper,
   ArrayHelper,
+  ChangeStatusHelper,
 } from '@shared/helpers';
 import { StudyHistoryDialogComponent } from '../shared/study-editor-dialog/study-history-dialog/study-history-dialog.component';
 
@@ -122,7 +123,7 @@ export class TssScheduleComponent
       const lastFixedSchedules = ArrayHelper.lastItem(
         args.data.FixedSchedules
       ) as FixedScheduleModel;
-      if (lastFixedSchedules.status === 0 || lastFixedSchedules.status === 1) {
+      if (ChangeStatusHelper.isPending(lastFixedSchedules.status)) {
         args.element.classList.add('requesting-change');
       } else {
         args.element.classList.add('changed');

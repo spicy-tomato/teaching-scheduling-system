@@ -3,7 +3,7 @@ import { Inject, Injectable, Injector } from '@angular/core';
 import { RoleConstant } from '@shared/constants';
 import { FileType } from '@shared/enums';
 import { DateHelper } from '@shared/helpers';
-import { ChangeSchedule, Teacher } from '@shared/models';
+import { ChangeSchedule, SimpleTeacher, Teacher } from '@shared/models';
 import { TuiDayRange } from '@taiga-ui/cdk';
 import {
   AlignmentType,
@@ -513,8 +513,7 @@ export class ExportService {
 
   public exportChangeScheduleRequestForRoomManager(
     schedule: ChangeSchedule,
-    department: string,
-    faculty: string
+    teacher: SimpleTeacher
   ): Document {
     const alignment = AlignmentType.CENTER;
     const today = new Date();
@@ -597,16 +596,15 @@ export class ExportService {
                 }),
                 new TextRun({
                   break: 1,
-                  // TODO
-                  text: `Số điện thoại: `,
+                  text: `Số điện thoại: ${teacher.phone || ''}`,
                 }),
                 new TextRun({
                   break: 1,
-                  text: `Bộ môn: ${department}`,
+                  text: `Bộ môn: ${teacher.department.name}`,
                 }),
                 new TextRun({
                   break: 1,
-                  text: `Khoa: ${faculty}`,
+                  text: `Khoa: ${teacher.faculty.name}`,
                 }),
               ],
             }),

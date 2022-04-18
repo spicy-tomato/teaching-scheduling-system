@@ -67,6 +67,12 @@ export const studyEditorDialogReducer = createReducer(
     requestStatus: EApiStatus.successful,
     requestingChangeSchedule: false,
   })),
+  on(ApiAction.requestIntendSuccessful, (state, { justRequestedSchedule }) => ({
+    ...state,
+    justRequestedSchedule,
+    requestStatus: EApiStatus.successful,
+    requestingChangeSchedule: false,
+  })),
   on(ApiAction.requestFailure, (state) => ({
     ...state,
     requestStatus: EApiStatus.systemError,

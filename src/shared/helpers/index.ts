@@ -1,4 +1,5 @@
 export * from './array.helper';
+export * from './change-status.helper';
 export * from './date.helper';
 export * from './object.helper';
 export * from './observable.helper';

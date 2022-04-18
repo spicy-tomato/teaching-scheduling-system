@@ -34,9 +34,9 @@ export class RequestsListComponent extends BaseComponent {
     'oldRoom',
     'newRoom',
     'reason',
-    'timeRequest',
-    'timeAccept',
-    'timeSetRoom',
+    'createdAt',
+    'acceptedAt',
+    'setRoomAt',
     'status',
     'actions',
   ];

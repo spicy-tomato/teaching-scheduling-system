@@ -9,6 +9,7 @@ export interface RequestChangeSchedulePayload {
 }
 
 export interface RequestIntendChangeSchedulePayload {
+  idSchedule: number;
   intendTime: string;
   reason: string;
 }

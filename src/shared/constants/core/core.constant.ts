@@ -1,7 +1,14 @@
-import { FeatureModel, Nullable } from '@shared/models';
+import {
+  FeatureModel,
+  Nullable,
+  RequestChangeScheduleCode,
+} from '@shared/models';
 import { PermissionConstant } from './permission.constant';
 
 export class CoreConstant {
+  public static readonly REASON_CHANGE_SCHEDULE_MAX_LENGTH = 500;
+  public static readonly INTEND_TIME_CHANGE_SCHEDULE_MAX_LENGTH = 100;
+  public static readonly NOTE_MAX_LENGTH = 1000;
   public static readonly TERMS_IN_YEAR = [1, 2];
   public static readonly BATCHES_IN_TERM: { [key: number]: number[] } = {
     1: [1, 2, 3],
@@ -40,31 +47,52 @@ export class CoreConstant {
       end: [21, 20],
     },
   };
-  public static REQUEST_CHANGE_SCHEDULE_STATUS: {
-    [key: number]: FeatureModel<string, Nullable<number>>;
-  } = {
-    '-3': {
+  public static REQUEST_CHANGE_SCHEDULE_STATUS: Record<
+    RequestChangeScheduleCode,
+    FeatureModel<string, Nullable<number>>
+  > = {
+    // Cancel
+    100: {
       name: 'Đã hủy',
       feature: PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE,
     },
-    '-2': { name: 'Phòng QLGĐ từ chối', feature: null },
-    '-1': {
-      name: 'Đã từ chối',
-      feature: PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE,
-    },
-    0: {
+
+    // Pending
+    200: {
       name: 'Đang chờ bộ môn phê duyệt',
       feature: PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE,
     },
-    1: { name: 'Đang chờ Ban QLGĐ xếp phòng', feature: null },
-    2: { name: 'Đã chấp nhận', feature: null },
-    3: {
+    201: {
+      // Move to intend time
+      name: 'Đang chờ bộ môn phê duyệt',
+      feature: PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE,
+    },
+    202: { name: 'Đang chờ Ban QLGĐ xếp phòng', feature: null },
+
+    // Approve
+    300: { name: 'Đã chấp nhận', feature: null },
+    301: {
+      // Move to intend time
       name: 'Đã chấp nhận',
       feature: PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE,
     },
-    4: {
+    302: {
+      // Accept online class
+      name: 'Đã chấp nhận',
+      feature: PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE,
+    },
+
+    // Change
+    400: {
       name: 'Trưởng bộ môn thay đổi',
       feature: PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE,
     },
+
+    // Deny
+    500: {
+      name: 'Đã từ chối',
+      feature: PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE,
+    },
+    501: { name: 'Phòng QLGĐ từ chối', feature: null },
   };
 }

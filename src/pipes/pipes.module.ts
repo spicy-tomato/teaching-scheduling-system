@@ -9,17 +9,19 @@ import { FilterPipe } from './filter.pipe';
 import { ShortenNamePipe } from './shorten-name.pipe';
 import { MapPipe } from './map.pipe';
 import { AsPipe } from './as.pipe';
+import { StatusTypePipe } from './status-type.pipe';
 
 const PIPES = [
-  DateTimePipe,
-  NavbarNamePipe,
-  BeautifyTimePipe,
-  ShiftPipe,
-  TuiDayPipe,
-  FilterPipe,
-  ShortenNamePipe,
-  MapPipe,
   AsPipe,
+  BeautifyTimePipe,
+  DateTimePipe,
+  FilterPipe,
+  MapPipe,
+  NavbarNamePipe,
+  ShiftPipe,
+  ShortenNamePipe,
+  TuiDayPipe,
+  StatusTypePipe,
 ];
 
 @NgModule({

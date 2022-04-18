@@ -1,0 +1,64 @@
+<div
+  *ngIf="validRequestChangeSchedule && !requestedChangeSchedule"
+  class="tui-form__buttons tui-form__buttons_align_start"
+>
+  <ng-container *ngrxLet="justRequestedSchedule$ as justRequestedSchedule">
+    <ng-container *ngIf="!justRequestedSchedule">
+      <ng-container *ngrxLet="searchStatus$ as searchStatus">
+        <ng-container
+          *ngrxLet="requestingChangeSchedule$ as requestingChangeSchedule"
+        >
+          <ng-container *ngIf="requestingChangeSchedule; else request">
+            <ng-container *ngrxLet="requestStatus$ as requestStatus">
+              <button
+                tuiButton
+                *ngIf="isPersonal; else changeSchedule"
+                (click)="submitRequestChange$.next()"
+                [showLoader]="requestStatus === EApiStatus.loading"
+                [disabled]="
+                  (!requestChangeToUndeterminedDay && requestControl.invalid) ||
+                  (requestChangeToUndeterminedDay &&
+                    requestIntendControl.invalid) ||
+                  searchStatus === EApiStatus.loading
+                "
+                class="tui-form__button"
+              >
+                Gửi yêu cầu
+              </button>
+            </ng-container>
+            <ng-template #changeSchedule>
+              <ng-container *ngrxLet="changeStatus$ as changeStatus">
+                <button
+                  tuiButton
+                  (click)="submitChange$.next()"
+                  [showLoader]="changeStatus === EApiStatus.loading"
+                  [disabled]="
+                    requestControl.invalid ||
+                    searchStatus === EApiStatus.loading
+                  "
+                  class="tui-form__button"
+                >
+                  Xác nhận thay đổi
+                </button>
+              </ng-container>
+            </ng-template>
+          </ng-container>
+          <ng-template #request>
+            <button
+              tuiButton
+              (click)="toggleRequestArea(true)"
+              appearance="secondary"
+              class="tui-form__button"
+            >
+              {{
+                isPersonal
+                  ? "Yêu cầu thay đổi lịch giảng"
+                  : "Thay đổi lịch giảng"
+              }}
+            </button>
+          </ng-template>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</div>

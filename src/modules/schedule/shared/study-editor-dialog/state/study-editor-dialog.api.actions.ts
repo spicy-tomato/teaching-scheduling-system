@@ -1,10 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import {
-  IntendFixedScheduleModel,
-  RequestIntendChangeSchedulePayload,
-  SimpleFixedScheduleModel,
-  StudyScheduleModel,
-} from '@shared/models';
+import { SimpleFixedScheduleModel, StudyScheduleModel } from '@shared/models';
 import { Change } from '.';
 
 export const requestSuccessful = createAction(
@@ -18,7 +13,7 @@ export const requestFailure = createAction(
 
 export const requestIntendSuccessful = createAction(
   '[Study Editor Dialog API] Request intend Successfully',
-  props<{ justRequestedSchedule: IntendFixedScheduleModel }>()
+  props<{ justRequestedSchedule: SimpleFixedScheduleModel }>()
 );
 
 export const requestIntendFailure = createAction(

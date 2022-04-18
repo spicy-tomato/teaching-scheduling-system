@@ -135,12 +135,11 @@ export class RequestListActionComponent extends BaseComponent {
       .getTeacherInfo(this.schedule.teacher.id)
       .pipe(
         ObservableHelper.filterNullish(),
-        tap((teacher) => {
+        tap((response) => {
           const document =
             this.exportService.exportChangeScheduleRequestForRoomManager(
               this.schedule,
-              teacher.department.name,
-              teacher.faculty.name
+              response.data
             );
 
           const commonName = 'Giay-dang-ky-phong-hoc';
@@ -179,10 +178,10 @@ export class RequestListActionComponent extends BaseComponent {
     )
       .split(' ')
       .join('-');
-    const timeRequest =
-      this.datePipe.transform(this.schedule.timeRequest, 'dd-MM-Y') ??
-      this.schedule.timeRequest.toDateString();
-    const fileName = `${commonName}_${teacherName}_${timeRequest}.docx`;
+    const createdAt =
+      this.datePipe.transform(this.schedule.createdAt, 'dd-MM-Y') ??
+      this.schedule.createdAt.toDateString();
+    const fileName = `${commonName}_${teacherName}_${createdAt}}.docx`;
 
     this.exportService.exportBlob({
       document,

@@ -21,9 +21,11 @@ export class UserService extends BaseDataService {
     return this.http.get<ResponseModel<Teacher>>(this.url + 'me');
   }
 
-  // TODO: Add uuid account
-  public changePassword(body: ChangePassword): Observable<void> {
-    return this.http.patch<void>(this.url + 'accounts/change-password', body);
+  public changePassword(uuid: string, body: ChangePassword): Observable<void> {
+    return this.http.patch<void>(
+      this.url + `accounts/change-password/${uuid}`,
+      body
+    );
   }
 
   public sendFeedback(body: SendFeedback): Observable<void> {

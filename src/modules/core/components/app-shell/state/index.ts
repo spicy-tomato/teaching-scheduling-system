@@ -4,6 +4,7 @@ export { AppShellState } from './app-shell.state';
 export {
   selectStatus,
   selectTeacher,
+  selectNotNullTeacher,
   selectNameTitle,
   selectPermission,
   selectDepartment,

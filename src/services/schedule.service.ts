@@ -7,6 +7,7 @@ import {
   ExamScheduleModel,
   Note,
   PaginationResponseModel,
+  RequestChangeScheduleCode,
   ResponseModel,
   SearchSchedule,
   StudyScheduleModel,
@@ -23,7 +24,7 @@ import {
   IntendTimeChangeScheduleRequestPayload,
   SetRoomChangeScheduleRequestPayload,
 } from '@shared/models/change-schedule/change-schedule-response-payload.model';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 const parseStudyScheduleModel = (
   response: ResponseModel<StudyScheduleModel[]>
@@ -137,7 +138,6 @@ export class ScheduleService extends BaseDataService {
     department: string,
     params: QueryFilterResult<ChangeScheduleSearch, string, string>
   ): Observable<PaginationResponseModel<ChangeSchedule[]>> {
-    console.log(params);
     return this.http.get<PaginationResponseModel<ChangeSchedule[]>>(
       this.url + `departments/${department}/fixed-schedules`,
       { params }
@@ -166,8 +166,8 @@ export class ScheduleService extends BaseDataService {
   public acceptChangeScheduleRequests(
     id: number,
     body: AcceptChangeScheduleRequestPayload
-  ): Observable<void> {
-    return this.http.patch<void>(
+  ): Observable<ResponseModel<RequestChangeScheduleCode>> {
+    return this.http.patch<ResponseModel<RequestChangeScheduleCode>>(
       this.url + `fixed-schedules/update/${id}?type=accept`,
       ObjectHelper.toSnakeCase(body)
     );
@@ -186,8 +186,8 @@ export class ScheduleService extends BaseDataService {
   public denyChangeScheduleRequests(
     id: number,
     body: DenyChangeScheduleRequestPayload
-  ): Observable<void> {
-    return this.http.patch<void>(
+  ): Observable<ResponseModel<RequestChangeScheduleCode>> {
+    return this.http.patch<ResponseModel<RequestChangeScheduleCode>>(
       this.url + `fixed-schedules/update/${id}?type=deny`,
       ObjectHelper.toSnakeCase(body)
     );

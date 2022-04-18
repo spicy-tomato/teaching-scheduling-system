@@ -27,13 +27,13 @@
         <th tuiTh *tuiHead="'oldRoom'" [sorter]="null" colspan="2">Phòng</th>
         <ng-container *tuiHead="'newRoom'"></ng-container>
         <th tuiTh *tuiHead="'reason'" [sorter]="null" rowspan="2">Lý do</th>
-        <th tuiTh *tuiHead="'timeRequest'" [sorter]="null" rowspan="2">
+        <th tuiTh *tuiHead="'createdAt'" [sorter]="null" rowspan="2">
           <div class="no-wrap">Yêu cầu</div>
         </th>
-        <th tuiTh *tuiHead="'timeAccept'" [sorter]="null" rowspan="2">
+        <th tuiTh *tuiHead="'acceptedAt'" [sorter]="null" rowspan="2">
           <div class="no-wrap">Phê duyệt</div>
         </th>
-        <th tuiTh *tuiHead="'timeSetRoom'" [sorter]="null" rowspan="2">
+        <th tuiTh *tuiHead="'setRoomAt'" [sorter]="null" rowspan="2">
           <div class="no-wrap">Xếp phòng</div>
         </th>
         <th tuiTh *tuiHead="'status'" [sorter]="null" rowspan="2">
@@ -107,30 +107,30 @@
           </div>
         </td>
         ed
-        <td tuiTd *tuiCell="'timeRequest'">
+        <td tuiTd *tuiCell="'createdAt'">
           <div class="text-center">
             {{
               options.showTime
-                ? (item.timeRequest | date: "dd-MM-Y, HH:mm")
-                : (item.timeRequest | date: "dd-MM-Y")
+                ? (item.createdAt | date: "dd-MM-Y, HH:mm")
+                : (item.createdAt | date: "dd-MM-Y")
             }}
           </div>
         </td>
-        <td tuiTd *tuiCell="'timeAccept'">
+        <td tuiTd *tuiCell="'acceptedAt'">
           <div class="text-center">
             {{
               options.showTime
-                ? (item.timeAccept | date: "dd-MM-Y, HH:mm")
-                : (item.timeAccept | date: "dd-MM-Y")
+                ? (item.acceptedAt | date: "dd-MM-Y, HH:mm")
+                : (item.acceptedAt | date: "dd-MM-Y")
             }}
           </div>
         </td>
-        <td tuiTd *tuiCell="'timeSetRoom'">
+        <td tuiTd *tuiCell="'setRoomAt'">
           <div class="text-center">
             {{
               options.showTime
-                ? (item.timeSetRoom | date: "dd-MM-Y, HH:mm")
-                : (item.timeSetRoom | date: "dd-MM-Y")
+                ? (item.setRoomAt | date: "dd-MM-Y, HH:mm")
+                : (item.setRoomAt | date: "dd-MM-Y")
             }}
           </div>
         </td>
@@ -152,7 +152,7 @@
             <ng-template #roomManager>
               <tss-request-list-status
                 [item]="item"
-                [displayText]="item.status !== 1"
+                [displayText]="item.status !== 202"
               ></tss-request-list-status>
             </ng-template>
           </ng-container>

@@ -1,14 +1,6 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of, Subject } from 'rxjs';
-import {
-  catchError,
-  filter,
-  map,
-  mergeMap,
-  take,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { catchError, filter, map, mergeMap, take, tap } from 'rxjs/operators';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as PageAction from './requests.page.actions';
 import * as ApiAction from './requests.api.actions';
@@ -22,12 +14,7 @@ import {
   SimpleModel,
 } from '@shared/models';
 import { Store } from '@ngrx/store';
-import {
-  DateHelper,
-  ObservableHelper,
-  PermissionHelper,
-  UrlHelper,
-} from '@shared/helpers';
+import { DateHelper, ObservableHelper, UrlHelper } from '@shared/helpers';
 import { PermissionConstant } from '@shared/constants';
 import { TeacherService } from '@services/teacher.service';
 
@@ -134,13 +121,12 @@ export class RequestsEffects {
       ofType(PageAction.accept),
       mergeMap(({ schedule }) => {
         const { id } = schedule;
-        const status = schedule.newSchedule.room ? 3 : 1;
         const acceptedAt = DateHelper.toSqlDate(new Date());
 
         return this.scheduleService
           .acceptChangeScheduleRequests(id, { acceptedAt })
           .pipe(
-            map(() => ApiAction.acceptSuccessful({ id, status })),
+            map((r) => ApiAction.acceptSuccessful({ id, status: r.data })),
             catchError(() => of(ApiAction.acceptFailure()))
           );
       })
@@ -152,7 +138,6 @@ export class RequestsEffects {
       ofType(PageAction.setRoom),
       mergeMap(({ schedule, newIdRoom }) => {
         const { id } = schedule;
-        const status = 2;
         const setRoomAt = DateHelper.toSqlDate(new Date());
 
         return this.scheduleService
@@ -161,9 +146,7 @@ export class RequestsEffects {
             setRoomAt,
           })
           .pipe(
-            map(() =>
-              ApiAction.setRoomSuccessful({ id, status, room: newIdRoom })
-            ),
+            map(() => ApiAction.setRoomSuccessful({ id, room: newIdRoom })),
             catchError(() => of(ApiAction.setRoomFailure()))
           );
       })
@@ -173,18 +156,15 @@ export class RequestsEffects {
   public deny$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.deny),
-      withLatestFrom(this.permissions$),
-      mergeMap(([{ schedule, reason }, permissions]) => {
+      mergeMap(({ schedule, reason }) => {
         const { id } = schedule;
-        const isTeacher = PermissionHelper.isTeacher(permissions);
-        const status = isTeacher ? -1 : -2;
 
         return this.scheduleService
           .denyChangeScheduleRequests(id, {
             reasonDeny: reason,
           })
           .pipe(
-            map(() => ApiAction.denySuccessful({ id, status })),
+            map((r) => ApiAction.denySuccessful({ id, status: r.data })),
             catchError(() => of(ApiAction.denyFailure()))
           );
       })

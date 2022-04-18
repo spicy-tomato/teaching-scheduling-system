@@ -1,18 +1,6 @@
-<div class="d-flex justify-content-between align-items-center">
-  <h2 class="tui-text_h4">Chi tiết lịch học</h2>
-  <ng-container *ngrxLet="justRequestedSchedule$ as justRequestedSchedule">
-    <button
-      tuiButton
-      *ngIf="context.data.FixedSchedules?.length"
-      (click)="onShowHistory()"
-      [icon]="IconConstant.historyLarge"
-      appearance="outline"
-      class="tui-form__button"
-    >
-      Lịch sử thay đổi giờ giảng
-    </button>
-  </ng-container>
-</div>
+<tss-study-editor-header
+  [fixedSchedules]="context.data.FixedSchedules"
+></tss-study-editor-header>
 
 <form
   [formGroup]="form"
@@ -49,7 +37,7 @@
     <div class="tui-form__row">
       <tui-text-area
         formControlName="note"
-        [tuiTextfieldMaxLength]="noteMaxLength"
+        [tuiTextfieldMaxLength]="CoreConstant.NOTE_MAX_LENGTH"
       >
         Ghi chú
       </tui-text-area>
@@ -109,101 +97,18 @@
       [expanded]="!requestChangeToUndeterminedDay"
       formGroupName="request"
     >
-      <div [tuiTextfieldCleaner]="true" class="tui-form__row">
-        <tui-input-date
-          (ngModelChange)="changeRequest$.next()"
-          formControlName="date"
-        >
-          Chọn ngày học
-        </tui-input-date>
-        <tui-field-error formControlName="date"></tui-field-error>
-      </div>
-      <div class="tui-form__row">
-        <tui-select
-          (ngModelChange)="changeRequest$.next()"
-          [valueContent]="shiftSelectContent"
-          formControlName="shift"
-        >
-          Chọn ca học:
-          <tui-data-list *tuiDataList>
-            <tui-opt-group>
-              <button
-                tuiOption
-                *ngFor="let shiftKey of shiftKeys"
-                [value]="shiftKey"
-              >
-                {{ shiftKey | shift }}
-              </button>
-            </tui-opt-group>
-          </tui-data-list>
-        </tui-select>
-      </div>
-      <div *ngIf="isPersonal" class="tui-form__row">
-        <tui-select [valueContent]="studyTypeContent" formControlName="online">
-          Chọn hình thức học:
-          <ng-template tuiDataList>
-            <tui-data-list>
-              <button tuiOption [value]="true">Phòng học trực tuyến</button>
-              <button tuiOption [value]="false">Học trực tiếp</button>
-            </tui-data-list>
-          </ng-template>
-        </tui-select>
-      </div>
-      <div *ngIf="!isPersonal" class="tui-form__row">
-        <tui-combo-box
-          *ngrxLet="rooms$ as rooms"
-          formControlName="room"
-          class="tui-form__row"
-        >
-          Nhập phòng
-          <input tuiTextfield />
-          <tui-data-list-wrapper
-            *tuiDataList
-            [items]="rooms | filter: 'PTTT' | tuiFilterByInput"
-          >
-          </tui-data-list-wrapper>
-        </tui-combo-box>
-        <tui-field-error formControlName="room"></tui-field-error>
-      </div>
-      <div *ngIf="isPersonal" class="tui-form__row">
-        <tui-text-area
-          formControlName="reason"
-          [tuiTextfieldMaxLength]="reasonMaxLength"
-        >
-          Lý do
-        </tui-text-area>
-      </div>
-      <div class="tui-form__row">
-        <tss-study-editor-dialog-search-schedule
-          [sameData]="requestControl.errors?.sameValue || false"
-          [hadReason]="
-            requestControl.controls['reason'].errors?.required !== true
-          "
-        ></tss-study-editor-dialog-search-schedule>
-      </div>
+      <tss-study-editor-request-change
+        [isPersonal]="isPersonal"
+        [people]="context.data.People"
+      ></tss-study-editor-request-change>
     </tui-expand>
 
     <tui-expand
       [expanded]="requestChangeToUndeterminedDay"
       formGroupName="requestIntend"
     >
-      <div class="tui-form__row">
-        <tui-text-area
-          formControlName="intendTime"
-          [tuiTextfieldMaxLength]="intendTimeMaxLength"
-        >
-          Nhập thời gian dự định
-        </tui-text-area>
-      </div>
+      <tss-study-editor-request-change-intend></tss-study-editor-request-change-intend>
     </tui-expand>
-    <div class="tui-form__row">
-      <tui-text-area
-        formControlName="reason"
-        [tuiTextfieldMaxLength]="reasonMaxLength"
-      >
-        Lý do
-      </tui-text-area>
-    </div>
   </tui-expand>
 
   <div
@@ -211,110 +116,21 @@
     class="btn-group d-flex justify-content-between"
   >
     <ng-container *ngrxLet="changeStatus$ as changeStatus">
-      <div
-        *ngIf="validRequestChangeSchedule"
-        class="tui-form__buttons tui-form__buttons_align_start"
-      >
-        <ng-container
-          *ngrxLet="justRequestedSchedule$ as justRequestedSchedule"
-        >
-          <ng-container
-            *ngIf="!requestedChangeSchedule && !justRequestedSchedule"
-          >
-            <ng-container *ngrxLet="searchStatus$ as searchStatus">
-              <button
-                tuiButton
-                *ngIf="
-                  requestingChangeSchedule && isPersonal;
-                  else changeSchedule
-                "
-                (click)="submitRequestChange$.next()"
-                [showLoader]="requestStatus === EApiStatus.loading"
-                [disabled]="
-                  (!requestChangeToUndeterminedDay && requestControl.invalid) ||
-                  (requestChangeToUndeterminedDay &&
-                    requestIntendControl.invalid) ||
-                  searchStatus === EApiStatus.loading
-                "
-                class="tui-form__button"
-              >
-                Gửi yêu cầu
-              </button>
-              <ng-template #changeSchedule>
-                <button
-                  tuiButton
-                  *ngIf="requestingChangeSchedule && !isPersonal; else request"
-                  (click)="submitChange$.next()"
-                  [showLoader]="changeStatus === EApiStatus.loading"
-                  [disabled]="
-                    requestControl.invalid ||
-                    searchStatus === EApiStatus.loading
-                  "
-                  class="tui-form__button"
-                >
-                  Xác nhận thay đổi
-                </button>
-              </ng-template>
-            </ng-container>
-          </ng-container>
-        </ng-container>
-        <ng-template #request>
-          <button
-            tuiButton
-            (click)="toggleRequestArea(true)"
-            appearance="secondary"
-            class="tui-form__button"
-          >
-            {{
-              isPersonal ? "Yêu cầu thay đổi lịch giảng" : "Thay đổi lịch giảng"
-            }}
-          </button>
-        </ng-template>
-      </div>
-      <div class="tui-form__buttons tui-form__buttons_align_end">
-        <button
-          tuiButton
-          *ngIf="requestingChangeSchedule; else notEditing"
-          (click)="toggleRequestArea(false)"
-          [disabled]="
-            requestStatus === EApiStatus.loading ||
-            changeStatus === EApiStatus.loading
-          "
-          appearance="outline"
-          class="tui-form__button"
-        >
-          Hủy
-        </button>
-        <ng-template #notEditing>
-          <ng-container *ngrxLet="updateStatus$ as updateStatus">
-            <button
-              tuiButton
-              (click)="onUpdate()"
-              [showLoader]="updateStatus === EApiStatus.loading"
-              [disabled]="form.controls['change'].invalid"
-              class="tui-form__button"
-            >
-              Lưu
-            </button>
-          </ng-container>
-          <button
-            tuiButton
-            (click)="cancel$.next()"
-            appearance="outline"
-            class="tui-form__button"
-          >
-            Đóng
-          </button>
-        </ng-template>
-      </div>
+      <!-- Left buttons -->
+      <tss-study-editor-buttons-left
+        [(changed)]="changed"
+        [idSchedule]="context.data.Id"
+        [validRequestChangeSchedule]="validRequestChangeSchedule"
+        [requestedChangeSchedule]="requestedChangeSchedule"
+        [isPersonal]="isPersonal"
+        [requestChangeToUndeterminedDay]="requestChangeToUndeterminedDay"
+      ></tss-study-editor-buttons-left>
+
+      <!-- Right buttons -->
+      <tss-study-editor-buttons-right
+        (cancel)="cancel$.next()"
+        [idSchedule]="context.data.Id"
+      ></tss-study-editor-buttons-right>
     </ng-container>
   </div>
 </form>
-
-<ng-template #shiftSelectContent let-shiftKey>
-  {{ shiftKey | shift }}
-</ng-template>
-
-<ng-template #studyTypeContent let-online>
-  {{ online ? "Phòng học trực tuyến" : "Học trực tiếp" }}
-</ng-template>

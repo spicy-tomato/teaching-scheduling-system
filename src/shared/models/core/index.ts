@@ -7,6 +7,7 @@ export * from './feature.model';
 export * from './faculty.model';
 export * from './managing-class.model';
 export * from './nullable.model';
+export * from './request-change-schedule.model';
 export * from './response.model';
 export * from './role.model';
 export * from './simple-map.model';

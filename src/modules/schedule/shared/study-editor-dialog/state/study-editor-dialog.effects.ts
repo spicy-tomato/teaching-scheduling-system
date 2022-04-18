@@ -23,7 +23,8 @@ export class StudyEditorDialogEffects {
                 newDate,
                 newShift,
                 newIdRoom,
-                status: 0,
+                status: 200,
+                intendTime: null,
                 createdAt: new Date(),
               },
             });
@@ -41,12 +42,15 @@ export class StudyEditorDialogEffects {
         return this.scheduleService.requestIntendChangeSchedule(body).pipe(
           map((response) => {
             const { intendTime } = body;
-            return ApiAction.requestIntendSuccessful({
+            return ApiAction.requestSuccessful({
               justRequestedSchedule: {
                 id: response.data,
                 createdAt: new Date(),
                 intendTime,
-                status: 0,
+                status: 201,
+                newDate: null,
+                newShift: null,
+                newIdRoom: null,
               },
             });
           }),

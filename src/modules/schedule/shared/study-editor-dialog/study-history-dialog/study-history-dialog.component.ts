@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Inject } from '@angular/core';
 import { Component } from '@angular/core';
-import { CoreConstant } from '@shared/constants';
 import { FixedScheduleModel } from '@shared/models';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
@@ -12,9 +11,6 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StudyHistoryDialogComponent {
-  /** PUBLIC PROPERTIES */
-  public readonly statusList = CoreConstant.REQUEST_CHANGE_SCHEDULE_STATUS;
-
   /** CONSTRUCTOR */
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT)
