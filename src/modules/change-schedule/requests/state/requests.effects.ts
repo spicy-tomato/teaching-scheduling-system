@@ -146,7 +146,9 @@ export class RequestsEffects {
         return this.scheduleService
           .acceptChangeScheduleRequests(id, { acceptedAt })
           .pipe(
-            map((r) => ApiAction.acceptSuccessful({ id, status: r.data.status })),
+            map((r) =>
+              ApiAction.acceptSuccessful({ id, status: r.data.status })
+            ),
             catchError(() => of(ApiAction.acceptFailure()))
           );
       })

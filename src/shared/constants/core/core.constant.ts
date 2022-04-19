@@ -1,7 +1,4 @@
-import {
-  Nullable,
-  RequestChangeScheduleCode,
-} from '@shared/models';
+import { Nullable, RequestChangeScheduleCode } from '@shared/models';
 import { PermissionConstant } from './permission.constant';
 
 export class CoreConstant {

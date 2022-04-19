@@ -13,7 +13,7 @@ import * as fromAppShell from './state';
 export class AppShellComponent extends BaseComponent {
   /** CONSTRUCTOR */
   constructor(
-    store: Store<fromAppShell.AppShellState>,
+    store: Store<fromAppShell.AppShellState>
     // googleService: GoogleService
   ) {
     super();

@@ -1,4 +1,4 @@
-import { RequestChangeScheduleCode } from "..";
+import { RequestChangeScheduleCode } from '..';
 
 export interface StatusModel {
   status: RequestChangeScheduleCode;

@@ -19,7 +19,9 @@ export class AssignScheduleEffects {
       mergeMap(() => {
         return this.commonInfoService.getFaculties().pipe(
           map((response) => {
-            return ApiAction.loadDepartmentSuccessful({ departments: response.data });
+            return ApiAction.loadDepartmentSuccessful({
+              departments: response.data,
+            });
           }),
           catchError(() => of(ApiAction.loadTeacherFailure()))
         );

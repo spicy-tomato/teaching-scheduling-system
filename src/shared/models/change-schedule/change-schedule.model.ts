@@ -19,7 +19,7 @@ export interface ChangeSchedule {
   createdAt: Date;
   acceptedAt: Date;
   setRoomAt: Date;
-  
+
   status: RequestChangeScheduleCode;
   moduleClassNumberReality: number;
 }
