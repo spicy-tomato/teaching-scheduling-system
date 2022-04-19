@@ -7,7 +7,8 @@ import * as fromAppShell from '@modules/core/components/app-shell/state';
 import { Observable } from 'rxjs';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { AuthService } from '@services/core/auth.service';
-import { Teacher } from '@shared/models';
+import { Nullable, Teacher } from '@shared/models';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'tss-navbar',
@@ -18,7 +19,7 @@ import { Teacher } from '@shared/models';
 export class NavbarComponent extends BaseComponent {
   /** PUBLIC PROPERTIES */
   public readonly items = NavbarConstants.items;
-  public user$: Observable<Teacher>;
+  public user$: Observable<Nullable<Teacher>>;
   public openDropDown = false;
 
   /** CONSTRUCTOR */
@@ -30,7 +31,9 @@ export class NavbarComponent extends BaseComponent {
   ) {
     super();
 
-    this.user$ = appShellStore.pipe(fromAppShell.selectNotNullTeacher);
+    this.user$ = appShellStore
+      .select(fromAppShell.selectTeacher)
+      .pipe(takeUntil(this.destroy$));
   }
 
   /** PUBLIC METHODS */

@@ -4,9 +4,9 @@
   class="wrapper w-full d-flex align-items-center flex-wrap"
 >
   <tui-select
+    (ngModelChange)="changeOptions({ status: $event })"
     [ngModel]="options.status"
     [valueContent]="selectTemplate"
-    (ngModelChange)="changeOptions({ status: $event })"
   >
     Trạng thái
     <ng-template tuiDataList>
@@ -16,7 +16,7 @@
         </tui-opt-group>
         <tui-opt-group tuiMultiSelectGroup>
           <ng-container *ngFor="let status of statusArray">
-            <ng-container *ngIf="status.id !== '3'">
+            <ng-container *ngIf="!status.value.hide">
               <button
                 tuiOption
                 *tssPermission="status.value.feature"

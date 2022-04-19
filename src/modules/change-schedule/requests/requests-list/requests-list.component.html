@@ -146,7 +146,9 @@
             >
               <tss-request-list-status
                 [item]="item"
-                [displayText]="!!item.status || personal"
+                [displayText]="
+                  personal || (item.status !== 200 && item.status !== 201)
+                "
               ></tss-request-list-status>
             </ng-container>
             <ng-template #roomManager>

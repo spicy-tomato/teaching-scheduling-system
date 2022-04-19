@@ -374,28 +374,16 @@ export class StudyEditorDialogComponent extends BaseComponent {
               ObservableHelper.filterNullish(),
               tap((request) => {
                 const controls = this.form.controls;
-
-                if (this.requestChangeToUndeterminedDay) {
-                  this.context.data.FixedSchedules?.push({
-                    ...request,
-                    idSchedule: this.context.data.Id,
-                    oldDate: '',
-                    oldIdRoom: '',
-                    oldShift: '',
-                    isNew: true,
-                  });
-                } else {
-                  this.context.data.FixedSchedules?.push({
-                    ...request,
-                    idSchedule: this.context.data.Id,
-                    oldDate: (
-                      controls['start'].value as [TuiDay, TuiTime]
-                    )[0].getFormattedDay('YMD', '-'),
-                    oldIdRoom: controls['location'].value as string,
-                    oldShift: this.context.data.Shift ?? '1',
-                    isNew: true,
-                  });
-                }
+                this.context.data.FixedSchedules?.push({
+                  ...request,
+                  idSchedule: this.context.data.Id,
+                  oldDate: (
+                    controls['start'].value as [TuiDay, TuiTime]
+                  )[0].getFormattedDay('YMD', '-'),
+                  oldIdRoom: controls['location'].value as string,
+                  oldShift: this.context.data.Shift ?? '1',
+                  isNew: true,
+                });
               })
             )
           )

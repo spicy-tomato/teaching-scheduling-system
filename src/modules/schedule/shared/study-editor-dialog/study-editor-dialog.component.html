@@ -56,10 +56,15 @@
             [overlay]="true"
           >
             <tui-notification status="info">
-              Ca học này đang được yêu cầu chuyển tới ca
-              {{ schedule.newShift }}, ngày
-              {{ schedule.newDate | date: "dd-MM-Y" }}
-              {{ schedule.newIdRoom ? "tại " + schedule.newIdRoom : "" }}
+              Ca học này đang được yêu cầu chuyển tới
+              <ng-container *ngIf="schedule.intendTime; else noIntend">
+                {{ schedule.intendTime }}
+              </ng-container>
+              <ng-template #noIntend>
+                ca {{ schedule.newShift }}, ngày
+                {{ schedule.newDate | date: "dd-MM-Y" }}
+                {{ schedule.newIdRoom ? "tại " + schedule.newIdRoom : "" }}
+              </ng-template>
               <br />
               <button
                 tuiButton

@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -86,6 +87,7 @@ export class StudyEditorButtonsLeftComponent
 
   /** CONSTRUCTOR */
   constructor(
+    private readonly cdr: ChangeDetectorRef,
     private readonly controlContainer: ControlContainer,
     private readonly dialogService: DialogService,
     private readonly store: Store<fromStudyEditorDialog.StudyEditorDialogState>
@@ -123,11 +125,14 @@ export class StudyEditorButtonsLeftComponent
   /** LIFE CYCLE */
   public ngOnInit(): void {
     this.form = this.controlContainer.control as FormGroup;
+    this.handleFormChange();
   }
 
   /** PUBLIC METHODS */
-  public toggleRequestArea(open: boolean): void {
-    this.store.dispatch(fromStudyEditorDialog.toggleRequestChange({ open }));
+  public unfold(): void {
+    this.store.dispatch(
+      fromStudyEditorDialog.toggleRequestChange({ open: true })
+    );
   }
 
   /** PRIVATE METHODS */
@@ -184,6 +189,27 @@ export class StudyEditorButtonsLeftComponent
           }
         }),
         takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
+  private handleFormChange(): void {
+    this.requestControl.valueChanges
+      .pipe(
+        tap(() => {
+          if (!this.requestChangeToUndeterminedDay) {
+            this.cdr.markForCheck();
+          }
+        })
+      )
+      .subscribe();
+    this.requestIntendControl.valueChanges
+      .pipe(
+        tap(() => {
+          if (this.requestChangeToUndeterminedDay) {
+            this.cdr.markForCheck();
+          }
+        })
       )
       .subscribe();
   }

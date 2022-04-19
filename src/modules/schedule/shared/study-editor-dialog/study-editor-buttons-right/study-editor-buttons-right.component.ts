@@ -66,8 +66,10 @@ export class StudyEditorButtonsRightComponent
   }
 
   /** PUBLIC METHODS */
-  public toggleRequestArea(open: boolean): void {
-    this.store.dispatch(fromStudyEditorDialog.toggleRequestChange({ open }));
+  public fold(): void {
+    this.store.dispatch(
+      fromStudyEditorDialog.toggleRequestChange({ open: false })
+    );
   }
 
   public onUpdate(): void {

@@ -1,5 +1,4 @@
 import {
-  FeatureModel,
   Nullable,
   RequestChangeScheduleCode,
 } from '@shared/models';
@@ -49,7 +48,12 @@ export class CoreConstant {
   };
   public static REQUEST_CHANGE_SCHEDULE_STATUS: Record<
     RequestChangeScheduleCode,
-    FeatureModel<string, Nullable<number>>
+    {
+      name: string;
+      feature: Nullable<number>;
+      mergeWith?: RequestChangeScheduleCode[];
+      hide?: boolean;
+    }
   > = {
     // Cancel
     100: {
@@ -61,25 +65,36 @@ export class CoreConstant {
     200: {
       name: 'Đang chờ bộ môn phê duyệt',
       feature: PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE,
+      mergeWith: [201],
     },
     201: {
       // Move to intend time
       name: 'Đang chờ bộ môn phê duyệt',
       feature: PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE,
+      hide: true,
     },
-    202: { name: 'Đang chờ Ban QLGĐ xếp phòng', feature: null },
+    202: {
+      name: 'Đang chờ Ban QLGĐ xếp phòng',
+      feature: null,
+    },
 
     // Approve
-    300: { name: 'Đã chấp nhận', feature: null },
+    300: {
+      name: 'Đã chấp nhận',
+      feature: null,
+      mergeWith: [301, 302],
+    },
     301: {
       // Move to intend time
       name: 'Đã chấp nhận',
       feature: PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE,
+      hide: true,
     },
     302: {
       // Accept online class
       name: 'Đã chấp nhận',
       feature: PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE,
+      hide: true,
     },
 
     // Change
@@ -90,7 +105,7 @@ export class CoreConstant {
 
     // Deny
     500: {
-      name: 'Đã từ chối',
+      name: 'Trưởng bộ môn từ chối',
       feature: PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE,
     },
     501: { name: 'Phòng QLGĐ từ chối', feature: null },

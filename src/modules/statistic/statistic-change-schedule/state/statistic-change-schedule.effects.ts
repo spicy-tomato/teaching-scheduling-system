@@ -10,15 +10,14 @@ import { Store } from '@ngrx/store';
 import { ChangeSchedule } from 'src/shared/models';
 import { StatisticService } from '@services/statistic.service';
 import { TuiDayRange } from '@taiga-ui/cdk';
-import { ObservableHelper } from '@shared/helpers';
 import { TeacherService } from '@services/teacher.service';
 
 @Injectable()
 export class StatisticChangeScheduleEffects {
   /** PRIVATE PROPERTIES */
-  private readonly teacher$ = this.appShellStore
-    .select(fromAppShell.selectTeacher)
-    .pipe(ObservableHelper.filterNullish());
+  private readonly teacher$ = this.appShellStore.pipe(
+    fromAppShell.selectNotNullTeacher
+  );
   private readonly loadTeacherListSubject$ = new Subject();
 
   /** EFFECTS */

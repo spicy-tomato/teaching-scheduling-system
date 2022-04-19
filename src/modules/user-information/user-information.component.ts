@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { BaseComponent } from '@modules/core/base/base.component';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
 import { Store } from '@ngrx/store';
-import { ObservableHelper } from '@shared/helpers';
 import { Teacher } from '@shared/models';
 import { Observable } from 'rxjs';
 import { take, takeUntil, tap } from 'rxjs/operators';
@@ -46,9 +45,10 @@ export class UserInformationComponent extends BaseComponent {
   ) {
     super();
 
-    this.teacher$ = appShellStore
-      .select(fromAppShell.selectTeacher)
-      .pipe(ObservableHelper.filterNullish(), takeUntil(this.destroy$));
+    this.teacher$ = appShellStore.pipe(
+      fromAppShell.selectNotNullTeacher,
+      takeUntil(this.destroy$)
+    );
 
     this.initForm();
     this.triggerLoadUserInformation();

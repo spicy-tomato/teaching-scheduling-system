@@ -7,9 +7,9 @@ import {
   ExamScheduleModel,
   Note,
   PaginationResponseModel,
-  RequestChangeScheduleCode,
   ResponseModel,
   SearchSchedule,
+  StatusModel,
   StudyScheduleModel,
 } from 'src/shared/models';
 import { BaseDataService } from './core/base-data.service';
@@ -166,8 +166,8 @@ export class ScheduleService extends BaseDataService {
   public acceptChangeScheduleRequests(
     id: number,
     body: AcceptChangeScheduleRequestPayload
-  ): Observable<ResponseModel<RequestChangeScheduleCode>> {
-    return this.http.patch<ResponseModel<RequestChangeScheduleCode>>(
+  ): Observable<ResponseModel<StatusModel>> {
+    return this.http.patch<ResponseModel<StatusModel>>(
       this.url + `fixed-schedules/update/${id}?type=accept`,
       ObjectHelper.toSnakeCase(body)
     );
@@ -186,8 +186,8 @@ export class ScheduleService extends BaseDataService {
   public denyChangeScheduleRequests(
     id: number,
     body: DenyChangeScheduleRequestPayload
-  ): Observable<ResponseModel<RequestChangeScheduleCode>> {
-    return this.http.patch<ResponseModel<RequestChangeScheduleCode>>(
+  ): Observable<ResponseModel<StatusModel>> {
+    return this.http.patch<ResponseModel<StatusModel>>(
       this.url + `fixed-schedules/update/${id}?type=deny`,
       ObjectHelper.toSnakeCase(body)
     );

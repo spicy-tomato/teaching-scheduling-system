@@ -20,7 +20,6 @@ import {
 } from 'rxjs/operators';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
 import { Store } from '@ngrx/store';
-import { ObservableHelper } from '@shared/helpers';
 import { Teacher, UserInformationFields } from '@shared/models';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { TuiNotification, TuiNotificationsService } from '@taiga-ui/core';
@@ -69,9 +68,10 @@ export class UserInformationEditFieldComponent
   ) {
     super();
 
-    this.teacher$ = appShellStore
-      .select(fromAppShell.selectTeacher)
-      .pipe(ObservableHelper.filterNullish(), takeUntil(this.destroy$));
+    this.teacher$ = appShellStore.pipe(
+      fromAppShell.selectNotNullTeacher,
+      takeUntil(this.destroy$)
+    );
 
     this.handleSave();
   }

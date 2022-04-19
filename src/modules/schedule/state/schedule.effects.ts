@@ -38,7 +38,7 @@ export class ScheduleEffects {
 
   private readonly permissions$: Observable<number[]>;
   private readonly department$: Observable<Nullable<SimpleModel>>;
-  private readonly teacher$: Observable<Nullable<Teacher>>;
+  private readonly teacher$: Observable<Teacher>;
   private readonly loadPersonalExamSubject$ = new Subject<Date>();
   private readonly loadPersonalScheduleSubject$ = new Subject<Date>();
   private readonly loadDepartmentExamSubject$ = new Subject<Date>();
@@ -137,7 +137,7 @@ export class ScheduleEffects {
   ) {
     this.permissions$ = appShellStore.select(fromAppShell.selectPermission);
     this.department$ = appShellStore.select(fromAppShell.selectDepartment);
-    this.teacher$ = appShellStore.select(fromAppShell.selectTeacher);
+    this.teacher$ = appShellStore.pipe(fromAppShell.selectNotNullTeacher);
 
     this.handleLoadPersonalSchedule();
     this.handleLoadPersonalExam();
@@ -149,10 +149,7 @@ export class ScheduleEffects {
   private handleLoadPersonalSchedule(): void {
     combineLatest([
       this.loadPersonalScheduleSubject$,
-      this.teacher$.pipe(
-        ObservableHelper.filterNullish(),
-        map((x) => x.id)
-      ),
+      this.teacher$.pipe(map((x) => x.id)),
     ])
       .pipe(
         this.commonPersonalObservable(),
@@ -186,10 +183,7 @@ export class ScheduleEffects {
   private handleLoadPersonalExam(): void {
     combineLatest([
       this.loadPersonalExamSubject$,
-      this.teacher$.pipe(
-        ObservableHelper.filterNullish(),
-        map((x) => x.id)
-      ),
+      this.teacher$.pipe(map((x) => x.id)),
     ])
       .pipe(
         this.commonPersonalObservable(),
@@ -463,7 +457,7 @@ function calculateRangeO(
             date: [
               fetch.from.getFormattedDay('YMD', '-'),
               fetch.to.append({ day: 1 }).getFormattedDay('YMD', '-'),
-            ],
+            ].join(),
           },
         };
       })
@@ -502,7 +496,7 @@ function calculateRangeWithDepartmentO(
             date: [
               fetch.from.getFormattedDay('YMD', '-'),
               fetch.to.append({ day: 1 }).getFormattedDay('YMD', '-'),
-            ],
+            ].join(),
           },
         };
       })

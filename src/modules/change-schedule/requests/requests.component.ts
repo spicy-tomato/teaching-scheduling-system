@@ -4,7 +4,6 @@ import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';
 import * as fromRequests from './state';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
-import { ObservableHelper } from '@shared/helpers';
 import { Teacher } from '@shared/models';
 import { Observable } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
@@ -29,9 +28,10 @@ export class RequestsComponent extends BaseComponent {
     const personal = route.snapshot.data['personal'] as boolean;
     store.dispatch(fromRequests.reset({ personal }));
 
-    this.teacher$ = this.appShellStore
-      .select(fromAppShell.selectTeacher)
-      .pipe(ObservableHelper.filterNullish());
+    this.teacher$ = this.appShellStore.pipe(
+      fromAppShell.selectNotNullTeacher,
+      takeUntil(this.destroy$)
+    );
 
     if (personal) {
       this.handleSelectTeacher();
@@ -54,9 +54,7 @@ export class RequestsComponent extends BaseComponent {
         tap((teacher) => {
           this.store.dispatch(
             fromRequests.changeOptions({
-              options: {
-                teacher: teacher,
-              },
+              options: { teacher },
             })
           );
         }),

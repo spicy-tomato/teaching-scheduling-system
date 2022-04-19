@@ -51,10 +51,9 @@
       "@services/*": [
         "src/services/*"
       ],
-      "lodash/*": [
-        "node_modules/@types/lodash/*"
-      ],
-      
+      "assert": [
+        "./node_modules/assert"
+      ]
     },
   },
   "angularCompilerOptions": {

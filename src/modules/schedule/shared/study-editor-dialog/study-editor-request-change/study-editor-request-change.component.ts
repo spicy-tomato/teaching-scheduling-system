@@ -93,10 +93,10 @@ export class StudyEditorRequestChangeComponent
           this.store.dispatch(
             fromStudyEditorDialog.search({
               params: {
-                date: [date, date],
+                date: [date, date].join(),
                 shift:
                   this.shiftControlValue[0] === '5'
-                    ? '5_1,5_2'
+                    ? ['5_1', '5_2'].join()
                     : this.shiftControlValue,
               },
               teacherId:

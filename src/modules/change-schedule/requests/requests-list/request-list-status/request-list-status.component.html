@@ -4,8 +4,8 @@
     deny: item.status === 100 || (500 <= item.status && item.status < 600),
     pending:
       200 <= item.status && item.status < 300 && item.status !== item.status,
-    accept: 300 <= item.status && item.status < 400,
-    complete: item.status === 202,
+    complete: 300 <= item.status && item.status < 400,
+    accept: item.status === 202,
     change: item.status === 400
   }"
   class="text-center"

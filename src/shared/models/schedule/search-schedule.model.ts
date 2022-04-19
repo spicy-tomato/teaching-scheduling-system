@@ -1,5 +1,5 @@
 export type SearchSchedule = {
-  readonly date: string[];
+  readonly date: string;
   readonly shift?: string;
 };
 

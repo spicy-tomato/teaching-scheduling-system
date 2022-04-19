@@ -68,9 +68,10 @@ export class StatisticChangeScheduleFilterComponent
     this.status$ = store
       .select(fromStatisticChangeSchedule.selectStatus)
       .pipe(takeUntil(this.destroy$));
-    this.teacher$ = appShellStore
-      .select(fromAppShell.selectTeacher)
-      .pipe(ObservableHelper.filterNullish(), takeUntil(this.destroy$));
+    this.teacher$ = appShellStore.pipe(
+      fromAppShell.selectNotNullTeacher,
+      takeUntil(this.destroy$)
+    );
     this.changeSchedules$ = store
       .select(fromStatisticChangeSchedule.selectChangeSchedules)
       .pipe(takeUntil(this.destroy$));
