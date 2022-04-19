@@ -78,6 +78,7 @@ export class RequestsEffects {
       ofType(PageAction.loadTeachersList),
       mergeMap(({ dep }) => {
         return this.teacherService.getByDepartment(dep).pipe(
+          map((r) => r.data),
           map((teachers) => {
             return ApiAction.loadTeachersListSuccessful({ teachers });
           }),
@@ -326,7 +327,6 @@ export class RequestsEffects {
           PermissionConstant.SEE_CHANGE_SCHEDULE_REQUESTS_FOR_ROOM_MANAGER
         ),
         mergeMap((x) => {
-          console.log(x);
           return this.scheduleService
             .getManagerChangeScheduleRequests(
               UrlHelper.queryFilter(
@@ -335,6 +335,11 @@ export class RequestsEffects {
                   status: 'equal',
                 },
                 {
+                  include: {
+                    id: {
+                      sort: 'desc',
+                    },
+                  },
                   exclude: ['teacherId'],
                 }
               )

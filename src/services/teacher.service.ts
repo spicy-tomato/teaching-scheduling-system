@@ -12,8 +12,10 @@ export class TeacherService extends BaseDataService {
     super();
   }
 
-  public getByDepartment(department: string): Observable<SimpleModel[]> {
-    return this.http.get<SimpleModel[]>(
+  public getByDepartment(
+    department: string
+  ): Observable<ResponseModel<SimpleModel[]>> {
+    return this.http.get<ResponseModel<SimpleModel[]>>(
       this.url + `teachers?id_department[equal]=${department}`
     );
   }

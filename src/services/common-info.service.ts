@@ -66,8 +66,9 @@ export class CommonInfoService extends BaseDataService {
       return of(cache);
     }
 
-    return this.http
-      .get<string[]>(this.url + 'rooms')
-      .pipe(tap((data) => this.localDataService.setRooms(data)));
+    return this.http.get<ResponseModel<string[]>>(this.url + 'rooms').pipe(
+      map((r) => r.data),
+      tap((data) => this.localDataService.setRooms(data))
+    );
   }
 }

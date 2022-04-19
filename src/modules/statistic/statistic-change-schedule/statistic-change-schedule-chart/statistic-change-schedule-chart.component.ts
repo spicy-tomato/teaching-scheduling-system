@@ -10,7 +10,7 @@ import { ChangeSchedule, SimpleModel } from '@shared/models';
 import { combineLatest, Observable } from 'rxjs';
 import * as fromStatisticChangeSchedule from '../state';
 import { Store } from '@ngrx/store';
-import { ObjectHelper } from '@shared/helpers';
+import { ChangeStatusHelper, ObjectHelper } from '@shared/helpers';
 import { filter, takeUntil, tap } from 'rxjs/operators';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { ShortenNamePipe } from '@pipes/shorten-name.pipe';
@@ -112,7 +112,7 @@ export class StatisticChangeScheduleChartComponent
 
     changeSchedules.forEach((changeSchedule) => {
       const id = changeSchedule.teacher.id;
-      if (changeSchedule.status > 0) {
+      if (ChangeStatusHelper.isApproved(changeSchedule.status)) {
         teacherData[id].accept++;
       } else {
         teacherData[id].deny++;

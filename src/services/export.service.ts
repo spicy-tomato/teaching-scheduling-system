@@ -405,7 +405,9 @@ export class ExportService {
                             this.datePipe.transform(
                               schedule.newSchedule.date,
                               'dd-MM-Y'
-                            ) ?? schedule.newSchedule.date,
+                            ) ??
+                            schedule.newSchedule.date ??
+                            '',
                           alignment,
                         }),
                       ],
@@ -417,7 +419,7 @@ export class ExportService {
                           spacing: {
                             after: 0,
                           },
-                          text: schedule.newSchedule.shift,
+                          text: schedule.newSchedule.shift ?? '',
                           alignment,
                         }),
                       ],
@@ -429,7 +431,7 @@ export class ExportService {
                           spacing: {
                             after: 0,
                           },
-                          text: schedule.newSchedule.room,
+                          text: schedule.newSchedule.room ?? '',
                           alignment,
                         }),
                       ],
@@ -847,7 +849,9 @@ export class ExportService {
                             this.datePipe.transform(
                               schedule.newSchedule.date,
                               'dd/MM/Y'
-                            ) ?? schedule.newSchedule.date,
+                            ) ??
+                            schedule.newSchedule.date ??
+                            '',
                         }),
                       ],
                     }),
@@ -856,7 +860,7 @@ export class ExportService {
                       children: [
                         new Paragraph({
                           spacing,
-                          text: schedule.newSchedule.shift,
+                          text: schedule.newSchedule.shift ?? '',
                           alignment,
                         }),
                       ],
@@ -888,7 +892,7 @@ export class ExportService {
                       children: [
                         new Paragraph({
                           spacing,
-                          text: schedule.newSchedule.room,
+                          text: schedule.newSchedule.room ?? '',
                           alignment,
                         }),
                       ],
@@ -1406,14 +1410,16 @@ export class ExportService {
                               spacing: {
                                 after: 0,
                               },
-                              text: `${
-                                this.datePipe.transform(
-                                  schedule.newSchedule.date,
-                                  'dd/MM/Y'
-                                ) ?? schedule.newSchedule.date
-                              }, ca ${schedule.newSchedule.shift}, ${
-                                schedule.newSchedule.room
-                              }`,
+                              text: schedule.newSchedule.date
+                                ? `${
+                                    this.datePipe.transform(
+                                      schedule.newSchedule.date,
+                                      'dd/MM/Y'
+                                    ) ?? schedule.newSchedule.date
+                                  }, ca ${schedule.newSchedule.shift ?? ''}, ${
+                                    schedule.newSchedule.room ?? ''
+                                  }`
+                                : schedule.intendTime ?? '',
                               alignment,
                             }),
                           ],
