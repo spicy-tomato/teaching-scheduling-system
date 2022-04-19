@@ -6,16 +6,16 @@ import { EApiStatus } from '@shared/enums';
 import { Nullable, StudyScheduleModel } from '@shared/models';
 import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import * as fromStudyEditorDialog from '../state';
+import * as fromStudyEditorDialog from '../../state';
 
 @Component({
-  selector: 'tss-study-editor-dialog-search-schedule',
-  templateUrl: './study-editor-dialog-search-schedule.component.html',
-  styleUrls: ['./study-editor-dialog-search-schedule.component.scss'],
+  selector: 'tss-study-editor-request-change-checker',
+  templateUrl: './study-editor-request-change-checker.component.html',
+  styleUrls: ['./study-editor-request-change-checker.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [fadeIn],
 })
-export class StudyEditorDialogSearchScheduleComponent extends BaseComponent {
+export class StudyEditorRequestChangeCheckerComponent extends BaseComponent {
   /** INPUTS */
   @Input() public sameData!: boolean;
   @Input() public hadReason!: boolean;

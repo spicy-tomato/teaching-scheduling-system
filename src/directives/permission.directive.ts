@@ -19,6 +19,7 @@ export class PermissionDirective extends BaseComponent {
   private _tssPermission?: number | null;
   private permissions$: Observable<number[]>;
   private bind$ = new Subject();
+  private hadElse = false;
 
   /** SETTER */
   @Input() public set tssPermission(permissions: number | undefined | null) {
@@ -26,11 +27,18 @@ export class PermissionDirective extends BaseComponent {
     this.bind$.next();
   }
 
+  @Input() public set tssPermissionElse(templateRef: TemplateRef<unknown>) {
+    this.elseThenTemplateRef = templateRef;
+    this.hadElse = true;
+    this.bind$.next();
+  }
+
   /** CONSTRUCTOR */
   constructor(
-    private readonly templateRef: TemplateRef<unknown>,
+    private readonly thenTemplateRef: TemplateRef<unknown>,
     private readonly viewContainer: ViewContainerRef,
     private readonly cdr: ChangeDetectorRef,
+    private elseThenTemplateRef: TemplateRef<unknown>,
     appShellStore: Store<fromAppShell.AppShellState>
   ) {
     super();
@@ -53,12 +61,14 @@ export class PermissionDirective extends BaseComponent {
 
   private updateView(permissions?: number[]): void {
     const accept = this._tssPermission;
+    this.viewContainer.clear();
+
     if (!accept || permissions?.includes(accept)) {
-      this.viewContainer.clear();
-      this.viewContainer.createEmbeddedView(this.templateRef);
+      this.viewContainer.createEmbeddedView(this.thenTemplateRef);
       this.cdr.detectChanges();
-    } else {
-      this.viewContainer.clear();
+    } else if (this.hadElse) {
+      this.viewContainer.createEmbeddedView(this.elseThenTemplateRef);
+      this.cdr.detectChanges();
     }
   }
 }

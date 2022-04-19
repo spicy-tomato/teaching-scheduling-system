@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v1.4.7...v2.0.0) (2022-04-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* update API
+* update services
+* change API
+
+### Features
+
+* change API ([70f921f](https://github.com/annguyen-it/teaching-scheduling-system/commits/70f921f43a16012431ad8a64b4edfac4a013d344))
+* update API ([db2c278](https://github.com/annguyen-it/teaching-scheduling-system/commits/db2c278d7bb007598262b82d88171badb2755402))
+* update phone number ([2cf30b6](https://github.com/annguyen-it/teaching-scheduling-system/commits/2cf30b623ac17e3c559c3abacfb4ccf7eb04d2d7))
+* user info ([3c909bf](https://github.com/annguyen-it/teaching-scheduling-system/commits/3c909bf168b1ed0b94b943b6381ff620af5dc010))
+
+
+### Bug Fixes
+
+* fix shiftPipe type ([a046c7a](https://github.com/annguyen-it/teaching-scheduling-system/commits/a046c7aafd6260a4acd721ceb10a3126003c8fa1))
+* ui bug when login as normal teacher ([ac35028](https://github.com/annguyen-it/teaching-scheduling-system/commits/ac35028623b7da0f3faa01e2d129c5147a8b958f))
+* update api ([5d903a0](https://github.com/annguyen-it/teaching-scheduling-system/commits/5d903a071b686fe314a932ba5d1ad9b6238df55d))
+* update API ([ea38d48](https://github.com/annguyen-it/teaching-scheduling-system/commits/ea38d48ff37eb1a58085e9664495ad1b4d22dd50))
+* update services ([99db102](https://github.com/annguyen-it/teaching-scheduling-system/commits/99db102e089d69d43e9123be239a012cbe7a7a7c))
+
 ### [1.4.7](https://github.com/annguyen-it/teaching-scheduling-system/compare/v1.4.6...v1.4.7) (2022-04-04)
 
 

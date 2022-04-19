@@ -1,0 +1,43 @@
+<div tuiGroup class="tui-form__row">
+  <tui-input
+    (ngModelChange)="onValueChange($event)"
+    [ngModel]="value"
+    [readOnly]="disableInput"
+  >
+    <ng-content></ng-content>
+    <input tuiTextfield />
+  </tui-input>
+  <button
+    *ngIf="disableInput; else doneBtn"
+    tuiIconButton
+    (click)="onEdit()"
+    [disabled]="value === null"
+    icon="tuiIconEditLarge"
+    tuiHint="Chỉnh sửa thông tin"
+    tuiHintMode="onDark"
+    class="tui-group__auto-width-item"
+  ></button>
+  <ng-template #doneBtn>
+    <button
+      tuiIconButton
+      (click)="save$.next()"
+      [showLoader]="processing"
+      [disabled]="value === initialValue"
+      icon="tuiIconCheckLarge"
+      appearance="positive-primary"
+      tuiHint="Lưu"
+      tuiHintMode="onDark"
+      class="tui-group__auto-width-item"
+    ></button>
+    <button
+      tuiIconButton
+      (click)="onCancel()"
+      [disabled]="processing"
+      icon="tuiIconRemoveLarge"
+      appearance="accent"
+      tuiHint="Hủy"
+      tuiHintMode="onDark"
+      class="tui-group__auto-width-item"
+    ></button>
+  </ng-template>
+</div>

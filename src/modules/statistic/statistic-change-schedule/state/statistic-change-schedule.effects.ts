@@ -7,18 +7,18 @@ import * as PageAction from './statistic-change-schedule.page.actions';
 import * as ApiAction from './statistic-change-schedule.api.actions';
 import * as fromStatisticChangeSchedule from '.';
 import { Store } from '@ngrx/store';
-import { ChangeSchedule } from 'src/shared/models';
+import { ChangeSchedule, ChangeScheduleStatistic } from 'src/shared/models';
 import { StatisticService } from '@services/statistic.service';
 import { TuiDayRange } from '@taiga-ui/cdk';
-import { ObservableHelper } from '@shared/helpers';
 import { TeacherService } from '@services/teacher.service';
+import { UrlHelper } from '@shared/helpers';
 
 @Injectable()
 export class StatisticChangeScheduleEffects {
   /** PRIVATE PROPERTIES */
-  private readonly teacher$ = this.appShellStore
-    .select(fromAppShell.selectTeacher)
-    .pipe(ObservableHelper.filterNullish());
+  private readonly teacher$ = this.appShellStore.pipe(
+    fromAppShell.selectNotNullTeacher
+  );
   private readonly loadTeacherListSubject$ = new Subject();
 
   /** EFFECTS */
@@ -65,19 +65,36 @@ export class StatisticChangeScheduleEffects {
     departmentId: string,
     range: TuiDayRange
   ): Observable<ChangeSchedule[]> {
-    const date = [
-      range.from.getFormattedDay('YMD', '-'),
-      range.to.getFormattedDay('YMD', '-'),
-    ].join();
+    const statisticData: ChangeScheduleStatistic = {
+      date: [
+        range.from.getFormattedDay('YMD', '-'),
+        range.to.getFormattedDay('YMD', '-'),
+      ].join(),
+      status: [300, 301, 302, 500, 501],
+    };
 
     return this.statisticService
       .getChangeSchedule(
-        {
-          status: '-2,-1,2,3',
-          oldDate: date,
-          newDate: date,
-        },
-        departmentId
+        departmentId,
+        UrlHelper.queryFilter(
+          statisticData,
+          {
+            status: 'in',
+          },
+          {
+            include: {
+              oldDate: {
+                sort: 'asc',
+              },
+              oldShift: {
+                sort: 'asc',
+              },
+              oldIdRoom: {
+                sort: 'asc',
+              },
+            },
+          }
+        )
       )
       .pipe(map((response) => response.data));
   }
@@ -89,6 +106,7 @@ export class StatisticChangeScheduleEffects {
           return this.teacherService
             .getByDepartment(teacher.department.id)
             .pipe(
+              map((r) => r.data),
               tap((teachersList) => {
                 this.store.dispatch(
                   ApiAction.loadTeacherListSuccessful({ teachersList })

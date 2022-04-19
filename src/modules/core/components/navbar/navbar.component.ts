@@ -5,10 +5,10 @@ import { AccessTokenService } from '@services/core/access-token.service';
 import { Store } from '@ngrx/store';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
 import { Observable } from 'rxjs';
-import { Nullable, Teacher } from 'src/shared/models';
-import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { AuthService } from '@services/core/auth.service';
+import { Nullable, Teacher } from '@shared/models';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'tss-navbar',

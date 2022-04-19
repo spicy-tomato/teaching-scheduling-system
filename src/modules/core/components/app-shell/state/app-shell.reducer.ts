@@ -6,7 +6,7 @@ import * as PageAction from './app-shell.page.actions';
 
 const initialState: AppShellState = {
   currentTerm: '',
-  academicYears: {},
+  academicYears: [],
   teacher: null,
   status: EApiStatus.unknown,
   rooms: [],

@@ -2,6 +2,7 @@ import { createAction, props } from '@ngrx/store';
 import {
   Note,
   RequestChangeSchedulePayload,
+  RequestIntendChangeSchedulePayload,
   SearchSchedule,
 } from 'src/shared/models';
 import { Change } from '.';
@@ -14,6 +15,11 @@ export const reset = createAction(
 export const request = createAction(
   '[Study Editor Dialog Page] Request',
   props<{ body: RequestChangeSchedulePayload }>()
+);
+
+export const requestIntend = createAction(
+  '[Study Editor Dialog Page] Request intend',
+  props<{ body: RequestIntendChangeSchedulePayload }>()
 );
 
 export const change = createAction(

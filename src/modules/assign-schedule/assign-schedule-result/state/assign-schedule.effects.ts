@@ -17,10 +17,12 @@ export class AssignScheduleEffects {
     return this.actions$.pipe(
       ofType(PageAction.loadFilter),
       mergeMap(() => {
-        return this.commonInfoService.getDepartments().pipe(
-          map((departments) => {
-            return ApiAction.loadDepartmentSuccessful({ departments });
-          }),
+        return this.commonInfoService.getFaculties().pipe(
+          map((response) =>
+            ApiAction.loadDepartmentSuccessful({
+              departments: response.data,
+            })
+          ),
           catchError(() => of(ApiAction.loadTeacherFailure()))
         );
       })
@@ -32,9 +34,9 @@ export class AssignScheduleEffects {
       ofType(PageAction.filter),
       mergeMap(({ dep, params }) => {
         return this.classService.getDepartmentModuleClass(dep, params).pipe(
-          map((classes) => {
-            return ApiAction.filterSuccessful({ classes });
-          }),
+          map((response) =>
+            ApiAction.filterSuccessful({ classes: response.data })
+          ),
           catchError(() => of(ApiAction.filterFailure()))
         );
       })
@@ -46,9 +48,8 @@ export class AssignScheduleEffects {
       ofType(PageAction.filter),
       mergeMap(({ dep }) => {
         return this.teacherService.getByDepartment(dep).pipe(
-          map((teachers) => {
-            return ApiAction.loadTeacherSuccessful({ teachers });
-          }),
+          map((r) => r.data),
+          map((teachers) => ApiAction.loadTeacherSuccessful({ teachers })),
           catchError(() => of(ApiAction.loadTeacherFailure()))
         );
       })
@@ -60,9 +61,7 @@ export class AssignScheduleEffects {
       ofType(PageAction.assign),
       mergeMap(({ teacher, classIds }) => {
         return this.classService.assign(teacher.id, classIds).pipe(
-          map(() => {
-            return ApiAction.assignSuccessful({ teacher });
-          }),
+          map(() => ApiAction.assignSuccessful({ teacher })),
           catchError(() => of(ApiAction.assignFailure()))
         );
       })
@@ -74,9 +73,7 @@ export class AssignScheduleEffects {
       ofType(PageAction.unassign),
       mergeMap(({ classIds }) => {
         return this.classService.unassign(classIds).pipe(
-          map(() => {
-            return ApiAction.unassignSuccessful();
-          }),
+          map(() => ApiAction.unassignSuccessful()),
           catchError(() => of(ApiAction.unassignFailure()))
         );
       })

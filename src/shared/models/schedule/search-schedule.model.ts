@@ -1,5 +1,9 @@
-export interface SearchSchedule {
-  start: string;
-  end: string;
-  shift?: string;
-}
+export type SearchSchedule = {
+  readonly date: string;
+  readonly shift?: string;
+};
+
+export type SearchScheduleParam = {
+  readonly date: string;
+  readonly shift?: string;
+};

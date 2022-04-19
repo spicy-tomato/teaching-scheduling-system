@@ -1,6 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { CoreConstant } from '@shared/constants';
 import { BeautifyTimePipe } from '@pipes/beautify-date-time.pipe';
+import { Nullable } from '@shared/models';
 
 @Pipe({
   name: 'shift',
@@ -10,7 +11,7 @@ export class ShiftPipe implements PipeTransform {
   private readonly beautifyTimePipe = new BeautifyTimePipe();
 
   /** PUBLIC METHODS */
-  public transform(shiftKey: string): string {
+  public transform(shiftKey: Nullable<string>): string {
     if (!shiftKey) return '';
 
     const shift = CoreConstant.SHIFTS[shiftKey];

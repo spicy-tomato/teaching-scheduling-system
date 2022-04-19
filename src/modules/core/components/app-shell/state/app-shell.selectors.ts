@@ -1,4 +1,6 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { createFeatureSelector, createSelector, select } from '@ngrx/store';
+import { ObservableHelper } from '@shared/helpers';
+import { pipe } from 'rxjs';
 import { appShellFeatureKey } from './app-shell.reducer';
 import { AppShellState } from './app-shell.state';
 
@@ -13,6 +15,11 @@ export const selectStatus = createSelector(
 export const selectTeacher = createSelector(
   appShellSelector,
   (state) => state.teacher
+);
+
+export const selectNotNullTeacher = pipe(
+  select(selectTeacher),
+  ObservableHelper.filterNullish()
 );
 
 export const selectNameTitle = createSelector(selectTeacher, (teacher) =>

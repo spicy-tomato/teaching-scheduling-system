@@ -1,3 +1,4 @@
 export interface AcademicYear {
-  [key: string]: string[];
+  name: string;
+  academicYears: string[];
 }

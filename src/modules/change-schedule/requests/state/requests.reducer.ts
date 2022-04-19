@@ -23,7 +23,7 @@ const initialState: RequestsState = {
   },
   total: 0,
   query: {
-    status: 'all',
+    status: [],
     page: 1,
     pagination: 20,
   },
@@ -111,8 +111,8 @@ export const requestsReducer = createReducer(
             const newObj: ChangeSchedule = {
               ...x,
               status,
-              timeAccept: current,
-              timeSetRoom: status === 3 ? current : x.timeSetRoom,
+              acceptedAt: current,
+              setRoomAt: status === 300 ? current : x.setRoomAt,
             };
             return newObj;
           }
@@ -129,7 +129,7 @@ export const requestsReducer = createReducer(
     ...state,
     status: { ...state.status, accept: EApiStatus.systemError },
   })),
-  on(ApiAction.setRoomSuccessful, (state, { id, status, room }) => {
+  on(ApiAction.setRoomSuccessful, (state, { id, room }) => {
     return {
       ...state,
       data: {
@@ -138,8 +138,8 @@ export const requestsReducer = createReducer(
           if (x.id === id) {
             const newObj: ChangeSchedule = {
               ...x,
-              status,
-              timeSetRoom: new Date(),
+              status: 300,
+              setRoomAt: new Date(),
               newSchedule: {
                 ...x.newSchedule,
                 room,
@@ -190,7 +190,7 @@ export const requestsReducer = createReducer(
         ...state.data,
         changeSchedules: state.data.changeSchedules.map((x) => {
           if (x.id === id) {
-            const newObj: ChangeSchedule = { ...x, status: -3 };
+            const newObj: ChangeSchedule = { ...x, status: 100 };
             return newObj;
           }
           return x;

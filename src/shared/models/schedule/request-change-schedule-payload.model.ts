@@ -5,7 +5,11 @@ export interface RequestChangeSchedulePayload {
   newDate: string;
   newShift: string;
   newIdRoom: Nullable<string>;
-  timeRequest: string;
   reason: string;
-  status: number;
+}
+
+export interface RequestIntendChangeSchedulePayload {
+  idSchedule: number;
+  intendTime: string;
+  reason: string;
 }

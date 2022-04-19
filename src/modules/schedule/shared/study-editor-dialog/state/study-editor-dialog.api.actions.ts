@@ -11,6 +11,15 @@ export const requestFailure = createAction(
   '[Study Editor Dialog API] Request Failed'
 );
 
+export const requestIntendSuccessful = createAction(
+  '[Study Editor Dialog API] Request intend Successfully',
+  props<{ justRequestedSchedule: SimpleFixedScheduleModel }>()
+);
+
+export const requestIntendFailure = createAction(
+  '[Study Editor Dialog API] Request intend Failed'
+);
+
 export const changeSuccessful = createAction(
   '[Study Editor Dialog API] Change Successfully'
 );

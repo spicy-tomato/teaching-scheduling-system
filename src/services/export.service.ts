@@ -3,7 +3,7 @@ import { Inject, Injectable, Injector } from '@angular/core';
 import { RoleConstant } from '@shared/constants';
 import { FileType } from '@shared/enums';
 import { DateHelper } from '@shared/helpers';
-import { ChangeSchedule, Teacher } from '@shared/models';
+import { ChangeSchedule, SimpleTeacher, Teacher } from '@shared/models';
 import { TuiDayRange } from '@taiga-ui/cdk';
 import {
   AlignmentType,
@@ -405,7 +405,9 @@ export class ExportService {
                             this.datePipe.transform(
                               schedule.newSchedule.date,
                               'dd-MM-Y'
-                            ) ?? schedule.newSchedule.date,
+                            ) ??
+                            schedule.newSchedule.date ??
+                            '',
                           alignment,
                         }),
                       ],
@@ -417,7 +419,7 @@ export class ExportService {
                           spacing: {
                             after: 0,
                           },
-                          text: schedule.newSchedule.shift,
+                          text: schedule.newSchedule.shift ?? '',
                           alignment,
                         }),
                       ],
@@ -429,7 +431,7 @@ export class ExportService {
                           spacing: {
                             after: 0,
                           },
-                          text: schedule.newSchedule.room,
+                          text: schedule.newSchedule.room ?? '',
                           alignment,
                         }),
                       ],
@@ -513,8 +515,7 @@ export class ExportService {
 
   public exportChangeScheduleRequestForRoomManager(
     schedule: ChangeSchedule,
-    department: string,
-    faculty: string
+    teacher: SimpleTeacher
   ): Document {
     const alignment = AlignmentType.CENTER;
     const today = new Date();
@@ -597,16 +598,15 @@ export class ExportService {
                 }),
                 new TextRun({
                   break: 1,
-                  // TODO
-                  text: `Số điện thoại: `,
+                  text: `Số điện thoại: ${teacher.phone || ''}`,
                 }),
                 new TextRun({
                   break: 1,
-                  text: `Bộ môn: ${department}`,
+                  text: `Bộ môn: ${teacher.department.name}`,
                 }),
                 new TextRun({
                   break: 1,
-                  text: `Khoa: ${faculty}`,
+                  text: `Khoa: ${teacher.faculty.name}`,
                 }),
               ],
             }),
@@ -849,7 +849,9 @@ export class ExportService {
                             this.datePipe.transform(
                               schedule.newSchedule.date,
                               'dd/MM/Y'
-                            ) ?? schedule.newSchedule.date,
+                            ) ??
+                            schedule.newSchedule.date ??
+                            '',
                         }),
                       ],
                     }),
@@ -858,7 +860,7 @@ export class ExportService {
                       children: [
                         new Paragraph({
                           spacing,
-                          text: schedule.newSchedule.shift,
+                          text: schedule.newSchedule.shift ?? '',
                           alignment,
                         }),
                       ],
@@ -890,7 +892,7 @@ export class ExportService {
                       children: [
                         new Paragraph({
                           spacing,
-                          text: schedule.newSchedule.room,
+                          text: schedule.newSchedule.room ?? '',
                           alignment,
                         }),
                       ],
@@ -1408,14 +1410,16 @@ export class ExportService {
                               spacing: {
                                 after: 0,
                               },
-                              text: `${
-                                this.datePipe.transform(
-                                  schedule.newSchedule.date,
-                                  'dd/MM/Y'
-                                ) ?? schedule.newSchedule.date
-                              }, ca ${schedule.newSchedule.shift}, ${
-                                schedule.newSchedule.room
-                              }`,
+                              text: schedule.newSchedule.date
+                                ? `${
+                                    this.datePipe.transform(
+                                      schedule.newSchedule.date,
+                                      'dd/MM/Y'
+                                    ) ?? schedule.newSchedule.date
+                                  }, ca ${schedule.newSchedule.shift ?? ''}, ${
+                                    schedule.newSchedule.room ?? ''
+                                  }`
+                                : schedule.intendTime ?? '',
                               alignment,
                             }),
                           ],

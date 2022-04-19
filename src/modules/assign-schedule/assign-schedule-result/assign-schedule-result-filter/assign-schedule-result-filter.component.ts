@@ -38,7 +38,7 @@ export class AssignScheduleResultFilterComponent
   public schoolYears$!: Observable<string[]>;
 
   public readonly currentTerm$: Observable<string>;
-  public readonly academicYears$: Observable<AcademicYear>;
+  public readonly academicYears$: Observable<AcademicYear[]>;
   public readonly trainingTypes$: Observable<string[]>;
   public readonly departments$: Observable<
     SimpleMapModel<string, SimpleModel[]>[]
@@ -211,8 +211,9 @@ export class AssignScheduleResultFilterComponent
             fromAssignSchedule.filter({
               dep,
               params: {
-                ss: this.batchInTerm?.value as number,
-                term: `${schoolYear}_${term}`,
+                study_sessions: `${schoolYear}_${term}_${
+                  this.batchInTerm?.value as number
+                }`,
               },
             })
           );

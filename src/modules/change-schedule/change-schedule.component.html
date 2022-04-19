@@ -1,5 +1,10 @@
 <div class="wrapper grid">
-  <tui-tabs *tssPermission="permissionConstant.ACCEPT_CHANGE_TEACHING_SCHEDULE">
+  <tui-tabs
+    *tssPermission="
+      permissionConstant.ACCEPT_CHANGE_TEACHING_SCHEDULE;
+      else placeholder
+    "
+  >
     <a tuiTab routerLinkActive [routerLink]="['/change-schedule/my-requests']">
       Yêu cầu của tôi
     </a>
@@ -7,6 +12,9 @@
       Tất cả yêu cầu
     </a>
   </tui-tabs>
+  <ng-template #placeholder>
+    <div></div>
+  </ng-template>
 
   <div class="content">
     <ng-container *tssPermission="null">

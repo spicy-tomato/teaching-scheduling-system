@@ -2,10 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { FacultyDta } from '@shared/dtas';
 import {
-  Faculty,
   AcademicYear,
+  ResponseModel,
   SimpleMapModel,
   SimpleModel,
 } from 'src/shared/models';
@@ -25,21 +24,18 @@ export class CommonInfoService extends BaseDataService {
     super();
   }
 
-  public getFaculty(): Observable<Faculty[]> {
-    return this.http
-      .get<FacultyDta[]>(this.url + 'faculty')
-      .pipe(map((result) => result.map((x) => Faculty.parse(x))));
-  }
-
-  public getAcademicYear(): Observable<AcademicYear> {
+  public getAcademicYear(): Observable<AcademicYear[]> {
     const cache = this.localDataService.getAcademicYear();
     if (cache) {
       return of(cache);
     }
 
     return this.http
-      .get<AcademicYear>(this.url + 'academic-year2')
-      .pipe(tap((data) => this.localDataService.setAcademicYear(data)));
+      .get<ResponseModel<AcademicYear[]>>(this.url + 'training-types')
+      .pipe(
+        map((response) => response.data),
+        tap((data) => this.localDataService.setAcademicYear(data))
+      );
   }
 
   public getCurrentTerm(): Observable<string> {
@@ -56,10 +52,12 @@ export class CommonInfoService extends BaseDataService {
     );
   }
 
-  public getDepartments(): Observable<SimpleMapModel<string, SimpleModel[]>[]> {
-    return this.http.get<SimpleMapModel<string, SimpleModel[]>[]>(
-      this.url + 'faculties'
-    );
+  public getFaculties(): Observable<
+    ResponseModel<SimpleMapModel<string, SimpleModel[]>[]>
+  > {
+    return this.http.get<
+      ResponseModel<SimpleMapModel<string, SimpleModel[]>[]>
+    >(this.url + 'faculties');
   }
 
   public getRooms(): Observable<string[]> {
@@ -68,8 +66,9 @@ export class CommonInfoService extends BaseDataService {
       return of(cache);
     }
 
-    return this.http
-      .get<string[]>(this.url + 'rooms')
-      .pipe(tap((data) => this.localDataService.setRooms(data)));
+    return this.http.get<ResponseModel<string[]>>(this.url + 'rooms').pipe(
+      map((r) => r.data),
+      tap((data) => this.localDataService.setRooms(data))
+    );
   }
 }

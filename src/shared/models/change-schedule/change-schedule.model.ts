@@ -1,4 +1,4 @@
-import { SimpleModel } from '../core';
+import { Nullable, RequestChangeScheduleCode, SimpleModel } from '../core';
 
 export interface ChangeSchedule {
   id: number;
@@ -11,14 +11,15 @@ export interface ChangeSchedule {
     room: string;
   };
   newSchedule: {
-    date: string;
-    shift: string;
-    room: string;
+    date: Nullable<string>;
+    shift: Nullable<string>;
+    room: Nullable<string>;
   };
   reason: string;
-  timeRequest: Date;
-  timeAccept: Date;
-  timeSetRoom: Date;
-  status: number;
+  createdAt: Date;
+  acceptedAt: Date;
+  setRoomAt: Date;
+  intendTime: Nullable<string>;
+  status: RequestChangeScheduleCode;
   moduleClassNumberReality: number;
 }

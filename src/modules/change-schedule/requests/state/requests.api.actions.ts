@@ -2,6 +2,7 @@ import { createAction, props } from '@ngrx/store';
 import {
   ChangeSchedule,
   PaginationResponseModel,
+  RequestChangeScheduleCode,
   SimpleModel,
 } from '@shared/models';
 
@@ -27,7 +28,7 @@ export const loadTeachersListFailure = createAction(
 
 export const acceptSuccessful = createAction(
   '[Change schedule - Requests API] Accept Successfully',
-  props<{ id: number; status: number }>()
+  props<{ id: number; status: RequestChangeScheduleCode }>()
 );
 
 export const acceptFailure = createAction(
@@ -36,7 +37,7 @@ export const acceptFailure = createAction(
 
 export const setRoomSuccessful = createAction(
   '[Change schedule - Requests API] Set Room Successfully',
-  props<{ id: number; status: number; room: string }>()
+  props<{ id: number; room: string }>()
 );
 
 export const setRoomFailure = createAction(
@@ -45,7 +46,7 @@ export const setRoomFailure = createAction(
 
 export const denySuccessful = createAction(
   '[Change schedule - Requests API] Deny Successfully',
-  props<{ id: number; status: number }>()
+  props<{ id: number; status: RequestChangeScheduleCode }>()
 );
 
 export const denyFailure = createAction(

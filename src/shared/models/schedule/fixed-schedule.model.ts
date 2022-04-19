@@ -1,12 +1,13 @@
-import { Nullable } from '../core';
+import { Nullable, RequestChangeScheduleCode } from '../core';
 
 export interface SimpleFixedScheduleModel {
   id: number;
-  newDate: string;
-  newShift: string;
+  newDate: Nullable<string>;
+  newShift: Nullable<string>;
   newIdRoom: Nullable<string>;
-  status: number;
-  timeRequest: Date;
+  status: RequestChangeScheduleCode;
+  createdAt: Date;
+  intendTime: Nullable<string>;
 }
 
 export interface FixedScheduleModel extends SimpleFixedScheduleModel {

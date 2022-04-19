@@ -12,6 +12,7 @@ import {
   EventRenderedArgs,
   EventSettingsModel,
   MonthService,
+  NavigatingEventArgs,
   PopupOpenEventArgs,
   RenderCellEventArgs,
   ScheduleComponent,
@@ -51,6 +52,7 @@ import {
   DateHelper,
   ObservableHelper,
   ArrayHelper,
+  ChangeStatusHelper,
 } from '@shared/helpers';
 import { StudyHistoryDialogComponent } from '../shared/study-editor-dialog/study-history-dialog/study-history-dialog.component';
 
@@ -119,12 +121,16 @@ export class TssScheduleComponent
       args.element.style.backgroundColor = args.data.Color as string;
     }
     if ((args.data.FixedSchedules as FixedScheduleModel[])?.length > 0) {
-      const lastFixedSchedules = ArrayHelper.lastItem(
+      const lastFixedSchedule = ArrayHelper.lastItem(
         args.data.FixedSchedules
       ) as FixedScheduleModel;
-      if (lastFixedSchedules.status === 0 || lastFixedSchedules.status === 1) {
+      console.log(lastFixedSchedule);
+      if (ChangeStatusHelper.isPending(lastFixedSchedule.status)) {
         args.element.classList.add('requesting-change');
-      } else {
+      } else if (
+        lastFixedSchedule.newDate !== null ||
+        !lastFixedSchedule.intendTime
+      ) {
         args.element.classList.add('changed');
       }
     }
@@ -148,6 +154,12 @@ export class TssScheduleComponent
     if (args.type === 'Editor') {
       args.cancel = true;
       this.showEditorDialog(args.data as EjsScheduleModel);
+    }
+  }
+
+  public onNavigating(args: NavigatingEventArgs): void {
+    if (args.previousView === 'Month' && args.currentView === 'Day') {
+      this.store.dispatch(fromSchedule.changeView({ view: 'Day' }));
     }
   }
 
@@ -237,6 +249,7 @@ export class TssScheduleComponent
             today.setDate(today.getDate() + 7);
             this.scheduleComponent.selectedDate = today;
           }
+          console.log(view, this.scheduleComponent.currentView);
           this.scheduleComponent.changeView(view);
         }),
         takeUntil(this.destroy$)

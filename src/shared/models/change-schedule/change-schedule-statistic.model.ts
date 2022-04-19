@@ -1,5 +1,6 @@
-export interface ChangeScheduleStatistic {
-  status: string;
-  oldDate: string;
-  newDate: string;
-}
+import { RequestChangeScheduleCode } from "../core";
+
+export type ChangeScheduleStatistic = {
+  status: RequestChangeScheduleCode[];
+  date: string;
+};

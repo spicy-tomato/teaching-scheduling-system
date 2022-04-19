@@ -1,4 +1,3 @@
 export interface SearchAssignSchedule {
-  term: string;
-  ss: number | string;
+  study_sessions: string;
 }

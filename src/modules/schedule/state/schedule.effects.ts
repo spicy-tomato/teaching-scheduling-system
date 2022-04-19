@@ -26,6 +26,7 @@ import {
   ArrayHelper,
   ObservableHelper,
   PermissionHelper,
+  UrlHelper,
 } from '@shared/helpers';
 import { View } from '@syncfusion/ej2-angular-schedule';
 
@@ -37,7 +38,7 @@ export class ScheduleEffects {
 
   private readonly permissions$: Observable<number[]>;
   private readonly department$: Observable<Nullable<SimpleModel>>;
-  private readonly teacher$: Observable<Nullable<Teacher>>;
+  private readonly teacher$: Observable<Teacher>;
   private readonly loadPersonalExamSubject$ = new Subject<Date>();
   private readonly loadPersonalScheduleSubject$ = new Subject<Date>();
   private readonly loadDepartmentExamSubject$ = new Subject<Date>();
@@ -136,7 +137,7 @@ export class ScheduleEffects {
   ) {
     this.permissions$ = appShellStore.select(fromAppShell.selectPermission);
     this.department$ = appShellStore.select(fromAppShell.selectDepartment);
-    this.teacher$ = appShellStore.select(fromAppShell.selectTeacher);
+    this.teacher$ = appShellStore.pipe(fromAppShell.selectNotNullTeacher);
 
     this.handleLoadPersonalSchedule();
     this.handleLoadPersonalExam();
@@ -148,24 +149,32 @@ export class ScheduleEffects {
   private handleLoadPersonalSchedule(): void {
     combineLatest([
       this.loadPersonalScheduleSubject$,
-      this.teacher$.pipe(
-        ObservableHelper.filterNullish(),
-        map((x) => x.id)
-      ),
+      this.teacher$.pipe(map((x) => x.id)),
     ])
       .pipe(
         this.commonPersonalObservable(),
         mergeMap(({ fetch, ranges, teacherId }) => {
-          return this.scheduleService.getSchedule(fetch, teacherId).pipe(
-            tap((schedules) => {
-              this.store.dispatch(
-                ApiAction.loadPersonalStudySuccessful({ schedules, ranges })
-              );
-            }),
-            catchError(() =>
-              of(this.store.dispatch(ApiAction.loadPersonalStudyFailure()))
+          return this.scheduleService
+            .getSchedule(
+              UrlHelper.queryFilter(fetch, {
+                date: 'between',
+                shift: 'in',
+              }),
+              teacherId
             )
-          );
+            .pipe(
+              tap((response) => {
+                this.store.dispatch(
+                  ApiAction.loadPersonalStudySuccessful({
+                    schedules: response.data,
+                    ranges,
+                  })
+                );
+              }),
+              catchError(() =>
+                of(this.store.dispatch(ApiAction.loadPersonalStudyFailure()))
+              )
+            );
         })
       )
       .subscribe();
@@ -174,18 +183,18 @@ export class ScheduleEffects {
   private handleLoadPersonalExam(): void {
     combineLatest([
       this.loadPersonalExamSubject$,
-      this.teacher$.pipe(
-        ObservableHelper.filterNullish(),
-        map((x) => x.id)
-      ),
+      this.teacher$.pipe(map((x) => x.id)),
     ])
       .pipe(
         this.commonPersonalObservable(),
         mergeMap(({ fetch, ranges }) => {
           return this.scheduleService.getExamSchedule(fetch).pipe(
-            tap((schedules) => {
+            tap((response) => {
               this.store.dispatch(
-                ApiAction.loadPersonalExamSuccessful({ schedules, ranges })
+                ApiAction.loadPersonalExamSuccessful({
+                  schedules: response.data,
+                  ranges,
+                })
               );
             }),
             catchError(() =>
@@ -207,12 +216,18 @@ export class ScheduleEffects {
         this.commonPermissionObservable(),
         mergeMap(({ fetch, ranges, department }) => {
           return this.scheduleService
-            .getDepartmentSchedule(department, fetch)
+            .getDepartmentSchedule(
+              department,
+              UrlHelper.queryFilter(fetch, {
+                date: 'between',
+                shift: 'in',
+              })
+            )
             .pipe(
-              tap((schedules) => {
+              tap((response) => {
                 this.store.dispatch(
                   ApiAction.loadDepartmentStudySuccessful({
-                    schedules,
+                    schedules: response.data,
                     ranges,
                   })
                 );
@@ -238,10 +253,10 @@ export class ScheduleEffects {
           return this.scheduleService
             .getDepartmentExamSchedule(department, fetch)
             .pipe(
-              tap((schedules) => {
+              tap((response) => {
                 this.store.dispatch(
                   ApiAction.loadDepartmentExamSuccessful({
-                    schedules,
+                    schedules: response.data,
                     ranges,
                   })
                 );
@@ -439,8 +454,10 @@ function calculateRangeO(
           teacherId,
           ranges,
           fetch: {
-            start: fetch.from.getFormattedDay('YMD', '-'),
-            end: fetch.to.append({ day: 1 }).getFormattedDay('YMD', '-'),
+            date: [
+              fetch.from.getFormattedDay('YMD', '-'),
+              fetch.to.append({ day: 1 }).getFormattedDay('YMD', '-'),
+            ].join(),
           },
         };
       })
@@ -476,8 +493,10 @@ function calculateRangeWithDepartmentO(
           department,
           ranges,
           fetch: {
-            start: fetch.from.getFormattedDay('YMD', '-'),
-            end: fetch.to.append({ day: 1 }).getFormattedDay('YMD', '-'),
+            date: [
+              fetch.from.getFormattedDay('YMD', '-'),
+              fetch.to.append({ day: 1 }).getFormattedDay('YMD', '-'),
+            ].join(),
           },
         };
       })
