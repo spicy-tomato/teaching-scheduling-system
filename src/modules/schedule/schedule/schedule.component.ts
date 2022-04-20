@@ -124,7 +124,6 @@ export class TssScheduleComponent
       const lastFixedSchedule = ArrayHelper.lastItem(
         args.data.FixedSchedules
       ) as FixedScheduleModel;
-      console.log(lastFixedSchedule);
       if (ChangeStatusHelper.isPending(lastFixedSchedule.status)) {
         args.element.classList.add('requesting-change');
       } else if (
@@ -249,7 +248,6 @@ export class TssScheduleComponent
             today.setDate(today.getDate() + 7);
             this.scheduleComponent.selectedDate = today;
           }
-          console.log(view, this.scheduleComponent.currentView);
           this.scheduleComponent.changeView(view);
         }),
         takeUntil(this.destroy$)
