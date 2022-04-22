@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.2](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.0.1...v2.0.2) (2022-04-22)
+
+
+### Bug Fixes
+
+* **change-schedule:** display intend time ([9c0a6de](https://github.com/annguyen-it/teaching-scheduling-system/commits/9c0a6de9b3debe72a8c21a72018c6a6543c24fea))
+* **export:** fix typo ([376cdf6](https://github.com/annguyen-it/teaching-scheduling-system/commits/376cdf69115b98f66584cd8a487282fab54c0546))
+* **schedule:** details button in popup should be inline ([851069f](https://github.com/annguyen-it/teaching-scheduling-system/commits/851069f5c704b2672b676989b25ff700716d0750))
+
 ### [2.0.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.0.0...v2.0.1) (2022-04-20)
 
 
