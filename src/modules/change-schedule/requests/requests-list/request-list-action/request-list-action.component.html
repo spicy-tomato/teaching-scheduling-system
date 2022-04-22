@@ -9,7 +9,7 @@
   >
     <button
       tuiIconButton
-      *ngIf="status !== 'cancel' && status !== 'deny'"
+      *ngIf="status === 'change' || status === 'approve'"
       (click)="export$.next()"
       [tuiHintShowDelay]="300"
       [tuiHintHideDelay]="100"
