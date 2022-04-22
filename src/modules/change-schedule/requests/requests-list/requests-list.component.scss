@@ -12,6 +12,9 @@ tr {
     }
   }
   td {
+    &.intend-time {
+      background-color: var(--tui-warning-bg-hover);
+    }
     .reason {
       width: 250px;
       white-space: normal;

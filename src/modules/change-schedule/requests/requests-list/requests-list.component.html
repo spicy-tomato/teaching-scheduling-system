@@ -68,9 +68,9 @@
             {{ item.oldSchedule.date | date: "dd-MM-Y" }}
           </div>
         </td>
-        <td tuiTd *tuiCell="'newDate'">
+        <td tuiTd *tuiCell="'newDate'" [class.intend-time]="item.intendTime">
           <div class="text-center">
-            {{ item.newSchedule.date | date: "dd-MM-Y" }}
+            {{ item.intendTime || (item.newSchedule.date | date: "dd-MM-Y") }}
           </div>
         </td>
         <td tuiTd *tuiCell="'oldShift'">
