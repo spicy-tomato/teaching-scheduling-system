@@ -125,8 +125,8 @@
                   >
                     <div class="mdi mdi-swap-horizontal-bold"></div>
                     <div class="e-location-details e-text-ellipsis">
-                      <div [ngSwitch]="true">
-                        <div
+                      <p [ngSwitch]="true">
+                        <ng-container
                           *ngSwitchCase="
                             !isIntendTime && changeStatusType === 'pending'
                           "
@@ -141,8 +141,8 @@
                               ? " tại " + lastFixedSchedule.newIdRoom
                               : ""
                           }}
-                        </div>
-                        <div
+                        </ng-container>
+                        <ng-container
                           *ngSwitchCase="
                             !isIntendTime && changeStatusType === 'approve'
                           "
@@ -151,32 +151,32 @@
                           {{
                             lastFixedSchedule.oldDate | date: "longDate":"+0700"
                           }}
-                        </div>
-                        <div
+                        </ng-container>
+                        <ng-container
                           *ngSwitchCase="
                             isIntendTime && changeStatusType === 'pending'
                           "
                         >
                           Đang được yêu cầu đổi đến
                           {{ lastFixedSchedule.intendTime }}
-                        </div>
-                        <div
+                        </ng-container>
+                        <ng-container
                           *ngSwitchCase="
                             isIntendTime && changeStatusType === 'approve'
                           "
                         >
                           Dự định dạy trong
                           {{ lastFixedSchedule.intendTime }}
-                        </div>
-                      </div>
-                      <button
-                        tuiLink
-                        [pseudo]="true"
-                        (click)="onShowHistory(data.FixedSchedules)"
-                        class="details"
-                      >
-                        <i>Chi tiết</i>
-                      </button>
+                        </ng-container>
+                        <button
+                          tuiLink
+                          [pseudo]="true"
+                          (click)="onShowHistory(data.FixedSchedules)"
+                          class="details d-inline-block"
+                        >
+                          <i>Chi tiết</i>
+                        </button>
+                      </p>
                     </div>
                   </div>
                 </ng-container>
