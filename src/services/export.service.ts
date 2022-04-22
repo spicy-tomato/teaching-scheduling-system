@@ -252,7 +252,7 @@ export class ExportService {
                           spacing: {
                             after: 0,
                           },
-                          text: 'Tiết',
+                          text: 'Ca',
                           alignment,
                         }),
                       ],
@@ -288,7 +288,7 @@ export class ExportService {
                           spacing: {
                             after: 0,
                           },
-                          text: 'Tiết',
+                          text: 'Ca',
                           alignment,
                         }),
                       ],
@@ -1244,7 +1244,7 @@ export class ExportService {
                           },
                           children: [
                             new TextRun({
-                              text: 'Ngày, tiết, phòng',
+                              text: 'Ngày, ca, phòng',
                               bold: true,
                             }),
                           ],
