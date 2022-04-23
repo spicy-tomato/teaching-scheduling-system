@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.1.0...v2.1.1) (2022-04-23)
+
+
+### Bug Fixes
+
+* **change-schedule:** hide field "teacher" in details dialog if data is null ([d5c18d1](https://github.com/annguyen-it/teaching-scheduling-system/commits/d5c18d11a08f23d79e3ff267e4b052623e4ba20b))
+
 ## [2.1.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.0.3...v2.1.0) (2022-04-23)
 
 
