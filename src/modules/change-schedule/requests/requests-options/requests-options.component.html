@@ -60,12 +60,6 @@
     </tui-select>
   </ng-container> -->
   <tui-checkbox-labeled
-    [ngModel]="options.showTimeInsteadOfShift"
-    (ngModelChange)="changeOptions({ showTimeInsteadOfShift: $event })"
-  >
-    Hiển thị thời gian thay cho ca
-  </tui-checkbox-labeled>
-  <tui-checkbox-labeled
     [ngModel]="options.showTime"
     (ngModelChange)="changeOptions({ showTime: $event })"
   >

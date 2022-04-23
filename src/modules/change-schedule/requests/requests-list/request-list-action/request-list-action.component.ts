@@ -24,6 +24,9 @@ import { DatePipe } from '@angular/common';
 import { FileType } from '@shared/enums';
 import { DialogService } from '@services/dialog/dialog.service';
 import { TeacherService } from '@services/teacher.service';
+import { TuiDialogService } from '@taiga-ui/core';
+import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
+import { ChangeScheduleDetailsDialogComponent } from '../change-schedule-details-dialog/change-schedule-details-dialog.component';
 
 @Component({
   selector: 'tss-request-list-action',
@@ -55,9 +58,11 @@ export class RequestListActionComponent extends BaseComponent {
     private readonly exportService: ExportService,
     private readonly teacherService: TeacherService,
     private readonly tokenService: TokenService,
+    @Inject(Injector) private readonly injector: Injector,
+    @Inject(TuiDialogService)
+    private readonly tuiDialogService: TuiDialogService,
     private readonly dialogService: DialogService,
     private readonly store: Store<fromRequests.RequestsState>,
-    @Inject(Injector) injector: Injector,
     appShellStore: Store<fromAppShell.AppShellState>
   ) {
     super();
@@ -83,6 +88,22 @@ export class RequestListActionComponent extends BaseComponent {
 
     this.handleExport();
     this.handleCancel();
+  }
+
+  /** PUBLIC METHODS */
+  public showDetails(): void {
+    this.tuiDialogService
+      .open(
+        new PolymorpheusComponent(
+          ChangeScheduleDetailsDialogComponent,
+          this.injector
+        ),
+        {
+          data: this.schedule,
+          label: 'Chi tiết yêu cầu thay đổi giờ giảng',
+        }
+      )
+      .subscribe();
   }
 
   /** PRIVATE METHODS */
@@ -152,7 +173,9 @@ export class RequestListActionComponent extends BaseComponent {
             this.datePipe.transform(
               this.schedule.newSchedule.date,
               'dd-MM-Y'
-            ) ?? this.schedule.newSchedule.date;
+            ) ??
+            this.schedule.newSchedule.date ??
+            '';
           const fileName = `${commonName}_${teacherName}_${time}.docx`;
 
           this.exportService.exportBlob({

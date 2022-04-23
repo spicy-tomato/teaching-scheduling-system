@@ -14,7 +14,6 @@ const initialState: RequestsState = {
     teacher: null,
     status: null,
     showTime: false,
-    showTimeInsteadOfShift: false,
     showReason: true,
   },
   data: {

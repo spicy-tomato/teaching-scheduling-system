@@ -9,20 +9,30 @@
   >
     <button
       tuiIconButton
-      *ngIf="status === 'change' || status === 'approve'"
+      (click)="showDetails()"
+      [tuiHintShowDelay]="300"
+      [tuiHintHideDelay]="100"
+      icon="tuiIconShowLarge"
+      tuiHint="Xem chi tiết"
+      appearance="icon"
+    ></button>
+    <button
+      tuiIconButton
       (click)="export$.next()"
       [tuiHintShowDelay]="300"
       [tuiHintHideDelay]="100"
       [icon]="IconConstant.exportVariantLarge"
+      [disabled]="status !== 'change' && status !== 'approve'"
       tuiHint="Xuất file yêu cầu"
       appearance="icon"
     ></button>
     <button
       tuiIconButton
-      *ngIf="canCancel && status === 'pending'"
+      *ngIf="canCancel"
       (click)="cancel$.next()"
       [tuiHintShowDelay]="300"
       [tuiHintHideDelay]="100"
+      [disabled]="status !== 'pending'"
       icon="tuiIconTrashLarge"
       tuiHint="Hủy yêu cầu"
       appearance="icon"
