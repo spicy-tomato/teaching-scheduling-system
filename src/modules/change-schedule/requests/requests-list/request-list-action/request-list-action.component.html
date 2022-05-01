@@ -22,7 +22,12 @@
       [tuiHintShowDelay]="300"
       [tuiHintHideDelay]="100"
       [icon]="IconConstant.exportVariantLarge"
-      [disabled]="status !== 'change' && status !== 'approve'"
+      [disabled]="
+        status === 'cancel' ||
+        status === 'deny' ||
+        schedule.status === 200 ||
+        schedule.status === 201
+      "
       tuiHint="Xuất file yêu cầu"
       appearance="icon"
     ></button>
