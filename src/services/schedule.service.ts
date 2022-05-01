@@ -70,7 +70,8 @@ export class ScheduleService extends BaseDataService {
   ): Observable<ResponseModel<StudyScheduleModel[]>> {
     return this.http
       .get<ResponseModel<StudyScheduleModel[]>>(
-        this.url + `departments/${department}/schedules`,
+        this.url +
+          `departments/${department}/teachers/module-classes/schedules`,
         { params }
       )
       .pipe(map(parseStudyScheduleModel));
