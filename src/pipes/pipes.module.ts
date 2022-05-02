@@ -11,10 +11,12 @@ import { MapPipe } from './map.pipe';
 import { AsPipe } from './as.pipe';
 import { StatusTypePipe } from './status-type.pipe';
 import { ChangeStatusTypePipe } from './change-status-type.pipe';
+import { ChangeCanExportPipe } from './change-can-export.pipe';
 
 const PIPES = [
   AsPipe,
   BeautifyTimePipe,
+  ChangeCanExportPipe,
   ChangeStatusTypePipe,
   DateTimePipe,
   FilterPipe,
