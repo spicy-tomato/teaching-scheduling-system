@@ -37,6 +37,17 @@ export class ChangeStatusHelper {
     return null;
   }
 
+  public static canExport(status: number): boolean {
+    const statusType = this.getType(status);
+    return !(
+      statusType === null ||
+      statusType === 'cancel' ||
+      statusType === 'deny' ||
+      status === 200 ||
+      status === 201
+    );
+  }
+
   private static isBetween(value: number, minValue: number): boolean {
     return minValue <= value && value < minValue + 100;
   }

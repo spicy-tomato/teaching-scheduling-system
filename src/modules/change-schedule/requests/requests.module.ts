@@ -15,6 +15,7 @@ import {
 } from '@taiga-ui/core';
 import {
   TuiCheckboxLabeledModule,
+  TuiCheckboxModule,
   TuiPaginationModule,
   TuiSelectModule,
 } from '@taiga-ui/kit';
@@ -48,6 +49,7 @@ const TAIGA_UI = [
   TuiDataListModule,
   TuiTextfieldControllerModule,
   TuiSvgModule,
+  TuiCheckboxModule,
 ];
 
 @NgModule({

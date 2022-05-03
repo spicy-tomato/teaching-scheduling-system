@@ -48,6 +48,7 @@ export class RequestsComponent extends BaseComponent {
     }
   }
 
+  /** PRIVATE METHODS */
   private handleSelectTeacher(): void {
     this.teacher$
       .pipe(

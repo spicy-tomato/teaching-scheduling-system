@@ -54,9 +54,10 @@ export class ExportService {
   }
 
   public exportChangeScheduleRequestForTeacher(
-    schedule: ChangeSchedule,
+    schedules: ChangeSchedule[],
     teacherName: string,
-    department: string
+    department: string,
+    reason: string
   ): Document {
     const alignment = AlignmentType.CENTER;
     const today = new Date();
@@ -150,7 +151,7 @@ export class ExportService {
                 }),
                 new TextRun({
                   break: 1,
-                  text: `Lý do thay đổi: ${schedule.reason}`,
+                  text: `Lý do thay đổi: ${reason}`,
                 }),
               ],
             }),
@@ -233,6 +234,10 @@ export class ExportService {
                 new TableRow({
                   children: [
                     new TableCell({
+                      width: {
+                        size: 12.5,
+                        type: WidthType.PERCENTAGE,
+                      },
                       verticalAlign: VerticalAlign.CENTER,
                       children: [
                         new Paragraph({
@@ -246,6 +251,10 @@ export class ExportService {
                       ],
                     }),
                     new TableCell({
+                      width: {
+                        size: 4,
+                        type: WidthType.PERCENTAGE,
+                      },
                       verticalAlign: VerticalAlign.CENTER,
                       children: [
                         new Paragraph({
@@ -258,6 +267,10 @@ export class ExportService {
                       ],
                     }),
                     new TableCell({
+                      width: {
+                        size: 12.5,
+                        type: WidthType.PERCENTAGE,
+                      },
                       verticalAlign: VerticalAlign.CENTER,
                       children: [
                         new Paragraph({
@@ -270,6 +283,10 @@ export class ExportService {
                       ],
                     }),
                     new TableCell({
+                      width: {
+                        size: 12.5,
+                        type: WidthType.PERCENTAGE,
+                      },
                       verticalAlign: VerticalAlign.CENTER,
                       children: [
                         new Paragraph({
@@ -282,6 +299,10 @@ export class ExportService {
                       ],
                     }),
                     new TableCell({
+                      width: {
+                        size: 4,
+                        type: WidthType.PERCENTAGE,
+                      },
                       verticalAlign: VerticalAlign.CENTER,
                       children: [
                         new Paragraph({
@@ -311,133 +332,136 @@ export class ExportService {
                     }),
                   ],
                 }),
-                new TableRow({
-                  children: [
-                    new TableCell({
-                      verticalAlign: VerticalAlign.CENTER,
+                ...schedules.map(
+                  (schedule, index) =>
+                    new TableRow({
                       children: [
-                        new Paragraph({
-                          spacing: {
-                            after: 0,
-                          },
-                          text: '1',
-                          alignment,
+                        new TableCell({
+                          verticalAlign: VerticalAlign.CENTER,
+                          children: [
+                            new Paragraph({
+                              spacing: {
+                                after: 0,
+                              },
+                              text: `${index + 1}`,
+                              alignment,
+                            }),
+                          ],
+                        }),
+                        new TableCell({
+                          verticalAlign: VerticalAlign.CENTER,
+                          children: [
+                            new Paragraph({
+                              spacing: {
+                                before: 160,
+                              },
+                              indent: {
+                                firstLine: '0.1in',
+                              },
+                              text: schedule.moduleClassName,
+                            }),
+                          ],
+                        }),
+                        new TableCell({
+                          verticalAlign: VerticalAlign.CENTER,
+                          children: [
+                            new Paragraph({
+                              alignment,
+                              spacing: {
+                                before: 160,
+                              },
+                              text: `${
+                                schedule.moduleClassNumberReality || ''
+                              }`,
+                            }),
+                          ],
+                        }),
+                        new TableCell({
+                          verticalAlign: VerticalAlign.CENTER,
+                          children: [
+                            new Paragraph({
+                              spacing: {
+                                after: 0,
+                              },
+                              text:
+                                this.datePipe.transform(
+                                  schedule.oldSchedule.date,
+                                  'dd-MM-Y'
+                                ) ?? schedule.oldSchedule.date,
+                              alignment,
+                            }),
+                          ],
+                        }),
+                        new TableCell({
+                          verticalAlign: VerticalAlign.CENTER,
+                          children: [
+                            new Paragraph({
+                              spacing: {
+                                after: 0,
+                              },
+                              text: schedule.oldSchedule.shift,
+                              alignment,
+                            }),
+                          ],
+                        }),
+                        new TableCell({
+                          verticalAlign: VerticalAlign.CENTER,
+                          children: [
+                            new Paragraph({
+                              spacing: {
+                                after: 0,
+                              },
+                              text: schedule.oldSchedule.room,
+                              alignment,
+                            }),
+                          ],
+                        }),
+                        new TableCell({
+                          verticalAlign: VerticalAlign.CENTER,
+                          children: [
+                            new Paragraph({
+                              spacing: {
+                                after: 0,
+                              },
+                              text:
+                                this.datePipe.transform(
+                                  schedule.newSchedule.date,
+                                  'dd-MM-Y'
+                                ) ??
+                                schedule.newSchedule.date ??
+                                schedule.intendTime ??
+                                '',
+                              alignment,
+                            }),
+                          ],
+                        }),
+                        new TableCell({
+                          verticalAlign: VerticalAlign.CENTER,
+                          children: [
+                            new Paragraph({
+                              spacing: {
+                                after: 0,
+                              },
+                              text: schedule.newSchedule.shift ?? '',
+                              alignment,
+                            }),
+                          ],
+                        }),
+                        new TableCell({
+                          verticalAlign: VerticalAlign.CENTER,
+                          children: [
+                            new Paragraph({
+                              spacing: {
+                                after: 0,
+                              },
+                              text: schedule.newSchedule.room ?? '',
+                              alignment,
+                            }),
+                          ],
                         }),
                       ],
-                    }),
-                    new TableCell({
-                      verticalAlign: VerticalAlign.CENTER,
-                      children: [
-                        new Paragraph({
-                          spacing: {
-                            before: 160,
-                          },
-                          indent: {
-                            firstLine: '0.1in',
-                          },
-                          text: schedule.moduleClassName,
-                        }),
-                      ],
-                    }),
-                    new TableCell({
-                      verticalAlign: VerticalAlign.CENTER,
-                      children: [
-                        new Paragraph({
-                          alignment,
-                          spacing: {
-                            before: 160,
-                          },
-                          indent: {
-                            firstLine: '0.1in',
-                          },
-                          text: `${schedule.moduleClassNumberReality || ''}`,
-                        }),
-                      ],
-                    }),
-                    new TableCell({
-                      verticalAlign: VerticalAlign.CENTER,
-                      children: [
-                        new Paragraph({
-                          spacing: {
-                            after: 0,
-                          },
-                          text:
-                            this.datePipe.transform(
-                              schedule.oldSchedule.date,
-                              'dd-MM-Y'
-                            ) ?? schedule.oldSchedule.date,
-                          alignment,
-                        }),
-                      ],
-                    }),
-                    new TableCell({
-                      verticalAlign: VerticalAlign.CENTER,
-                      children: [
-                        new Paragraph({
-                          spacing: {
-                            after: 0,
-                          },
-                          text: schedule.oldSchedule.shift,
-                          alignment,
-                        }),
-                      ],
-                    }),
-                    new TableCell({
-                      verticalAlign: VerticalAlign.CENTER,
-                      children: [
-                        new Paragraph({
-                          spacing: {
-                            after: 0,
-                          },
-                          text: schedule.oldSchedule.room,
-                          alignment,
-                        }),
-                      ],
-                    }),
-                    new TableCell({
-                      verticalAlign: VerticalAlign.CENTER,
-                      children: [
-                        new Paragraph({
-                          spacing: {
-                            after: 0,
-                          },
-                          text:
-                            this.datePipe.transform(
-                              schedule.newSchedule.date,
-                              'dd-MM-Y'
-                            ) ??
-                            schedule.newSchedule.date ??
-                            '',
-                          alignment,
-                        }),
-                      ],
-                    }),
-                    new TableCell({
-                      verticalAlign: VerticalAlign.CENTER,
-                      children: [
-                        new Paragraph({
-                          spacing: {
-                            after: 0,
-                          },
-                          text: schedule.newSchedule.shift ?? '',
-                          alignment,
-                        }),
-                      ],
-                    }),
-                    new TableCell({
-                      verticalAlign: VerticalAlign.CENTER,
-                      children: [
-                        new Paragraph({
-                          spacing: {
-                            after: 0,
-                          },
-                          text: schedule.newSchedule.room ?? '',
-                          alignment,
-                        }),
-                      ],
-                    }),
-                  ],
-                }),
+                    })
+                ),
               ],
             }),
             new Paragraph({
