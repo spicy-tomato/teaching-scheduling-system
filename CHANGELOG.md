@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.1.2...v2.2.0) (2022-05-03)
+
+
+### Features
+
+* add pipe arrayIncludes ([c9ce6af](https://github.com/annguyen-it/teaching-scheduling-system/commits/c9ce6af08a1b5cf0e4a1080ad94647affcf25195))
+* add pipe changeCanExport ([d418f93](https://github.com/annguyen-it/teaching-scheduling-system/commits/d418f93c418fe03018a41530ac9fcb556dc5d90e))
+* **change-schedule:** export multiple change schedules ([3fbe95f](https://github.com/annguyen-it/teaching-scheduling-system/commits/3fbe95f299262fa1790bf6566912ceb050fc9b22))
+
+
+### Bug Fixes
+
+* fix typo in export file name ([3507578](https://github.com/annguyen-it/teaching-scheduling-system/commits/35075784908c95259d22afa0c0c7ec358bcd6efb))
+
 ### [2.1.2](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.1.1...v2.1.2) (2022-05-01)
 
 
