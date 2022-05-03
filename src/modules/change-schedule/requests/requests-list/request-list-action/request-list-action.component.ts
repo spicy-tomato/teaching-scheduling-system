@@ -204,7 +204,7 @@ export class RequestListActionComponent extends BaseComponent {
     const createdAt =
       this.datePipe.transform(this.schedule.createdAt, 'dd-MM-Y') ??
       this.schedule.createdAt.toDateString();
-    const fileName = `${commonName}_${teacherName}_${createdAt}}.docx`;
+    const fileName = `${commonName}_${teacherName}_${createdAt}.docx`;
 
     this.exportService.exportBlob({
       document,
