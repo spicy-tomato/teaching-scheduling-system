@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.2.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.2.0...v2.2.1) (2022-05-03)
+
+
+### Bug Fixes
+
+* **change-schedule:** export button content is line-break ([0c1e680](https://github.com/annguyen-it/teaching-scheduling-system/commits/0c1e680cf1fe3319cc6d02c75f4bb2660bc0ca5f))
+
 ## [2.2.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.1.2...v2.2.0) (2022-05-03)
 
 
