@@ -5,7 +5,6 @@ import { NavbarNamePipe } from './navbar-name.pipe';
 import { BeautifyTimePipe } from './beautify-date-time.pipe';
 import { ShiftPipe } from './shift.pipe';
 import { TuiDayPipe } from './tui-day.pipe';
-import { FilterPipe } from './filter.pipe';
 import { ShortenNamePipe } from './shorten-name.pipe';
 import { MapPipe } from './map.pipe';
 import { AsPipe } from './as.pipe';
@@ -20,7 +19,6 @@ const PIPES = [
   ChangeCanExportPipe,
   ChangeStatusTypePipe,
   DateTimePipe,
-  FilterPipe,
   MapPipe,
   NavbarNamePipe,
   ShiftPipe,

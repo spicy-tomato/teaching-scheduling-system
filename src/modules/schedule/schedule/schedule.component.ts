@@ -76,6 +76,7 @@ export class TssScheduleComponent
 
   /** PUBLIC PROPERTIES */
   public readonly eventSettings$ = new BehaviorSubject<EventSettingsModel>({});
+  public readonly peopleMatcher = (item: string): boolean => item !== 'self';
 
   /** PRIVATE PROPERTIES */
   private readonly staticSettings: EventSettingsModel = {

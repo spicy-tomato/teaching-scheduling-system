@@ -41,6 +41,7 @@ import { StudyEditorRequestChangeIntendComponent } from './study-editor-request-
 import { StudyEditorButtonsLeftComponent } from './study-editor-buttons-left/study-editor-buttons-left.component';
 import { StudyEditorButtonsRightComponent } from './study-editor-buttons-right/study-editor-buttons-right.component';
 import { StudyEditorHeaderComponent } from './study-editor-header/study-editor-header.component';
+import { TuiFilterPipeModule } from '@taiga-ui/cdk';
 
 const NGRX = [
   StoreModule.forFeature(
@@ -74,6 +75,7 @@ const TAIGA_UI = [
   TuiDataListWrapperModule,
   TuiFilterByInputPipeModule,
   TuiCheckboxLabeledModule,
+  TuiFilterPipeModule,
 ];
 
 @NgModule({

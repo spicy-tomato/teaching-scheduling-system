@@ -18,7 +18,7 @@ import {
   TuiLinkModule,
   TuiLoaderModule,
 } from '@taiga-ui/core';
-import { TuiActiveZoneModule } from '@taiga-ui/cdk';
+import { TuiActiveZoneModule, TuiFilterPipeModule } from '@taiga-ui/cdk';
 
 import { ScheduleHeaderComponent } from './schedule/schedule-header/schedule-header.component';
 import { DirectivesModule } from '@directives/directives.module';
@@ -40,6 +40,7 @@ const TAIGA_UI = [
   TuiExpandModule,
   TuiLoaderModule,
   TuiLinkModule,
+  TuiFilterPipeModule,
 ];
 
 @NgModule({
