@@ -7,10 +7,10 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Features
 
-* new pipe 'filterByInput' ([0803b1a](https://github.com/annguyen-it/teaching-scheduling-system/commits/0803b1a1c6be366f3322758d80357539997c0909))
+* new pipe `filterByInput` ([0803b1a](https://github.com/annguyen-it/teaching-scheduling-system/commits/0803b1a1c6be366f3322758d80357539997c0909))
 * remove cache mechanic ([0f0b868](https://github.com/annguyen-it/teaching-scheduling-system/commits/0f0b868dec8a123f14b05a41be92b4b2658b8166))
-* remove pipe 'filter' ([d7ea2bd](https://github.com/annguyen-it/teaching-scheduling-system/commits/d7ea2bdb6a5391ac8b128d2e0d106ac441eb0a4a))
-* remove pipe 'map' ([15e6f6a](https://github.com/annguyen-it/teaching-scheduling-system/commits/15e6f6acf25c02db71969c569e5ab046d3a93336))
+* remove pipe `filter` ([d7ea2bd](https://github.com/annguyen-it/teaching-scheduling-system/commits/d7ea2bdb6a5391ac8b128d2e0d106ac441eb0a4a))
+* remove pipe `map` ([15e6f6a](https://github.com/annguyen-it/teaching-scheduling-system/commits/15e6f6acf25c02db71969c569e5ab046d3a93336))
 
 ## [2.3.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.2.1...v2.3.0) (2022-05-04)
 
@@ -24,7 +24,7 @@ All notable changes to this project will be documented in this file. See [standa
 ### Bug Fixes
 
 * **change-schedule:** decrease margin on export file for teacher ([6b8aef5](https://github.com/annguyen-it/teaching-scheduling-system/commits/6b8aef5dda890aada2974a69a918c39aefe06d9b))
-* **change-schedule:** field 'teacher name' in export file is null ([547bb67](https://github.com/annguyen-it/teaching-scheduling-system/commits/547bb67ef6712220c591e716507a9996a932323e))
+* **change-schedule:** field `teacher name` in export file is null ([547bb67](https://github.com/annguyen-it/teaching-scheduling-system/commits/547bb67ef6712220c591e716507a9996a932323e))
 * disable translate ([2a768c3](https://github.com/annguyen-it/teaching-scheduling-system/commits/2a768c3da13df50a7dfa9957af9106764330e996))
 
 ### [2.2.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.2.0...v2.2.1) (2022-05-03)
