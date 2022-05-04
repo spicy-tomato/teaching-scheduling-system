@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.4.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.3.0...v2.4.0) (2022-05-04)
+
+
+### Features
+
+* new pipe 'filterByInput' ([0803b1a](https://github.com/annguyen-it/teaching-scheduling-system/commits/0803b1a1c6be366f3322758d80357539997c0909))
+* remove cache mechanic ([0f0b868](https://github.com/annguyen-it/teaching-scheduling-system/commits/0f0b868dec8a123f14b05a41be92b4b2658b8166))
+* remove pipe 'filter' ([d7ea2bd](https://github.com/annguyen-it/teaching-scheduling-system/commits/d7ea2bdb6a5391ac8b128d2e0d106ac441eb0a4a))
+* remove pipe 'map' ([15e6f6a](https://github.com/annguyen-it/teaching-scheduling-system/commits/15e6f6acf25c02db71969c569e5ab046d3a93336))
+
 ## [2.3.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.2.1...v2.3.0) (2022-05-04)
 
 
