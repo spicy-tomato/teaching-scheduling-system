@@ -110,15 +110,13 @@ export class RequestsOptionsComponent extends BaseComponent {
           const document =
             this.exportService.exportChangeScheduleRequestForTeacher(
               schedules,
-              schedules[0].teacher.name,
+              teacher.name,
               teacher.department.name || '',
               schedules[0].reason
             );
 
           const commonName = 'Giay-xin-thay-doi-gio-giang';
-          const teacherName = StringHelper.toLatinText(
-            schedules[0].teacher.name ?? teacher.name
-          )
+          const teacherName = StringHelper.toLatinText(teacher.name)
             .split(' ')
             .join('-');
           const fileName = `${commonName}_${teacherName}.docx`;
