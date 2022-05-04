@@ -65,6 +65,10 @@ export class ExportService {
       size: {
         orientation: PageOrientation.LANDSCAPE,
       },
+      margin: {
+        top: '1.25cm',
+        bottom: '0.5cm',
+      },
     };
 
     return new Document({
