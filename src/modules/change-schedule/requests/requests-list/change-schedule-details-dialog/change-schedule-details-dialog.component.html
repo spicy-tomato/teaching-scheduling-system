@@ -51,14 +51,19 @@
       </td>
     </tr>
 
-    <tr *ngIf="!isIntendTime">
+    <tr>
       <td>Ca</td>
       <td>:</td>
       <td class="text-center">{{ context.data.oldSchedule.shift }}</td>
       <td>
         <tui-svg src="tuiIconChevronRight"></tui-svg>
       </td>
-      <td class="text-center">{{ context.data.newSchedule.shift }}</td>
+      <td class="text-center">
+        <i *ngIf="isIntendTime; else shift"> (Chưa xếp ca) </i>
+        <ng-template #shift>
+          {{ context.data.newSchedule.shift }}
+        </ng-template>
+      </td>
     </tr>
 
     <tr *ngIf="!isIntendTime">
