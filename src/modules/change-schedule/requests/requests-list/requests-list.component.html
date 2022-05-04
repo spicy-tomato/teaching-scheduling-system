@@ -61,6 +61,10 @@
               Ngày học
             </th>
             <ng-container *tuiHead="'newDate'"></ng-container>
+            <th tuiTh *tuiHead="'oldShift'" [sorter]="null" colspan="2">
+              Ca học
+            </th>
+            <ng-container *tuiHead="'newShift'"></ng-container>
             <th tuiTh *tuiHead="'reason'" [sorter]="null" rowspan="2">Lý do</th>
             <th tuiTh *tuiHead="'createdAt'" [sorter]="null" rowspan="2">
               <div class="no-wrap">Thời gian tạo yêu cầu</div>
@@ -77,6 +81,10 @@
               Cũ
             </th>
             <th tuiTh *tuiHead="'newDate'" [sorter]="null">Mới</th>
+            <th tuiTh *tuiHead="'oldShift'" [sorter]="null" class="border">
+              Cũ
+            </th>
+            <th tuiTh *tuiHead="'newShift'" [sorter]="null">Mới</th>
           </tr>
         </thead>
 
@@ -135,6 +143,16 @@
                 {{
                   item.intendTime || (item.newSchedule.date | date: "dd-MM-Y")
                 }}
+              </div>
+            </td>
+            <td tuiTd *tuiCell="'oldShift'">
+              <div class="text-center">
+                {{ item.oldSchedule.shift }}
+              </div>
+            </td>
+            <td tuiTd *tuiCell="'newShift'">
+              <div class="text-center">
+                {{ item.newSchedule.shift }}
               </div>
             </td>
             <td tuiTd *tuiCell="'reason'">

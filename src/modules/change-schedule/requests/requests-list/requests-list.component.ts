@@ -53,6 +53,8 @@ export class RequestsListComponent extends BaseComponent {
     'moduleClass',
     'oldDate',
     'newDate',
+    'oldShift',
+    'newShift',
     'reason',
     'createdAt',
     'status',
