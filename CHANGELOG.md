@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.3.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.2.1...v2.3.0) (2022-05-04)
+
+
+### Features
+
+* **change-schedule:** always display shift in information dialog ([9dc6949](https://github.com/annguyen-it/teaching-scheduling-system/commits/9dc6949900a0aa0efd25fc3261b65628a055198a))
+* **change-schedule:** display shift information ([6486ab3](https://github.com/annguyen-it/teaching-scheduling-system/commits/6486ab31fb20e6bddcae00c7c87f59acad450861))
+
+
+### Bug Fixes
+
+* **change-schedule:** decrease margin on export file for teacher ([6b8aef5](https://github.com/annguyen-it/teaching-scheduling-system/commits/6b8aef5dda890aada2974a69a918c39aefe06d9b))
+* **change-schedule:** field 'teacher name' in export file is null ([547bb67](https://github.com/annguyen-it/teaching-scheduling-system/commits/547bb67ef6712220c591e716507a9996a932323e))
+* disable translate ([2a768c3](https://github.com/annguyen-it/teaching-scheduling-system/commits/2a768c3da13df50a7dfa9957af9106764330e996))
+
 ### [2.2.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.2.0...v2.2.1) (2022-05-03)
 
 
