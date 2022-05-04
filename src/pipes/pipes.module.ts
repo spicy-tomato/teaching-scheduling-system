@@ -11,6 +11,7 @@ import { StatusTypePipe } from './status-type.pipe';
 import { ChangeStatusTypePipe } from './change-status-type.pipe';
 import { ChangeCanExportPipe } from './change-can-export.pipe';
 import { ArrayIncludesPipe } from './array-includes.pipe';
+import { FilterByInputPipe } from './filter-by-input.pipe';
 
 const PIPES = [
   AsPipe,
@@ -24,6 +25,7 @@ const PIPES = [
   StatusTypePipe,
   TuiDayPipe,
   ArrayIncludesPipe,
+  FilterByInputPipe,
 ];
 
 @NgModule({

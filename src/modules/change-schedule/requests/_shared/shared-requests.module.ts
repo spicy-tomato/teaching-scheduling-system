@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TuiButtonModule } from '@taiga-ui/core';
 import { SetRoomDialogComponent } from './set-room-dialog/set-room-dialog.component';
 import { ReactiveComponentModule } from '@ngrx/component';
+import { PipesModule } from '@pipes/pipes.module';
 
 const EXPORT = [FormsModule, ReactiveFormsModule, ReactiveComponentModule];
 const COMPONENTS = [DenyDialogComponent, SetRoomDialogComponent];
@@ -24,7 +25,7 @@ const TAIGA_UI = [
 ];
 
 @NgModule({
-  imports: [CommonModule, ...EXPORT, ...TAIGA_UI],
+  imports: [CommonModule, PipesModule, ...EXPORT, ...TAIGA_UI],
   declarations: [...COMPONENTS],
   exports: [...EXPORT, ...EXPORT_TAIGA_UI],
 })

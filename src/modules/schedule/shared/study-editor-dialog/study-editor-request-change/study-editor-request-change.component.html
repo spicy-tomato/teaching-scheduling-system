@@ -49,7 +49,7 @@
       <input tuiTextfield />
       <tui-data-list-wrapper
         *tuiDataList
-        [items]="rooms | tuiFilter: roomMatcher | tuiFilterByInput"
+        [items]="rooms | tuiFilter: roomMatcher | filterByInput"
       >
       </tui-data-list-wrapper>
     </tui-combo-box>
