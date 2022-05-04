@@ -13,6 +13,5 @@ export * from './role.model';
 export * from './simple-map.model';
 export * from './simple.model';
 export * from './status.model';
-export * from './storage-timeout.model';
 export * from './teacher';
 export * from './user.model';
