@@ -1435,20 +1435,34 @@ export class ExportService {
                           verticalAlign,
                           children: [
                             new Paragraph({
+                              alignment,
                               spacing: {
                                 after: 0,
                               },
-                              text: schedule.newSchedule.date
-                                ? `${
-                                    this.datePipe.transform(
-                                      schedule.newSchedule.date,
-                                      'dd/MM/Y'
-                                    ) ?? schedule.newSchedule.date
-                                  }, ca ${schedule.newSchedule.shift ?? ''}, ${
-                                    schedule.newSchedule.room ?? ''
-                                  }`
-                                : schedule.intendTime ?? '',
-                              alignment,
+                              children: schedule.newSchedule.date
+                                ? [
+                                    new TextRun({
+                                      text: `${
+                                        this.datePipe.transform(
+                                          schedule.newSchedule.date,
+                                          'dd/MM/Y'
+                                        ) ?? schedule.newSchedule.date
+                                      }, ca ${
+                                        schedule.newSchedule.shift ?? ''
+                                      },`,
+                                    }),
+                                    new TextRun({
+                                      break: 1,
+                                      text: `${
+                                        schedule.newSchedule.room ?? ''
+                                      }`,
+                                    }),
+                                  ]
+                                : [
+                                    new TextRun({
+                                      text: schedule.intendTime ?? '',
+                                    }),
+                                  ],
                             }),
                           ],
                         }),
