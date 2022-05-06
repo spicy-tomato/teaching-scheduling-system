@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.6.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.5.0...v2.6.0) (2022-05-06)
+
+
+### Features
+
+* remove dismissable on all dialogs ([4bb0c4f](https://github.com/annguyen-it/teaching-scheduling-system/commits/4bb0c4f5201a9225adedaa5459a1c4f6afc4810c))
+
+
+### Bug Fixes
+
+* **statistic:** break line for cell content in export file ([0961fd4](https://github.com/annguyen-it/teaching-scheduling-system/commits/0961fd4433c7fad78865b8611dd43a7c326a20bd))
+* **statistic:** do not export denied schedule ([df8999c](https://github.com/annguyen-it/teaching-scheduling-system/commits/df8999cbc0e68930f1ca2c01726f4b539ca408d0))
+* **user-setting:** cannot change password ([76897ae](https://github.com/annguyen-it/teaching-scheduling-system/commits/76897aeb38fdd13835a61b2e89d77921aef40c91))
+
 ## [2.5.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.4.0...v2.5.0) (2022-05-04)
 
 
