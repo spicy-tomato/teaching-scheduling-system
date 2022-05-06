@@ -100,7 +100,6 @@ export class FeedbackComponent extends BaseComponent {
   private openSuccessDialog(): void {
     this.dialogService
       .open(new PolymorpheusComponent(SuccessDialogComponent, this.injector), {
-        dismissible: false,
         header: new PolymorpheusComponent(
           SuccessDialogHeaderComponent,
           this.injector
