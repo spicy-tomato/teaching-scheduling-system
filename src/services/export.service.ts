@@ -2,7 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Inject, Injectable, Injector } from '@angular/core';
 import { RoleConstant } from '@shared/constants';
 import { FileType } from '@shared/enums';
-import { DateHelper } from '@shared/helpers';
+import { ChangeStatusHelper, DateHelper } from '@shared/helpers';
 import { ChangeSchedule, SimpleTeacher, Teacher } from '@shared/models';
 import { TuiDayRange } from '@taiga-ui/cdk';
 import {
@@ -1360,115 +1360,119 @@ export class ExportService {
                     }),
                   ],
                 }),
-                ...schedules.map(
-                  (schedule, row) =>
-                    new TableRow({
-                      children: [
-                        new TableCell({
-                          verticalAlign,
-                          children: [
-                            new Paragraph({
-                              spacing: {
-                                after: 0,
-                              },
-                              text: `${row + 1}`,
-                              alignment,
-                            }),
-                          ],
-                        }),
-                        new TableCell({
-                          verticalAlign,
-                          children: [
-                            new Paragraph({
-                              spacing: {
-                                after: 0,
-                              },
-                              text: `${
-                                this.datePipe.transform(
-                                  schedule.oldSchedule.date,
-                                  'dd/MM/Y'
-                                ) ?? schedule.oldSchedule.date
-                              }, ca ${schedule.oldSchedule.shift}, ${
-                                schedule.oldSchedule.room
-                              }`,
-                              alignment,
-                            }),
-                          ],
-                        }),
-                        new TableCell({
-                          verticalAlign,
-                          children: [
-                            new Paragraph({
-                              spacing: {
-                                after: 0,
-                              },
-                              text: schedule.moduleClassName,
-                              alignment,
-                            }),
-                          ],
-                        }),
-                        new TableCell({
-                          verticalAlign,
-                          children: [
-                            new Paragraph({
-                              spacing: {
-                                after: 0,
-                              },
-                              text: schedule.teacher.name,
-                              alignment,
-                            }),
-                          ],
-                        }),
-                        new TableCell({
-                          verticalAlign,
-                          children: [
-                            new Paragraph({
-                              spacing: {
-                                after: 0,
-                              },
-                              text: schedule.reason,
-                              alignment,
-                            }),
-                          ],
-                        }),
-                        new TableCell({
-                          verticalAlign,
-                          children: [
-                            new Paragraph({
-                              alignment,
-                              spacing: {
-                                after: 0,
-                              },
-                              children: schedule.newSchedule.date
-                                ? [
-                                    new TextRun({
-                                      text: `${
-                                        this.datePipe.transform(
-                                          schedule.newSchedule.date,
-                                          'dd/MM/Y'
-                                        ) ?? schedule.newSchedule.date
-                                      }, ca ${
-                                        schedule.newSchedule.shift ?? ''
-                                      },`,
-                                    }),
-                                    new TextRun({
-                                      break: 1,
-                                      text: `${
-                                        schedule.newSchedule.room ?? ''
-                                      }`,
-                                    }),
-                                  ]
-                                : [
-                                    new TextRun({
-                                      text: schedule.intendTime ?? '',
-                                    }),
-                                  ],
-                            }),
-                          ],
-                        }),
-                      ],
-                    })
-                ),
+                ...schedules
+                  .filter((schedule) =>
+                    ChangeStatusHelper.isApproved(schedule.status)
+                  )
+                  .map(
+                    (schedule, row) =>
+                      new TableRow({
+                        children: [
+                          new TableCell({
+                            verticalAlign,
+                            children: [
+                              new Paragraph({
+                                spacing: {
+                                  after: 0,
+                                },
+                                text: `${row + 1}`,
+                                alignment,
+                              }),
+                            ],
+                          }),
+                          new TableCell({
+                            verticalAlign,
+                            children: [
+                              new Paragraph({
+                                spacing: {
+                                  after: 0,
+                                },
+                                text: `${
+                                  this.datePipe.transform(
+                                    schedule.oldSchedule.date,
+                                    'dd/MM/Y'
+                                  ) ?? schedule.oldSchedule.date
+                                }, ca ${schedule.oldSchedule.shift}, ${
+                                  schedule.oldSchedule.room
+                                }`,
+                                alignment,
+                              }),
+                            ],
+                          }),
+                          new TableCell({
+                            verticalAlign,
+                            children: [
+                              new Paragraph({
+                                spacing: {
+                                  after: 0,
+                                },
+                                text: schedule.moduleClassName,
+                                alignment,
+                              }),
+                            ],
+                          }),
+                          new TableCell({
+                            verticalAlign,
+                            children: [
+                              new Paragraph({
+                                spacing: {
+                                  after: 0,
+                                },
+                                text: schedule.teacher.name,
+                                alignment,
+                              }),
+                            ],
+                          }),
+                          new TableCell({
+                            verticalAlign,
+                            children: [
+                              new Paragraph({
+                                spacing: {
+                                  after: 0,
+                                },
+                                text: schedule.reason,
+                                alignment,
+                              }),
+                            ],
+                          }),
+                          new TableCell({
+                            verticalAlign,
+                            children: [
+                              new Paragraph({
+                                alignment,
+                                spacing: {
+                                  after: 0,
+                                },
+                                children: schedule.newSchedule.date
+                                  ? [
+                                      new TextRun({
+                                        text: `${
+                                          this.datePipe.transform(
+                                            schedule.newSchedule.date,
+                                            'dd/MM/Y'
+                                          ) ?? schedule.newSchedule.date
+                                        }, ca ${
+                                          schedule.newSchedule.shift ?? ''
+                                        },`,
+                                      }),
+                                      new TextRun({
+                                        break: 1,
+                                        text: `${
+                                          schedule.newSchedule.room ?? ''
+                                        }`,
+                                      }),
+                                    ]
+                                  : [
+                                      new TextRun({
+                                        text: schedule.intendTime ?? '',
+                                      }),
+                                    ],
+                              }),
+                            ],
+                          }),
+                        ],
+                      })
+                  ),
               ],
             }),
             new Paragraph({
