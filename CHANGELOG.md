@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.7.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.6.0...v2.7.0) (2022-05-07)
+
+
+### Features
+
+* **user-setting:** confirm change password ([7d1c38c](https://github.com/annguyen-it/teaching-scheduling-system/commits/7d1c38ca8e415ca371cd7cdee866671784446cdf))
+
 ## [2.6.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.5.0...v2.6.0) (2022-05-06)
 
 
