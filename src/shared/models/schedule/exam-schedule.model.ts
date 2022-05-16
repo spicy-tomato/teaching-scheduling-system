@@ -2,27 +2,18 @@ import { EjsScheduleModel } from './ejs-schedule.model';
 import { ScheduleModel } from './schedule.model';
 
 export class ExamScheduleModel extends ScheduleModel {
-  public readonly method!: string;
-  public readonly timeStart!: Date;
-  public readonly timeEnd!: Date;
-  public readonly teacher!: string;
-
   constructor(
     id: number,
     idModuleClass: string,
     name: string,
-    method: string,
-    timeStart: Date,
-    timeEnd: Date,
+    public readonly method: string,
+    public readonly timeStart: Date,
+    public readonly timeEnd: Date,
     idRoom: string,
     note: string,
-    teacher: string
+    public readonly teacher: string
   ) {
     super(id, idModuleClass, name, idRoom, 'exam', note, [teacher]);
-
-    this.method = method;
-    this.timeStart = timeStart;
-    this.timeEnd = timeEnd;
   }
 
   public static parse(obj: ExamScheduleModel): ExamScheduleModel {
