@@ -1,5 +1,4 @@
 import { BehaviorSubject, Observable } from 'rxjs';
-import { DateHelper } from '@shared/helpers';
 import { Nullable } from 'src/shared/models';
 
 export abstract class StorageService {
@@ -24,12 +23,6 @@ export abstract class StorageService {
 
   public getItem(key: string): Nullable<string> {
     return this.storage.getItem(key);
-  }
-
-  public getItemWithType<T>(key: string): Nullable<T> {
-    const item = this.storage.getItem(key);
-    if (!item) return null;
-    return JSON.parse(item, DateHelper.dateTimeReviver) as T;
   }
 
   public setItem(key: string, value: string): void {

@@ -1,14 +1,17 @@
 import {
+  ChangeSchedule,
   ChangeScheduleOptions,
   ChangeScheduleSearch,
   ChangeScheduleStatus,
-  RequestDataState,
+  SimpleModel,
 } from '@shared/models';
 
 export interface RequestsState {
   status: ChangeScheduleStatus;
   options: ChangeScheduleOptions;
-  data: RequestDataState;
+  changeSchedules: ChangeSchedule[];
+  teachers: SimpleModel[];
   total: number;
   query: ChangeScheduleSearch;
+  exportIndexes: boolean[];
 }

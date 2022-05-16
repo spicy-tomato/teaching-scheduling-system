@@ -3,45 +3,59 @@ import {
   AbstractControl,
   FormBuilder,
   FormGroup,
-  ValidationErrors,
-  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';
 import { TuiValidationError } from '@taiga-ui/cdk';
 import { TuiNotification, TuiNotificationsService } from '@taiga-ui/core';
-import { BehaviorSubject, merge, Observable } from 'rxjs';
-import { filter, map, takeUntil, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { filter, takeUntil, tap } from 'rxjs/operators';
 import { EApiStatus } from '@shared/enums';
 import { Md5 } from 'ts-md5';
 import * as fromChangePassword from './state';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
-import { ChangePassword, Nullable } from 'src/shared/models';
+import { ChangePassword } from 'src/shared/models';
+import {
+  differentControlValueValidator,
+  sameControlValueValidator,
+} from '@shared/validators';
+import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
+import { requiredFactory } from '@shared/factories';
 
 @Component({
   selector: 'tss-change-password',
   templateUrl: './change-password.component.html',
   styleUrls: ['./change-password.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: TUI_VALIDATION_ERRORS,
+      useValue: {
+        minlength: (): string => 'Mật khẩu cần có tối thiểu 6 ký tự',
+        required: requiredFactory,
+      },
+    },
+  ],
 })
 export class ChangePasswordComponent extends BaseComponent {
   /** PUBLIC METHODS */
   public form!: FormGroup;
   public status$: Observable<EApiStatus>;
   public nameTitle$!: Observable<string>;
-  public wrongPasswordError$ = new BehaviorSubject<
-    Nullable<TuiValidationError>
-  >(null);
   public readonly EApiStatus = EApiStatus;
 
   /** GETTERS */
-  public get password(): Nullable<AbstractControl> {
-    return this.form.get('password');
+  public get password(): AbstractControl {
+    return this.form.controls['password'];
   }
 
-  public get newPassword(): Nullable<AbstractControl> {
-    return this.form.get('newPassword');
+  public get newPassword(): AbstractControl {
+    return this.form.controls['newPassword'];
+  }
+
+  public get confirmPassword(): AbstractControl {
+    return this.form.controls['confirmPassword'];
   }
 
   /** CONSTRUCTOR */
@@ -64,8 +78,7 @@ export class ChangePasswordComponent extends BaseComponent {
     this.store.dispatch(fromChangePassword.reset());
 
     this.initForm();
-    this.handleChange();
-    this.handleWrongPassword();
+    this.handleStatusChange();
   }
 
   /** PUBLIC METHODS */
@@ -82,21 +95,38 @@ export class ChangePasswordComponent extends BaseComponent {
     }
   }
 
+  public onConfirmPasswordChange(): void {
+    if (this.confirmPassword.untouched) {
+      this.confirmPassword.markAllAsTouched();
+    }
+  }
+
   /** PRIVATE METHODS */
   private initForm(): void {
-    this.form = this.fb.group(
-      {
-        password: ['', Validators.required],
-        newPassword: [
-          '',
-          [Validators.required, Validators.minLength(6), duplicatedValue],
-        ],
-      },
-      { validators: duplicatedValue }
+    this.form = this.fb.group({
+      password: ['', Validators.required],
+      newPassword: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', Validators.required],
+    });
+
+    this.newPassword.addValidators(
+      sameControlValueValidator(this.password, {
+        error: new TuiValidationError(
+          'Mật khẩu mới không được trùng mật khẩu cũ!'
+        ),
+      })
+    );
+
+    this.confirmPassword.addValidators(
+      differentControlValueValidator(this.newPassword, {
+        error: new TuiValidationError(
+          'Xác nhận mật khẩu không khớp với mật khẩu mới!'
+        ),
+      })
     );
   }
 
-  private handleChange(): void {
+  private handleStatusChange(): void {
     this.status$
       .pipe(
         filter((status) => status === EApiStatus.successful),
@@ -110,46 +140,18 @@ export class ChangePasswordComponent extends BaseComponent {
         })
       )
       .subscribe();
-  }
 
-  private handleWrongPassword(): void {
-    if (!this.password) return;
-
-    const statusChanges$ = this.status$.pipe(
-      map((status) =>
-        status === EApiStatus.clientError
-          ? new TuiValidationError(
+    this.status$
+      .pipe(
+        filter((status) => status === EApiStatus.clientError),
+        tap(() => {
+          this.password.setErrors(
+            new TuiValidationError(
               'Mật khẩu không chính xác, vui lòng thử lại!'
             )
-          : null
-      )
-    );
-
-    const passwordInputChanges$ = this.password.valueChanges.pipe(
-      filter(() => this.wrongPasswordError$.value !== null),
-      map(() => null)
-    );
-
-    merge(statusChanges$, passwordInputChanges$)
-      .pipe(
-        tap((status) => this.wrongPasswordError$.next(status)),
-        takeUntil(this.destroy$)
+          );
+        })
       )
       .subscribe();
   }
 }
-
-const duplicatedValue: ValidatorFn = (
-  control: AbstractControl
-): Nullable<ValidationErrors> => {
-  const password = control.get('password');
-  const newPassword = control.get('newPassword');
-
-  return password &&
-    newPassword &&
-    password.value &&
-    newPassword.value &&
-    password.value === newPassword.value
-    ? { duplicatedValue: true }
-    : null;
-};

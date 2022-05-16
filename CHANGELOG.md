@@ -2,6 +2,80 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.7.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.6.0...v2.7.0) (2022-05-07)
+
+
+### Features
+
+* **user-setting:** confirm change password ([7d1c38c](https://github.com/annguyen-it/teaching-scheduling-system/commits/7d1c38ca8e415ca371cd7cdee866671784446cdf))
+
+## [2.6.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.5.0...v2.6.0) (2022-05-06)
+
+
+### Features
+
+* remove dismissable on all dialogs ([4bb0c4f](https://github.com/annguyen-it/teaching-scheduling-system/commits/4bb0c4f5201a9225adedaa5459a1c4f6afc4810c))
+
+
+### Bug Fixes
+
+* **statistic:** break line for cell content in export file ([0961fd4](https://github.com/annguyen-it/teaching-scheduling-system/commits/0961fd4433c7fad78865b8611dd43a7c326a20bd))
+* **statistic:** do not export denied schedule ([df8999c](https://github.com/annguyen-it/teaching-scheduling-system/commits/df8999cbc0e68930f1ca2c01726f4b539ca408d0))
+* **user-setting:** cannot change password ([76897ae](https://github.com/annguyen-it/teaching-scheduling-system/commits/76897aeb38fdd13835a61b2e89d77921aef40c91))
+
+## [2.5.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.4.0...v2.5.0) (2022-05-04)
+
+
+### Features
+
+* update API ([a79d9e9](https://github.com/annguyen-it/teaching-scheduling-system/commits/a79d9e9d531444d3ea85e306f9a7536ad3898c12))
+
+## [2.4.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.3.0...v2.4.0) (2022-05-04)
+
+
+### Features
+
+* new pipe `filterByInput` ([0803b1a](https://github.com/annguyen-it/teaching-scheduling-system/commits/0803b1a1c6be366f3322758d80357539997c0909))
+* remove cache mechanic ([0f0b868](https://github.com/annguyen-it/teaching-scheduling-system/commits/0f0b868dec8a123f14b05a41be92b4b2658b8166))
+* remove pipe `filter` ([d7ea2bd](https://github.com/annguyen-it/teaching-scheduling-system/commits/d7ea2bdb6a5391ac8b128d2e0d106ac441eb0a4a))
+* remove pipe `map` ([15e6f6a](https://github.com/annguyen-it/teaching-scheduling-system/commits/15e6f6acf25c02db71969c569e5ab046d3a93336))
+
+## [2.3.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.2.1...v2.3.0) (2022-05-04)
+
+
+### Features
+
+* **change-schedule:** always display shift in information dialog ([9dc6949](https://github.com/annguyen-it/teaching-scheduling-system/commits/9dc6949900a0aa0efd25fc3261b65628a055198a))
+* **change-schedule:** display shift information ([6486ab3](https://github.com/annguyen-it/teaching-scheduling-system/commits/6486ab31fb20e6bddcae00c7c87f59acad450861))
+
+
+### Bug Fixes
+
+* **change-schedule:** decrease margin on export file for teacher ([6b8aef5](https://github.com/annguyen-it/teaching-scheduling-system/commits/6b8aef5dda890aada2974a69a918c39aefe06d9b))
+* **change-schedule:** field `teacher name` in export file is null ([547bb67](https://github.com/annguyen-it/teaching-scheduling-system/commits/547bb67ef6712220c591e716507a9996a932323e))
+* disable translate ([2a768c3](https://github.com/annguyen-it/teaching-scheduling-system/commits/2a768c3da13df50a7dfa9957af9106764330e996))
+
+### [2.2.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.2.0...v2.2.1) (2022-05-03)
+
+
+### Bug Fixes
+
+* **change-schedule:** export button content is line-break ([0c1e680](https://github.com/annguyen-it/teaching-scheduling-system/commits/0c1e680cf1fe3319cc6d02c75f4bb2660bc0ca5f))
+
+## [2.2.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.1.2...v2.2.0) (2022-05-03)
+
+
+### Features
+
+* add pipe arrayIncludes ([c9ce6af](https://github.com/annguyen-it/teaching-scheduling-system/commits/c9ce6af08a1b5cf0e4a1080ad94647affcf25195))
+* add pipe changeCanExport ([d418f93](https://github.com/annguyen-it/teaching-scheduling-system/commits/d418f93c418fe03018a41530ac9fcb556dc5d90e))
+* **change-schedule:** export multiple change schedules ([3fbe95f](https://github.com/annguyen-it/teaching-scheduling-system/commits/3fbe95f299262fa1790bf6566912ceb050fc9b22))
+
+
+### Bug Fixes
+
+* fix typo in export file name ([3507578](https://github.com/annguyen-it/teaching-scheduling-system/commits/35075784908c95259d22afa0c0c7ec358bcd6efb))
+
 ### [2.1.2](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.1.1...v2.1.2) (2022-05-01)
 
 

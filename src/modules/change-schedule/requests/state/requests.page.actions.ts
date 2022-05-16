@@ -49,3 +49,8 @@ export const changePage = createAction(
   '[Change schedule - Requests Page] Change page',
   props<{ page: number }>()
 );
+
+export const changeSelectExport = createAction(
+  '[Change schedule - Requests Page] Change select export',
+  props<{ selectExport: boolean[] }>()
+);

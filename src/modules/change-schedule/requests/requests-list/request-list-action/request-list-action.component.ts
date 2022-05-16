@@ -190,9 +190,10 @@ export class RequestListActionComponent extends BaseComponent {
 
   private exportForTeacher(teacher: Nullable<Teacher>): void {
     const document = this.exportService.exportChangeScheduleRequestForTeacher(
-      this.schedule,
+      [this.schedule],
       this.schedule.teacher.name ?? teacher?.name,
-      teacher?.department.name || ''
+      teacher?.department.name || '',
+      this.schedule.reason
     );
 
     const commonName = 'Giay-xin-thay-doi-gio-giang';
@@ -204,7 +205,7 @@ export class RequestListActionComponent extends BaseComponent {
     const createdAt =
       this.datePipe.transform(this.schedule.createdAt, 'dd-MM-Y') ??
       this.schedule.createdAt.toDateString();
-    const fileName = `${commonName}_${teacherName}_${createdAt}}.docx`;
+    const fileName = `${commonName}_${teacherName}_${createdAt}.docx`;
 
     this.exportService.exportBlob({
       document,

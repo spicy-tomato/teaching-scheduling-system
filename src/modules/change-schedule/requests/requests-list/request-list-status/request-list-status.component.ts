@@ -79,7 +79,6 @@ export class RequestListStatusComponent extends BaseComponent {
         {
           label: 'Từ chối yêu cầu thay đổi lịch giảng',
           data: this.item,
-          dismissible: false,
         }
       )
       .subscribe();
@@ -102,7 +101,6 @@ export class RequestListStatusComponent extends BaseComponent {
               {
                 label: 'Xếp phòng cho giảng viên',
                 data: this.item,
-                dismissible: false,
               }
             )
             .subscribe();

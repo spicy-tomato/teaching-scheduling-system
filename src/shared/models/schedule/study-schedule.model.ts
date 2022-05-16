@@ -4,34 +4,20 @@ import { FixedScheduleModel } from './fixed-schedule.model';
 import { ScheduleModel } from './schedule.model';
 
 export class StudyScheduleModel extends ScheduleModel {
-  public shift!: string;
-  public date!: Date;
-  public readonly color!: string;
-  public readonly moduleName!: string;
-  public readonly teacher!: string;
-  public fixedSchedules!: FixedScheduleModel[];
-
   constructor(
     id: number,
     idModuleClass: string,
     name: string,
     idRoom: string,
     note: string,
-    shift: string,
-    date: Date,
-    color: string,
-    moduleName: string,
-    teacher: string,
-    fixedSchedules: FixedScheduleModel[]
+    public shift: string,
+    public date: Date,
+    public readonly color: string,
+    public readonly moduleName: string,
+    public readonly teacher: string,
+    public fixedSchedules: FixedScheduleModel[]
   ) {
     super(id, idModuleClass, name, idRoom, 'study', note, [teacher]);
-
-    this.teacher = teacher;
-    this.shift = shift;
-    this.date = date;
-    this.color = color;
-    this.moduleName = moduleName;
-    this.fixedSchedules = fixedSchedules;
   }
 
   public static parse(obj: StudyScheduleModel): StudyScheduleModel {

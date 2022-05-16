@@ -1,7 +1,6 @@
 import { SimpleModel } from '../simple.model';
 
 export class Teacher {
-  public readonly uuid!: string;
   public readonly uuidAccount!: string;
   public readonly birth?: string;
   public readonly phone?: string;

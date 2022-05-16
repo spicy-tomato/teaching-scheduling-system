@@ -76,6 +76,7 @@ export class TssScheduleComponent
 
   /** PUBLIC PROPERTIES */
   public readonly eventSettings$ = new BehaviorSubject<EventSettingsModel>({});
+  public readonly peopleMatcher = (item: string): boolean => item !== 'self';
 
   /** PRIVATE PROPERTIES */
   private readonly staticSettings: EventSettingsModel = {
@@ -279,7 +280,6 @@ export class TssScheduleComponent
         new PolymorpheusComponent(ExamEditorDialogComponent, this.injector),
         {
           data,
-          dismissible: false,
           label: 'Chi tiết lịch thi',
         }
       )
@@ -297,10 +297,7 @@ export class TssScheduleComponent
     this.dialogService
       .open<ChangedScheduleModel | undefined>(
         new PolymorpheusComponent(StudyEditorDialogComponent, this.injector),
-        {
-          data,
-          dismissible: false,
-        }
+        { data }
       )
       .pipe(
         ObservableHelper.filterNullish(),

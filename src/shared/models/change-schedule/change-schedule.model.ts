@@ -2,7 +2,6 @@ import { Nullable, RequestChangeScheduleCode, SimpleModel } from '../core';
 
 export interface ChangeSchedule {
   id: number;
-  idSchedule: number;
   teacher: SimpleModel;
   moduleClassName: string;
   oldSchedule: {

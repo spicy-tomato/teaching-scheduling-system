@@ -21,7 +21,7 @@ export class ChangePasswordEffects {
       ofType(PageAction.change),
       withLatestFrom(this.teacher$),
       mergeMap(([{ form }, teacher]) => {
-        return this.userService.changePassword(teacher.uuid, form).pipe(
+        return this.userService.changePassword(teacher.uuidAccount, form).pipe(
           map(() => ApiAction.changeSuccessful()),
           catchError(() => of(ApiAction.changeFailure()))
         );
