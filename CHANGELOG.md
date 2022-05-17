@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.8.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.8.0...v2.8.1) (2022-05-17)
+
+
+### Bug Fixes
+
+* **change-schedule:** show link to statistic instead of monthly export for department head ([3b2a93c](https://github.com/annguyen-it/teaching-scheduling-system/commits/3b2a93ce2e7a6efa25b7a4e98575d2fd96ac714c))
+
 ## [2.8.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.7.0...v2.8.0) (2022-05-17)
 
 
