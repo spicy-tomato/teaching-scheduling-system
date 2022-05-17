@@ -54,7 +54,9 @@ export class DenyDialogComponent {
   }
 
   public cancel(): void {
-    this.context.$implicit.complete();
+    setTimeout(() => {
+      this.context.$implicit.complete();
+    });
   }
 
   /** PRIVATE METHODS */

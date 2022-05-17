@@ -16,6 +16,8 @@ export class FormDiscardDialogComponent {
 
   /** PUBLIC METHODS */
   public onClick(exit: boolean): void {
-    this.context.completeWith(exit);
+    setTimeout(() => {
+      this.context.completeWith(exit);
+    });
   }
 }

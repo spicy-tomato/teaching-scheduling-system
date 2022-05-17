@@ -45,7 +45,9 @@ export class ExamEditorDialogComponent {
       this.scheduleService.updateExamNote({ id, note }).subscribe(
         () => {
           this.showLoader = false;
-          this.context.completeWith(note);
+          setTimeout(() => {
+            this.context.completeWith(note);
+          });
         },
         () => {
           this.showLoader = false;
