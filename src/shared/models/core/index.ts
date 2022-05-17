@@ -5,6 +5,7 @@ export * from './common-info.model';
 export * from './error-map.model';
 export * from './faculty.model';
 export * from './feature.model';
+export * from './generic-state';
 export * from './managing-class.model';
 export * from './nullable.model';
 export * from './request-change-schedule.model';

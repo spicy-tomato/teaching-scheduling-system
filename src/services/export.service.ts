@@ -1026,17 +1026,7 @@ export class ExportService {
     range: TuiDayRange,
     rangeOptions: { sameMonth: boolean; inOneYear: boolean }
   ): Document {
-    const rangeText = rangeOptions.sameMonth
-      ? `tháng ${DateHelper.beautifyDay(range.from.month + 1)}/${
-          range.from.year
-        }`
-      : rangeOptions.inOneYear
-      ? `năm ${range.from.year}`
-      : `từ ${DateHelper.beautifyDay(range.from.day)}/${DateHelper.beautifyDay(
-          range.from.month + 1
-        )}/${range.from.year} đến ${DateHelper.beautifyDay(
-          range.to.day
-        )}/${DateHelper.beautifyDay(range.to.month + 1)}/${range.to.year}`;
+    const rangeText = this.calculateRangeText(range, rangeOptions);
     const today = new Date();
     const alignment = AlignmentType.CENTER;
     const verticalAlign = VerticalAlign.CENTER;
@@ -1526,5 +1516,442 @@ export class ExportService {
         },
       ],
     });
+  }
+
+  public exportPersonalChangeScheduleStatistic(
+    schedules: ChangeSchedule[],
+    teacher: Teacher,
+    range: TuiDayRange,
+    rangeOptions: { sameMonth: boolean; inOneYear: boolean }
+  ): Document {
+    const rangeText = rangeOptions.sameMonth
+      ? `tháng ${DateHelper.beautifyDay(range.from.month + 1)}/${
+          range.from.year
+        }`
+      : rangeOptions.inOneYear
+      ? `năm ${range.from.year}`
+      : `từ ${DateHelper.beautifyDay(range.from.day)}/${DateHelper.beautifyDay(
+          range.from.month + 1
+        )}/${range.from.year} đến ${DateHelper.beautifyDay(
+          range.to.day
+        )}/${DateHelper.beautifyDay(range.to.month + 1)}/${range.to.year}`;
+    const today = new Date();
+    const alignment = AlignmentType.CENTER;
+    const verticalAlign = VerticalAlign.CENTER;
+    const page = {
+      margin: {
+        top: '0.7in',
+        right: '0.6in',
+        bottom: '0.7in',
+        left: '0.6in',
+      },
+    };
+    const width = {
+      size: 18,
+      type: WidthType.PERCENTAGE,
+    };
+
+    return new Document({
+      styles: {
+        default: {
+          document: {
+            run: {
+              size: 24,
+            },
+            paragraph: {
+              spacing: {
+                after: 160,
+                line: 260,
+              },
+            },
+          },
+        },
+      },
+      sections: [
+        {
+          properties: {
+            page,
+          },
+          children: [
+            new Table({
+              width: {
+                size: 100,
+                type: WidthType.PERCENTAGE,
+              },
+              borders: {
+                insideHorizontal: {
+                  style: BorderStyle.NONE,
+                },
+                insideVertical: {
+                  style: BorderStyle.NONE,
+                },
+                top: {
+                  style: BorderStyle.NONE,
+                },
+                right: {
+                  style: BorderStyle.NONE,
+                },
+                bottom: {
+                  style: BorderStyle.NONE,
+                },
+                left: {
+                  style: BorderStyle.NONE,
+                },
+              },
+              rows: [
+                new TableRow({
+                  children: [
+                    new TableCell({
+                      verticalAlign,
+                      width: {
+                        size: 45,
+                        type: WidthType.PERCENTAGE,
+                      },
+                      children: [
+                        new Paragraph({
+                          alignment,
+                          children: [
+                            new TextRun({
+                              text: `Khoa ${teacher.faculty.name}`,
+                            }),
+                            new TextRun({
+                              break: 1,
+                              text: `Bộ môn ${teacher.department.name}`,
+                              bold: true,
+                            }),
+                            new TextRun({
+                              break: 1,
+                              text: '_______________________',
+                              bold: true,
+                            }),
+                          ],
+                        }),
+                      ],
+                    }),
+                    new TableCell({
+                      verticalAlign,
+                      width: {
+                        size: 5,
+                        type: WidthType.PERCENTAGE,
+                      },
+                      children: [],
+                    }),
+                    new TableCell({
+                      verticalAlign,
+                      width: {
+                        size: 50,
+                        type: WidthType.PERCENTAGE,
+                      },
+                      children: [
+                        new Paragraph({
+                          alignment,
+                          children: [
+                            new TextRun({
+                              text: 'Cộng hòa xã hội chủ nghĩa Việt Nam',
+                              allCaps: true,
+                            }),
+                            new TextRun({
+                              break: 1,
+                              text: 'Độc lập – Tự do – Hạnh phúc',
+                            }),
+                            new TextRun({
+                              break: 1,
+                              text: '_______________________',
+                              bold: true,
+                            }),
+                          ],
+                        }),
+                      ],
+                    }),
+                  ],
+                }),
+              ],
+            }),
+            new Paragraph({
+              alignment: AlignmentType.END,
+              spacing: {
+                before: 320,
+                after: 320,
+              },
+              children: [
+                new TextRun({
+                  text: `Hà Nội, ngày ${DateHelper.beautifyDay(
+                    today.getDate()
+                  )} tháng ${DateHelper.beautifyDay(
+                    today.getMonth() + 1
+                  )} năm ${today.getFullYear()}`,
+                  italics: true,
+                }),
+              ],
+            }),
+            new Paragraph({
+              alignment,
+              spacing: {
+                before: 320,
+                after: 320,
+              },
+              children: [
+                new TextRun({
+                  text: 'Thống kê thay đổi giờ giảng',
+                  allCaps: true,
+                  size: 34,
+                }),
+                new TextRun({
+                  break: 1,
+                  italics: true,
+                  text: `(${rangeText})`,
+                  size: 26,
+                }),
+              ],
+            }),
+            new Paragraph({
+              spacing: {
+                line: 250,
+              },
+              children: [
+                new TextRun({
+                  text: `Giảng viên: ${teacher.name}`,
+                  size: 26,
+                }),
+                new TextRun({ break: 1 }),
+              ],
+            }),
+            new Table({
+              width: {
+                size: 100,
+                type: WidthType.PERCENTAGE,
+              },
+              rows: [
+                new TableRow({
+                  children: [
+                    new TableCell({
+                      margins: {
+                        top: 100,
+                        bottom: 100,
+                      },
+                      verticalAlign,
+                      width: {
+                        size: 6,
+                        type: WidthType.PERCENTAGE,
+                      },
+                      children: [
+                        new Paragraph({
+                          spacing: {
+                            after: 0,
+                          },
+                          children: [
+                            new TextRun({
+                              text: 'STT',
+                              bold: true,
+                            }),
+                          ],
+                          alignment,
+                        }),
+                      ],
+                    }),
+                    new TableCell({
+                      verticalAlign,
+                      width,
+                      children: [
+                        new Paragraph({
+                          spacing: {
+                            after: 0,
+                          },
+                          children: [
+                            new TextRun({
+                              text: 'Ngày, ca, phòng',
+                              bold: true,
+                            }),
+                          ],
+                          alignment,
+                        }),
+                      ],
+                    }),
+                    new TableCell({
+                      verticalAlign,
+                      width,
+                      children: [
+                        new Paragraph({
+                          spacing: {
+                            after: 0,
+                          },
+                          children: [
+                            new TextRun({
+                              text: 'Lớp - Môn',
+                              bold: true,
+                            }),
+                          ],
+                          alignment,
+                        }),
+                      ],
+                    }),
+                    new TableCell({
+                      verticalAlign,
+                      width,
+                      children: [
+                        new Paragraph({
+                          spacing: {
+                            after: 0,
+                          },
+                          children: [
+                            new TextRun({
+                              text: 'Lý do',
+                              bold: true,
+                            }),
+                          ],
+                          alignment,
+                        }),
+                      ],
+                    }),
+                    new TableCell({
+                      verticalAlign,
+                      width: {
+                        size: 22,
+                        type: WidthType.PERCENTAGE,
+                      },
+                      children: [
+                        new Paragraph({
+                          spacing: {
+                            after: 0,
+                          },
+                          children: [
+                            new TextRun({
+                              text: 'Ngày, Phòng dạy bù',
+                              bold: true,
+                            }),
+                          ],
+                          alignment,
+                        }),
+                      ],
+                    }),
+                  ],
+                }),
+                ...schedules
+                  .filter((schedule) =>
+                    ChangeStatusHelper.isApproved(schedule.status)
+                  )
+                  .map(
+                    (schedule, row) =>
+                      new TableRow({
+                        children: [
+                          new TableCell({
+                            verticalAlign,
+                            children: [
+                              new Paragraph({
+                                spacing: {
+                                  after: 0,
+                                },
+                                text: `${row + 1}`,
+                                alignment,
+                              }),
+                            ],
+                          }),
+                          new TableCell({
+                            verticalAlign,
+                            children: [
+                              new Paragraph({
+                                spacing: {
+                                  after: 0,
+                                },
+                                text: `${
+                                  this.datePipe.transform(
+                                    schedule.oldSchedule.date,
+                                    'dd/MM/Y'
+                                  ) ?? schedule.oldSchedule.date
+                                }, ca ${schedule.oldSchedule.shift}, ${
+                                  schedule.oldSchedule.room
+                                }`,
+                                alignment,
+                              }),
+                            ],
+                          }),
+                          new TableCell({
+                            verticalAlign,
+                            children: [
+                              new Paragraph({
+                                spacing: {
+                                  after: 0,
+                                },
+                                text: schedule.moduleClassName,
+                                alignment,
+                              }),
+                            ],
+                          }),
+                          new TableCell({
+                            verticalAlign,
+                            children: [
+                              new Paragraph({
+                                spacing: {
+                                  after: 0,
+                                },
+                                text: schedule.reason,
+                                alignment,
+                              }),
+                            ],
+                          }),
+                          new TableCell({
+                            verticalAlign,
+                            children: [
+                              new Paragraph({
+                                alignment,
+                                spacing: {
+                                  after: 0,
+                                },
+                                children: schedule.newSchedule.date
+                                  ? [
+                                      new TextRun({
+                                        text: `${
+                                          this.datePipe.transform(
+                                            schedule.newSchedule.date,
+                                            'dd/MM/Y'
+                                          ) ?? schedule.newSchedule.date
+                                        }, ca ${
+                                          schedule.newSchedule.shift ?? ''
+                                        },`,
+                                      }),
+                                      new TextRun({
+                                        break: 1,
+                                        text: `${
+                                          schedule.newSchedule.room ?? ''
+                                        }`,
+                                      }),
+                                    ]
+                                  : [
+                                      new TextRun({
+                                        text: schedule.intendTime ?? '',
+                                      }),
+                                    ],
+                              }),
+                            ],
+                          }),
+                        ],
+                      })
+                  ),
+              ],
+            }),
+          ],
+        },
+      ],
+    });
+  }
+
+  private calculateRangeText(
+    range: TuiDayRange,
+    rangeOptions: {
+      sameMonth: boolean;
+      inOneYear: boolean;
+    }
+  ): string {
+    return rangeOptions.sameMonth
+      ? `tháng ${DateHelper.beautifyDay(range.from.month + 1)}/${
+          range.from.year
+        }`
+      : rangeOptions.inOneYear
+      ? `năm ${range.from.year}`
+      : `từ ${DateHelper.beautifyDay(range.from.day)}/${DateHelper.beautifyDay(
+          range.from.month + 1
+        )}/${range.from.year} đến ${DateHelper.beautifyDay(
+          range.to.day
+        )}/${DateHelper.beautifyDay(range.to.month + 1)}/${range.to.year}`;
   }
 }

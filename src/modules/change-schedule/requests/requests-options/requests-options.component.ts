@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  Injector,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';
@@ -15,9 +20,15 @@ import { Observable, Subject } from 'rxjs';
 import { takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import * as fromRequests from '../state';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
-import { TUI_BUTTON_OPTIONS, TuiAppearance } from '@taiga-ui/core';
+import {
+  TUI_BUTTON_OPTIONS,
+  TuiAppearance,
+  TuiDialogService,
+} from '@taiga-ui/core';
 import { ExportService } from '@services/export.service';
 import { FileType } from '@shared/enums';
+import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
+import { ExportDialogComponent } from '../_shared/export-dialog/export-dialog.component';
 
 @Component({
   selector: 'tss-requests-options',
@@ -56,6 +67,8 @@ export class RequestsOptionsComponent extends BaseComponent {
   constructor(
     private readonly store: Store<fromRequests.RequestsState>,
     private readonly exportService: ExportService,
+    @Inject(Injector) private readonly injector: Injector,
+    @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
     route: ActivatedRoute,
     appShellStore: Store<fromAppShell.AppShellState>
   ) {
@@ -86,6 +99,18 @@ export class RequestsOptionsComponent extends BaseComponent {
   /** PUBLIC METHODS */
   public changeOptions(options: ChangeScheduleOptionsParam): void {
     this.store.dispatch(fromRequests.changeOptions({ options }));
+  }
+
+  public onExport(): void {
+    this.dialogService
+      .open(
+        new PolymorpheusComponent(ExportDialogComponent, this.injector),
+        {
+          label: 'Xuất báo cáo thay đổi giờ giảng',
+          dismissible: false,
+        }
+      )
+      .subscribe();
   }
 
   /** PRIVATE METHODS */

@@ -74,7 +74,7 @@
       Hiển thị lý do
     </tui-checkbox-labeled>
   </div>
-  <div class="right">
+  <div class="right d-flex">
     <ng-container *ngIf="isPersonal">
       <button
         *ngrxLet="exportSchedule$ as exportSchedule"
@@ -87,7 +87,9 @@
         Xuất báo cáo {{ exportSchedule.length || "các" }} mục đã chọn
       </button>
     </ng-container>
-  </div>
+    <button tuiButton (click)="onExport()" size="s" icon="tuiIconUpload">
+      Xuất báo cáo tháng
+    </button>
 </div>
 
 <!-- Status templates -->
