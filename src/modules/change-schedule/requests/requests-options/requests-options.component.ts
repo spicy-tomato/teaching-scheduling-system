@@ -41,7 +41,7 @@ import { ExportDialogComponent } from '../_shared/export-dialog/export-dialog.co
       useValue: {
         shape: null,
         appearance: TuiAppearance.Primary,
-        size: 'm',
+        size: 's',
       },
     },
   ],

@@ -82,14 +82,22 @@
         (click)="exportMultiple$.next()"
         [disabled]="exportSchedule.length === 0"
         icon="tuiIconUpload"
-        size="s"
       >
         Xuất báo cáo {{ exportSchedule.length || "các" }} mục đã chọn
       </button>
     </ng-container>
-    <button tuiButton (click)="onExport()" size="s" icon="tuiIconUpload">
+    <button
+      *ngIf="isPersonal; else statistic"
+      tuiButton
+      (click)="onExport()"
+      icon="tuiIconUpload"
+    >
       Xuất báo cáo tháng
     </button>
+    <ng-template #statistic>
+      <a tuiButton [routerLink]="['/statistic']">Thống kê tháng</a>
+    </ng-template>
+  </div>
 </div>
 
 <!-- Status templates -->
