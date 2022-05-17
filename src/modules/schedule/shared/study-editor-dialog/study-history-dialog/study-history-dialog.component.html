@@ -1,6 +1,9 @@
 <ng-container *ngFor="let schedule of context.data; last as last">
-  <div class="item">
-    <h5>Ngày yêu cầu: {{ schedule.timeRequest | date: "dd-MM-Y" }}</h5>
+  <div
+    class="item"
+    *tssVar="!schedule.newDate && schedule.intendTime as isIntendTime"
+  >
+    <h5>Ngày yêu cầu: {{ schedule.createdAt | date: "dd-MM-Y" }}</h5>
     <div class="content d-flex justify-content-center">
       <table>
         <tr>
@@ -13,36 +16,64 @@
             <tui-svg src="tuiIconChevronRight"></tui-svg>
           </td>
           <td class="text-center">
-            {{ schedule.newDate | date: "dd-MM-Y" }}
+            {{
+              isIntendTime
+                ? schedule.intendTime
+                : (schedule.newDate | date: "dd-MM-Y")
+            }}
           </td>
         </tr>
-        <tr>
+
+        <tr *ngIf="!isIntendTime">
           <td>Ca</td>
           <td>:</td>
-          <td class="text-center">
-            {{ schedule.oldShift }}
-          </td>
+          <td class="text-center">{{ schedule.oldShift }}</td>
           <td>
             <tui-svg src="tuiIconChevronRight"></tui-svg>
           </td>
-          <td class="text-center">
-            {{ schedule.newShift }}
-          </td>
+          <td class="text-center">{{ schedule.newShift }}</td>
         </tr>
-        <tr>
+
+        <tr *ngIf="!isIntendTime">
           <td>Phòng</td>
           <td>:</td>
-          <td class="text-center">
-            {{ schedule.oldIdRoom }}
-          </td>
+          <td class="text-center">{{ schedule.oldIdRoom }}</td>
           <td>
             <tui-svg src="tuiIconChevronRight"></tui-svg>
           </td>
           <td class="text-center">
             <i *ngIf="!schedule.newIdRoom; else room">(Chưa được xếp phòng)</i>
-            <ng-template #room>
-              {{ schedule.newIdRoom }}
-            </ng-template>
+            <ng-template #room> {{ schedule.newIdRoom }} </ng-template>
+          </td>
+        </tr>
+
+        <tr>
+          <td>Trạng thái</td>
+          <td>:</td>
+          <td [ngSwitch]="true" class="pl text-center" colspan="3">
+            <ng-container *ngSwitchCase="schedule.status < 200">
+              Đã hủy
+            </ng-container>
+            <ng-container
+              *ngSwitchCase="200 <= schedule.status && schedule.status < 300"
+            >
+              Đang chờ phê duyệt
+            </ng-container>
+            <ng-container
+              *ngSwitchCase="300 <= schedule.status && schedule.status < 400"
+            >
+              Đã chấp nhận
+            </ng-container>
+            <ng-container
+              *ngSwitchCase="400 <= schedule.status && schedule.status < 500"
+            >
+              Trưởng bộ môn thay đổi
+            </ng-container>
+            <ng-container
+              *ngSwitchCase="500 <= schedule.status && schedule.status < 600"
+            >
+              Bị từ chối
+            </ng-container>
           </td>
         </tr>
       </table>

@@ -11,7 +11,6 @@ import {
   FeedbackItem,
 } from '@shared/constants';
 
-import { sqlDateFactory } from '@shared/factories';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';
 import { TuiDialogService } from '@taiga-ui/core';
@@ -62,13 +61,14 @@ export class FeedbackComponent extends BaseComponent {
     if (this.form.valid) {
       const title = this.form.get('title')?.value as string;
       const form: SendFeedback = {
-        title: title ? title : '(Không có tiêu đề)',
+        data: {
+          content: this.form.get('content')?.value as string,
+          title: title ? title : '(Không có tiêu đề)',
+        },
         is_bug: this.form.get('reportBug')?.value as number,
-        feedback_type: (this.form.get('tags')?.value as FeedbackItem[])
+        type: (this.form.get('tags')?.value as FeedbackItem[])
           .map((x) => x.key)
           .join(','),
-        create_at: sqlDateFactory(),
-        content: this.form.get('content')?.value as string,
       };
       this.store.dispatch(fromFeedback.submit({ form }));
     }
@@ -100,7 +100,6 @@ export class FeedbackComponent extends BaseComponent {
   private openSuccessDialog(): void {
     this.dialogService
       .open(new PolymorpheusComponent(SuccessDialogComponent, this.injector), {
-        dismissible: false,
         header: new PolymorpheusComponent(
           SuccessDialogHeaderComponent,
           this.injector

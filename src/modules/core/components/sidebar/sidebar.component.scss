@@ -29,20 +29,19 @@
         @include mb(-2);
 
         > div {
-          @include my(2);
           @include pl(3);
           @include border(2, left, $tuiBase03);
 
           a {
+            @include pt(2);
             @include leading(6);
-            display: block;
             width: fit-content;
 
-            &:not(:first-child) {
-              @include mt(4);
-            }
-
             ::ng-deep {
+              .link-icon-wrapper {
+                width: 24px;
+                height: 24px;
+              }
               span {
                 transition-duration: var(--tui-duration, 0.3s);
               }
@@ -57,7 +56,6 @@
       @include pr(3);
       @include py(2.5);
       @include bg(white);
-      display: block;
       color: $tuiText01;
 
       &:hover {
@@ -68,16 +66,6 @@
     .icon-wrapper {
       @include w(7);
       @include mr(1.5);
-      display: inline-block;
-
-      > div {
-        display: flex;
-
-        > i {
-          @include m(auto);
-          display: block;
-        }
-      }
     }
   }
 }

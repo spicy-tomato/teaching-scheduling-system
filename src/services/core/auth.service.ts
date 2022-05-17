@@ -22,7 +22,7 @@ export class AuthService extends BaseDataService {
   public auth(loginData: LoginForm): Observable<AuthResponse> {
     const obj = { username: loginData.username, password: loginData.password };
     return this.http
-      .post<ResponseModel<Nullable<Teacher>>>(this.url + 'auth/login', obj, {
+      .post<ResponseModel<Nullable<Teacher>>>(this.url + 'login', obj, {
         observe: 'response',
       })
       .pipe(
@@ -36,6 +36,6 @@ export class AuthService extends BaseDataService {
   }
 
   public logOut(): Observable<void> {
-    return this.http.post<void>(this.url + 'auth/logout', {});
+    return this.http.post<void>(this.url + 'logout', {});
   }
 }

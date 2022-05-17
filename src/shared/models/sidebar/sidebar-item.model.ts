@@ -5,6 +5,8 @@ export interface SidebarItem {
   subItems?: {
     name: string;
     routerLink: string;
+    icon?: string;
+    useTaigaIcon?: boolean;
   }[];
   permission?: number;
 }

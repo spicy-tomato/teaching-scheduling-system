@@ -1,9 +1,16 @@
-export class SimpleTeacher {
-  public readonly birth?: string;
-  public readonly universityTeacherDegree?: string;
-  public readonly department!: string;
-  public readonly faculty!: string;
-  public readonly id!: string;
-  public readonly name!: string;
-  public readonly isFemale!: boolean;
+import { Nullable } from '../nullable.model';
+import { SimpleModel } from '../simple.model';
+
+export interface SimpleTeacher {
+  readonly birth: Nullable<string>;
+  readonly department: SimpleModel;
+  readonly faculty: SimpleModel;
+  readonly id: string;
+  readonly isActive: boolean;
+  readonly isFemale: boolean;
+  readonly isHeadOfDepartment: boolean;
+  readonly isHeadOfFaculty: boolean;
+  readonly name: string;
+  readonly phone: Nullable<string>;
+  readonly universityTeacherDegree: Nullable<string>;
 }

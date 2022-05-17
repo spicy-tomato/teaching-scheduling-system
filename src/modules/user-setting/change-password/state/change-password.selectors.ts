@@ -1,11 +1,11 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { changePasswordFeatureKey, ChangePasswordState } from '.';
 
-const loginSelector = createFeatureSelector<ChangePasswordState>(
+const changePasswordSelector = createFeatureSelector<ChangePasswordState>(
   changePasswordFeatureKey
 );
 
 export const selectStatus = createSelector(
-  loginSelector,
+  changePasswordSelector,
   (state) => state.status
 );

@@ -13,22 +13,35 @@
             [showArrow]="!!item.subItems"
             size="s"
           >
-            <span class="icon-wrapper">
-              <div>
-                <i [class]="item.icon"></i>
+            <span class="icon-wrapper d-inline-block">
+              <div class="d-flex">
+                <i [class]="item.icon" class="mx-auto"></i>
               </div>
             </span>
             <strong>{{ item.name }}</strong>
             <ng-template tuiAccordionItemContent>
               <div class="sub-item">
-                <div>
+                <div class="tui-space_vertical-2">
                   <a
-                    *ngFor="let subItem of item.subItems"
+                    tuiLink
+                    *ngFor="let subItem of item.subItems; first as first"
                     [routerLink]="subItem.routerLink"
                     [routerLinkActive]="['active']"
                     [routerLinkActiveOptions]="{ exact: true }"
-                    tuiLink
+                    [icon]="subItem.useTaigaIcon ? subItem.icon || null : null"
+                    iconAlign="left"
+                    class="d-block"
                   >
+                    <span
+                      *ngIf="
+                        subItem.useTaigaIcon === null || !subItem.useTaigaIcon
+                      "
+                      class="d-inline-block"
+                    >
+                      <div class="link-icon-wrapper d-flex">
+                        <i [class]="subItem.icon" class="d-block mx-auto"></i>
+                      </div>
+                    </span>
                     {{ subItem.name }}
                   </a>
                 </div>
@@ -42,12 +55,12 @@
             [routerLink]="item.routerLink ?? ''"
             [routerLinkActive]="['active']"
             [routerLinkActiveOptions]="{ exact: true }"
-            class="link"
+            class="link d-block"
             tuiLink
           >
-            <span class="icon-wrapper">
-              <div>
-                <i [class]="item.icon"></i>
+            <span class="icon-wrapper d-inline-block">
+              <div class="d-flex">
+                <i [class]="item.icon" class="d-block mx-auto"></i>
               </div>
             </span>
             <strong>{{ item.name }}</strong>

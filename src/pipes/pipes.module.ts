@@ -5,21 +5,27 @@ import { NavbarNamePipe } from './navbar-name.pipe';
 import { BeautifyTimePipe } from './beautify-date-time.pipe';
 import { ShiftPipe } from './shift.pipe';
 import { TuiDayPipe } from './tui-day.pipe';
-import { FilterPipe } from './filter.pipe';
 import { ShortenNamePipe } from './shorten-name.pipe';
-import { MapPipe } from './map.pipe';
 import { AsPipe } from './as.pipe';
+import { StatusTypePipe } from './status-type.pipe';
+import { ChangeStatusTypePipe } from './change-status-type.pipe';
+import { ChangeCanExportPipe } from './change-can-export.pipe';
+import { ArrayIncludesPipe } from './array-includes.pipe';
+import { FilterByInputPipe } from './filter-by-input.pipe';
 
 const PIPES = [
+  AsPipe,
+  BeautifyTimePipe,
+  ChangeCanExportPipe,
+  ChangeStatusTypePipe,
   DateTimePipe,
   NavbarNamePipe,
-  BeautifyTimePipe,
   ShiftPipe,
-  TuiDayPipe,
-  FilterPipe,
   ShortenNamePipe,
-  MapPipe,
-  AsPipe,
+  StatusTypePipe,
+  TuiDayPipe,
+  ArrayIncludesPipe,
+  FilterByInputPipe,
 ];
 
 @NgModule({

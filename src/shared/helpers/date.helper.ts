@@ -62,22 +62,11 @@ export class DateHelper {
     return day;
   }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-  public static dateTimeReviver(_: any, value: any): any {
-    if (typeof value === 'string') {
-      const date = Date.parse(value);
-      if (date) {
-        return new Date(date);
-      }
-    }
-    return value;
-  }
-
   public static sameDay(d1: Date, d2: Date): boolean {
     return (
-      d1.getFullYear() === d2.getFullYear() &&
+      d1.getDate() === d2.getDate() &&
       d1.getMonth() === d2.getMonth() &&
-      d1.getDate() === d2.getDate()
+      d1.getFullYear() === d2.getFullYear()
     );
   }
 

@@ -4,10 +4,14 @@ export { AppShellState } from './app-shell.state';
 export {
   selectStatus,
   selectTeacher,
+  selectNotNullTeacher,
   selectNameTitle,
   selectPermission,
   selectDepartment,
   selectFaculty,
   selectRooms,
+  selectAcademicYear,
+  selectSchoolYear,
+  selectTrainingType,
 } from './app-shell.selectors';
 export { AppShellEffects } from './app-shell.effects';

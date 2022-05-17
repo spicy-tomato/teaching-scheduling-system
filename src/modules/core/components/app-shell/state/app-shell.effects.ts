@@ -58,6 +58,35 @@ export class AppShellEffects {
     );
   });
 
+  public loadSchoolYear$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ApiAction.autoLoginSuccessfully),
+      mergeMap(() => {
+        return this.commonInfoService
+          .getCurrentTerm()
+          .pipe(
+            map((currentTerm) =>
+              ApiAction.loadCurrentTermSuccessful({ currentTerm })
+            )
+          );
+      })
+    );
+  });
+
+  public loadAcademicYear$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ApiAction.autoLoginSuccessfully),
+      mergeMap(() => {
+        return this.commonInfoService.getAcademicYear().pipe(
+          map((academicYears) =>
+            ApiAction.loadAcademicYearSuccessful({ academicYears })
+          ),
+          catchError(() => of(ApiAction.loadAcademicYearFailure()))
+        );
+      })
+    );
+  });
+
   /** CONSTRUCTOR */
   constructor(
     private readonly actions$: Actions,

@@ -3,34 +3,31 @@ import {
   ChangeDetectorRef,
   Component,
   Inject,
-  Injector,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   TuiAppearance,
   TuiDialogContext,
-  TuiDialogService,
   TuiNotification,
   TuiNotificationsService,
   TUI_BUTTON_OPTIONS,
 } from '@taiga-ui/core';
-import { DateHelper, ObservableHelper } from '@shared/helpers';
+import {
+  ChangeStatusHelper,
+  DateHelper,
+  ObservableHelper,
+} from '@shared/helpers';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import {
   EjsScheduleModel,
   ChangedScheduleModel,
   Nullable,
-  StudyScheduleModel,
   SimpleFixedScheduleModel,
   FixedScheduleModel,
-  RequestChangeSchedulePayload,
   SimpleModel,
-  Teacher,
 } from 'src/shared/models';
-import { CoreConstant } from '@shared/constants';
-import { sameValueValidator } from 'src/shared/validators';
+import { sameGroupStaticValueValidator } from 'src/shared/validators';
 import { TuiDay, TuiTime } from '@taiga-ui/cdk';
-import { sqlDateFactory } from '@shared/factories';
 import {
   filter,
   map,
@@ -46,15 +43,15 @@ import * as fromStudyEditorDialog from './state';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
 import { Store } from '@ngrx/store';
 import { DialogService } from '@services/dialog/dialog.service';
-import { IconConstant } from '@shared/constants/components/icon.constant';
-import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { StudyHistoryDialogComponent } from './study-history-dialog/study-history-dialog.component';
+import { CoreConstant } from '@shared/constants';
+import { FormHelper } from '@shared/helpers/form.helper';
 
 @Component({
   templateUrl: './study-editor-dialog.component.html',
   styleUrls: ['./study-editor-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
+    FormHelper,
     {
       provide: TUI_BUTTON_OPTIONS,
       useValue: {
@@ -72,35 +69,25 @@ export class StudyEditorDialogComponent extends BaseComponent {
   public validRequestChangeSchedule!: boolean;
   public firstDateAllowRequestChange!: Date;
   public requestedChangeSchedule: Nullable<FixedScheduleModel>;
+  public requestChangeToUndeterminedDay = false;
+  public changed = false;
 
-  public readonly teacher$: Observable<Nullable<Teacher>>;
   public readonly changeStatus$: Observable<EApiStatus>;
   public readonly requestStatus$: Observable<EApiStatus>;
   public readonly updateStatus$: Observable<EApiStatus>;
-  public readonly searchStatus$: Observable<EApiStatus>;
   public readonly cancelStatus$: Observable<EApiStatus>;
   public readonly requestingChangeSchedule$: Observable<boolean>;
   public readonly justRequestedSchedule$: Observable<
     Nullable<SimpleFixedScheduleModel>
   >;
-  public readonly searchSchedule$: Observable<Nullable<StudyScheduleModel[]>>;
-  public readonly rooms$: Observable<string[]>;
 
   public readonly cancel$ = new Subject();
   public readonly cancelRequest$ = new Subject();
-  public readonly changeRequest$ = new Subject();
-  public readonly submitRequestChange$ = new Subject();
-  public readonly submitChange$ = new Subject();
 
-  public readonly IconConstant = IconConstant;
   public readonly EApiStatus = EApiStatus;
-  public readonly shiftKeys = Object.keys(CoreConstant.SHIFTS);
-  public readonly noteMaxLength = 1000;
-  public readonly reasonMaxLength = 500;
+  public readonly CoreConstant = CoreConstant;
 
   /** PRIVATE PROPERTIES */
-  private changed = false;
-
   private readonly change$: Observable<fromStudyEditorDialog.Change>;
   private readonly nameTitle$: Observable<string>;
 
@@ -131,29 +118,18 @@ export class StudyEditorDialogComponent extends BaseComponent {
     private readonly fb: FormBuilder,
     private readonly cdr: ChangeDetectorRef,
     private readonly store: Store<fromStudyEditorDialog.StudyEditorDialogState>,
+    private readonly formHelper: FormHelper,
     private readonly dialogService: DialogService,
-    @Inject(TuiDialogService)
-    private readonly tuiDialogService: TuiDialogService,
-    @Inject(Injector) private readonly injector: Injector,
     @Inject(TuiNotificationsService)
     private readonly notificationsService: TuiNotificationsService,
     appShellStore: Store<fromAppShell.AppShellState>
   ) {
     super();
 
-    this.assignSubjects([
-      this.cancel$,
-      this.cancelRequest$,
-      this.changeRequest$,
-      this.submitRequestChange$,
-      this.submitChange$,
-    ]);
+    this.assignSubjects([this.cancel$, this.cancelRequest$]);
 
     this.initForm();
 
-    this.teacher$ = appShellStore
-      .select(fromAppShell.selectTeacher)
-      .pipe(takeUntil(this.destroy$));
     this.changeStatus$ = store
       .select(fromStudyEditorDialog.selectChangeStatus)
       .pipe(takeUntil(this.destroy$));
@@ -162,9 +138,6 @@ export class StudyEditorDialogComponent extends BaseComponent {
       .pipe(takeUntil(this.destroy$));
     this.updateStatus$ = store
       .select(fromStudyEditorDialog.selectUpdateStatus)
-      .pipe(takeUntil(this.destroy$));
-    this.searchStatus$ = store
-      .select(fromStudyEditorDialog.selectSearchStatus)
       .pipe(takeUntil(this.destroy$));
     this.cancelStatus$ = store
       .select(fromStudyEditorDialog.selectCancelStatus)
@@ -178,44 +151,23 @@ export class StudyEditorDialogComponent extends BaseComponent {
     this.change$ = store
       .select(fromStudyEditorDialog.selectChange)
       .pipe(takeUntil(this.destroy$));
-    this.searchSchedule$ = store
-      .select(fromStudyEditorDialog.selectSearchSchedule)
-      .pipe(takeUntil(this.destroy$));
     this.nameTitle$ = appShellStore
       .select(fromAppShell.selectNameTitle)
-      .pipe(takeUntil(this.destroy$));
-    this.rooms$ = appShellStore
-      .select(fromAppShell.selectRooms)
       .pipe(takeUntil(this.destroy$));
 
     this.handleStatusChange();
     this.handleJustRequestedScheduleChange();
     this.handleChange();
-    this.handleChangeRequest();
-    this.handleSubmitRequestChange();
-    this.handleSubmitChange();
     this.handleCancel();
     this.handleCancelRequest();
 
     this.requestedChangeSchedule =
-      this.context.data.FixedSchedules?.find(
-        (x) => x.status === 0 || x.status === 1
+      this.context.data.FixedSchedules?.find((x) =>
+        ChangeStatusHelper.isPending(x.status)
       ) || null;
   }
 
   /** PUBLIC METHODS */
-  public onShowHistory(): void {
-    this.tuiDialogService
-      .open(
-        new PolymorpheusComponent(StudyHistoryDialogComponent, this.injector),
-        {
-          data: this.context.data.FixedSchedules || [],
-          label: 'Lịch sử thay đổi giờ giảng',
-        }
-      )
-      .subscribe();
-  }
-
   public toggleRequestArea(open: boolean): void {
     this.store.dispatch(fromStudyEditorDialog.toggleRequestChange({ open }));
   }
@@ -228,6 +180,15 @@ export class StudyEditorDialogComponent extends BaseComponent {
     };
 
     this.store.dispatch(fromStudyEditorDialog.update({ body }));
+  }
+
+  public showNotificationError(): void {
+    this.notificationsService
+      .show('Hãy thử lại sau', {
+        label: 'Đã có lỗi xảy ra',
+        status: TuiNotification.Error,
+      })
+      .subscribe();
   }
 
   /** PRIVATE METHODS */
@@ -249,7 +210,7 @@ export class StudyEditorDialogComponent extends BaseComponent {
     this.firstDateAllowRequestChange = DateHelper.subtract(todayToZero, 14);
     this.isPersonal = data.People?.[0] === 'self';
     this.validRequestChangeSchedule =
-      startDate > this.firstDateAllowRequestChange || !this.isPersonal;
+      startDate >= new Date(2022, 2, 1) || !this.isPersonal;
 
     const initialRequest = this.isPersonal
       ? {
@@ -289,18 +250,40 @@ export class StudyEditorDialogComponent extends BaseComponent {
             this.isPersonal
               ? [
                   Validators.required,
-                  Validators.maxLength(this.reasonMaxLength),
+                  Validators.maxLength(
+                    this.CoreConstant.REASON_CHANGE_SCHEDULE_MAX_LENGTH
+                  ),
                 ]
               : [],
           ],
         },
         {
-          validators: sameValueValidator(initialRequest, {
+          validators: sameGroupStaticValueValidator(initialRequest, {
             date: (a: Nullable<TuiDay>, b: Nullable<TuiDay>) =>
               !!a && !!b && a.daySame(b),
           }),
         }
       ),
+      requestIntend: this.fb.group({
+        intendTime: [
+          '',
+          [
+            Validators.required,
+            Validators.maxLength(
+              CoreConstant.INTEND_TIME_CHANGE_SCHEDULE_MAX_LENGTH
+            ),
+          ],
+        ],
+        reason: [
+          '',
+          [
+            Validators.required,
+            Validators.maxLength(
+              this.CoreConstant.REASON_CHANGE_SCHEDULE_MAX_LENGTH
+            ),
+          ],
+        ],
+      }),
       change: this.getNewChangeControl(initialChange),
     });
 
@@ -391,7 +374,6 @@ export class StudyEditorDialogComponent extends BaseComponent {
               ObservableHelper.filterNullish(),
               tap((request) => {
                 const controls = this.form.controls;
-
                 this.context.data.FixedSchedules?.push({
                   ...request,
                   idSchedule: this.context.data.Id,
@@ -455,8 +437,8 @@ export class StudyEditorDialogComponent extends BaseComponent {
               filter((x) => x),
               map(
                 () =>
-                  this.context.data.FixedSchedules?.find(
-                    (x) => x.status === 0 || x.status === 1
+                  this.context.data.FixedSchedules?.find((x) =>
+                    ChangeStatusHelper.isPending(x.status)
                   )?.id
               ),
               ObservableHelper.filterNullish(),
@@ -471,136 +453,16 @@ export class StudyEditorDialogComponent extends BaseComponent {
       .subscribe();
   }
 
-  private handleChangeRequest(): void {
-    this.changeRequest$
-      .pipe(
-        withLatestFrom(this.teacher$),
-        map(({ 1: teacher }) => teacher),
-        tap((teacher) => {
-          if (this.requestControl.errors?.sameValue || !this.dateControlValue) {
-            return;
-          }
-
-          const date = DateHelper.toDateOnlyString(
-            this.dateControlValue.toUtcNativeDate()
-          );
-
-          this.store.dispatch(
-            fromStudyEditorDialog.search({
-              params: {
-                start: date,
-                end: date,
-                shift: this.shiftControlValue,
-              },
-              teacherId:
-                (this.isPersonal
-                  ? teacher?.id
-                  : (this.context.data.People?.[0] as Teacher).id) || '',
-            })
-          );
-        }),
-        takeUntil(this.destroy$)
-      )
-      .subscribe();
-  }
-
-  private handleSubmitRequestChange(): void {
-    this.submitRequestChange$
-      .pipe(
-        withLatestFrom(this.searchSchedule$),
-        map(({ 1: searchSchedule }) => searchSchedule),
-        tap((searchSchedule) => {
-          if (searchSchedule?.length) {
-            this.dialogService
-              .showConfirmDialog({
-                header:
-                  'Ca học này đã bị trùng lớp học phần khác. Vẫn tiếp tục?',
-              })
-              .pipe(
-                filter((confirm) => confirm),
-                tap(() => this.submitChangeRequest())
-              )
-              .subscribe();
-          } else {
-            this.submitChangeRequest();
-          }
-        }),
-        takeUntil(this.destroy$)
-      )
-      .subscribe();
-  }
-
-  private handleSubmitChange(): void {
-    this.submitChange$
-      .pipe(
-        withLatestFrom(this.searchSchedule$),
-        map(({ 1: searchSchedule }) => searchSchedule),
-        tap((searchSchedule) => {
-          if (searchSchedule?.length) {
-            this.dialogService
-              .showConfirmDialog({
-                header:
-                  'Ca học này đã bị trùng lớp học phần khác. Vẫn tiếp tục?',
-              })
-              .pipe(
-                filter((confirm) => confirm),
-                tap(() => this.submitChange())
-              )
-              .subscribe();
-          } else {
-            this.submitChange();
-          }
-        }),
-        takeUntil(this.destroy$)
-      )
-      .subscribe();
-  }
-
   private handleChange(): void {
     this.change$
       .pipe(
         tap((change) => {
-          (this.form.controls['change'] as FormGroup) =
-            this.getNewChangeControl(change);
+          this.form.controls['change'] = this.getNewChangeControl(change);
           this.cdr.markForCheck();
         }),
         takeUntil(this.destroy$)
       )
       .subscribe();
-  }
-
-  private submitChangeRequest(): void {
-    const request = this.requestControl;
-
-    const body: RequestChangeSchedulePayload = {
-      idSchedule: this.context.data.Id,
-      newIdRoom: (request.controls['online'].value as boolean) ? 'PHTT' : null,
-      newShift: this.shiftControlValue,
-      newDate: DateHelper.toDateOnlyString(
-        this.dateControlValue.toUtcNativeDate()
-      ),
-      reason: request.controls['reason'].value as string,
-      timeRequest: sqlDateFactory(),
-      status: 0,
-    };
-
-    this.store.dispatch(fromStudyEditorDialog.request({ body }));
-  }
-
-  private submitChange(): void {
-    const body: RequestChangeSchedulePayload = {
-      idSchedule: this.context.data.Id,
-      newIdRoom: this.roomControlValue,
-      newShift: this.shiftControlValue,
-      newDate: DateHelper.toDateOnlyString(
-        this.dateControlValue.toUtcNativeDate()
-      ),
-      reason: 'Trưởng bộ môn thay đổi',
-      timeRequest: sqlDateFactory(),
-      status: 4,
-    };
-
-    this.store.dispatch(fromStudyEditorDialog.change({ body }));
   }
 
   private showNotificationRequestChangeSuccessful(): void {
@@ -620,26 +482,15 @@ export class StudyEditorDialogComponent extends BaseComponent {
       .subscribe();
   }
 
-  private showNotificationError(): void {
-    this.notificationsService
-      .show('Hãy thử lại sau', {
-        label: 'Đã có lỗi xảy ra',
-        status: TuiNotification.Error,
-      })
-      .subscribe();
-  }
-
   private getNewChangeControl(value: fromStudyEditorDialog.Change): FormGroup {
-    return this.fb.group(
+    return this.formHelper.createNewFormGroup(
       {
         note: [value.note],
       },
-      {
-        validators: sameValueValidator(value, {
-          date: (a: Nullable<TuiDay>, b: Nullable<TuiDay>) =>
-            !!a && !!b && a.daySame(b),
-        }),
-      }
+      sameGroupStaticValueValidator(value, {
+        date: (a: Nullable<TuiDay>, b: Nullable<TuiDay>) =>
+          !!a && !!b && a.daySame(b),
+      })
     );
   }
 }

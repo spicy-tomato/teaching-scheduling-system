@@ -6,6 +6,7 @@ import {
   ResponseModel,
   SendFeedback,
   Teacher,
+  UserInformationFields,
 } from 'src/shared/models';
 import { BaseDataService } from './core/base-data.service';
 
@@ -21,11 +22,21 @@ export class UserService extends BaseDataService {
     return this.http.get<ResponseModel<Teacher>>(this.url + 'me');
   }
 
-  public changePassword(body: ChangePassword): Observable<void> {
-    return this.http.post<void>(this.url + 'account/change-password', body);
+  public changePassword(uuid: string, body: ChangePassword): Observable<void> {
+    return this.http.patch<void>(
+      this.url + `accounts/change-password/${uuid}`,
+      body
+    );
   }
 
   public sendFeedback(body: SendFeedback): Observable<void> {
-    return this.http.post<void>(this.url + 'feedbacks/send-feedback', body);
+    return this.http.post<void>(this.url + 'feedback/create', body);
+  }
+
+  public updateInformation(
+    body: { [key in UserInformationFields]: string },
+    id: string
+  ): Observable<void> {
+    return this.http.patch<void>(this.url + `accounts/update/${id}`, body);
   }
 }

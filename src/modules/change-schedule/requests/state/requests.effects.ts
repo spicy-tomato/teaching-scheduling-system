@@ -19,16 +19,19 @@ import {
   ChangeScheduleOptions,
   ChangeScheduleSearch,
   Nullable,
+  RequestChangeScheduleCode,
   SimpleModel,
 } from '@shared/models';
 import { Store } from '@ngrx/store';
 import {
   DateHelper,
+  ObjectHelper,
   ObservableHelper,
-  PermissionHelper,
+  UrlHelper,
 } from '@shared/helpers';
-import { PermissionConstant } from '@shared/constants';
+import { CoreConstant, PermissionConstant } from '@shared/constants';
 import { TeacherService } from '@services/teacher.service';
+import assert from 'assert';
 
 @Injectable()
 export class RequestsEffects {
@@ -40,6 +43,9 @@ export class RequestsEffects {
   private readonly loadSubject$ = new Subject<ChangeScheduleSearch>();
   private readonly permissions$ = this.appShellStore.select(
     fromAppShell.selectPermission
+  );
+  private readonly teacher$ = this.appShellStore.pipe(
+    fromAppShell.selectNotNullTeacher
   );
 
   /** EFFECTS */
@@ -72,6 +78,7 @@ export class RequestsEffects {
       ofType(PageAction.loadTeachersList),
       mergeMap(({ dep }) => {
         return this.teacherService.getByDepartment(dep).pipe(
+          map((r) => r.data),
           map((teachers) => {
             return ApiAction.loadTeachersListSuccessful({ teachers });
           }),
@@ -88,14 +95,15 @@ export class RequestsEffects {
         status: x.options.status,
         teacherId: x.options.teacher?.id,
       })),
-      mergeMap(({ status, teacherId }) => {
-        const _status = this.getQueryForStatus(status);
+      withLatestFrom(this.permissions$),
+      mergeMap(([{ status, teacherId }, permissions]) => {
+        const _status = this.getQueryForStatus(status, permissions);
 
         return of(
           PageAction.filter({
             query: {
               status: _status,
-              teacherId: teacherId,
+              teacherId,
               page: 1,
               pagination: 20,
             },
@@ -108,10 +116,11 @@ export class RequestsEffects {
   public changePage$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.changePage),
-      mergeMap(({ page }) => {
+      withLatestFrom(this.permissions$),
+      mergeMap(([{ page }, permissions]) => {
         return this.options$.pipe(
           map(({ status, teacher }) => {
-            const _status = this.getQueryForStatus(status);
+            const _status = this.getQueryForStatus(status, permissions);
 
             return PageAction.filter({
               query: {
@@ -133,17 +142,14 @@ export class RequestsEffects {
       ofType(PageAction.accept),
       mergeMap(({ schedule }) => {
         const { id } = schedule;
-        const status = schedule.newSchedule.room ? 3 : 1;
-        const time = DateHelper.toSqlDate(new Date());
+        const acceptedAt = DateHelper.toSqlDate(new Date());
 
         return this.scheduleService
-          .responseChangeScheduleRequests({
-            id,
-            status,
-            time,
-          })
+          .acceptChangeScheduleRequests(id, { acceptedAt })
           .pipe(
-            map(() => ApiAction.acceptSuccessful({ id, status })),
+            map((r) =>
+              ApiAction.acceptSuccessful({ id, status: r.data.status })
+            ),
             catchError(() => of(ApiAction.acceptFailure()))
           );
       })
@@ -155,20 +161,15 @@ export class RequestsEffects {
       ofType(PageAction.setRoom),
       mergeMap(({ schedule, newIdRoom }) => {
         const { id } = schedule;
-        const status = 2;
-        const time = DateHelper.toSqlDate(new Date());
+        const setRoomAt = DateHelper.toSqlDate(new Date());
 
         return this.scheduleService
-          .responseChangeScheduleRequests({
-            id,
-            status,
-            time,
+          .setRoomChangeScheduleRequests(id, {
             newIdRoom,
+            setRoomAt,
           })
           .pipe(
-            map(() =>
-              ApiAction.setRoomSuccessful({ id, status, room: newIdRoom })
-            ),
+            map(() => ApiAction.setRoomSuccessful({ id, room: newIdRoom })),
             catchError(() => of(ApiAction.setRoomFailure()))
           );
       })
@@ -178,22 +179,15 @@ export class RequestsEffects {
   public deny$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.deny),
-      withLatestFrom(this.permissions$),
-      mergeMap(([{ schedule, reason }, permissions]) => {
+      mergeMap(({ schedule, reason }) => {
         const { id } = schedule;
-        const isTeacher = PermissionHelper.isTeacher(permissions);
-        const status = isTeacher ? -1 : -2;
-        const time = DateHelper.toSqlDate(new Date());
 
         return this.scheduleService
-          .responseChangeScheduleRequests({
-            id,
-            status,
-            time,
+          .denyChangeScheduleRequests(id, {
             reasonDeny: reason,
           })
           .pipe(
-            map(() => ApiAction.denySuccessful({ id, status })),
+            map((r) => ApiAction.denySuccessful({ id, status: r.data.status })),
             catchError(() => of(ApiAction.denyFailure()))
           );
       })
@@ -204,15 +198,10 @@ export class RequestsEffects {
     return this.actions$.pipe(
       ofType(PageAction.cancel),
       mergeMap(({ id }) => {
-        return this.scheduleService
-          .cancelChangeScheduleRequests({
-            id,
-            status: -3,
-          })
-          .pipe(
-            map(() => ApiAction.cancelSuccessful({ id })),
-            catchError(() => of(ApiAction.cancelFailure()))
-          );
+        return this.scheduleService.cancelChangeScheduleRequests(id).pipe(
+          map(() => ApiAction.cancelSuccessful({ id })),
+          catchError(() => of(ApiAction.cancelFailure()))
+        );
       })
     );
   });
@@ -237,22 +226,43 @@ export class RequestsEffects {
   private handleLoadPersonal(): void {
     this.loadSubject$
       .pipe(
+        filter(() => this.personal),
         ObservableHelper.filterWith(
           this.permissions$,
           PermissionConstant.SEE_PERSONAL_CHANGE_SCHEDULE_REQUESTS
         ),
-        filter(() => this.personal),
-        mergeMap((x) => {
-          return this.scheduleService.getPersonalChangeScheduleRequests(x).pipe(
-            tap((changeSchedules) => {
-              this.store.dispatch(
-                ApiAction.filterSuccessful({
-                  changeSchedulesResponse: changeSchedules,
-                })
-              );
-            }),
-            catchError(() => of(this.store.dispatch(ApiAction.filterFailure())))
-          );
+        withLatestFrom(this.teacher$),
+        mergeMap(([x, teacher]) => {
+          return this.scheduleService
+            .getPersonalChangeScheduleRequests(
+              teacher.id,
+              UrlHelper.queryFilter(
+                x,
+                {
+                  status: 'in',
+                },
+                {
+                  include: {
+                    id: {
+                      sort: 'desc',
+                    },
+                  },
+                  exclude: ['teacherId'],
+                }
+              )
+            )
+            .pipe(
+              tap((changeSchedules) => {
+                this.store.dispatch(
+                  ApiAction.filterSuccessful({
+                    changeSchedulesResponse: changeSchedules,
+                  })
+                );
+              }),
+              catchError(() =>
+                of(this.store.dispatch(ApiAction.filterFailure()))
+              )
+            );
         })
       )
       .subscribe();
@@ -264,18 +274,33 @@ export class RequestsEffects {
       this.loadSubject$,
     ])
       .pipe(
+        filter(() => !this.personal),
         ObservableHelper.filterWith(
           this.permissions$,
           PermissionConstant.SEE_DEPARTMENT_CHANGE_SCHEDULE_REQUESTS
         ),
-        filter(() => !this.personal),
         map(([department, params]) => ({
           department: department.id,
           params,
         })),
         mergeMap(({ department, params }) => {
           return this.scheduleService
-            .getDepartmentChangeScheduleRequests(department, params)
+            .getDepartmentChangeScheduleRequests(
+              department,
+              UrlHelper.queryFilter(
+                params,
+                {
+                  status: 'in',
+                },
+                {
+                  include: {
+                    id: {
+                      sort: 'desc',
+                    },
+                  },
+                }
+              )
+            )
             .pipe(
               tap((changeSchedules) => {
                 this.store.dispatch(
@@ -296,34 +321,69 @@ export class RequestsEffects {
   private handleLoadManager(): void {
     this.loadSubject$
       .pipe(
+        filter(() => !this.personal),
         ObservableHelper.filterWith(
           this.permissions$,
           PermissionConstant.SEE_CHANGE_SCHEDULE_REQUESTS_FOR_ROOM_MANAGER
         ),
-        filter(() => !this.personal),
         mergeMap((x) => {
-          return this.scheduleService.getManagerChangeScheduleRequests(x).pipe(
-            tap((changeSchedules) => {
-              this.store.dispatch(
-                ApiAction.filterSuccessful({
-                  changeSchedulesResponse: changeSchedules,
-                })
-              );
-            }),
-            catchError(() => of(this.store.dispatch(ApiAction.filterFailure())))
-          );
+          return this.scheduleService
+            .getManagerChangeScheduleRequests(
+              UrlHelper.queryFilter(
+                x,
+                {
+                  status: 'equal',
+                },
+                {
+                  include: {
+                    id: {
+                      sort: 'desc',
+                    },
+                  },
+                  exclude: ['teacherId'],
+                }
+              )
+            )
+            .pipe(
+              tap((changeSchedules) => {
+                this.store.dispatch(
+                  ApiAction.filterSuccessful({
+                    changeSchedulesResponse: changeSchedules,
+                  })
+                );
+              }),
+              catchError(() =>
+                of(this.store.dispatch(ApiAction.filterFailure()))
+              )
+            );
         })
       )
       .subscribe();
   }
 
   private getQueryForStatus(
-    status: Nullable<number> | undefined
-  ): number | 'all' | '2,3' {
-    return status === null || status === undefined
-      ? 'all'
-      : status == 2
-      ? '2,3'
-      : status;
+    status: Nullable<RequestChangeScheduleCode> | undefined,
+    permissions: number[]
+  ): RequestChangeScheduleCode[] {
+    if (ObjectHelper.isNullOrUndefined(status)) {
+      return [];
+    }
+
+    assert(status !== null && status !== undefined);
+    const statusDetails = CoreConstant.REQUEST_CHANGE_SCHEDULE_STATUS[status];
+
+    if (!statusDetails.mergeWith) {
+      return [status];
+    }
+
+    const statusList: RequestChangeScheduleCode[] = [];
+    [status, ...statusDetails.mergeWith].forEach((s) => {
+      const sDetails = CoreConstant.REQUEST_CHANGE_SCHEDULE_STATUS[s];
+      if (sDetails.feature === null || permissions.includes(sDetails.feature)) {
+        statusList.push(s);
+      }
+    });
+
+    return statusList;
   }
 }

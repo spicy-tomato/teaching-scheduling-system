@@ -29,7 +29,7 @@ const TAIGA_UI = [
   TuiButtonModule,
   TuiAxesModule,
   TuiBarChartModule,
-  TuiLoaderModule
+  TuiLoaderModule,
 ];
 
 @NgModule({

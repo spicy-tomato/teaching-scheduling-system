@@ -12,7 +12,9 @@ import {
   EventRenderedArgs,
   EventSettingsModel,
   MonthService,
+  NavigatingEventArgs,
   PopupOpenEventArgs,
+  RenderCellEventArgs,
   ScheduleComponent,
   WeekService,
 } from '@syncfusion/ej2-angular-schedule';
@@ -50,6 +52,7 @@ import {
   DateHelper,
   ObservableHelper,
   ArrayHelper,
+  ChangeStatusHelper,
 } from '@shared/helpers';
 import { StudyHistoryDialogComponent } from '../shared/study-editor-dialog/study-history-dialog/study-history-dialog.component';
 
@@ -73,6 +76,7 @@ export class TssScheduleComponent
 
   /** PUBLIC PROPERTIES */
   public readonly eventSettings$ = new BehaviorSubject<EventSettingsModel>({});
+  public readonly peopleMatcher = (item: string): boolean => item !== 'self';
 
   /** PRIVATE PROPERTIES */
   private readonly staticSettings: EventSettingsModel = {
@@ -99,6 +103,15 @@ export class TssScheduleComponent
     this.handleChangeStatus();
   }
 
+  /** PUBLIC METHODS */
+  public onRenderCell(args: RenderCellEventArgs): void {
+    if (args.element.classList.contains('e-work-cells')) {
+      if (args.date && DateHelper.sameDay(args.date, new Date())) {
+        args.element.classList.add('today');
+      }
+    }
+  }
+
   public onEventRendered(args: EventRenderedArgs): void {
     switch (args.data.Type) {
       case 'exam':
@@ -109,13 +122,16 @@ export class TssScheduleComponent
       args.element.style.backgroundColor = args.data.Color as string;
     }
     if ((args.data.FixedSchedules as FixedScheduleModel[])?.length > 0) {
-      const lastFixedSchedules = ArrayHelper.lastItem(
+      const lastFixedSchedule = ArrayHelper.lastItem(
         args.data.FixedSchedules
       ) as FixedScheduleModel;
-      if (lastFixedSchedules.status === 0 || lastFixedSchedules.status === 1) {
-        args.element.style.borderLeft = '4px solid red';
-      } else {
-        args.element.style.borderLeft = '4px solid #3b79ff';
+      if (ChangeStatusHelper.isPending(lastFixedSchedule.status)) {
+        args.element.classList.add('requesting-change');
+      } else if (
+        lastFixedSchedule.newDate !== null ||
+        !lastFixedSchedule.intendTime
+      ) {
+        args.element.classList.add('changed');
       }
     }
   }
@@ -138,6 +154,12 @@ export class TssScheduleComponent
     if (args.type === 'Editor') {
       args.cancel = true;
       this.showEditorDialog(args.data as EjsScheduleModel);
+    }
+  }
+
+  public onNavigating(args: NavigatingEventArgs): void {
+    if (args.previousView === 'Month' && args.currentView === 'Day') {
+      this.store.dispatch(fromSchedule.changeView({ view: 'Day' }));
     }
   }
 
@@ -258,7 +280,6 @@ export class TssScheduleComponent
         new PolymorpheusComponent(ExamEditorDialogComponent, this.injector),
         {
           data,
-          dismissible: false,
           label: 'Chi tiết lịch thi',
         }
       )
@@ -276,10 +297,7 @@ export class TssScheduleComponent
     this.dialogService
       .open<ChangedScheduleModel | undefined>(
         new PolymorpheusComponent(StudyEditorDialogComponent, this.injector),
-        {
-          data,
-          dismissible: false,
-        }
+        { data }
       )
       .pipe(
         ObservableHelper.filterNullish(),

@@ -5,6 +5,7 @@ import { PipesModule } from '@pipes/pipes.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   TuiBadgeModule,
+  TuiCheckboxLabeledModule,
   TuiComboBoxModule,
   TuiDataListWrapperModule,
   TuiDropdownHoverModule,
@@ -33,8 +34,14 @@ import * as fromStudyEditorDialog from './state';
 import { EffectsModule } from '@ngrx/effects';
 import { DirectivesModule } from '@directives/directives.module';
 import { ReactiveComponentModule } from '@ngrx/component';
-import { StudyEditorDialogSearchScheduleComponent } from './study-editor-dialog-search-schedule/study-editor-dialog-search-schedule.component';
+import { StudyEditorRequestChangeCheckerComponent } from './study-editor-request-change/study-editor-request-change-checker/study-editor-request-change-checker.component';
 import { StudyHistoryDialogComponent } from './study-history-dialog/study-history-dialog.component';
+import { StudyEditorRequestChangeComponent } from './study-editor-request-change/study-editor-request-change.component';
+import { StudyEditorRequestChangeIntendComponent } from './study-editor-request-change-intend/study-editor-request-change-intend.component';
+import { StudyEditorButtonsLeftComponent } from './study-editor-buttons-left/study-editor-buttons-left.component';
+import { StudyEditorButtonsRightComponent } from './study-editor-buttons-right/study-editor-buttons-right.component';
+import { StudyEditorHeaderComponent } from './study-editor-header/study-editor-header.component';
+import { TuiFilterPipeModule } from '@taiga-ui/cdk';
 
 const NGRX = [
   StoreModule.forFeature(
@@ -67,6 +74,8 @@ const TAIGA_UI = [
   TuiComboBoxModule,
   TuiDataListWrapperModule,
   TuiFilterByInputPipeModule,
+  TuiCheckboxLabeledModule,
+  TuiFilterPipeModule,
 ];
 
 @NgModule({
@@ -81,8 +90,13 @@ const TAIGA_UI = [
   ],
   declarations: [
     StudyEditorDialogComponent,
-    StudyEditorDialogSearchScheduleComponent,
+    StudyEditorRequestChangeCheckerComponent,
     StudyHistoryDialogComponent,
+    StudyEditorRequestChangeComponent,
+    StudyEditorRequestChangeIntendComponent,
+    StudyEditorButtonsLeftComponent,
+    StudyEditorButtonsRightComponent,
+    StudyEditorHeaderComponent,
   ],
   exports: [StudyEditorDialogComponent, StudyHistoryDialogComponent],
 })

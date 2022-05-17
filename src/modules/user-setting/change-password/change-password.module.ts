@@ -2,13 +2,15 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChangePasswordComponent } from './change-password.component';
 import { ChangePasswordRoutingModule } from './change-password.routes';
-import { TuiInputPasswordModule, TuiIslandModule } from '@taiga-ui/kit';
+import {
+  TuiFieldErrorPipeModule,
+  TuiInputPasswordModule,
+  TuiIslandModule,
+} from '@taiga-ui/kit';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   TuiButtonModule,
   TuiErrorModule,
-  TuiHintControllerModule,
-  TuiHintModule,
   TuiNotificationsModule,
 } from '@taiga-ui/core';
 import { TuiValidatorModule } from '@taiga-ui/cdk';
@@ -29,11 +31,10 @@ const TAIGA_UI = [
   TuiIslandModule,
   TuiInputPasswordModule,
   TuiValidatorModule,
-  TuiHintModule,
-  TuiHintControllerModule,
   TuiButtonModule,
   TuiNotificationsModule,
   TuiErrorModule,
+  TuiFieldErrorPipeModule,
 ];
 
 @NgModule({

@@ -1,11 +1,12 @@
 <div
   *ngIf="displayText; else action"
   [ngClass]="{
-    deny: item.status < 0,
-    'no-response': item.status === 0,
-    accept: item.status === 1,
-    complete: item.status === 2 || item.status === 3,
-    change: item.status === 4
+    deny: item.status === 100 || (500 <= item.status && item.status < 600),
+    pending:
+      200 <= item.status && item.status < 300 && item.status !== item.status,
+    complete: 300 <= item.status && item.status < 400,
+    accept: item.status === 202,
+    change: item.status === 400
   }"
   class="text-center"
 >

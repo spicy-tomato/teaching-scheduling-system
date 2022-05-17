@@ -9,6 +9,26 @@ const routes: Routes = [
       breadcrumb: 'Phân giảng',
     },
     component: AssignScheduleComponent,
+    children: [
+      {
+        path: 'import',
+        loadChildren: async () =>
+          (
+            await import(
+              '@modules/assign-schedule/assign-schedule-import/assign-schedule-import.module'
+            )
+          ).AssignScheduleImportModule,
+      },
+      {
+        path: '',
+        loadChildren: async () =>
+          (
+            await import(
+              '@modules/assign-schedule/assign-schedule-result/assign-schedule-result.module'
+            )
+          ).AssignScheduleResultModule,
+      },
+    ],
   },
 ];
 

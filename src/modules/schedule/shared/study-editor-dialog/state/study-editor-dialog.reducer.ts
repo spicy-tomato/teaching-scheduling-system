@@ -31,6 +31,10 @@ export const studyEditorDialogReducer = createReducer(
     ...state,
     requestStatus: EApiStatus.loading,
   })),
+  on(PageAction.requestIntend, (state) => ({
+    ...state,
+    requestStatus: EApiStatus.loading,
+  })),
   on(PageAction.update, (state) => ({
     ...state,
     updateStatus: EApiStatus.loading,
@@ -58,6 +62,12 @@ export const studyEditorDialogReducer = createReducer(
     requestingChangeSchedule: false,
   })),
   on(ApiAction.requestSuccessful, (state, { justRequestedSchedule }) => ({
+    ...state,
+    justRequestedSchedule,
+    requestStatus: EApiStatus.successful,
+    requestingChangeSchedule: false,
+  })),
+  on(ApiAction.requestIntendSuccessful, (state, { justRequestedSchedule }) => ({
     ...state,
     justRequestedSchedule,
     requestStatus: EApiStatus.successful,

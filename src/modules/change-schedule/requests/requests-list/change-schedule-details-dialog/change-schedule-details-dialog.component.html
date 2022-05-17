@@ -1,0 +1,130 @@
+<div class="d-flex justify-content-center" *tssVar="context.data as data">
+  <table *tssVar="!data.newSchedule.date && data.intendTime as isIntendTime">
+    <tr>
+      <td>Tên lớp</td>
+      <td>:</td>
+      <td class="text-center" colspan="3">
+        {{ data.moduleClassName }}
+      </td>
+    </tr>
+
+    <tr *ngIf="data.teacher.name">
+      <td>Giảng viên</td>
+      <td>:</td>
+      <td class="text-center" colspan="3">
+        {{ data.teacher.name }}
+      </td>
+    </tr>
+
+    <tr>
+      <td>Sĩ số</td>
+      <td>:</td>
+      <td class="text-center" colspan="3">
+        <i *ngIf="!data.moduleClassNumberReality; else numberReality">
+          (Chưa có dữ liệu)
+        </i>
+        <ng-template #numberReality>
+          {{ data.moduleClassNumberReality }}
+        </ng-template>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Ngày học</td>
+      <td>:</td>
+      <td class="text-center">
+        {{ data.oldSchedule.date | date: "dd-MM-Y" }}
+      </td>
+      <td>
+        <tui-svg src="tuiIconChevronRight"></tui-svg>
+      </td>
+      <td class="text-center">
+        {{
+          isIntendTime
+            ? data.intendTime
+            : (data.newSchedule.date | date: "dd-MM-Y")
+        }}
+      </td>
+    </tr>
+
+    <tr>
+      <td>Ca</td>
+      <td>:</td>
+      <td class="text-center">{{ data.oldSchedule.shift }}</td>
+      <td>
+        <tui-svg src="tuiIconChevronRight"></tui-svg>
+      </td>
+      <td class="text-center">
+        <i *ngIf="isIntendTime; else shift"> (Chưa xếp ca) </i>
+        <ng-template #shift>
+          {{ data.newSchedule.shift }}
+        </ng-template>
+      </td>
+    </tr>
+
+    <tr *ngIf="!isIntendTime">
+      <td>Phòng</td>
+      <td>:</td>
+      <td class="text-center">{{ data.oldSchedule.room }}</td>
+      <td>
+        <tui-svg src="tuiIconChevronRight"></tui-svg>
+      </td>
+      <td class="text-center">
+        <i *ngIf="!data.newSchedule.room; else room"> (Chưa được xếp phòng) </i>
+        <ng-template #room> {{ data.newSchedule.room }} </ng-template>
+      </td>
+    </tr>
+    <tr>
+      <td>Thời gian tạo yêu cầu</td>
+      <td>:</td>
+      <td class="text-center" colspan="3">
+        {{ data.createdAt | date: "dd-MM-Y, HH:mm" }}
+      </td>
+    </tr>
+
+    <tr *ngIf="data.acceptedAt">
+      <td>Thời gian phê duyệt</td>
+      <td>:</td>
+      <td class="text-center" colspan="3">
+        {{ data.acceptedAt | date: "dd-MM-Y, HH:mm" }}
+      </td>
+    </tr>
+
+    <tr *ngIf="data.setRoomAt">
+      <td>Thời gian xếp phòng</td>
+      <td>:</td>
+      <td class="text-center" colspan="3">
+        {{ data.setRoomAt | date: "dd-MM-Y, HH:mm" }}
+      </td>
+    </tr>
+
+    <tr>
+      <td>Lý do</td>
+      <td>:</td>
+      <td class="text-center" colspan="3">{{ data.reason }}</td>
+    </tr>
+
+    <tr>
+      <td>Trạng thái</td>
+      <td>:</td>
+      <td [ngSwitch]="true" class="status text-center" colspan="3">
+        <div
+          [ngClass]="{
+            deny:
+              data.status === 100 || (500 <= data.status && data.status < 600),
+            pending:
+              200 <= data.status &&
+              data.status < 300 &&
+              data.status !== data.status,
+            complete: 300 <= data.status && data.status < 400,
+            accept: data.status === 202,
+            change: data.status === 400
+          }"
+          class="text-center"
+        >
+          {{ statusList[data.status].name }}
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>

@@ -14,9 +14,14 @@ export const selectOptions = createSelector(
   (state) => state.options
 );
 
-export const selectData = createSelector(
+export const selectChangeSchedules = createSelector(
   feedbackSelector,
-  (state) => state.data
+  (state) => state.changeSchedules
+);
+
+export const selectTeachers = createSelector(
+  feedbackSelector,
+  (state) => state.teachers
 );
 
 export const selectQuery = createSelector(
@@ -34,4 +39,16 @@ export const selectRequestQueue = createSelector(
 export const selectPageCount = createSelector(
   feedbackSelector,
   (state) => state.total
+);
+
+const selectExportIndexes = createSelector(
+  feedbackSelector,
+  (state) => state.exportIndexes
+);
+
+export const selectExportSchedule = createSelector(
+  selectChangeSchedules,
+  selectExportIndexes,
+  (changeSchedules, indexes) =>
+    changeSchedules.filter((_, index) => indexes[index])
 );

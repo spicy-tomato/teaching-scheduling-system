@@ -1,10 +1,9 @@
 import { Nullable } from '..';
-import { SimpleModel } from '../core';
+import { RequestChangeScheduleCode, SimpleModel } from '../core';
 
 export interface ChangeScheduleOptions {
-  status: Nullable<number>;
+  status: Nullable<RequestChangeScheduleCode>;
   teacher: Nullable<SimpleModel>;
-  showTimeInsteadOfShift: boolean;
   showTime: boolean;
   showReason: boolean;
 }

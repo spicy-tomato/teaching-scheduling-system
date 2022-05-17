@@ -1,6 +1,7 @@
 export {
   reset,
   request,
+  requestIntend,
   update,
   search,
   cancel,

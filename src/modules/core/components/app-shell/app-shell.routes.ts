@@ -19,12 +19,6 @@ const routes: Routes = [
         redirectTo: 'schedule',
       },
       {
-        path: 'notification',
-        loadChildren: async () =>
-          (await import('@modules/notification/notification.module'))
-            .NotificationModule,
-      },
-      {
         path: 'schedule',
         loadChildren: async () =>
           (await import('@modules/schedule/schedule-page.module'))
@@ -63,6 +57,12 @@ const routes: Routes = [
         path: 'feedback',
         loadChildren: async () =>
           (await import('@modules/feedback/feedback.module')).FeedbackModule,
+      },
+      {
+        path: 'user-information',
+        loadChildren: async () =>
+          (await import('@modules/user-information/user-information.module'))
+            .UserInformationModule,
       },
     ],
   },

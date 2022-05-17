@@ -1,0 +1,15 @@
+:host {
+  .tui-form__row {
+    gap: 1rem 1.25rem;
+    > * {
+      min-width: 150px;
+    }
+    .department {
+      min-width: 285px;
+    }
+  }
+}
+
+::ng-deep tui-data-list.department-data-list button tui-select-option {
+  white-space: normal;
+}

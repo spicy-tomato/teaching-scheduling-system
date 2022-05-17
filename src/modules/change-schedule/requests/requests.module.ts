@@ -10,10 +10,12 @@ import {
   TuiHintModule,
   TuiLoaderModule,
   TuiScrollbarModule,
+  TuiSvgModule,
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
 import {
   TuiCheckboxLabeledModule,
+  TuiCheckboxModule,
   TuiPaginationModule,
   TuiSelectModule,
 } from '@taiga-ui/kit';
@@ -26,6 +28,7 @@ import { SharedChangeScheduleModule } from '../_shared/shared.module';
 import { RequestListStatusComponent } from './requests-list/request-list-status/request-list-status.component';
 import { DirectivesModule } from '@directives/directives.module';
 import { RequestListActionComponent } from './requests-list/request-list-action/request-list-action.component';
+import { ChangeScheduleDetailsDialogComponent } from './requests-list/change-schedule-details-dialog/change-schedule-details-dialog.component';
 
 const NGRX = [
   StoreModule.forFeature(
@@ -45,6 +48,8 @@ const TAIGA_UI = [
   TuiSelectModule,
   TuiDataListModule,
   TuiTextfieldControllerModule,
+  TuiSvgModule,
+  TuiCheckboxModule,
 ];
 
 @NgModule({
@@ -64,6 +69,7 @@ const TAIGA_UI = [
     RequestsPaginationComponent,
     RequestListStatusComponent,
     RequestListActionComponent,
+    ChangeScheduleDetailsDialogComponent,
   ],
 })
 export class RequestsModule {}
