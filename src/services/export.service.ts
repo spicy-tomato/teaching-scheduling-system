@@ -20,6 +20,8 @@ import {
   SectionType,
   ColumnBreak,
   BorderStyle,
+  ITableBordersOptions,
+  IStylesOptions,
 } from 'docx';
 import { saveAs } from 'file-saver';
 import { TokenService } from './core/token.service';
@@ -30,6 +32,48 @@ import { TokenService } from './core/token.service';
 export class ExportService {
   /** PRIVATE PROPERTIES */
   private readonly datePipe: DatePipe;
+
+  /** GETTERS */
+  private get documentStyle(): IStylesOptions {
+    return {
+      default: {
+        document: {
+          run: {
+            size: 26,
+          },
+          paragraph: {
+            spacing: {
+              after: 160,
+              line: 260,
+            },
+          },
+        },
+      },
+    };
+  }
+
+  private get borderNone(): ITableBordersOptions {
+    return {
+      insideHorizontal: {
+        style: BorderStyle.NONE,
+      },
+      insideVertical: {
+        style: BorderStyle.NONE,
+      },
+      top: {
+        style: BorderStyle.NONE,
+      },
+      right: {
+        style: BorderStyle.NONE,
+      },
+      bottom: {
+        style: BorderStyle.NONE,
+      },
+      left: {
+        style: BorderStyle.NONE,
+      },
+    };
+  }
 
   /** CONSTRUCTOR */
   constructor(
@@ -72,21 +116,7 @@ export class ExportService {
     };
 
     return new Document({
-      styles: {
-        default: {
-          document: {
-            run: {
-              size: 26,
-            },
-            paragraph: {
-              spacing: {
-                after: 160,
-                line: 260,
-              },
-            },
-          },
-        },
-      },
+      styles: this.documentStyle,
       sections: [
         {
           properties: {
@@ -552,21 +582,7 @@ export class ExportService {
     };
 
     return new Document({
-      styles: {
-        default: {
-          document: {
-            run: {
-              size: 26,
-            },
-            paragraph: {
-              spacing: {
-                after: 160,
-                line: 260,
-              },
-            },
-          },
-        },
-      },
+      styles: this.documentStyle,
       sections: [
         {
           children: [
@@ -1044,21 +1060,7 @@ export class ExportService {
     };
 
     return new Document({
-      styles: {
-        default: {
-          document: {
-            run: {
-              size: 24,
-            },
-            paragraph: {
-              spacing: {
-                after: 160,
-                line: 260,
-              },
-            },
-          },
-        },
-      },
+      styles: this.documentStyle,
       sections: [
         {
           properties: {
@@ -1070,26 +1072,7 @@ export class ExportService {
                 size: 100,
                 type: WidthType.PERCENTAGE,
               },
-              borders: {
-                insideHorizontal: {
-                  style: BorderStyle.NONE,
-                },
-                insideVertical: {
-                  style: BorderStyle.NONE,
-                },
-                top: {
-                  style: BorderStyle.NONE,
-                },
-                right: {
-                  style: BorderStyle.NONE,
-                },
-                bottom: {
-                  style: BorderStyle.NONE,
-                },
-                left: {
-                  style: BorderStyle.NONE,
-                },
-              },
+              borders: this.borderNone,
               rows: [
                 new TableRow({
                   children: [
@@ -1552,21 +1535,7 @@ export class ExportService {
     };
 
     return new Document({
-      styles: {
-        default: {
-          document: {
-            run: {
-              size: 24,
-            },
-            paragraph: {
-              spacing: {
-                after: 160,
-                line: 260,
-              },
-            },
-          },
-        },
-      },
+      styles: this.documentStyle,
       sections: [
         {
           properties: {
@@ -1578,26 +1547,7 @@ export class ExportService {
                 size: 100,
                 type: WidthType.PERCENTAGE,
               },
-              borders: {
-                insideHorizontal: {
-                  style: BorderStyle.NONE,
-                },
-                insideVertical: {
-                  style: BorderStyle.NONE,
-                },
-                top: {
-                  style: BorderStyle.NONE,
-                },
-                right: {
-                  style: BorderStyle.NONE,
-                },
-                bottom: {
-                  style: BorderStyle.NONE,
-                },
-                left: {
-                  style: BorderStyle.NONE,
-                },
-              },
+              borders: this.borderNone,
               rows: [
                 new TableRow({
                   children: [
