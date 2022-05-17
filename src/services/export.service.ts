@@ -39,7 +39,7 @@ export class ExportService {
       default: {
         document: {
           run: {
-            size: 26,
+            size: 24,
           },
           paragraph: {
             spacing: {
@@ -513,55 +513,121 @@ export class ExportService {
                 }),
               ],
             }),
-            new Paragraph({
-              alignment: AlignmentType.RIGHT,
-              spacing: {
-                before: 160,
-                after: 0,
-              },
-              children: [
-                new TextRun({
-                  text: `Hà Nội, ngày ${DateHelper.beautifyDay(
-                    today.getDate()
-                  )} tháng ${DateHelper.beautifyDay(
-                    today.getMonth() + 1
-                  )} năm ${today.getFullYear()}`,
-                  italics: true,
-                }),
-              ],
-            }),
           ],
         },
         {
           properties: {
             page,
-            column: {
-              count: 3,
-              equalWidth: true,
-            },
             type: SectionType.CONTINUOUS,
           },
           children: [
-            new Paragraph({
-              alignment,
-              spacing: {
-                before: 280,
+            new Table({
+              width: {
+                size: 100,
+                type: WidthType.PERCENTAGE,
               },
-              children: [
-                new TextRun({
-                  text: 'Ý kiến của bộ môn',
+              borders: this.borderNone,
+              rows: [
+                new TableRow({
+                  children: [
+                    new TableCell({
+                      width: {
+                        size: 33.33,
+                        type: WidthType.PERCENTAGE,
+                      },
+                      children: [new Paragraph({})],
+                    }),
+                    new TableCell({
+                      width: {
+                        size: 33.33,
+                        type: WidthType.PERCENTAGE,
+                      },
+                      children: [new Paragraph({})],
+                    }),
+                    new TableCell({
+                      width: {
+                        size: 33.33,
+                        type: WidthType.PERCENTAGE,
+                      },
+                      children: [
+                        new Paragraph({
+                          alignment,
+                          children: [
+                            new TextRun({
+                              text: `Hà Nội, ngày ${DateHelper.beautifyDay(
+                                today.getDate()
+                              )} tháng ${DateHelper.beautifyDay(
+                                today.getMonth() + 1
+                              )} năm ${today.getFullYear()}`,
+                              italics: true,
+                            }),
+                          ],
+                        }),
+                      ],
+                    }),
+                  ],
                 }),
-                new ColumnBreak(),
-                new TextRun({
-                  text: 'Ý kiến của Điều độ',
+                new TableRow({
+                  children: [
+                    new TableCell({
+                      children: [
+                        new Paragraph({
+                          alignment,
+                          children: [
+                            new TextRun({
+                              text: 'Ý kiến của bộ môn',
+                            }),
+                          ],
+                        }),
+                      ],
+                    }),
+                    new TableCell({
+                      children: [
+                        new Paragraph({
+                          alignment,
+                          children: [
+                            new TextRun({
+                              text: 'Ý kiến của Điều độ',
+                            }),
+                          ],
+                        }),
+                      ],
+                    }),
+                    new TableCell({
+                      children: [
+                        new Paragraph({
+                          alignment,
+                          children: [
+                            new TextRun({
+                              text: 'Giảng viên',
+                            }),
+                          ],
+                        }),
+                      ],
+                    }),
+                  ],
                 }),
-                new ColumnBreak(),
-                new TextRun({
-                  text: 'Giảng viên',
-                }),
-                new TextRun({
-                  break: 5,
-                  text: teacherName,
+                new TableRow({
+                  children: [
+                    new TableCell({ children: [new Paragraph({})] }),
+                    new TableCell({ children: [new Paragraph({})] }),
+                    new TableCell({
+                      children: [
+                        new Paragraph({
+                          alignment,
+                          spacing: {
+                            before: 280,
+                          },
+                          children: [
+                            new TextRun({
+                              break: 5,
+                              text: teacherName,
+                            }),
+                          ],
+                        }),
+                      ],
+                    }),
+                  ],
                 }),
               ],
             }),
