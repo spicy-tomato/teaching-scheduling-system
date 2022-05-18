@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.8.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.8.0...v2.8.1) (2022-05-17)
+
+
+### Bug Fixes
+
+* **change-schedule:** show link to statistic instead of monthly export for department head ([3b2a93c](https://github.com/annguyen-it/teaching-scheduling-system/commits/3b2a93ce2e7a6efa25b7a4e98575d2fd96ac714c))
+
+## [2.8.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.7.0...v2.8.0) (2022-05-17)
+
+
+### Features
+
+* **change-schedule:** export personal change schedule report ([216725d](https://github.com/annguyen-it/teaching-scheduling-system/commits/216725d9e03f1725a58715cade62ce30795b2c91))
+
+
+### Bug Fixes
+
+* cannot send confirm event in dialogs ([1bcff5d](https://github.com/annguyen-it/teaching-scheduling-system/commits/1bcff5dbfa5fd9901774f13375fde64653f8615e))
+* **export:** footer parts of export file do not break line together ([2a5a290](https://github.com/annguyen-it/teaching-scheduling-system/commits/2a5a290f41a4c84f73eb50173ff8affa62b3092b))
+* remove console.log ([2de2a3f](https://github.com/annguyen-it/teaching-scheduling-system/commits/2de2a3ff773dec900b1f478fe55967d77bc91cdc))
+
 ## [2.7.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.6.0...v2.7.0) (2022-05-07)
 
 

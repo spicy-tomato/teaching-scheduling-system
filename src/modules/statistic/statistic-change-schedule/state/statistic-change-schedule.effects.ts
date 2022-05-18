@@ -74,7 +74,7 @@ export class StatisticChangeScheduleEffects {
     };
 
     return this.statisticService
-      .getChangeSchedule(
+      .getDepartment(
         departmentId,
         UrlHelper.queryFilter(
           statisticData,

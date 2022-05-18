@@ -1,0 +1,27 @@
+<form *ngrxLet="status$ as status" [formGroup]="form">
+  <tui-input-date-range [items]="items" [min]="min" formControlName="range">
+    Chọn khoảng thời gian
+  </tui-input-date-range>
+  <div class="tui-form__buttons tui-form__buttons_align_end">
+    <button
+      tuiButton
+      (click)="confirm$.next()"
+      [showLoader]="status === EApiStatus.loading"
+      [disabled]="form.invalid"
+      type="submit"
+      class="tui-form__button"
+    >
+      Xuất báo cáo
+    </button>
+    <button
+      tuiButton
+      (click)="context.$implicit.complete()"
+      [disabled]="status === EApiStatus.loading"
+      appearance="secondary"
+      type="button"
+      class="tui-form__button"
+    >
+      Hủy bỏ
+    </button>
+  </div>
+</form>

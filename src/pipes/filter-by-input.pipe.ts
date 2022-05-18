@@ -31,7 +31,6 @@ export class FilterByInputPipe implements PipeTransform {
     items: readonly T[] | null,
     matcher: TuiStringMatcher<T> = TUI_DEFAULT_MATCHER
   ): readonly T[] | null {
-    console.log(this.query);
     return this.filter(items, matcher);
   }
 

@@ -33,6 +33,8 @@ export class ConfirmDialogComponent<T extends ConfirmDialogOptions> {
 
   /** PUBLIC METHODS */
   public onClick(response: boolean): void {
-    this.context.completeWith(response);
+    setTimeout(() => {
+      this.context.completeWith(response);
+    });
   }
 }
