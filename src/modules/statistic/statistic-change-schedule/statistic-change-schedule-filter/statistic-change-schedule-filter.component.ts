@@ -122,10 +122,7 @@ export class StatisticChangeScheduleFilterComponent
           teacher,
         })),
         tap(({ changeSchedules, teacher }) =>
-          this.export(
-            changeSchedules.filter((schedule) => schedule.status > 0),
-            teacher
-          )
+          this.export(changeSchedules, teacher)
         ),
         takeUntil(this.destroy$)
       )

@@ -26,7 +26,7 @@ import {
   FixedScheduleModel,
   SimpleModel,
 } from 'src/shared/models';
-import { sameGroupValueValidator } from 'src/shared/validators';
+import { sameGroupStaticValueValidator } from 'src/shared/validators';
 import { TuiDay, TuiTime } from '@taiga-ui/cdk';
 import {
   filter,
@@ -258,7 +258,7 @@ export class StudyEditorDialogComponent extends BaseComponent {
           ],
         },
         {
-          validators: sameGroupValueValidator(initialRequest, {
+          validators: sameGroupStaticValueValidator(initialRequest, {
             date: (a: Nullable<TuiDay>, b: Nullable<TuiDay>) =>
               !!a && !!b && a.daySame(b),
           }),
@@ -487,7 +487,7 @@ export class StudyEditorDialogComponent extends BaseComponent {
       {
         note: [value.note],
       },
-      sameGroupValueValidator(value, {
+      sameGroupStaticValueValidator(value, {
         date: (a: Nullable<TuiDay>, b: Nullable<TuiDay>) =>
           !!a && !!b && a.daySame(b),
       })

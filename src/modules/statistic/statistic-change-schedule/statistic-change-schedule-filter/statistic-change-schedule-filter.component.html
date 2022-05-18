@@ -12,8 +12,8 @@
     </div>
     <div class="tui-form__multi-field">
       <button
-        *ngrxLet="status$ as status"
         tuiButton
+        *ngrxLet="status$ as status"
         (click)="export$.next()"
         [showLoader]="status === EApiStatus.loading"
         [disabled]="form.invalid"

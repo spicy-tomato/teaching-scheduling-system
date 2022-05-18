@@ -5,7 +5,7 @@ import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { DateHelper } from '@shared/helpers';
 import { EjsScheduleModel, Nullable } from 'src/shared/models';
-import { sameGroupValueValidator } from 'src/shared/validators';
+import { sameGroupStaticValueValidator } from 'src/shared/validators';
 
 @Component({
   templateUrl: './exam-editor-dialog.component.html',
@@ -45,7 +45,9 @@ export class ExamEditorDialogComponent {
       this.scheduleService.updateExamNote({ id, note }).subscribe(
         () => {
           this.showLoader = false;
-          this.context.completeWith(note);
+          setTimeout(() => {
+            this.context.completeWith(note);
+          });
         },
         () => {
           this.showLoader = false;
@@ -92,7 +94,7 @@ export class ExamEditorDialogComponent {
           note: [initialChange.note, Validators.maxLength(this.noteMaxLength)],
         },
         {
-          validators: sameGroupValueValidator(initialChange),
+          validators: sameGroupStaticValueValidator(initialChange),
         }
       ),
     });

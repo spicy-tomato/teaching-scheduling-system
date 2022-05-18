@@ -34,11 +34,15 @@ export class SuccessDialogComponent extends BaseComponent {
 
   /** PUBLIC METHODS */
   public returnHome(): void {
-    this.context.$implicit.complete();
-    void this.router.navigate(['']);
+    setTimeout(() => {
+      this.context.$implicit.complete();
+      void this.router.navigate(['']);
+    });
   }
 
   public seeFeedback(): void {
-    this.context.$implicit.complete();
+    setTimeout(() => {
+      this.context.$implicit.complete();
+    });
   }
 }
