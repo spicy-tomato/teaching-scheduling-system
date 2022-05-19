@@ -23,6 +23,7 @@ import { TuiActiveZoneModule, TuiFilterPipeModule } from '@taiga-ui/cdk';
 import { ScheduleHeaderComponent } from './schedule/schedule-header/schedule-header.component';
 import { DirectivesModule } from '@directives/directives.module';
 import { SharedScheduleModule } from './shared/shared-schedule.module';
+import { ConfirmModule } from '@services/dialog/confirm/confirm.module';
 
 const NGRX = [
   StoreModule.forFeature(
@@ -49,6 +50,7 @@ const TAIGA_UI = [
     ScheduleModule,
     DirectivesModule,
     SharedScheduleModule,
+    ConfirmModule,
     ...NGRX,
     ...TAIGA_UI,
   ],
