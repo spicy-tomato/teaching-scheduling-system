@@ -53,7 +53,7 @@ export class ScheduleService extends BaseDataService {
   }
 
   public getSchedule(
-    params: QueryFilterResult<SearchSchedule, string>,
+    params: QueryFilterResult<SearchSchedule>,
     idTeacher: string
   ): Observable<ResponseModel<StudyScheduleModel[]>> {
     return this.http
@@ -66,7 +66,7 @@ export class ScheduleService extends BaseDataService {
 
   public getDepartmentSchedule(
     department: string,
-    params: QueryFilterResult<SearchSchedule, string>
+    params: QueryFilterResult<SearchSchedule>
   ): Observable<ResponseModel<StudyScheduleModel[]>> {
     return this.http
       .get<ResponseModel<StudyScheduleModel[]>>(
