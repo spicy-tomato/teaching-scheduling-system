@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ScheduleService } from '@services/schedule.service';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { DateHelper } from '@shared/helpers';
 import { EjsScheduleModel, Nullable } from 'src/shared/models';
 import { sameGroupStaticValueValidator } from 'src/shared/validators';
+import { ExamService } from '@services/exam.service';
 
 @Component({
   templateUrl: './exam-editor-dialog.component.html',
@@ -29,7 +29,7 @@ export class ExamEditorDialogComponent {
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT)
     private readonly context: TuiDialogContext<string, EjsScheduleModel>,
-    private scheduleService: ScheduleService,
+    private examService: ExamService,
     private fb: FormBuilder
   ) {
     this.initForm(context.data);
@@ -42,7 +42,7 @@ export class ExamEditorDialogComponent {
 
     if (id) {
       this.showLoader = true;
-      this.scheduleService.updateExamNote({ id, note }).subscribe(
+      this.examService.updateExamNote({ id, note }).subscribe(
         () => {
           this.showLoader = false;
           setTimeout(() => {
