@@ -10,6 +10,7 @@ const initialState: AppShellState = {
   teacher: null,
   status: EApiStatus.unknown,
   rooms: [],
+  teachersInDepartment: [],
 };
 
 export const appShellFeatureKey = 'app-shell';
@@ -44,6 +45,12 @@ export const appShellReducer = createReducer(
     return {
       ...state,
       academicYears,
+    };
+  }),
+  on(ApiAction.loadTeachersInDepartmentSuccessful, (state, { teachers }) => {
+    return {
+      ...state,
+      teachersInDepartment: teachers,
     };
   })
 );
