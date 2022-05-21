@@ -29,8 +29,8 @@ export class ExamService extends BaseDataService {
   }
 
   public getExamSchedule(
-    params: SearchExam,
-    idTeacher: string
+    idTeacher: string,
+    params: QueryFilterResult<SearchExam>
   ): Observable<ResponseModel<ExamScheduleModel[]>> {
     return this.http
       .get<ResponseModel<ExamScheduleModel[]>>(

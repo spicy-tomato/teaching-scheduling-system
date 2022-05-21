@@ -97,11 +97,11 @@ export class StudyEditorDialogEffects {
       mergeMap(({ params, teacherId }) => {
         return this.scheduleService
           .getSchedule(
+            teacherId,
             UrlHelper.queryFilter(params, {
               date: 'between',
               shift: 'in',
-            }),
-            teacherId
+            })
           )
           .pipe(
             map((response) =>

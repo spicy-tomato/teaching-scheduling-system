@@ -43,8 +43,8 @@ export class ScheduleService extends BaseDataService {
   }
 
   public getSchedule(
+    idTeacher: string,
     params: QueryFilterResult<SearchSchedule>,
-    idTeacher: string
   ): Observable<ResponseModel<StudyScheduleModel[]>> {
     return this.http
       .get<ResponseModel<StudyScheduleModel[]>>(
