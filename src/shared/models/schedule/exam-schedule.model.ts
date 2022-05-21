@@ -12,7 +12,7 @@ export class ExamScheduleModel extends ScheduleModel {
     public readonly endAt: Date,
     idRoom: string,
     note: Nullable<string>,
-    public readonly teachers: string[],
+    public teachers: string[],
     public readonly numberOfStudents: number,
     public readonly credit: number
   ) {

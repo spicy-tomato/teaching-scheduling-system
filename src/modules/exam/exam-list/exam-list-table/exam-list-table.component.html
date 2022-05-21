@@ -1,0 +1,82 @@
+<tui-loader
+  *ngrxLet="status$ as status"
+  [showLoader]="status === EApiStatus.loading"
+  [overlay]="true"
+>
+  <table tuiTable [columns]="columns">
+    <!-- Head -->
+    <thead tuiThead>
+      <tr tuiThGroup>
+        <th tuiTh *tuiHead="'index'" [sorter]="null">STT</th>
+        <th tuiTh *tuiHead="'name'">Lớp học phần</th>
+        <th tuiTh *tuiHead="'method'">Hình thức</th>
+        <th tuiTh *tuiHead="'credit'">Số TC</th>
+        <th tuiTh *tuiHead="'room'">Phòng</th>
+        <th tuiTh *tuiHead="'numberOfStudents'">Sĩ số</th>
+        <th tuiTh *tuiHead="'teacher'" [sorter]="null">Giảng viên coi thi</th>
+        <th tuiTh *tuiHead="'action'" [sorter]="null">Thao tác</th>
+      </tr>
+    </thead>
+
+    <ng-container *ngrxLet="data$ as data">
+      <!-- Body with data -->
+      <tbody
+        tuiTbody
+        *ngIf="data && data.length > 0; else noData"
+        [data]="data"
+      >
+        <tr *tuiRow="let item of data; index as i" tuiTr>
+          <td *tuiCell="'index'" tuiTd>
+            <div class="text-center">
+              {{ i + 1 }}
+            </div>
+          </td>
+          <td *tuiCell="'name'" tuiTd>{{ item.name }}</td>
+          <td *tuiCell="'method'" tuiTd>{{ item.method }}</td>
+          <td *tuiCell="'credit'" tuiTd>
+            <div class="text-center">
+              {{ item.credit }}
+            </div>
+          </td>
+          <td *tuiCell="'room'" tuiTd>
+            <div class="text-center">
+              {{ item.idRoom }}
+            </div>
+          </td>
+          <td *tuiCell="'numberOfStudents'" tuiTd>
+            <div class="text-center">
+              {{ item.numberOfStudents }}
+            </div>
+          </td>
+          <td *tuiCell="'teacher'" tuiTd>
+            {{ item.teachers.join(", ") }}
+          </td>
+          <td *tuiCell="'action'" tuiTd>
+            <div class="text-center">
+              <button
+                tuiIconButton
+                (click)="onOpenAssignDialog(item)"
+                [tuiHintShowDelay]="300"
+                [tuiHintHideDelay]="100"
+                icon="tuiIconEditLarge"
+                appearance="icon"
+                tuiHint="Phân lịch thi"
+              ></button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+
+      <!-- Body without data -->
+      <ng-template #noData>
+        <tbody tuiTbody>
+          <th colspan="7">
+            <div class="no-data">
+              <h6>Chưa có dữ liệu</h6>
+            </div>
+          </th>
+        </tbody>
+      </ng-template>
+    </ng-container>
+  </table>
+</tui-loader>

@@ -48,6 +48,24 @@ export class SidebarConstant {
       ],
     },
     {
+      name: 'Lịch thi',
+      icon: 'mdi mdi-calendar-clock',
+      permission: PermissionConstant.ASSIGN_SCHEDULE,
+      subItems: [
+        {
+          name: 'Phân lịch thi',
+          routerLink: '/exam',
+          icon: 'mdi mdi-format-list-bulleted',
+        },
+        // {
+        //   name: 'Import',
+        //   routerLink: '/assign-schedule/import',
+        //   icon: 'tuiIconUpload',
+        //   useTaigaIcon: true,
+        // },
+      ],
+    },
+    {
       name: 'Thay đổi lịch',
       icon: 'fas fa-exchange-alt',
       routerLink: '/change-schedule',
