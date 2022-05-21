@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.9.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.9.0...v2.9.1) (2022-05-21)
+
+
+### Bug Fixes
+
+* **schedule:** confirm button in schedule dialog state does not change when note changes ([925caf3](https://github.com/annguyen-it/teaching-scheduling-system/commits/925caf38316945084c4b4aca5bfd2e3220c8afaa))
+* **schedule:** quick view popup for exam does not show teachers ([62193f2](https://github.com/annguyen-it/teaching-scheduling-system/commits/62193f229cbc90541e114c1e2f9c25064585586d))
+* **schedule:** update API ([42e5717](https://github.com/annguyen-it/teaching-scheduling-system/commits/42e5717c8009afd964bd99f29acdb6bf7fd4246e))
+* **schedule:** update note API ([4529a92](https://github.com/annguyen-it/teaching-scheduling-system/commits/4529a92caacd3442d6596d04fde7f1f0ab756faf))
+
 ## [2.9.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.8.1...v2.9.0) (2022-05-21)
 
 
