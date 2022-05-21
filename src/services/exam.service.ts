@@ -10,6 +10,7 @@ import {
 import { BaseDataService } from './core/base-data.service';
 import { ObjectHelper, QueryFilterResult } from '@shared/helpers';
 import { map } from 'rxjs/operators';
+import { DepartmentExamDta } from '@shared/dtas';
 
 const parseExamSchedule = (response: ResponseModel<ExamScheduleModel[]>) => ({
   ...response,
@@ -44,11 +45,15 @@ export class ExamService extends BaseDataService {
     department: string,
     params: QueryFilterResult<SearchExam>
   ): Observable<ResponseModel<ExamScheduleModel[]>> {
+    const parseParams = ObjectHelper.toSnakeCase(
+      params
+    ) as unknown as DepartmentExamDta;
+
     return this.http
       .get<ResponseModel<ExamScheduleModel[]>>(
         this.url +
           `v1/departments/${department}/modules/module-classes/exam-schedules`,
-        { params }
+        { params: { ...parseParams } }
       )
       .pipe(map(parseExamSchedule));
   }

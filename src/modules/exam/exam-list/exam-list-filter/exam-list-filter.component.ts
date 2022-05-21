@@ -25,7 +25,7 @@ export class ExamListFilterComponent extends BaseComponent {
   public readonly currentTerm$: Observable<string>;
   public readonly academicYears$: Observable<AcademicYear[]>;
   public readonly trainingTypes$: Observable<string[]>;
-  
+
   public readonly batchesInTerm = CoreConstant.BATCHES_IN_TERM;
   public readonly termsInYear = CoreConstant.TERMS_IN_YEAR;
   public readonly EApiStatus = EApiStatus;
@@ -52,6 +52,12 @@ export class ExamListFilterComponent extends BaseComponent {
 
   private get academicYearControl(): AbstractControl {
     return this.form.controls['academicYear'];
+  }
+
+  private get studySession(): string {
+    return `${this.schoolYearControl.value as string}_${
+      this.termInYearControl.value as string
+    }_${this.batchInTermControl.value as string}`;
   }
 
   /** PRIVATE PROPERTIES */
@@ -139,7 +145,9 @@ export class ExamListFilterComponent extends BaseComponent {
         tap(({ 1: department }) => {
           this.store.getExam({
             departmentId: department.id,
-            searchParams: this.form.value as SearchExam,
+            searchParams: {
+              studySession: this.studySession,
+            },
           });
         }),
         takeUntil(this.destroy$)
