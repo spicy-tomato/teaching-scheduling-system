@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -49,6 +50,7 @@ export class StudyEditorButtonsRightComponent
 
   /** CONSTRUCTOR */
   constructor(
+    private readonly cdr: ChangeDetectorRef,
     private readonly controlContainer: ControlContainer,
     private readonly store: Store<fromStudyEditorDialog.StudyEditorDialogState>
   ) {
@@ -88,6 +90,9 @@ export class StudyEditorButtonsRightComponent
     this.store.dispatch(
       fromStudyEditorDialog.update({ id: this.idSchedule, body })
     );
-    this.store.dispatch(fromStudyEditorDialog.update({ body }));
+  }
+
+  public markForCheck(): void {
+    this.cdr.markForCheck();
   }
 }
