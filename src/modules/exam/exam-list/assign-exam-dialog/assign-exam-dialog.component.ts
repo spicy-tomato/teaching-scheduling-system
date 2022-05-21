@@ -13,11 +13,10 @@ import {
   TUI_BUTTON_OPTIONS,
 } from '@taiga-ui/core';
 import { tuiItemsHandlersProvider } from '@taiga-ui/kit';
-import { filter, mergeMap, takeUntil, tap } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { AssignExamDialogStore } from './state';
 import { EApiStatus } from '@shared/enums';
-import { iif, of } from 'rxjs';
 
 const STRINGIFY_TEACHER: TuiStringHandler<SimpleModel> = (item) => item.name;
 const ID_MATCHER_TEACHER: TuiIdentityMatcher<SimpleModel> = (
@@ -65,12 +64,13 @@ export class AssignExamDialogComponent extends BaseComponent {
     private readonly notificationService: TuiNotificationsService
   ) {
     super();
+
+    this.loadTeachers();
     this.handleStatusChange();
   }
 
   /** PUBLIC METHODS */
   public onConfirm(): void {
-    this.formControl.disable();
     this.store.updateProctor({
       examId: this.context.data.id,
       teachersId: (this.formControl.value as SimpleModel[]).map((x) => x.id),
@@ -84,43 +84,44 @@ export class AssignExamDialogComponent extends BaseComponent {
   }
 
   /** PRIVATE METHODS */
+  private loadTeachers(): void {
+    this.teachers$
+      .pipe(
+        tap((teachers) => {
+          this.formControl.setValue(
+            teachers.filter((t) => this.context.data.teachers.includes(t.name))
+          );
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
   private handleStatusChange(): void {
     this.status$
       .pipe(
-        filter(
-          (x) => x === EApiStatus.successful || x === EApiStatus.systemError
-        ),
-        mergeMap((status) =>
-          iif(
-            () => status === EApiStatus.successful,
-            of({}).pipe(
-              tap(() => {
-                this.notificationService
-                  .show(
-                    `Đã cập nhật thành công phòng thi ${this.context.data.name}`,
-                    { status: TuiNotification.Success }
-                  )
-                  .subscribe();
-                setTimeout(() => {
-                  this.context.completeWith(
-                    (this.formControl.value as SimpleModel[]).map((x) => x.name)
-                  );
-                });
+        tap((status) => {
+          if (status === EApiStatus.successful) {
+            this.notificationService
+              .show(
+                `Đã cập nhật thành công phòng thi ${this.context.data.name}`,
+                { status: TuiNotification.Success }
+              )
+              .subscribe();
+            setTimeout(() => {
+              this.context.completeWith(
+                (this.formControl.value as SimpleModel[]).map((x) => x.name)
+              );
+            });
+          } else if (status === EApiStatus.systemError) {
+            this.notificationService
+              .show('Vui lòng thử lại sau', {
+                label: 'Lỗi hệ thống!',
+                status: TuiNotification.Error,
               })
-            ),
-            of({}).pipe(
-              tap(() => {
-                this.formControl.enable();
-                this.notificationService
-                  .show('Vui lòng thử lại sau', {
-                    label: 'Lỗi hệ thống!',
-                    status: TuiNotification.Error,
-                  })
-                  .subscribe();
-              })
-            )
-          )
-        )
+              .subscribe();
+          }
+        })
       )
       .subscribe();
   }

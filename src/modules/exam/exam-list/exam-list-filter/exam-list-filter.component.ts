@@ -4,7 +4,7 @@ import { CoreConstant } from '@shared/constants';
 import * as fromAppShell from '@modules/core/components/app-shell/state';
 import { Store } from '@ngrx/store';
 import { BaseComponent } from '@modules/core/base/base.component';
-import { AcademicYear, SearchExam, SimpleModel } from '@shared/models';
+import { AcademicYear, SimpleModel } from '@shared/models';
 import { Observable, Subject } from 'rxjs';
 import { map, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { ArrayHelper, ObservableHelper, UtilsHelper } from '@shared/helpers';
