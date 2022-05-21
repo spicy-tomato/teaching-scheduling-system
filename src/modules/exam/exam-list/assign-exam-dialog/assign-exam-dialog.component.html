@@ -1,0 +1,38 @@
+<ng-container *ngrxLet="status$ as status">
+  <h5>Lớp thi: {{ context.data.name }}</h5>
+  <div class="tui-form__row">
+    <tui-multi-select
+      *ngrxLet="teachers$ as teachers"
+      [formControl]="formControl"
+      [readOnly]="status === EApiStatus.loading"
+      [editable]="false"
+      [tuiTextfieldCleaner]="true"
+      tuiDropdownDirection="bottom"
+    >
+      Chọn giảng viên
+      <tui-data-list-wrapper
+        tuiMultiSelectGroup
+        *tuiDataList
+        [items]="teachers"
+      ></tui-data-list-wrapper>
+    </tui-multi-select>
+  </div>
+  <div class="tui-form__buttons tui-form__buttons_align_end">
+    <button
+      tuiButton
+      (click)="onConfirm()"
+      [showLoader]="status === EApiStatus.loading"
+      class="tui-form__button"
+    >
+      Xác nhận
+    </button>
+    <button
+      tuiButton
+      (click)="onCancel()"
+      [disabled]="status === EApiStatus.loading"
+      class="tui-form__button"
+    >
+      Hủy
+    </button>
+  </div>
+</ng-container>

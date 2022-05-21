@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import {
   ChangeSchedule,
   ChangeScheduleSearch,
-  ExamScheduleModel,
   Note,
   PaginationResponseModel,
   ResponseModel,
@@ -35,15 +34,6 @@ const parseStudyScheduleModel = (
   ),
 });
 
-const parseExamSchedule = (response: ResponseModel<ExamScheduleModel[]>) => ({
-  ...response,
-  data: response.data.map((x) => {
-    return ExamScheduleModel.parse(
-      ObjectHelper.parseDateProperties(x, ['timeStart', 'timeEnd'])
-    );
-  }),
-});
-
 @Injectable({
   providedIn: 'root',
 })
@@ -53,7 +43,7 @@ export class ScheduleService extends BaseDataService {
   }
 
   public getSchedule(
-    params: QueryFilterResult<SearchSchedule, string>,
+    params: QueryFilterResult<SearchSchedule>,
     idTeacher: string
   ): Observable<ResponseModel<StudyScheduleModel[]>> {
     return this.http
@@ -66,7 +56,7 @@ export class ScheduleService extends BaseDataService {
 
   public getDepartmentSchedule(
     department: string,
-    params: QueryFilterResult<SearchSchedule, string>
+    params: QueryFilterResult<SearchSchedule>
   ): Observable<ResponseModel<StudyScheduleModel[]>> {
     return this.http
       .get<ResponseModel<StudyScheduleModel[]>>(
@@ -75,33 +65,6 @@ export class ScheduleService extends BaseDataService {
         { params }
       )
       .pipe(map(parseStudyScheduleModel));
-  }
-
-  public getExamSchedule(
-    params: SearchSchedule
-  ): Observable<ResponseModel<ExamScheduleModel[]>> {
-    return this.http
-      .get<ResponseModel<ExamScheduleModel[]>>(
-        this.url + 'teachers/0849/exam-schedules',
-        { params }
-      )
-      .pipe(map(parseExamSchedule));
-  }
-
-  public getDepartmentExamSchedule(
-    department: string,
-    params: SearchSchedule
-  ): Observable<ResponseModel<ExamScheduleModel[]>> {
-    return this.http
-      .get<ResponseModel<ExamScheduleModel[]>>(
-        this.url + `departments/${department}/exam-schedules`,
-        { params }
-      )
-      .pipe(map(parseExamSchedule));
-  }
-
-  public updateExamNote(body: Note): Observable<void> {
-    return this.http.put<void>(this.url + 'exam-schedules/update', body);
   }
 
   public updateStudyNote(body: Note): Observable<void> {

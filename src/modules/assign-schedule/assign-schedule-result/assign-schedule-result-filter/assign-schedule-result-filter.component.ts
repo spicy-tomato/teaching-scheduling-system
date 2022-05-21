@@ -55,6 +55,7 @@ export class AssignScheduleResultFilterComponent
   private myDepartment$: Observable<Nullable<SimpleModel>>;
 
   /** GETTERS */
+  // TODO: Use form.controls[]
   public get termInYear(): Nullable<AbstractControl> {
     return this.form.get('termInYear');
   }

@@ -1,5 +1,10 @@
 import { EApiStatus } from '@shared/enums';
-import { AcademicYear, Nullable, Teacher } from 'src/shared/models';
+import {
+  AcademicYear,
+  Nullable,
+  SimpleModel,
+  Teacher,
+} from 'src/shared/models';
 
 export interface AppShellState {
   status: EApiStatus;
@@ -7,4 +12,5 @@ export interface AppShellState {
   teacher: Nullable<Teacher>;
   currentTerm: string;
   academicYears: AcademicYear[];
+  teachersInDepartment: SimpleModel[];
 }

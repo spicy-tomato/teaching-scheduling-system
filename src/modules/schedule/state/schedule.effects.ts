@@ -29,6 +29,7 @@ import {
   UrlHelper,
 } from '@shared/helpers';
 import { View } from '@syncfusion/ej2-angular-schedule';
+import { ExamService } from '@services/exam.service';
 
 @Injectable()
 export class ScheduleEffects {
@@ -132,6 +133,7 @@ export class ScheduleEffects {
   constructor(
     private readonly actions$: Actions,
     private readonly scheduleService: ScheduleService,
+    private readonly examService: ExamService,
     private readonly store: Store<fromSchedule.ScheduleState>,
     appShellStore: Store<fromAppShell.AppShellState>
   ) {
@@ -187,8 +189,8 @@ export class ScheduleEffects {
     ])
       .pipe(
         this.commonPersonalObservable(),
-        mergeMap(({ fetch, ranges }) => {
-          return this.scheduleService.getExamSchedule(fetch).pipe(
+        mergeMap(({ fetch, ranges, teacherId }) => {
+          return this.examService.getExamSchedule(fetch, teacherId).pipe(
             tap((response) => {
               this.store.dispatch(
                 ApiAction.loadPersonalExamSuccessful({
@@ -250,7 +252,7 @@ export class ScheduleEffects {
       .pipe(
         this.commonPermissionObservable(),
         mergeMap(({ fetch, ranges, department }) => {
-          return this.scheduleService
+          return this.examService
             .getDepartmentExamSchedule(department, fetch)
             .pipe(
               tap((response) => {
@@ -456,7 +458,7 @@ function calculateRangeO(
           fetch: {
             date: [
               fetch.from.getFormattedDay('YMD', '-'),
-              fetch.to.append({ day: 1 }).getFormattedDay('YMD', '-'),
+              fetch.to.getFormattedDay('YMD', '-'),
             ].join(),
           },
         };
