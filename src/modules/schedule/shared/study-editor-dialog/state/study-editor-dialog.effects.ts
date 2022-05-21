@@ -77,8 +77,8 @@ export class StudyEditorDialogEffects {
   public update$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.update),
-      mergeMap(({ body }) => {
-        return this.scheduleService.updateStudyNote(body).pipe(
+      mergeMap(({ id, body }) => {
+        return this.scheduleService.updateStudyNote(id, body).pipe(
           map(() => {
             const { note } = body;
             return ApiAction.updateSuccessful({

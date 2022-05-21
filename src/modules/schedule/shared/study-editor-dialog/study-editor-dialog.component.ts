@@ -172,16 +172,6 @@ export class StudyEditorDialogComponent extends BaseComponent {
     this.store.dispatch(fromStudyEditorDialog.toggleRequestChange({ open }));
   }
 
-  public onUpdate(): void {
-    const body = {
-      note: (this.form.controls['change'] as FormGroup).controls['note']
-        .value as string,
-      id: this.context.data.Id,
-    };
-
-    this.store.dispatch(fromStudyEditorDialog.update({ body }));
-  }
-
   public showNotificationError(): void {
     this.notificationsService
       .show('Hãy thử lại sau', {

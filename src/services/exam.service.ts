@@ -53,9 +53,15 @@ export class ExamService extends BaseDataService {
       .pipe(map(parseExamSchedule));
   }
 
-  // TODO
-  public updateExamNote(body: Note): Observable<void> {
-    return this.http.patch<void>(this.url + 'exam-schedules/update', body);
+  public updateExamNote(
+    idTeacher: string,
+    idExamSchedule: number,
+    body: Note
+  ): Observable<void> {
+    return this.http.patch<void>(
+      this.url + `v1/teachers/${idTeacher}/exam-schedules/${idExamSchedule}`,
+      body
+    );
   }
 
   public updateProctor(idExam: number, proctorsId: string[]): Observable<void> {
