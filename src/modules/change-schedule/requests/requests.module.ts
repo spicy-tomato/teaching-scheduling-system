@@ -29,6 +29,7 @@ import { RequestListStatusComponent } from './requests-list/request-list-status/
 import { DirectivesModule } from '@directives/directives.module';
 import { RequestListActionComponent } from './requests-list/request-list-action/request-list-action.component';
 import { ChangeScheduleDetailsDialogComponent } from './requests-list/change-schedule-details-dialog/change-schedule-details-dialog.component';
+import { ConfirmModule } from '@services/dialog/confirm/confirm.module';
 
 const NGRX = [
   StoreModule.forFeature(
@@ -59,6 +60,7 @@ const TAIGA_UI = [
     SharedRequestsModule,
     PipesModule,
     DirectivesModule,
+    ConfirmModule,
     ...NGRX,
     ...TAIGA_UI,
   ],
