@@ -158,11 +158,11 @@ export class ScheduleEffects {
         mergeMap(({ fetch, ranges, teacherId }) => {
           return this.scheduleService
             .getSchedule(
+              teacherId,
               UrlHelper.queryFilter(fetch, {
                 date: 'between',
                 shift: 'in',
-              }),
-              teacherId
+              })
             )
             .pipe(
               tap((response) => {
@@ -190,19 +190,26 @@ export class ScheduleEffects {
       .pipe(
         this.commonPersonalObservable(),
         mergeMap(({ fetch, ranges, teacherId }) => {
-          return this.examService.getExamSchedule(fetch, teacherId).pipe(
-            tap((response) => {
-              this.store.dispatch(
-                ApiAction.loadPersonalExamSuccessful({
-                  schedules: response.data,
-                  ranges,
-                })
-              );
-            }),
-            catchError(() =>
-              of(this.store.dispatch(ApiAction.loadPersonalExamFailure()))
+          return this.examService
+            .getExamSchedule(
+              teacherId,
+              UrlHelper.queryFilter(fetch, {
+                date: 'between',
+              })
             )
-          );
+            .pipe(
+              tap((response) => {
+                this.store.dispatch(
+                  ApiAction.loadPersonalExamSuccessful({
+                    schedules: response.data,
+                    ranges,
+                  })
+                );
+              }),
+              catchError(() =>
+                of(this.store.dispatch(ApiAction.loadPersonalExamFailure()))
+              )
+            );
         })
       )
       .subscribe();
@@ -253,7 +260,12 @@ export class ScheduleEffects {
         this.commonPermissionObservable(),
         mergeMap(({ fetch, ranges, department }) => {
           return this.examService
-            .getDepartmentExamSchedule(department, fetch)
+            .getDepartmentExamSchedule(
+              department,
+              UrlHelper.queryFilter(fetch, {
+                date: 'between',
+              })
+            )
             .pipe(
               tap((response) => {
                 this.store.dispatch(

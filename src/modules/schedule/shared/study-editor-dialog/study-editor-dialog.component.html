@@ -37,6 +37,7 @@
     <div class="tui-form__row">
       <tui-text-area
         formControlName="note"
+        (ngModelChange)="onFormChange()"
         [tuiTextfieldMaxLength]="CoreConstant.NOTE_MAX_LENGTH"
       >
         Ghi chú

@@ -29,7 +29,7 @@ export const change = createAction(
 
 export const update = createAction(
   '[Study Editor Dialog Page] Update',
-  props<{ body: Note }>()
+  props<{ id: number; body: Note }>()
 );
 
 export const search = createAction(

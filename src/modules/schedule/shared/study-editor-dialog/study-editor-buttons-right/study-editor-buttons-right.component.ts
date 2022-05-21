@@ -1,12 +1,13 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
   OnInit,
   Output,
 } from '@angular/core';
-import { FormGroup, ControlContainer } from '@angular/forms';
+import { FormGroup, ControlContainer, FormControl } from '@angular/forms';
 import { BaseComponent } from '@modules/core/base/base.component';
 import { Store } from '@ngrx/store';
 import { EApiStatus } from '@shared/enums';
@@ -40,7 +41,16 @@ export class StudyEditorButtonsRightComponent
 
   public readonly EApiStatus = EApiStatus;
 
+  /** GETTERS */
+  private get noteControl(): FormControl {
+    return (this.form.controls['change'] as FormGroup).controls[
+      'note'
+    ] as FormControl;
+  }
+
+  /** CONSTRUCTOR */
   constructor(
+    private readonly cdr: ChangeDetectorRef,
     private readonly controlContainer: ControlContainer,
     private readonly store: Store<fromStudyEditorDialog.StudyEditorDialogState>
   ) {
@@ -74,11 +84,15 @@ export class StudyEditorButtonsRightComponent
 
   public onUpdate(): void {
     const body = {
-      note: (this.form.controls['change'] as FormGroup).controls['note']
-        .value as string,
-      id: this.idSchedule,
+      note: this.noteControl.value as string,
     };
 
-    this.store.dispatch(fromStudyEditorDialog.update({ body }));
+    this.store.dispatch(
+      fromStudyEditorDialog.update({ id: this.idSchedule, body })
+    );
+  }
+
+  public markForCheck(): void {
+    this.cdr.markForCheck();
   }
 }

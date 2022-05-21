@@ -43,8 +43,8 @@ export class ScheduleService extends BaseDataService {
   }
 
   public getSchedule(
-    params: QueryFilterResult<SearchSchedule>,
-    idTeacher: string
+    idTeacher: string,
+    params: QueryFilterResult<SearchSchedule>
   ): Observable<ResponseModel<StudyScheduleModel[]>> {
     return this.http
       .get<ResponseModel<StudyScheduleModel[]>>(
@@ -67,8 +67,11 @@ export class ScheduleService extends BaseDataService {
       .pipe(map(parseStudyScheduleModel));
   }
 
-  public updateStudyNote(body: Note): Observable<void> {
-    return this.http.patch<void>(this.url + 'schedules/update', body);
+  public updateStudyNote(idSchedule: number, body: Note): Observable<void> {
+    return this.http.patch<void>(
+      this.url + `v1/schedules/update/${idSchedule}`,
+      body
+    );
   }
 
   public requestChangeSchedule(

@@ -1,47 +1,25 @@
 <form [formGroup]="form">
   <div class="tui-form__row">
-    <tui-input
-      [readOnly]="true"
-      [tuiHintContent]="notAllowFieldHint"
-      formControlName="subject"
-    >
-      Tiêu đề
-    </tui-input>
+    <tui-input [readOnly]="true" formControlName="subject"> Tiêu đề </tui-input>
   </div>
   <div class="tui-form__row">
-    <tui-input
-      [readOnly]="true"
-      [tuiHintContent]="notAllowFieldHint"
-      formControlName="location"
-    >
+    <tui-input [readOnly]="true" formControlName="location">
       Phòng thi
     </tui-input>
   </div>
   <div class="tui-form__row">
-    <tui-input
-      [readOnly]="true"
-      [tuiHintContent]="notAllowFieldHint"
-      formControlName="method"
-    >
+    <tui-input [readOnly]="true" formControlName="method">
       Hình thức
     </tui-input>
   </div>
   <div class="tui-form__row tui-form__row_multi-fields">
     <div class="tui-form__multi-field">
-      <tui-input-date-time
-        [readOnly]="true"
-        [tuiHintContent]="notAllowFieldHint"
-        formControlName="start"
-      >
+      <tui-input-date-time [readOnly]="true" formControlName="start">
         Bắt đầu
       </tui-input-date-time>
     </div>
     <div class="tui-form__multi-field">
-      <tui-input-date-time
-        [readOnly]="true"
-        [tuiHintContent]="notAllowFieldHint"
-        formControlName="end"
-      >
+      <tui-input-date-time [readOnly]="true" formControlName="end">
         Kết thúc
       </tui-input-date-time>
     </div>
@@ -49,13 +27,9 @@
   <ng-container formArrayName="people">
     <div
       class="tui-form__row"
-      *ngFor="let person of people?.controls; index as i"
+      *ngFor="let person of peopleControl.controls; index as i"
     >
-      <tui-input
-        [readOnly]="true"
-        [tuiHintContent]="notAllowFieldHint"
-        [formControlName]="i"
-      >
+      <tui-input [readOnly]="true" [formControlName]="i">
         Giám thị {{ i + 1 }}
       </tui-input>
     </div>
@@ -76,7 +50,7 @@
       tuiButton
       [showLoader]="showLoader"
       [disabled]="form.invalid"
-      (click)="onSubmit()"
+      (click)="submit$.next()"
       size="m"
       class="tui-form__button"
     >
