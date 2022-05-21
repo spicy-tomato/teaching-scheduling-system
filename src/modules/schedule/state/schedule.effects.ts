@@ -193,7 +193,9 @@ export class ScheduleEffects {
           return this.examService
             .getExamSchedule(
               teacherId,
-              UrlHelper.queryFilter(fetch, { date: 'between' })
+              UrlHelper.queryFilter(fetch, {
+                date: 'between',
+              })
             )
             .pipe(
               tap((response) => {
@@ -258,7 +260,12 @@ export class ScheduleEffects {
         this.commonPermissionObservable(),
         mergeMap(({ fetch, ranges, department }) => {
           return this.examService
-            .getDepartmentExamSchedule(department, fetch)
+            .getDepartmentExamSchedule(
+              department,
+              UrlHelper.queryFilter(fetch, {
+                date: 'between',
+              })
+            )
             .pipe(
               tap((response) => {
                 this.store.dispatch(
