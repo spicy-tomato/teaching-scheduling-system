@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.10.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.9.1...v2.10.0) (2022-05-22)
+
+
+### Features
+
+* **exam:** update room ([ce410e9](https://github.com/annguyen-it/teaching-scheduling-system/commits/ce410e950668b1c87a2a6b910920fb4c37f88118))
+
+
+### Bug Fixes
+
+* **exam:** display assigned proctors in dialog ([9c07777](https://github.com/annguyen-it/teaching-scheduling-system/commits/9c077771bdfb4889941fd4b1c0f017fa90860262))
+* **exam:** update API ([25253db](https://github.com/annguyen-it/teaching-scheduling-system/commits/25253db864d3d3b34ca6c7f9ecb39ab8870e43bf))
+
 ### [2.9.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.9.0...v2.9.1) (2022-05-21)
 
 
