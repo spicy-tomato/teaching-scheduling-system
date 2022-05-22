@@ -115,7 +115,7 @@ export class TssScheduleComponent
   public onEventRendered(args: EventRenderedArgs): void {
     switch (args.data.Type) {
       case 'exam':
-        args.element.style.backgroundColor = '#ff8c67';
+        args.element.style.backgroundColor = '#ff0000';
         break;
     }
     if (args.data.Color) {
