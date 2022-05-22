@@ -42,6 +42,8 @@ export class ExamListTableComponent extends BaseComponent {
     'name',
     'method',
     'credit',
+    'date',
+    'time',
     'room',
     'numberOfStudents',
     'teacher',

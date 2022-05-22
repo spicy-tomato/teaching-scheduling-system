@@ -8,11 +8,11 @@
     <thead tuiThead>
       <tr tuiThGroup>
         <th tuiTh *tuiHead="'index'" [sorter]="null">STT</th>
-        <th tuiTh *tuiHead="'name'">Lớp học phần</th>
-        <th tuiTh *tuiHead="'method'">Hình thức</th>
-        <th tuiTh *tuiHead="'credit'">Số TC</th>
-        <th tuiTh *tuiHead="'room'">Phòng</th>
-        <th tuiTh *tuiHead="'numberOfStudents'">Sĩ số</th>
+        <th tuiTh *tuiHead="'name'" [sorter]="null">Lớp học phần</th>
+        <th tuiTh *tuiHead="'method'" [sorter]="null">Hình thức</th>
+        <th tuiTh *tuiHead="'credit'" [sorter]="null">Số TC</th>
+        <th tuiTh *tuiHead="'date'" [sorter]="null">Ngày</th>
+        <th tuiTh *tuiHead="'time'" [sorter]="null">Giờ</th>
         <th tuiTh *tuiHead="'room'" [sorter]="null">Phòng</th>
         <th tuiTh *tuiHead="'numberOfStudents'" [sorter]="null">Sĩ số</th>
         <th tuiTh *tuiHead="'teacher'" [sorter]="null">Giảng viên coi thi</th>
@@ -38,6 +38,17 @@
           <td *tuiCell="'credit'" tuiTd>
             <div class="text-center">
               {{ item.credit }}
+            </div>
+          </td>
+          <td *tuiCell="'date'" tuiTd>
+            <div class="text-center">
+              {{ item.startAt | date: "dd-MM-Y" }}
+            </div>
+          </td>
+          <td *tuiCell="'time'" tuiTd>
+            <div class="text-center">
+              {{ item.startAt | date: "HH:mm" }} -
+              {{ item.endAt | date: "HH:mm" }}
             </div>
           </td>
           <td *tuiCell="'room'" tuiTd>
