@@ -53,7 +53,7 @@ export class ExamService extends BaseDataService {
     return this.http
       .get<ResponseModel<ExamScheduleModel[]>>(
         this.url +
-          `v1/departments/${department}/modules/module-classes/exam-schedules`,
+          `v1/departments/${department}/modules/module-classes/exam-schedules?start_at[sort]=asc`,
         { params: { ...parseParams } }
       )
       .pipe(map(parseExamSchedule));
