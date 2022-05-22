@@ -10,3 +10,4 @@ export * from './schedule-filter.model';
 export * from './search-exam.model';
 export * from './search-schedule.model';
 export * from './study-schedule.model';
+export * from './update-exam.model';

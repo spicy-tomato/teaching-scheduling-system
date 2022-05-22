@@ -3,13 +3,11 @@ import { CommonModule } from '@angular/common';
 import { ExamListComponent } from './exam-list.component';
 import { ExamListRoutingModule } from './exam-list.routes';
 import {
-  TuiAppearance,
   TuiButtonModule,
   TuiHintControllerModule,
   TuiHintModule,
   TuiLoaderModule,
   TuiScrollbarModule,
-  TUI_BUTTON_OPTIONS,
 } from '@taiga-ui/core';
 import { TuiTableModule } from '@taiga-ui/addon-table';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -23,6 +21,7 @@ import {
 import { ReactiveComponentModule } from '@ngrx/component';
 import { ExamStore } from '../state/exam.store';
 import { AssignExamDialogModule } from './assign-exam-dialog/assign-exam-dialog.module';
+import { EditExamDialogModule } from './edit-exam-dialog/edit-exam-dialog.module';
 
 const NGRX = [ReactiveComponentModule];
 const TAIGA_UI = [
@@ -44,6 +43,7 @@ const TAIGA_UI = [
     ReactiveFormsModule,
     ExamListRoutingModule,
     AssignExamDialogModule,
+    EditExamDialogModule,
     ...NGRX,
     ...TAIGA_UI,
   ],
@@ -52,16 +52,6 @@ const TAIGA_UI = [
     ExamListFilterComponent,
     ExamListTableComponent,
   ],
-  providers: [
-    ExamStore,
-    {
-      provide: TUI_BUTTON_OPTIONS,
-      useValue: {
-        shape: null,
-        appearance: TuiAppearance.Primary,
-        size: 's',
-      },
-    },
-  ],
+  providers: [ExamStore],
 })
 export class ExamListModule {}

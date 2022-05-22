@@ -58,9 +58,16 @@
                 (click)="onOpenAssignDialog(item)"
                 [tuiHintShowDelay]="300"
                 [tuiHintHideDelay]="100"
-                icon="tuiIconEditLarge"
-                appearance="icon"
+                icon="tuiIconCompanyLarge"
                 tuiHint="Phân lịch thi"
+              ></button>
+              <button
+                tuiIconButton
+                (click)="onOpenEditDialog(item)"
+                [tuiHintShowDelay]="300"
+                [tuiHintHideDelay]="100"
+                icon="tuiIconEditLarge"
+                tuiHint="Chỉnh sửa"
               ></button>
             </div>
           </td>

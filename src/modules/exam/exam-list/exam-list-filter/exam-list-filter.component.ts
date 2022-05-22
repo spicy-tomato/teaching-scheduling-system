@@ -10,12 +10,23 @@ import { map, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { ArrayHelper, ObservableHelper, UtilsHelper } from '@shared/helpers';
 import { EApiStatus } from '@shared/enums';
 import { ExamStore } from '@modules/exam/state';
+import { TUI_BUTTON_OPTIONS, TuiAppearance } from '@taiga-ui/core';
 
 @Component({
   selector: 'tss-exam-list-filter',
   templateUrl: './exam-list-filter.component.html',
   styleUrls: ['./exam-list-filter.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: TUI_BUTTON_OPTIONS,
+      useValue: {
+        shape: null,
+        appearance: TuiAppearance.Primary,
+        size: 's',
+      },
+    },
+  ],
 })
 export class ExamListFilterComponent extends BaseComponent {
   /** PUBLIC PROPERTIES */

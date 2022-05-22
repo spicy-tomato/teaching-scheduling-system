@@ -8,16 +8,31 @@ import { BaseComponent } from '@modules/core/base/base.component';
 import { ExamStore } from '@modules/exam/state';
 import { EApiStatus } from '@shared/enums';
 import { ExamScheduleModel } from '@shared/models';
-import { TuiDialogService } from '@taiga-ui/core';
+import {
+  TuiAppearance,
+  TuiDialogService,
+  TUI_BUTTON_OPTIONS,
+} from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { tap } from 'rxjs/operators';
 import { AssignExamDialogComponent } from '../assign-exam-dialog/assign-exam-dialog.component';
+import { EditExamDialogComponent } from '../edit-exam-dialog/edit-exam-dialog.component';
 
 @Component({
   selector: 'tss-exam-list-table',
   templateUrl: './exam-list-table.component.html',
   styleUrls: ['./exam-list-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: TUI_BUTTON_OPTIONS,
+      useValue: {
+        shape: null,
+        appearance: TuiAppearance.Icon,
+        size: 'l',
+      },
+    },
+  ],
 })
 export class ExamListTableComponent extends BaseComponent {
   /** PUBLIC PROPERTIES */
@@ -55,7 +70,20 @@ export class ExamListTableComponent extends BaseComponent {
           data: exam,
         }
       )
-      .pipe(tap((teachers) => this.store.updateExam(exam.id, teachers)))
+      .pipe(tap((teachers) => this.store.updateExam(exam.id, { teachers })))
+      .subscribe();
+  }
+
+  public onOpenEditDialog(exam: ExamScheduleModel): void {
+    this.dialogService
+      .open<string>(
+        new PolymorpheusComponent(EditExamDialogComponent, this.injector),
+        {
+          label: 'Cập nhật lịch thi',
+          data: exam,
+        }
+      )
+      .pipe(tap((idRoom) => this.store.updateExam(exam.id, { idRoom })))
       .subscribe();
   }
 }

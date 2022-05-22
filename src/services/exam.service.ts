@@ -6,6 +6,7 @@ import {
   Note,
   ResponseModel,
   SearchSchedule as SearchExam,
+  UpdateExamModel,
 } from 'src/shared/models';
 import { BaseDataService } from './core/base-data.service';
 import { ObjectHelper, QueryFilterResult } from '@shared/helpers';
@@ -58,6 +59,23 @@ export class ExamService extends BaseDataService {
       .pipe(map(parseExamSchedule));
   }
 
+  public update(
+    idExamSchedule: number,
+    body: UpdateExamModel
+  ): Observable<void> {
+    return this.http.patch<void>(
+      this.url + `v1/exam-schedules/${idExamSchedule}`,
+      ObjectHelper.toSnakeCase(body)
+    );
+  }
+
+  public updateProctor(idExam: number, proctorsId: string[]): Observable<void> {
+    return this.http.post<void>(
+      this.url + `v1/exam-schedules/${idExam}/proctors`,
+      proctorsId
+    );
+  }
+
   public updateExamNote(
     idTeacher: string,
     idExamSchedule: number,
@@ -66,13 +84,6 @@ export class ExamService extends BaseDataService {
     return this.http.patch<void>(
       this.url + `v1/teachers/${idTeacher}/exam-schedules/${idExamSchedule}`,
       body
-    );
-  }
-
-  public updateProctor(idExam: number, proctorsId: string[]): Observable<void> {
-    return this.http.post<void>(
-      this.url + `v1/exam-schedules/${idExam}/proctors`,
-      proctorsId
     );
   }
 }

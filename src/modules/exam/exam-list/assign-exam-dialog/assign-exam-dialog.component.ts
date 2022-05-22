@@ -25,7 +25,6 @@ const ID_MATCHER_TEACHER: TuiIdentityMatcher<SimpleModel> = (
 ) => item1.id === item2.id;
 
 @Component({
-  selector: 'tss-assign-exam-dialog',
   templateUrl: './assign-exam-dialog.component.html',
   styleUrls: ['./assign-exam-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

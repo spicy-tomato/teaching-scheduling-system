@@ -60,11 +60,14 @@ export class ExamStore extends ComponentStore<ExamState> {
   }
 
   /** PUBLIC METHODS */
-  public updateExam(idExam: number, teachers: string[]): void {
+  public updateExam(
+    idExam: number,
+    examInfo: Partial<ExamScheduleModel>
+  ): void {
     this.patchState((state) => ({
       data: state.data?.map((exam) => {
         if (exam.id === idExam) {
-          exam.teachers = teachers;
+          return { ...exam, ...examInfo } as ExamScheduleModel;
         }
         return exam;
       }),
