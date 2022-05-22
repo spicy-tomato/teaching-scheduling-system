@@ -38,7 +38,7 @@ export class ExamScheduleModel extends ScheduleModel {
   public toEjsSchedule(): EjsScheduleModel {
     return {
       Id: this.id,
-      Subject: this.name,
+      Subject: `Thi ${this.name}`,
       StartTime: this.startAt,
       EndTime: this.endAt,
       Location: this.idRoom,
