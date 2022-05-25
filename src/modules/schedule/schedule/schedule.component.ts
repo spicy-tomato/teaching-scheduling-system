@@ -195,6 +195,7 @@ export class TssScheduleComponent
     this.store
       .select(fromSchedule.selectFilteredSchedule)
       .pipe(
+        filter((s) => s.length > 0),
         map((schedules) => schedules.map((x) => x.toEjsSchedule())),
         tap((dataSource) => {
           this.eventSettings$.next({
@@ -297,6 +298,7 @@ export class TssScheduleComponent
     const schedules = schedule.StartTime
       ? (this.eventSettings$.value.dataSource as EjsScheduleModel[]).filter(
           (s) =>
+            s.Type === 'study' &&
             schedule.StartTime &&
             s.StartTime &&
             DateHelper.sameDay(schedule.StartTime, s.StartTime)
