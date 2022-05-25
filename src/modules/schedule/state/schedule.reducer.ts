@@ -185,19 +185,21 @@ function updateSchedule(
   schedule: StudyScheduleModel,
   changes: ChangedScheduleModel
 ): StudyScheduleModel {
-  if (schedule.id !== changes.id) {
+  const scheduleChanges = changes[schedule.id];
+
+  if (schedule.id !== scheduleChanges.id) {
     return schedule;
   }
 
   const newSchedule = StudyScheduleModel.parse(schedule);
-  if (changes.fixedSchedules) {
-    newSchedule.fixedSchedules = changes.fixedSchedules;
+  if (scheduleChanges.fixedSchedules) {
+    newSchedule.fixedSchedules = scheduleChanges.fixedSchedules;
   }
-  if (changes.schedule.change) {
-    newSchedule.note = changes.schedule.note;
-    newSchedule.shift = changes.schedule.data.shift;
-    newSchedule.idRoom = changes.schedule.data.idRoom;
-    newSchedule.date = changes.schedule.data.date;
+  if (scheduleChanges.schedule.change) {
+    newSchedule.note = scheduleChanges.schedule.note;
+    newSchedule.shift = scheduleChanges.schedule.data.shift;
+    newSchedule.idRoom = scheduleChanges.schedule.data.idRoom;
+    newSchedule.date = scheduleChanges.schedule.data.date;
   }
 
   return newSchedule;

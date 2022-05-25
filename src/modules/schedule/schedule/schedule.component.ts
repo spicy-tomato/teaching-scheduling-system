@@ -54,7 +54,7 @@ import {
   ArrayHelper,
   ChangeStatusHelper,
 } from '@shared/helpers';
-import { StudyHistoryDialogComponent } from '../shared/study-editor-dialog/study-history-dialog/study-history-dialog.component';
+import { StudyHistoryDialogComponent } from '../shared/study-editor-dialog/study-editor-content/study-history-dialog/study-history-dialog.component';
 
 loadCldr(numberingSystems, gregorian, numbers, timeZoneNames);
 L10n.load({ vi: EJS_LOCALE.vi });
@@ -293,11 +293,24 @@ export class TssScheduleComponent
       .subscribe();
   }
 
-  private showStudyEditorDialog(data: EjsScheduleModel): void {
+  private showStudyEditorDialog(schedule: EjsScheduleModel): void {
+    const schedules = schedule.StartTime
+      ? (this.eventSettings$.value.dataSource as EjsScheduleModel[]).filter(
+          (s) =>
+            schedule.StartTime &&
+            s.StartTime &&
+            DateHelper.sameDay(schedule.StartTime, s.StartTime)
+        )
+      : [schedule];
+    const selectedId = schedule.Id;
+
     this.dialogService
       .open<ChangedScheduleModel | undefined>(
         new PolymorpheusComponent(StudyEditorDialogComponent, this.injector),
-        { data }
+        {
+          data: { schedules, selectedId },
+          size: 'l',
+        }
       )
       .pipe(
         ObservableHelper.filterNullish(),
