@@ -77,6 +77,7 @@ export class RequestsEffects {
     return this.actions$.pipe(
       ofType(PageAction.loadTeachersList),
       mergeMap(({ dep }) => {
+        // TODO: Use teachers data from global state
         return this.teacherService.getByDepartment(dep).pipe(
           map((r) => r.data),
           map((teachers) => {

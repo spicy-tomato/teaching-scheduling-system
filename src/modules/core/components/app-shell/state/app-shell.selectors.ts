@@ -60,3 +60,8 @@ export const selectTrainingType = createSelector(
   selectAcademicYear,
   (academicYears) => Object.keys(academicYears)
 );
+
+export const selectTeachersInDepartment = createSelector(
+  appShellSelector,
+  (state) => state.teachersInDepartment
+);

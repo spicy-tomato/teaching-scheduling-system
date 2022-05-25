@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   Inject,
+  ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
@@ -45,6 +46,7 @@ import { Store } from '@ngrx/store';
 import { DialogService } from '@services/dialog/dialog.service';
 import { CoreConstant } from '@shared/constants';
 import { FormHelper } from '@shared/helpers/form.helper';
+import { StudyEditorButtonsRightComponent } from './study-editor-buttons-right/study-editor-buttons-right.component';
 
 @Component({
   templateUrl: './study-editor-dialog.component.html',
@@ -63,6 +65,10 @@ import { FormHelper } from '@shared/helpers/form.helper';
   ],
 })
 export class StudyEditorDialogComponent extends BaseComponent {
+  /** VIEW CHILD */
+  @ViewChild(StudyEditorButtonsRightComponent)
+  public rightButtonGroup!: StudyEditorButtonsRightComponent;
+
   /** PUBLIC PROPERTIES */
   public form!: FormGroup;
   public isPersonal!: boolean;
@@ -172,16 +178,6 @@ export class StudyEditorDialogComponent extends BaseComponent {
     this.store.dispatch(fromStudyEditorDialog.toggleRequestChange({ open }));
   }
 
-  public onUpdate(): void {
-    const body = {
-      note: (this.form.controls['change'] as FormGroup).controls['note']
-        .value as string,
-      id: this.context.data.Id,
-    };
-
-    this.store.dispatch(fromStudyEditorDialog.update({ body }));
-  }
-
   public showNotificationError(): void {
     this.notificationsService
       .show('Hãy thử lại sau', {
@@ -189,6 +185,10 @@ export class StudyEditorDialogComponent extends BaseComponent {
         status: TuiNotification.Error,
       })
       .subscribe();
+  }
+
+  public onFormChange(): void {
+    this.rightButtonGroup.markForCheck();
   }
 
   /** PRIVATE METHODS */

@@ -33,7 +33,10 @@
     <ng-template #quickInfoTemplatesHeader let-data>
       <div *ngIf="data.elementType === 'cell' || data.elementType === 'event'">
         <div
-          [ngStyle]="{ 'background-color': data.Color || '' }"
+          [ngStyle]="{
+            'background-color':
+              data.Type === 'exam' ? '#ff0000' : data.Color || ''
+          }"
           class="e-popup-header"
         >
           <div class="e-header-icon-wrapper">
@@ -190,7 +193,7 @@
         >
           <div class="mdi mdi-account"></div>
           <div class="e-location-details e-text-ellipsis">
-            {{ $any(person).name }}
+            {{ $any(person).name || person }}
           </div>
         </div>
       </div>

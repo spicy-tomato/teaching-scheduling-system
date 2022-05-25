@@ -29,6 +29,7 @@ import {
   UrlHelper,
 } from '@shared/helpers';
 import { View } from '@syncfusion/ej2-angular-schedule';
+import { ExamService } from '@services/exam.service';
 
 @Injectable()
 export class ScheduleEffects {
@@ -132,6 +133,7 @@ export class ScheduleEffects {
   constructor(
     private readonly actions$: Actions,
     private readonly scheduleService: ScheduleService,
+    private readonly examService: ExamService,
     private readonly store: Store<fromSchedule.ScheduleState>,
     appShellStore: Store<fromAppShell.AppShellState>
   ) {
@@ -156,11 +158,11 @@ export class ScheduleEffects {
         mergeMap(({ fetch, ranges, teacherId }) => {
           return this.scheduleService
             .getSchedule(
+              teacherId,
               UrlHelper.queryFilter(fetch, {
                 date: 'between',
                 shift: 'in',
-              }),
-              teacherId
+              })
             )
             .pipe(
               tap((response) => {
@@ -187,20 +189,27 @@ export class ScheduleEffects {
     ])
       .pipe(
         this.commonPersonalObservable(),
-        mergeMap(({ fetch, ranges }) => {
-          return this.scheduleService.getExamSchedule(fetch).pipe(
-            tap((response) => {
-              this.store.dispatch(
-                ApiAction.loadPersonalExamSuccessful({
-                  schedules: response.data,
-                  ranges,
-                })
-              );
-            }),
-            catchError(() =>
-              of(this.store.dispatch(ApiAction.loadPersonalExamFailure()))
+        mergeMap(({ fetch, ranges, teacherId }) => {
+          return this.examService
+            .getExamSchedule(
+              teacherId,
+              UrlHelper.queryFilter(fetch, {
+                date: 'between',
+              })
             )
-          );
+            .pipe(
+              tap((response) => {
+                this.store.dispatch(
+                  ApiAction.loadPersonalExamSuccessful({
+                    schedules: response.data,
+                    ranges,
+                  })
+                );
+              }),
+              catchError(() =>
+                of(this.store.dispatch(ApiAction.loadPersonalExamFailure()))
+              )
+            );
         })
       )
       .subscribe();
@@ -250,8 +259,13 @@ export class ScheduleEffects {
       .pipe(
         this.commonPermissionObservable(),
         mergeMap(({ fetch, ranges, department }) => {
-          return this.scheduleService
-            .getDepartmentExamSchedule(department, fetch)
+          return this.examService
+            .getDepartmentExamSchedule(
+              department,
+              UrlHelper.queryFilter(fetch, {
+                date: 'between',
+              })
+            )
             .pipe(
               tap((response) => {
                 this.store.dispatch(
@@ -456,7 +470,7 @@ function calculateRangeO(
           fetch: {
             date: [
               fetch.from.getFormattedDay('YMD', '-'),
-              fetch.to.append({ day: 1 }).getFormattedDay('YMD', '-'),
+              fetch.to.getFormattedDay('YMD', '-'),
             ].join(),
           },
         };

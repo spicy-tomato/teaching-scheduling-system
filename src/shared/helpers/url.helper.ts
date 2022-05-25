@@ -23,7 +23,7 @@ type QueryFilterOptionPartResult<P extends string | undefined> = {
 
 export type QueryFilterResult<
   T extends Record<string, unknown>,
-  Q extends string,
+  Q extends string = string,
   P extends string | undefined = undefined
 > = P extends undefined
   ? QueryFilterQueryFilterPartResult<T, Q> & QueryFilterConstantPartResult<T, Q>

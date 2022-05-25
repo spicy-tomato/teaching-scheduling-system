@@ -8,6 +8,7 @@ import { AccessTokenService } from '@services/core/access-token.service';
 import { UserService } from '@services/user.service';
 import { CommonInfoService } from '@services/common-info.service';
 import { AppService } from '@services/core/app.service';
+import { TeacherService } from '@services/teacher.service';
 
 @Injectable()
 export class AppShellEffects {
@@ -87,12 +88,27 @@ export class AppShellEffects {
     );
   });
 
+  public loadTeachersInDepartment$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ApiAction.autoLoginSuccessfully),
+      mergeMap(({ teacher }) => {
+        return this.teacherService.getByDepartment(teacher.department.id).pipe(
+          map(({ data }) =>
+            ApiAction.loadTeachersInDepartmentSuccessful({ teachers: data })
+          ),
+          catchError(() => of(ApiAction.loadTeachersInDepartmentFailure()))
+        );
+      })
+    );
+  });
+
   /** CONSTRUCTOR */
   constructor(
     private readonly actions$: Actions,
     private readonly appService: AppService,
     private readonly userService: UserService,
     private readonly commonInfoService: CommonInfoService,
+    private readonly teacherService: TeacherService,
     private readonly accessTokenService: AccessTokenService
   ) {}
 }
