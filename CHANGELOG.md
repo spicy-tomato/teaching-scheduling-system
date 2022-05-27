@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.11.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.10.0...v2.11.0) (2022-05-27)
+
+
+### Features
+
+* **exam:** display exam date time ([8cec4b7](https://github.com/annguyen-it/teaching-scheduling-system/commits/8cec4b7f025a55956cb6e8ae8572257c2271b082))
+* **schedule:** multipl schedule view in schedule dialog ([9fc96a7](https://github.com/annguyen-it/teaching-scheduling-system/commits/9fc96a75ca7836d36b5ef4dbd687825ecacbaed4))
+
+
+### Bug Fixes
+
+* **login:** modify wrong password condition ([28d7d7a](https://github.com/annguyen-it/teaching-scheduling-system/commits/28d7d7a4ca668a72b489db2c8f4bb3ee6f7473a2))
+
 ## [2.10.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.9.1...v2.10.0) (2022-05-22)
 
 
