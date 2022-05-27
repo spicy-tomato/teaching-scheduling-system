@@ -39,8 +39,8 @@ export class ExamScheduleModel extends ScheduleModel {
     return {
       Id: this.id,
       Subject: `Thi ${this.name}`,
-      StartTime: this.startAt,
-      EndTime: this.endAt,
+      StartTime: new Date(this.startAt),
+      EndTime: new Date(this.endAt),
       Location: this.idRoom,
       Type: this.type,
       IdModuleClass: this.idModuleClass,

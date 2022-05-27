@@ -48,7 +48,6 @@ export class StudyEditorButtonsRightComponent
     ] as FormControl;
   }
 
-  /** CONSTRUCTOR */
   constructor(
     private readonly cdr: ChangeDetectorRef,
     private readonly controlContainer: ControlContainer,
