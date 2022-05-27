@@ -1,0 +1,15 @@
+ul {
+  padding-top: 1rem;
+
+  button ::ng-deep .t-content {
+    width: 100%;
+    display: inline-block;
+    line-height: 44px;
+    
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    text-align: left;
+  }
+}

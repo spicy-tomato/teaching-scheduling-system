@@ -2,7 +2,7 @@ import { createAction, props } from '@ngrx/store';
 import { View } from '@syncfusion/ej2-angular-schedule';
 import { TuiMonth } from '@taiga-ui/cdk';
 import {
-  ChangedScheduleModel,
+  EjsScheduleModel,
   ScheduleFilter,
   ScheduleFilterParams,
 } from 'src/shared/models';
@@ -46,5 +46,5 @@ export const changeSelectingState = createAction(
 
 export const changeScheduleInDialog = createAction(
   '[Schedule Page] Change schedule in dialog',
-  props<{ changes: ChangedScheduleModel }>()
+  props<{ schedules: EjsScheduleModel[] }>()
 );

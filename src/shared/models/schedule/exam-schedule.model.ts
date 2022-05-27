@@ -1,3 +1,4 @@
+import { Nullable } from '../core';
 import { EjsScheduleModel } from './ejs-schedule.model';
 import { ScheduleModel } from './schedule.model';
 
@@ -7,13 +8,15 @@ export class ExamScheduleModel extends ScheduleModel {
     idModuleClass: string,
     name: string,
     public readonly method: string,
-    public readonly timeStart: Date,
-    public readonly timeEnd: Date,
+    public readonly startAt: Date,
+    public readonly endAt: Date,
     idRoom: string,
-    note: string,
-    public readonly teacher: string
+    note: Nullable<string>,
+    public teachers: string[],
+    public readonly numberOfStudents: number,
+    public readonly credit: number
   ) {
-    super(id, idModuleClass, name, idRoom, 'exam', note, [teacher]);
+    super(id, idModuleClass, name, idRoom, 'exam', note ?? '', [...teachers]);
   }
 
   public static parse(obj: ExamScheduleModel): ExamScheduleModel {
@@ -22,20 +25,22 @@ export class ExamScheduleModel extends ScheduleModel {
       obj.idModuleClass,
       obj.name,
       obj.method,
-      obj.timeStart,
-      obj.timeEnd,
+      obj.startAt,
+      obj.endAt,
       obj.idRoom,
       obj.note,
-      obj.teacher
+      obj.teachers,
+      obj.numberOfStudents,
+      obj.credit
     );
   }
 
   public toEjsSchedule(): EjsScheduleModel {
     return {
       Id: this.id,
-      Subject: this.name,
-      StartTime: this.timeStart,
-      EndTime: this.timeEnd,
+      Subject: `Thi ${this.name}`,
+      StartTime: new Date(this.startAt),
+      EndTime: new Date(this.endAt),
       Location: this.idRoom,
       Type: this.type,
       IdModuleClass: this.idModuleClass,

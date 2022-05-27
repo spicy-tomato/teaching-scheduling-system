@@ -1,0 +1,34 @@
+<form *ngrxLet="status$ as status" [formGroup]="form">
+  <tui-combo-box
+    *ngrxLet="rooms$ as rooms"
+    formControlName="idRoom"
+    class="tui-form__row"
+  >
+    Nhập phòng
+    <input tuiTextfield />
+    <tui-data-list-wrapper *tuiDataList [items]="rooms | filterByInput">
+    </tui-data-list-wrapper>
+  </tui-combo-box>
+  <div class="tui-form__buttons tui-form__buttons_align_end">
+    <button
+      tuiButton
+      (click)="confirm()"
+      [showLoader]="status === EApiStatus.loading"
+      [disabled]="form.invalid"
+      type="submit"
+      class="tui-form__button"
+    >
+      Xếp phòng
+    </button>
+    <button
+      tuiButton
+      (click)="cancel()"
+      [disabled]="status === EApiStatus.loading"
+      type="button"
+      appearance="secondary"
+      class="tui-form__button"
+    >
+      Hủy bỏ
+    </button>
+  </div>
+</form>

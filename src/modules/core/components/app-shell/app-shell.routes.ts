@@ -42,6 +42,12 @@ const routes: Routes = [
         canActivate: [PermissionGuard],
       },
       {
+        path: 'exam',
+        loadChildren: async () =>
+          (await import('@modules/exam/exam.module')).ExamModule,
+        canActivate: [PermissionGuard],
+      },
+      {
         path: 'statistic',
         loadChildren: async () =>
           (await import('@modules/statistic/statistic.module')).StatisticModule,

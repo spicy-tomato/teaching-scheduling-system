@@ -2,6 +2,61 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.11.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.10.0...v2.11.0) (2022-05-27)
+
+
+### Features
+
+* **exam:** display exam date time ([8cec4b7](https://github.com/annguyen-it/teaching-scheduling-system/commits/8cec4b7f025a55956cb6e8ae8572257c2271b082))
+* **schedule:** multiple schedule view in schedule dialog ([9fc96a7](https://github.com/annguyen-it/teaching-scheduling-system/commits/9fc96a75ca7836d36b5ef4dbd687825ecacbaed4))
+
+
+### Bug Fixes
+
+* **login:** modify wrong password condition ([28d7d7a](https://github.com/annguyen-it/teaching-scheduling-system/commits/28d7d7a4ca668a72b489db2c8f4bb3ee6f7473a2))
+
+## [2.10.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.9.1...v2.10.0) (2022-05-22)
+
+
+### Features
+
+* **exam:** update room ([ce410e9](https://github.com/annguyen-it/teaching-scheduling-system/commits/ce410e950668b1c87a2a6b910920fb4c37f88118))
+
+
+### Bug Fixes
+
+* **exam:** display assigned proctors in dialog ([9c07777](https://github.com/annguyen-it/teaching-scheduling-system/commits/9c077771bdfb4889941fd4b1c0f017fa90860262))
+* **exam:** update API ([25253db](https://github.com/annguyen-it/teaching-scheduling-system/commits/25253db864d3d3b34ca6c7f9ecb39ab8870e43bf))
+
+### [2.9.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.9.0...v2.9.1) (2022-05-21)
+
+
+### Bug Fixes
+
+* **schedule:** confirm button in schedule dialog state does not change when note changes ([925caf3](https://github.com/annguyen-it/teaching-scheduling-system/commits/925caf38316945084c4b4aca5bfd2e3220c8afaa))
+* **schedule:** quick view popup for exam does not show teachers ([62193f2](https://github.com/annguyen-it/teaching-scheduling-system/commits/62193f229cbc90541e114c1e2f9c25064585586d))
+* **schedule:** update API ([42e5717](https://github.com/annguyen-it/teaching-scheduling-system/commits/42e5717c8009afd964bd99f29acdb6bf7fd4246e))
+* **schedule:** update note API ([4529a92](https://github.com/annguyen-it/teaching-scheduling-system/commits/4529a92caacd3442d6596d04fde7f1f0ab756faf))
+
+## [2.9.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.8.1...v2.9.0) (2022-05-21)
+
+
+### Features
+
+* assign exam ([1be68d3](https://github.com/annguyen-it/teaching-scheduling-system/commits/1be68d39ba0a053654ad3823f8ec87fe08b29825))
+* get teachers data in department into global state ([ef525f9](https://github.com/annguyen-it/teaching-scheduling-system/commits/ef525f92f4da8103a0361dd4ca39b25c7b377940))
+* new pipe `tssRecreateViewKey` ([19dc5b6](https://github.com/annguyen-it/teaching-scheduling-system/commits/19dc5b60c5a9664ffa95c0a1236a14765cf77d90))
+
+
+### Bug Fixes
+
+* **change-schedule:** add icon to statistic button ([8326f27](https://github.com/annguyen-it/teaching-scheduling-system/commits/8326f27c031e600bd86092acaf39657219572dd4))
+* dialog does not have Taiga UI style ([654862d](https://github.com/annguyen-it/teaching-scheduling-system/commits/654862d49857cc76ad0bfcd28a347d1b823e9c92))
+* update angular packages to ^12.2.17 ([004af72](https://github.com/annguyen-it/teaching-scheduling-system/commits/004af72bf4f37a9dcf12de1a02fef8f26a22cde1))
+* update commitlint and @types/node ([86c8c33](https://github.com/annguyen-it/teaching-scheduling-system/commits/86c8c3353f33495854ec7076db5b31e511d131a6))
+* update exam model ([d7bfb50](https://github.com/annguyen-it/teaching-scheduling-system/commits/d7bfb50568ab4f4d817927eec7a6fe73578fffb9))
+* update taiga-ui to ^2.38.0 ([0bb9903](https://github.com/annguyen-it/teaching-scheduling-system/commits/0bb99032eee9b7b87dcd809264dc87dd76cc166d))
+
 ### [2.8.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.8.0...v2.8.1) (2022-05-17)
 
 

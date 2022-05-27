@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { AcademicYear, Teacher } from 'src/shared/models';
+import { AcademicYear, SimpleModel, Teacher } from 'src/shared/models';
 
 export const autoLoginSuccessfully = createAction(
   '[App Shell API] Auto login Successfully',
@@ -35,4 +35,13 @@ export const loadAcademicYearSuccessful = createAction(
 
 export const loadAcademicYearFailure = createAction(
   '[App Shell API] Load academic year Failed'
+);
+
+export const loadTeachersInDepartmentSuccessful = createAction(
+  '[App Shell API] Load teachers in department Successfully',
+  props<{ teachers: SimpleModel[] }>()
+);
+
+export const loadTeachersInDepartmentFailure = createAction(
+  '[App Shell API] Load teachers in department Failed'
 );
