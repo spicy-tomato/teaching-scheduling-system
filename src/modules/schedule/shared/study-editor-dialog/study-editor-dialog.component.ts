@@ -13,6 +13,7 @@ import {
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { StudyEditorContentComponent } from './study-editor-content/study-editor-content.component';
+import * as fromStudyEditorDialog from './study-editor-content/state';
 
 @Component({
   templateUrl: './study-editor-dialog.component.html',
@@ -39,11 +40,19 @@ export class StudyEditorDialogComponent {
     return this.schedules.find((s) => s.Id === this.selectedSchedule.Id)!;
   }
 
+  /** SETTERS */
+  private set currentSelected(schedule: EjsScheduleModel) {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    this.schedules = this.schedules.map((s) =>
+      s.Id === this.selectedSchedule.Id ? schedule : s
+    );
+  }
+
   /** CONSTRUCTOR */
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT)
     public readonly context: TuiDialogContext<
-      ChangedScheduleModel,
+      EjsScheduleModel[],
       { schedules: EjsScheduleModel[]; selectedId: number }
     >
   ) {
@@ -57,13 +66,19 @@ export class StudyEditorDialogComponent {
   }
 
   public onUpdateSchedule(schedule: FixedScheduleModel): void {
-    console.log(this.schedules, this.selectedSchedule);
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    this.currentSelected.FixedSchedules = [
+    const copy = { ...this.currentSelected };
+    copy.FixedSchedules = [
       schedule,
       ...(this.selectedSchedule.FixedSchedules?.filter((x) => !x.isNew) ?? []),
     ];
-    console.log(this.schedules, this.selectedSchedule);
+    this.currentSelected = copy;
+  }
+
+  public onChangeScheduleInfo(changes: fromStudyEditorDialog.Change): void {
+    const copy = { ...this.currentSelected };
+    copy.Note = changes.note;
+    this.currentSelected = copy;
   }
 
   public onCancelRequest(): void {
@@ -75,21 +90,7 @@ export class StudyEditorDialogComponent {
 
   public onCancel(): void {
     setTimeout(() => {
-      this.context.completeWith(this.changedSchedule);
-      // this.context.completeWith({
-      // id: this.schedule.Id,
-      // fixedSchedules: this.schedule.FixedSchedules ?? null,
-      // schedule: {
-      //   change: this.changed,
-      //   note: update.note,
-      //   data: {
-      //     id: this.schedule.Id,
-      //     idRoom: this.roomControlValue,
-      //     shift: this.shiftControlValue,
-      //     date: this.dateControlValue.toUtcNativeDate(),
-      //   },
-      // },
-      // });
+      this.context.completeWith(this.schedules);
     });
   }
 }

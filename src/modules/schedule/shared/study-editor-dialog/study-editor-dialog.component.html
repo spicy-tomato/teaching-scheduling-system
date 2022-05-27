@@ -8,6 +8,7 @@
   <tss-study-editor-content
     *tssRecreateViewKey="selectedSchedule.Id"
     (updateSchedule)="onUpdateSchedule($event)"
+    (changeScheduleInfo)="onChangeScheduleInfo($event)"
     (cancelRequest)="onCancelRequest()"
     (cancel)="onCancel()"
     [schedule]="selectedSchedule"

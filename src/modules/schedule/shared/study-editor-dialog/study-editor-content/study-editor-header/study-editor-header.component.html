@@ -1,0 +1,12 @@
+<div class="d-flex flex-end">
+  <button
+    tuiButton
+    *ngIf="fixedSchedules?.length"
+    (click)="onShowHistory()"
+    [icon]="IconConstant.historyLarge"
+    appearance="outline"
+    class="tui-form__button"
+  >
+    Lịch sử thay đổi giờ giảng
+  </button>
+</div>

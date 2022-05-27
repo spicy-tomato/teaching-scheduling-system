@@ -5,7 +5,7 @@ import { ScheduleState } from '.';
 import * as ApiAction from './schedule.api.actions';
 import * as PageAction from './schedule.page.actions';
 import { ArrayHelper } from '@shared/helpers';
-import { ChangedScheduleModel, StudyScheduleModel } from '@shared/models';
+import { EjsScheduleModel, StudyScheduleModel } from '@shared/models';
 
 const initialState: ScheduleState = {
   status: EApiStatus.unknown,
@@ -73,20 +73,16 @@ export const scheduleReducer = createReducer(
       },
     },
   })),
-  on(PageAction.changeScheduleInDialog, (state, { changes }) => ({
+  on(PageAction.changeScheduleInDialog, (state, { schedules }) => ({
     ...state,
     schedules: {
       personal: {
         ...state.schedules.personal,
-        study: state.schedules.personal.study.map((x) =>
-          updateSchedule(x, changes)
-        ),
+        study: updateSchedule(state.schedules.personal.study, schedules),
       },
       department: {
         ...state.schedules.department,
-        study: state.schedules.department.study.map((x) =>
-          updateSchedule(x, changes)
-        ),
+        study: updateSchedule(state.schedules.department.study, schedules),
       },
     },
   })),
@@ -182,25 +178,21 @@ export const scheduleReducer = createReducer(
 );
 
 function updateSchedule(
-  schedule: StudyScheduleModel,
-  changes: ChangedScheduleModel
-): StudyScheduleModel {
-  const scheduleChanges = changes[schedule.id];
+  oldSchedules: StudyScheduleModel[],
+  schedules: EjsScheduleModel[]
+): StudyScheduleModel[] {
+  schedules.forEach((s) => {
+    let scheduleNeedToChange = oldSchedules.find((os) => os.id === s.Id);
+    if (!scheduleNeedToChange) {
+      return;
+    }
 
-  if (schedule.id !== scheduleChanges.id) {
-    return schedule;
-  }
+    scheduleNeedToChange = StudyScheduleModel.parse(scheduleNeedToChange);
+    if (s.FixedSchedules) {
+      scheduleNeedToChange.fixedSchedules = s.FixedSchedules;
+    }
+    scheduleNeedToChange.note = s.Note;
+  });
 
-  const newSchedule = StudyScheduleModel.parse(schedule);
-  if (scheduleChanges.fixedSchedules) {
-    newSchedule.fixedSchedules = scheduleChanges.fixedSchedules;
-  }
-  if (scheduleChanges.schedule.change) {
-    newSchedule.note = scheduleChanges.schedule.note;
-    newSchedule.shift = scheduleChanges.schedule.data.shift;
-    newSchedule.idRoom = scheduleChanges.schedule.data.idRoom;
-    newSchedule.date = scheduleChanges.schedule.data.date;
-  }
-
-  return newSchedule;
+  return oldSchedules;
 }

@@ -42,11 +42,7 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { ExamEditorDialogComponent } from '../shared/exam-editor-dialog/exam-editor-dialog.component';
 import { EApiStatus } from '@shared/enums';
 import { StudyEditorDialogComponent } from '../shared/study-editor-dialog/study-editor-dialog.component';
-import {
-  EjsScheduleModel,
-  ChangedScheduleModel,
-  FixedScheduleModel,
-} from 'src/shared/models';
+import { EjsScheduleModel, FixedScheduleModel } from 'src/shared/models';
 import {
   ScheduleHelper,
   DateHelper,
@@ -307,17 +303,21 @@ export class TssScheduleComponent
     const selectedId = schedule.Id;
 
     this.dialogService
-      .open<ChangedScheduleModel | undefined>(
+      .open<EjsScheduleModel[] | undefined>(
         new PolymorpheusComponent(StudyEditorDialogComponent, this.injector),
         {
           data: { schedules, selectedId },
           size: 'l',
+          closeable: false,
+          dismissible: false,
         }
       )
       .pipe(
         ObservableHelper.filterNullish(),
-        tap((changes) => {
-          this.store.dispatch(fromSchedule.changeScheduleInDialog({ changes }));
+        tap((schedules) => {
+          this.store.dispatch(
+            fromSchedule.changeScheduleInDialog({ schedules })
+          );
         })
       )
       .subscribe();
