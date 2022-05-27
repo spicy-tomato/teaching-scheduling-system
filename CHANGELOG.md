@@ -8,7 +8,7 @@ All notable changes to this project will be documented in this file. See [standa
 ### Features
 
 * **exam:** display exam date time ([8cec4b7](https://github.com/annguyen-it/teaching-scheduling-system/commits/8cec4b7f025a55956cb6e8ae8572257c2271b082))
-* **schedule:** multipl schedule view in schedule dialog ([9fc96a7](https://github.com/annguyen-it/teaching-scheduling-system/commits/9fc96a75ca7836d36b5ef4dbd687825ecacbaed4))
+* **schedule:** multiple schedule view in schedule dialog ([9fc96a7](https://github.com/annguyen-it/teaching-scheduling-system/commits/9fc96a75ca7836d36b5ef4dbd687825ecacbaed4))
 
 
 ### Bug Fixes
