@@ -18,7 +18,7 @@ export class PermissionDirective extends BaseComponent {
   /** PRIVATE PROPERTIES */
   private _tssPermission?: number | null;
   private permissions$: Observable<number[]>;
-  private bind$ = new Subject();
+  private bind$ = new Subject<void>();
   private hadElse = false;
 
   /** SETTER */

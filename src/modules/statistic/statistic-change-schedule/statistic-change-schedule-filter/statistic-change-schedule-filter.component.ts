@@ -42,7 +42,7 @@ export class StatisticChangeScheduleFilterComponent
 
   public readonly EApiStatus = EApiStatus;
   public readonly items = InputDateRangeConstant.getPeriods();
-  public readonly export$ = new Subject();
+  public readonly export$ = new Subject<void>();
   public readonly min = new TuiDay(2021, 10, 1);
 
   /** PRIVATE PROPERTIES */

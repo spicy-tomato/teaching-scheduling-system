@@ -37,7 +37,7 @@ export class ExamService extends BaseDataService {
     return this.http
       .get<ResponseModel<ExamScheduleModel[]>>(
         this.url + `v1/teachers/${idTeacher}/module-classes/exam-schedules`,
-        { params }
+        { params: { ...(params as any) } }
       )
       .pipe(map(parseExamSchedule));
   }
@@ -46,7 +46,7 @@ export class ExamService extends BaseDataService {
     department: string,
     params: QueryFilterResult<SearchExam>
   ): Observable<ResponseModel<ExamScheduleModel[]>> {
-    const parseParams = ObjectHelper.toSnakeCase(
+    const parsedParams = ObjectHelper.toSnakeCase(
       params
     ) as unknown as DepartmentExamDta;
 
@@ -54,7 +54,7 @@ export class ExamService extends BaseDataService {
       .get<ResponseModel<ExamScheduleModel[]>>(
         this.url +
           `v1/departments/${department}/modules/module-classes/exam-schedules?start_at[sort]=asc`,
-        { params: { ...parseParams } }
+        { params: { ...parsedParams } }
       )
       .pipe(map(parseExamSchedule));
   }

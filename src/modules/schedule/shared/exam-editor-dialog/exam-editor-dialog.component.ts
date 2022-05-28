@@ -31,7 +31,7 @@ export class ExamEditorDialogComponent extends BaseComponent {
   public readonly notAllowFieldHint =
     'Không thể thay đổi thông tin của lịch thi';
   public readonly noteMaxLength = CoreConstant.NOTE_MAX_LENGTH;
-  public readonly submit$ = new Subject();
+  public readonly submit$ = new Subject<void>();
 
   /** PRIVATE PROPERTIES */
   private teacher$ = this.appShellStore.pipe(

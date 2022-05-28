@@ -36,7 +36,7 @@ import {
   TuiNotificationsService,
   TuiNotification,
 } from '@taiga-ui/core';
-import { Observable, Subject, iif, of } from 'rxjs';
+import { Observable, Subject, iif, of, EMPTY } from 'rxjs';
 import {
   takeUntil,
   tap,
@@ -102,7 +102,7 @@ export class StudyEditorContentComponent
     Nullable<SimpleFixedScheduleModel>
   >;
 
-  public readonly cancelRequest$ = new Subject();
+  public readonly cancelRequest$ = new Subject<void>();
 
   public readonly EApiStatus = EApiStatus;
   public readonly CoreConstant = CoreConstant;
@@ -410,7 +410,8 @@ export class StudyEditorContentComponent
                   isNew: true,
                 });
               })
-            )
+            ),
+            EMPTY
           )
         ),
         takeUntil(this.destroy$)

@@ -7,7 +7,7 @@ type SubjectType = Subject<any> | BehaviorSubject<any> | ReplaySubject<any>;
 @Directive()
 export abstract class BaseComponent implements OnDestroy {
   /** PROTECTED PROPERTIES */
-  protected destroy$ = new Subject();
+  protected destroy$ = new Subject<void>();
 
   /** PRIVATE PROPERTIES */
   private subjects?: SubjectType[];

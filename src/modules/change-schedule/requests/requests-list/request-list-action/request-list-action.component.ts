@@ -41,8 +41,8 @@ export class RequestListActionComponent extends BaseComponent {
 
   /** PUBLIC PROPERTIES */
   public showLoader = false;
-  public readonly export$ = new Subject();
-  public readonly cancel$ = new Subject();
+  public readonly export$ = new Subject<void>();
+  public readonly cancel$ = new Subject<void>();
   public readonly IconConstant = IconConstant;
 
   public readonly requesting$: Observable<number[]>;

@@ -22,24 +22,9 @@ export class GoogleService extends BaseComponent {
     const script = document.createElement('script');
     script.type = 'text/javascript';
     script.src = 'https://apis.google.com/js/api.js';
-    // IE
-    if (script.readyState) {
-      script.onreadystatechange = () => {
-        if (
-          script.readyState === 'loaded' ||
-          script.readyState === 'complete'
-        ) {
-          script.onreadystatechange = null;
-          this.load$.next(true);
-        }
-      };
-    }
-    // Others
-    else {
-      script.onload = () => {
-        this.load$.next(true);
-      };
-    }
+    script.onload = () => {
+      this.load$.next(true);
+    };
 
     script.onerror = () => this.load$.next(false);
     document.getElementsByTagName('head')[0].appendChild(script);

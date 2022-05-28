@@ -43,7 +43,7 @@ export class ExportDialogComponent extends BaseComponent {
   public readonly min = new TuiDay(2021, 10, 1);
   public readonly status$ = this.store.status$;
   public readonly EApiStatus = EApiStatus;
-  public readonly confirm$ = new Subject();
+  public readonly confirm$ = new Subject<void>();
 
   /** GETTERS */
   private get rangeControlValue(): TuiDayRange {

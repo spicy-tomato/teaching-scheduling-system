@@ -59,8 +59,8 @@ export class StudyEditorButtonsLeftComponent
   public readonly changeStatus$: Observable<EApiStatus>;
   public readonly cancelStatus$: Observable<EApiStatus>;
 
-  public readonly submitRequestChange$ = new Subject();
-  public readonly submitChange$ = new Subject();
+  public readonly submitRequestChange$ = new Subject<void>();
+  public readonly submitChange$ = new Subject<void>();
 
   public readonly EApiStatus = EApiStatus;
 

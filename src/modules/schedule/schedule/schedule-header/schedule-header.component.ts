@@ -64,7 +64,7 @@ export class ScheduleHeaderComponent
   public modules$: Observable<string[]>;
   public user$: Observable<Nullable<Teacher>>;
 
-  public readonly clickToday$ = new Subject();
+  public readonly clickToday$ = new Subject<void>();
   public readonly permissionConstant = PermissionConstant;
 
   public showDepartmentSchedule = false;
@@ -74,8 +74,8 @@ export class ScheduleHeaderComponent
   /** PRIVATE PROPERTIES */
   private selectedDate$: Observable<Date>;
   private canDisplayNotification = true;
-  private readonly closeFilter$ = new Subject();
-  private readonly displayNotification$ = new Subject();
+  private readonly closeFilter$ = new Subject<void>();
+  private readonly displayNotification$ = new Subject<void>();
 
   /** CONSTRUCTOR */
   constructor(

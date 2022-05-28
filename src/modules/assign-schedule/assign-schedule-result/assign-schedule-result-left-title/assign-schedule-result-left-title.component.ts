@@ -30,7 +30,7 @@ export class AssignScheduleResultLeftTitleComponent extends BaseComponent {
   public someNeedAssignCheckedChange$!: Observable<boolean>;
   public selectedNeedAssign$: Observable<boolean[]>;
   public assignStatus$: Observable<EApiStatus>;
-  public assign$ = new Subject();
+  public assign$ = new Subject<void>();
   public readonly EApiStatus = EApiStatus;
 
   /** PRIVATE PROPERTIES */

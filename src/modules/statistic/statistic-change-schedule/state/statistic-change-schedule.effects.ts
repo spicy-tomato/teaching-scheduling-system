@@ -19,7 +19,7 @@ export class StatisticChangeScheduleEffects {
   private readonly teacher$ = this.appShellStore.pipe(
     fromAppShell.selectNotNullTeacher
   );
-  private readonly loadTeacherListSubject$ = new Subject();
+  private readonly loadTeacherListSubject$ = new Subject<void>();
 
   /** EFFECTS */
   public statisticize$ = createEffect(() => {

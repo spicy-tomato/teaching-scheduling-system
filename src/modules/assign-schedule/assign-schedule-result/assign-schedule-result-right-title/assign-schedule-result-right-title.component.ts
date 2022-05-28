@@ -28,7 +28,7 @@ export class AssignScheduleResultRightTitleComponent extends BaseComponent {
   public selectedAssigned$: Observable<boolean[]>;
   public someAssignedCheckedChange$!: Observable<boolean>;
   public unassignStatus$: Observable<EApiStatus>;
-  public unassign$ = new Subject();
+  public unassign$ = new Subject<void>();
   public readonly EApiStatus = EApiStatus;
 
   /** PRIVATE PROPERTIES */

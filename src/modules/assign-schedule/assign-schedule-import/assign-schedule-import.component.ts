@@ -45,7 +45,7 @@ export class AssignScheduleImportComponent extends BaseComponent {
   public readonly termsInYear = CoreConstant.TERMS_IN_YEAR;
   public readonly batchesInTerm = CoreConstant.BATCHES_IN_TERM;
   public readonly rejectedFiles$ = new Subject<Nullable<TuiFileLike>>();
-  public readonly import$ = new Subject();
+  public readonly import$ = new Subject<void>();
 
   /** GETTERS */
   public get fileControl(): FormControl {

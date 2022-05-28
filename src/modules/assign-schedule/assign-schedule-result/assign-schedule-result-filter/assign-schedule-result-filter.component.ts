@@ -48,7 +48,7 @@ export class AssignScheduleResultFilterComponent
   public readonly termsInYear = CoreConstant.TERMS_IN_YEAR;
   public readonly batchesInTerm = CoreConstant.BATCHES_IN_TERM;
   public readonly EApiStatus = EApiStatus;
-  public readonly filter$ = new Subject();
+  public readonly filter$ = new Subject<void>();
   public readonly trainingTypeChange$ = new Subject<string>();
 
   /** PRIVATE PROPERTIES */

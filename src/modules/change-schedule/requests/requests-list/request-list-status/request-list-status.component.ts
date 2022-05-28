@@ -47,7 +47,7 @@ export class RequestListStatusComponent extends BaseComponent {
   /** PUBLIC PROPERTIES */
   public readonly requesting$: Observable<number[]>;
   public readonly permissions$: Observable<number[]>;
-  public readonly accept$ = new Subject();
+  public readonly accept$ = new Subject<void>();
   public readonly statusList = CoreConstant.REQUEST_CHANGE_SCHEDULE_STATUS;
 
   /** CONSTRUCTOR */

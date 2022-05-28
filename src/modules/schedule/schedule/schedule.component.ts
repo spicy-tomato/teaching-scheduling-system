@@ -135,8 +135,8 @@ export class TssScheduleComponent
   public onEventClick(): void {
     const popup = document.querySelector('.e-quick-popup-wrapper');
     if (!popup) return;
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment
-    const popupInstance = popup.ej2_instances[0];
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
+    const popupInstance = (popup as any).ej2_instances[0];
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     popupInstance.open = () => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access

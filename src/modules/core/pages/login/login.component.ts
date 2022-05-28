@@ -44,7 +44,7 @@ export class LoginComponent extends BaseComponent {
 
   /** PUBLIC PROPERTIES */
   public status$: Observable<EApiStatus>;
-  public readonly submit$ = new Subject();
+  public readonly submit$ = new Subject<void>();
   public readonly loginForm = new FormGroup({
     username: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),

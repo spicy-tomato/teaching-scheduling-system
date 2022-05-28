@@ -52,7 +52,7 @@ export class RequestsOptionsComponent extends BaseComponent {
   public department$: Observable<SimpleModel>;
   public exportSchedule$: Observable<ChangeSchedule[]>;
   public isPersonal: boolean;
-  public exportMultiple$ = new Subject();
+  public exportMultiple$ = new Subject<void>();
 
   public readonly IconConstant = IconConstant;
   public readonly statusList = CoreConstant.REQUEST_CHANGE_SCHEDULE_STATUS;

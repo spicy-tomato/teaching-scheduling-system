@@ -34,7 +34,7 @@ export class StudyEditorRequestChangeComponent
   public form!: FormGroup;
 
   public readonly rooms$: Observable<string[]>;
-  public readonly changeRequest$ = new Subject();
+  public readonly changeRequest$ = new Subject<void>();
   public readonly shiftKeys = Object.keys(CoreConstant.SHIFTS);
   public readonly CoreConstant = CoreConstant;
   public readonly roomMatcher = (item: string): boolean => item !== 'PTTT';

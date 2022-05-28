@@ -49,7 +49,7 @@ export class ScheduleService extends BaseDataService {
     return this.http
       .get<ResponseModel<StudyScheduleModel[]>>(
         this.url + `teachers/${idTeacher}/schedules`,
-        { params }
+        { params: { ...(params as any) } }
       )
       .pipe(map(parseStudyScheduleModel));
   }
@@ -62,7 +62,7 @@ export class ScheduleService extends BaseDataService {
       .get<ResponseModel<StudyScheduleModel[]>>(
         this.url +
           `departments/${department}/teachers/module-classes/schedules`,
-        { params }
+        { params: { ...(params as any) } }
       )
       .pipe(map(parseStudyScheduleModel));
   }
@@ -107,7 +107,7 @@ export class ScheduleService extends BaseDataService {
   ): Observable<PaginationResponseModel<ChangeSchedule[]>> {
     return this.http.get<PaginationResponseModel<ChangeSchedule[]>>(
       this.url + `departments/${department}/fixed-schedules`,
-      { params }
+      { params: { ...(params as any) } }
     );
   }
 
@@ -117,7 +117,7 @@ export class ScheduleService extends BaseDataService {
   ): Observable<PaginationResponseModel<ChangeSchedule[]>> {
     return this.http.get<PaginationResponseModel<ChangeSchedule[]>>(
       this.url + `teachers/${teacherId}/fixed-schedules`,
-      { params }
+      { params: { ...(params as any) } }
     );
   }
 
@@ -126,7 +126,7 @@ export class ScheduleService extends BaseDataService {
   ): Observable<PaginationResponseModel<ChangeSchedule[]>> {
     return this.http.get<PaginationResponseModel<ChangeSchedule[]>>(
       this.url + 'fixed-schedules',
-      { params }
+      { params: { ...(params as any) } }
     );
   }
 
