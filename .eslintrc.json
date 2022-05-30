@@ -1,90 +1,34 @@
 {
   "root": true,
-  "ignorePatterns": [
-    "projects/**/*"
-  ],
-  "rules": {
-    "@typescript-eslint/explicit-member-accessibility": "off"
-  },
+  "ignorePatterns": ["**/*"],
+  "plugins": ["@nrwl/nx"],
   "overrides": [
     {
-      "files": [
-        "*.ts"
-      ],
-      "parserOptions": {
-        "project": [
-          "tsconfig.json"
-        ],
-        "createDefaultProgram": true
-      },
-      "extends": [
-        "plugin:@angular-eslint/recommended",
-        "eslint:recommended",
-        "plugin:@typescript-eslint/recommended",
-        "plugin:@typescript-eslint/recommended-requiring-type-checking",
-        "plugin:@angular-eslint/template/process-inline-templates"
-      ],
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "rules": {
-        "@angular-eslint/directive-selector": [
+        "@nrwl/nx/enforce-module-boundaries": [
           "error",
           {
-            "type": "attribute",
-            "prefix": "tss",
-            "style": "camelCase"
+            "enforceBuildableLibDependency": true,
+            "allow": [],
+            "depConstraints": [
+              {
+                "sourceTag": "*",
+                "onlyDependOnLibsWithTags": ["*"]
+              }
+            ]
           }
-        ],
-        "@angular-eslint/component-selector": [
-          "error",
-          {
-            "type": "element",
-            "prefix": "tss",
-            "style": "kebab-case"
-          }
-        ],
-        "@typescript-eslint/no-empty-interface": [
-          "off",
-          {
-            "allowSingleExtends": true
-          }
-        ],
-        "no-empty-function": "off",
-        "@typescript-eslint/no-empty-function": [
-          "warn"
-        ],
-        "@angular-eslint/no-empty-lifecycle-method": [
-          "warn"
-        ],
-        "@typescript-eslint/explicit-member-accessibility": [
-          "warn",
-          {
-            "accessibility": "explicit",
-            "overrides": {
-              "accessors": "explicit",
-              "constructors": "no-public",
-              "methods": "explicit",
-              "properties": "explicit",
-              "parameterProperties": "explicit"
-            }
-          }
-        ],
-        "@typescript-eslint/unbound-method": [
-          "error",
-          {
-            "ignoreStatic": true
-          }
-        ],
-        "@typescript-eslint/no-unsafe-assignment": [
-          "warn"
         ]
       }
     },
     {
-      "files": [
-        "*.html"
-      ],
-      "extends": [
-        "plugin:@angular-eslint/template/recommended"
-      ],
+      "files": ["*.ts", "*.tsx"],
+      "extends": ["plugin:@nrwl/nx/typescript"],
+      "rules": {}
+    },
+    {
+      "files": ["*.js", "*.jsx"],
+      "extends": ["plugin:@nrwl/nx/javascript"],
       "rules": {}
     }
   ]

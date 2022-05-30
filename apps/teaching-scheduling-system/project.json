@@ -1,0 +1,110 @@
+{
+  "projectType": "application",
+  "sourceRoot": "apps/teaching-scheduling-system/src",
+  "prefix": "tss",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/apps/teaching-scheduling-system",
+        "index": "apps/teaching-scheduling-system/src/index.html",
+        "main": "apps/teaching-scheduling-system/src/main.ts",
+        "polyfills": "apps/teaching-scheduling-system/src/polyfills.ts",
+        "tsConfig": "apps/teaching-scheduling-system/tsconfig.app.json",
+        "assets": [
+          "apps/teaching-scheduling-system/src/favicon.ico",
+          "apps/teaching-scheduling-system/src/assets",
+          {
+            "glob": "**/*",
+            "input": "libs/web/shared/assets/src",
+            "output": "assets"
+          },
+          {
+            "glob": "**/*",
+            "input": "node_modules/@taiga-ui/icons/src",
+            "output": "assets/taiga-ui/icons"
+          }
+        ],
+        "styles": [
+          "node_modules/@taiga-ui/core/styles/taiga-ui-global.less",
+          "node_modules/@taiga-ui/core/styles/taiga-ui-theme.less",
+          "apps/teaching-scheduling-system/src/styles.css"
+        ],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "fileReplacements": [
+            {
+              "replace": "apps/teaching-scheduling-system/src/environments/environment.ts",
+              "with": "apps/teaching-scheduling-system/src/environments/environment.prod.ts"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "browserTarget": "teaching-scheduling-system:build:production"
+        },
+        "development": {
+          "browserTarget": "teaching-scheduling-system:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "teaching-scheduling-system:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "apps/teaching-scheduling-system/**/*.ts",
+          "apps/teaching-scheduling-system/**/*.html"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "coverage/apps/teaching-scheduling-system"
+      ],
+      "options": {
+        "jestConfig": "apps/teaching-scheduling-system/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
