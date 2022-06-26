@@ -1,0 +1,13 @@
+<tui-scrollbar class="w-full h-full">
+  <main
+    class="relative w-full h-main-view flex flex-col p-2 pt-1.5 lg:px-5 lg:pt-2.5 lg:pb-3"
+  >
+    <div [@routerFade] class="absolute inset-0 pointer-events-none z-0"></div>
+
+    <tss-breadcrumb class="hidden sm:block"></tss-breadcrumb>
+
+    <div class="flex-auto">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</tui-scrollbar>

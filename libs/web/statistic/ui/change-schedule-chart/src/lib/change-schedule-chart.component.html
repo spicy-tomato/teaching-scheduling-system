@@ -1,0 +1,37 @@
+<ng-container *ngrxLet="teachersList$ as teachersList">
+  <tui-loader
+    *ngrxLet="status$ as status"
+    [showLoader]="status === EApiStatus.loading"
+    [overlay]="true"
+    class="w-full h-full"
+  >
+    <tui-axes
+      [axisXLabels]="labelsX"
+      [axisYLabels]="labelsY"
+      [horizontalLines]="max"
+      [horizontalLinesHandler]="horizontalLinesHandler"
+      class="w-full h-full"
+    >
+      <tui-bar-chart
+        [max]="max"
+        [value]="value"
+        [hintContent]="hint"
+        size="l"
+      ></tui-bar-chart>
+    </tui-axes>
+
+    <ng-template #hint let-setIndex>
+      <p class="mb-0.5">{{ teachersNameList[setIndex] }}</p>
+      <p
+        *ngFor="let item of value; let index = index"
+        class="flex items-center"
+      >
+        <span
+          class="w-3 h-3 mr-2 rounded-full"
+          [style.background]="'var(--tui-chart-' + index + ')'"
+        ></span>
+        <span>{{ setNames[index] }}: {{ item[setIndex] }}</span>
+      </p>
+    </ng-template>
+  </tui-loader>
+</ng-container>

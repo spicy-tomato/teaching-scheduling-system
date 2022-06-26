@@ -1,0 +1,55 @@
+<ng-container [formGroup]="form">
+  <div class="tui-form__row">
+    <tui-text-area
+      formControlName="intendTime"
+      [tuiTextfieldMaxLength]="
+        CoreConstant.INTEND_TIME_CHANGE_SCHEDULE_MAX_LENGTH
+      "
+    >
+      Nhập khoảng thời gian dự kiến
+    </tui-text-area>
+  </div>
+  <div class="tui-form__row">
+    <tui-text-area
+      formControlName="reason"
+      [tuiTextfieldMaxLength]="CoreConstant.REASON_CHANGE_SCHEDULE_MAX_LENGTH"
+    >
+      Lý do
+    </tui-text-area>
+  </div>
+
+  <div class="tui-form__row checkers">
+    <div
+      *ngIf="
+        form.controls['intendTime'].errors?.['required'];
+        else hadRequestIntend
+      "
+      [@fadeIn]
+      class="text-tui-error-fill"
+    >
+      <tui-svg src="tuiIconAlertCircleLarge"></tui-svg>
+      Cần nhập khoảng thời gian học dự kiến
+    </div>
+    <ng-template #hadRequestIntend>
+      <div [@fadeIn] class="text-tui-success-fill">
+        <tui-svg src="tuiIconCheckCircleLarge"></tui-svg>
+        Đã nhập khoảng thời gian học dự kiến
+      </div>
+    </ng-template>
+
+    <div
+      *ngIf="form.controls['reason'].errors?.['required']; else hadReason"
+      [@fadeIn]
+      class="text-tui-error-fill"
+    >
+      <tui-svg src="tuiIconAlertCircleLarge"></tui-svg>
+      Cần nhập lý do
+    </div>
+    <ng-template #hadReason>
+      <div [@fadeIn] class="text-tui-success-fill">
+        <tui-svg src="tuiIconCheckCircleLarge"></tui-svg>
+        Đã nhập lý do
+      </div>
+    </ng-template>
+  </div>
+</ng-container>

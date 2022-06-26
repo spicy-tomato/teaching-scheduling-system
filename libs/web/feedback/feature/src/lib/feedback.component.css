@@ -1,0 +1,8 @@
+.inner {
+  @apply min-h-[64px] my-3 whitespace-normal;
+}
+
+.text {
+  @apply text-tui-text-02 w-56 md:!text-[13px];
+  font: var(--tui-font-text-s);
+}

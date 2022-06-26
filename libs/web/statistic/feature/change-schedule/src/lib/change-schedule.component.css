@@ -1,0 +1,15 @@
+:host {
+  @apply h-full grid gap-7;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    'filter'
+    'chart';
+}
+
+tss-change-schedule-filter {
+  grid-area: filter;
+}
+tss-change-schedule-chart {
+  grid-area: chart;
+}

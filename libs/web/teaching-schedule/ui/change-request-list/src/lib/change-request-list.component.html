@@ -1,0 +1,206 @@
+<tui-loader
+  *ngrxLet="status$ as status"
+  [showLoader]="status.data === EApiStatus.loading"
+  [overlay]="true"
+>
+  <form [formGroup]="form">
+    <div>
+      <table
+        tuiTable
+        *tssVar="isPersonal ? 43 : teacherColumnWidth as moduleClassStyleLeft"
+        [columns]="columns"
+        size="m"
+        class="min-w-full"
+      >
+        <!-- Head -->
+        <thead tuiThead>
+          <tr tuiThGroup>
+            <th
+              tuiTh
+              *tuiHead="'checkbox'"
+              [sorter]="null"
+              rowspan="2"
+              class="!sticky left-0 !z-30"
+            >
+              <tui-checkbox
+                [(ngModel)]="checkAll"
+                (ngModelChange)="onCheckAllChange()"
+                [ngModelOptions]="{ standalone: true }"
+              ></tui-checkbox>
+            </th>
+            <th
+              tuiTh
+              *tuiHead="'index'"
+              [sorter]="null"
+              rowspan="2"
+              [class.!border-r-0]="!isPersonal"
+            >
+              STT
+            </th>
+            <th
+              tuiTh
+              *tuiHead="'teacher'"
+              [sorter]="null"
+              rowspan="2"
+              class="sticky left-0 !border-solid !border-l !border-l-tui-base-04 !z-30"
+              #teacherCol
+            >
+              Giảng viên
+            </th>
+            <th
+              tuiTh
+              *tuiHead="'moduleClass'"
+              [sorter]="null"
+              [style.left.px]="moduleClassStyleLeft"
+              rowspan="2"
+              class="sticky !z-30"
+            >
+              Lớp
+            </th>
+            <th tuiTh *tuiHead="'oldDate'" [sorter]="null" colspan="2">
+              Ngày học
+            </th>
+            <ng-container *tuiHead="'newDate'"></ng-container>
+            <th tuiTh *tuiHead="'oldShift'" [sorter]="null" colspan="2">
+              Ca học
+            </th>
+            <ng-container *tuiHead="'newShift'"></ng-container>
+            <th tuiTh *tuiHead="'reason'" [sorter]="null" rowspan="2">Lý do</th>
+            <th tuiTh *tuiHead="'createdAt'" [sorter]="null" rowspan="2">
+              <div class="whitespace-nowrap">Thời gian tạo yêu cầu</div>
+            </th>
+            <th tuiTh *tuiHead="'status'" [sorter]="null" rowspan="2">
+              <div class="whitespace-nowrap">Trạng thái</div>
+            </th>
+            <th tuiTh *tuiHead="'actions'" [sorter]="null" rowspan="2">
+              Thao tác
+            </th>
+          </tr>
+          <tr tuiThGroup class="top-11">
+            <th tuiTh *tuiHead="'oldDate'" [sorter]="null" class="!border-l-0">
+              Cũ
+            </th>
+            <th tuiTh *tuiHead="'newDate'" [sorter]="null">Mới</th>
+            <th tuiTh *tuiHead="'oldShift'" [sorter]="null" class="">Cũ</th>
+            <th tuiTh *tuiHead="'newShift'" [sorter]="null">Mới</th>
+          </tr>
+        </thead>
+
+        <!-- Body -->
+        <tbody
+          tuiTbody
+          *ngrxLet="changeSchedules$ as changeSchedules"
+          [data]="changeSchedules"
+        >
+          <tr *tuiRow="let item of changeSchedules; index as i" tuiTr>
+            <td
+              tuiTd
+              *tuiCell="'checkbox'"
+              formArrayName="checkbox"
+              class="!sticky !z-10"
+            >
+              <div class="flex justify-center">
+                <tui-checkbox
+                  *ngIf="checkableIndexes | array: 'includes':i"
+                  (ngModelChange)="onCheckChange($event)"
+                  [formControlName]="i"
+                ></tui-checkbox>
+              </div>
+            </td>
+            <td tuiTd *tuiCell="'index'" [class.!border-r-0]="!isPersonal">
+              <div *ngrxLet="page$ as page" class="text-center">
+                {{ itemsPerPage * (page - 1) + i + 1 }}
+              </div>
+            </td>
+            <td
+              tuiTd
+              *tuiCell="'teacher'"
+              class="teacher-cell !sticky left-0 !border-l !border-l-tui-base-04 !z-10"
+            >
+              {{ item.teacher.name }}
+            </td>
+            <td
+              tuiTd
+              *tuiCell="'moduleClass'"
+              [style.left.px]="moduleClassStyleLeft"
+              class="!sticky !z-10"
+            >
+              {{ item.moduleClassName }}
+            </td>
+            <td tuiTd *tuiCell="'oldDate'">
+              <div class="text-center">
+                {{ item.oldSchedule.date | date: 'dd-MM-Y' }}
+              </div>
+            </td>
+            <td
+              tuiTd
+              *tuiCell="'newDate'"
+              [class.text-tui-warning-bg-hover]="item.intendTime"
+            >
+              <div class="text-center">
+                {{
+                  item.intendTime || (item.newSchedule.date | date: 'dd-MM-Y')
+                }}
+              </div>
+            </td>
+            <td tuiTd *tuiCell="'oldShift'">
+              <div class="text-center">
+                {{ item.oldSchedule.shift }}
+              </div>
+            </td>
+            <td tuiTd *tuiCell="'newShift'">
+              <div class="text-center">
+                {{ item.newSchedule.shift }}
+              </div>
+            </td>
+            <td tuiTd *tuiCell="'reason'">
+              <div class="w-[250px] whitespace-normal">
+                {{ item.reason }}
+              </div>
+            </td>
+            <td tuiTd *tuiCell="'createdAt'">
+              <div *ngrxLet="options$ as options" class="text-center">
+                {{
+                  options.showTime
+                    ? (item.createdAt | date: 'dd-MM-Y, HH:mm')
+                    : (item.createdAt | date: 'dd-MM-Y')
+                }}
+              </div>
+            </td>
+            <td tuiTd *tuiCell="'status'">
+              <ng-container *ngrxLet="permissions$ as permissions">
+                <ng-container
+                  *ngIf="
+                    permissions.includes(
+                      PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE
+                    );
+                    else roomManager
+                  "
+                >
+                  <tss-change-request-list-status
+                    [item]="item"
+                    [displayText]="
+                      isPersonal || (item.status !== 200 && item.status !== 201)
+                    "
+                  ></tss-change-request-list-status>
+                </ng-container>
+                <ng-template #roomManager>
+                  <tss-change-request-list-status
+                    [item]="item"
+                    [displayText]="item.status !== 202"
+                  ></tss-change-request-list-status>
+                </ng-template>
+              </ng-container>
+            </td>
+            <td tuiTd *tuiCell="'actions'">
+              <tss-change-request-list-action
+                [schedule]="item"
+                [canCancel]="isPersonal"
+              ></tss-change-request-list-action>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </form>
+</tui-loader>

@@ -1,0 +1,25 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/web/teaching-schedule/ui/assign-right-title/src",
+  "prefix": "tss",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/web/teaching-schedule/ui/assign-right-title"],
+      "options": {
+        "jestConfig": "libs/web/teaching-schedule/ui/assign-right-title/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/web/teaching-schedule/ui/assign-right-title/**/*.ts",
+          "libs/web/teaching-schedule/ui/assign-right-title/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

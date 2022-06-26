@@ -1,0 +1,54 @@
+<section class="wrapper grid h-screen bg-[#695681] overflow-hidden">
+  <div
+    class="container relative mx-auto flex justify-center items-center transition-all ease-ease duration-400"
+  >
+    <div
+      id="scene"
+      class="scene absolute w-screen h-screen align-middle"
+      data-hover-only="false"
+    >
+      <div class="circle absolute" data-depth="1.2"></div>
+
+      <div class="one" data-depth="0.9">
+        <div class="content">
+          <span class="piece"></span>
+          <span class="piece"></span>
+          <span class="piece"></span>
+        </div>
+      </div>
+
+      <div class="two" data-depth="0.60">
+        <div class="content">
+          <span class="piece"></span>
+          <span class="piece"></span>
+          <span class="piece"></span>
+        </div>
+      </div>
+
+      <div class="three" data-depth="0.40">
+        <div class="content">
+          <span class="piece"></span>
+          <span class="piece"></span>
+          <span class="piece"></span>
+        </div>
+      </div>
+
+      <p class="p404" data-depth="0.50">{{ code }}</p>
+      <p class="p404" data-depth="0.10">{{ code }}</p>
+    </div>
+
+    <div class="text w-3/5 h-2/5 min-w-[400px] min-h-[500px] absolute my-10">
+      <article
+        class="absolute left-1/2 bottom-0 w-[400px] flex flex-col justify-center items-center text-center -translate-x-1/2 z-40"
+      >
+        <p class="mb-10 text-lg text-white">{{ message }}</p>
+        <button
+          routerLink="/"
+          class="h-10 px-[30px] bg-white text-[#695681] text-xs font-semibold rounded-[50px] uppercase transition-all duration-300 ease-ease z-30 hover:bg-[#fb8a8a] hover:text-white"
+        >
+          Trở lại trang chủ
+        </button>
+      </article>
+    </div>
+  </div>
+</section>

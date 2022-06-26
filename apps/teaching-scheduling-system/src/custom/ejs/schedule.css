@@ -1,0 +1,46 @@
+.cell-dimension.e-schedule .e-schedule-table .e-work-cells,
+.cell-dimension.e-schedule .e-schedule-table .e-time-slots {
+  height: 45px !important;
+}
+
+.cell-dimension.e-schedule .e-schedule-table .e-work-cells.today {
+  @apply bg-[#ffedd8];
+}
+
+.cell-dimension.e-schedule
+  .e-table-wrap:not(.e-month-view)
+  .e-schedule-table
+  .e-header-cells.e-current-day {
+  @apply bg-[#ffedd8];
+}
+
+.cell-dimension.e-schedule .e-appointment {
+  @apply !cursor-pointer;
+}
+
+.cell-dimension.e-schedule .e-appointment.requesting-change {
+  @apply !border-solid !border-l-4 !border-l-[red];
+}
+
+.cell-dimension.e-schedule .e-appointment.changed {
+  @apply !border-l-4 !border-l-[#3b79ff];
+}
+
+.cell-dimension.e-schedule .e-current-timeline,
+.cell-dimension.e-schedule .e-previous-timeline {
+  @apply border-t-2;
+}
+
+.cell-dimension.e-schedule
+  .e-quick-popup-wrapper
+  .e-event-popup
+  .e-module-class {
+  @apply flex pt-4 text-[rgba(0,0,0,0.87)];
+}
+
+.cell-dimension.e-schedule
+  .e-quick-popup-wrapper
+  .e-event-popup
+  .e-location-details {
+  @apply text-[14px] text-[rgba(0,0,0,0.87)] cursor-default;
+}

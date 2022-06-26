@@ -1,0 +1,3 @@
+.tui-island:not(.tui-island_hoverable):before {
+  @apply border border-tui-base-04;
+}

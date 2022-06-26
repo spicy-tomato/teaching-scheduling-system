@@ -1,0 +1,25 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/web/teaching-schedule/feature/assign/src",
+  "prefix": "teaching-scheduling-system",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/web/teaching-schedule/feature/assign"],
+      "options": {
+        "jestConfig": "libs/web/teaching-schedule/feature/assign/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/web/teaching-schedule/feature/assign/**/*.ts",
+          "libs/web/teaching-schedule/feature/assign/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

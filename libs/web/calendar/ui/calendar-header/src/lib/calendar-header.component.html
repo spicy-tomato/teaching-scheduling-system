@@ -1,0 +1,263 @@
+<div class="wrapper p-2 flex justify-between border border-[rgba(0,0,0,0.12)]">
+  <!-- Left -->
+  <div class="flex items-center">
+    <button
+      (click)="onPrev()"
+      tuiIconButton
+      shape="rounded"
+      icon="tuiIconChevronLeftLarge"
+    ></button>
+    <button
+      (click)="onNext()"
+      tuiIconButton
+      shape="rounded"
+      icon="tuiIconChevronRightLarge"
+      class="ml-2"
+    ></button>
+
+    <tui-hosted-dropdown [(open)]="openSelectMonth" [content]="monthDropdown">
+      <button
+        *ngrxLet="dateRange$ as dateRange"
+        [class.rotate]="openSelectMonth"
+        tuiButton
+        iconRight="tuiIconChevronDown"
+        class="ml-2"
+      >
+        {{ dateRange }}
+      </button>
+    </tui-hosted-dropdown>
+
+    <div [@fadeIn] class="w-px h-full mx-2 bg-[rgba(0,0,0,0.12)]"></div>
+    <tui-hosted-dropdown
+      [(open)]="openFilter"
+      [content]="filterDropdown"
+      (openChange)="onFilterOpenChange($event)"
+      [@fadeIn]
+    >
+      <button
+        *ngrxLet="filter$ as filter"
+        [class.active]="filter.showDepartmentSchedule"
+        tuiButton
+        icon="tuiIconFilter"
+      >
+        <span class="hidden lg:block">
+          Bộ lọc:
+          {{ filter.showDepartmentSchedule ? 'Lịch bộ môn,' : 'Lịch cá nhân' }}
+          {{
+            filter.showDepartmentSchedule
+              ? filter.teachers.length === 0
+                ? 'Tất cả giảng viên'
+                : filter.teachers.length === 1
+                ? filter.teachers[0].name
+                : filter.teachers.length + ' giảng viên'
+              : ''
+          }},
+          {{
+            filter.modules.length === 0
+              ? 'Tất cả học phần'
+              : filter.modules.length === 1
+              ? filter.modules[0]
+              : filter.modules.length + ' học phần'
+          }}
+        </span>
+      </button>
+    </tui-hosted-dropdown>
+  </div>
+
+  <!-- Right -->
+  <div *ngrxLet="view$ as view" class="flex items-center">
+    <button
+      tuiButton
+      *ngrxLet="activeToday$ as activeToday"
+      [class.active]="activeToday"
+      (click)="clickToday$.next()"
+    >
+      HÔM NAY
+    </button>
+    <div class="w-px h-full mx-2 bg-[rgba(0,0,0,0.12)]"></div>
+    <button
+      tuiButton
+      (click)="onClickMonth()"
+      [class.active]="view === 'Month'"
+    >
+      THÁNG
+    </button>
+    <button
+      tuiButton
+      (click)="onClickWeek()"
+      [class.active]="view === 'Week'"
+      class="ml-2"
+    >
+      TUẦN
+    </button>
+
+    <button
+      tuiButton
+      [class.active]="view === 'Day'"
+      (click)="onClickDay()"
+      class="ml-2"
+    >
+      NGÀY
+    </button>
+  </div>
+</div>
+
+<!-- Month-picker dropdown -->
+<ng-template #monthDropdown>
+  <tui-calendar-month
+    *ngrxLet="month$ as month"
+    (monthClick)="onSelectMonth($event)"
+    [value]="month"
+    [year]="month"
+  ></tui-calendar-month>
+</ng-template>
+
+<!-- Filter dropdown -->
+<ng-template #filterDropdown let-activeZone>
+  <ng-container *ngrxLet="user$ as user">
+    <div
+      *ngIf="user; else loader"
+      [@fadeIn]
+      class="filter-wrapper w-[25rem] px-3 py-2"
+    >
+      <table class="w-full">
+        <ng-container
+          *tssPermission="permissionConstant.SEE_DEPARTMENT_TEACHING_SCHEDULE"
+        >
+          <tr>
+            <td>Lịch:</td>
+            <td>
+              <div class="flex gap-x-8">
+                <tui-radio-labeled
+                  [(ngModel)]="showDepartmentSchedule"
+                  (ngModelChange)="onSelectingDepartmentChange($event)"
+                  [item]="false"
+                >
+                  Cá nhân
+                </tui-radio-labeled>
+                <tui-radio-labeled
+                  [(ngModel)]="showDepartmentSchedule"
+                  (ngModelChange)="onSelectingDepartmentChange($event)"
+                  [item]="true"
+                >
+                  Bộ môn
+                </tui-radio-labeled>
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <tui-expand [expanded]="showDepartmentSchedule">
+                Giảng viên:
+              </tui-expand>
+            </td>
+            <td>
+              <tui-expand [expanded]="showDepartmentSchedule">
+                <div tuiTextfieldSize="s">
+                  <tui-select
+                    [(ngModel)]="filteredTeachers"
+                    (ngModelChange)="onSelectingTeachersChange($event)"
+                    [valueContent]="selectTeacherTemplate"
+                    [tuiActiveZoneParent]="activeZone"
+                  >
+                    <ng-template tuiDataList>
+                      <tui-data-list>
+                        <tui-opt-group>
+                          <button tuiOption [value]="[]" size="xs">
+                            Tất cả
+                          </button>
+                        </tui-opt-group>
+                        <tui-opt-group
+                          tuiMultiSelectGroup
+                          *ngrxLet="teachers$ as teachers"
+                        >
+                          <button
+                            tuiOption
+                            *ngFor="let teacher of teachers; index as i"
+                            [value]="teacher"
+                            size="xs"
+                          >
+                            {{ teacher.name }}
+                          </button>
+                        </tui-opt-group>
+                      </tui-data-list>
+                    </ng-template>
+                  </tui-select>
+                </div>
+              </tui-expand>
+            </td>
+          </tr>
+        </ng-container>
+
+        <tr>
+          <td>Học phần:</td>
+          <td>
+            <div tuiTextfieldSize="s">
+              <tui-select
+                [(ngModel)]="filteredModules"
+                [valueContent]="selectModuleTemplate"
+                [tuiActiveZoneParent]="activeZone"
+              >
+                <ng-template tuiDataList>
+                  <tui-data-list>
+                    <tui-opt-group>
+                      <button tuiOption [value]="[]" size="xs">Tất cả</button>
+                    </tui-opt-group>
+                    <tui-opt-group
+                      tuiMultiSelectGroup
+                      *ngrxLet="modules$ as modules"
+                    >
+                      <button
+                        tuiOption
+                        *ngFor="let module of modules; index as i"
+                        [value]="module"
+                        size="xs"
+                      >
+                        {{ module }}
+                      </button>
+                    </tui-opt-group>
+                  </tui-data-list>
+                </ng-template>
+              </tui-select>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td></td>
+          <td></td>
+          <td>
+            <button tuiButton (click)="filter()" appearance="primary" size="xs">
+              Lọc
+            </button>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <ng-template #loader>
+      <tui-loader [showLoader]="true" class="w-96 h-28"></tui-loader>
+    </ng-template>
+  </ng-container>
+</ng-template>
+
+<ng-template #selectTeacherTemplate let-teachers>
+  {{
+    teachers.length === 0
+      ? 'Tất cả'
+      : teachers.length === 1
+      ? teachers[0].name
+      : teachers.length + ' giảng viên'
+  }}
+</ng-template>
+
+<ng-template #selectModuleTemplate let-modules>
+  {{
+    modules.length === 0
+      ? 'Tất cả'
+      : modules.length === 1
+      ? modules[0]
+      : modules.length + ' học phần'
+  }}
+</ng-template>
