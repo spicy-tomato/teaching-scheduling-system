@@ -28,9 +28,11 @@ export class HeaderInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<unknown>> {
     const token = this.accessTokenService.get() || '';
 
-    const headers = req.headers
-      .set('Content-Type', 'application/json')
-      .set('Authorization', token);
+    let headers = req.headers.set('Authorization', token);
+
+    if (!req.headers.get('Content-Type')) {
+      headers = headers.set('Content-Type', 'application/json');
+    }
 
     const authReq = req.clone({ headers });
 
@@ -38,7 +40,7 @@ export class HeaderInterceptor implements HttpInterceptor {
       tap({
         error: (error) => {
           if (!(error instanceof HttpErrorResponse)) return;
-          
+
           switch (error.status) {
             case 401: {
               const token = error.headers.get('Authorization');
