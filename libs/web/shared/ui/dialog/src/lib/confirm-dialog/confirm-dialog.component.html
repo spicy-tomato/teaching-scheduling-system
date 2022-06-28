@@ -1,0 +1,9 @@
+<p>{{ context.data.header }}</p>
+<div class="tui-form__buttons tui-form__buttons_align_end">
+  <button tuiButton (click)="onClick(true)" class="tui-form__button">
+    {{ context.data.positive || 'Xác nhận' }}
+  </button>
+  <button tuiButton (click)="onClick(false)" class="tui-form__button">
+    {{ context.data.negative || 'Hủy' }}
+  </button>
+</div>

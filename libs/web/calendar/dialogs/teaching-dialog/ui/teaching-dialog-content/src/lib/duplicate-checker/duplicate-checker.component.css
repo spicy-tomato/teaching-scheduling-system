@@ -1,0 +1,7 @@
+:host > * {
+  @apply py-0.5;
+}
+
+tui-svg {
+  @apply mr-1;
+}

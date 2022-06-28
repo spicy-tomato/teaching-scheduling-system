@@ -1,0 +1,55 @@
+/* Nav button */
+tui-wrapper[data-appearance='nav-button'] {
+  @apply bg-tui-base-02 text-tui-text-01;
+}
+tui-wrapper[data-appearance='nav-button'][data-state='hovered'] {
+  @apply bg-tui-base-03;
+}
+tui-wrapper[data-appearance='nav-button'][data-state='pressed'] {
+  @apply bg-tui-base-04;
+}
+tui-wrapper[data-appearance='nav-button'][data-state='disabled'] {
+  @apply bg-[#eaecee];
+}
+
+/* Positive primary */
+tui-wrapper[data-appearance='positive-primary'] {
+  @apply bg-tui-success-fill text-tui-base-01;
+}
+tui-wrapper[data-appearance='positive-primary'][data-state='hovered'] {
+  @apply bg-[#6ed3af];
+}
+tui-wrapper[data-appearance='positive-primary'][data-state='pressed'] {
+  @apply bg-[rgba(74,201,155,0.4)];
+}
+tui-wrapper[data-appearance='positive-primary'][data-state='disabled'] {
+  @apply bg-[#eaecee];
+}
+
+/* Positive */
+tui-wrapper[data-appearance='positive'] {
+  @apply bg-tui-success-bg text-tui-success-fill;
+}
+tui-wrapper[data-appearance='positive'][data-state='hovered'] {
+  @apply bg-tui-success-bg-hover;
+}
+tui-wrapper[data-appearance='positive'][data-state='pressed'] {
+  @apply bg-[rgba(74,201,155,0.4)];
+}
+tui-wrapper[data-appearance='positive'][data-state='disabled'] {
+  @apply bg-[#eaecee];
+}
+
+/* Negative */
+tui-wrapper[data-appearance='negative'] {
+  @apply bg-tui-error-bg text-tui-error-fill;
+}
+tui-wrapper[data-appearance='negative'][data-state='hovered'] {
+  @apply bg-tui-error-bg-hover;
+}
+tui-wrapper[data-appearance='negative'][data-state='pressed'] {
+  @apply bg-[rgba(244,87,37,0.4)];
+}
+tui-wrapper[data-appearance='negative'][data-state='disabled'] {
+  @apply bg-[#eaecee];
+}

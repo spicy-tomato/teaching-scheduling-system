@@ -1,0 +1,25 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/web/exam/ui/assign-filter/src",
+  "prefix": "tss",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/web/exam/ui/assign-filter"],
+      "options": {
+        "jestConfig": "libs/web/exam/ui/assign-filter/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/web/exam/ui/assign-filter/**/*.ts",
+          "libs/web/exam/ui/assign-filter/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

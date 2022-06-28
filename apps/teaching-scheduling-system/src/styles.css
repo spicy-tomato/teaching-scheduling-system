@@ -1,0 +1,36 @@
+@import './custom/ejs';
+@import './custom/taiga-ui';
+@import url(https://cdn.jsdelivr.net/gh/hung1001/font-awesome-pro@4cac1a6/css/all.css);
+
+@import '../../../node_modules/@syncfusion/ej2-base/styles/material.css';
+@import '../../../node_modules/@syncfusion/ej2-buttons/styles/material.css';
+@import '../../../node_modules/@syncfusion/ej2-calendars/styles/material.css';
+@import '../../../node_modules/@syncfusion/ej2-dropdowns/styles/material.css';
+@import '../../../node_modules/@syncfusion/ej2-inputs/styles/material.css';
+@import '../../../node_modules/@syncfusion/ej2-lists/styles/material.css';
+@import '../../../node_modules/@syncfusion/ej2-popups/styles/material.css';
+@import '../../../node_modules/@syncfusion/ej2-navigations/styles/material.css';
+@import '../../../node_modules/@syncfusion/ej2-angular-schedule/styles/material.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --nav-height: 65px;
+  --sidebar-width: 240px;
+  --main-view-height: calc(100vh - 65px);
+  --content-height: calc(#{$main-view-height} - 62px);
+  --main-view-width: calc(100vw - #{$sidebar-width});
+  --content-width: calc(#{$main-view-width} - 2.5rem);
+  --tuiPositive: var(--tui-positive);
+  --tuiPositiveHover: var(--tui-positive-hover);
+  --tuiWarningFill: var(--tui-warning-fill);
+  --tuiWarningBg: var(--tui-warning-bg);
+  --tuiWarningHover: var(--tui-warning-hover);
+  --tuiBase05: var(--tui-base-05);
+  --tuiBase06: var(--tui-base-06);
+  --tuiBase07: var(--tui-base-07);
+  --tuiBase08: var(--tui-base-08);
+  --tuiBase09: var(--tui-base-09);
+}

@@ -1,0 +1,25 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/web/teaching-schedule/ui/assign-result/src",
+  "prefix": "tss",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/web/teaching-schedule/ui/assign-result"],
+      "options": {
+        "jestConfig": "libs/web/teaching-schedule/ui/assign-result/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/web/teaching-schedule/ui/assign-result/**/*.ts",
+          "libs/web/teaching-schedule/ui/assign-result/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

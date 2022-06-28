@@ -1,0 +1,25 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/web/statistic/ui/change-schedule-chart/src",
+  "prefix": "tss",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/web/statistic/ui/change-schedule-chart"],
+      "options": {
+        "jestConfig": "libs/web/statistic/ui/change-schedule-chart/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/web/statistic/ui/change-schedule-chart/**/*.ts",
+          "libs/web/statistic/ui/change-schedule-chart/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

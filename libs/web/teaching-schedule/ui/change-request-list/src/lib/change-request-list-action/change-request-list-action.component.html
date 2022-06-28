@@ -1,0 +1,41 @@
+<tui-loader
+  *ngrxLet="requesting$ as requesting"
+  [showLoader]="requesting.includes(schedule.id)"
+  [overlay]="true"
+>
+  <div
+    *tssVar="schedule.status | statusType as status"
+    class="flex justify-center"
+  >
+    <button
+      tuiIconButton
+      (click)="showDetails()"
+      [tuiHintShowDelay]="300"
+      [tuiHintHideDelay]="100"
+      icon="tuiIconShowLarge"
+      tuiHint="Xem chi tiết"
+      appearance="icon"
+    ></button>
+    <button
+      tuiIconButton
+      (click)="export$.next()"
+      [tuiHintShowDelay]="300"
+      [tuiHintHideDelay]="100"
+      [icon]="IconConstant.exportVariantLarge"
+      [disabled]="!(schedule.status | canExport)"
+      tuiHint="Xuất file yêu cầu"
+      appearance="icon"
+    ></button>
+    <button
+      tuiIconButton
+      *ngIf="canCancel"
+      (click)="cancel$.next()"
+      [tuiHintShowDelay]="300"
+      [tuiHintHideDelay]="100"
+      [disabled]="status !== 'pending'"
+      icon="tuiIconTrashLarge"
+      tuiHint="Hủy yêu cầu"
+      appearance="icon"
+    ></button>
+  </div>
+</tui-loader>

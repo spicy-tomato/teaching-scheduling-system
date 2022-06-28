@@ -1,0 +1,73 @@
+<!-- Filters -->
+<form *ngIf="form" [formGroup]="form">
+  <div class="tui-form__row flex flex-wrap gap-x-4 gap-y-3">
+    <tui-select formControlName="schoolYear" class="min-w-[145px]">
+      Năm học
+      <ng-container *ngrxLet="schoolYears$ as schoolYears">
+        <tui-data-list-wrapper
+          *tuiDataList
+          [items]="schoolYears"
+        ></tui-data-list-wrapper>
+      </ng-container>
+    </tui-select>
+    <tui-select
+      (ngModelChange)="onTermInYearChange($event)"
+      formControlName="termInYear"
+    >
+      Học kỳ
+      <tui-data-list-wrapper
+        *tuiDataList
+        [items]="termsInYear"
+      ></tui-data-list-wrapper>
+    </tui-select>
+    <tui-select formControlName="batchInTerm">
+      Đợt học
+      <tui-data-list-wrapper
+        *tuiDataList
+        [items]="batchesInTerm[termInYearControl.value]"
+      ></tui-data-list-wrapper>
+    </tui-select>
+    <tui-select
+      *ngrxLet="trainingTypes$ as trainingTypes"
+      (ngModelChange)="trainingTypeChange$.next($event)"
+      [valueContent]="stringifyTrainingType(trainingTypes)"
+      formControlName="trainingType"
+      class="min-w-[175px]"
+    >
+      Hệ đào tạo
+      <tui-data-list *tuiDataList>
+        <button
+          tuiOption
+          *ngFor="let trainingType of trainingTypes"
+          [value]="trainingType.id"
+        >
+          {{ trainingType.name }}
+        </button>
+      </tui-data-list>
+    </tui-select>
+    <tui-select
+      *ngrxLet="academicData$ as academicData"
+      formControlName="academicYear"
+      class="min-w-[125px]"
+    >
+      Khóa
+      <tui-data-list-wrapper
+        *tuiDataList
+        [items]="academicData[trainingTypeControl.value].academicYears"
+      ></tui-data-list-wrapper>
+    </tui-select>
+  </div>
+</form>
+
+<!-- Buttons -->
+<div class="flex mt-3">
+  <button
+    tuiButton
+    *ngrxLet="filterStatus$ as filterStatus"
+    (click)="filter$.next()"
+    [showLoader]="filterStatus === EApiStatus.loading"
+    icon="tuiIconFilter"
+  >
+    Lọc
+  </button>
+</div>

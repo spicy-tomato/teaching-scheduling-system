@@ -1,0 +1,57 @@
+<h4 class="text-lg font-bold">Học phần chưa được phân công</h4>
+<ng-container *ngrxLet="needAssign$ as needAssign">
+  <div
+    *ngIf="needAssign.length > 0"
+    [@fadeInOut]="{ value: true, params: { duration: '300ms' } }"
+    class="flex"
+  >
+    <ng-container *ngrxLet="selectedTeacher$ as selectedTeacher">
+      <tui-select
+        *ngrxLet="teachers$ as teachers"
+        (ngModelChange)="selectedTeacherChange($event)"
+        [ngModel]="selectedTeacher"
+        [valueContent]="teacherTemplate"
+        tuiTextfieldSize="s"
+        class="min-w-[175px]"
+      >
+        Chọn giảng viên
+        <ng-template tuiDataList>
+          <tui-data-list>
+            <tui-opt-group>
+              <button tuiOption [value]="null" size="xs">Tất cả</button>
+            </tui-opt-group>
+            <tui-opt-group>
+              <button
+                tuiOption
+                *ngFor="let teacher of teachers"
+                [value]="teacher"
+                size="xs"
+              >
+                {{ teacher.name }}
+              </button>
+            </tui-opt-group>
+          </tui-data-list>
+        </ng-template>
+      </tui-select>
+      <ng-container *ngrxLet="assignStatus$ as assignStatus">
+        <button
+          tuiButton
+          *ngrxLet="someNeedAssignCheckedChange$ as someNeedAssignCheckedChange"
+          (click)="assign$.next()"
+          [disabled]="!selectedTeacher || !someNeedAssignCheckedChange"
+          [showLoader]="assignStatus === EApiStatus.loading"
+          class="ml-2"
+        >
+          Phân công
+        </button>
+      </ng-container>
+    </ng-container>
+  </div>
+</ng-container>
+
+<!-- Templates -->
+<ng-template #teacherTemplate let-teacher>
+  <div class="tui-text_body-s">
+    {{ teacher.name }}
+  </div>
+</ng-template>

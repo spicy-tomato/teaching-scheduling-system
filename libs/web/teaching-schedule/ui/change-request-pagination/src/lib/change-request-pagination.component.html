@@ -1,0 +1,10 @@
+<ng-container *ngrxLet="pageCount$ as pageCount">
+  <ng-container *ngIf="pageCount > 1">
+    <tui-pagination
+      *ngrxLet="page$ as page"
+      (indexChange)="onPageChange($event)"
+      [length]="pageCount"
+      [index]="page - 1"
+    ></tui-pagination>
+  </ng-container>
+</ng-container>

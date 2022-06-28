@@ -1,9 +1,0 @@
-@import "src/styles/variables";
-
-:host {
-  height: 100%;
-  max-height: $content-height;
-  display: grid;
-  grid-template-rows: auto 1fr;
-  gap: 0.75rem;
-}

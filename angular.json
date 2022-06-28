@@ -1,163 +1,89 @@
 {
-  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "version": 1,
-  "newProjectRoot": "projects",
+  "$schema": "./node_modules/nx/schemas/workspace-schema.json",
+  "version": 2,
   "projects": {
-    "teaching-scheduling-system": {
-      "projectType": "application",
-      "schematics": {
-        "@schematics/angular:component": {
-          "style": "scss"
-        },
-        "@schematics/angular:application": {
-          "strict": true
-        }
-      },
-      "root": "",
-      "sourceRoot": "src",
-      "prefix": "tss",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:browser",
-          "options": {
-            "outputPath": "dist/teaching-scheduling-system",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.app.json",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets",
-              {
-                "glob": "**/*",
-                "input": "node_modules/@taiga-ui/icons/src",
-                "output": "assets/taiga-ui/icons"
-              }
-            ],
-            "styles": [
-              "src/styles.scss",
-              "node_modules/@taiga-ui/core/styles/taiga-ui-global.less",
-              "node_modules/@taiga-ui/core/styles/taiga-ui-theme.less"
-            ],
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/@syncfusion"
-              ]
-            },
-            "scripts": [],
-            "vendorChunk": true,
-            "extractLicenses": true,
-            "buildOptimizer": false,
-            "sourceMap": true,
-            "optimization": false,
-            "namedChunks": false
-          },
-          "configurations": {
-            "production": {
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
-                }
-              ],
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
-                }
-              ]
-            },
-            "development": {
-              "optimization": false,
-              "outputHashing": "all",
-              "sourceMap": true,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
-                }
-              ]
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "configurations": {
-            "production": {
-              "browserTarget": "teaching-scheduling-system:build:production"
-            },
-            "development": {
-              "browserTarget": "teaching-scheduling-system:build:development"
-            }
-          },
-          "defaultConfiguration": "development",
-          "options": {
-            "browserTarget": "teaching-scheduling-system:build",
-            "proxyConfig": "src/proxy.conf.json"
-          }
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "teaching-scheduling-system:build"
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "karma.conf.js",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.scss"
-            ],
-            "scripts": []
-          }
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "lintFilePatterns": [
-              "src/**/*.ts",
-              "src/**/*.html"
-            ]
-          }
-        }
-      }
-    }
-  },
-  "defaultProject": "teaching-scheduling-system",
-  "cli": {
-    "defaultCollection": "@angular-eslint/schematics"
+    "core-data-access-constants": "libs/core/data-access/constants",
+    "core-data-access-models": "libs/core/data-access/models",
+    "core-directives-recreate-view-key": "libs/core/directives/recreate-view-key",
+    "core-directives-var": "libs/core/directives/var",
+    "core-pipes-array": "libs/core/pipes/array",
+    "core-pipes-filter-by-input-pipe": "libs/core/pipes/filter-by-input-pipe",
+    "core-ui-animations": "libs/core/ui/animations",
+    "core-utils-factories": "libs/core/utils/factories",
+    "core-utils-helpers": "libs/core/utils/helpers",
+    "core-utils-providers": "libs/core/utils/providers",
+    "teaching-scheduling-system": "apps/teaching-scheduling-system",
+    "teaching-scheduling-system-e2e": "apps/teaching-scheduling-system-e2e",
+    "web-calendar-data-access": "libs/web/calendar/data-access",
+    "web-calendar-dialogs-exam-dialog-data-access": "libs/web/calendar/dialogs/exam-dialog/data-access",
+    "web-calendar-dialogs-exam-dialog-feature": "libs/web/calendar/dialogs/exam-dialog/feature",
+    "web-calendar-dialogs-teaching-dialog-data-access": "libs/web/calendar/dialogs/teaching-dialog/data-access",
+    "web-calendar-dialogs-teaching-dialog-feature": "libs/web/calendar/dialogs/teaching-dialog/feature",
+    "web-calendar-dialogs-teaching-dialog-ui-teaching-dialog-content": "libs/web/calendar/dialogs/teaching-dialog/ui/teaching-dialog-content",
+    "web-calendar-dialogs-teaching-dialog-ui-teaching-dialog-navigation": "libs/web/calendar/dialogs/teaching-dialog/ui/teaching-dialog-navigation",
+    "web-calendar-feature": "libs/web/calendar/feature",
+    "web-calendar-ui-calendar-date-time-pipe": "libs/web/calendar/ui/calendar-date-time-pipe",
+    "web-calendar-ui-calendar-header": "libs/web/calendar/ui/calendar-header",
+    "web-calendar-ui-change-status-type-pipe": "libs/web/calendar/ui/change-status-type-pipe",
+    "web-config-data-access": "libs/web/config/data-access",
+    "web-error-feature-forbidden": "libs/web/error/feature/forbidden",
+    "web-error-feature-not-found": "libs/web/error/feature/not-found",
+    "web-error-ui-component-error": "libs/web/error/ui/component-error",
+    "web-exam-data-access": "libs/web/exam/data-access",
+    "web-exam-feature-assign": "libs/web/exam/feature/assign",
+    "web-exam-feature-shell": "libs/web/exam/feature/shell",
+    "web-exam-ui-assign-edit-dialog": "libs/web/exam/ui/assign-edit-dialog",
+    "web-exam-ui-assign-filter": "libs/web/exam/ui/assign-filter",
+    "web-exam-ui-assign-list": "libs/web/exam/ui/assign-list",
+    "web-exam-ui-assign-teacher-dialog": "libs/web/exam/ui/assign-teacher-dialog",
+    "web-feedback-feature": "libs/web/feedback/feature",
+    "web-feedback-ui-success-dialog": "libs/web/feedback/ui/success-dialog",
+    "web-login-data-access": "libs/web/login/data-access",
+    "web-login-feature": "libs/web/login/feature",
+    "web-settings-data-access": "libs/web/settings/data-access",
+    "web-settings-feature-change-password": "libs/web/settings/feature/change-password",
+    "web-settings-feature-shell": "libs/web/settings/feature/shell",
+    "web-shared-data-access-dta": "libs/web/shared/data-access/dta",
+    "web-shared-data-access-enums": "libs/web/shared/data-access/enums",
+    "web-shared-data-access-models": "libs/web/shared/data-access/models",
+    "web-shared-data-access-services": "libs/web/shared/data-access/services",
+    "web-shared-data-access-store": "libs/web/shared/data-access/store",
+    "web-shared-directives-permission": "libs/web/shared/directives/permission",
+    "web-shared-ui-components-confirm-input": "libs/web/shared/ui/components/confirm-input",
+    "web-shared-ui-components-success-dialog-header": "libs/web/shared/ui/components/success-dialog-header",
+    "web-shared-ui-dialog": "libs/web/shared/ui/dialog",
+    "web-shared-utils": "libs/web/shared/utils",
+    "web-shell-feature": "libs/web/shell/feature",
+    "web-shell-ui-breadcrumb": "libs/web/shell/ui/breadcrumb",
+    "web-shell-ui-layout": "libs/web/shell/ui/layout",
+    "web-shell-ui-main-view": "libs/web/shell/ui/main-view",
+    "web-shell-ui-navbar": "libs/web/shell/ui/navbar",
+    "web-shell-ui-sidebar": "libs/web/shell/ui/sidebar",
+    "web-statistic-data-access": "libs/web/statistic/data-access",
+    "web-statistic-feature-change-schedule": "libs/web/statistic/feature/change-schedule",
+    "web-statistic-feature-shell": "libs/web/statistic/feature/shell",
+    "web-statistic-ui-change-schedule-chart": "libs/web/statistic/ui/change-schedule-chart",
+    "web-statistic-ui-change-schedule-filter": "libs/web/statistic/ui/change-schedule-filter",
+    "web-teaching-schedule-data-access": "libs/web/teaching-schedule/data-access",
+    "web-teaching-schedule-feature-assign": "libs/web/teaching-schedule/feature/assign",
+    "web-teaching-schedule-feature-change": "libs/web/teaching-schedule/feature/change",
+    "web-teaching-schedule-feature-import": "libs/web/teaching-schedule/feature/import",
+    "web-teaching-schedule-feature-shell": "libs/web/teaching-schedule/feature/shell",
+    "web-teaching-schedule-ui-assign-filter": "libs/web/teaching-schedule/ui/assign-filter",
+    "web-teaching-schedule-ui-assign-left-title": "libs/web/teaching-schedule/ui/assign-left-title",
+    "web-teaching-schedule-ui-assign-list": "libs/web/teaching-schedule/ui/assign-list",
+    "web-teaching-schedule-ui-assign-result": "libs/web/teaching-schedule/ui/assign-result",
+    "web-teaching-schedule-ui-assign-right-title": "libs/web/teaching-schedule/ui/assign-right-title",
+    "web-teaching-schedule-ui-assign-table": "libs/web/teaching-schedule/ui/assign-table",
+    "web-teaching-schedule-ui-change-deny-dialog": "libs/web/teaching-schedule/ui/change-deny-dialog",
+    "web-teaching-schedule-ui-change-details-dialog": "libs/web/teaching-schedule/ui/change-details-dialog",
+    "web-teaching-schedule-ui-change-report-dialog": "libs/web/teaching-schedule/ui/change-report-dialog",
+    "web-teaching-schedule-ui-change-request": "libs/web/teaching-schedule/ui/change-request",
+    "web-teaching-schedule-ui-change-request-filter": "libs/web/teaching-schedule/ui/change-request-filter",
+    "web-teaching-schedule-ui-change-request-list": "libs/web/teaching-schedule/ui/change-request-list",
+    "web-teaching-schedule-ui-change-request-pagination": "libs/web/teaching-schedule/ui/change-request-pagination",
+    "web-teaching-schedule-ui-change-set-room-dialog": "libs/web/teaching-schedule/ui/change-set-room-dialog",
+    "web-teaching-schedule-ui-change-status-color-pipe": "libs/web/teaching-schedule/ui/change-status-color-pipe",
+    "web-user-info-feature": "libs/web/user-info/feature"
   }
 }

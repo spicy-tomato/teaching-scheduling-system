@@ -1,0 +1,25 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/web/calendar/ui/calendar-header/src",
+  "prefix": "tss",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/web/calendar/ui/calendar-header"],
+      "options": {
+        "jestConfig": "libs/web/calendar/ui/calendar-header/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/web/calendar/ui/calendar-header/**/*.ts",
+          "libs/web/calendar/ui/calendar-header/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

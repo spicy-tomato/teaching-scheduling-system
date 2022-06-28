@@ -1,0 +1,70 @@
+<form [formGroup]="form">
+  <div class="tui-form__row">
+    <tui-input [readOnly]="true" formControlName="subject"> Tiêu đề </tui-input>
+  </div>
+  <div class="tui-form__row">
+    <tui-input [readOnly]="true" formControlName="location">
+      Phòng thi
+    </tui-input>
+  </div>
+  <div class="tui-form__row">
+    <tui-input [readOnly]="true" formControlName="method">
+      Hình thức
+    </tui-input>
+  </div>
+  <div class="tui-form__row tui-form__row_multi-fields">
+    <div class="tui-form__multi-field">
+      <tui-input-date-time [readOnly]="true" formControlName="start">
+        Bắt đầu
+      </tui-input-date-time>
+    </div>
+    <div class="tui-form__multi-field">
+      <tui-input-date-time [readOnly]="true" formControlName="end">
+        Kết thúc
+      </tui-input-date-time>
+    </div>
+  </div>
+  <ng-container formArrayName="people">
+    <div
+      class="tui-form__row"
+      *ngFor="let person of peopleControl.controls; index as i"
+    >
+      <tui-input [readOnly]="true" [formControlName]="i">
+        Giám thị {{ i + 1 }}
+      </tui-input>
+    </div>
+  </ng-container>
+
+  <div formGroupName="change" class="tui-form__row">
+    <tui-text-area
+      formControlName="note"
+      [tuiTextfieldMaxLength]="noteMaxLength"
+    >
+      Ghi chú
+    </tui-text-area>
+    <tui-field-error formControlName="note"></tui-field-error>
+  </div>
+
+  <div class="tui-form__buttons tui-form__buttons_align_end">
+    <button
+      tuiButton
+      *ngrxLet="showLoader$ as showLoader"
+      (click)="submit$.next()"
+      [showLoader]="showLoader"
+      [disabled]="form.invalid"
+      size="m"
+      class="tui-form__button"
+    >
+      Lưu
+    </button>
+    <button
+      tuiButton
+      (click)="onCancel()"
+      appearance="outline"
+      size="m"
+      class="tui-form__button"
+    >
+      {{ form.valid ? 'Hủy' : 'Đóng' }}
+    </button>
+  </div>
+</form>

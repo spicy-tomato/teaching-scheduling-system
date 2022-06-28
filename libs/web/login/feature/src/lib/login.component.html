@@ -1,0 +1,54 @@
+<div
+  class="relative w-screen h-screen flex justify-center items-center bg-[url('/assets/img/login-background.png')] bg-cover z-0 after:absolute after:inset-0 after:w-screen after:h-screen after:block after:bg-[rgba(0,0,0,0.15)] after:z-10"
+>
+  <div [@slideUp] class="px-14 pt-10 pb-7 bg-[rgba(255,255,255,0.95)] rounded-lg z-20">
+    <h1 class="slide-element mb-10 text-[26px] font-bold uppercase">Hệ thống quản lý lịch giảng dạy</h1>
+    <form [formGroup]="loginForm" (ngSubmit)="submit$.next()">
+      <div class="slide-element">
+        <tui-input
+          [tuiHintContent]="
+            username.valid || username.untouched
+              ? null
+              : username.value === ''
+              ? 'Hãy nhập email hoặc tên đăng nhập'
+              : 'Hãy nhập đúng định dạng email'
+          "
+          formControlName="username"
+          tuiHintMode="error"
+        >
+          Email / Tên đăng nhập
+        </tui-input>
+      </div>
+
+      <div class="slide-element mt-3">
+        <tui-input-password formControlName="password">
+          Mật khẩu
+        </tui-input-password>
+      </div>
+
+      <div class="flex flex-col items-center mt-7">
+        <button
+          *ngrxLet="status$ as status"
+          [showLoader]="
+            status === EApiStatus.loading || status === EApiStatus.successful
+          "
+          [disabled]="loginForm.invalid"
+          tuiButton
+          size="m"
+          type="submit"
+          class="slide-element"
+        >
+          Đăng nhập
+        </button>
+
+        <!-- <div class="slide-element">
+          <tui-checkbox-labeled [@slideUp] formControlName="remember" class="mt-5">
+            Ghi nhớ tài khoản
+          </tui-checkbox-labeled>
+        </div>
+
+        <a tuiLink class="slide-element mt-2"> Quên mật khẩu? </a> -->
+      </div>
+    </form>
+  </div>
+</div>
