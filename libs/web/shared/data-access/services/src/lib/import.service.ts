@@ -28,7 +28,7 @@ export class ImportService {
     // eslint-disable-next-line @typescript-eslint/ban-types
   ): Observable<Object> {
     const formData = new FormData();
-    // formData.append('file', file);
+    formData.append('file', file);
     formData.append('study_session', studySession);
     formData.append('id_department', departmentId);
 
