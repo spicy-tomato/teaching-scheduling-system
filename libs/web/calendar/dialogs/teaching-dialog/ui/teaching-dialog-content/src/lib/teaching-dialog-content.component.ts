@@ -53,7 +53,7 @@ import {
   AppShellState,
   selectNameTitle,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
-import { sameGroupStaticValueValidator } from '@teaching-scheduling-system/web/shared/utils';
+import { sameGroupStaticValueValidator } from '@teaching-scheduling-system/web/shared/utils/validators';
 import {
   EMPTY,
   filter,

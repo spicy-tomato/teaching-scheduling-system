@@ -12,10 +12,9 @@ import {
 } from '@teaching-scheduling-system/web/shared/data-access/services';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { InterceptorCustomHeader } from './constants';
 
 @Injectable()
-export class HeaderInterceptor implements HttpInterceptor {
+export class AuthInterceptor implements HttpInterceptor {
   /** CONSTRUCTOR */
   constructor(
     private readonly accessTokenService: AccessTokenService,
@@ -28,13 +27,7 @@ export class HeaderInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
     const token = this.accessTokenService.get() || '';
-
-    let headers = req.headers.set('Authorization', token);
-
-    if (!req.headers.get(InterceptorCustomHeader.skipContentType)) {
-      headers = headers.set('Content-Type', 'application/json');
-    }
-
+    const headers = req.headers.set('Authorization', token);
     const authReq = req.clone({ headers });
 
     return next.handle(authReq).pipe(

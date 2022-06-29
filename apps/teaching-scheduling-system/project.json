@@ -5,9 +5,7 @@
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/teaching-scheduling-system",
         "index": "apps/teaching-scheduling-system/src/index.html",
@@ -97,9 +95,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/apps/teaching-scheduling-system"
-      ],
+      "outputs": ["coverage/apps/teaching-scheduling-system"],
       "options": {
         "jestConfig": "apps/teaching-scheduling-system/jest.config.ts",
         "passWithNoTests": true

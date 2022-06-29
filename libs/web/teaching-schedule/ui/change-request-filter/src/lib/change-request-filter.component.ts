@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Inject,
-  Injector
+  Injector,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -10,31 +10,31 @@ import { TuiDestroyService } from '@taiga-ui/cdk';
 import {
   TuiAppearance,
   TuiDialogService,
-  TUI_BUTTON_OPTIONS
+  TUI_BUTTON_OPTIONS,
 } from '@taiga-ui/core';
 import { IconConstant } from '@teaching-scheduling-system/core/data-access/constants';
 import {
   ObjectHelper,
-  StringHelper
+  StringHelper,
 } from '@teaching-scheduling-system/core/utils/helpers';
 import { FileType } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import {
   ChangeSchedule,
   ChangeScheduleOptions,
   ChangeScheduleOptionsParam,
-  Teacher
+  Teacher,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { ExportService } from '@teaching-scheduling-system/web/shared/data-access/services';
 import {
   AppShellState,
-  selectNotNullTeacher
+  selectNotNullTeacher,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
-import { ScheduleConstant } from '@teaching-scheduling-system/web/shared/utils';
+import { ScheduleConstant } from '@teaching-scheduling-system/web/shared/utils/constants';
 import {
   teachingScheduleRequestChangeOptions,
   teachingScheduleRequestSelectExportSchedule,
   teachingScheduleRequestSelectOptions,
-  TeachingScheduleRequestState
+  TeachingScheduleRequestState,
 } from '@teaching-scheduling-system/web/teaching-schedule/data-access';
 import { ChangeReportDialogComponent } from '@teaching-scheduling-system/web/teaching-schedule/ui/change-report-dialog';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';

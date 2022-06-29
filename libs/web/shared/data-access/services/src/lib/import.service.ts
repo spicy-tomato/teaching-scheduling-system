@@ -1,12 +1,10 @@
-import {
-  HttpClient,
-  HttpHeaders
-} from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { InterceptorCustomHeader } from '@teaching-scheduling-system/core/utils/interceptors';
 import {
-  AppConfig, APP_CONFIG
+  AppConfig,
+  APP_CONFIG,
 } from '@teaching-scheduling-system/web/config/data-access';
-import { InterceptorCustomHeader } from '@teaching-scheduling-system/web/shared/utils';
 import { Observable } from 'rxjs';
 
 @Injectable({

@@ -50,7 +50,6 @@ export class ScheduleConstant {
       hide: true,
     },
     302: {
-      
       name: 'Đã chấp nhận',
       feature: PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE,
       hide: true,

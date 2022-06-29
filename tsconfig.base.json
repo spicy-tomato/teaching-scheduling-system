@@ -42,6 +42,9 @@
       "@teaching-scheduling-system/core/utils/helpers": [
         "libs/core/utils/helpers/src/index.ts"
       ],
+      "@teaching-scheduling-system/core/utils/interceptors": [
+        "libs/core/utils/interceptors/src/index.ts"
+      ],
       "@teaching-scheduling-system/core/utils/providers": [
         "libs/core/utils/providers/src/index.ts"
       ],
@@ -159,8 +162,17 @@
       "@teaching-scheduling-system/web/shared/ui/components/success-dialog-header": [
         "libs/web/shared/ui/components/success-dialog-header/src/index.ts"
       ],
-      "@teaching-scheduling-system/web/shared/utils": [
-        "libs/web/shared/utils/src/index.ts"
+      "@teaching-scheduling-system/web/shared/utils/constants": [
+        "libs/web/shared/utils/constants/src/index.ts"
+      ],
+      "@teaching-scheduling-system/web/shared/utils/guards": [
+        "libs/web/shared/utils/guards/src/index.ts"
+      ],
+      "@teaching-scheduling-system/web/shared/utils/interceptors": [
+        "libs/web/shared/utils/interceptors/src/index.ts"
+      ],
+      "@teaching-scheduling-system/web/shared/utils/validators": [
+        "libs/web/shared/utils/validators/src/index.ts"
       ],
       "@teaching-scheduling-system/web/shell/feature": [
         "libs/web/shell/feature/src/index.ts"

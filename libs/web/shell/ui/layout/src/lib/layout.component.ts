@@ -1,8 +1,13 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
-import { tap, take } from 'rxjs';
-import * as fromAppShell from '@teaching-scheduling-system/web/shared/data-access/store';
+import {
+  AppShellState,
+  keepLogin,
+  reset,
+  selectStatus,
+} from '@teaching-scheduling-system/web/shared/data-access/store';
+import { take, tap } from 'rxjs';
 
 @Component({
   templateUrl: './layout.component.html',
@@ -12,16 +17,16 @@ import * as fromAppShell from '@teaching-scheduling-system/web/shared/data-acces
 export class LayoutComponent {
   /** CONSTRUCTOR */
   constructor(
-    store: Store<fromAppShell.AppShellState>
+    store: Store<AppShellState>
     // , googleService: GoogleService
   ) {
     store
-      .select(fromAppShell.selectStatus)
+      .select(selectStatus)
       .pipe(
         tap((status) => {
           if (status !== EApiStatus.loading) {
-            store.dispatch(fromAppShell.reset());
-            store.dispatch(fromAppShell.keepLogin());
+            store.dispatch(reset());
+            store.dispatch(keepLogin());
           }
         }),
         take(1)

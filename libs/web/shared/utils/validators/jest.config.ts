@@ -1,7 +1,7 @@
 /* eslint-disable */
 export default {
-  displayName: 'web-shared-utils',
-  preset: '../../../../jest.preset.js',
+  displayName: 'web-shared-utils-validators',
+  preset: '../../../../../jest.preset.js',
   globals: {
     'ts-jest': {
       tsconfig: '<rootDir>/tsconfig.spec.json',
@@ -11,5 +11,5 @@ export default {
     '^.+\\.[tj]sx?$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '../../../../coverage/libs/web/shared/utils',
+  coverageDirectory: '../../../../../coverage/libs/web/shared/utils/validators',
 };

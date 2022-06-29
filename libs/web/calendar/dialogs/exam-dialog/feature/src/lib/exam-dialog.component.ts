@@ -12,7 +12,7 @@ import { CoreConstant } from '@teaching-scheduling-system/core/data-access/const
 import { DateHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import { EjsScheduleModel } from '@teaching-scheduling-system/web/shared/data-access/models';
-import { sameGroupStaticValueValidator } from '@teaching-scheduling-system/web/shared/utils';
+import { sameGroupStaticValueValidator } from '@teaching-scheduling-system/web/shared/utils/validators';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { map, Subject, takeUntil, tap } from 'rxjs';
 import { ExamDialogStore } from './store';
