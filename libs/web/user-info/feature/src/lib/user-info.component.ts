@@ -120,7 +120,6 @@ export class UserInfoComponent {
       .pipe(
         withLatestFrom(this.teacher$),
         tap(([{ controlName, value }, teacher]) => {
-          console.log('save');
           const body = { [controlName]: value };
           const confirmInput = this.confirmInputs.find(
             (x) => x.field === controlName

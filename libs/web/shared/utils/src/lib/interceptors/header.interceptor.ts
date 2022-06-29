@@ -1,17 +1,18 @@
-import { Injectable } from '@angular/core';
 import {
-  HttpEvent,
-  HttpInterceptor,
-  HttpHandler,
-  HttpRequest,
   HttpErrorResponse,
+  HttpEvent,
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest,
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
 import {
   AccessTokenService,
   AppService,
 } from '@teaching-scheduling-system/web/shared/data-access/services';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { InterceptorCustomHeader } from './constants';
 
 @Injectable()
 export class HeaderInterceptor implements HttpInterceptor {
@@ -30,7 +31,7 @@ export class HeaderInterceptor implements HttpInterceptor {
 
     let headers = req.headers.set('Authorization', token);
 
-    if (!req.headers.get('Content-Type')) {
+    if (!req.headers.get(InterceptorCustomHeader.skipContentType)) {
       headers = headers.set('Content-Type', 'application/json');
     }
 
