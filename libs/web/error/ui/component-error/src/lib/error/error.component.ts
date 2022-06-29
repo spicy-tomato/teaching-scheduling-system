@@ -1,4 +1,15 @@
-import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Input,
+  ViewChild,
+} from '@angular/core';
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare let require: any;
+const Parallax = require('parallax-js');
 
 @Component({
   selector: 'tss-error',
@@ -6,8 +17,16 @@ import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
   styleUrls: ['./error.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ErrorComponent {
+export class ErrorComponent implements AfterViewInit {
   /** INPUT */
   @Input() public code!: number;
   @Input() public message!: string;
+
+  /** VIEW CHILD */
+  @ViewChild('scene') public scene!: ElementRef<HTMLDivElement>;
+
+  /** LIFE CYCLES */
+  public ngAfterViewInit(): void {
+    new Parallax(this.scene.nativeElement, {});
+  }
 }
