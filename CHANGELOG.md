@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.11.0...v3.0.0) (2022-06-29)
+
+
+### ⚠ BREAKING CHANGES
+
+* migrate to Nx
+* migrate to nx
+
+### Features
+
+* migrate to Nx ([78acb4e](https://github.com/annguyen-it/teaching-scheduling-system/commits/78acb4e06842cd59adf0b4995df1c10b78747cbd))
+
+
+### Bug Fixes
+
+* add import module ([5f23935](https://github.com/annguyen-it/teaching-scheduling-system/commits/5f2393554b5cec07f923acb3ccadbb3fd3cbef11))
+* cannot import teaching schedule ([14a7dff](https://github.com/annguyen-it/teaching-scheduling-system/commits/14a7dff7b04459cbc7acfeb6423161cdaea7bc43))
+* migrate to nx ([77f2f02](https://github.com/annguyen-it/teaching-scheduling-system/commits/77f2f025c74a5884dbbc5b11f844a2e0a5ca8d0b))
+* update Angular to 13.x ([abb71d7](https://github.com/annguyen-it/teaching-scheduling-system/commits/abb71d7135f5a09c3f071ffd60804a003739167c))
+
 ## [2.11.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.10.0...v2.11.0) (2022-05-27)
 
 
