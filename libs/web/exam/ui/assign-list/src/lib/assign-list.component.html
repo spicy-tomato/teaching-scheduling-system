@@ -42,13 +42,13 @@
           </td>
           <td *tuiCell="'date'" tuiTd>
             <div class="text-center">
-              {{ item.startAt | date: "dd-MM-Y" }}
+              {{ item.startAt | date: 'dd-MM-Y' }}
             </div>
           </td>
           <td *tuiCell="'time'" tuiTd>
             <div class="text-center">
-              {{ item.startAt | date: "HH:mm" }} -
-              {{ item.endAt | date: "HH:mm" }}
+              {{ item.startAt | date: 'HH:mm' }} -
+              {{ item.endAt | date: 'HH:mm' }}
             </div>
           </td>
           <td *tuiCell="'room'" tuiTd>
@@ -62,23 +62,19 @@
             </div>
           </td>
           <td *tuiCell="'teacher'" tuiTd>
-            {{ item.teachers.join(", ") }}
+            {{ item.teachers.join(', ') }}
           </td>
           <td *tuiCell="'action'" tuiTd>
             <div class="text-center">
               <button
                 tuiIconButton
                 (click)="onOpenAssignDialog(item)"
-                [tuiHintShowDelay]="300"
-                [tuiHintHideDelay]="100"
                 icon="tuiIconCompanyLarge"
                 tuiHint="Phân lịch thi"
               ></button>
               <button
                 tuiIconButton
                 (click)="onOpenEditDialog(item)"
-                [tuiHintShowDelay]="300"
-                [tuiHintHideDelay]="100"
                 icon="tuiIconEditLarge"
                 tuiHint="Chỉnh sửa"
               ></button>

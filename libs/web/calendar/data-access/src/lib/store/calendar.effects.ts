@@ -34,16 +34,15 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
+import * as fromSchedule from '.';
 import * as ApiAction from './calendar.api.actions';
 import * as PageAction from './calendar.page.actions';
-import { calendarSelectRanges, calendarSelectView } from './calendar.selectors';
-import { CalendarState } from './calendar.state';
 
 @Injectable()
 export class CalendarEffects {
   /** PRIVATE PROPERTIES */
-  private ranges$ = this.store.select(calendarSelectRanges);
-  private view$ = this.store.select(calendarSelectView);
+  private ranges$ = this.store.select(fromSchedule.calendarSelectRanges);
+  private view$ = this.store.select(fromSchedule.calendarSelectView);
 
   private readonly permissions$: Observable<number[]>;
   private readonly department$: Observable<Nullable<SimpleModel>>;
@@ -142,7 +141,7 @@ export class CalendarEffects {
     private readonly actions$: Actions,
     private readonly scheduleService: ScheduleService,
     private readonly examService: ExamService,
-    private readonly store: Store<CalendarState>,
+    private readonly store: Store<fromSchedule.CalendarState>,
     appShellStore: Store<AppShellState>
   ) {
     this.permissions$ = appShellStore.select(selectPermission);

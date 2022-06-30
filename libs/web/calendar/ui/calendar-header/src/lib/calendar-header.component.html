@@ -2,14 +2,14 @@
   <!-- Left -->
   <div class="flex items-center">
     <button
-      (click)="onPrev()"
       tuiIconButton
+      (click)="onPrev()"
       shape="rounded"
       icon="tuiIconChevronLeftLarge"
     ></button>
     <button
-      (click)="onNext()"
       tuiIconButton
+      (click)="onNext()"
       shape="rounded"
       icon="tuiIconChevronRightLarge"
       class="ml-2"
@@ -17,9 +17,9 @@
 
     <tui-hosted-dropdown [(open)]="openSelectMonth" [content]="monthDropdown">
       <button
+        tuiButton
         *ngrxLet="dateRange$ as dateRange"
         [class.rotate]="openSelectMonth"
-        tuiButton
         iconRight="tuiIconChevronDown"
         class="ml-2"
       >
@@ -31,13 +31,13 @@
     <tui-hosted-dropdown
       [(open)]="openFilter"
       [content]="filterDropdown"
-      (openChange)="onFilterOpenChange($event)"
       [@fadeIn]
+      (openChange)="onFilterOpenChange($event)"
     >
       <button
+        tuiButton
         *ngrxLet="filter$ as filter"
         [class.active]="filter.showDepartmentSchedule"
-        tuiButton
         icon="tuiIconFilter"
       >
         <span class="hidden lg:block">
@@ -106,9 +106,9 @@
 <ng-template #monthDropdown>
   <tui-calendar-month
     *ngrxLet="month$ as month"
-    (monthClick)="onSelectMonth($event)"
     [value]="month"
     [year]="month"
+    (monthClick)="onSelectMonth($event)"
   ></tui-calendar-month>
 </ng-template>
 
@@ -130,15 +130,15 @@
               <div class="flex gap-x-8">
                 <tui-radio-labeled
                   [(ngModel)]="showDepartmentSchedule"
-                  (ngModelChange)="onSelectingDepartmentChange($event)"
                   [item]="false"
+                  (ngModelChange)="onSelectingDepartmentChange($event)"
                 >
                   Cá nhân
                 </tui-radio-labeled>
                 <tui-radio-labeled
                   [(ngModel)]="showDepartmentSchedule"
-                  (ngModelChange)="onSelectingDepartmentChange($event)"
                   [item]="true"
+                  (ngModelChange)="onSelectingDepartmentChange($event)"
                 >
                   Bộ môn
                 </tui-radio-labeled>
@@ -157,9 +157,9 @@
                 <div tuiTextfieldSize="s">
                   <tui-select
                     [(ngModel)]="filteredTeachers"
-                    (ngModelChange)="onSelectingTeachersChange($event)"
                     [valueContent]="selectTeacherTemplate"
                     [tuiActiveZoneParent]="activeZone"
+                    (ngModelChange)="onSelectingTeachersChange($event)"
                   >
                     <ng-template tuiDataList>
                       <tui-data-list>
