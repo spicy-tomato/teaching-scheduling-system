@@ -5,7 +5,7 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiNotification, TuiNotificationsService } from '@taiga-ui/core';
@@ -53,6 +53,7 @@ export class UserInfoComponent {
       formControlName: 'phone',
       placeholder: 'Số điện thoại',
       editable: true,
+      type: 'input-phone',
     },
   ];
   public readonly save$ = new Subject<{
@@ -95,7 +96,7 @@ export class UserInfoComponent {
       name: [],
       department: [],
       faculty: [],
-      phone: [],
+      phone: ['', Validators.minLength(12)],
     });
   }
 

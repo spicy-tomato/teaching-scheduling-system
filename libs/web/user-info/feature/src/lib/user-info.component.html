@@ -10,6 +10,8 @@
         *ngIf="field.editable; else readOnlyField"
         [formControlName]="field.formControlName"
         [field]="field.formControlName"
+        [type]="field.type"
+        [disableConfirm]="!!form.controls[field.formControlName].errors"
         (save)="
           save$.next({ controlName: field.formControlName, value: $event })
         "

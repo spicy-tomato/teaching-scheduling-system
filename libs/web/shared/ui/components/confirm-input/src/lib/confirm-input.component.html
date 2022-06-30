@@ -1,17 +1,31 @@
 <div tuiGroup class="tui-form__row">
-  <tui-input
-    (ngModelChange)="onValueChange($event)"
-    [ngModel]="value"
-    [readOnly]="!showEdit"
-  >
-    <ng-content></ng-content>
-    <input tuiTextfield />
-  </tui-input>
+  <ng-container [ngSwitch]="type">
+    <tui-input-phone
+      *ngSwitchCase="'input-phone'"
+      [ngModel]="value"
+      [readOnly]="!showEdit"
+      (ngModelChange)="onValueChange($event)"
+      countryCode="+84"
+      phoneMaskAfterCountryCode="###-###-#####"
+    >
+      <ng-container *ngTemplateOutlet="content"></ng-container>
+      <input tuiTextfield />
+    </tui-input-phone>
+    <tui-input
+      *ngSwitchDefault
+      [ngModel]="value"
+      [readOnly]="!showEdit"
+      (ngModelChange)="onValueChange($event)"
+    >
+      <ng-container *ngTemplateOutlet="content"></ng-container>
+      <input tuiTextfield />
+    </tui-input>
+  </ng-container>
   <button
-    *ngIf="!showEdit; else doneBtn"
     tuiIconButton
-    (click)="onEdit()"
+    *ngIf="!showEdit; else doneBtn"
     [disabled]="value === null"
+    (click)="onEdit()"
     icon="tuiIconEditLarge"
     tuiHint="Chỉnh sửa thông tin"
     tuiHintMode="onDark"
@@ -20,9 +34,13 @@
   <ng-template #doneBtn>
     <button
       tuiIconButton
-      (click)="saveStart()"
       [showLoader]="processing"
-      [disabled]="value === initialValue"
+      [disabled]="
+        disableConfirm ||
+        value === initialValue ||
+        value === '+84' + initialValue
+      "
+      (click)="saveStart()"
       icon="tuiIconCheckLarge"
       appearance="positive-primary"
       tuiHint="Lưu"
@@ -31,8 +49,8 @@
     ></button>
     <button
       tuiIconButton
-      (click)="onCancel()"
       [disabled]="processing"
+      (click)="onCancel()"
       icon="tuiIconRemoveLarge"
       appearance="accent"
       tuiHint="Hủy"
@@ -41,3 +59,7 @@
     ></button>
   </ng-template>
 </div>
+
+<ng-template #content>
+  <ng-content></ng-content>
+</ng-template>
