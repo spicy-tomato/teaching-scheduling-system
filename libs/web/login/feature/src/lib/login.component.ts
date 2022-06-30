@@ -4,12 +4,7 @@ import {
   Inject,
   ViewChild,
 } from '@angular/core';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiNotification, TuiNotificationsService } from '@taiga-ui/core';
@@ -36,7 +31,6 @@ import {
 } from 'rxjs';
 
 @Component({
-  selector: 'tss-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
   animations: [slideUp],
@@ -59,12 +53,12 @@ export class LoginComponent {
   public readonly EApiStatus = EApiStatus;
 
   /** GETTERS */
-  public get username(): AbstractControl {
-    return this.loginForm.controls['username'];
+  public get username(): FormControl {
+    return this.loginForm.controls['username'] as FormControl;
   }
 
-  public get password(): AbstractControl {
-    return this.loginForm.controls['password'];
+  public get password(): FormControl {
+    return this.loginForm.controls['password'] as FormControl;
   }
 
   /** CONSTRUCTOR */
@@ -138,8 +132,8 @@ export class LoginComponent {
             this.passwordComponent.checkControlUpdate();
           }
 
-          const username = this.username?.value as string;
-          const password = this.password?.value as string;
+          const username = this.username.value as string;
+          const password = this.password.value as string;
 
           const loginForm: LoginForm = {
             username,

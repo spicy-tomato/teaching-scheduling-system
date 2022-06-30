@@ -41,7 +41,7 @@ const initialState: CalendarState = {
   month: TuiMonth.currentLocal(),
 };
 
-export const calendarFeatureKey = 'schedule';
+export const calendarFeatureKey = 'calendar';
 
 export const calendarReducer = createReducer(
   initialState,
