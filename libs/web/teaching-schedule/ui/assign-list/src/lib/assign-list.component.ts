@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Action, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { ModuleClass } from '@teaching-scheduling-system/web/shared/data-access/models';
 import {
-  teachingScheduleAssignSelectedNeedAssignChange,
-  teachingScheduleAssignSelectNeedAssign,
   TeachingScheduleAssignState,
+  teachingScheduleAssign_SelectNeedAssign,
 } from '@teaching-scheduling-system/web/teaching-schedule/data-access';
 import { Observable, takeUntil } from 'rxjs';
 
@@ -19,9 +18,6 @@ import { Observable, takeUntil } from 'rxjs';
 export class AssignListComponent {
   /** PUBLIC PROPERTIES */
   public data$: Observable<ModuleClass[]>;
-  public readonly checkboxChangeAction: (checkbox: boolean[]) => Action = (
-    checkbox
-  ) => teachingScheduleAssignSelectedNeedAssignChange({ checkbox });
 
   /** CONSTRUCTOR */
   constructor(
@@ -29,7 +25,7 @@ export class AssignListComponent {
     destroy$: TuiDestroyService
   ) {
     this.data$ = store
-      .select(teachingScheduleAssignSelectNeedAssign)
+      .select(teachingScheduleAssign_SelectNeedAssign)
       .pipe(takeUntil(destroy$));
   }
 }

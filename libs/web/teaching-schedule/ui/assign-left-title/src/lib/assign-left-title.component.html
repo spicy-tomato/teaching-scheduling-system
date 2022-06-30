@@ -8,9 +8,9 @@
     <ng-container *ngrxLet="selectedTeacher$ as selectedTeacher">
       <tui-select
         *ngrxLet="teachers$ as teachers"
-        (ngModelChange)="selectedTeacherChange($event)"
         [ngModel]="selectedTeacher"
         [valueContent]="teacherTemplate"
+        (ngModelChange)="selectedTeacherChange($event)"
         tuiTextfieldSize="s"
         class="min-w-[175px]"
       >
@@ -37,9 +37,9 @@
         <button
           tuiButton
           *ngrxLet="someNeedAssignCheckedChange$ as someNeedAssignCheckedChange"
-          (click)="assign$.next()"
           [disabled]="!selectedTeacher || !someNeedAssignCheckedChange"
           [showLoader]="assignStatus === EApiStatus.loading"
+          (click)="assign()"
           class="ml-2"
         >
           Phân công

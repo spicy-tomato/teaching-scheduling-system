@@ -34,7 +34,7 @@ export const loadTeacherFailure = createAction(
 
 export const assignSuccessful = createAction(
   '[Assign Schedule API] Assign Successfully',
-  props<{ teacher: SimpleModel }>()
+  props<{ teacher: SimpleModel; classIds: string[] }>()
 );
 
 export const assignFailure = createAction(
@@ -42,7 +42,8 @@ export const assignFailure = createAction(
 );
 
 export const unassignSuccessful = createAction(
-  '[Assign Schedule API] Unassign Successfully'
+  '[Assign Schedule API] Unassign Successfully',
+  props<{ classIds: string[] }>()
 );
 
 export const unassignFailure = createAction(

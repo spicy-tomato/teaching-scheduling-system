@@ -3,23 +3,19 @@ import {
   Component,
   Input,
   OnChanges,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
-import {
-  AbstractControl,
-  FormArray,
-  FormBuilder,
-  FormGroup
-} from '@angular/forms';
-import { Action, Store } from '@ngrx/store';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { Store } from '@ngrx/store';
 import { defaultSort } from '@taiga-ui/addon-table';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { CoreConstant } from '@teaching-scheduling-system/core/data-access/constants';
 import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import { ModuleClass } from '@teaching-scheduling-system/web/shared/data-access/models';
 import {
-  teachingScheduleAssignSelectFilterStatus,
-  TeachingScheduleAssignState
+  TeachingScheduleAssignState,
+  teachingScheduleAssign_ChangeSelected,
+  teachingScheduleAssign_SelectFilterStatus,
 } from '@teaching-scheduling-system/web/teaching-schedule/data-access';
 import { Observable, takeUntil } from 'rxjs';
 
@@ -34,7 +30,6 @@ export class AssignTableComponent implements OnChanges {
   /** INPUT */
   @Input() public data!: ModuleClass[];
   @Input() public excludeTeacher = false;
-  @Input() public checkboxChangeAction!: (checkbox: boolean[]) => Action;
 
   /** PUBLIC PROPERTIES */
   public form!: FormGroup;
@@ -53,7 +48,7 @@ export class AssignTableComponent implements OnChanges {
   public defaultSort = defaultSort;
 
   /** PRIVATE PROPERTIES */
-  public _selectAll = false;
+  private _selectAll = false;
 
   /** GETTERS */
   public get selectAll(): boolean {
@@ -61,14 +56,21 @@ export class AssignTableComponent implements OnChanges {
   }
 
   /** SETTERS */
-  public set selectAll(checkAll: boolean) {
-    this.checkboxes.forEach((checkbox) => {
-      checkbox.setValue(checkAll);
+  public set selectAll(checked: boolean) {
+    this.checkboxes.controls.forEach((checkbox) => {
+      checkbox.setValue(checked);
     });
+
+    this.store.dispatch(
+      teachingScheduleAssign_ChangeSelected({
+        classIds: this.data.map((x) => x.id),
+        checked,
+      })
+    );
   }
 
-  public get checkboxes(): AbstractControl[] {
-    return (this.form.get('checkbox') as FormArray)?.controls;
+  public get checkboxes(): FormArray {
+    return this.form.controls['checkbox'] as FormArray;
   }
 
   /** CONSTRUCTOR */
@@ -78,7 +80,7 @@ export class AssignTableComponent implements OnChanges {
     private readonly destroy$: TuiDestroyService
   ) {
     this.filterStatus$ = store
-      .select(teachingScheduleAssignSelectFilterStatus)
+      .select(teachingScheduleAssign_SelectFilterStatus)
       .pipe(takeUntil(this.destroy$));
   }
 
@@ -90,21 +92,24 @@ export class AssignTableComponent implements OnChanges {
   }
 
   /** PUBLIC METHODS */
-  public onModelChange(): void {
+  public onModelChange(index: number, checked: boolean): void {
     if (
       this._selectAll &&
-      this.checkboxes.some((checkbox) => !checkbox.value)
+      this.checkboxes.controls.some((checkbox) => !checkbox.value)
     ) {
       this._selectAll = false;
     } else if (
       !this._selectAll &&
-      this.checkboxes.every((checkbox) => checkbox.value)
+      this.checkboxes.controls.every((checkbox) => checkbox.value)
     ) {
       this._selectAll = true;
     }
 
     this.store.dispatch(
-      this.checkboxChangeAction(this.checkboxes.map((x) => x.value as boolean))
+      teachingScheduleAssign_ChangeSelected({
+        classIds: [this.data[index].id],
+        checked,
+      })
     );
   }
 

@@ -9,42 +9,22 @@ const assignScheduleSelector =
     teachingScheduleAssignFeatureKey
   );
 
-export const teachingScheduleAssignSelectDepartments = createSelector(
+export const teachingScheduleAssign_SelectDepartments = createSelector(
   assignScheduleSelector,
   (state) => state.departments
 );
 
-export const teachingScheduleAssignSelectNeedAssign = createSelector(
-  assignScheduleSelector,
-  (state) => state.needAssign.data
-);
-
-export const teachingScheduleAssignSelectSelectedNeedAssign = createSelector(
-  assignScheduleSelector,
-  (state) => state.needAssign.selected
-);
-
-export const teachingScheduleAssignSelectAssigned = createSelector(
-  assignScheduleSelector,
-  (state) => state.assigned.data
-);
-
-export const teachingScheduleAssignSelectSelectedAssigned = createSelector(
-  assignScheduleSelector,
-  (state) => state.assigned.selected
-);
-
-export const teachingScheduleAssignSelectFilterStatus = createSelector(
+export const teachingScheduleAssign_SelectFilterStatus = createSelector(
   assignScheduleSelector,
   (state) => state.status.filter
 );
 
-export const teachingScheduleAssignSelectAssignStatus = createSelector(
+export const teachingScheduleAssign_SelectAssignStatus = createSelector(
   assignScheduleSelector,
   (state) => state.status.assign
 );
 
-export const teachingScheduleAssignSelectUnassignStatus = createSelector(
+export const teachingScheduleAssign_SelectUnassignStatus = createSelector(
   assignScheduleSelector,
   (state) => state.status.unassign
 );
@@ -54,22 +34,61 @@ const _selectTeacher = createSelector(
   (state) => state.teacher
 );
 
-export const teachingScheduleAssignSelectTeachers = createSelector(
+export const teachingScheduleAssign_SelectTeachers = createSelector(
   _selectTeacher,
   (teacher) => teacher.data
 );
 
-export const teachingScheduleAssignSelectSelectedTeacher = createSelector(
+export const teachingScheduleAssign_SelectSelectedTeacher = createSelector(
   _selectTeacher,
   (teacher) => teacher.selected
 );
 
-export const teachingScheduleAssignSelectActionTeacher = createSelector(
+export const teachingScheduleAssign_SelectActionTeacher = createSelector(
   _selectTeacher,
   (teacher) => teacher.action
 );
 
-export const teachingScheduleAssignSelectActionCountTeacher = createSelector(
+export const teachingScheduleAssign_SelectActionCountTeacher = createSelector(
   _selectTeacher,
   (teacher) => teacher.actionCount
+);
+
+const _selectData = createSelector(
+  assignScheduleSelector,
+  (state) => state.data
+);
+
+const _selectSelected = createSelector(
+  assignScheduleSelector,
+  (state) => state.selected
+);
+
+export const teachingScheduleAssign_SelectNeedAssign = createSelector(
+  _selectData,
+  (data) => data.filter((x) => !x.teacher)
+);
+
+export const teachingScheduleAssign_SelectSelectedNeedAssign = createSelector(
+  teachingScheduleAssign_SelectNeedAssign,
+  _selectSelected,
+  (needAssignSchedule, selected) =>
+    needAssignSchedule.filter((x) => selected.includes(x.id))
+);
+
+export const teachingScheduleAssign_SelectAssigned = createSelector(
+  _selectData,
+  (data) => data.filter((x) => !!x.teacher)
+);
+
+export const teachingScheduleAssign_SelectSelectedAssigned = createSelector(
+  teachingScheduleAssign_SelectAssigned,
+  _selectSelected,
+  _selectTeacher,
+  (assignedSchedule, selected, teacher) =>
+    assignedSchedule.filter(
+      (x) =>
+        (!teacher.selected || x.teacher === teacher.selected?.name) &&
+        selected.includes(x.id)
+    )
 );

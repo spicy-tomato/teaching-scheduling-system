@@ -1,20 +1,13 @@
 import { createReducer, on } from '@ngrx/store';
-import { ArrayHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
-import { ModuleClass } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { TeachingScheduleAssignState } from '.';
 import * as ApiAction from './assign-schedule.api.actions';
 import * as PageAction from './assign-schedule.page.actions';
 
-type ModuleClassList = {
-  needAssign: ModuleClass[];
-  assigned: ModuleClass[];
-};
-
 const initialState: TeachingScheduleAssignState = {
   departments: [],
-  needAssign: { data: [], selected: [] },
-  assigned: { data: [], selected: [] },
+  data: [],
+  selected: [],
   status: {
     filter: EApiStatus.unknown,
     assign: EApiStatus.unknown,
@@ -27,27 +20,27 @@ export const teachingScheduleAssignFeatureKey = 'teaching-schedule-assign';
 
 export const teachingScheduleAssignReducer = createReducer(
   initialState,
-  on(PageAction.teachingScheduleAssignReset, () => initialState),
-  on(PageAction.teachingScheduleAssignFilter, (state) => {
+  on(PageAction.teachingScheduleAssign_Reset, () => initialState),
+  on(PageAction.teachingScheduleAssign_Filter, (state) => {
     return {
       ...state,
       status: { ...state.status, filter: EApiStatus.loading },
     };
   }),
-  on(PageAction.teachingScheduleAssignAssign, (state) => {
+  on(PageAction.teachingScheduleAssign_Assign, (state) => {
     return {
       ...state,
       status: { ...state.status, assign: EApiStatus.loading },
     };
   }),
-  on(PageAction.teachingScheduleAssignUnassign, (state) => {
+  on(PageAction.teachingScheduleAssign_Unassign, (state) => {
     return {
       ...state,
       status: { ...state.status, unassign: EApiStatus.loading },
     };
   }),
   on(
-    PageAction.teachingScheduleAssignChangeSelectingTeacher,
+    PageAction.teachingScheduleAssign_ChangeSelectingTeacher,
     (state, { teacher }) => {
       return {
         ...state,
@@ -59,20 +52,13 @@ export const teachingScheduleAssignReducer = createReducer(
     }
   ),
   on(
-    PageAction.teachingScheduleAssignSelectedNeedAssignChange,
-    (state, { checkbox }) => {
+    PageAction.teachingScheduleAssign_ChangeSelected,
+    (state, { classIds, checked }) => {
       return {
         ...state,
-        needAssign: { ...state.needAssign, selected: checkbox },
-      };
-    }
-  ),
-  on(
-    PageAction.teachingScheduleAssignSelectedAssignedChange,
-    (state, { checkbox }) => {
-      return {
-        ...state,
-        assigned: { ...state.assigned, selected: checkbox },
+        selected: checked
+          ? [...state.selected, ...classIds]
+          : state.selected.filter((x) => !classIds.includes(x)),
       };
     }
   ),
@@ -83,11 +69,9 @@ export const teachingScheduleAssignReducer = createReducer(
     };
   }),
   on(ApiAction.filterSuccessful, (state, { classes }) => {
-    const { needAssign, assigned } = divideSchedule(classes);
     return {
       ...state,
-      needAssign: { data: needAssign, selected: [] },
-      assigned: { data: assigned, selected: [] },
+      data: classes,
       status: { ...state.status, filter: EApiStatus.successful },
     };
   }),
@@ -97,74 +81,44 @@ export const teachingScheduleAssignReducer = createReducer(
       teacher: { data: teachers, selected: null, action: null, actionCount: 0 },
     };
   }),
-  on(ApiAction.assignSuccessful, (state, { teacher }) => {
-    const [needAssign, assigned] = ArrayHelper.filterTwoParts(
-      state.needAssign.data,
-      (_, i) => !state.needAssign.selected[i]
-    );
-    const justAssignedClasses = assigned.map((x) => ({
-      ...x,
-      teacher: teacher.name,
-    }));
+  on(ApiAction.assignSuccessful, (state, { teacher, classIds }) => {
+    const newState = structuredClone(state);
+    newState.data.forEach((c) => {
+      if (classIds.includes(c.id)) {
+        c.teacher = teacher.name;
+      }
+    });
+    const selected = state.selected.filter((s) => !classIds.includes(s));
 
     return {
-      ...state,
-      needAssign: {
-        data: needAssign,
-        selected: [],
-      },
-      assigned: {
-        data: [...state.assigned.data, ...justAssignedClasses],
-        selected: [],
-      },
+      ...newState,
+      selected,
       teacher: {
         ...state.teacher,
+        selected: selected.length ? state.teacher.selected : null,
         action: teacher,
-        actionCount: justAssignedClasses.length,
+        actionCount: classIds.length,
       },
       status: { ...state.status, assign: EApiStatus.successful },
     };
   }),
-  on(ApiAction.unassignSuccessful, (state) => {
-    const [assigned, needAssign] = ArrayHelper.filterTwoParts(
-      state.assigned.data,
-      (_, i) => !state.assigned.selected[i]
-    );
-    const justUnassignedClasses = needAssign.map((x) => ({
-      ...x,
-      teacher: null,
-    }));
+  on(ApiAction.unassignSuccessful, (state, { classIds }) => {
+    const newState = structuredClone(state);
+    newState.data.forEach((c) => {
+      if (classIds.includes(c.id)) {
+        c.teacher = null;
+      }
+    });
 
     return {
-      ...state,
-      needAssign: {
-        data: [...state.needAssign.data, ...justUnassignedClasses],
-        selected: [],
-      },
-      assigned: {
-        data: assigned,
-        selected: [],
-      },
+      ...newState,
       teacher: {
         ...state.teacher,
         action: null,
-        actionCount: justUnassignedClasses.length,
+        actionCount: classIds.length,
       },
+      selected: state.selected.filter((s) => !classIds.includes(s)),
       status: { ...state.status, unassign: EApiStatus.successful },
     };
   })
 );
-
-function divideSchedule(schedules: ModuleClass[]): ModuleClassList {
-  return schedules.reduce<ModuleClassList>(
-    (acc, curr) => {
-      if (curr.teacher) {
-        acc.assigned.push(curr);
-      } else {
-        acc.needAssign.push(curr);
-      }
-      return acc;
-    },
-    { needAssign: [], assigned: [] }
-  );
-}

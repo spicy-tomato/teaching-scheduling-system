@@ -5,44 +5,37 @@ import {
   SimpleModel,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 
-export const teachingScheduleAssignReset = createAction(
+export const teachingScheduleAssign_Reset = createAction(
   '[Assign Schedule Page] Reset'
 );
 
-export const teachingScheduleAssignLoadFilter = createAction(
+export const teachingScheduleAssign_LoadFilter = createAction(
   '[Assign Schedule Page] Load filter'
 );
 
-export const teachingScheduleAssignLoadDepartment = createAction(
+export const teachingScheduleAssign_LoadDepartment = createAction(
   '[Assign Schedule Page] Load academic year'
 );
 
-export const teachingScheduleAssignFilter = createAction(
+export const teachingScheduleAssign_Filter = createAction(
   '[Assign Schedule Page] Filter',
   props<{ dep: string; params: SearchAssignSchedule }>()
 );
 
-export const teachingScheduleAssignChangeSelectingTeacher = createAction(
+export const teachingScheduleAssign_ChangeSelectingTeacher = createAction(
   '[Assign Schedule Page] Change selecting teacher',
   props<{ teacher: Nullable<SimpleModel> }>()
 );
 
-export const teachingScheduleAssignSelectedAssignedChange = createAction(
+export const teachingScheduleAssign_ChangeSelected = createAction(
   '[Assign Schedule Page] Selected assigned change',
-  props<{ checkbox: boolean[] }>()
+  props<{ classIds: string[]; checked: boolean }>()
 );
 
-export const teachingScheduleAssignSelectedNeedAssignChange = createAction(
-  '[Assign Schedule Page] Selected need assign change',
-  props<{ checkbox: boolean[] }>()
+export const teachingScheduleAssign_Assign = createAction(
+  '[Assign Schedule Page] Assign'
 );
 
-export const teachingScheduleAssignAssign = createAction(
-  '[Assign Schedule Page] Assign',
-  props<{ teacher: SimpleModel; classIds: string[] }>()
-);
-
-export const teachingScheduleAssignUnassign = createAction(
-  '[Assign Schedule Page] Unassign',
-  props<{ classIds: string[] }>()
+export const teachingScheduleAssign_Unassign = createAction(
+  '[Assign Schedule Page] Unassign'
 );

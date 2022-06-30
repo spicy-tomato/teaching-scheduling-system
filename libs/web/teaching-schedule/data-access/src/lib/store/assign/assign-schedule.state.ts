@@ -8,8 +8,8 @@ import {
 
 export interface TeachingScheduleAssignState {
   departments: SimpleMapModel<string, SimpleModel[]>[];
-  needAssign: { data: ModuleClass[]; selected: boolean[] };
-  assigned: { data: ModuleClass[]; selected: boolean[] };
+  data: ModuleClass[];
+  selected: string[];
   status: {
     filter: EApiStatus;
     assign: EApiStatus;

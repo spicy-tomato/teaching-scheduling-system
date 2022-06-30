@@ -34,7 +34,7 @@
                 <div class="flex justify-center">
                   <tui-checkbox
                     [formControlName]="i"
-                    (ngModelChange)="onModelChange()"
+                    (ngModelChange)="onModelChange(i, $event)"
                   ></tui-checkbox>
                 </div>
               </td>
