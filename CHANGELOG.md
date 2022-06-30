@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.0.0...v3.0.1) (2022-06-30)
+
+
+### Bug Fixes
+
+* **assign-schedule:** display wrong data ([f09a73a](https://github.com/annguyen-it/teaching-scheduling-system/commits/f09a73aab2bab0922c417a0dca0fe0504b2f77ba))
+
 ## [3.0.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v2.11.0...v3.0.0) (2022-06-29)
 
 
