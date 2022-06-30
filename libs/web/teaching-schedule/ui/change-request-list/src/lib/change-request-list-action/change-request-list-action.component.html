@@ -10,32 +10,24 @@
     <button
       tuiIconButton
       (click)="showDetails()"
-      [tuiHintShowDelay]="300"
-      [tuiHintHideDelay]="100"
       icon="tuiIconShowLarge"
       tuiHint="Xem chi tiết"
-      appearance="icon"
     ></button>
     <button
       tuiIconButton
-      (click)="export$.next()"
-      [tuiHintShowDelay]="300"
-      [tuiHintHideDelay]="100"
       [icon]="IconConstant.exportVariantLarge"
       [disabled]="!(schedule.status | canExport)"
+      (click)="export$.next()"
       tuiHint="Xuất file yêu cầu"
-      appearance="icon"
     ></button>
     <button
       tuiIconButton
       *ngIf="canCancel"
-      (click)="cancel$.next()"
-      [tuiHintShowDelay]="300"
-      [tuiHintHideDelay]="100"
       [disabled]="status !== 'pending'"
+      (click)="cancel$.next()"
       icon="tuiIconTrashLarge"
       tuiHint="Hủy yêu cầu"
-      appearance="icon"
+      tuiHintDirection="bottom-left"
     ></button>
   </div>
 </tui-loader>

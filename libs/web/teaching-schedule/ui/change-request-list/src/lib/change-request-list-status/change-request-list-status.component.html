@@ -16,8 +16,6 @@
     <div class="flex justify-center">
       <button
         tuiIconButton
-        [tuiHintShowDelay]="300"
-        [tuiHintHideDelay]="100"
         (click)="accept$.next()"
         tuiHint="Chấp nhận"
         icon="tuiIconCheck"
@@ -25,8 +23,6 @@
       ></button>
       <button
         tuiIconButton
-        [tuiHintShowDelay]="300"
-        [tuiHintHideDelay]="100"
         (click)="onDeny()"
         tuiHint="Từ chối"
         icon="tuiIconClose"
