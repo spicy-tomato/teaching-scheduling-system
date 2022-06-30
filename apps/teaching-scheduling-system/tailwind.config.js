@@ -10,13 +10,19 @@ module.exports = {
   theme: {
     extend: {
       spacing: {
+        '1/10': '10%',
         '9/10': '90%',
+        '18': '4.5rem',
+        '30': '7.5rem',
+        '38': '9.5rem',
         'nav': 'var(--nav-height)',
         'main-view': 'calc(100vh - 65px)',
         'content': 'calc(100vh - 127px)',
       },
       inset: {
-        '1/5': '20%'
+        '1/5': '20%',
+        '2/5': '40%',
+        '4/5': '80%',
       },
       colors: {
         // Base

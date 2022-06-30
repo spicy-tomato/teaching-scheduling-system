@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'web-shared-data-access-services',
+  displayName: 'web-shared-utils-guards',
   preset: '../../../../../jest.preset.js',
   globals: {
     'ts-jest': {
@@ -11,6 +11,5 @@ export default {
     '^.+\\.[tj]sx?$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory:
-    '../../../../../coverage/libs/web/shared/data-access/services',
+  coverageDirectory: '../../../../../coverage/libs/web/shared/utils/guards',
 };

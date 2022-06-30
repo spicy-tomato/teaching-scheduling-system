@@ -21,7 +21,7 @@ import {
   selectPermission,
   selectTeachersInDepartment,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
-import { ScheduleConstant } from '@teaching-scheduling-system/web/shared/utils';
+import { ScheduleConstant } from '@teaching-scheduling-system/web/shared/utils/constants';
 import { combineLatest, of, Subject } from 'rxjs';
 import {
   catchError,

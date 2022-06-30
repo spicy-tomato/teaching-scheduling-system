@@ -21,8 +21,8 @@ import {
 import {
   differentControlValueValidator,
   sameControlValueValidator,
-} from '@teaching-scheduling-system/web/shared/utils';
-import { filter, Observable, takeUntil, tap } from 'rxjs';
+} from '@teaching-scheduling-system/web/shared/utils/validators';
+import { Observable, takeUntil, tap } from 'rxjs';
 
 @Component({
   templateUrl: './change-password.component.html',

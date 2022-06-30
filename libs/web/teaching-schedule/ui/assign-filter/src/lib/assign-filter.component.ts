@@ -29,10 +29,10 @@ import {
   selectTrainingTypes,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
 import {
-  teachingScheduleAssignFilter,
-  teachingScheduleAssignLoadFilter,
-  teachingScheduleAssignSelectDepartments,
-  teachingScheduleAssignSelectFilterStatus,
+  teachingScheduleAssign_Filter,
+  teachingScheduleAssign_LoadFilter,
+  teachingScheduleAssign_SelectDepartments,
+  teachingScheduleAssign_SelectFilterStatus,
   TeachingScheduleAssignState,
 } from '@teaching-scheduling-system/web/teaching-schedule/data-access';
 import {
@@ -120,10 +120,10 @@ export class AssignFilterComponent implements OnInit {
     appShellStore: Store<AppShellState>
   ) {
     this.departments$ = this.store
-      .select(teachingScheduleAssignSelectDepartments)
+      .select(teachingScheduleAssign_SelectDepartments)
       .pipe(takeUntil(this.destroy$));
-    this.filterStatus$ = store
-      .select(teachingScheduleAssignSelectFilterStatus)
+    this.filterStatus$ = this.store
+      .select(teachingScheduleAssign_SelectFilterStatus)
       .pipe(takeUntil(this.destroy$));
     this.myDepartment$ = appShellStore
       .select(selectDepartment)
@@ -151,7 +151,7 @@ export class AssignFilterComponent implements OnInit {
 
   /** LIFE CYCLE */
   public ngOnInit(): void {
-    this.store.dispatch(teachingScheduleAssignLoadFilter());
+    this.store.dispatch(teachingScheduleAssign_LoadFilter());
     this.myDepartment$
       .pipe(
         ObservableHelper.filterNullish(),
@@ -260,7 +260,7 @@ export class AssignFilterComponent implements OnInit {
           const term = this.termInYear.value as string;
 
           this.store.dispatch(
-            teachingScheduleAssignFilter({
+            teachingScheduleAssign_Filter({
               dep,
               params: {
                 study_sessions: `${schoolYear}_${term}_${

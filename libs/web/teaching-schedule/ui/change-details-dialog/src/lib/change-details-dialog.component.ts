@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { ChangeSchedule } from '@teaching-scheduling-system/web/shared/data-access/models';
-import { ScheduleConstant } from '@teaching-scheduling-system/web/shared/utils';
+import { ScheduleConstant } from '@teaching-scheduling-system/web/shared/utils/constants';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 
 @Component({

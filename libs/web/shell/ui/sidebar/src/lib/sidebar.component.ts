@@ -1,12 +1,15 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { TuiDestroyService } from '@taiga-ui/cdk';
 import { SidebarConstant } from '@teaching-scheduling-system/core/data-access/constants';
 import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
 import { fadeIn } from '@teaching-scheduling-system/core/ui/animations';
 import { Teacher } from '@teaching-scheduling-system/web/shared/data-access/models';
+import {
+  AppShellState,
+  selectTeacher,
+} from '@teaching-scheduling-system/web/shared/data-access/store';
 import { Observable, takeUntil } from 'rxjs';
-import * as fromAppShell from '@teaching-scheduling-system/web/shared/data-access/store';
-import { TuiDestroyService } from '@taiga-ui/cdk';
 
 @Component({
   selector: 'tss-sidebar',
@@ -23,11 +26,9 @@ export class SidebarComponent {
 
   /** CONSTRUCTOR */
   constructor(
-    private readonly destroy$: TuiDestroyService,
-    appShellStore: Store<fromAppShell.AppShellState>
+    appShellStore: Store<AppShellState>,
+    destroy$: TuiDestroyService
   ) {
-    this.user$ = appShellStore
-      .select(fromAppShell.selectTeacher)
-      .pipe(takeUntil(this.destroy$));
+    this.user$ = appShellStore.select(selectTeacher).pipe(takeUntil(destroy$));
   }
 }

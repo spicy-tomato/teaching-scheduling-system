@@ -1,8 +1,9 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { InterceptorCustomHeader } from '@teaching-scheduling-system/core/utils/interceptors';
 import {
-  APP_CONFIG,
   AppConfig,
+  APP_CONFIG,
 } from '@teaching-scheduling-system/web/config/data-access';
 import { Observable } from 'rxjs';
 
@@ -27,15 +28,15 @@ export class ImportService {
     studySession: string
     // eslint-disable-next-line @typescript-eslint/ban-types
   ): Observable<Object> {
+    const headers = new HttpHeaders().set(
+      InterceptorCustomHeader.skipContentType,
+      'true'
+    );
     const formData = new FormData();
-    // formData.append('file', file);
+    formData.append('file', file);
     formData.append('study_session', studySession);
     formData.append('id_department', departmentId);
 
-    console.log(formData.getAll('file'));
-    console.log(formData.getAll('study_session'));
-    console.log(formData.getAll('id_department'));
-
-    return this.http.post(this.url + 'schedule', formData);
+    return this.http.post(this.url + 'schedule', formData, { headers });
   }
 }

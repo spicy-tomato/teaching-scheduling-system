@@ -15,19 +15,18 @@ import {
   SimpleModel,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import {
-  teachingScheduleAssignSelectActionCountTeacher,
-  teachingScheduleAssignSelectActionTeacher,
-  teachingScheduleAssignSelectAssigned,
-  teachingScheduleAssignSelectSelectedAssigned,
-  teachingScheduleAssignSelectUnassignStatus,
   TeachingScheduleAssignState,
-  teachingScheduleAssignUnassign,
+  teachingScheduleAssign_SelectActionCountTeacher,
+  teachingScheduleAssign_SelectActionTeacher,
+  teachingScheduleAssign_SelectAssigned,
+  teachingScheduleAssign_SelectSelectedAssigned,
+  teachingScheduleAssign_SelectUnassignStatus,
+  teachingScheduleAssign_Unassign,
 } from '@teaching-scheduling-system/web/teaching-schedule/data-access';
 import {
   distinctUntilChanged,
   map,
   Observable,
-  Subject,
   takeUntil,
   tap,
   withLatestFrom,
@@ -53,12 +52,10 @@ import {
 })
 export class AssignRightTitleComponent {
   /** PUBLIC PROPERTIES */
+  public readonly EApiStatus = EApiStatus;
   public assigned$: Observable<ModuleClass[]>;
-  public selectedAssigned$: Observable<boolean[]>;
   public someAssignedCheckedChange$!: Observable<boolean>;
   public unassignStatus$: Observable<EApiStatus>;
-  public unassign$ = new Subject<void>();
-  public readonly EApiStatus = EApiStatus;
 
   /** PRIVATE PROPERTIES */
   private assignedTeacher$: Observable<Nullable<SimpleModel>>;
@@ -71,54 +68,40 @@ export class AssignRightTitleComponent {
     private readonly destroy$: TuiDestroyService
   ) {
     this.assigned$ = this.store
-      .select(teachingScheduleAssignSelectAssigned)
-      .pipe(takeUntil(this.destroy$));
-    this.selectedAssigned$ = this.store
-      .select(teachingScheduleAssignSelectSelectedAssigned)
+      .select(teachingScheduleAssign_SelectAssigned)
       .pipe(takeUntil(this.destroy$));
     this.assignedTeacher$ = this.store
-      .select(teachingScheduleAssignSelectActionTeacher)
+      .select(teachingScheduleAssign_SelectActionTeacher)
       .pipe(takeUntil(this.destroy$));
     this.unassignStatus$ = this.store
-      .select(teachingScheduleAssignSelectUnassignStatus)
+      .select(teachingScheduleAssign_SelectUnassignStatus)
       .pipe(takeUntil(this.destroy$));
 
     this.handleSomeAssignedChecked();
-    this.handleUnassign();
     this.handleUnassignSuccessful();
+  }
+
+  /** PUBLIC METHODS */
+  public unassign(): void {
+    this.store.dispatch(teachingScheduleAssign_Unassign());
   }
 
   /** PRIVATE METHODS */
   private handleSomeAssignedChecked(): void {
-    this.someAssignedCheckedChange$ = this.selectedAssigned$.pipe(
-      map((assigned) => assigned.some((x) => x)),
-      distinctUntilChanged()
-    );
-  }
-
-  private handleUnassign(): void {
-    this.unassign$
+    this.someAssignedCheckedChange$ = this.store
+      .select(teachingScheduleAssign_SelectSelectedAssigned)
       .pipe(
-        withLatestFrom(this.assigned$, this.selectedAssigned$),
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        tap(([_, needAssign, selected]) => {
-          this.store.dispatch(
-            teachingScheduleAssignUnassign({
-              classIds: needAssign
-                .filter((_, i) => selected[i])
-                .map((x) => x.id),
-            })
-          );
-        })
-      )
-      .subscribe();
+        map((assigned) => assigned.some((x) => x)),
+        distinctUntilChanged(),
+        takeUntil(this.destroy$)
+      );
   }
 
   private handleUnassignSuccessful(): void {
     this.assignedTeacher$
       .pipe(
         withLatestFrom(
-          this.store.select(teachingScheduleAssignSelectActionCountTeacher)
+          this.store.select(teachingScheduleAssign_SelectActionCountTeacher)
         ),
         tap(([teacher, count]) => {
           if (teacher || count === 0) {

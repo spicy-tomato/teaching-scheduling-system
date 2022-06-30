@@ -1,20 +1,20 @@
-import { Injectable } from '@angular/core';
 import {
-  HttpEvent,
-  HttpInterceptor,
-  HttpHandler,
-  HttpRequest,
   HttpErrorResponse,
+  HttpEvent,
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest,
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
 import {
   AccessTokenService,
   AppService,
 } from '@teaching-scheduling-system/web/shared/data-access/services';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Injectable()
-export class HeaderInterceptor implements HttpInterceptor {
+export class AuthInterceptor implements HttpInterceptor {
   /** CONSTRUCTOR */
   constructor(
     private readonly accessTokenService: AccessTokenService,
@@ -27,13 +27,7 @@ export class HeaderInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
     const token = this.accessTokenService.get() || '';
-
-    let headers = req.headers.set('Authorization', token);
-
-    if (!req.headers.get('Content-Type')) {
-      headers = headers.set('Content-Type', 'application/json');
-    }
-
+    const headers = req.headers.set('Authorization', token);
     const authReq = req.clone({ headers });
 
     return next.handle(authReq).pipe(

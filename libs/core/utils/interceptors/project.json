@@ -1,20 +1,20 @@
 {
   "$schema": "..\\..\\..\\..\\node_modules\\nx\\schemas\\project-schema.json",
-  "sourceRoot": "libs/web/shared/utils/src",
+  "sourceRoot": "libs/core/utils/interceptors/src",
   "projectType": "library",
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/web/shared/utils/**/*.ts"]
+        "lintFilePatterns": ["libs/core/utils/interceptors/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/web/shared/utils"],
+      "outputs": ["coverage/libs/core/utils/interceptors"],
       "options": {
-        "jestConfig": "libs/web/shared/utils/jest.config.ts",
+        "jestConfig": "libs/core/utils/interceptors/jest.config.ts",
         "passWithNoTests": true
       }
     }

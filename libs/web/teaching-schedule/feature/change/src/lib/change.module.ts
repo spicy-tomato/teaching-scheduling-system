@@ -6,7 +6,7 @@ import { StoreModule } from '@ngrx/store';
 import { TuiTabsModule } from '@taiga-ui/kit';
 import { PermissionConstant } from '@teaching-scheduling-system/core/data-access/constants';
 import { PermissionDirectiveModule } from '@teaching-scheduling-system/web/shared/directives/permission';
-import { PermissionGuard } from '@teaching-scheduling-system/web/shared/utils';
+import { PermissionGuard } from '@teaching-scheduling-system/web/shared/utils/guards';
 import {
   TeachingScheduleRequestEffects,
   teachingScheduleRequestFeatureKey,

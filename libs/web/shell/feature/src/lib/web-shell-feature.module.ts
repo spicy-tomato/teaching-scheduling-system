@@ -15,12 +15,13 @@ import {
   notContainValueFactory,
   requiredFactory,
 } from '@teaching-scheduling-system/core/utils/factories';
+import { ContentTypeInterceptor } from '@teaching-scheduling-system/core/utils/interceptors';
 import { TokenService } from '@teaching-scheduling-system/web/shared/data-access/services';
 import {
-  HeaderInterceptor,
   KeepUserGuard,
   PermissionGuard,
-} from '@teaching-scheduling-system/web/shared/utils';
+} from '@teaching-scheduling-system/web/shared/utils/guards';
+import { AuthInterceptor } from '@teaching-scheduling-system/web/shared/utils/interceptors';
 import {
   LayoutComponent,
   LayoutModule,
@@ -162,17 +163,18 @@ const NGRX = [
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: HeaderInterceptor,
+      useClass: ContentTypeInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
       multi: true,
     },
     {
       provide: TokenService.DATE_PIPE_TOKEN,
       useClass: DatePipe,
     },
-    // {
-    //   provide: TokenService.SHORTEN_NAME_PIPE_TOKEN,
-    //   useClass: ShortenNamePipe,
-    // },
     {
       provide: LOCALE_ID,
       useValue: 'vi',
