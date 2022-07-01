@@ -4,7 +4,7 @@ import { fadeOut } from '@teaching-scheduling-system/core/ui/animations';
 import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import {
   AppShellState,
-  selectStatus
+  selectStatus,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
 import { delayWhen, filter, interval, map, of } from 'rxjs';
 
@@ -19,7 +19,7 @@ export class LoaderComponent {
   /** PUBLIC PROPERTIES */
   public showLoader$ = this.appShellStore.select(selectStatus).pipe(
     filter((s) => s !== EApiStatus.unknown),
-    map((s) => s !== EApiStatus.successful),
+    map((s) => s === EApiStatus.loading),
     delayWhen((x) => (x ? of(null) : interval(500)))
   );
 

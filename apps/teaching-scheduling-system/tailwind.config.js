@@ -11,10 +11,13 @@ module.exports = {
   theme: {
     extend: {
       spacing: {
+        '1/5': '20%',
         '1/10': '10%',
         '9/10': '90%',
+        '15': '3.75rem',
         '18': '4.5rem',
         '30': '7.5rem',
+        '34': '8.5rem',
         '38': '9.5rem',
         'nav': 'var(--nav-height)',
         'main-view': 'calc(100vh - 65px)',
@@ -26,6 +29,10 @@ module.exports = {
         '4/5': '80%',
       },
       colors: {
+        // UTC
+        'utc-1': '#29166f',
+        'utc-2': '#b7b3b2',
+        'utc-3': '#f3d400',
         // Base
         'tui-base-01': 'var(--tui-base-01)',
         'tui-base-02': 'var(--tui-base-02)',
