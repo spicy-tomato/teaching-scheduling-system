@@ -96,7 +96,7 @@ export class UserInfoComponent {
       name: [],
       department: [],
       faculty: [],
-      phone: ['', Validators.minLength(12)],
+      phone: ['', [Validators.required, Validators.minLength(12)]],
     });
   }
 
