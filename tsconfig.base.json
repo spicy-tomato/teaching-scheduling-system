@@ -183,6 +183,9 @@
       "@teaching-scheduling-system/web/shell/ui/layout": [
         "libs/web/shell/ui/layout/src/index.ts"
       ],
+      "@teaching-scheduling-system/web/shell/ui/loader": [
+        "libs/web/shell/ui/loader/src/index.ts"
+      ],
       "@teaching-scheduling-system/web/shell/ui/main-view": [
         "libs/web/shell/ui/main-view/src/index.ts"
       ],

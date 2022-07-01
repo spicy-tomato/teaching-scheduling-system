@@ -1,0 +1,17 @@
+<ng-container *ngrxLet="showLoader$ as showLoader">
+  <div
+    *ngIf="showLoader"
+    [@fadeOut]="{ value: true, params: { duration: '500ms' } }"
+    class="absolute left-0 top-0 w-screen h-screen flex justify-center items-center z-[9999] bg-white"
+  >
+    <div class="relative w-36 h-36">
+      <div
+        class="spinner w-full h-full border-[3px] border-[#29166f] rounded-full after:center-absolute after:w-[125%] after:h-[125%] after:border-[6px] after:border-t-[#f3d400] after:border-b-[#b7b3b2] after:border-x-transparent after:rounded-full"
+      ></div>
+      <img
+        src="/assets/favicon/logo-small.png"
+        class="center-absolute w-11/12"
+      />
+    </div>
+  </div>
+</ng-container>
