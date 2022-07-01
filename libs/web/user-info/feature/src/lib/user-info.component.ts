@@ -9,13 +9,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiNotification, TuiNotificationsService } from '@taiga-ui/core';
-import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
-import { ObservableHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import { Teacher } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { UserService } from '@teaching-scheduling-system/web/shared/data-access/services';
 import {
   AppShellState,
-  selectTeacher,
+  selectNotNullTeacher,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
 import { ConfirmInputComponent } from '@teaching-scheduling-system/web/shared/ui/components/confirm-input';
 import {
@@ -62,12 +60,14 @@ export class UserInfoComponent {
     controlName: string;
     value: string;
   }>();
-  public readonly teacher$: Observable<Nullable<Teacher>>;
   public form!: FormGroup;
 
   /** VIEW CHILDREN */
   @ViewChildren(ConfirmInputComponent)
   confirmInputs!: QueryList<ConfirmInputComponent>;
+
+  /** PRIVATE PROPERTIES */
+  private readonly teacher$: Observable<Teacher>;
 
   /** CONSTRUCTOR */
   constructor(
@@ -78,9 +78,10 @@ export class UserInfoComponent {
     private readonly notificationsService: TuiNotificationsService,
     appShellStore: Store<AppShellState>
   ) {
-    this.teacher$ = appShellStore
-      .select(selectTeacher)
-      .pipe(takeUntil(this.destroy$));
+    this.teacher$ = appShellStore.pipe(
+      selectNotNullTeacher,
+      takeUntil(this.destroy$)
+    );
 
     this.initForm();
     this.triggerLoadUserInformation();
@@ -102,7 +103,6 @@ export class UserInfoComponent {
   private triggerLoadUserInformation(): void {
     this.teacher$
       .pipe(
-        ObservableHelper.filterNullish(),
         tap((teacher) => {
           this.form.patchValue({
             name: teacher.name,
@@ -119,7 +119,7 @@ export class UserInfoComponent {
   private handleSave() {
     this.save$
       .pipe(
-        withLatestFrom(this.teacher$.pipe(ObservableHelper.filterNullish())),
+        withLatestFrom(this.teacher$),
         tap(([{ controlName, value }, teacher]) => {
           const body = { [controlName]: value };
           const confirmInput = this.confirmInputs.find(
