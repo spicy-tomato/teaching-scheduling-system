@@ -1,7 +1,12 @@
 <tui-island size="l" class="mx-auto tui-col_8 tui-space_top-6">
-  <form [formGroup]="form">
+  <form *ngrxLet="teacher$ as teacher" [formGroup]="form">
     <div class="tui-form__row">
-      <h3 class="tui-form__header tui-form__header_margin-top_none">
+      <h3
+        class="tui-form__header tui-form__header_margin-top_none"
+        [class.tui-skeleton]="!teacher"
+        [class.tui-skeleton_short]="!teacher"
+        [class.tui-skeleton_text]="!teacher"
+      >
         Thông tin cá nhân
       </h3>
     </div>
@@ -12,6 +17,7 @@
         [field]="field.formControlName"
         [type]="field.type"
         [disableConfirm]="!!form.controls[field.formControlName].errors"
+        [class.tui-skeleton]="!teacher"
         (save)="
           save$.next({ controlName: field.formControlName, value: $event })
         "
@@ -19,7 +25,11 @@
         {{ field.placeholder }}
       </tss-confirm-input>
       <ng-template #readOnlyField>
-        <tui-input [readOnly]="true" [formControlName]="field.formControlName">
+        <tui-input
+          [readOnly]="true"
+          [formControlName]="field.formControlName"
+          [class.tui-skeleton]="!teacher"
+        >
           {{ field.placeholder }}
           <input tuiTextfield />
         </tui-input>
