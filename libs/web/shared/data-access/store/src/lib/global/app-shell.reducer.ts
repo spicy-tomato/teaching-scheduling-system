@@ -30,6 +30,7 @@ export const appShellReducer = createReducer(
   on(ApiAction.autoLoginSuccessfully, (state, { teacher }) => ({
     ...state,
     teacher,
+    status: EApiStatus.successful,
   })),
   on(ApiAction.autoLoginFailure, (state) => ({
     ...state,
