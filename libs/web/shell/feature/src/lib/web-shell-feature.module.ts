@@ -20,6 +20,7 @@ import { ContentTypeInterceptor } from '@teaching-scheduling-system/core/utils/i
 import { TokenService } from '@teaching-scheduling-system/web/shared/data-access/services';
 import {
   KeepUserGuard,
+  MaintenanceGuard,
   PermissionGuard,
 } from '@teaching-scheduling-system/web/shared/utils/guards';
 import { AuthInterceptor } from '@teaching-scheduling-system/web/shared/utils/interceptors';
@@ -34,7 +35,7 @@ import { extModules } from './build-specifics';
 export const webShellFeatureRoutes: Routes = [
   {
     path: 'login',
-    canActivate: [KeepUserGuard],
+    canActivate: [MaintenanceGuard, KeepUserGuard],
     loadChildren: async () =>
       (await import('@teaching-scheduling-system/web/login/feature'))
         .LoginModule,
@@ -45,7 +46,7 @@ export const webShellFeatureRoutes: Routes = [
       breadcrumb: 'Trang chủ',
     },
     component: LayoutComponent,
-    canActivate: [KeepUserGuard],
+    canActivate: [MaintenanceGuard, KeepUserGuard],
     children: [
       {
         path: '',
@@ -133,13 +134,25 @@ export const webShellFeatureRoutes: Routes = [
     ],
   },
   {
+    path: 'maintenance',
+    canActivate: [MaintenanceGuard],
+    loadChildren: async () =>
+      (
+        await import(
+          '@teaching-scheduling-system/web/error/feature/maintenance'
+        )
+      ).MaintenanceModule,
+  },
+  {
     path: '403',
+    canActivate: [MaintenanceGuard],
     loadChildren: async () =>
       (await import('@teaching-scheduling-system/web/error/feature/forbidden'))
         .ForbiddenModule,
   },
   {
     path: '**',
+    canActivate: [MaintenanceGuard],
     loadChildren: async () =>
       (await import('@teaching-scheduling-system/web/error/feature/not-found'))
         .NotFoundModule,

@@ -28,6 +28,7 @@
     "web-calendar-ui-change-status-type-pipe": "libs/web/calendar/ui/change-status-type-pipe",
     "web-config-data-access": "libs/web/config/data-access",
     "web-error-feature-forbidden": "libs/web/error/feature/forbidden",
+    "web-error-feature-maintenance": "libs/web/error/feature/maintenance",
     "web-error-feature-not-found": "libs/web/error/feature/not-found",
     "web-error-ui-component-error": "libs/web/error/ui/component-error",
     "web-exam-data-access": "libs/web/exam/data-access",

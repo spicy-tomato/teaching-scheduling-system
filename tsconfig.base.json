@@ -90,6 +90,9 @@
       "@teaching-scheduling-system/web/error/feature/forbidden": [
         "libs/web/error/feature/forbidden/src/index.ts"
       ],
+      "@teaching-scheduling-system/web/error/feature/maintenance": [
+        "libs/web/error/feature/maintenance/src/index.ts"
+      ],
       "@teaching-scheduling-system/web/error/feature/not-found": [
         "libs/web/error/feature/not-found/src/index.ts"
       ],
