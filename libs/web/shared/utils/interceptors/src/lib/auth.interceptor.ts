@@ -6,6 +6,7 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   AccessTokenService,
   AppService,
@@ -18,7 +19,8 @@ export class AuthInterceptor implements HttpInterceptor {
   /** CONSTRUCTOR */
   constructor(
     private readonly accessTokenService: AccessTokenService,
-    private readonly appService: AppService
+    private readonly appService: AppService,
+    private readonly router: Router
   ) {}
 
   /** IMPLEMENTATIONS */
@@ -42,7 +44,9 @@ export class AuthInterceptor implements HttpInterceptor {
                 this.accessTokenService.save(token);
               } else {
                 this.accessTokenService.clear();
-                this.appService.redirectToLogin();
+                this.appService.redirectToLogin(
+                  this.router.routerState.snapshot.url
+                );
               }
             }
           }
