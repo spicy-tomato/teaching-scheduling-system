@@ -32,6 +32,12 @@ import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
 import { of } from 'rxjs';
 import { extModules } from './build-specifics';
 
+const NGRX = [
+  StoreModule.forRoot({ router: routerReducer }, {}),
+  EffectsModule.forRoot([]),
+  StoreRouterConnectingModule.forRoot(),
+];
+
 export const webShellFeatureRoutes: Routes = [
   {
     path: 'login',
@@ -135,7 +141,7 @@ export const webShellFeatureRoutes: Routes = [
   },
   {
     path: 'maintenance',
-    canActivate: [MaintenanceGuard],
+    canActivate: [MaintenanceGuard, KeepUserGuard],
     loadChildren: async () =>
       (
         await import(
@@ -145,24 +151,18 @@ export const webShellFeatureRoutes: Routes = [
   },
   {
     path: '403',
-    canActivate: [MaintenanceGuard],
+    canActivate: [MaintenanceGuard, KeepUserGuard],
     loadChildren: async () =>
       (await import('@teaching-scheduling-system/web/error/feature/forbidden'))
         .ForbiddenModule,
   },
   {
     path: '**',
-    canActivate: [MaintenanceGuard],
+    canActivate: [MaintenanceGuard, KeepUserGuard],
     loadChildren: async () =>
       (await import('@teaching-scheduling-system/web/error/feature/not-found'))
         .NotFoundModule,
   },
-];
-
-const NGRX = [
-  StoreModule.forRoot({ router: routerReducer }, {}),
-  EffectsModule.forRoot([]),
-  StoreRouterConnectingModule.forRoot(),
 ];
 
 @NgModule({
