@@ -2,7 +2,8 @@
   class="container w-full max-w-[1024px] h-full mx-auto text-[#616161] text-center"
 >
   <div class="box w-auto h-[500px] mt-12 mx-24 rounded-md">
-    <div class="animation inline-block mt-1/5 mb-[5%]">
+    <img src="/assets/favicon/logo-text.png" class="w-48 m-auto" />
+    <div class="animation inline-block mt-15 mb-[2.5%]">
       <div class="one spin-one w-20 h-20 -mt-2.5 mr-2"></div>
       <div class="two spin-two w-24 h-24"></div>
       <div class="three spin-one w-20 h-20 -mt-12 -ml-2.5"></div>
@@ -12,14 +13,16 @@
       Vui lòng truy cập lại sau!
       <ng-container *ngIf="config.maintenanceDate">
         Thời gian dự kiến:
-        <span class="text-tui-error-fill">{{
-          config.maintenanceDate | date: 'HH:mm, dd/MM/yyyy'
-        }}</span>
+        <span class="text-tui-error-fill">
+          {{ config.maintenanceDate | date: 'HH:mm, dd/MM/yyyy' }}
+        </span>
       </ng-container>
     </p>
     <p>
       Liên hệ với
-      <a tuiLink href="https://m.me/utcketnoi" target="_blank"> nhà phát triển </a>
+      <a tuiLink href="https://m.me/utcketnoi" target="_blank">
+        nhà phát triển
+      </a>
     </p>
   </div>
 </div>
