@@ -1,0 +1,3 @@
+.wrapper {
+  grid-template-columns: repeat(auto-fill, minmax(250px, 300px));
+}

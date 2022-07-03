@@ -1,0 +1,28 @@
+{
+  "$schema": "..\\..\\node_modules\\nx\\schemas\\project-schema.json",
+  "sourceRoot": "apps/teaching-scheduling-system-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/teaching-scheduling-system-e2e/cypress.json",
+        "devServerTarget": "teaching-scheduling-system:serve:development"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "teaching-scheduling-system:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/teaching-scheduling-system-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["teaching-scheduling-system"]
+}

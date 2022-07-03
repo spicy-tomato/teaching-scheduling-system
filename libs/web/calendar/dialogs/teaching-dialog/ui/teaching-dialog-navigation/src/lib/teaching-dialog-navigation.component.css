@@ -1,0 +1,5 @@
+button ::ng-deep .t-content {
+  @apply w-full inline-block whitespace-nowrap overflow-hidden;
+  @apply text-ellipsis text-left align-middle;
+  line-height: 44px;
+}

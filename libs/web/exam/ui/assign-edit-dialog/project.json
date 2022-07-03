@@ -1,0 +1,25 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/web/exam/ui/assign-edit-dialog/src",
+  "prefix": "tss",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/web/exam/ui/assign-edit-dialog"],
+      "options": {
+        "jestConfig": "libs/web/exam/ui/assign-edit-dialog/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/web/exam/ui/assign-edit-dialog/**/*.ts",
+          "libs/web/exam/ui/assign-edit-dialog/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

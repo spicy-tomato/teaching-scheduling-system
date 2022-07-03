@@ -1,0 +1,80 @@
+<tui-island class="p-2 md:p-4">
+  <form *ngrxLet="status$ as status" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <h3 class="tui-form__header tui-form__header_margin-top_none">
+      Đóng góp ý kiến
+    </h3>
+    <div class="tui-form__row">
+      <tui-input
+        [readOnly]="status === EApiStatus.successful"
+        formControlName="title"
+      >
+        Tiêu đề
+      </tui-input>
+    </div>
+    <div tuiGroup class="tui-form__row">
+      <tui-radio-block
+        [item]="0"
+        [readOnly]="status === EApiStatus.successful"
+        contentAlign="left"
+        formControlName="reportBug"
+      >
+        <div class="inner">
+          Góp ý
+          <div class="text">
+            Đóng góp ý kiến để nâng cao trải nghiệm sử dụng
+          </div>
+        </div>
+      </tui-radio-block>
+      <tui-radio-block
+        [item]="1"
+        [readOnly]="status === EApiStatus.successful"
+        contentAlign="left"
+        formControlName="reportBug"
+      >
+        <div class="inner">
+          Báo lỗi
+          <div class="text">Báo cáo lỗi phát sinh của ứng dụng</div>
+        </div>
+      </tui-radio-block>
+    </div>
+    <div tuiGroup class="tui-form__row">
+      <div>Chủ đề</div>
+      <tui-filter
+        [content]="filterContent"
+        [items]="topics"
+        [disabledItemHandler]="
+          status === EApiStatus.successful
+            ? disabledItemHandler
+            : enabledItemHandler
+        "
+        formControlName="tags"
+      ></tui-filter>
+    </div>
+    <div tuiGroup class="tui-form__row">
+      <tui-editor
+        [tools]="tools"
+        [readOnly]="status === EApiStatus.successful"
+        formControlName="content"
+      >
+        Nội dung
+      </tui-editor>
+      <tui-field-error formControlName="content"></tui-field-error>
+    </div>
+    <div class="tui-form__buttons tui-form__buttons_align_end">
+      <button
+        [disabled]="form.invalid || status === EApiStatus.successful"
+        [showLoader]="status === EApiStatus.loading"
+        tuiButton
+        type="submit"
+        class="tui-form__button"
+      >
+        Gửi góp ý
+      </button>
+    </div>
+  </form>
+</tui-island>
+
+<ng-template #filterContent let-item>
+  {{ item.label }}
+  <tui-svg [src]="item.icon" class="ml-2"></tui-svg>
+</ng-template>

@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../../../../dist/out-tsc",
+    "declaration": true,
+    "types": []
+  },
+  "include": ["**/*.ts", "../../../../core/data-access/models/src/lib/role.model.ts", "../../../../core/data-access/models/src/lib/nullable.model.ts"],
+  "exclude": ["jest.config.ts", "**/*.spec.ts"]
+}

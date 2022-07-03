@@ -1,0 +1,52 @@
+import { HttpClient } from '@angular/common/http';
+import { Inject, Injectable } from '@angular/core';
+import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
+import {
+  AppConfig,
+  APP_CONFIG,
+} from '@teaching-scheduling-system/web/config/data-access';
+import {
+  AuthResponse,
+  ResponseModel,
+  Teacher,
+  LoginForm,
+} from '@teaching-scheduling-system/web/shared/data-access/models';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class AuthService {
+  /** PRIVATE PROPERTIES */
+  private readonly url: string;
+
+  /** CONSTRUCTOR */
+  constructor(
+    private readonly http: HttpClient,
+    @Inject(APP_CONFIG) config: AppConfig
+  ) {
+    this.url = config.baseUrl;
+  }
+
+  /** PUBLIC METHODS */
+  public auth(loginData: LoginForm): Observable<AuthResponse> {
+    const obj = { username: loginData.username, password: loginData.password };
+    return this.http
+      .post<ResponseModel<Nullable<Teacher>>>(this.url + 'login', obj, {
+        observe: 'response',
+      })
+      .pipe(
+        map((response) => {
+          return {
+            token: response.headers.get('Authorization') ?? '',
+            teacher: response.body?.data || null,
+          };
+        })
+      );
+  }
+
+  public logOut(): Observable<void> {
+    return this.http.post<void>(this.url + 'logout', {});
+  }
+}

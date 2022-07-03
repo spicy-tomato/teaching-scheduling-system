@@ -1,0 +1,7 @@
+tui-data-list.navbar-dropdown {
+  @apply w-64;
+}
+
+tui-data-list.navbar-dropdown span {
+  @apply flex-grow ml-4;
+}

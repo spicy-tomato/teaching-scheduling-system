@@ -1,0 +1,212 @@
+<div class="w-full h-content flex flex-col">
+  <tss-calendar-header
+    [scheduleComponent]="scheduleComponent"
+  ></tss-calendar-header>
+  <ng-container *ngrxLet="eventSettings$ as eventSettings">
+    <ejs-schedule
+      #schedule
+      (renderCell)="onRenderCell($event)"
+      (eventRendered)="onEventRendered($event)"
+      (eventClick)="onEventClick()"
+      (popupOpen)="onPopupOpen($event)"
+      (navigating)="onNavigating($event)"
+      [eventSettings]="eventSettings"
+      [quickInfoOnSelectionEnd]="false"
+      [firstDayOfWeek]="1"
+      [workHours]="{ highlight: false }"
+      [timeScale]="{ slotCount: 1 }"
+      [showHeaderBar]="false"
+      currentView="Month"
+      locale="vi"
+      cssClass="cell-dimension"
+      width="100%"
+      height="100%"
+      class="flex-auto"
+    >
+      <!-- Views -->
+      <e-views>
+        <e-view option="Month"></e-view>
+        <e-view option="Week"></e-view>
+        <e-view option="Day"></e-view>
+        <!-- <e-view option="Agenda"></e-view> -->
+      </e-views>
+
+      <!-- Header template -->
+      <ng-template #quickInfoTemplatesHeader let-data>
+        <div
+          *ngIf="data.elementType === 'cell' || data.elementType === 'event'"
+        >
+          <div
+            [ngStyle]="{
+              'background-color':
+                data.Type === 'exam' ? '#ff0000' : data.Color || ''
+            }"
+            class="e-popup-header"
+          >
+            <div class="e-header-icon-wrapper">
+              <button
+                (click)="showEditorDialog(data)"
+                class="e-edit e-btn e-lib e-flat e-round e-small e-icon-btn edit-info"
+                title="Xem thông tin"
+              >
+                <i
+                  class="mdi mdi-information-outline"
+                  style="color: white; font-size: 18px"
+                ></i>
+              </button>
+              <button
+                (click)="onCloseClick()"
+                class="e-close e-btn e-lib e-flat e-round e-small e-icon-btn"
+                title="Đóng"
+              >
+                <span class="e-btn-icon e-icons e-close-icon"></span>
+              </button>
+            </div>
+            <div class="e-subject-wrap">
+              <div [title]="data.Subject" class="e-subject e-text-ellipsis">
+                {{ data.Subject }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+
+      <!-- Quick info -->
+      <ng-template #quickInfoTemplatesContent let-data>
+        <div *ngIf="data.elementType === 'event'">
+          <div class="e-date-time">
+            <div class="e-date-time-icon e-icons"></div>
+            <div class="e-date-time-wrapper e-text-ellipsis">
+              <div class="e-date-time-details e-text-ellipsis">
+                {{ data.StartTime | calendarDateTime: data.EndTime }}
+              </div>
+            </div>
+          </div>
+          <div class="e-location">
+            <div class="e-location-icon e-icons"></div>
+            <div class="e-location-details e-text-ellipsis">
+              {{ data.Location }}
+            </div>
+          </div>
+          <div class="e-module-class">
+            <div class="mdi mdi-book-open-variant"></div>
+            <div class="e-location-details e-text-ellipsis">
+              {{ data.IdModuleClass }}
+            </div>
+          </div>
+          <div *ngIf="data.Method" class="e-module-class">
+            <div class="mdi mdi-bullseye-arrow"></div>
+            <div class="e-location-details e-text-ellipsis">
+              {{ data.Method }}
+            </div>
+          </div>
+          <ng-container
+            *tssVar="data.FixedSchedules?.length as fixedSchedulesCount"
+          >
+            <ng-container *ngIf="fixedSchedulesCount > 0">
+              <ng-container
+                *tssVar="
+                  data.FixedSchedules[
+                    fixedSchedulesCount - 1
+                  ] as lastFixedSchedule
+                "
+              >
+                <ng-container
+                  *tssVar="
+                    lastFixedSchedule.newDate === null ||
+                    !!lastFixedSchedule.intendTime as isIntendTime
+                  "
+                >
+                  <ng-container
+                    *tssVar="
+                      lastFixedSchedule.status
+                        | changeStatusType as changeStatusType
+                    "
+                  >
+                    <div
+                      *ngIf="
+                        changeStatusType === 'pending' ||
+                        changeStatusType === 'approve'
+                      "
+                      class="e-module-class"
+                    >
+                      <div class="mdi mdi-swap-horizontal-bold"></div>
+                      <div class="e-location-details e-text-ellipsis">
+                        <p [ngSwitch]="true">
+                          <ng-container
+                            *ngSwitchCase="
+                              !isIntendTime && changeStatusType === 'pending'
+                            "
+                          >
+                            Đang được yêu cầu đổi đến ca
+                            {{ lastFixedSchedule.newShift }}, ngày
+                            {{
+                              lastFixedSchedule.newDate
+                                | date: 'longDate':'+0700'
+                            }}
+                            {{
+                              lastFixedSchedule.newIdRoom
+                                ? ' tại ' + lastFixedSchedule.newIdRoom
+                                : ''
+                            }}
+                          </ng-container>
+                          <ng-container
+                            *ngSwitchCase="
+                              !isIntendTime && changeStatusType === 'approve'
+                            "
+                          >
+                            Đổi từ ca {{ lastFixedSchedule.oldShift }}, ngày
+                            {{
+                              lastFixedSchedule.oldDate
+                                | date: 'longDate':'+0700'
+                            }}
+                          </ng-container>
+                          <ng-container
+                            *ngSwitchCase="
+                              isIntendTime && changeStatusType === 'pending'
+                            "
+                          >
+                            Đang được yêu cầu đổi đến
+                            {{ lastFixedSchedule.intendTime }}
+                          </ng-container>
+                          <ng-container
+                            *ngSwitchCase="
+                              isIntendTime && changeStatusType === 'approve'
+                            "
+                          >
+                            Dự định dạy trong
+                            {{ lastFixedSchedule.intendTime }}
+                          </ng-container>
+                          <button
+                            tuiLink
+                            [pseudo]="true"
+                            (click)="onShowHistory(data.FixedSchedules)"
+                            class="inline-block ml-0.5 pr-0.5"
+                          >
+                            <i>Chi tiết</i>
+                          </button>
+                        </p>
+                      </div>
+                    </div>
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </ng-container>
+          </ng-container>
+          <div
+            *ngFor="let person of data.People | tuiFilter: peopleMatcher"
+            class="e-module-class"
+          >
+            <div class="mdi mdi-account"></div>
+            <div class="e-location-details e-text-ellipsis">
+              {{ $any(person).name || person }}
+            </div>
+          </div>
+        </div>
+      </ng-template>
+
+      <!-- Footer Template -->
+      <ng-template #quickInfoTemplatesFooter let-data> </ng-template>
+    </ejs-schedule>
+  </ng-container>
+</div>

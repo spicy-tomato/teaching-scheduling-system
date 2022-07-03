@@ -1,0 +1,7 @@
+:host {
+  height: var(--nav-height);
+}
+
+.wrapper {
+  box-shadow: 0 0.125rem 1rem rgb(0 0 0 / 8%);
+}

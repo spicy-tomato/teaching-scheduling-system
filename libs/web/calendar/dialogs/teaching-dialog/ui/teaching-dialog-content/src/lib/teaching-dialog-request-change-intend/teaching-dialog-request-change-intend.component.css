@@ -1,0 +1,7 @@
+.checkers > * {
+  @apply py-px;
+}
+
+tui-svg {
+  @apply mr-1;
+}

@@ -1,0 +1,16 @@
+<h2 class="tui-text_h4">Chi tiết lịch học</h2>
+<tss-teaching-dialog-navigation
+  (changeSelectedSchedule)="onChangeSelectedSchedule($event)"
+  [schedules]="schedules"
+  [selectedSchedule]="selectedSchedule"
+></tss-teaching-dialog-navigation>
+<tui-scrollbar>
+  <tss-teaching-dialog-content
+    *tssRecreateViewKey="selectedSchedule.Id"
+    (updateSchedule)="onUpdateSchedule($event)"
+    (changeScheduleInfo)="onChangeScheduleInfo($event)"
+    (cancelRequest)="onCancelRequest()"
+    (cancel)="onCancel()"
+    [schedule]="selectedSchedule"
+  ></tss-teaching-dialog-content>
+</tui-scrollbar>

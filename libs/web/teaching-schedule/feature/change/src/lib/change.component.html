@@ -1,0 +1,29 @@
+<div class="grid max-h-content grid-rows-[auto_minmax(0,1fr)]">
+  <tui-tabs
+    *tssPermission="
+      PermissionConstant.ACCEPT_CHANGE_TEACHING_SCHEDULE;
+      else placeholder
+    "
+  >
+    <a
+      tuiTab
+      routerLinkActive
+      [routerLinkActiveOptions]="{ exact: true }"
+      routerLink="/schedule/change"
+    >
+      Yêu cầu của tôi
+    </a>
+    <a tuiTab routerLinkActive routerLink="/schedule/change/department">
+      Tất cả yêu cầu
+    </a>
+  </tui-tabs>
+  <ng-template #placeholder>
+    <div></div>
+  </ng-template>
+
+  <div class="content">
+    <ng-container *tssPermission="null">
+      <router-outlet></router-outlet>
+    </ng-container>
+  </div>
+</div>

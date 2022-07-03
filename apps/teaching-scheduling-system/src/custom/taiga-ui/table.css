@@ -1,0 +1,3 @@
+table[tuiTable] tr:nth-child(even) td {
+  @apply bg-tui-base-02;
+}

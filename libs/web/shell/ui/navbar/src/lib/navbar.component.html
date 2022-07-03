@@ -1,0 +1,51 @@
+<div
+  class="wrapper relative h-full flex justify-between px-5 py-2 border-b border-tui-base-03"
+>
+  <div class="h-full flex items-center">
+    <a routerLink="/" class="h-full">
+      <img src="/assets/favicon/logo.png" class="block h-full object-cover" />
+    </a>
+    <h3 class="ml-1 text-lg font-bold uppercase">
+      Hệ thống quản lý lịch giảng dạy
+    </h3>
+  </div>
+
+  <div>
+    <tui-hosted-dropdown [(open)]="openDropDown" [content]="content">
+      <button
+        *ngrxLet="user$ as user"
+        [showLoader]="!user"
+        size="m"
+        tuiButton
+        type="button"
+        appearance="nav-button"
+      >
+        Xin chào {{ user | navbarName }}!
+      </button>
+    </tui-hosted-dropdown>
+  </div>
+</div>
+
+<ng-template #content>
+  <tui-data-list class="navbar-dropdown" role="menu">
+    <tui-opt-group *ngFor="let group of items">
+      <ng-container *ngFor="let item of group.items">
+        <a
+          tuiOption
+          *ngIf="item.routerLink; else button"
+          (click)="onClickDropDownItem(item.key)"
+          [routerLink]="item.routerLink"
+        >
+          <tui-svg *ngIf="item.icon" [src]="item.icon"></tui-svg>
+          <span>{{ item.label }}</span>
+        </a>
+        <ng-template #button>
+          <button tuiOption (click)="onClickDropDownItem(item.key)">
+            <tui-svg *ngIf="item.icon" [src]="item.icon"></tui-svg>
+            <span>{{ item.label }}</span>
+          </button>
+        </ng-template>
+      </ng-container>
+    </tui-opt-group>
+  </tui-data-list>
+</ng-template>

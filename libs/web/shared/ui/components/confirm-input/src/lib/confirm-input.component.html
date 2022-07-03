@@ -1,0 +1,65 @@
+<div tuiGroup class="tui-form__row">
+  <ng-container [ngSwitch]="type">
+    <tui-input-phone
+      *ngSwitchCase="'input-phone'"
+      [ngModel]="value"
+      [readOnly]="!showEdit"
+      (ngModelChange)="onValueChange($event)"
+      countryCode="+84"
+      phoneMaskAfterCountryCode="###-###-#####"
+    >
+      <ng-container *ngTemplateOutlet="content"></ng-container>
+      <input tuiTextfield />
+    </tui-input-phone>
+    <tui-input
+      *ngSwitchDefault
+      [ngModel]="value"
+      [readOnly]="!showEdit"
+      (ngModelChange)="onValueChange($event)"
+    >
+      <ng-container *ngTemplateOutlet="content"></ng-container>
+      <input tuiTextfield />
+    </tui-input>
+  </ng-container>
+  <button
+    tuiIconButton
+    *ngIf="!showEdit; else doneBtn"
+    [disabled]="value === null"
+    (click)="onEdit()"
+    icon="tuiIconEditLarge"
+    tuiHint="Chỉnh sửa thông tin"
+    tuiHintMode="onDark"
+    class="tui-group__auto-width-item"
+  ></button>
+  <ng-template #doneBtn>
+    <button
+      tuiIconButton
+      [showLoader]="processing"
+      [disabled]="
+        disableConfirm ||
+        value === initialValue ||
+        value === '+84' + initialValue
+      "
+      (click)="saveStart()"
+      icon="tuiIconCheckLarge"
+      appearance="positive-primary"
+      tuiHint="Lưu"
+      tuiHintMode="onDark"
+      class="tui-group__auto-width-item"
+    ></button>
+    <button
+      tuiIconButton
+      [disabled]="processing"
+      (click)="onCancel()"
+      icon="tuiIconRemoveLarge"
+      appearance="accent"
+      tuiHint="Hủy"
+      tuiHintMode="onDark"
+      class="tui-group__auto-width-item"
+    ></button>
+  </ng-template>
+</div>
+
+<ng-template #content>
+  <ng-content></ng-content>
+</ng-template>

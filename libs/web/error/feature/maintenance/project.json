@@ -1,0 +1,25 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/web/error/feature/maintenance/src",
+  "prefix": "teaching-scheduling-system",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/web/error/feature/maintenance"],
+      "options": {
+        "jestConfig": "libs/web/error/feature/maintenance/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/web/error/feature/maintenance/**/*.ts",
+          "libs/web/error/feature/maintenance/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}
