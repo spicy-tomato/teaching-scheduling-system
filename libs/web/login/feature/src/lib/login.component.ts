@@ -113,7 +113,7 @@ export class LoginComponent {
             status === EApiStatus.clientError
               ? 'Thông tin đăng nhập không chính xác!'
               : 'Lỗi hệ thống!';
-          return this.notificationsService.show('Hãy thử lại', {
+          return this.notificationsService.show('Vui lòng thử lại', {
             label,
             status: TuiNotification.Error,
           });

@@ -225,7 +225,7 @@ export class TeachingDialogContentComponent implements OnInit {
 
   public showNotificationError(): void {
     this.notificationsService
-      .show('Hãy thử lại sau', {
+      .show('Vui lòng thử lại sau', {
         label: 'Đã có lỗi xảy ra',
         status: TuiNotification.Error,
       })
@@ -481,7 +481,7 @@ export class TeachingDialogContentComponent implements OnInit {
 
   private showNotificationRequestChangeSuccessful(): void {
     this.notificationsService
-      .show('Hãy chờ phản hồi của trưởng bộ môn', {
+      .show('Vui lòng chờ phản hồi của trưởng bộ môn', {
         label: 'Gửi yêu cầu thành công',
         status: TuiNotification.Success,
       })
