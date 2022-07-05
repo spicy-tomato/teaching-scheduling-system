@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.1.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.0.1...v3.1.0) (2022-07-03)
+
+
+### Features
+
+* maintenance page ([8abbd5e](https://github.com/annguyen-it/teaching-scheduling-system/commits/8abbd5e881436c85ff41296c966716c0af3e02d9))
+* show global loader when request to api user-info ([9cec5cf](https://github.com/annguyen-it/teaching-scheduling-system/commits/9cec5cf382c1082a51df8b201924692fa3da4b07))
+* update app logo ([49216cc](https://github.com/annguyen-it/teaching-scheduling-system/commits/49216cc7087162672940b3041671d5011347264e))
+* **user-info:** display skeleton before data loaded ([de5367c](https://github.com/annguyen-it/teaching-scheduling-system/commits/de5367caabf5160062d00682028c79edefad89fc))
+
+
+### Bug Fixes
+
+* api user-info is called multiple times ([b2d0b5a](https://github.com/annguyen-it/teaching-scheduling-system/commits/b2d0b5af6a068f34c38dfa17e6ef085e9b1c06d3))
+* apply keep-user guard for error pages ([6c9352d](https://github.com/annguyen-it/teaching-scheduling-system/commits/6c9352d05fd702f26aae475aa7646cc3bcc38b76))
+* **dep:** upgradate taiga-ui to 2.40.0 ([61804fa](https://github.com/annguyen-it/teaching-scheduling-system/commits/61804fab4e8c70faabcf7d03c210cd48c348f159))
+* fix typo ([83841dc](https://github.com/annguyen-it/teaching-scheduling-system/commits/83841dca04a97ba3fc05c6c176e6d5d7a07f829e))
+* loader does not hide when token expired ([5d76ae6](https://github.com/annguyen-it/teaching-scheduling-system/commits/5d76ae69a40d2c922373aa46164baf4f2171a4cc))
+* should save redirect url after token expired ([66169b4](https://github.com/annguyen-it/teaching-scheduling-system/commits/66169b42f55e14a5a43d4a961aa4af306d3170d0))
+* **ui:** fix tooltip direction of dropdowns and hints ([96f5daa](https://github.com/annguyen-it/teaching-scheduling-system/commits/96f5daac2a442ad3aaf588035fc2c513d5a106ef))
+* **ui:** fix tooltip direction of dropdowns and hints ([2a5c4ee](https://github.com/annguyen-it/teaching-scheduling-system/commits/2a5c4eeaba09c63a7c1898075b94a13062e24186))
+* update commitlint to 17.0.3 ([53e0a88](https://github.com/annguyen-it/teaching-scheduling-system/commits/53e0a887c39926e753b284caaf7b3a3647edaa1e))
+* upgrade to angular 13.3.11 ([dc143f2](https://github.com/annguyen-it/teaching-scheduling-system/commits/dc143f2af46d8ac7ee361426bfc4c0e28a1c1e82))
+* **user-info:** add required validator for phone number ([967e0a4](https://github.com/annguyen-it/teaching-scheduling-system/commits/967e0a4440e96c38e0317ddb0e90856e4a4db35f))
+* **user-info:** add validator for phone number ([642cefc](https://github.com/annguyen-it/teaching-scheduling-system/commits/642cefc8896c3d2c2217a83fd461efffaa73e402))
+
 ### [3.0.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.0.0...v3.0.1) (2022-06-30)
 
 
