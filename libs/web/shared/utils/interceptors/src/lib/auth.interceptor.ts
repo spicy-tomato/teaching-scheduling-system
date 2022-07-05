@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import {
   HttpErrorResponse,
   HttpEvent,
@@ -6,7 +7,6 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import {
   AccessTokenService,
   AppService,
@@ -20,7 +20,7 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(
     private readonly accessTokenService: AccessTokenService,
     private readonly appService: AppService,
-    private readonly router: Router
+    private readonly location: Location
   ) {}
 
   /** IMPLEMENTATIONS */
@@ -36,17 +36,16 @@ export class AuthInterceptor implements HttpInterceptor {
       tap({
         error: (error) => {
           if (!(error instanceof HttpErrorResponse)) return;
+          const currentUrl = this.location.path();
 
           switch (error.status) {
             case 401: {
               const token = error.headers.get('Authorization');
               if (token) {
                 this.accessTokenService.save(token);
-              } else {
+              } else if (!currentUrl.includes('/login')) {
                 this.accessTokenService.clear();
-                this.appService.redirectToLogin(
-                  this.router.routerState.snapshot.url
-                );
+                this.appService.redirectToLogin(currentUrl);
               }
             }
           }
