@@ -43,10 +43,15 @@
 @media screen and (max-width: 799px) {
   .scene > * {
     @apply w-9/10 h-9/10;
-    top: 5% !important;
-    left: 5% !important;
+    top: 5%;
+    left: 5%;
     min-width: 280px;
     min-height: 280px;
+  }
+}
+@media screen and (max-width: 475px) {
+  .scene > * {
+    @apply !center-absolute;
   }
 }
 @media screen and (max-height: 660px) {
