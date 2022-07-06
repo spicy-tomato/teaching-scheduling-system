@@ -23,7 +23,7 @@ export class TeachingDialogRequestChangeIntendComponent implements OnInit {
   /** CONSTRUCTOR */
   constructor(public readonly controlContainer: ControlContainer) {}
 
-  /** LIFE CYCLE */
+  /** LIFECYCLE */
   public ngOnInit(): void {
     this.form = this.controlContainer.control as FormGroup;
   }

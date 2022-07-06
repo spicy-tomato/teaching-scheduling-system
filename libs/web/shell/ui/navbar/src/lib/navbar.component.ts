@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   HostListener,
   Inject,
@@ -19,7 +20,7 @@ import {
   selectTeacher,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
 import { Observable, takeUntil } from 'rxjs';
-import { NAVBAR_OPTIONS, NavbarOptions } from './navbar.token';
+import { NavbarOptions, NAVBAR_OPTIONS } from './navbar.token';
 
 @Component({
   selector: 'tss-navbar',
@@ -41,6 +42,7 @@ export class NavbarComponent {
     private readonly router: Router,
     private readonly accessTokenService: AccessTokenService,
     private readonly authService: AuthService,
+    private readonly cdr: ChangeDetectorRef,
     @Inject(NAVBAR_OPTIONS) public readonly options: NavbarOptions,
     appShellStore: Store<AppShellState>,
     destroy$: TuiDestroyService
@@ -74,7 +76,10 @@ export class NavbarComponent {
     }
   }
 
-  public toggleMobileNav(open: boolean): void {
+  public toggleMobileNav(open: boolean, needMarkForCheck = false): void {
     this.openMobileNav = open;
+    if (needMarkForCheck) {
+      this.cdr.markForCheck();
+    }
   }
 }

@@ -75,7 +75,7 @@ export class TeachingDialogRequestChangeComponent implements OnInit {
     this.handleChangeRequest();
   }
 
-  /** LIFE CYCLE */
+  /** LIFECYCLE */
   public ngOnInit(): void {
     this.form = this.controlContainer.control as FormGroup;
   }

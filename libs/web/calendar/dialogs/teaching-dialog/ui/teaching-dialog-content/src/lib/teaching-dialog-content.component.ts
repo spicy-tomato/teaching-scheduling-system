@@ -184,7 +184,7 @@ export class TeachingDialogContentComponent implements OnInit {
       .pipe(takeUntil(this.destroy$));
   }
 
-  /** LIFE CYCLE */
+  /** LIFECYCLE */
   public ngOnInit(): void {
     this.initForm();
 

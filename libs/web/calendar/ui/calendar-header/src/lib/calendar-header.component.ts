@@ -131,7 +131,7 @@ export class CalendarHeaderComponent implements AfterViewInit {
     this.handleDisplayNotification();
   }
 
-  /** LIFE CYCLE */
+  /** LIFECYCLE */
   public ngAfterViewInit(): void {
     this.triggerDateRange();
     this.triggerActiveToday();

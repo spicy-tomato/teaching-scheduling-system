@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.2.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.1.0...v3.2.0) (2022-07-06)
+
+
+### Features
+
+* add help link to nav bars ([62da6a8](https://github.com/annguyen-it/teaching-scheduling-system/commits/62da6a87ab3124a559dd5891d782d8be6180a29d))
+* reset password ([6288e69](https://github.com/annguyen-it/teaching-scheduling-system/commits/6288e696cb6a3462f073838a2ac0085a6a3628f4))
+* responsive for layout ([f77518c](https://github.com/annguyen-it/teaching-scheduling-system/commits/f77518c0bbcc31b27b41a8bbe37638c4c413f5ff))
+* responsive for page login ([f171eee](https://github.com/annguyen-it/teaching-scheduling-system/commits/f171eee7a13539e75d53462567ddd8c079f8faa0))
+
+
+### Bug Fixes
+
+* **error:** fix responsive bug ([790a60f](https://github.com/annguyen-it/teaching-scheduling-system/commits/790a60ff7be126fed6eaed1a2db92d23992077b0))
+* remove loader from components when request to user-info api ([28b6ce1](https://github.com/annguyen-it/teaching-scheduling-system/commits/28b6ce131fc313f91ec6d773e19918f7649c7c94))
+* wrong redirect url ([9b70290](https://github.com/annguyen-it/teaching-scheduling-system/commits/9b702908ae546cdbb9d9c42638cc26ab4cfea85d))
+
 ## [3.1.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.0.1...v3.1.0) (2022-07-03)
 
 
