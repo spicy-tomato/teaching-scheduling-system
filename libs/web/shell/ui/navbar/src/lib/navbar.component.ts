@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostListener,
+  Inject,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TuiDestroyService } from '@taiga-ui/cdk';
@@ -14,6 +19,7 @@ import {
   selectTeacher,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
 import { Observable, takeUntil } from 'rxjs';
+import { NAVBAR_OPTIONS, NavbarOptions } from './navbar.token';
 
 @Component({
   selector: 'tss-navbar',
@@ -25,20 +31,26 @@ import { Observable, takeUntil } from 'rxjs';
 export class NavbarComponent {
   /** PUBLIC PROPERTIES */
   public readonly items = NavbarConstants.items;
-  public user$: Observable<Nullable<Teacher>>;
+  public user$: Observable<Nullable<Teacher>> | undefined;
+  public openMobileNav = false;
   public openDropDown = false;
+  public isMobileScreen = true;
 
   /** CONSTRUCTOR */
   constructor(
-    appShellStore: Store<AppShellState>,
     private readonly router: Router,
     private readonly accessTokenService: AccessTokenService,
     private readonly authService: AuthService,
-    private readonly destroy$: TuiDestroyService
+    @Inject(NAVBAR_OPTIONS) public readonly options: NavbarOptions,
+    appShellStore: Store<AppShellState>,
+    destroy$: TuiDestroyService
   ) {
-    this.user$ = appShellStore
-      .select(selectTeacher)
-      .pipe(takeUntil(this.destroy$));
+    this.onResize();
+    if (options.showInfo) {
+      this.user$ = appShellStore
+        .select(selectTeacher)
+        .pipe(takeUntil(destroy$));
+    }
   }
 
   /** PUBLIC METHODS */
@@ -49,5 +61,20 @@ export class NavbarComponent {
       this.accessTokenService.clear();
       void this.router.navigate(['/login']);
     }
+  }
+
+  /** PRIVATE METHODS */
+  @HostListener('window:resize')
+  private onResize(): void {
+    if (window.innerWidth < 1024 && !this.isMobileScreen) {
+      this.isMobileScreen = true;
+    } else if (window.innerWidth >= 1024 && this.isMobileScreen) {
+      this.isMobileScreen = false;
+      this.toggleMobileNav(false);
+    }
+  }
+
+  public toggleMobileNav(open: boolean): void {
+    this.openMobileNav = open;
   }
 }

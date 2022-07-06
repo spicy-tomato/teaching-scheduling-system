@@ -48,14 +48,14 @@
       "@teaching-scheduling-system/core/utils/providers": [
         "libs/core/utils/providers/src/index.ts"
       ],
-      "@teaching-scheduling-system/web-calendar-dialogs-exam-dialog-data-access": [
-        "libs/web/calendar/dialogs/exam-dialog/data-access/src/index.ts"
-      ],
       "@teaching-scheduling-system/web-shared-ui-dialog": [
         "libs/web/shared/ui/dialog/src/index.ts"
       ],
       "@teaching-scheduling-system/web/calendar/data-access": [
         "libs/web/calendar/data-access/src/index.ts"
+      ],
+      "@teaching-scheduling-system/web/calendar/dialogs-exam-dialog/data-access": [
+        "libs/web/calendar/dialogs/exam-dialog/data-access/src/index.ts"
       ],
       "@teaching-scheduling-system/web/calendar/dialogs/exam-dialog/feature": [
         "libs/web/calendar/dialogs/exam-dialog/feature/src/index.ts"
@@ -132,6 +132,18 @@
       "@teaching-scheduling-system/web/login/feature": [
         "libs/web/login/feature/src/index.ts"
       ],
+      "@teaching-scheduling-system/web/reset-password/feature/confirm": [
+        "libs/web/reset-password/feature/confirm/src/index.ts"
+      ],
+      "@teaching-scheduling-system/web/reset-password/feature/send-email": [
+        "libs/web/reset-password/feature/send-email/src/index.ts"
+      ],
+      "@teaching-scheduling-system/web/reset-password/feature/shell": [
+        "libs/web/reset-password/feature/shell/src/index.ts"
+      ],
+      "@teaching-scheduling-system/web/reset-password/ui/success-dialog": [
+        "libs/web/reset-password/ui/success-dialog/src/index.ts"
+      ],
       "@teaching-scheduling-system/web/settings/data-access": [
         "libs/web/settings/data-access/src/index.ts"
       ],
@@ -191,6 +203,9 @@
       ],
       "@teaching-scheduling-system/web/shell/ui/main-view": [
         "libs/web/shell/ui/main-view/src/index.ts"
+      ],
+      "@teaching-scheduling-system/web/shell/ui/mobile-sidebar": [
+        "libs/web/shell/ui/mobile-sidebar/src/index.ts"
       ],
       "@teaching-scheduling-system/web/shell/ui/navbar": [
         "libs/web/shell/ui/navbar/src/index.ts"

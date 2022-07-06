@@ -15,4 +15,5 @@ export interface AppShellState {
   currentTerm: string;
   academicData: AcademicData[];
   teachersInDepartment: SimpleModel[];
+  showLoader: Nullable<boolean>;
 }

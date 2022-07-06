@@ -9,6 +9,9 @@ export class AppService {
   constructor(private readonly router: Router) {}
 
   public redirectToLogin(redirect?: string): void {
+    if (redirect?.includes('/login')) {
+      redirect = '';
+    }
     void this.router.navigate(['/login'], {
       queryParams: { redirect: redirect || null },
     });

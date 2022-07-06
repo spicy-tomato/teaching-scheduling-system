@@ -7,8 +7,8 @@ import {
   AppShellState,
   selectNameTitle,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
-import { Observable, takeUntil } from 'rxjs';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import { Observable, takeUntil } from 'rxjs';
 
 @Component({
   templateUrl: './success-dialog.component.html',

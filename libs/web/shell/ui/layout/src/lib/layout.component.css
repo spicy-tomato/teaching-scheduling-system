@@ -1,21 +1,26 @@
-:host {
-  @apply w-screen h-screen grid;
+.wrapper {
   grid-template-rows: var(--nav-height) var(--main-view-height);
-  grid-template-columns: var(--sidebar-width) auto;
-  grid-template-areas:
-    'nav   nav'
-    'aside main';
 }
+@media (min-width: 1024px) {
+  .wrapper {
+    grid-template-columns: var(--sidebar-width) auto;
+    grid-template-areas:
+      'nav   nav'
+      'aside main';
+  }
+  tss-sidebar {
+    grid-area: aside;
+  }
+  
+  tss-navbar {
+    grid-area: nav;
+  }
 
-tss-sidebar {
-  grid-area: aside;
-}
-
-tss-navbar {
-  grid-area: nav;
+  tss-main-view {
+    grid-area: main;
+  }
 }
 
 tss-main-view {
-  grid-area: main;
   @apply max-h-main-view;
 }

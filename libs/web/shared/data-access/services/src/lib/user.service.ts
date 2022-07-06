@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { ObjectHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import {
   AppConfig,
   APP_CONFIG,
@@ -7,8 +8,10 @@ import {
 import {
   ChangePassword,
   Feedback,
+  ResetPassword,
   ResponseModel,
   Teacher,
+  ValidateToken,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { Observable } from 'rxjs';
 
@@ -47,5 +50,22 @@ export class UserService {
     id: string
   ): Observable<void> {
     return this.http.patch<void>(this.url + `accounts/update/${id}`, body);
+  }
+
+  public verifyResetPassword(body: ValidateToken): Observable<void> {
+    return this.http.post<void>(this.url + 'v1/verify-reset-password', body);
+  }
+
+  public requestResetPassword(email: string): Observable<void> {
+    return this.http.post<void>(this.url + 'v1/request-reset-password', {
+      email,
+    });
+  }
+
+  public resetPassword(body: ResetPassword): Observable<void> {
+    return this.http.patch<void>(
+      this.url + 'v1/reset-password',
+      ObjectHelper.toSnakeCase(body)
+    );
   }
 }
