@@ -1,17 +1,14 @@
-<!-- TODO: Remove some CSS classes -->
-<h2 class="tui-form__header tui-form__header_margin-bottom_none mt-4 mb-2">
-  Gửi thành công
-</h2>
+<h2 class="tui-form__header mt-4 mb-2">Gửi thành công</h2>
 <p *ngrxLet="nameTitle$ as nameTitle">
   Xin cảm ơn sự góp ý của {{ nameTitle | lowercase }}
 </p>
 <div class="tui-form__buttons tui-form__buttons_align_center">
-  <button (click)="returnHome()" tuiButton size="m" class="tui-form__button">
+  <button tuiButton (click)="returnHome()" size="m" class="tui-form__button">
     Về trang chủ
   </button>
   <button
-    (click)="seeFeedback()"
     tuiButton
+    (click)="seeFeedback()"
     size="m"
     appearance="secondary"
     class="tui-form__button"

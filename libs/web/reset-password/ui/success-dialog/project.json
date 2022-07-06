@@ -1,0 +1,25 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/web/reset-password/ui/success-dialog/src",
+  "prefix": "tss",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/web/reset-password/ui/success-dialog"],
+      "options": {
+        "jestConfig": "libs/web/reset-password/ui/success-dialog/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/web/reset-password/ui/success-dialog/**/*.ts",
+          "libs/web/reset-password/ui/success-dialog/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

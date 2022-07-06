@@ -1,0 +1,63 @@
+<ng-container *ngIf="form">
+  <tss-navbar></tss-navbar>
+  <form
+    [formGroup]="form"
+    (ngSubmit)="reset$.next()"
+    class="flex justify-center items-center"
+  >
+    <tui-island class="flex flex-col items-center px-16 py-8">
+      <h1 class="mb-2 text-4xl font-black text-center">Đặt lại mật khẩu</h1>
+      <p class="text-center">
+        Nhập <span class="font-bold">mật khẩu mới</span> để tiến hành thay đổi
+        mật khẩu
+      </p>
+      <div class="max-w-[500px] mx-auto">
+        <div></div>
+        <div class="tui-form__row">
+          <tui-input-password
+            (ngModelChange)="onNewPasswordChange()"
+            formControlName="newPassword"
+          >
+            Mật khẩu mới
+          </tui-input-password>
+          <tui-error
+            [error]="[] | tuiFieldError | async"
+            formControlName="newPassword"
+          ></tui-error>
+        </div>
+        <div class="tui-form__row">
+          <tui-input-password
+            (ngModelChange)="onConfirmPasswordChange()"
+            formControlName="confirmPassword"
+          >
+            Xác nhận mật khẩu
+          </tui-input-password>
+          <tui-error
+            [error]="[] | tuiFieldError | async"
+            formControlName="confirmPassword"
+          ></tui-error>
+        </div>
+      </div>
+      <div class="tui-form__buttons tui-form__buttons_align_center">
+        <button
+          tuiButton
+          *ngrxLet="status$ as status"
+          [showLoader]="status === EApiStatus.loading"
+          [disabled]="form.invalid"
+          type="submit"
+          class="tui-form__button"
+        >
+          Xác nhận
+        </button>
+      </div>
+      <div class="tui-form__row">
+        <p class="text-center">
+          Nếu vẫn cần trợ giúp, hãy liên hệ
+          <a tuiLink href="https://m.me/utcketnoi" target="_blank">
+            Nhà phát triển
+          </a>
+        </p>
+      </div>
+    </tui-island>
+  </form>
+</ng-container>
