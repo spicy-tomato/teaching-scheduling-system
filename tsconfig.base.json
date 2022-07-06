@@ -204,6 +204,9 @@
       "@teaching-scheduling-system/web/shell/ui/main-view": [
         "libs/web/shell/ui/main-view/src/index.ts"
       ],
+      "@teaching-scheduling-system/web/shell/ui/mobile-sidebar": [
+        "libs/web/shell/ui/mobile-sidebar/src/index.ts"
+      ],
       "@teaching-scheduling-system/web/shell/ui/navbar": [
         "libs/web/shell/ui/navbar/src/index.ts"
       ],

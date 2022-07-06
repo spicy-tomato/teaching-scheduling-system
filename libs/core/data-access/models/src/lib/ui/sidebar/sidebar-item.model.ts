@@ -9,4 +9,5 @@ export interface SidebarItem {
     useTaigaIcon?: boolean;
   }[];
   permission?: number;
+  useTaigaIcon?: boolean;
 }
