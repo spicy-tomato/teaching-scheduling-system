@@ -1,8 +1,13 @@
 <div
   class="relative w-screen h-screen flex justify-center items-center bg-[url('/assets/img/login-background.png')] bg-cover z-0 after:absolute after:inset-0 after:w-screen after:h-screen after:block after:bg-[rgba(0,0,0,0.15)] after:z-10"
 >
-  <div [@slideUp] class="px-14 pt-10 pb-7 bg-[rgba(255,255,255,0.95)] rounded-lg z-20">
-    <h1 class="slide-element mb-10 text-[26px] font-bold uppercase">Hệ thống quản lý lịch giảng dạy</h1>
+  <div
+    [@slideUp]
+    class="px-14 pt-10 pb-7 bg-[rgba(255,255,255,0.95)] rounded-lg z-20"
+  >
+    <h1 class="slide-element mb-10 text-[26px] font-bold uppercase">
+      Hệ thống quản lý lịch giảng dạy
+    </h1>
     <form [formGroup]="loginForm" (ngSubmit)="submit$.next()">
       <div class="slide-element">
         <tui-input
@@ -45,9 +50,15 @@
           <tui-checkbox-labeled [@slideUp] formControlName="remember" class="mt-5">
             Ghi nhớ tài khoản
           </tui-checkbox-labeled>
-        </div>
+        </div> -->
 
-        <a tuiLink class="slide-element mt-2"> Quên mật khẩu? </a> -->
+        <a
+          tuiLink
+          routerLink="/reset-password/request"
+          class="slide-element mt-2"
+        >
+          Quên mật khẩu?
+        </a>
       </div>
     </form>
   </div>

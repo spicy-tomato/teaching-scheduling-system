@@ -18,11 +18,11 @@ export class MaintenanceGuard implements CanActivate {
   /** IMPLEMENTATIONS */
   public canActivate(route: ActivatedRouteSnapshot): boolean {
     if (route.url[0]?.path === 'maintenance' && !this.config.maintenance) {
-      this.router.navigate(['/']);
+      void this.router.navigate(['/']);
       return false;
     }
     if (route.url[0]?.path !== 'maintenance' && this.config.maintenance) {
-      this.router.navigate(['/maintenance']);
+      void this.router.navigate(['/maintenance']);
       return false;
     }
 

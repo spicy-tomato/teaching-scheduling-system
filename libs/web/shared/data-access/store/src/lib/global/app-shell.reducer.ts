@@ -12,6 +12,7 @@ const initialState: AppShellState = {
   status: EApiStatus.unknown,
   rooms: [],
   teachersInDepartment: [],
+  showLoader: null,
 };
 
 export const appShellFeatureKey = 'app-shell';
@@ -22,6 +23,10 @@ export const appShellReducer = createReducer(
   on(PageAction.keepLogin, (state) => ({
     ...state,
     status: EApiStatus.loading,
+  })),
+  on(PageAction.setLoader, (state, { showLoader }) => ({
+    ...state,
+    showLoader,
   })),
   on(ApiAction.updateBreadcrumbs, (state, { breadcrumbs }) => ({
     ...state,

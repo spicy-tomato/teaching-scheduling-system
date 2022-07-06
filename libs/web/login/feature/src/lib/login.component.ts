@@ -20,6 +20,10 @@ import {
 import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import { LoginForm } from '@teaching-scheduling-system/web/shared/data-access/models';
 import {
+  AppShellState,
+  setLoader,
+} from '@teaching-scheduling-system/web/shared/data-access/store';
+import {
   distinctUntilChanged,
   filter,
   map,
@@ -66,8 +70,10 @@ export class LoginComponent {
     private readonly store: Store<LoginState>,
     @Inject(TuiNotificationsService)
     private readonly notificationsService: TuiNotificationsService,
-    private readonly destroy$: TuiDestroyService
+    private readonly destroy$: TuiDestroyService,
+    appShellStore: Store<AppShellState>
   ) {
+    appShellStore.dispatch(setLoader({ showLoader: false }));
     store.dispatch(reset());
 
     this.status$ = store.select(selectState).pipe(takeUntil(this.destroy$));

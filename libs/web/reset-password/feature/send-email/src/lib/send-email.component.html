@@ -1,0 +1,53 @@
+<tss-navbar></tss-navbar>
+<form
+  [formGroup]="form"
+  (ngSubmit)="request()"
+  class="flex justify-center items-center"
+>
+  <tui-island class="flex flex-col items-center px-16 py-8">
+    <h1 class="mb-2 text-4xl font-black text-center">Đặt lại mật khẩu</h1>
+    <p class="text-center">
+      Nhập <span class="font-bold">địa chỉ email</span> của bạn đã sử dụng.
+      Chúng tôi sẽ gửi email cho bạn với một liên kết để đặt lại mật khẩu.
+    </p>
+    <div class="max-w-[500px] mx-auto">
+      <div></div>
+      <div *ngIf="tokenValidationFailed" class="tui-form__row">
+        <tui-notification status="error">
+          Liên kết đặt lại mật khẩu của bạn không hợp lệ, hoặc đã được sử dụng
+          rồi.
+        </tui-notification>
+      </div>
+      <div class="tui-form__row">
+        <tui-input formControlName="email">
+          Nhập email
+          <input tuiTextfield type="email" placeholder="helloworld@gmail.com" />
+        </tui-input>
+        <tui-error
+          [error]="[] | tuiFieldError | async"
+          formControlName="email"
+        ></tui-error>
+      </div>
+    </div>
+    <div class="tui-form__buttons tui-form__buttons_align_center">
+      <button
+        tuiButton
+        *ngrxLet="status$ as status"
+        [showLoader]="status === EApiStatus.loading"
+        [disabled]="form.invalid || form.disabled"
+        type="submit"
+        class="tui-form__button"
+      >
+        Gửi
+      </button>
+    </div>
+    <div class="tui-form__row">
+      <p class="text-center">
+        Nếu vẫn cần trợ giúp, hãy liên hệ
+        <a tuiLink href="https://m.me/utcketnoi" target="_blank">
+          Nhà phát triển
+        </a>
+      </p>
+    </div>
+  </tui-island>
+</form>

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TuiDestroyService } from '@taiga-ui/cdk';
@@ -14,6 +14,7 @@ import {
   selectTeacher,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
 import { Observable, takeUntil } from 'rxjs';
+import { NAVBAR_OPTIONS, NavbarOptions } from './navbar.token';
 
 @Component({
   selector: 'tss-navbar',
@@ -25,20 +26,23 @@ import { Observable, takeUntil } from 'rxjs';
 export class NavbarComponent {
   /** PUBLIC PROPERTIES */
   public readonly items = NavbarConstants.items;
-  public user$: Observable<Nullable<Teacher>>;
+  public user$: Observable<Nullable<Teacher>> | undefined;
   public openDropDown = false;
 
   /** CONSTRUCTOR */
   constructor(
-    appShellStore: Store<AppShellState>,
     private readonly router: Router,
     private readonly accessTokenService: AccessTokenService,
     private readonly authService: AuthService,
-    private readonly destroy$: TuiDestroyService
+    @Inject(NAVBAR_OPTIONS) public readonly options: NavbarOptions,
+    appShellStore: Store<AppShellState>,
+    destroy$: TuiDestroyService
   ) {
-    this.user$ = appShellStore
-      .select(selectTeacher)
-      .pipe(takeUntil(this.destroy$));
+    if (options.showInfo) {
+      this.user$ = appShellStore
+        .select(selectTeacher)
+        .pipe(takeUntil(destroy$));
+    }
   }
 
   /** PUBLIC METHODS */
