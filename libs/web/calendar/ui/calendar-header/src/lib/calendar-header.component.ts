@@ -14,7 +14,6 @@ import {
   TUI_BUTTON_OPTIONS,
 } from '@taiga-ui/core';
 import { PermissionConstant } from '@teaching-scheduling-system/core/data-access/constants';
-import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
 import { fadeIn } from '@teaching-scheduling-system/core/ui/animations';
 import {
   DateHelper,
@@ -38,12 +37,10 @@ import {
 import {
   CalendarFilter,
   SimpleModel,
-  Teacher,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import {
   AppShellState,
   selectNameTitle,
-  selectTeacher,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
 import {
   combineLatest,
@@ -88,7 +85,6 @@ export class CalendarHeaderComponent implements AfterViewInit {
   public activeToday$!: Observable<boolean>;
   public teachers$: Observable<SimpleModel[]>;
   public modules$: Observable<string[]>;
-  public user$: Observable<Nullable<Teacher>>;
 
   public readonly clickToday$ = new Subject<void>();
   public readonly permissionConstant = PermissionConstant;
@@ -111,9 +107,6 @@ export class CalendarHeaderComponent implements AfterViewInit {
     private readonly appShellStore: Store<AppShellState>,
     private readonly destroy$: TuiDestroyService
   ) {
-    this.user$ = appShellStore
-      .select(selectTeacher)
-      .pipe(takeUntil(this.destroy$));
     this.selectedDate$ = store
       .select(calendarSelectSelectedDate)
       .pipe(takeUntil(this.destroy$));
