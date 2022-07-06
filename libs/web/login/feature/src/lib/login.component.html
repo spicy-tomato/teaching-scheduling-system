@@ -5,7 +5,9 @@
     [@slideUp]
     class="w-full p-4 bg-[rgba(255,255,255,0.95)] rounded-lg z-20 sm:px-14 sm:pt-10 sm:w-auto sm:pb-7"
   >
-    <h1 class="slide-element mb-4 text-lg text-center font-bold uppercase sm:mb-10 sm:text-[26px]">
+    <h1
+      class="slide-element mb-4 text-lg text-center font-bold uppercase sm:mb-10 sm:text-[26px]"
+    >
       Hệ thống quản lý <br class="sm:hidden" />
       lịch giảng dạy
     </h1>
@@ -51,9 +53,15 @@
           <tui-checkbox-labeled [@slideUp] formControlName="remember" class="mt-5">
             Ghi nhớ tài khoản
           </tui-checkbox-labeled>
-        </div>
+        </div> -->
 
-        <a tuiLink class="slide-element mt-2"> Quên mật khẩu? </a> -->
+        <a
+          tuiLink
+          routerLink="/reset-password/request"
+          class="slide-element mt-2"
+        >
+          Quên mật khẩu?
+        </a>
       </div>
     </form>
   </div>

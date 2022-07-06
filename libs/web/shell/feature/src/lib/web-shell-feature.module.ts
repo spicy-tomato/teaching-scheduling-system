@@ -6,7 +6,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { routerReducer, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { TUI_SANITIZER } from '@taiga-ui/cdk';
-import { TUI_HINT_OPTIONS, TUI_TOOLTIP_ICON } from '@taiga-ui/core';
+import { tuiHintOptionsProvider } from '@taiga-ui/core';
 import { TUI_LANGUAGE, TUI_VIETNAMESE_LANGUAGE } from '@taiga-ui/i18n';
 import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
 import { PermissionConstant } from '@teaching-scheduling-system/core/data-access/constants';
@@ -150,6 +150,15 @@ export const webShellFeatureRoutes: Routes = [
       ).MaintenanceModule,
   },
   {
+    path: 'reset-password',
+    loadChildren: async () =>
+      (
+        await import(
+          '@teaching-scheduling-system/web/reset-password/feature/shell'
+        )
+      ).ShellModule,
+  },
+  {
     path: '403',
     canActivate: [MaintenanceGuard, KeepUserGuard],
     loadChildren: async () =>
@@ -210,16 +219,11 @@ export const webShellFeatureRoutes: Routes = [
         beforeToday: beforeTodayFactory,
       },
     },
-    {
-      provide: TUI_HINT_OPTIONS,
-      useValue: {
-        tuiHintShowDelay: 300,
-        tuiHintHideDelay: 100,
-        tooltipIcon: TUI_TOOLTIP_ICON,
-        mode: null,
-        direction: 'bottom-middle',
-      },
-    },
+    tuiHintOptionsProvider({
+      tuiHintShowDelay: 300,
+      tuiHintHideDelay: 100,
+      direction: 'bottom-middle',
+    }),
   ],
 })
 export class WebShellFeatureModule {}
