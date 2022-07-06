@@ -1,9 +1,13 @@
-import { tuiIconLikeLarge, tuiIconSettingsLarge } from '@taiga-ui/icons';
+import {
+  tuiIconCommentLarge,
+  tuiIconLogoutLarge,
+  tuiIconSettingsLarge,
+} from '@taiga-ui/icons';
 import { NavbarGroup } from '@teaching-scheduling-system/core/data-access/models';
 
 export class NavbarConstants {
   public static keys = {
-    USER_INFORMATION: 'user-information',
+    USER_INFO: 'user-info',
     COMMENTS: 'comments',
     SETTINGS: 'settings',
     CHANGE_PASSWORD: 'change-password',
@@ -15,7 +19,7 @@ export class NavbarConstants {
     {
       items: [
         {
-          key: NavbarConstants.keys.USER_INFORMATION,
+          key: NavbarConstants.keys.USER_INFO,
           label: 'Thông tin cá nhân',
           routerLink: '/user-info',
           icon: '<i class="far fa-user" style="font-size: 23px"></i>',
@@ -26,9 +30,9 @@ export class NavbarConstants {
       items: [
         {
           key: NavbarConstants.keys.COMMENTS,
-          label: `Đóng góp ý kiến`,
+          label: 'Đóng góp ý kiến',
           routerLink: '/feedback',
-          icon: tuiIconLikeLarge,
+          icon: tuiIconCommentLarge,
         },
         {
           key: NavbarConstants.keys.CHANGE_PASSWORD,
@@ -41,21 +45,16 @@ export class NavbarConstants {
     {
       items: [
         // {
-        //   key: NavbarConstants.keys.SETTINGS,
-        //   label: `Cài đặt`,
-        //   routerLink: '',
-        //   icon: tuiIconSettingsLarge,
-        // },
-        // {
         //   key: NavbarConstants.keys.HELP,
-        //   label: `Trợ giúp & hỗ trợ`,
+        //   label: 'Trợ giúp & hỗ trợ',
         //   routerLink: '',
-        //   icon: '<i class="far fa-question-circle" style="font-size: 23px"></i>',
+        //   icon: tuiIconHelpCircleLarge,
+        //   externalLink: true,
         // },
         {
           key: NavbarConstants.keys.LOG_OUT,
-          label: `Đăng xuất`,
-          icon: '<i class="far fa-sign-out" style="font-size: 23px; transform: translateX(2px);"></i>',
+          label: 'Đăng xuất',
+          icon: tuiIconLogoutLarge,
         },
       ],
     },

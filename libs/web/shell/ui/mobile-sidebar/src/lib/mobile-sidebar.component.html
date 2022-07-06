@@ -1,0 +1,100 @@
+<div class="w-full h-screen flex flex-col">
+  <tui-scrollbar class="flex-grow">
+    <ng-container *ngFor="let item of items">
+      <ng-container *tssPermission="item.permission">
+        <tui-accordion
+          *ngIf="item.subItems; else link"
+          [closeOthers]="false"
+          [rounded]="false"
+          tuiMode="onLight"
+        >
+          <tui-accordion-item
+            [borders]="null"
+            [showArrow]="!!item.subItems"
+            size="s"
+          >
+            <span class="icon-wrapper inline-block">
+              <tui-svg
+                *ngIf="item.useTaigaIcon; else iconAccordion"
+                [src]="item.icon || ''"
+              ></tui-svg>
+              <ng-template #iconAccordion>
+                <i [class]="item.icon" class="mx-auto"></i>
+              </ng-template>
+            </span>
+            <strong>{{ item.name }}</strong>
+            <ng-template tuiAccordionItemContent>
+              <div class="sub-item -mt-4 -mb-2">
+                <div class="my-2 pl-3 border-l-2 border-tui-base-03">
+                  <a
+                    tuiLink
+                    *ngFor="let subItem of item.subItems; first as first"
+                    [routerLink]="subItem.routerLink"
+                    [routerLinkActiveOptions]="{ exact: true }"
+                    [icon]="subItem.useTaigaIcon ? subItem.icon || null : null"
+                    (click)="clickItem.emit()"
+                    routerLinkActive="text-tui-base-09"
+                    iconAlign="left"
+                    class="block !pt-2 leading-6 w-fit"
+                  >
+                    <span
+                      *ngIf="
+                        subItem.useTaigaIcon === null || !subItem.useTaigaIcon
+                      "
+                      class="inline-block"
+                    >
+                      <div class="link-icon-wrapper flex w-6 h-6">
+                        <i [class]="subItem.icon" class="block mx-auto"></i>
+                      </div>
+                    </span>
+                    {{ subItem.name }}
+                  </a>
+                </div>
+              </div>
+            </ng-template>
+          </tui-accordion-item>
+        </tui-accordion>
+
+        <ng-template #link>
+          <a
+            [routerLink]="item.routerLink ?? ''"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="clickItem.emit()"
+            routerLinkActive="text-tui-base-09"
+            class="link block !px-3 !py-2.5 bg-white !text-tui-text-01 hover:bg-tui-base-02"
+            tuiLink
+          >
+            <span class="icon-wrapper inline-block">
+              <tui-svg
+                *ngIf="item.useTaigaIcon; else iconLink"
+                [src]="item.icon || ''"
+              ></tui-svg>
+              <ng-template #iconLink>
+                <i [class]="item.icon" class="block mx-auto"></i>
+              </ng-template>
+            </span>
+            <strong>{{ item.name }}</strong>
+          </a>
+        </ng-template>
+      </ng-container>
+    </ng-container>
+  </tui-scrollbar>
+
+  <div class="flex">
+    <a
+      tuiIconButton
+      (click)="clickItem.emit()"
+      icon="tuiIconSettingsLarge"
+      appearance="icon"
+      routerLink="/settings"
+      class="flex-grow"
+    ></a>
+    <button
+      tuiIconButton
+      (click)="onLogout()"
+      icon="tuiIconLogoutLarge"
+      appearance="icon"
+      class="flex-grow"
+    ></button>
+  </div>
+</div>

@@ -1,24 +1,39 @@
 <div
-  class="wrapper relative h-full flex justify-between px-5 py-2 border-b border-tui-base-03"
+  class="wrapper relative h-full flex justify-between p-2 border-b border-tui-base-03 lg:px-5"
 >
   <div class="h-full flex items-center">
+    <button
+      tuiIconButton
+      *ngIf="options.showInfo"
+      (click)="toggleMobileNav(true)"
+      (tuiActiveZoneChange)="toggleMobileNav($event)"
+      icon="tuiIconMenuLarge"
+      appearance="icon"
+      class="lg:!hidden"
+    >
+      <div *tuiSidebar="openMobileNav">
+        <tss-mobile-sidebar
+          (clickItem)="toggleMobileNav(false)"
+        ></tss-mobile-sidebar>
+      </div>
+    </button>
     <a routerLink="/" class="h-full">
       <img src="/assets/favicon/logo.png" class="block h-full object-cover" />
     </a>
-    <h3 class="ml-1 text-lg font-bold uppercase">
+    <h3 class="hidden ml-1 text-lg font-bold uppercase sm:block">
       Hệ thống quản lý lịch giảng dạy
     </h3>
   </div>
 
-  <div *ngIf="options.showInfo">
+  <div *ngIf="options.showInfo" class="hidden lg:block">
     <tui-hosted-dropdown [(open)]="openDropDown" [content]="content">
       <button
         tuiButton
         *ngrxLet="user$ as user"
         [showLoader]="!user"
         size="m"
-        type="button"
         appearance="nav-button"
+        type="button"
       >
         Xin chào {{ user | navbarName }}!
       </button>

@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostListener,
+  Inject,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TuiDestroyService } from '@taiga-ui/cdk';
@@ -27,7 +32,9 @@ export class NavbarComponent {
   /** PUBLIC PROPERTIES */
   public readonly items = NavbarConstants.items;
   public user$: Observable<Nullable<Teacher>> | undefined;
+  public openMobileNav = false;
   public openDropDown = false;
+  public isMobileScreen = true;
 
   /** CONSTRUCTOR */
   constructor(
@@ -38,6 +45,7 @@ export class NavbarComponent {
     appShellStore: Store<AppShellState>,
     destroy$: TuiDestroyService
   ) {
+    this.onResize();
     if (options.showInfo) {
       this.user$ = appShellStore
         .select(selectTeacher)
@@ -53,5 +61,20 @@ export class NavbarComponent {
       this.accessTokenService.clear();
       void this.router.navigate(['/login']);
     }
+  }
+
+  /** PRIVATE METHODS */
+  @HostListener('window:resize')
+  private onResize(): void {
+    if (window.innerWidth < 1024 && !this.isMobileScreen) {
+      this.isMobileScreen = true;
+    } else if (window.innerWidth >= 1024 && this.isMobileScreen) {
+      this.isMobileScreen = false;
+      this.toggleMobileNav(false);
+    }
+  }
+
+  public toggleMobileNav(open: boolean): void {
+    this.openMobileNav = open;
   }
 }

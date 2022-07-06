@@ -1,0 +1,16 @@
+.icon-wrapper {
+  @apply w-7 mr-1.5;
+}
+
+tui-scrollbar a {
+  transition: background-color 300ms ease-in-out;
+  font: var(--tui-font-text-m);
+}
+
+tui-accordion-item ::ng-deep .header {
+  @apply !pl-3 !pr-4;
+}
+
+tui-scrollbar tui-accordion-item .sub-item > div a ::ng-deep span {
+  transition-duration: var(--tui-duration, 0.3s);
+}

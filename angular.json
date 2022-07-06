@@ -67,6 +67,7 @@
     "web-shell-ui-layout": "libs/web/shell/ui/layout",
     "web-shell-ui-loader": "libs/web/shell/ui/loader",
     "web-shell-ui-main-view": "libs/web/shell/ui/main-view",
+    "web-shell-ui-mobile-sidebar": "libs/web/shell/ui/mobile-sidebar",
     "web-shell-ui-navbar": "libs/web/shell/ui/navbar",
     "web-shell-ui-sidebar": "libs/web/shell/ui/sidebar",
     "web-statistic-data-access": "libs/web/statistic/data-access",
