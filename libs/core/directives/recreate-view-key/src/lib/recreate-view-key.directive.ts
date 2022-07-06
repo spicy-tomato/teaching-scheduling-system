@@ -25,7 +25,7 @@ export class RecreateViewKeyDirective implements OnChanges {
     private readonly viewContainer: ViewContainerRef
   ) {}
 
-  /** LIFE CYCLE */
+  /** LIFECYCLE */
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes['key']) {
       if (this.viewRef) {

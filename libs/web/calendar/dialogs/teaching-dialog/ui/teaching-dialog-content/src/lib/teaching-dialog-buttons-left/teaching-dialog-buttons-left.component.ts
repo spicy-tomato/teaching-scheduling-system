@@ -136,7 +136,7 @@ export class TeachingDialogButtonsLeftComponent implements OnInit {
     this.handleSubmitChange();
   }
 
-  /** LIFE CYCLE */
+  /** LIFECYCLE */
   public ngOnInit(): void {
     this.form = this.controlContainer.control as FormGroup;
     this.handleFormChange();

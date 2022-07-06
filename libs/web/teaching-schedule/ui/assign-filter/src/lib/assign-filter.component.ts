@@ -149,7 +149,7 @@ export class AssignFilterComponent implements OnInit {
     this.bindDepartment();
   }
 
-  /** LIFE CYCLE */
+  /** LIFECYCLE */
   public ngOnInit(): void {
     this.store.dispatch(teachingScheduleAssign_LoadFilter());
     this.myDepartment$

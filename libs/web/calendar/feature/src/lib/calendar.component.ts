@@ -97,7 +97,7 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     this.handleLoadSchedule();
   }
 
-  /** LIFE CYCLE */
+  /** LIFECYCLE */
   public ngOnInit(): void {
     this.store.dispatch(calendarLoad({ date: new Date() }));
   }

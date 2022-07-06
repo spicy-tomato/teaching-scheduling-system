@@ -72,7 +72,7 @@ export class SendEmailComponent implements OnInit {
     this.handleStatusChange();
   }
 
-  /** LIFE CYCLE */
+  /** LIFECYCLE */
   public ngOnInit(): void {
     this.appShellStore.dispatch(setLoader({ showLoader: false }));
   }
