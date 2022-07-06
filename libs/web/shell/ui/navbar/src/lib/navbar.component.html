@@ -47,16 +47,28 @@
       <ng-container *ngFor="let item of group.items">
         <a
           tuiOption
-          *ngIf="item.routerLink; else button"
-          [routerLink]="item.routerLink"
-          (click)="onClickDropDownItem(item.key)"
+          *ngIf="item.externalLink; else link"
+          [href]="item.externalLink"
+          target="_blank"
         >
-          <tui-svg *ngIf="item.icon" [src]="item.icon"></tui-svg>
+          <tui-svg [src]="item.icon"></tui-svg>
           <span>{{ item.label }}</span>
+          <tui-svg src="tuiIconExternalLarge"></tui-svg>
         </a>
+        <ng-template #link>
+          <a
+            tuiOption
+            *ngIf="item.routerLink; else button"
+            [routerLink]="item.routerLink"
+            (click)="onClickDropDownItem(item.key)"
+          >
+            <tui-svg [src]="item.icon"></tui-svg>
+            <span>{{ item.label }}</span>
+          </a>
+        </ng-template>
         <ng-template #button>
           <button tuiOption (click)="onClickDropDownItem(item.key)">
-            <tui-svg *ngIf="item.icon" [src]="item.icon"></tui-svg>
+            <tui-svg [src]="item.icon"></tui-svg>
             <span>{{ item.label }}</span>
           </button>
         </ng-template>

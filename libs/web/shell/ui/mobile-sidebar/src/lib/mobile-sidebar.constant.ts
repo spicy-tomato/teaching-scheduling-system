@@ -1,4 +1,4 @@
-import { tuiIconComment } from '@taiga-ui/icons';
+import { tuiIconComment, tuiIconTooltip } from '@taiga-ui/icons';
 import { PermissionConstant } from '@teaching-scheduling-system/core/data-access/constants';
 import { SidebarItem } from '@teaching-scheduling-system/core/data-access/models';
 
@@ -80,6 +80,12 @@ export class MobileSidebarConstant {
       name: 'Đóng góp ý kiến',
       icon: tuiIconComment,
       routerLink: '/feedback',
+      useTaigaIcon: true,
+    },
+    {
+      name: 'Trợ giúp & hỗ trợ',
+      icon: tuiIconTooltip,
+      externalLink: 'https://m.me/utcketnoi',
       useTaigaIcon: true,
     },
   ];

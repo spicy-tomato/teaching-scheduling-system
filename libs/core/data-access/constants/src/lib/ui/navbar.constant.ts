@@ -1,5 +1,6 @@
 import {
   tuiIconCommentLarge,
+  tuiIconHelpCircleLarge,
   tuiIconLogoutLarge,
   tuiIconSettingsLarge,
 } from '@taiga-ui/icons';
@@ -44,13 +45,12 @@ export class NavbarConstants {
     },
     {
       items: [
-        // {
-        //   key: NavbarConstants.keys.HELP,
-        //   label: 'Trợ giúp & hỗ trợ',
-        //   routerLink: '',
-        //   icon: tuiIconHelpCircleLarge,
-        //   externalLink: true,
-        // },
+        {
+          key: NavbarConstants.keys.HELP,
+          label: 'Trợ giúp & hỗ trợ',
+          icon: tuiIconHelpCircleLarge,
+          externalLink: 'https://m.me/utcketnoi',
+        },
         {
           key: NavbarConstants.keys.LOG_OUT,
           label: 'Đăng xuất',

@@ -31,7 +31,7 @@
                     *ngFor="let subItem of item.subItems; first as first"
                     [routerLink]="subItem.routerLink"
                     [routerLinkActiveOptions]="{ exact: true }"
-                    [icon]="subItem.useTaigaIcon ? subItem.icon || null : null"
+                    [icon]="subItem.useTaigaIcon ? subItem.icon : null"
                     routerLinkActive="text-tui-base-09"
                     iconAlign="left"
                     class="block !pt-2 leading-6 w-fit"
@@ -42,7 +42,7 @@
                       "
                       class="inline-block"
                     >
-                      <div class="link-icon-wrapper flex w-6 h-6">
+                      <div class="flex w-6 h-6">
                         <i [class]="subItem.icon" class="block mx-auto"></i>
                       </div>
                     </span>
