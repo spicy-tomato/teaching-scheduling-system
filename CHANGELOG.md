@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.2.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.2.0...v3.2.1) (2022-07-08)
+
+
+### Bug Fixes
+
+* **calendar:** fix responsive bug for small laptop screen ([3a83c5b](https://github.com/annguyen-it/teaching-scheduling-system/commits/3a83c5b4b7f6eefb41b10e6db02f97a02f59c627))
+* error ng0100 after close mobile dialog by clicking item ([09349cf](https://github.com/annguyen-it/teaching-scheduling-system/commits/09349cfd836b5118ecb8291444b44da4db6ba165))
+* fade animation should be play when route changes ([19a47be](https://github.com/annguyen-it/teaching-scheduling-system/commits/19a47bea76be4881a9c8191780c2e3fd20b8f90d))
+
 ## [3.2.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.1.0...v3.2.0) (2022-07-06)
 
 
