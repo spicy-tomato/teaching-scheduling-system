@@ -33,6 +33,9 @@
       "@teaching-scheduling-system/core/pipes/filter-by-input-pipe": [
         "libs/core/pipes/filter-by-input-pipe/src/index.ts"
       ],
+      "@teaching-scheduling-system/core/pipes/shorten-name": [
+        "libs/core/pipes/shorten-name/src/index.ts"
+      ],
       "@teaching-scheduling-system/core/ui/animations": [
         "libs/core/ui/animations/src/index.ts"
       ],

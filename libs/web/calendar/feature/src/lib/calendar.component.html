@@ -39,9 +39,9 @@
           [class.px-1]="dayOfMonth === '1'"
         >
           {{ dayOfMonth }}
-          <ng-container *ngIf="dayOfMonth === '1'">
-            tháng {{ data.date | date: 'M' }}</ng-container
-          >
+          <span *ngIf="dayOfMonth === '1'" class="hidden md:inline">
+            tháng {{ data.date | date: 'M' }}
+          </span>
         </div>
       </ng-template>
 
