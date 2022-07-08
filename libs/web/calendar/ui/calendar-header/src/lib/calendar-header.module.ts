@@ -18,6 +18,7 @@ import {
   TuiSelectModule,
 } from '@taiga-ui/kit';
 import { PermissionDirectiveModule } from '@teaching-scheduling-system/web/shared/directives/permission';
+import { ShortenNamePipeModule } from '@teaching-scheduling-system/core/pipes/shorten-name';
 import { CalendarHeaderComponent } from './calendar-header.component';
 
 const NGRX = [ReactiveComponentModule];
@@ -40,6 +41,7 @@ const TAIGA_UI = [
     CommonModule,
     FormsModule,
     PermissionDirectiveModule,
+    ShortenNamePipeModule,
     ...NGRX,
     ...TAIGA_UI,
   ],

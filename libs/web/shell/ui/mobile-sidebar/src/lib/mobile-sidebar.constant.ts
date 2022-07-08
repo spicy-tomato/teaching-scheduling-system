@@ -1,14 +1,8 @@
-import { tuiIconComment, tuiIconTooltip } from '@taiga-ui/icons';
 import { PermissionConstant } from '@teaching-scheduling-system/core/data-access/constants';
 import { SidebarItem } from '@teaching-scheduling-system/core/data-access/models';
 
 export class MobileSidebarConstant {
   public static items: SidebarItem[] = [
-    {
-      name: 'Thông tin cá nhân',
-      icon: 'far fa-user',
-      routerLink: '/user-info',
-    },
     {
       name: 'Lịch biểu',
       icon: 'far fa-calendar-alt',
@@ -77,16 +71,19 @@ export class MobileSidebarConstant {
       permission: PermissionConstant.STATISTICIZE_CHANGE_SCHEDULE,
     },
     {
+      name: 'Thông tin cá nhân',
+      icon: 'far fa-user',
+      routerLink: '/user-info',
+    },
+    {
       name: 'Đóng góp ý kiến',
-      icon: tuiIconComment,
+      icon: 'far fa-comment',
       routerLink: '/feedback',
-      useTaigaIcon: true,
     },
     {
       name: 'Trợ giúp & hỗ trợ',
-      icon: tuiIconTooltip,
+      icon: 'far fa-question-circle',
       externalLink: 'https://m.me/utcketnoi',
-      useTaigaIcon: true,
     },
   ];
 }

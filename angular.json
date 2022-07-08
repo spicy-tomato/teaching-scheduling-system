@@ -8,6 +8,7 @@
     "core-directives-var": "libs/core/directives/var",
     "core-pipes-array": "libs/core/pipes/array",
     "core-pipes-filter-by-input-pipe": "libs/core/pipes/filter-by-input-pipe",
+    "core-pipes-shorten-name": "libs/core/pipes/shorten-name",
     "core-ui-animations": "libs/core/ui/animations",
     "core-utils-factories": "libs/core/utils/factories",
     "core-utils-helpers": "libs/core/utils/helpers",

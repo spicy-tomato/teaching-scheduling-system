@@ -16,7 +16,7 @@ import { Observable, takeUntil } from 'rxjs';
   providers: [TuiDestroyService],
 })
 export class BreadcrumbComponent {
-  /** INPUT */
+  /** PUBLIC METHODS */
   public readonly breadcrumbs$: Observable<BreadcrumbItem[]>;
 
   /** CONSTRUCTOR */
