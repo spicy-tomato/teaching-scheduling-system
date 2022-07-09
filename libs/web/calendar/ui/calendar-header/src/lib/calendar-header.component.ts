@@ -9,9 +9,8 @@ import { Store } from '@ngrx/store';
 import { ScheduleComponent, View } from '@syncfusion/ej2-angular-schedule';
 import { TuiDestroyService, TuiMonth } from '@taiga-ui/cdk';
 import {
-  TuiAppearance,
+  tuiButtonOptionsProvider,
   TuiNotificationsService,
-  TUI_BUTTON_OPTIONS,
 } from '@taiga-ui/core';
 import { PermissionConstant } from '@teaching-scheduling-system/core/data-access/constants';
 import { fadeIn } from '@teaching-scheduling-system/core/ui/animations';
@@ -61,14 +60,10 @@ import {
   animations: [fadeIn],
   providers: [
     TuiDestroyService,
-    {
-      provide: TUI_BUTTON_OPTIONS,
-      useValue: {
-        shape: null,
-        appearance: TuiAppearance.Flat,
-        size: 'xs',
-      },
-    },
+    tuiButtonOptionsProvider({
+      appearance: 'flat',
+      size: 'xs',
+    }),
   ],
 })
 export class CalendarHeaderComponent implements AfterViewInit {

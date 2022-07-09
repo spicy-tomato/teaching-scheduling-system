@@ -21,7 +21,7 @@ module.exports = {
         '38': '9.5rem',
         'nav-h': '65px',
         'main-view-h': 'calc(100vh - 65px)',
-        'content-h': 'calc(100vh - 127px)',
+        'content-h': 'calc(100vh - 127px)', /* With breadcrumbs */
         'sidebar-w': '240px',
         'main-view-w': 'calc(100vw - 240px)',
       },

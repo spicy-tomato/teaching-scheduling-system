@@ -5,11 +5,7 @@ import {
   Injector,
 } from '@angular/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
-import {
-  TuiAppearance,
-  TuiDialogService,
-  TUI_BUTTON_OPTIONS,
-} from '@taiga-ui/core';
+import { tuiButtonOptionsProvider, TuiDialogService } from '@taiga-ui/core';
 import { ExamAssignStore } from '@teaching-scheduling-system/web/exam/data-access';
 import { AssignEditDialogComponent } from '@teaching-scheduling-system/web/exam/ui/assign-edit-dialog';
 import { AssignTeacherDialogComponent } from '@teaching-scheduling-system/web/exam/ui/assign-teacher-dialog';
@@ -25,14 +21,10 @@ import { tap } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     TuiDestroyService,
-    {
-      provide: TUI_BUTTON_OPTIONS,
-      useValue: {
-        shape: null,
-        appearance: TuiAppearance.Icon,
-        size: 'l',
-      },
-    },
+    tuiButtonOptionsProvider({
+      appearance: 'icon',
+      size: 'l',
+    }),
   ],
 })
 export class AssignListComponent {
