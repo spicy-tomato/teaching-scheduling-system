@@ -12,11 +12,11 @@ import {
   selectPermission,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
 import {
+  combineLatest,
+  filter,
   Observable,
   Subject,
   takeUntil,
-  combineLatest,
-  filter,
   tap,
 } from 'rxjs';
 
@@ -46,15 +46,15 @@ export class PermissionDirective {
   /** CONSTRUCTOR */
   constructor(
     private readonly thenTemplateRef: TemplateRef<unknown>,
-    private readonly viewContainer: ViewContainerRef,
+    private readonly viewContainerRef: ViewContainerRef,
     private readonly cdr: ChangeDetectorRef,
     private elseThenTemplateRef: TemplateRef<unknown>,
-    private readonly destroy$: TuiDestroyService,
-    appShellStore: Store<AppShellState>
+    appShellStore: Store<AppShellState>,
+    destroy$: TuiDestroyService
   ) {
     this.permissions$ = appShellStore
       .select(selectPermission)
-      .pipe(takeUntil(this.destroy$));
+      .pipe(takeUntil(destroy$));
 
     this.triggerUpdateView();
   }
@@ -68,13 +68,12 @@ export class PermissionDirective {
 
   private updateView(permissions?: number[]): void {
     const accept = this._tssPermission;
-    this.viewContainer.clear();
-
+    this.viewContainerRef.clear();
     if (!accept || permissions?.includes(accept)) {
-      this.viewContainer.createEmbeddedView(this.thenTemplateRef);
+      this.viewContainerRef.createEmbeddedView(this.thenTemplateRef);
       this.cdr.detectChanges();
     } else if (this.hadElse) {
-      this.viewContainer.createEmbeddedView(this.elseThenTemplateRef);
+      this.viewContainerRef.createEmbeddedView(this.elseThenTemplateRef);
       this.cdr.detectChanges();
     }
   }

@@ -234,8 +234,7 @@ export class CalendarHeaderComponent implements AfterViewInit {
     this.clickToday$
       .pipe(
         withLatestFrom(this.view$, this.filter$),
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        tap(([_, view, filter]) => {
+        tap(({ 1: view, 2: filter }) => {
           const today = new Date();
 
           if (
@@ -265,8 +264,7 @@ export class CalendarHeaderComponent implements AfterViewInit {
     this.displayNotification$
       .pipe(
         withLatestFrom(this.appShellStore.select(selectNameTitle)),
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        tap(([_, nameTitle]) => {
+        tap(({ 1: nameTitle }) => {
           this.canDisplayNotification = false;
           const schedule = this.scheduleComponent;
           const now = new Date();
@@ -299,8 +297,7 @@ export class CalendarHeaderComponent implements AfterViewInit {
   private triggerActiveToday(): void {
     this.activeToday$ = combineLatest([this.selectedDate$, this.view$]).pipe(
       delay(0),
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      map(([_, view]) =>
+      map(({ 1: view }) =>
         ScheduleHelper.dayInCurrentView(this.scheduleComponent, view)
       )
     );

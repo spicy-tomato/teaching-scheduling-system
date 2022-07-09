@@ -26,14 +26,16 @@ import {
   ArrayHelper,
   ChangeStatusHelper,
   DateHelper,
+  DeviceHelper,
   ObservableHelper,
   ScheduleHelper,
 } from '@teaching-scheduling-system/core/utils/helpers';
 import { ChangeScheduleHistoryComponent } from '@teaching-scheduling-system/web-shared-ui-dialog';
 import {
   calendarChangeScheduleInDialog,
-  calendarChangeView,
   calendarLoad,
+  calendarNext,
+  calendarPrev,
   calendarReset,
   calendarSelectFilteredSchedule,
   calendarSelectSelectedDate,
@@ -163,8 +165,27 @@ export class CalendarComponent implements OnInit, AfterViewInit {
   }
 
   public onNavigating(args: NavigatingEventArgs): void {
-    if (args.previousView === 'Month' && args.currentView === 'Day') {
-      this.store.dispatch(calendarChangeView({ view: 'Day' }));
+    if (!DeviceHelper.isTouchDevice()) {
+      return;
+    }
+
+    if (args.action === 'date') {
+      const { currentDate, previousDate } = args;
+      if (currentDate && previousDate) {
+        if (currentDate < previousDate) {
+          this.store.dispatch(
+            calendarPrev({
+              oldSelectedDate: this.scheduleComponent.selectedDate,
+            })
+          );
+        } else if (currentDate > previousDate) {
+          this.store.dispatch(
+            calendarNext({
+              oldSelectedDate: this.scheduleComponent.selectedDate,
+            })
+          );
+        }
+      }
     }
   }
 
