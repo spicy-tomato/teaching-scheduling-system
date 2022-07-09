@@ -4,6 +4,7 @@ import {
   Component,
   HostListener,
   Inject,
+  TemplateRef,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -20,6 +21,7 @@ import {
   selectTeacher,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
 import { Observable, takeUntil } from 'rxjs';
+import { NavbarService } from './navbar.service';
 import { NavbarOptions, NAVBAR_OPTIONS } from './navbar.token';
 
 @Component({
@@ -32,10 +34,12 @@ import { NavbarOptions, NAVBAR_OPTIONS } from './navbar.token';
 export class NavbarComponent {
   /** PUBLIC PROPERTIES */
   public readonly items = NavbarConstants.items;
-  public user$: Observable<Nullable<Teacher>> | undefined;
+  public readonly rightMenu$: Observable<Nullable<TemplateRef<never>>>;
+
   public openMobileNav = false;
   public openDropDown = false;
   public isMobileScreen = true;
+  public user$: Observable<Nullable<Teacher>> | undefined;
 
   /** CONSTRUCTOR */
   constructor(
@@ -45,6 +49,7 @@ export class NavbarComponent {
     private readonly cdr: ChangeDetectorRef,
     @Inject(NAVBAR_OPTIONS) public readonly options: NavbarOptions,
     appShellStore: Store<AppShellState>,
+    navbarService: NavbarService,
     destroy$: TuiDestroyService
   ) {
     this.onResize();
@@ -53,6 +58,7 @@ export class NavbarComponent {
         .select(selectTeacher)
         .pipe(takeUntil(destroy$));
     }
+    this.rightMenu$ = navbarService.rightMenu$.pipe(takeUntil(destroy$));
   }
 
   /** PUBLIC METHODS */

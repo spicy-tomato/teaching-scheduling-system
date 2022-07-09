@@ -4,6 +4,7 @@ import {
   Component,
   Inject,
   Input,
+  ViewChild,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ScheduleComponent, View } from '@syncfusion/ej2-angular-schedule';
@@ -12,7 +13,6 @@ import {
   tuiButtonOptionsProvider,
   TuiNotificationsService,
 } from '@taiga-ui/core';
-import { PermissionConstant } from '@teaching-scheduling-system/core/data-access/constants';
 import { fadeIn } from '@teaching-scheduling-system/core/ui/animations';
 import {
   DateHelper,
@@ -20,23 +20,17 @@ import {
 } from '@teaching-scheduling-system/core/utils/helpers';
 import {
   calendarChangeMonth,
-  calendarChangeSelectingState,
   calendarChangeView,
-  calendarFilter,
   calendarNext,
   calendarPrev,
   calendarSelectFilter,
-  calendarSelectModules,
   calendarSelectMonth,
   calendarSelectSelectedDate,
-  calendarSelectTeachers,
   calendarSelectView,
   CalendarState,
 } from '@teaching-scheduling-system/web/calendar/data-access';
-import {
-  CalendarFilter,
-  SimpleModel,
-} from '@teaching-scheduling-system/web/shared/data-access/models';
+import { CalendarFilterComponent } from '@teaching-scheduling-system/web/calendar/ui/calendar-filter';
+import { CalendarFilter } from '@teaching-scheduling-system/web/shared/data-access/models';
 import {
   AppShellState,
   selectNameTitle,
@@ -70,6 +64,10 @@ export class CalendarHeaderComponent implements AfterViewInit {
   /** INPUT */
   @Input() public scheduleComponent!: ScheduleComponent;
 
+  /** VIEWCHILD */
+  @ViewChild(CalendarFilterComponent, { static: false })
+  public filter!: CalendarFilterComponent;
+
   /** PUBLIC PROPERTIES */
   public view$: Observable<View>;
   public filter$: Observable<CalendarFilter>;
@@ -78,20 +76,12 @@ export class CalendarHeaderComponent implements AfterViewInit {
   public dateRange$!: Observable<string>;
   public openFilter = false;
   public activeToday$!: Observable<boolean>;
-  public teachers$: Observable<SimpleModel[]>;
-  public modules$: Observable<string[]>;
 
   public readonly clickToday$ = new Subject<void>();
-  public readonly permissionConstant = PermissionConstant;
-
-  public showDepartmentSchedule = false;
-  public filteredTeachers: SimpleModel[] = [];
-  public filteredModules: string[] = [];
 
   /** PRIVATE PROPERTIES */
   private selectedDate$: Observable<Date>;
   private canDisplayNotification = true;
-  private readonly closeFilter$ = new Subject<void>();
   private readonly displayNotification$ = new Subject<void>();
 
   /** CONSTRUCTOR */
@@ -114,14 +104,7 @@ export class CalendarHeaderComponent implements AfterViewInit {
     this.view$ = store
       .select(calendarSelectView)
       .pipe(takeUntil(this.destroy$));
-    this.teachers$ = store
-      .select(calendarSelectTeachers)
-      .pipe(takeUntil(this.destroy$));
-    this.modules$ = store
-      .select(calendarSelectModules)
-      .pipe(takeUntil(this.destroy$));
 
-    this.triggerFilter();
     this.handleClickToday();
     this.handleDisplayNotification();
   }
@@ -156,35 +139,8 @@ export class CalendarHeaderComponent implements AfterViewInit {
 
   public onFilterOpenChange(open: boolean): void {
     if (!open) {
-      this.closeFilter$.next();
+      this.filter?.reset();
     }
-  }
-
-  public onSelectingDepartmentChange(showDepartmentSchedule: boolean): void {
-    this.store.dispatch(
-      calendarChangeSelectingState({ changes: { showDepartmentSchedule } })
-    );
-    this.filteredModules = [];
-  }
-
-  public onSelectingTeachersChange(teachers: SimpleModel[]): void {
-    this.store.dispatch(
-      calendarChangeSelectingState({ changes: { teachers } })
-    );
-    this.filteredModules = [];
-  }
-
-  public filter(): void {
-    this.store.dispatch(
-      calendarFilter({
-        filter: {
-          showDepartmentSchedule: this.showDepartmentSchedule,
-          teachers: this.filteredTeachers,
-          modules: this.filteredModules,
-        },
-      })
-    );
-    this.openFilter = false;
   }
 
   public onClickMonth(): void {
@@ -199,13 +155,11 @@ export class CalendarHeaderComponent implements AfterViewInit {
     this.store.dispatch(calendarChangeView({ view: 'Day' }));
   }
 
-  /** PRIVATE METHODS */
-  private triggerFilter(): void {
-    combineLatest([this.filter$, this.closeFilter$])
-      .pipe(tap(([filter]) => this.resetFilter(filter)))
-      .subscribe();
+  public onFilter(): void {
+    this.openFilter = false;
   }
 
+  /** PRIVATE METHODS */
   private triggerDateRange(): void {
     this.dateRange$ = combineLatest([this.view$, this.selectedDate$]).pipe(
       map(([view]) => view),
@@ -298,10 +252,8 @@ export class CalendarHeaderComponent implements AfterViewInit {
     );
   }
 
-  private resetFilter(filter: CalendarFilter): void {
-    this.showDepartmentSchedule = filter.showDepartmentSchedule;
-    this.filteredTeachers = filter.teachers;
-    this.filteredModules = filter.modules;
+  private resetFilter(): void {
+    // this.filter.close();
   }
 
   private monthDateRange(): string {

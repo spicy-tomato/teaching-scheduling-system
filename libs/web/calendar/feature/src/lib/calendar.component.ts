@@ -5,6 +5,7 @@ import {
   Inject,
   Injector,
   OnInit,
+  TemplateRef,
   ViewChild,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -50,6 +51,7 @@ import {
   EjsScheduleModel,
   FixedScheduleModel,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
+import { NavbarService } from '@teaching-scheduling-system/web/shell/ui/navbar';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import {
   BehaviorSubject,
@@ -76,6 +78,7 @@ import {
 export class CalendarComponent implements OnInit, AfterViewInit {
   /** VIEWCHILD */
   @ViewChild('schedule') public scheduleComponent!: ScheduleComponent;
+  @ViewChild('rightMenu') public rightMenuTemplate!: TemplateRef<never>;
 
   /** PUBLIC PROPERTIES */
   public readonly eventSettings$ = new BehaviorSubject<EventSettingsModel>({});
@@ -93,7 +96,8 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     private readonly destroy$: TuiDestroyService,
     @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
     @Inject(Injector) private readonly injector: Injector,
-    private store: Store<CalendarState>
+    private readonly navbarService: NavbarService,
+    private readonly store: Store<CalendarState>
   ) {
     this.store.dispatch(calendarReset());
     this.handleLoadSchedule();
@@ -108,6 +112,7 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     this.handleSelectedDateChanges();
     this.handleChangeView();
     this.handleChangeStatus();
+    this.navbarService.addRightMenu(this.rightMenuTemplate);
   }
 
   /** PUBLIC METHODS */

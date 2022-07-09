@@ -1,5 +1,5 @@
 <div
-  class="wrapper relative h-full flex justify-between p-2 border-b border-tui-base-03 lg:px-5"
+  class="wrapper relative h-full flex justify-between py-2 border-b border-tui-base-03 sm:px-2 lg:px-5"
 >
   <div class="h-full flex items-center">
     <button
@@ -38,6 +38,15 @@
       </button>
     </tui-hosted-dropdown>
   </div>
+
+  <ng-container *ngrxLet="rightMenu$ as rightMenu">
+    <div
+      *ngIf="options.showInfo && rightMenu"
+      class="flex items-center lg:hidden"
+    >
+      <ng-container [ngTemplateOutlet]="rightMenu"></ng-container>
+    </div>
+  </ng-container>
 </div>
 
 <ng-template #content>
