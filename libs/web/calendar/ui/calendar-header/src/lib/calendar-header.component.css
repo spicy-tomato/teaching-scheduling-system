@@ -4,17 +4,14 @@ button[tuiButton] {
 button.active ::ng-deep > tui-wrapper {
   @apply bg-tui-secondary-active;
 }
-.wrapper button [tuiButton] {
-  @apply w-auto;
-}
 .wrapper button ::ng-deep .t-wrapper .t-content {
   @apply text-tui-text-01;
 }
 
-tui-hosted-dropdown button ::ng-deep .icon {
+tui-hosted-dropdown button ::ng-deep .t-icon {
   transition: all 0.25s ease-in-out;
 }
-tui-hosted-dropdown button.rotate ::ng-deep .icon {
+tui-hosted-dropdown button.rotate ::ng-deep .t-icon {
   @apply rotate-180;
 }
 
