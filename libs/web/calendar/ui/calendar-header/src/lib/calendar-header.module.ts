@@ -1,45 +1,26 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { ReactiveComponentModule } from '@ngrx/component';
-import { TuiActiveZoneModule } from '@taiga-ui/cdk';
-import {
-  TuiButtonModule,
-  TuiDataListModule,
-  TuiExpandModule,
-  TuiHostedDropdownModule,
-  TuiLoaderModule,
-  TuiTextfieldControllerModule,
-} from '@taiga-ui/core';
-import {
-  TuiCalendarMonthModule,
-  TuiMultiSelectModule,
-  TuiRadioLabeledModule,
-  TuiSelectModule,
-} from '@taiga-ui/kit';
-import { PermissionDirectiveModule } from '@teaching-scheduling-system/web/shared/directives/permission';
+import { TuiButtonModule, TuiHostedDropdownModule } from '@taiga-ui/core';
+import { TuiCalendarMonthModule } from '@taiga-ui/kit';
+import { TouchScreenOrDirectiveModule } from '@teaching-scheduling-system/core/directives/touch-screen-or';
+import { ShortenNamePipeModule } from '@teaching-scheduling-system/core/pipes/shorten-name';
+import { CalendarFilterModule } from '@teaching-scheduling-system/web/calendar/ui/calendar-filter';
 import { CalendarHeaderComponent } from './calendar-header.component';
 
 const NGRX = [ReactiveComponentModule];
 const TAIGA_UI = [
-  TuiLoaderModule,
-  TuiHostedDropdownModule,
-  TuiCalendarMonthModule,
-  TuiRadioLabeledModule,
-  TuiExpandModule,
-  TuiSelectModule,
-  TuiMultiSelectModule,
-  TuiDataListModule,
-  TuiActiveZoneModule,
   TuiButtonModule,
-  TuiTextfieldControllerModule,
+  TuiCalendarMonthModule,
+  TuiHostedDropdownModule,
 ];
 
 @NgModule({
   imports: [
     CommonModule,
-    FormsModule,
-    PermissionDirectiveModule,
+    TouchScreenOrDirectiveModule,
+    ShortenNamePipeModule,
+    CalendarFilterModule,
     ...NGRX,
     ...TAIGA_UI,
   ],

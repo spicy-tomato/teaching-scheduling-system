@@ -7,7 +7,7 @@ import {
   tuiPure,
   TuiStringHandler,
 } from '@taiga-ui/cdk';
-import { TuiAppearance, TUI_BUTTON_OPTIONS } from '@taiga-ui/core';
+import { tuiButtonOptionsProvider } from '@taiga-ui/core';
 import { CoreConstant } from '@teaching-scheduling-system/core/data-access/constants';
 import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
 import {
@@ -29,11 +29,11 @@ import {
   selectTrainingTypes,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
 import {
+  TeachingScheduleAssignState,
   teachingScheduleAssign_Filter,
   teachingScheduleAssign_LoadFilter,
   teachingScheduleAssign_SelectDepartments,
   teachingScheduleAssign_SelectFilterStatus,
-  TeachingScheduleAssignState,
 } from '@teaching-scheduling-system/web/teaching-schedule/data-access';
 import {
   filter,
@@ -53,14 +53,10 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     TuiDestroyService,
-    {
-      provide: TUI_BUTTON_OPTIONS,
-      useValue: {
-        shape: null,
-        appearance: TuiAppearance.Primary,
-        size: 's',
-      },
-    },
+    tuiButtonOptionsProvider({
+      appearance: 'primary',
+      size: 's',
+    }),
   ],
 })
 export class AssignFilterComponent implements OnInit {
@@ -149,7 +145,7 @@ export class AssignFilterComponent implements OnInit {
     this.bindDepartment();
   }
 
-  /** LIFE CYCLE */
+  /** LIFECYCLE */
   public ngOnInit(): void {
     this.store.dispatch(teachingScheduleAssign_LoadFilter());
     this.myDepartment$

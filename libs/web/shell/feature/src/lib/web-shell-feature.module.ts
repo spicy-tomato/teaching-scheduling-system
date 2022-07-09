@@ -28,6 +28,7 @@ import {
   LayoutComponent,
   LayoutModule,
 } from '@teaching-scheduling-system/web/shell/ui/layout';
+import { NavbarService } from '@teaching-scheduling-system/web/shell/ui/navbar';
 import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
 import { of } from 'rxjs';
 import { extModules } from './build-specifics';
@@ -224,6 +225,7 @@ export const webShellFeatureRoutes: Routes = [
       tuiHintHideDelay: 100,
       direction: 'bottom-middle',
     }),
+    NavbarService,
   ],
 })
 export class WebShellFeatureModule {}

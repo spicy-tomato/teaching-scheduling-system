@@ -19,9 +19,11 @@ module.exports = {
         '30': '7.5rem',
         '34': '8.5rem',
         '38': '9.5rem',
-        'nav': 'var(--nav-height)',
-        'main-view': 'calc(100vh - 65px)',
-        'content': 'calc(100vh - 127px)',
+        'nav-h': '65px',
+        'main-view-h': 'calc(100vh - 65px)',
+        'content-h': 'calc(100vh - 127px)', /* With breadcrumbs */
+        'sidebar-w': '240px',
+        'main-view-w': 'calc(100vw - 240px)',
       },
       inset: {
         '1/5': '20%',

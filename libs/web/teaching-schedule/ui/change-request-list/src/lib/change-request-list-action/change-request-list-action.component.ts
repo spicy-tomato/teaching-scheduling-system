@@ -8,11 +8,7 @@ import {
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TuiDestroyService } from '@taiga-ui/cdk';
-import {
-  TuiAppearance,
-  TuiDialogService,
-  TUI_BUTTON_OPTIONS,
-} from '@taiga-ui/core';
+import { tuiButtonOptionsProvider, TuiDialogService } from '@taiga-ui/core';
 import { IconConstant } from '@teaching-scheduling-system/core/data-access/constants';
 import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
 import {
@@ -61,14 +57,10 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     TuiDestroyService,
-    {
-      provide: TUI_BUTTON_OPTIONS,
-      useValue: {
-        shape: null,
-        appearance: TuiAppearance.Icon,
-        size: 'l',
-      },
-    },
+    tuiButtonOptionsProvider({
+      appearance: 'icon',
+      size: 'l',
+    }),
   ],
 })
 export class ChangeRequestListActionComponent {

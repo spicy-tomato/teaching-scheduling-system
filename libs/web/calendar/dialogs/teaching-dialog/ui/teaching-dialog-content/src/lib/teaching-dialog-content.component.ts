@@ -13,10 +13,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { TuiDay, TuiDestroyService, TuiTime } from '@taiga-ui/cdk';
 import {
-  TuiAppearance,
+  tuiButtonOptionsProvider,
   TuiNotification,
   TuiNotificationsService,
-  TUI_BUTTON_OPTIONS,
 } from '@taiga-ui/core';
 import { CoreConstant } from '@teaching-scheduling-system/core/data-access/constants';
 import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
@@ -77,14 +76,10 @@ import { TeachingDialogButtonsRightComponent } from './teaching-dialog-buttons-r
   providers: [
     TuiDestroyService,
     FormHelper,
-    {
-      provide: TUI_BUTTON_OPTIONS,
-      useValue: {
-        shape: null,
-        appearance: TuiAppearance.Primary,
-        size: 'm',
-      },
-    },
+    tuiButtonOptionsProvider({
+      appearance: 'primary',
+      size: 'm',
+    }),
   ],
 })
 export class TeachingDialogContentComponent implements OnInit {
@@ -184,7 +179,7 @@ export class TeachingDialogContentComponent implements OnInit {
       .pipe(takeUntil(this.destroy$));
   }
 
-  /** LIFE CYCLE */
+  /** LIFECYCLE */
   public ngOnInit(): void {
     this.initForm();
 

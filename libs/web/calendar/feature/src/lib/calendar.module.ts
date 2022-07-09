@@ -18,6 +18,7 @@ import { ExamDialogModule } from '@teaching-scheduling-system/web/calendar/dialo
 import { TeachingDialogModule } from '@teaching-scheduling-system/web/calendar/dialogs/teaching-dialog/feature';
 import { CalendarDateTimePipeModule } from '@teaching-scheduling-system/web/calendar/ui/calendar-date-time-pipe';
 import { CalendarHeaderModule } from '@teaching-scheduling-system/web/calendar/ui/calendar-header';
+import { CalendarMenuModule } from '@teaching-scheduling-system/web/calendar/ui/calendar-menu';
 import { ChangeStatusTypePipeModule } from '@teaching-scheduling-system/web/calendar/ui/change-status-type-pipe';
 import { CalendarComponent } from './calendar.component';
 
@@ -38,6 +39,7 @@ const TAIGA_UI = [TuiLinkModule, TuiFilterPipeModule];
     DialogModule,
     VarDirectiveModule,
     CalendarHeaderModule,
+    CalendarMenuModule,
     CalendarDateTimePipeModule,
     ChangeStatusTypePipeModule,
     ...NGRX,

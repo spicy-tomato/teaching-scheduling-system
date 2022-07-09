@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import {
   TuiAppearance,
+  tuiButtonOptionsProvider,
   TuiDialogContext,
-  TUI_BUTTON_OPTIONS,
   TUI_TEXTFIELD_APPEARANCE,
 } from '@taiga-ui/core';
 import { ChangeSchedule } from '@teaching-scheduling-system/web/shared/data-access/models';
@@ -19,14 +19,10 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
   styleUrls: ['./change-deny-dialog.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    {
-      provide: TUI_BUTTON_OPTIONS,
-      useValue: {
-        shape: null,
-        appearance: TuiAppearance.Primary,
-        size: 'm',
-      },
-    },
+    tuiButtonOptionsProvider({
+      appearance: 'primary',
+      size: 'm',
+    }),
     {
       provide: TUI_TEXTFIELD_APPEARANCE,
       useValue: TuiAppearance.Textfield,

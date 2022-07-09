@@ -73,7 +73,7 @@ export class TeachingDialogButtonsRightComponent implements OnInit {
       .pipe(takeUntil(this.destroy$));
   }
 
-  /** LIFE CYCLE */
+  /** LIFECYCLE */
   public ngOnInit(): void {
     this.form = this.controlContainer.control as FormGroup;
   }

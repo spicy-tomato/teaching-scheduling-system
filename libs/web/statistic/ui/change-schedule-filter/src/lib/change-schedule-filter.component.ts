@@ -92,7 +92,7 @@ export class ChangeScheduleFilterComponent implements OnInit {
     this.handleExport();
   }
 
-  /** LIFE CYCLE */
+  /** LIFECYCLE */
   public ngOnInit(): void {
     this.statisticizeFirstTime();
   }

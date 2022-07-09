@@ -3,7 +3,7 @@
     <ng-container *ngFor="let item of items">
       <ng-container *tssPermission="item.permission">
         <tui-accordion
-          *ngIf="item.subItems; else link"
+          *ngIf="item.subItems; else externalLink"
           [closeOthers]="false"
           [rounded]="false"
           tuiMode="onLight"
@@ -43,7 +43,7 @@
                       "
                       class="inline-block"
                     >
-                      <div class="link-icon-wrapper flex w-6 h-6">
+                      <div class="flex w-6 h-6">
                         <i [class]="subItem.icon" class="block mx-auto"></i>
                       </div>
                     </span>
@@ -55,14 +55,38 @@
           </tui-accordion-item>
         </tui-accordion>
 
-        <ng-template #link>
+        <ng-template #externalLink>
           <a
+            tuiLink
+            *ngIf="item.externalLink; else normalLink"
+            [href]="item.externalLink"
+            class="link"
+            target="_blank"
+          >
+            <div class="flex items-center">
+              <span class="icon-wrapper inline-block">
+                <tui-svg
+                  *ngIf="item.useTaigaIcon; else iconLink"
+                  [src]="item.icon || ''"
+                ></tui-svg>
+                <ng-template #iconLink>
+                  <i [class]="item.icon" class="block mx-auto"></i>
+                </ng-template>
+              </span>
+              <strong class="flex-grow">{{ item.name }}</strong>
+              <i class="far fa-external-link block mr-3"></i>
+            </div>
+          </a>
+        </ng-template>
+
+        <ng-template #normalLink>
+          <a
+            tuiLink
             [routerLink]="item.routerLink ?? ''"
             [routerLinkActiveOptions]="{ exact: true }"
             (click)="clickItem.emit()"
             routerLinkActive="text-tui-base-09"
-            class="link block !px-3 !py-2.5 bg-white !text-tui-text-01 hover:bg-tui-base-02"
-            tuiLink
+            class="link"
           >
             <span class="icon-wrapper inline-block">
               <tui-svg

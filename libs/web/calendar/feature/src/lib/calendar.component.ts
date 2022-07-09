@@ -5,6 +5,7 @@ import {
   Inject,
   Injector,
   OnInit,
+  TemplateRef,
   ViewChild,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -26,14 +27,16 @@ import {
   ArrayHelper,
   ChangeStatusHelper,
   DateHelper,
+  DeviceHelper,
   ObservableHelper,
   ScheduleHelper,
 } from '@teaching-scheduling-system/core/utils/helpers';
 import { ChangeScheduleHistoryComponent } from '@teaching-scheduling-system/web-shared-ui-dialog';
 import {
   calendarChangeScheduleInDialog,
-  calendarChangeView,
   calendarLoad,
+  calendarNext,
+  calendarPrev,
   calendarReset,
   calendarSelectFilteredSchedule,
   calendarSelectSelectedDate,
@@ -48,6 +51,7 @@ import {
   EjsScheduleModel,
   FixedScheduleModel,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
+import { NavbarService } from '@teaching-scheduling-system/web/shell/ui/navbar';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import {
   BehaviorSubject,
@@ -74,6 +78,7 @@ import {
 export class CalendarComponent implements OnInit, AfterViewInit {
   /** VIEWCHILD */
   @ViewChild('schedule') public scheduleComponent!: ScheduleComponent;
+  @ViewChild('rightMenu') public rightMenuTemplate!: TemplateRef<never>;
 
   /** PUBLIC PROPERTIES */
   public readonly eventSettings$ = new BehaviorSubject<EventSettingsModel>({});
@@ -91,13 +96,14 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     private readonly destroy$: TuiDestroyService,
     @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
     @Inject(Injector) private readonly injector: Injector,
-    private store: Store<CalendarState>
+    private readonly navbarService: NavbarService,
+    private readonly store: Store<CalendarState>
   ) {
     this.store.dispatch(calendarReset());
     this.handleLoadSchedule();
   }
 
-  /** LIFE CYCLE */
+  /** LIFECYCLE */
   public ngOnInit(): void {
     this.store.dispatch(calendarLoad({ date: new Date() }));
   }
@@ -106,6 +112,7 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     this.handleSelectedDateChanges();
     this.handleChangeView();
     this.handleChangeStatus();
+    this.navbarService.addRightMenu(this.rightMenuTemplate);
   }
 
   /** PUBLIC METHODS */
@@ -163,8 +170,27 @@ export class CalendarComponent implements OnInit, AfterViewInit {
   }
 
   public onNavigating(args: NavigatingEventArgs): void {
-    if (args.previousView === 'Month' && args.currentView === 'Day') {
-      this.store.dispatch(calendarChangeView({ view: 'Day' }));
+    if (!DeviceHelper.isTouchDevice()) {
+      return;
+    }
+
+    if (args.action === 'date') {
+      const { currentDate, previousDate } = args;
+      if (currentDate && previousDate) {
+        if (currentDate < previousDate) {
+          this.store.dispatch(
+            calendarPrev({
+              oldSelectedDate: this.scheduleComponent.selectedDate,
+            })
+          );
+        } else if (currentDate > previousDate) {
+          this.store.dispatch(
+            calendarNext({
+              oldSelectedDate: this.scheduleComponent.selectedDate,
+            })
+          );
+        }
+      }
     }
   }
 

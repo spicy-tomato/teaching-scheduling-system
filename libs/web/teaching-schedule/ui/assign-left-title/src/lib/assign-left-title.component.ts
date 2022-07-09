@@ -2,10 +2,9 @@ import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import {
-  TuiAppearance,
+  tuiButtonOptionsProvider,
   TuiNotification,
   TuiNotificationsService,
-  TUI_BUTTON_OPTIONS,
 } from '@taiga-ui/core';
 import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
 import { fadeInOut } from '@teaching-scheduling-system/core/ui/animations';
@@ -42,14 +41,10 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     TuiDestroyService,
-    {
-      provide: TUI_BUTTON_OPTIONS,
-      useValue: {
-        shape: null,
-        appearance: TuiAppearance.Primary,
-        size: 's',
-      },
-    },
+    tuiButtonOptionsProvider({
+      appearance: 'primary',
+      size: 's',
+    }),
   ],
   animations: [fadeInOut],
 })

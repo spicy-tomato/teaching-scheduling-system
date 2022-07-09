@@ -7,11 +7,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TuiDestroyService } from '@taiga-ui/cdk';
-import {
-  TuiAppearance,
-  TuiDialogService,
-  TUI_BUTTON_OPTIONS,
-} from '@taiga-ui/core';
+import { tuiButtonOptionsProvider, TuiDialogService } from '@taiga-ui/core';
 import { IconConstant } from '@teaching-scheduling-system/core/data-access/constants';
 import {
   ObjectHelper,
@@ -47,14 +43,10 @@ import { Observable, Subject, takeUntil, tap, withLatestFrom } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     TuiDestroyService,
-    {
-      provide: TUI_BUTTON_OPTIONS,
-      useValue: {
-        shape: null,
-        appearance: TuiAppearance.Primary,
-        size: 's',
-      },
-    },
+    tuiButtonOptionsProvider({
+      appearance: 'primary',
+      size: 's',
+    }),
   ],
 })
 export class ChangeRequestFilterComponent {

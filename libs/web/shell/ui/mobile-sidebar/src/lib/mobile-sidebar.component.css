@@ -2,6 +2,10 @@
   @apply w-7 mr-1.5;
 }
 
+.link {
+  @apply block !px-3 !py-2.5 bg-white !text-tui-text-01 hover:bg-tui-base-02;
+}
+
 tui-scrollbar a {
   transition: background-color 300ms ease-in-out;
   font: var(--tui-font-text-m);
@@ -13,4 +17,8 @@ tui-accordion-item ::ng-deep .header {
 
 tui-scrollbar tui-accordion-item .sub-item > div a ::ng-deep span {
   transition-duration: var(--tui-duration, 0.3s);
+}
+
+a[target='_blank'] ::ng-deep .t-content {
+  width: 100%;
 }

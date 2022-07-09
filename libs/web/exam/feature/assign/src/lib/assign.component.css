@@ -1,4 +1,4 @@
 :host {
-  @apply h-full max-h-content grid gap-3;
+  @apply h-full max-h-content-h grid gap-3;
   grid-template-rows: auto 1fr;
 }

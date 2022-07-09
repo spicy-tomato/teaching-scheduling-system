@@ -1,10 +1,12 @@
+/* Height of cells */
 .cell-dimension.e-schedule .e-schedule-table .e-work-cells,
 .cell-dimension.e-schedule .e-schedule-table .e-time-slots {
   height: 45px !important;
 }
 
+/* Paint background for today cell */
 .cell-dimension.e-schedule .e-schedule-table .e-work-cells.today {
-  @apply bg-[#ffedd8];
+  @apply !w-auto bg-[#ffedd8];
 }
 
 .cell-dimension.e-schedule
@@ -14,10 +16,42 @@
   @apply bg-[#ffedd8];
 }
 
+/* Paint background for today cell header */
+.cell-dimension.e-schedule
+  .e-table-wrap:not(.e-month-view)
+  .e-schedule-table
+  .e-header-cells.e-current-day
+  .day-of-month {
+  @apply text-white bg-[#e3165b] rounded-full;
+}
+
+/* Align text for cell header */
+.e-schedule .e-month-view .e-date-header {
+  @apply !block;
+}
+
+/* Draw background circle for today */
+.e-schedule .e-month-view .e-current-date .e-date-header,
+.e-schedule .e-month-agenda-view .e-current-date .e-date-header {
+  @apply !w-auto !bg-transparent;
+}
+.e-schedule .e-month-view .e-current-date .e-date-header > div,
+.e-schedule .e-month-agenda-view .e-current-date .e-date-header > div {
+  @apply w-fit mx-auto bg-[#e3165b] rounded-full;
+}
+
+/* Align text for cell header in month view */
+.e-schedule .e-month-view .e-date-header-wrap table td,
+.e-schedule .e-month-agenda-view .e-date-header-wrap table td {
+  @apply !text-center;
+}
+
+/* Use pointer for appointment */
 .cell-dimension.e-schedule .e-appointment {
   @apply !cursor-pointer;
 }
 
+/* Border for change schedule */
 .cell-dimension.e-schedule .e-appointment.requesting-change {
   @apply !border-solid !border-l-4 !border-l-[red];
 }
@@ -26,21 +60,16 @@
   @apply !border-l-4 !border-l-[#3b79ff];
 }
 
+/* Width of current timeline */
 .cell-dimension.e-schedule .e-current-timeline,
 .cell-dimension.e-schedule .e-previous-timeline {
-  @apply border-t-2;
+  @apply !border-t-2;
 }
 
+/* Style of item in popup */
 .cell-dimension.e-schedule
   .e-quick-popup-wrapper
   .e-event-popup
   .e-module-class {
   @apply flex pt-4 text-[rgba(0,0,0,0.87)];
-}
-
-.cell-dimension.e-schedule
-  .e-quick-popup-wrapper
-  .e-event-popup
-  .e-location-details {
-  @apply text-[14px] text-[rgba(0,0,0,0.87)] cursor-default;
 }

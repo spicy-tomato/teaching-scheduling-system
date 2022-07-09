@@ -2,6 +2,47 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.3.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.2.1...v3.3.0) (2022-07-09)
+
+
+### Features
+
+* responsive for calendar ([2302ce9](https://github.com/annguyen-it/teaching-scheduling-system/commits/2302ce90f71f676f0923b0cfe19ef9de6ff6d002))
+
+
+### Bug Fixes
+
+* **calendar:** calendar should fill screen horizontal ([5949c57](https://github.com/annguyen-it/teaching-scheduling-system/commits/5949c57b0cca2489fdb88e984c2ba077e2070f2b))
+* **calendar:** icon in month select button should rotate when click ([964f67d](https://github.com/annguyen-it/teaching-scheduling-system/commits/964f67d3483e7fb94d6f3a65b06feb2b749a28a3))
+* **calendar:** month picker does not change when slide calendar on touch device ([201e870](https://github.com/annguyen-it/teaching-scheduling-system/commits/201e8706a8db07b4a0ca2199cafcd513a50374e9))
+* **calendar:** nav button and right filter disappear when slide calendar ([ffd58f7](https://github.com/annguyen-it/teaching-scheduling-system/commits/ffd58f73ffc46b1b4abde5f98c60b7e11ef40323))
+
+### [3.2.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.2.0...v3.2.1) (2022-07-08)
+
+
+### Bug Fixes
+
+* **calendar:** fix responsive bug for small laptop screen ([3a83c5b](https://github.com/annguyen-it/teaching-scheduling-system/commits/3a83c5b4b7f6eefb41b10e6db02f97a02f59c627))
+* error ng0100 after close mobile dialog by clicking item ([09349cf](https://github.com/annguyen-it/teaching-scheduling-system/commits/09349cfd836b5118ecb8291444b44da4db6ba165))
+* fade animation should be play when route changes ([19a47be](https://github.com/annguyen-it/teaching-scheduling-system/commits/19a47bea76be4881a9c8191780c2e3fd20b8f90d))
+
+## [3.2.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.1.0...v3.2.0) (2022-07-06)
+
+
+### Features
+
+* add help link to nav bars ([62da6a8](https://github.com/annguyen-it/teaching-scheduling-system/commits/62da6a87ab3124a559dd5891d782d8be6180a29d))
+* reset password ([6288e69](https://github.com/annguyen-it/teaching-scheduling-system/commits/6288e696cb6a3462f073838a2ac0085a6a3628f4))
+* responsive for layout ([f77518c](https://github.com/annguyen-it/teaching-scheduling-system/commits/f77518c0bbcc31b27b41a8bbe37638c4c413f5ff))
+* responsive for page login ([f171eee](https://github.com/annguyen-it/teaching-scheduling-system/commits/f171eee7a13539e75d53462567ddd8c079f8faa0))
+
+
+### Bug Fixes
+
+* **error:** fix responsive bug ([790a60f](https://github.com/annguyen-it/teaching-scheduling-system/commits/790a60ff7be126fed6eaed1a2db92d23992077b0))
+* remove loader from components when request to user-info api ([28b6ce1](https://github.com/annguyen-it/teaching-scheduling-system/commits/28b6ce131fc313f91ec6d773e19918f7649c7c94))
+* wrong redirect url ([9b70290](https://github.com/annguyen-it/teaching-scheduling-system/commits/9b702908ae546cdbb9d9c42638cc26ab4cfea85d))
+
 ## [3.1.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.0.1...v3.1.0) (2022-07-03)
 
 

@@ -71,14 +71,6 @@ export class SidebarConstant {
       routerLink: '/schedule/change',
     },
     // {
-    //   name: 'Nhập file',
-    //   icon: 'far fa-file-import',
-    //   subItems: [
-    //     { name: 'Thêm giảng viên', routerLink: '' },
-    //     { name: 'Thêm lớp học phần', routerLink: '' },
-    //   ],
-    // },
-    // {
     //   name: 'Thông báo',
     //   icon: 'far fa-bell',
     //   routerLink: '/notification',
