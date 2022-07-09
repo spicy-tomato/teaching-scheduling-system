@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.3.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.2.1...v3.3.0) (2022-07-09)
+
+
+### Features
+
+* responsive for calendar ([2302ce9](https://github.com/annguyen-it/teaching-scheduling-system/commits/2302ce90f71f676f0923b0cfe19ef9de6ff6d002))
+
+
+### Bug Fixes
+
+* **calendar:** calendar should fill screen horizontal ([5949c57](https://github.com/annguyen-it/teaching-scheduling-system/commits/5949c57b0cca2489fdb88e984c2ba077e2070f2b))
+* **calendar:** icon in month select button should rotate when click ([964f67d](https://github.com/annguyen-it/teaching-scheduling-system/commits/964f67d3483e7fb94d6f3a65b06feb2b749a28a3))
+* **calendar:** month picker does not change when slide calendar on touch device ([201e870](https://github.com/annguyen-it/teaching-scheduling-system/commits/201e8706a8db07b4a0ca2199cafcd513a50374e9))
+* **calendar:** nav button and right filter disappear when slide calendar ([ffd58f7](https://github.com/annguyen-it/teaching-scheduling-system/commits/ffd58f73ffc46b1b4abde5f98c60b7e11ef40323))
+
 ### [3.2.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.2.0...v3.2.1) (2022-07-08)
 
 
