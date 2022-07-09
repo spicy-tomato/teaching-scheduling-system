@@ -1,11 +1,11 @@
 import {
-  Component,
   ChangeDetectionStrategy,
+  Component,
   EventEmitter,
   Input,
   Output,
 } from '@angular/core';
-import { TUI_BUTTON_OPTIONS, TuiAppearance } from '@taiga-ui/core';
+import { tuiButtonOptionsProvider } from '@taiga-ui/core';
 import { EjsScheduleModel } from '@teaching-scheduling-system/web/shared/data-access/models';
 
 @Component({
@@ -14,14 +14,10 @@ import { EjsScheduleModel } from '@teaching-scheduling-system/web/shared/data-ac
   styleUrls: ['./teaching-dialog-navigation.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    {
-      provide: TUI_BUTTON_OPTIONS,
-      useValue: {
-        shape: null,
-        appearance: TuiAppearance.Flat,
-        size: 'm',
-      },
-    },
+    tuiButtonOptionsProvider({
+      appearance: 'flat',
+      size: 'm',
+    }),
   ],
 })
 export class TeachingDialogNavigationComponent {

@@ -4,8 +4,8 @@ import { Store } from '@ngrx/store';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import {
   TuiAppearance,
+  tuiButtonOptionsProvider,
   TuiDialogContext,
-  TUI_BUTTON_OPTIONS,
   TUI_TEXTFIELD_APPEARANCE,
 } from '@taiga-ui/core';
 import { ChangeSchedule } from '@teaching-scheduling-system/web/shared/data-access/models';
@@ -26,14 +26,10 @@ import { Observable, takeUntil } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     TuiDestroyService,
-    {
-      provide: TUI_BUTTON_OPTIONS,
-      useValue: {
-        shape: null,
-        appearance: TuiAppearance.Primary,
-        size: 'm',
-      },
-    },
+    tuiButtonOptionsProvider({
+      appearance: 'primary',
+      size: 'm',
+    }),
     {
       provide: TUI_TEXTFIELD_APPEARANCE,
       useValue: TuiAppearance.Textfield,

@@ -24,6 +24,9 @@
       "@teaching-scheduling-system/core/directives/recreate-view-key": [
         "libs/core/directives/recreate-view-key/src/index.ts"
       ],
+      "@teaching-scheduling-system/core/directives/touch-screen-or": [
+        "libs/core/directives/touch-screen-or/src/index.ts"
+      ],
       "@teaching-scheduling-system/core/directives/var": [
         "libs/core/directives/var/src/index.ts"
       ],
@@ -81,8 +84,14 @@
       "@teaching-scheduling-system/web/calendar/ui/calendar-date-time-pipe": [
         "libs/web/calendar/ui/calendar-date-time-pipe/src/index.ts"
       ],
+      "@teaching-scheduling-system/web/calendar/ui/calendar-filter": [
+        "libs/web/calendar/ui/calendar-filter/src/index.ts"
+      ],
       "@teaching-scheduling-system/web/calendar/ui/calendar-header": [
         "libs/web/calendar/ui/calendar-header/src/index.ts"
+      ],
+      "@teaching-scheduling-system/web/calendar/ui/calendar-menu": [
+        "libs/web/calendar/ui/calendar-menu/src/index.ts"
       ],
       "@teaching-scheduling-system/web/calendar/ui/change-status-type-pipe": [
         "libs/web/calendar/ui/change-status-type-pipe/src/index.ts"

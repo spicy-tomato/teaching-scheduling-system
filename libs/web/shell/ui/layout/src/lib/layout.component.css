@@ -22,5 +22,5 @@
 }
 
 tss-main-view {
-  @apply max-h-main-view;
+  @apply max-h-main-view-h;
 }
