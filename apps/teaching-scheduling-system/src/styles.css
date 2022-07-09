@@ -20,9 +20,8 @@
   --nav-height: 65px;
   --sidebar-width: 240px;
   --main-view-height: calc(100vh - 65px);
-  --content-height: calc(#{$main-view-height} - 62px);
-  --main-view-width: calc(100vw - #{$sidebar-width});
-  --content-width: calc(#{$main-view-width} - 2.5rem);
+  --content-height: calc(100vh - 127px);
+  --main-view-width: calc(100vw - 240px);
   --tuiPositive: var(--tui-positive);
   --tuiPositiveHover: var(--tui-positive-hover);
   --tuiWarningFill: var(--tui-warning-fill);

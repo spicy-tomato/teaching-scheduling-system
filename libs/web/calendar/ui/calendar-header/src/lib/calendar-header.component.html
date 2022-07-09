@@ -97,33 +97,35 @@
       *ngrxLet="activeToday$ as activeToday"
       [class.active]="activeToday"
       (click)="clickToday$.next()"
+      class="uppercase"
     >
-      HÔM NAY
+      Hôm nay
     </button>
     <div class="w-px h-full mx-2 bg-[rgba(0,0,0,0.12)]"></div>
     <button
       tuiButton
       (click)="onClickMonth()"
       [class.active]="view === 'Month'"
+      class="uppercase"
     >
-      THÁNG
+      Tháng
     </button>
     <button
       tuiButton
       (click)="onClickWeek()"
       [class.active]="view === 'Week'"
-      class="ml-2"
+      class="ml-2 uppercase"
     >
-      TUẦN
+      Tuần
     </button>
 
     <button
       tuiButton
       [class.active]="view === 'Day'"
       (click)="onClickDay()"
-      class="ml-2"
+      class="ml-2 uppercase"
     >
-      NGÀY
+      Ngày
     </button>
   </div>
 </div>
