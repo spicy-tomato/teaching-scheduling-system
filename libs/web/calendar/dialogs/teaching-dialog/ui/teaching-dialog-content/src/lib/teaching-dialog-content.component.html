@@ -125,7 +125,10 @@
     </tui-expand>
   </tui-expand>
 
-  <div *ngrxLet="requestStatus$ as requestStatus" class="flex justify-between">
+  <div
+    *ngrxLet="requestStatus$ as requestStatus"
+    class="flex flex-col justify-between md:flex-row"
+  >
     <ng-container *ngrxLet="changeStatus$ as changeStatus">
       <!-- Left buttons -->
       <tss-teaching-dialog-buttons-left
@@ -135,14 +138,14 @@
         [requestedChangeSchedule]="requestedChangeSchedule"
         [isPersonal]="isPersonal"
         [requestChangeToUndeterminedDay]="requestChangeToUndeterminedDay"
-        class="flex-grow"
+        class="grow"
       ></tss-teaching-dialog-buttons-left>
 
       <!-- Right buttons -->
       <tss-teaching-dialog-buttons-right
         (cancel)="cancel.emit()"
         [idSchedule]="schedule.Id"
-        class="flex-grow"
+        class="grow -mt-6 md:mt-0"
       ></tss-teaching-dialog-buttons-right>
     </ng-container>
   </div>

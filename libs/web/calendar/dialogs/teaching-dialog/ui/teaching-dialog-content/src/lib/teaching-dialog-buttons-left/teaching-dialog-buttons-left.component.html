@@ -50,11 +50,8 @@
               appearance="secondary"
               class="tui-form__button"
             >
-              {{
-                isPersonal
-                  ? "Yêu cầu thay đổi lịch giảng"
-                  : "Thay đổi lịch giảng"
-              }}
+              {{ isPersonal ? 'Yêu cầu thay đổi' : 'Thay đổi' }}
+              <span class="hidden lg:inline">&nbsp;lịch giảng</span>
             </button>
           </ng-template>
         </ng-container>

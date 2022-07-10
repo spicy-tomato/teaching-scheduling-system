@@ -4,7 +4,7 @@
     (click)="toggleScheduleList(true)"
     (tuiActiveZoneChange)="toggleScheduleList($event, true)"
     icon="tuiIconViewListLarge"
-    class="mr-4 md:!hidden"
+    class="md:!hidden"
   >
     <div *tuiSidebar="openScheduleList">
       <div class="px-4">
@@ -16,7 +16,7 @@
       </div>
     </div>
   </button>
-  <h2 class="tui-text_h4">
+  <h2 class="tui-text_h4 ml-6">
     Chi tiết <span class="hidden sm:inline">lịch học</span>
   </h2>
   <button
@@ -25,7 +25,7 @@
       selectedSchedule.FixedSchedules && selectedSchedule.FixedSchedules.length
     "
     [tssTeachingHistory]="selectedSchedule.FixedSchedules"
-    class="ml-auto md:!hidden"
+    class="ml-auto mr-4 md:!hidden"
   >
     <tui-svg [src]="IconConstant.historyLarge"></tui-svg>
     <div class="hidden ml-1.5 sm:inline">Lịch sử thay đổi giờ giảng</div>
