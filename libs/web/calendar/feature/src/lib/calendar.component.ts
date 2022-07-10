@@ -202,9 +202,11 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     switch (data.Type) {
       case 'exam':
         this.showExamEditorDialog(data);
+        this.onCloseClick();
         break;
       case 'study':
         this.showStudyEditorDialog(data);
+        this.onCloseClick();
         break;
     }
   }
