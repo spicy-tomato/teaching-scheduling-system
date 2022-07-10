@@ -78,6 +78,9 @@
       "@teaching-scheduling-system/web/calendar/dialogs/teaching-dialog/ui/teaching-dialog-navigation": [
         "libs/web/calendar/dialogs/teaching-dialog/ui/teaching-dialog-navigation/src/index.ts"
       ],
+      "@teaching-scheduling-system/web/calendar/dialogs/teaching-dialog/ui/teaching-history": [
+        "libs/web/calendar/dialogs/teaching-dialog/ui/teaching-history/src/index.ts"
+      ],
       "@teaching-scheduling-system/web/calendar/feature": [
         "libs/web/calendar/feature/src/index.ts"
       ],

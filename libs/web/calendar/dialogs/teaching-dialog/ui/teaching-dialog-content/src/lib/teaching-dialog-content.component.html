@@ -1,10 +1,19 @@
-<tss-teaching-dialog-header
-  [fixedSchedules]="schedule.FixedSchedules"
-></tss-teaching-dialog-header>
+<div class="flex justify-end">
+  <button
+    tuiButton
+    *ngIf="schedule.FixedSchedules && schedule.FixedSchedules.length"
+    [tssTeachingHistory]="schedule.FixedSchedules"
+    [icon]="IconConstant.historyLarge"
+    appearance="outline"
+    class="tui-form__button !hidden mb-8 md:!block"
+  >
+    Lịch sử thay đổi giờ giảng
+  </button>
+</div>
 
 <form
-  [formGroup]="form"
   *ngrxLet="requestingChangeSchedule$ as requestingChangeSchedule"
+  [formGroup]="form"
 >
   <div class="tui-form__row">
     <tui-input [readOnly]="true" formControlName="subject"> Lớp </tui-input>

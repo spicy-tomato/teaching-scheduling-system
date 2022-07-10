@@ -24,6 +24,7 @@
     "web-calendar-dialogs-teaching-dialog-feature": "libs/web/calendar/dialogs/teaching-dialog/feature",
     "web-calendar-dialogs-teaching-dialog-ui-teaching-dialog-content": "libs/web/calendar/dialogs/teaching-dialog/ui/teaching-dialog-content",
     "web-calendar-dialogs-teaching-dialog-ui-teaching-dialog-navigation": "libs/web/calendar/dialogs/teaching-dialog/ui/teaching-dialog-navigation",
+    "web-calendar-dialogs-teaching-dialog-ui-teaching-history": "libs/web/calendar/dialogs/teaching-dialog/ui/teaching-history",
     "web-calendar-feature": "libs/web/calendar/feature",
     "web-calendar-ui-calendar-date-time-pipe": "libs/web/calendar/ui/calendar-date-time-pipe",
     "web-calendar-ui-calendar-filter": "libs/web/calendar/ui/calendar-filter",

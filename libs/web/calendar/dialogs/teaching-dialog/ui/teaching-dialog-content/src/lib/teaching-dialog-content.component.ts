@@ -17,7 +17,10 @@ import {
   TuiNotification,
   TuiNotificationsService,
 } from '@taiga-ui/core';
-import { CoreConstant } from '@teaching-scheduling-system/core/data-access/constants';
+import {
+  CoreConstant,
+  IconConstant,
+} from '@teaching-scheduling-system/core/data-access/constants';
 import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
 import {
   ChangeStatusHelper,
@@ -106,6 +109,11 @@ export class TeachingDialogContentComponent implements OnInit {
   public requestChangeToUndeterminedDay = false;
   public changed = false;
 
+  public readonly cancelRequest$ = new Subject<void>();
+  public readonly IconConstant = IconConstant;
+  public readonly EApiStatus = EApiStatus;
+  public readonly CoreConstant = CoreConstant;
+
   public readonly changeStatus$: Observable<EApiStatus>;
   public readonly requestStatus$: Observable<EApiStatus>;
   public readonly updateStatus$: Observable<EApiStatus>;
@@ -114,11 +122,6 @@ export class TeachingDialogContentComponent implements OnInit {
   public readonly justRequestedSchedule$: Observable<
     Nullable<SimpleFixedScheduleModel>
   >;
-
-  public readonly cancelRequest$ = new Subject<void>();
-
-  public readonly EApiStatus = EApiStatus;
-  public readonly CoreConstant = CoreConstant;
 
   /** PRIVATE PROPERTIES */
   private readonly change$: Observable<TeachingDialogChange>;

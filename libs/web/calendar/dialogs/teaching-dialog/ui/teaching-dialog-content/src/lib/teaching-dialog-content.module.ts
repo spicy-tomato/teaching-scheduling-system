@@ -33,12 +33,12 @@ import {
   teachingDialogFeatureKey,
   teachingDialogReducer,
 } from '@teaching-scheduling-system/web/calendar/dialogs/teaching-dialog/data-access';
+import { TeachingHistoryDirectiveModule } from '@teaching-scheduling-system/web/calendar/dialogs/teaching-dialog/ui/teaching-history';
 import { DuplicateCheckerComponent } from './duplicate-checker/duplicate-checker.component';
 import { ShiftPipe } from './shift-pipe/shift-pipe.pipe';
 import { TeachingDialogButtonsLeftComponent } from './teaching-dialog-buttons-left/teaching-dialog-buttons-left.component';
 import { TeachingDialogButtonsRightComponent } from './teaching-dialog-buttons-right/teaching-dialog-buttons-right.component';
 import { TeachingDialogContentComponent } from './teaching-dialog-content.component';
-import { TeachingDialogHeaderComponent } from './teaching-dialog-header/teaching-dialog-header.component';
 import { TeachingDialogRequestChangeIntendComponent } from './teaching-dialog-request-change-intend/teaching-dialog-request-change-intend.component';
 import { TeachingDialogRequestChangeComponent } from './teaching-dialog-request-change/teaching-dialog-request-change.component';
 
@@ -76,6 +76,7 @@ const TAIGA_UI = [
     ReactiveFormsModule,
     FilterByInputPipeModule,
     VarDirectiveModule,
+    TeachingHistoryDirectiveModule,
     ...NGRX,
     ...TAIGA_UI,
   ],
@@ -83,7 +84,6 @@ const TAIGA_UI = [
     TeachingDialogContentComponent,
     TeachingDialogButtonsLeftComponent,
     TeachingDialogButtonsRightComponent,
-    TeachingDialogHeaderComponent,
     TeachingDialogRequestChangeComponent,
     TeachingDialogRequestChangeIntendComponent,
     DuplicateCheckerComponent,

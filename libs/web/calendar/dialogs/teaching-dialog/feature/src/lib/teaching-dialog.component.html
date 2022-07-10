@@ -1,16 +1,49 @@
-<h2 class="tui-text_h4">Chi tiết lịch học</h2>
+<div class="flex items-center">
+  <button
+    tuiIconButton
+    (click)="toggleScheduleList(true)"
+    (tuiActiveZoneChange)="toggleScheduleList($event, true)"
+    icon="tuiIconViewListLarge"
+    class="mr-4 md:!hidden"
+  >
+    <div *tuiSidebar="openScheduleList">
+      <div class="px-4">
+        <tss-teaching-dialog-navigation
+          [selectedSchedule]="selectedSchedule"
+          [schedules]="schedules"
+          (changeSelectedSchedule)="onChangeSelectedSchedule($event)"
+        ></tss-teaching-dialog-navigation>
+      </div>
+    </div>
+  </button>
+  <h2 class="tui-text_h4">
+    Chi tiết <span class="hidden sm:inline">lịch học</span>
+  </h2>
+  <button
+    tuiButton
+    *ngIf="
+      selectedSchedule.FixedSchedules && selectedSchedule.FixedSchedules.length
+    "
+    [tssTeachingHistory]="selectedSchedule.FixedSchedules"
+    class="ml-auto md:!hidden"
+  >
+    <tui-svg [src]="IconConstant.historyLarge"></tui-svg>
+    <div class="hidden ml-1.5 sm:inline">Lịch sử thay đổi giờ giảng</div>
+  </button>
+</div>
 <tss-teaching-dialog-navigation
-  (changeSelectedSchedule)="onChangeSelectedSchedule($event)"
-  [schedules]="schedules"
   [selectedSchedule]="selectedSchedule"
+  [schedules]="schedules"
+  (changeSelectedSchedule)="onChangeSelectedSchedule($event)"
+  class="hidden md:block"
 ></tss-teaching-dialog-navigation>
 <tui-scrollbar>
   <tss-teaching-dialog-content
     *tssRecreateViewKey="selectedSchedule.Id"
+    [schedule]="selectedSchedule"
     (updateSchedule)="onUpdateSchedule($event)"
     (changeScheduleInfo)="onChangeScheduleInfo($event)"
     (cancelRequest)="onCancelRequest()"
     (cancel)="onCancel()"
-    [schedule]="selectedSchedule"
   ></tss-teaching-dialog-content>
 </tui-scrollbar>

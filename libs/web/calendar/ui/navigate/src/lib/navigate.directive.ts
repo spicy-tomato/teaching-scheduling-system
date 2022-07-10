@@ -45,7 +45,7 @@ export class NavigateDirective {
   }
 
   /** HOST LISTENER */
-  @HostListener('click') onClick(): void {
+  @HostListener('click') public onClick(): void {
     switch (this.type) {
       case 'prev':
         this.onPrev();
