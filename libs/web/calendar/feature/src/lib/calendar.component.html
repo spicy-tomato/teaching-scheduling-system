@@ -239,6 +239,6 @@
 
 <ng-template #rightMenu>
   <tss-calendar-menu
-    (clickToday)="header.clickToday$.next()"
+    [scheduleComponent]="scheduleComponent"
   ></tss-calendar-menu>
 </ng-template>

@@ -2,17 +2,13 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  Inject,
   Input,
   ViewChild,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ScheduleComponent, View } from '@syncfusion/ej2-angular-schedule';
 import { TuiDestroyService, TuiMonth } from '@taiga-ui/cdk';
-import {
-  tuiButtonOptionsProvider,
-  TuiNotificationsService,
-} from '@taiga-ui/core';
+import { tuiButtonOptionsProvider } from '@taiga-ui/core';
 import { fadeIn } from '@teaching-scheduling-system/core/ui/animations';
 import {
   DateHelper,
@@ -21,8 +17,6 @@ import {
 import {
   calendarChangeMonth,
   calendarChangeView,
-  calendarNext,
-  calendarPrev,
   calendarSelectFilter,
   calendarSelectMonth,
   calendarSelectSelectedDate,
@@ -31,20 +25,7 @@ import {
 } from '@teaching-scheduling-system/web/calendar/data-access';
 import { CalendarFilterComponent } from '@teaching-scheduling-system/web/calendar/ui/calendar-filter';
 import { CalendarFilter } from '@teaching-scheduling-system/web/shared/data-access/models';
-import {
-  AppShellState,
-  selectNameTitle,
-} from '@teaching-scheduling-system/web/shared/data-access/store';
-import {
-  combineLatest,
-  delay,
-  map,
-  Observable,
-  Subject,
-  takeUntil,
-  tap,
-  withLatestFrom,
-} from 'rxjs';
+import { combineLatest, delay, map, Observable, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'tss-calendar-header',
@@ -77,19 +58,12 @@ export class CalendarHeaderComponent implements AfterViewInit {
   public openFilter = false;
   public activeToday$!: Observable<boolean>;
 
-  public readonly clickToday$ = new Subject<void>();
-
   /** PRIVATE PROPERTIES */
   private selectedDate$: Observable<Date>;
-  private canDisplayNotification = true;
-  private readonly displayNotification$ = new Subject<void>();
 
   /** CONSTRUCTOR */
   constructor(
     private readonly store: Store<CalendarState>,
-    @Inject(TuiNotificationsService)
-    private readonly notificationsService: TuiNotificationsService,
-    private readonly appShellStore: Store<AppShellState>,
     private readonly destroy$: TuiDestroyService
   ) {
     this.selectedDate$ = store
@@ -104,9 +78,6 @@ export class CalendarHeaderComponent implements AfterViewInit {
     this.view$ = store
       .select(calendarSelectView)
       .pipe(takeUntil(this.destroy$));
-
-    this.handleClickToday();
-    this.handleDisplayNotification();
   }
 
   /** LIFECYCLE */
@@ -116,22 +87,6 @@ export class CalendarHeaderComponent implements AfterViewInit {
   }
 
   /** PUBLIC METHODS */
-  public onPrev(): void {
-    this.store.dispatch(
-      calendarPrev({
-        oldSelectedDate: this.scheduleComponent.selectedDate,
-      })
-    );
-  }
-
-  public onNext(): void {
-    this.store.dispatch(
-      calendarNext({
-        oldSelectedDate: this.scheduleComponent.selectedDate,
-      })
-    );
-  }
-
   public onSelectMonth(month: TuiMonth): void {
     this.openSelectMonth = false;
     this.store.dispatch(calendarChangeMonth({ month }));
@@ -179,70 +134,6 @@ export class CalendarHeaderComponent implements AfterViewInit {
     );
   }
 
-  private handleClickToday(): void {
-    this.clickToday$
-      .pipe(
-        withLatestFrom(this.view$, this.filter$),
-        tap(({ 1: view, 2: filter }) => {
-          const today = new Date();
-
-          if (
-            !ScheduleHelper.dayInCurrentView(
-              this.scheduleComponent,
-              view,
-              today
-            )
-          ) {
-            this.scheduleComponent.selectedDate = today;
-            this.store.dispatch(
-              calendarChangeMonth({
-                month: new TuiMonth(today.getFullYear(), today.getMonth()),
-              })
-            );
-          }
-
-          if (this.canDisplayNotification && !filter.showDepartmentSchedule) {
-            this.displayNotification$.next();
-          }
-        })
-      )
-      .subscribe();
-  }
-
-  private handleDisplayNotification(): void {
-    this.displayNotification$
-      .pipe(
-        withLatestFrom(this.appShellStore.select(selectNameTitle)),
-        tap(({ 1: nameTitle }) => {
-          this.canDisplayNotification = false;
-          const schedule = this.scheduleComponent;
-          const now = new Date();
-          const year = now.getFullYear();
-          const month = now.getMonth();
-          const date = now.getDate();
-          const eventsCount = schedule.getEvents(
-            new Date(year, month, date),
-            new Date(year, month, date, 23, 59, 59, 999)
-          ).length;
-          const content =
-            eventsCount === 0
-              ? `${nameTitle} hãy tận hưởng thời gian nghỉ ngơi!`
-              : `Chúc ${nameTitle.toLowerCase()} có ngày làm việc hiệu quả!`;
-          const label =
-            eventsCount === 0
-              ? `${nameTitle} không có sự kiện nào trong hôm nay`
-              : `${nameTitle} có ${eventsCount} sự kiện vào hôm nay`;
-
-          this.notificationsService
-            .show(content, { label, autoClose: 6000 })
-            .subscribe({
-              complete: () => (this.canDisplayNotification = true),
-            });
-        })
-      )
-      .subscribe();
-  }
-
   private triggerActiveToday(): void {
     this.activeToday$ = combineLatest([this.selectedDate$, this.view$]).pipe(
       delay(0),
@@ -250,10 +141,6 @@ export class CalendarHeaderComponent implements AfterViewInit {
         ScheduleHelper.dayInCurrentView(this.scheduleComponent, view)
       )
     );
-  }
-
-  private resetFilter(): void {
-    // this.filter.close();
   }
 
   private monthDateRange(): string {

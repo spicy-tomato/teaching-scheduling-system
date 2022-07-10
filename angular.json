@@ -30,6 +30,7 @@
     "web-calendar-ui-calendar-header": "libs/web/calendar/ui/calendar-header",
     "web-calendar-ui-calendar-menu": "libs/web/calendar/ui/calendar-menu",
     "web-calendar-ui-change-status-type-pipe": "libs/web/calendar/ui/change-status-type-pipe",
+    "web-calendar-ui-navigate": "libs/web/calendar/ui/navigate",
     "web-config-data-access": "libs/web/config/data-access",
     "web-error-feature-forbidden": "libs/web/error/feature/forbidden",
     "web-error-feature-maintenance": "libs/web/error/feature/maintenance",

@@ -96,6 +96,9 @@
       "@teaching-scheduling-system/web/calendar/ui/change-status-type-pipe": [
         "libs/web/calendar/ui/change-status-type-pipe/src/index.ts"
       ],
+      "@teaching-scheduling-system/web/calendar/ui/navigate": [
+        "libs/web/calendar/ui/navigate/src/index.ts"
+      ],
       "@teaching-scheduling-system/web/config/data-access": [
         "libs/web/config/data-access/src/index.ts"
       ],

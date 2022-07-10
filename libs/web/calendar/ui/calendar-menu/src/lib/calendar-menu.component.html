@@ -1,4 +1,23 @@
 <div class="flex items-center">
+  <ng-container
+    *tssTouchScreenOr="let ctx; else: navigateButtons"
+  ></ng-container>
+  <ng-template #navigateButtons>
+    <button
+      tuiIconButton
+      tssNavigate="prev"
+      [scheduleComponent]="scheduleComponent"
+      shape="rounded"
+      icon="tuiIconChevronLeftLarge"
+    ></button>
+    <button
+      tuiIconButton
+      tssNavigate="next"
+      [scheduleComponent]="scheduleComponent"
+      shape="rounded"
+      icon="tuiIconChevronRightLarge"
+    ></button>
+  </ng-template>
   <tui-select
     *ngrxLet="view$ as view"
     [ngModel]="view"
@@ -18,7 +37,8 @@
   </tui-select>
   <button
     tuiIconButton
-    (click)="clickToday.emit()"
+    tssNavigate="today"
+    [scheduleComponent]="scheduleComponent"
     icon="tuiIconCalendarLarge"
   ></button>
   <button
