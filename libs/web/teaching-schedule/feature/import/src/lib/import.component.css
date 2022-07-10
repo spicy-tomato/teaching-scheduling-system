@@ -1,0 +1,3 @@
+:host {
+  @apply block p-2 pt-1.5 md:p-0;
+}

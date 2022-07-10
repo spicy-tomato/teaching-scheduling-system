@@ -7,13 +7,15 @@
     <ng-template #navigateButtons>
       <button
         tuiIconButton
-        (click)="onPrev()"
+        tssNavigate="prev"
+        [scheduleComponent]="scheduleComponent"
         shape="rounded"
         icon="tuiIconChevronLeftLarge"
       ></button>
       <button
         tuiIconButton
-        (click)="onNext()"
+        tssNavigate="next"
+        [scheduleComponent]="scheduleComponent"
         shape="rounded"
         icon="tuiIconChevronRightLarge"
         class="ml-2 mr-0.5"
@@ -98,9 +100,10 @@
   <div *ngrxLet="view$ as view" class="flex items-center">
     <button
       tuiButton
+      tssNavigate="today"
       *ngrxLet="activeToday$ as activeToday"
+      [scheduleComponent]="scheduleComponent"
       [class.active]="activeToday"
-      (click)="clickToday$.next()"
       class="uppercase"
     >
       Hôm nay

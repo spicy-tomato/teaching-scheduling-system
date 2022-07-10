@@ -11,7 +11,3 @@
     height: calc(100vh - 127px);
   }
 }
-
-ejs-schedule div > .mdi {
-  @apply pr-3 text-[18px] text-[rgba(0,0,0,0.54)] leading-[20px];
-}

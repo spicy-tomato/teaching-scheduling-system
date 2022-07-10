@@ -6,6 +6,7 @@ import { TuiCalendarMonthModule } from '@taiga-ui/kit';
 import { TouchScreenOrDirectiveModule } from '@teaching-scheduling-system/core/directives/touch-screen-or';
 import { ShortenNamePipeModule } from '@teaching-scheduling-system/core/pipes/shorten-name';
 import { CalendarFilterModule } from '@teaching-scheduling-system/web/calendar/ui/calendar-filter';
+import { NavigateDirectiveModule } from '@teaching-scheduling-system/web/calendar/ui/navigate';
 import { CalendarHeaderComponent } from './calendar-header.component';
 
 const NGRX = [ReactiveComponentModule];
@@ -21,6 +22,7 @@ const TAIGA_UI = [
     TouchScreenOrDirectiveModule,
     ShortenNamePipeModule,
     CalendarFilterModule,
+    NavigateDirectiveModule,
     ...NGRX,
     ...TAIGA_UI,
   ],
