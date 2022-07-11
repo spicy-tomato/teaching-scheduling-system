@@ -294,8 +294,14 @@
       "@teaching-scheduling-system/web/teaching-schedule/ui/change-request-filter": [
         "libs/web/teaching-schedule/ui/change-request-filter/src/index.ts"
       ],
+      "@teaching-scheduling-system/web/teaching-schedule/ui/change-request-filter-left": [
+        "libs/web/teaching-schedule/ui/change-request-filter-left/src/index.ts"
+      ],
       "@teaching-scheduling-system/web/teaching-schedule/ui/change-request-list": [
         "libs/web/teaching-schedule/ui/change-request-list/src/index.ts"
+      ],
+      "@teaching-scheduling-system/web/teaching-schedule/ui/change-request-menu": [
+        "libs/web/teaching-schedule/ui/change-request-menu/src/index.ts"
       ],
       "@teaching-scheduling-system/web/teaching-schedule/ui/change-request-pagination": [
         "libs/web/teaching-schedule/ui/change-request-pagination/src/index.ts"
