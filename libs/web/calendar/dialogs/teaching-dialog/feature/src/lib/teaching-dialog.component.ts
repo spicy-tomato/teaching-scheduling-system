@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { TuiDialogContext } from '@taiga-ui/core';
+import { tuiButtonOptionsProvider, TuiDialogContext } from '@taiga-ui/core';
 import { ChangeStatusHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import {
   ChangedScheduleModel,
@@ -8,21 +8,33 @@ import {
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { TeachingDialogChange } from '@teaching-scheduling-system/web/calendar/dialogs/teaching-dialog/data-access';
+import { IconConstant } from '@teaching-scheduling-system/core/data-access/constants';
 
 @Component({
   templateUrl: './teaching-dialog.component.html',
   styleUrls: ['./teaching-dialog.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    tuiButtonOptionsProvider({
+      appearance: 'outline',
+      size: 'm',
+    }),
+  ],
 })
 export class TeachingDialogComponent {
   /** PUBLIC PROPERTIES */
+  public readonly IconConstant = IconConstant;
   public schedules = this.context.data.schedules;
-  public selectedSchedule!: EjsScheduleModel;
+  public openScheduleList = false;
   public changedSchedule: ChangedScheduleModel =
     this.context.data.schedules.reduce<ChangedScheduleModel>((acc, curr) => {
       acc[curr.Id] = null;
       return acc;
     }, {});
+  public selectedSchedule!: EjsScheduleModel;
+
+  /** PRIVATE PROPERTIES */
+  private haveOpened = false;
 
   /** GETTERS */
   private get currentSelected(): EjsScheduleModel {
@@ -50,6 +62,13 @@ export class TeachingDialogComponent {
   }
 
   /** PUBLIC METHODS */
+  public toggleScheduleList(open: boolean, needCheck = false): void {
+    if (!open || !needCheck || this.haveOpened) {
+      this.openScheduleList = open;
+      this.haveOpened = true;
+    }
+  }
+
   public onChangeSelectedSchedule(scheduleId: number): void {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     this.selectedSchedule = this.schedules.find((s) => s.Id === scheduleId)!;

@@ -1,4 +1,6 @@
-<div class="wrapper w-full flex flex-col">
+<div
+  class="w-full h-main-view-h flex flex-col md:h-main-view-h-md lg:h-content-h"
+>
   <tss-calendar-header
     #header
     [scheduleComponent]="scheduleComponent"
@@ -239,6 +241,6 @@
 
 <ng-template #rightMenu>
   <tss-calendar-menu
-    (clickToday)="header.clickToday$.next()"
+    [scheduleComponent]="scheduleComponent"
   ></tss-calendar-menu>
 </ng-template>

@@ -11,6 +11,7 @@ import {
 import { TuiCheckboxLabeledModule, TuiSelectModule } from '@taiga-ui/kit';
 import { PermissionDirectiveModule } from '@teaching-scheduling-system/web/shared/directives/permission';
 import { ChangeReportDialogModule } from '@teaching-scheduling-system/web/teaching-schedule/ui/change-report-dialog';
+import { ChangeRequestFilterLeftModule } from '@teaching-scheduling-system/web/teaching-schedule/ui/change-request-filter-left';
 import { ChangeRequestFilterComponent } from './change-request-filter.component';
 
 const NGRX = [ReactiveComponentModule];
@@ -29,6 +30,7 @@ const TAIGA_UI = [
     FormsModule,
     PermissionDirectiveModule,
     ChangeReportDialogModule,
+    ChangeRequestFilterLeftModule,
     ...NGRX,
     TAIGA_UI,
   ],

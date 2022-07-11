@@ -9,15 +9,10 @@ import { Store } from '@ngrx/store';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { tuiButtonOptionsProvider, TuiDialogService } from '@taiga-ui/core';
 import { IconConstant } from '@teaching-scheduling-system/core/data-access/constants';
-import {
-  ObjectHelper,
-  StringHelper,
-} from '@teaching-scheduling-system/core/utils/helpers';
+import { StringHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import { FileType } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import {
   ChangeSchedule,
-  ChangeScheduleOptions,
-  ChangeScheduleOptionsParam,
   Teacher,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { ExportService } from '@teaching-scheduling-system/web/shared/data-access/services';
@@ -25,11 +20,8 @@ import {
   AppShellState,
   selectNotNullTeacher,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
-import { ScheduleConstant } from '@teaching-scheduling-system/web/shared/utils/constants';
 import {
-  teachingScheduleRequestChangeOptions,
   teachingScheduleRequestSelectExportSchedule,
-  teachingScheduleRequestSelectOptions,
   TeachingScheduleRequestState,
 } from '@teaching-scheduling-system/web/teaching-schedule/data-access';
 import { ChangeReportDialogComponent } from '@teaching-scheduling-system/web/teaching-schedule/ui/change-report-dialog';
@@ -51,33 +43,24 @@ import { Observable, Subject, takeUntil, tap, withLatestFrom } from 'rxjs';
 })
 export class ChangeRequestFilterComponent {
   /** PUBLIC PROPERTIES */
-  public options$: Observable<ChangeScheduleOptions>;
-  public exportSchedule$: Observable<ChangeSchedule[]>;
-  public isPersonal: boolean;
-  public exportMultiple$ = new Subject<void>();
-
+  public readonly exportMultiple$ = new Subject<void>();
   public readonly IconConstant = IconConstant;
-  public readonly statusList = ScheduleConstant.REQUEST_CHANGE_SCHEDULE_STATUS;
-  public readonly statusArray = ObjectHelper.toArray(this.statusList, {
-    uniqueValue: true,
-  }).sort((a, b) => (a.id as number) - (b.id as number));
+  public readonly exportSchedule$: Observable<ChangeSchedule[]>;
+  public readonly isPersonal: boolean;
 
   /** PRIVATE PROPERTIES */
   private readonly teacher$: Observable<Teacher>;
 
   /** CONSTRUCTOR */
   constructor(
-    private readonly store: Store<TeachingScheduleRequestState>,
     private readonly exportService: ExportService,
     @Inject(Injector) private readonly injector: Injector,
     @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
     private readonly destroy$: TuiDestroyService,
     route: ActivatedRoute,
+    store: Store<TeachingScheduleRequestState>,
     appShellStore: Store<AppShellState>
   ) {
-    this.options$ = store
-      .select(teachingScheduleRequestSelectOptions)
-      .pipe(takeUntil(this.destroy$));
     this.exportSchedule$ = store
       .select(teachingScheduleRequestSelectExportSchedule)
       .pipe(takeUntil(this.destroy$));
@@ -91,10 +74,6 @@ export class ChangeRequestFilterComponent {
   }
 
   /** PUBLIC METHODS */
-  public changeOptions(options: ChangeScheduleOptionsParam): void {
-    this.store.dispatch(teachingScheduleRequestChangeOptions({ options }));
-  }
-
   public onExport(): void {
     this.dialogService
       .open(

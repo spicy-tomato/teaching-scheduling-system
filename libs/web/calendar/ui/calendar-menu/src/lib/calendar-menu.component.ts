@@ -1,11 +1,6 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { View } from '@syncfusion/ej2-angular-schedule';
+import { ScheduleComponent, View } from '@syncfusion/ej2-angular-schedule';
 import {
   TuiContextWithImplicit,
   TuiDestroyService,
@@ -39,8 +34,8 @@ type ViewItem = {
   ],
 })
 export class CalendarMenuComponent {
-  /** OUTPUT */
-  @Output() public readonly clickToday = new EventEmitter<void>();
+  /** INPUT */
+  @Input() public scheduleComponent!: ScheduleComponent;
 
   /** PUBLIC PROPERTIES */
   public readonly view$: Observable<View>;

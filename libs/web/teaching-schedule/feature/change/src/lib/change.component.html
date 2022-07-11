@@ -1,9 +1,12 @@
-<div class="grid max-h-content-h grid-rows-[auto_minmax(0,1fr)]">
+<div
+  class="grid h-main-view-h grid-rows-[auto_minmax(0,1fr)] md:h-main-view-h-md lg:h-content-h"
+>
   <tui-tabs
     *tssPermission="
       PermissionConstant.ACCEPT_CHANGE_TEACHING_SCHEDULE;
       else placeholder
     "
+    class="px-4 md:px-0"
   >
     <a
       tuiTab

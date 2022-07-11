@@ -21,7 +21,7 @@ import { ExamDialogStore } from './store';
   templateUrl: './exam-dialog.component.html',
   styleUrls: ['./exam-dialog.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TuiDestroyService],
+  providers: [ExamDialogStore, TuiDestroyService],
 })
 export class ExamDialogComponent {
   /** PUBLIC PROPERTIES */

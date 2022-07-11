@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { TuiScrollbarModule } from '@taiga-ui/core';
 import { ChangeRequestFilterModule } from '@teaching-scheduling-system/web/teaching-schedule/ui/change-request-filter';
 import { ChangeRequestListModule } from '@teaching-scheduling-system/web/teaching-schedule/ui/change-request-list';
+import { ChangeRequestMenuModule } from '@teaching-scheduling-system/web/teaching-schedule/ui/change-request-menu';
 import { ChangeRequestPaginationModule } from '@teaching-scheduling-system/web/teaching-schedule/ui/change-request-pagination';
 import { ChangeRequestComponent } from './change-request.component';
 
@@ -21,6 +22,7 @@ const TAIGA_UI = [TuiScrollbarModule];
     ChangeRequestFilterModule,
     ChangeRequestPaginationModule,
     ChangeRequestListModule,
+    ChangeRequestMenuModule,
     ...TAIGA_UI,
   ],
   declarations: [ChangeRequestComponent],
