@@ -58,7 +58,7 @@ module.exports = {
         'tui-error-fill': 'var(--tui-error-fill)',
         'tui-error-bg': 'var(--tui-error-bg)',
         'tui-error-bg-hover': 'var(--tui-error-bg-hover)',
-        'tui-text-neutral-fill': 'var(--tui-neutral-fill)',
+        'tui-neutral-fill': 'var(--tui-neutral-fill)',
       },
       borderRadius: {
         'tui-radius-xs': 'var(--tui-radius-xs)'
