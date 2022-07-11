@@ -80,6 +80,7 @@
     "web-statistic-feature-change-schedule": "libs/web/statistic/feature/change-schedule",
     "web-statistic-feature-shell": "libs/web/statistic/feature/shell",
     "web-statistic-ui-change-schedule-chart": "libs/web/statistic/ui/change-schedule-chart",
+    "web-statistic-ui-change-schedule-export-directive": "libs/web/statistic/ui/change-schedule-export-directive",
     "web-statistic-ui-change-schedule-filter": "libs/web/statistic/ui/change-schedule-filter",
     "web-teaching-schedule-data-access": "libs/web/teaching-schedule/data-access",
     "web-teaching-schedule-feature-assign": "libs/web/teaching-schedule/feature/assign",
