@@ -243,6 +243,9 @@
       "@teaching-scheduling-system/web/statistic/ui/change-schedule-chart": [
         "libs/web/statistic/ui/change-schedule-chart/src/index.ts"
       ],
+      "@teaching-scheduling-system/web/statistic/ui/change-schedule-export-directive": [
+        "libs/web/statistic/ui/change-schedule-export-directive/src/index.ts"
+      ],
       "@teaching-scheduling-system/web/statistic/ui/change-schedule-filter": [
         "libs/web/statistic/ui/change-schedule-filter/src/index.ts"
       ],
