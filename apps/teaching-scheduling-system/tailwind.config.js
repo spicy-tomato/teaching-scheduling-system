@@ -21,6 +21,7 @@ module.exports = {
         '38': '9.5rem',
         'nav-h': '65px',
         'main-view-h': 'calc(100vh - 65px)',
+        'main-view-h-md': 'calc(100vh - 79px)',
         'content-h': 'calc(100vh - 127px)', /* With breadcrumbs */
         'sidebar-w': '240px',
         'main-view-w': 'calc(100vw - 240px)',
@@ -57,7 +58,7 @@ module.exports = {
         'tui-error-fill': 'var(--tui-error-fill)',
         'tui-error-bg': 'var(--tui-error-bg)',
         'tui-error-bg-hover': 'var(--tui-error-bg-hover)',
-        'tui-text-neutral-fill': 'var(--tui-neutral-fill)',
+        'tui-neutral-fill': 'var(--tui-neutral-fill)',
       },
       borderRadius: {
         'tui-radius-xs': 'var(--tui-radius-xs)'

@@ -1,40 +1,32 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
 import { ReactiveComponentModule } from '@ngrx/component';
 import {
-  TuiButtonModule,
   TuiDataListModule,
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
 import { TuiCheckboxLabeledModule, TuiSelectModule } from '@taiga-ui/kit';
 import { PermissionDirectiveModule } from '@teaching-scheduling-system/web/shared/directives/permission';
-import { ChangeReportDialogModule } from '@teaching-scheduling-system/web/teaching-schedule/ui/change-report-dialog';
-import { ChangeRequestFilterLeftModule } from '@teaching-scheduling-system/web/teaching-schedule/ui/change-request-filter-left';
-import { ChangeRequestFilterComponent } from './change-request-filter.component';
+import { ChangeRequestFilterLeftComponent } from './change-request-filter-left.component';
 
 const NGRX = [ReactiveComponentModule];
 const TAIGA_UI = [
-  TuiButtonModule,
+  TuiCheckboxLabeledModule,
   TuiDataListModule,
   TuiSelectModule,
   TuiTextfieldControllerModule,
-  TuiCheckboxLabeledModule,
 ];
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule,
     FormsModule,
     PermissionDirectiveModule,
-    ChangeReportDialogModule,
-    ChangeRequestFilterLeftModule,
     ...NGRX,
-    TAIGA_UI,
+    ...TAIGA_UI,
   ],
-  declarations: [ChangeRequestFilterComponent],
-  exports: [ChangeRequestFilterComponent],
+  declarations: [ChangeRequestFilterLeftComponent],
+  exports: [ChangeRequestFilterLeftComponent],
 })
-export class ChangeRequestFilterModule {}
+export class ChangeRequestFilterLeftModule {}
