@@ -35,4 +35,8 @@ export class InputDateRangeConstant {
       ),
     ];
   }
+
+  public static getPreviousMonthRange(): TuiDayRange {
+    return this.getPeriods()[1].range;
+  }
 }

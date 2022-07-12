@@ -192,6 +192,9 @@
       "@teaching-scheduling-system/web/shared/ui/components/confirm-input": [
         "libs/web/shared/ui/components/confirm-input/src/index.ts"
       ],
+      "@teaching-scheduling-system/web/shared/ui/components/input-date-range": [
+        "libs/web/shared/ui/components/input-date-range/src/index.ts"
+      ],
       "@teaching-scheduling-system/web/shared/ui/components/success-dialog-header": [
         "libs/web/shared/ui/components/success-dialog-header/src/index.ts"
       ],
@@ -200,6 +203,9 @@
       ],
       "@teaching-scheduling-system/web/shared/utils/guards": [
         "libs/web/shared/utils/guards/src/index.ts"
+      ],
+      "@teaching-scheduling-system/web/shared/utils/helpers": [
+        "libs/web/shared/utils/helpers/src/index.ts"
       ],
       "@teaching-scheduling-system/web/shared/utils/interceptors": [
         "libs/web/shared/utils/interceptors/src/index.ts"

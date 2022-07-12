@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { TuiDay, TuiDayRange, TuiDestroyService } from '@taiga-ui/cdk';
+import { TuiDayRange, TuiDestroyService } from '@taiga-ui/cdk';
 import { tuiButtonOptionsProvider, TuiDialogContext } from '@taiga-ui/core';
 import { InputDateRangeConstant } from '@teaching-scheduling-system/core/data-access/constants';
 import {
@@ -41,8 +41,6 @@ import { ExportDialogStore } from './store';
 export class ChangeReportDialogComponent {
   /** PUBLIC PROPERTIES */
   public form!: FormGroup;
-  public readonly items = InputDateRangeConstant.getPeriods();
-  public readonly min = new TuiDay(2021, 10, 1);
   public readonly status$ = this.store.status$;
   public readonly EApiStatus = EApiStatus;
   public readonly confirm$ = new Subject<void>();
@@ -75,7 +73,10 @@ export class ChangeReportDialogComponent {
   /** PRIVATE METHODS */
   private initForm(): void {
     this.form = this.fb.group({
-      range: [this.items[1].range, Validators.required],
+      range: [
+        InputDateRangeConstant.getPreviousMonthRange(),
+        Validators.required,
+      ],
     });
   }
 
