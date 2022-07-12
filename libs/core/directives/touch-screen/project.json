@@ -1,13 +1,13 @@
 {
   "projectType": "library",
-  "sourceRoot": "libs/core/directives/touch-screen-or/src",
+  "sourceRoot": "libs/core/directives/touch-screen/src",
   "prefix": "tss",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/core/directives/touch-screen-or"],
+      "outputs": ["coverage/libs/core/directives/touch-screen"],
       "options": {
-        "jestConfig": "libs/core/directives/touch-screen-or/jest.config.ts",
+        "jestConfig": "libs/core/directives/touch-screen/jest.config.ts",
         "passWithNoTests": true
       }
     },
@@ -15,8 +15,8 @@
       "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": [
-          "libs/core/directives/touch-screen-or/**/*.ts",
-          "libs/core/directives/touch-screen-or/**/*.html"
+          "libs/core/directives/touch-screen/**/*.ts",
+          "libs/core/directives/touch-screen/**/*.html"
         ]
       }
     }

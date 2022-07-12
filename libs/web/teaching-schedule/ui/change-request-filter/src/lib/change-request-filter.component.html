@@ -1,7 +1,9 @@
-<div class="flex justify-end my-3 pr-4 md:pr-0">
-  <tss-change-request-filter-left class="hidden grow lg:block"></tss-change-request-filter-left>
+<div class="flex my-3 pr-4 md:pr-0">
+  <tss-change-request-filter-left
+    class="hidden grow mr-4 lg:block"
+  ></tss-change-request-filter-left>
 
-  <div class="flex shrink-0 gap-2">
+  <div class="w-full flex shrink-0 flex-wrap justify-end gap-2 lg:w-auto">
     <ng-container *ngIf="isPersonal">
       <button
         tuiButton

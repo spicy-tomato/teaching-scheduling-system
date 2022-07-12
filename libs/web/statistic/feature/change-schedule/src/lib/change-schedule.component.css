@@ -1,5 +1,5 @@
 :host {
-  @apply h-full grid gap-7 p-1.5 md:p-0 md:pt-1.5;
+  @apply h-full grid gap-3 p-1.5 md:p-0 md:pt-1.5 md:gap-7;
   grid-template-columns: 1fr;
   grid-template-rows: auto 1fr;
   grid-template-areas:

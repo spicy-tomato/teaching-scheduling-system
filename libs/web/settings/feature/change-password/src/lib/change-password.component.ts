@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { TuiDestroyService, TuiValidationError } from '@taiga-ui/cdk';
-import { TuiNotification, TuiNotificationsService } from '@taiga-ui/core';
+import { TuiAlertService, TuiNotification } from '@taiga-ui/core';
 import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
 import { requiredFactory } from '@teaching-scheduling-system/core/utils/factories';
 import { StringHelper } from '@teaching-scheduling-system/core/utils/helpers';
@@ -63,8 +63,8 @@ export class ChangePasswordComponent {
   constructor(
     private readonly fb: FormBuilder,
     private readonly store: SettingsChangePasswordStore,
-    @Inject(TuiNotificationsService)
-    private readonly notificationsService: TuiNotificationsService,
+    @Inject(TuiAlertService)
+    private readonly alertService: TuiAlertService,
     private readonly destroy$: TuiDestroyService,
     appShellStore: Store<AppShellState>
   ) {
@@ -137,8 +137,8 @@ export class ChangePasswordComponent {
           if (status === EApiStatus.successful) {
             this.form.reset();
             this.form.markAsPristine();
-            this.notificationsService
-              .show('Thay đổi mật khẩu thành công!', {
+            this.alertService
+              .open('Thay đổi mật khẩu thành công!', {
                 status: TuiNotification.Success,
               })
               .subscribe();

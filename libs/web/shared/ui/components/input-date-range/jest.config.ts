@@ -1,7 +1,7 @@
 /* eslint-disable */
 export default {
-  displayName: 'core-directives-touch-screen-or',
-  preset: '../../../../jest.preset.js',
+  displayName: 'web-shared-ui-components-input-date-range',
+  preset: '../../../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
     'ts-jest': {
@@ -10,7 +10,7 @@ export default {
     },
   },
   coverageDirectory:
-    '../../../../coverage/libs/core/directives/touch-screen-or',
+    '../../../../../../coverage/libs/web/shared/ui/components/input-date-range',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },

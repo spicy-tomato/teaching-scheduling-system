@@ -1,0 +1,3 @@
+::ng-deep tui-calendar-range tui-data-list.menu {
+  @apply !w-56;
+}

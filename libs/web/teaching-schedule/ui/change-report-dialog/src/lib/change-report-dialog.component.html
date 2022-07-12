@@ -1,7 +1,5 @@
 <form *ngrxLet="status$ as status" [formGroup]="form">
-  <tui-input-date-range [items]="items" [min]="min" formControlName="range">
-    Chọn khoảng thời gian
-  </tui-input-date-range>
+  <tss-input-date-range formControlName="range"></tss-input-date-range>
   <div class="tui-form__buttons tui-form__buttons_align_end">
     <button
       tuiButton

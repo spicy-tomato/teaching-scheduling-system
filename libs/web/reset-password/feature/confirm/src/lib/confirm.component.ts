@@ -14,9 +14,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TuiDestroyService, TuiValidationError } from '@taiga-ui/cdk';
 import {
+  TuiAlertService,
   TuiDialogService,
   TuiNotification,
-  TuiNotificationsService,
 } from '@taiga-ui/core';
 import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
 import { requiredFactory } from '@teaching-scheduling-system/core/utils/factories';
@@ -74,7 +74,7 @@ export class ConfirmComponent {
     private readonly route: ActivatedRoute,
     @Inject(Injector) private readonly injector: Injector,
     private readonly tuiDialogService: TuiDialogService,
-    private readonly notificationsService: TuiNotificationsService,
+    private readonly alertService: TuiAlertService,
     private readonly store: ConfirmStore,
     private readonly appShellStore: Store<AppShellState>,
     private readonly destroy$: TuiDestroyService
@@ -174,8 +174,8 @@ export class ConfirmComponent {
               .pipe(tap(() => this.form.disable()))
               .subscribe();
           } else if (status === EApiStatus.systemError) {
-            this.notificationsService
-              .show('Mã đặt lại mật khẩu đã hết hạn', {
+            this.alertService
+              .open('Mã đặt lại mật khẩu đã hết hạn', {
                 label: 'Đã có lỗi xảy ra',
                 status: TuiNotification.Error,
               })

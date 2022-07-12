@@ -8,7 +8,7 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { TuiDestroyService } from '@taiga-ui/cdk';
-import { TuiNotification, TuiNotificationsService } from '@taiga-ui/core';
+import { TuiAlertService, TuiNotification } from '@taiga-ui/core';
 import { Teacher } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { UserService } from '@teaching-scheduling-system/web/shared/data-access/services';
 import {
@@ -74,8 +74,8 @@ export class UserInfoComponent {
     private readonly fb: FormBuilder,
     private readonly userService: UserService,
     private readonly destroy$: TuiDestroyService,
-    @Inject(TuiNotificationsService)
-    private readonly notificationsService: TuiNotificationsService,
+    @Inject(TuiAlertService)
+    private readonly alertService: TuiAlertService,
     appShellStore: Store<AppShellState>
   ) {
     this.teacher$ = appShellStore.pipe(
@@ -149,16 +149,16 @@ export class UserInfoComponent {
   }
 
   private onSaveSuccessful(): void {
-    this.notificationsService
-      .show('Cập nhật thông tin thành công', {
+    this.alertService
+      .open('Cập nhật thông tin thành công', {
         status: TuiNotification.Success,
       })
       .subscribe();
   }
 
   private onSaveFailed(): void {
-    this.notificationsService
-      .show('Vui lòng thử lại sau', {
+    this.alertService
+      .open('Vui lòng thử lại sau', {
         label: 'Lỗi hệ thống',
         status: TuiNotification.Error,
       })
