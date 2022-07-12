@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.6.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.5.0...v3.6.0) (2022-07-12)
+
+
+### Features
+
+* use custom input date range ([ee6398b](https://github.com/annguyen-it/teaching-scheduling-system/commits/ee6398b70a4f29e209892924a87f90a6a96bedcd))
+* **user-info:** responsive ([9649310](https://github.com/annguyen-it/teaching-scheduling-system/commits/96493104a9a5fcf81057b44e3a88801d029a774e))
+
+
+### Bug Fixes
+
+* **dep:** upgrade docx to 7.4.0 ([7196f25](https://github.com/annguyen-it/teaching-scheduling-system/commits/7196f256a2d7459c8b1133f17c851430668dc27c))
+* **dep:** upgrade taiga-ui to 2.41.1 ([4abc0fc](https://github.com/annguyen-it/teaching-scheduling-system/commits/4abc0fc33be166086a8532a4227d4422d95173ec))
+* **dep:** upgrade tailwindcss to 3.1.5 ([0dfc330](https://github.com/annguyen-it/teaching-scheduling-system/commits/0dfc3306e9a5f6ea24c253e99195a7589badbfdb))
+* touch-screen directive does not work correctly ([fc371ab](https://github.com/annguyen-it/teaching-scheduling-system/commits/fc371ab24874ea421ba2ba5ca360dc8ac517b9ff))
+* wrong redirect after access token timeout ([247da20](https://github.com/annguyen-it/teaching-scheduling-system/commits/247da20fc1408b163f92295d0a316043de6d6f8c))
+
 ## [3.5.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.4.0...v3.5.0) (2022-07-11)
 
 
