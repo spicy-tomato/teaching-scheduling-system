@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -55,7 +56,8 @@ export class AppShellEffects {
           of({}).pipe(
             tap(() => {
               this.accessTokenService.clear();
-              this.appService.redirectToLogin();
+              const path = this.location.path();
+              this.appService.redirectToLogin(path.includes('login') ? undefined : path);
             })
           )
         )
@@ -126,7 +128,8 @@ export class AppShellEffects {
     private readonly userService: UserService,
     private readonly commonInfoService: CommonInfoService,
     private readonly teacherService: TeacherService,
-    private readonly accessTokenService: AccessTokenService
+    private readonly accessTokenService: AccessTokenService,
+    private readonly location: Location
   ) {}
 
   /** PRIVATE METHODS */
