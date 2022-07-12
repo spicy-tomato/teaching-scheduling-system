@@ -36,7 +36,6 @@ export class KeepUserGuard implements CanActivate {
         return true;
       }
 
-      console.log('guard');
       this.appService.redirectToLogin(path);
       return false;
     }

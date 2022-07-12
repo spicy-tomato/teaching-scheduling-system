@@ -24,8 +24,8 @@
       "@teaching-scheduling-system/core/directives/recreate-view-key": [
         "libs/core/directives/recreate-view-key/src/index.ts"
       ],
-      "@teaching-scheduling-system/core/directives/touch-screen-or": [
-        "libs/core/directives/touch-screen-or/src/index.ts"
+      "@teaching-scheduling-system/core/directives/touch-screen": [
+        "libs/core/directives/touch-screen/src/index.ts"
       ],
       "@teaching-scheduling-system/core/directives/var": [
         "libs/core/directives/var/src/index.ts"

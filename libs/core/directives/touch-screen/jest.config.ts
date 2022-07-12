@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'core-directives-touch-screen-or',
+  displayName: 'core-directives-touch-screen',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -10,7 +10,7 @@ export default {
     },
   },
   coverageDirectory:
-    '../../../../coverage/libs/core/directives/touch-screen-or',
+    '../../../../coverage/libs/core/directives/touch-screen',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },

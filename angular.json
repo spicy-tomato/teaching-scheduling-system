@@ -5,7 +5,7 @@
     "core-data-access-constants": "libs/core/data-access/constants",
     "core-data-access-models": "libs/core/data-access/models",
     "core-directives-recreate-view-key": "libs/core/directives/recreate-view-key",
-    "core-directives-touch-screen-or": "libs/core/directives/touch-screen-or",
+    "core-directives-touch-screen": "libs/core/directives/touch-screen",
     "core-directives-var": "libs/core/directives/var",
     "core-pipes-array": "libs/core/pipes/array",
     "core-pipes-filter-by-input-pipe": "libs/core/pipes/filter-by-input-pipe",
