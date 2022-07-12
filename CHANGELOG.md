@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.5.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.4.0...v3.5.0) (2022-07-11)
+
+
+### Features
+
+* **schedule/change:** responsive ([c60c44a](https://github.com/annguyen-it/teaching-scheduling-system/commits/c60c44ac9c70a57deb01b29fafa5032391d6d297))
+* **statistic:** responsive ([6fdbbb9](https://github.com/annguyen-it/teaching-scheduling-system/commits/6fdbbb9e8a871c0d6d80de80220e39f1af07c972))
+
+
+### Bug Fixes
+
+* hide training type and academic year from filters ([2f77eac](https://github.com/annguyen-it/teaching-scheduling-system/commits/2f77eaccb06117d2fd9937d9ad249f33d65d3cfe))
+* **schedule/change:** new date text color is not highlighted ([6273287](https://github.com/annguyen-it/teaching-scheduling-system/commits/62732877950ff31d5d4cb73e767214727487f926))
+
 ## [3.4.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.3.0...v3.4.0) (2022-07-10)
 
 
