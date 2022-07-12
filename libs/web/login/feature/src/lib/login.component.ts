@@ -2,12 +2,12 @@ import {
   ChangeDetectionStrategy,
   Component,
   Inject,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { TuiDestroyService } from '@taiga-ui/cdk';
-import { TuiNotification, TuiNotificationsService } from '@taiga-ui/core';
+import { TuiAlertService, TuiNotification } from '@taiga-ui/core';
 import { TuiInputPasswordComponent } from '@taiga-ui/kit';
 import { slideUp } from '@teaching-scheduling-system/core/ui/animations';
 import { StringHelper } from '@teaching-scheduling-system/core/utils/helpers';
@@ -15,13 +15,13 @@ import {
   clickLogin,
   LoginState,
   reset,
-  selectState,
+  selectState
 } from '@teaching-scheduling-system/web/login/data-access';
 import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import { LoginForm } from '@teaching-scheduling-system/web/shared/data-access/models';
 import {
   AppShellState,
-  setLoader,
+  setLoader
 } from '@teaching-scheduling-system/web/shared/data-access/store';
 import {
   distinctUntilChanged,
@@ -31,7 +31,7 @@ import {
   Observable,
   Subject,
   takeUntil,
-  tap,
+  tap
 } from 'rxjs';
 
 @Component({
@@ -68,8 +68,8 @@ export class LoginComponent {
   /** CONSTRUCTOR */
   constructor(
     private readonly store: Store<LoginState>,
-    @Inject(TuiNotificationsService)
-    private readonly notificationsService: TuiNotificationsService,
+    @Inject(TuiAlertService)
+    private readonly alertService: TuiAlertService,
     private readonly destroy$: TuiDestroyService,
     appShellStore: Store<AppShellState>
   ) {
@@ -119,7 +119,7 @@ export class LoginComponent {
             status === EApiStatus.clientError
               ? 'Thông tin đăng nhập không chính xác!'
               : 'Lỗi hệ thống!';
-          return this.notificationsService.show('Vui lòng thử lại', {
+          return this.alertService.open('Vui lòng thử lại', {
             label,
             status: TuiNotification.Error,
           });

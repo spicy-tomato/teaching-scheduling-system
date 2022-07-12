@@ -8,11 +8,11 @@ import {
 import { Store } from '@ngrx/store';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import {
+  TuiAlertService,
   TuiAppearance,
   tuiButtonOptionsProvider,
   TuiDialogContext,
   TuiNotification,
-  TuiNotificationsService,
   TUI_TEXTFIELD_APPEARANCE,
 } from '@taiga-ui/core';
 import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
@@ -63,8 +63,8 @@ export class AssignEditDialogComponent {
     @Inject(POLYMORPHEUS_CONTEXT)
     private readonly context: TuiDialogContext<string, ExamScheduleModel>,
     private readonly store: AssignEditExamDialogStore,
-    @Inject(TuiNotificationsService)
-    private readonly notificationService: TuiNotificationsService,
+    @Inject(TuiAlertService)
+    private readonly alertService: TuiAlertService,
     private readonly destroy$: TuiDestroyService,
     appShellStore: Store<AppShellState>
   ) {
@@ -102,8 +102,8 @@ export class AssignEditDialogComponent {
       .pipe(
         tap((status) => {
           if (status === EApiStatus.successful) {
-            this.notificationService
-              .show(
+            this.alertService
+              .open(
                 `Đã cập nhật thành công phòng thi ${this.context.data.name}`,
                 { status: TuiNotification.Success }
               )
@@ -112,8 +112,8 @@ export class AssignEditDialogComponent {
               this.context.completeWith(this.roomControl.value);
             });
           } else if (status === EApiStatus.systemError) {
-            this.notificationService
-              .show('Vui lòng thử lại sau', {
+            this.alertService
+              .open('Vui lòng thử lại sau', {
                 label: 'Lỗi hệ thống!',
                 status: TuiNotification.Error,
               })
