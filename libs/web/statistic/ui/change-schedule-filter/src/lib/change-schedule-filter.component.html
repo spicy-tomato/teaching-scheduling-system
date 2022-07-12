@@ -2,19 +2,20 @@
   <div class="tui-form__row tui-form__row_multi-fields">
     <div class="tui-form__multi-field">
       <tui-input-date-range
-        formControlName="range"
-        (ngModelChange)="statisticize()"
         [items]="items"
         [min]="min"
+        (ngModelChange)="statisticize()"
+        formControlName="range"
+        class="ml-4"
       >
         Chọn khoảng thời gian
       </tui-input-date-range>
     </div>
-    <div class="tui-form__multi-field">
+    <div class="tui-form__multi-field hidden md:block">
       <button
         tuiButton
         *ngrxLet="status$ as status"
-        (click)="export$.next()"
+        [tssChangeScheduleExport]="form.controls['range']"
         [showLoader]="status === EApiStatus.loading"
         [disabled]="form.invalid"
         class="ml-5"
@@ -24,3 +25,18 @@
     </div>
   </div>
 </form>
+
+<ng-template #export>
+  <!-- TODO: Error NG0100 -->
+  <button
+    tuiIconButton
+    *ngrxLet="status$ as status"
+    [tssChangeScheduleExport]="form.controls['range']"
+    [icon]="IconConstant.exportVariantLarge"
+    [showLoader]="status === EApiStatus.loading"
+    [disabled]="form.invalid"
+    appearance="icon"
+    size="m"
+    class="md:!hidden"
+  ></button>
+</ng-template>

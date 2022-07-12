@@ -1,5 +1,5 @@
 <div class="w-full h-screen flex flex-col">
-  <tui-scrollbar class="flex-grow">
+  <tui-scrollbar class="grow">
     <ng-container *ngFor="let item of items">
       <ng-container *tssPermission="item.permission">
         <tui-accordion
@@ -73,7 +73,7 @@
                   <i [class]="item.icon" class="block mx-auto"></i>
                 </ng-template>
               </span>
-              <strong class="flex-grow">{{ item.name }}</strong>
+              <strong class="grow">{{ item.name }}</strong>
               <i class="far fa-external-link block mr-3"></i>
             </div>
           </a>
@@ -111,14 +111,14 @@
       icon="tuiIconSettingsLarge"
       appearance="icon"
       routerLink="/settings"
-      class="flex-grow"
+      class="grow"
     ></a>
     <button
       tuiIconButton
       (click)="onLogout()"
       icon="tuiIconLogoutLarge"
       appearance="icon"
-      class="flex-grow"
+      class="grow"
     ></button>
   </div>
 </div>

@@ -1,19 +1,26 @@
 <div class="wrapper p-2 flex justify-between border border-[rgba(0,0,0,0.12)]">
   <!-- Left -->
   <div class="flex items-center">
-    <button
-      tuiIconButton
-      (click)="onPrev()"
-      shape="rounded"
-      icon="tuiIconChevronLeftLarge"
-    ></button>
-    <button
-      tuiIconButton
-      (click)="onNext()"
-      shape="rounded"
-      icon="tuiIconChevronRightLarge"
-      class="ml-2"
-    ></button>
+    <ng-container
+      *tssTouchScreenOr="let ctx; else: navigateButtons"
+    ></ng-container>
+    <ng-template #navigateButtons>
+      <button
+        tuiIconButton
+        tssNavigate="prev"
+        [scheduleComponent]="scheduleComponent"
+        shape="rounded"
+        icon="tuiIconChevronLeftLarge"
+      ></button>
+      <button
+        tuiIconButton
+        tssNavigate="next"
+        [scheduleComponent]="scheduleComponent"
+        shape="rounded"
+        icon="tuiIconChevronRightLarge"
+        class="ml-2 mr-0.5"
+      ></button>
+    </ng-template>
 
     <tui-hosted-dropdown [(open)]="openSelectMonth" [content]="monthDropdown">
       <button
@@ -21,7 +28,6 @@
         *ngrxLet="dateRange$ as dateRange"
         [class.rotate]="openSelectMonth"
         iconRight="tuiIconChevronDown"
-        class="ml-0.5"
       >
         {{ dateRange }}
       </button>
@@ -94,9 +100,10 @@
   <div *ngrxLet="view$ as view" class="flex items-center">
     <button
       tuiButton
+      tssNavigate="today"
       *ngrxLet="activeToday$ as activeToday"
+      [scheduleComponent]="scheduleComponent"
       [class.active]="activeToday"
-      (click)="clickToday$.next()"
       class="uppercase"
     >
       Hôm nay
@@ -142,138 +149,10 @@
 
 <!-- Filter dropdown -->
 <ng-template #filterDropdown let-activeZone>
-  <div class="filter-wrapper w-[25rem] px-3 py-2">
-    <table class="w-full">
-      <ng-container
-        *tssPermission="permissionConstant.SEE_DEPARTMENT_TEACHING_SCHEDULE"
-      >
-        <tr>
-          <td>Lịch:</td>
-          <td>
-            <div class="flex gap-x-8">
-              <tui-radio-labeled
-                [(ngModel)]="showDepartmentSchedule"
-                [item]="false"
-                (ngModelChange)="onSelectingDepartmentChange($event)"
-              >
-                Cá nhân
-              </tui-radio-labeled>
-              <tui-radio-labeled
-                [(ngModel)]="showDepartmentSchedule"
-                [item]="true"
-                (ngModelChange)="onSelectingDepartmentChange($event)"
-              >
-                Bộ môn
-              </tui-radio-labeled>
-            </div>
-          </td>
-        </tr>
-
-        <tr>
-          <td>
-            <tui-expand [expanded]="showDepartmentSchedule">
-              Giảng viên:
-            </tui-expand>
-          </td>
-          <td>
-            <tui-expand [expanded]="showDepartmentSchedule">
-              <div tuiTextfieldSize="s">
-                <tui-select
-                  [(ngModel)]="filteredTeachers"
-                  [valueContent]="selectTeacherTemplate"
-                  [tuiActiveZoneParent]="activeZone"
-                  (ngModelChange)="onSelectingTeachersChange($event)"
-                >
-                  <ng-template tuiDataList>
-                    <tui-data-list>
-                      <tui-opt-group>
-                        <button tuiOption [value]="[]" size="xs">Tất cả</button>
-                      </tui-opt-group>
-                      <tui-opt-group
-                        tuiMultiSelectGroup
-                        *ngrxLet="teachers$ as teachers"
-                      >
-                        <button
-                          tuiOption
-                          *ngFor="let teacher of teachers; index as i"
-                          [value]="teacher"
-                          size="xs"
-                        >
-                          {{ teacher.name }}
-                        </button>
-                      </tui-opt-group>
-                    </tui-data-list>
-                  </ng-template>
-                </tui-select>
-              </div>
-            </tui-expand>
-          </td>
-        </tr>
-      </ng-container>
-
-      <tr>
-        <td>Học phần:</td>
-        <td>
-          <div tuiTextfieldSize="s">
-            <tui-select
-              [(ngModel)]="filteredModules"
-              [valueContent]="selectModuleTemplate"
-              [tuiActiveZoneParent]="activeZone"
-            >
-              <ng-template tuiDataList>
-                <tui-data-list>
-                  <tui-opt-group>
-                    <button tuiOption [value]="[]" size="xs">Tất cả</button>
-                  </tui-opt-group>
-                  <tui-opt-group
-                    tuiMultiSelectGroup
-                    *ngrxLet="modules$ as modules"
-                  >
-                    <button
-                      tuiOption
-                      *ngFor="let module of modules; index as i"
-                      [value]="module"
-                      size="xs"
-                    >
-                      {{ module }}
-                    </button>
-                  </tui-opt-group>
-                </tui-data-list>
-              </ng-template>
-            </tui-select>
-          </div>
-        </td>
-      </tr>
-
-      <tr>
-        <td></td>
-        <td></td>
-        <td>
-          <button tuiButton (click)="filter()" appearance="primary" size="xs">
-            Lọc
-          </button>
-        </td>
-      </tr>
-    </table>
+  <div class="w-[25rem] px-3 py-2">
+    <tss-calendar-filter
+      [activeZone]="activeZone"
+      (filter)="onFilter()"
+    ></tss-calendar-filter>
   </div>
-</ng-template>
-
-<ng-template #selectTeacherTemplate let-teachers>
-  {{
-    teachers.length === 0
-      ? 'Tất cả'
-      : teachers.length === 1
-      ? teachers[0].name
-      : teachers.length + ' giảng viên'
-  }}
-</ng-template>
-
-<ng-template #selectModuleTemplate let-modules>
-  {{
-    modules.length === 0
-      ? 'Tất cả'
-      : modules.length === 1
-      ? modules[0]
-      : modules.length + ' học phần'
-  }}
 </ng-template>

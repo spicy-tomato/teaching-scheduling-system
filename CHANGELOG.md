@@ -2,6 +2,53 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.5.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.4.0...v3.5.0) (2022-07-11)
+
+
+### Features
+
+* **schedule/change:** responsive ([c60c44a](https://github.com/annguyen-it/teaching-scheduling-system/commits/c60c44ac9c70a57deb01b29fafa5032391d6d297))
+* **statistic:** responsive ([6fdbbb9](https://github.com/annguyen-it/teaching-scheduling-system/commits/6fdbbb9e8a871c0d6d80de80220e39f1af07c972))
+
+
+### Bug Fixes
+
+* hide training type and academic year from filters ([2f77eac](https://github.com/annguyen-it/teaching-scheduling-system/commits/2f77eaccb06117d2fd9937d9ad249f33d65d3cfe))
+* **schedule/change:** new date text color is not highlighted ([6273287](https://github.com/annguyen-it/teaching-scheduling-system/commits/62732877950ff31d5d4cb73e767214727487f926))
+
+## [3.4.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.3.0...v3.4.0) (2022-07-10)
+
+
+### Features
+
+* **calendar:** add prev and next button for small untouch device ([849d600](https://github.com/annguyen-it/teaching-scheduling-system/commits/849d600e216601a694fb9fb5ea64fbe504d59562))
+* **calendar:** display today teaching schedule (in teaching dialog) on sidebar ([8398973](https://github.com/annguyen-it/teaching-scheduling-system/commits/83989734227145c2b83f3f0f0cc4080471b8f353))
+* **teaching-schedule/assign:** responsive ([622d03e](https://github.com/annguyen-it/teaching-scheduling-system/commits/622d03ee8abba6a255de8b71fb720a312d7bbb29))
+* **teaching-schedule/import:** responsive ([3460bdb](https://github.com/annguyen-it/teaching-scheduling-system/commits/3460bdb074434db1b651b2eb54133f0658d0bcd0))
+
+
+### Bug Fixes
+
+* **calendar:** buttons in teaching dialog are overlapped ([9098074](https://github.com/annguyen-it/teaching-scheduling-system/commits/90980748e494196b90bfd5b68ac1a441abf36243))
+* **calendar:** cannot open exam dialog ([d86cb97](https://github.com/annguyen-it/teaching-scheduling-system/commits/d86cb97b17ff2a9a165b2d8c80c3c9d8dae1ba14))
+* **calendar:** icons in popup should be aligned ([f292f21](https://github.com/annguyen-it/teaching-scheduling-system/commits/f292f21d32c250604db57a83df7041db397d28ea))
+* **calendar:** quick-info should be hidden when click details ([06220d4](https://github.com/annguyen-it/teaching-scheduling-system/commits/06220d4aa5dcd38d8ae039a1cca82bf51f96bf18))
+
+## [3.3.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.2.1...v3.3.0) (2022-07-09)
+
+
+### Features
+
+* responsive for calendar ([2302ce9](https://github.com/annguyen-it/teaching-scheduling-system/commits/2302ce90f71f676f0923b0cfe19ef9de6ff6d002))
+
+
+### Bug Fixes
+
+* **calendar:** calendar should fill screen horizontal ([5949c57](https://github.com/annguyen-it/teaching-scheduling-system/commits/5949c57b0cca2489fdb88e984c2ba077e2070f2b))
+* **calendar:** icon in month select button should rotate when click ([964f67d](https://github.com/annguyen-it/teaching-scheduling-system/commits/964f67d3483e7fb94d6f3a65b06feb2b749a28a3))
+* **calendar:** month picker does not change when slide calendar on touch device ([201e870](https://github.com/annguyen-it/teaching-scheduling-system/commits/201e8706a8db07b4a0ca2199cafcd513a50374e9))
+* **calendar:** nav button and right filter disappear when slide calendar ([ffd58f7](https://github.com/annguyen-it/teaching-scheduling-system/commits/ffd58f73ffc46b1b4abde5f98c60b7e11ef40323))
+
 ### [3.2.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.2.0...v3.2.1) (2022-07-08)
 
 

@@ -1,10 +1,19 @@
-<tss-teaching-dialog-header
-  [fixedSchedules]="schedule.FixedSchedules"
-></tss-teaching-dialog-header>
+<div class="flex justify-end">
+  <button
+    tuiButton
+    *ngIf="schedule.FixedSchedules && schedule.FixedSchedules.length"
+    [tssTeachingHistory]="schedule.FixedSchedules"
+    [icon]="IconConstant.historyLarge"
+    appearance="outline"
+    class="tui-form__button !hidden mb-8 md:!block"
+  >
+    Lịch sử thay đổi giờ giảng
+  </button>
+</div>
 
 <form
-  [formGroup]="form"
   *ngrxLet="requestingChangeSchedule$ as requestingChangeSchedule"
+  [formGroup]="form"
 >
   <div class="tui-form__row">
     <tui-input [readOnly]="true" formControlName="subject"> Lớp </tui-input>
@@ -116,7 +125,10 @@
     </tui-expand>
   </tui-expand>
 
-  <div *ngrxLet="requestStatus$ as requestStatus" class="flex justify-between">
+  <div
+    *ngrxLet="requestStatus$ as requestStatus"
+    class="flex flex-col justify-between md:flex-row"
+  >
     <ng-container *ngrxLet="changeStatus$ as changeStatus">
       <!-- Left buttons -->
       <tss-teaching-dialog-buttons-left
@@ -126,14 +138,14 @@
         [requestedChangeSchedule]="requestedChangeSchedule"
         [isPersonal]="isPersonal"
         [requestChangeToUndeterminedDay]="requestChangeToUndeterminedDay"
-        class="flex-grow"
+        class="grow"
       ></tss-teaching-dialog-buttons-left>
 
       <!-- Right buttons -->
       <tss-teaching-dialog-buttons-right
         (cancel)="cancel.emit()"
         [idSchedule]="schedule.Id"
-        class="flex-grow"
+        class="grow -mt-6 md:mt-0"
       ></tss-teaching-dialog-buttons-right>
     </ng-container>
   </div>

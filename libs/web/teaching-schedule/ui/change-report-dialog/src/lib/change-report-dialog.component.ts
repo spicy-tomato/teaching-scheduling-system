@@ -2,11 +2,7 @@ import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { TuiDay, TuiDayRange, TuiDestroyService } from '@taiga-ui/cdk';
-import {
-  TuiAppearance,
-  TuiDialogContext,
-  TUI_BUTTON_OPTIONS,
-} from '@taiga-ui/core';
+import { tuiButtonOptionsProvider, TuiDialogContext } from '@taiga-ui/core';
 import { InputDateRangeConstant } from '@teaching-scheduling-system/core/data-access/constants';
 import {
   ObservableHelper,
@@ -36,14 +32,10 @@ import { ExportDialogStore } from './store';
   providers: [
     ExportDialogStore,
     TuiDestroyService,
-    {
-      provide: TUI_BUTTON_OPTIONS,
-      useValue: {
-        shape: null,
-        appearance: TuiAppearance.Primary,
-        size: 'm',
-      },
-    },
+    tuiButtonOptionsProvider({
+      appearance: 'primary',
+      size: 'm',
+    }),
   ],
 })
 export class ChangeReportDialogComponent {

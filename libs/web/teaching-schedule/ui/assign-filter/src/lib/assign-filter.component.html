@@ -28,7 +28,7 @@
           [items]="batchesInTerm[termInYear.value]"
         ></tui-data-list-wrapper>
       </tui-select>
-      <tui-select
+      <!-- <tui-select
         *ngrxLet="trainingTypes$ as trainingTypes"
         (ngModelChange)="trainingTypeChange$.next($event)"
         [valueContent]="stringifyTrainingType(trainingTypes)"
@@ -56,7 +56,7 @@
           *tuiDataList
           [items]="academicData[trainingType.value].academicYears"
         ></tui-data-list-wrapper>
-      </tui-select>
+      </tui-select> -->
       <tui-select
         *ngrxLet="departments$ as faculties"
         [valueContent]="stringifyDepartment(faculties)"

@@ -9,7 +9,7 @@ export class StatusColorPipe implements PipeTransform {
       case statusCode === 100 || (500 <= statusCode && statusCode < 600):
         return 'text-tui-text-negative';
       case (200 <= statusCode && statusCode < 300) || statusCode === 400:
-        return 'text-tui-text-neutral-fill';
+        return 'text-tui-neutral-fill';
       case 300 <= statusCode && statusCode < 400:
         return 'text-tui-text-positive';
       case statusCode === 202:

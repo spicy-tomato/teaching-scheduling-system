@@ -1,6 +1,10 @@
-<div class="w-full h-content flex flex-col">
+<div
+  class="w-full h-main-view-h flex flex-col md:h-main-view-h-md lg:h-content-h"
+>
   <tss-calendar-header
+    #header
     [scheduleComponent]="scheduleComponent"
+    class="hidden lg:block"
   ></tss-calendar-header>
   <ng-container *ngrxLet="eventSettings$ as eventSettings">
     <ejs-schedule
@@ -234,3 +238,9 @@
     </ejs-schedule>
   </ng-container>
 </div>
+
+<ng-template #rightMenu>
+  <tss-calendar-menu
+    [scheduleComponent]="scheduleComponent"
+  ></tss-calendar-menu>
+</ng-template>

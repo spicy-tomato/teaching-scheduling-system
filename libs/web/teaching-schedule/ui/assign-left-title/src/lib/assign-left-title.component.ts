@@ -2,10 +2,9 @@ import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import {
-  TuiAppearance,
+  TuiAlertService,
+  tuiButtonOptionsProvider,
   TuiNotification,
-  TuiNotificationsService,
-  TUI_BUTTON_OPTIONS,
 } from '@taiga-ui/core';
 import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
 import { fadeInOut } from '@teaching-scheduling-system/core/ui/animations';
@@ -42,14 +41,10 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     TuiDestroyService,
-    {
-      provide: TUI_BUTTON_OPTIONS,
-      useValue: {
-        shape: null,
-        appearance: TuiAppearance.Primary,
-        size: 's',
-      },
-    },
+    tuiButtonOptionsProvider({
+      appearance: 'primary',
+      size: 's',
+    }),
   ],
   animations: [fadeInOut],
 })
@@ -69,8 +64,8 @@ export class AssignLeftTitleComponent {
   /** CONSTRUCTOR */
   constructor(
     private readonly store: Store<TeachingScheduleAssignState>,
-    @Inject(TuiNotificationsService)
-    private readonly notificationsService: TuiNotificationsService,
+    @Inject(TuiAlertService)
+    private readonly alertService: TuiAlertService,
     private readonly destroy$: TuiDestroyService
   ) {
     this.teachers$ = this.store
@@ -125,8 +120,8 @@ export class AssignLeftTitleComponent {
           if (!teacher) {
             return;
           }
-          this.notificationsService
-            .show(
+          this.alertService
+            .open(
               `Đã phân công ${count} lớp cho giảng viên\n ${teacher.name}`,
               { status: TuiNotification.Success }
             )

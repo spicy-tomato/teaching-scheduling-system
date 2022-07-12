@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { TuiDestroyService } from '@taiga-ui/cdk';
-import { TuiNotification, TuiNotificationsService } from '@taiga-ui/core';
+import { TuiAlertService, TuiNotification } from '@taiga-ui/core';
 import { TuiFileLike } from '@taiga-ui/kit';
 import { CoreConstant } from '@teaching-scheduling-system/core/data-access/constants';
 import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
@@ -64,8 +64,8 @@ export class ImportComponent {
   /** CONSTRUCTOR */
   constructor(
     private readonly fb: FormBuilder,
-    @Inject(TuiNotificationsService)
-    private readonly notificationService: TuiNotificationsService,
+    @Inject(TuiAlertService)
+    private readonly alertService: TuiAlertService,
     private readonly destroy$: TuiDestroyService,
     private readonly store: StatisticImportScheduleStore,
     appShellStore: Store<AppShellState>
@@ -143,12 +143,12 @@ export class ImportComponent {
   }
 
   private showSuccessNotification(): void {
-    this.notificationService.show('Import lịch thành công!').subscribe();
+    this.alertService.open('Import lịch thành công!').subscribe();
   }
 
   private showErrorNotification(): void {
-    this.notificationService
-      .show('Vui lòng thử lại sau', {
+    this.alertService
+      .open('Vui lòng thử lại sau', {
         label: 'Import lịch thất bại!',
         status: TuiNotification.Error,
       })

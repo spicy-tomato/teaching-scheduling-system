@@ -7,11 +7,7 @@ import {
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TuiDestroyService } from '@taiga-ui/cdk';
-import {
-  TuiAppearance,
-  TuiDialogService,
-  TUI_BUTTON_OPTIONS,
-} from '@taiga-ui/core';
+import { tuiButtonOptionsProvider, TuiDialogService } from '@taiga-ui/core';
 import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
 import { PermissionHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import { ChangeSchedule } from '@teaching-scheduling-system/web/shared/data-access/models';
@@ -37,14 +33,11 @@ import { Observable, Subject, takeUntil, tap, withLatestFrom } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     TuiDestroyService,
-    {
-      provide: TUI_BUTTON_OPTIONS,
-      useValue: {
-        shape: 'square',
-        appearance: TuiAppearance.Primary,
-        size: 'xs',
-      },
-    },
+    tuiButtonOptionsProvider({
+      shape: 'square',
+      appearance: 'primary',
+      size: 'xs',
+    }),
   ],
 })
 export class ChangeRequestListStatusComponent {

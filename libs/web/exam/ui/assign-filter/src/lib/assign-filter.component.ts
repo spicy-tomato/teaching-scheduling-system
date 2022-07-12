@@ -7,7 +7,7 @@ import {
   tuiPure,
   TuiStringHandler,
 } from '@taiga-ui/cdk';
-import { TuiAppearance, TUI_BUTTON_OPTIONS } from '@taiga-ui/core';
+import { tuiButtonOptionsProvider } from '@taiga-ui/core';
 import { CoreConstant } from '@teaching-scheduling-system/core/data-access/constants';
 import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
 import {
@@ -46,14 +46,10 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     TuiDestroyService,
-    {
-      provide: TUI_BUTTON_OPTIONS,
-      useValue: {
-        shape: null,
-        appearance: TuiAppearance.Primary,
-        size: 's',
-      },
-    },
+    tuiButtonOptionsProvider({
+      appearance: 'primary',
+      size: 's',
+    }),
   ],
 })
 export class AssignFilterComponent implements OnInit {

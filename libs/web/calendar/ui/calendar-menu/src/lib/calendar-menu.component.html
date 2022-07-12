@@ -1,0 +1,59 @@
+<div class="flex items-center">
+  <ng-container
+    *tssTouchScreenOr="let ctx; else: navigateButtons"
+  ></ng-container>
+  <ng-template #navigateButtons>
+    <button
+      tuiIconButton
+      tssNavigate="prev"
+      [scheduleComponent]="scheduleComponent"
+      shape="rounded"
+      icon="tuiIconChevronLeftLarge"
+    ></button>
+    <button
+      tuiIconButton
+      tssNavigate="next"
+      [scheduleComponent]="scheduleComponent"
+      shape="rounded"
+      icon="tuiIconChevronRightLarge"
+    ></button>
+  </ng-template>
+  <tui-select
+    *ngrxLet="view$ as view"
+    [ngModel]="view"
+    [valueContent]="stringifyView()"
+    [tuiTextfieldLabelOutside]="true"
+    (ngModelChange)="onSelectView($event)"
+    tuiTextfieldSize="s"
+    class="w-24 mr-2"
+  >
+    <ng-template tuiDataList>
+      <tui-data-list>
+        <button tuiOption *ngFor="let view of viewList" [value]="view.id">
+          {{ view.name }}
+        </button>
+      </tui-data-list>
+    </ng-template>
+  </tui-select>
+  <button
+    tuiIconButton
+    tssNavigate="today"
+    [scheduleComponent]="scheduleComponent"
+    icon="tuiIconCalendarLarge"
+  ></button>
+  <button
+    tuiIconButton
+    (click)="toggleRightMenu(true)"
+    (tuiActiveZoneChange)="toggleRightMenu($event)"
+    icon="tuiIconFilterLarge"
+  >
+    <div *tuiSidebar="openRightMenu; direction: 'right'">
+      <div class="p-0.5">
+        <tss-calendar-filter
+          [forMenu]="true"
+          (filter)="onFilter()"
+        ></tss-calendar-filter>
+      </div>
+    </div>
+  </button>
+</div>
