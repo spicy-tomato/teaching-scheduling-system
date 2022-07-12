@@ -2,7 +2,7 @@ import { Directive, HostListener, Inject, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ScheduleComponent } from '@syncfusion/ej2-angular-schedule';
 import { TuiDestroyService, TuiMonth } from '@taiga-ui/cdk';
-import { TuiNotificationsService } from '@taiga-ui/core';
+import { TuiAlertService } from '@taiga-ui/core';
 import { ScheduleHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import {
   calendarChangeMonth,
@@ -34,8 +34,8 @@ export class NavigateDirective {
 
   /** CONSTRUCTOR */
   constructor(
-    @Inject(TuiNotificationsService)
-    private readonly notificationsService: TuiNotificationsService,
+    @Inject(TuiAlertService)
+    private readonly alertService: TuiAlertService,
     private readonly store: Store<CalendarState>,
     private readonly appShellStore: Store<AppShellState>,
     private readonly destroy$: TuiDestroyService
@@ -138,8 +138,8 @@ export class NavigateDirective {
               ? `${nameTitle} không có sự kiện nào trong hôm nay`
               : `${nameTitle} có ${eventsCount} sự kiện vào hôm nay`;
 
-          this.notificationsService
-            .show(content, { label, autoClose: 6000 })
+          this.alertService
+            .open(content, { label, autoClose: 6000 })
             .subscribe({
               complete: () => (this.canDisplayNotification = true),
             });

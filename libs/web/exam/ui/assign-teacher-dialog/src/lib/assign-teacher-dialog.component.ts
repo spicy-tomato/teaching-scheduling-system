@@ -7,10 +7,10 @@ import {
   TuiStringHandler,
 } from '@taiga-ui/cdk';
 import {
+  TuiAlertService,
   tuiButtonOptionsProvider,
   TuiDialogContext,
   TuiNotification,
-  TuiNotificationsService,
 } from '@taiga-ui/core';
 import { tuiItemsHandlersProvider } from '@taiga-ui/kit';
 import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
@@ -64,8 +64,8 @@ export class AssignTeacherDialogComponent {
     private readonly appShellStore: Store<AppShellState>,
     @Inject(POLYMORPHEUS_CONTEXT)
     public readonly context: TuiDialogContext<string[], ExamScheduleModel>,
-    @Inject(TuiNotificationsService)
-    private readonly notificationService: TuiNotificationsService,
+    @Inject(TuiAlertService)
+    private readonly alertService: TuiAlertService,
     private readonly destroy$: TuiDestroyService
   ) {
     this.loadTeachers();
@@ -105,8 +105,8 @@ export class AssignTeacherDialogComponent {
       .pipe(
         tap((status) => {
           if (status === EApiStatus.successful) {
-            this.notificationService
-              .show(
+            this.alertService
+              .open(
                 `Đã cập nhật thành công phòng thi ${this.context.data.name}`,
                 { status: TuiNotification.Success }
               )
@@ -117,8 +117,8 @@ export class AssignTeacherDialogComponent {
               );
             });
           } else if (status === EApiStatus.systemError) {
-            this.notificationService
-              .show('Vui lòng thử lại sau', {
+            this.alertService
+              .open('Vui lòng thử lại sau', {
                 label: 'Lỗi hệ thống!',
                 status: TuiNotification.Error,
               })

@@ -13,9 +13,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { TuiDay, TuiDestroyService, TuiTime } from '@taiga-ui/cdk';
 import {
+  TuiAlertService,
   tuiButtonOptionsProvider,
   TuiNotification,
-  TuiNotificationsService,
 } from '@taiga-ui/core';
 import {
   CoreConstant,
@@ -151,8 +151,8 @@ export class TeachingDialogContentComponent implements OnInit {
     private readonly store: Store<TeachingDialogState>,
     private readonly formHelper: FormHelper,
     private readonly dialogService: DialogService,
-    @Inject(TuiNotificationsService)
-    private readonly notificationsService: TuiNotificationsService,
+    @Inject(TuiAlertService)
+    private readonly alertService: TuiAlertService,
     private readonly destroy$: TuiDestroyService,
     appShellStore: Store<AppShellState>
   ) {
@@ -222,8 +222,8 @@ export class TeachingDialogContentComponent implements OnInit {
   }
 
   public showNotificationError(): void {
-    this.notificationsService
-      .show('Vui lòng thử lại sau', {
+    this.alertService
+      .open('Vui lòng thử lại sau', {
         label: 'Đã có lỗi xảy ra',
         status: TuiNotification.Error,
       })
@@ -478,8 +478,8 @@ export class TeachingDialogContentComponent implements OnInit {
   }
 
   private showNotificationRequestChangeSuccessful(): void {
-    this.notificationsService
-      .show('Vui lòng chờ phản hồi của trưởng bộ môn', {
+    this.alertService
+      .open('Vui lòng chờ phản hồi của trưởng bộ môn', {
         label: 'Gửi yêu cầu thành công',
         status: TuiNotification.Success,
       })
@@ -487,8 +487,8 @@ export class TeachingDialogContentComponent implements OnInit {
   }
 
   private showNotificationUpdateSuccessful(): void {
-    this.notificationsService
-      .show('Cập nhật lịch thành công!', {
+    this.alertService
+      .open('Cập nhật lịch thành công!', {
         status: TuiNotification.Success,
       })
       .subscribe();
