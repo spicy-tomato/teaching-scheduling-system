@@ -1,5 +1,10 @@
 import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 
+type VarContext = {
+  $implicit: unknown;
+  tssVar: unknown;
+};
+
 @Directive({
   selector: '[tssVar]',
 })
@@ -15,10 +20,7 @@ export class VarDirective {
   }
 
   /** PRIVATE PROPERTIES */
-  private context: {
-    $implicit: unknown;
-    tssVar: unknown;
-  } = {
+  private context: VarContext = {
     $implicit: null,
     tssVar: null,
   };

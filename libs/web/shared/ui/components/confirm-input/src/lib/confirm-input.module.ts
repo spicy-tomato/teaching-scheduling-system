@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TuiButtonModule, TuiGroupModule, TuiHintModule } from '@taiga-ui/core';
-import { TuiInputModule } from '@taiga-ui/kit';
+import { TuiInputModule, TuiInputPhoneModule } from '@taiga-ui/kit';
 import { ConfirmInputComponent } from './confirm-input.component';
 
 const TAIGA_UI = [
@@ -10,6 +10,7 @@ const TAIGA_UI = [
   TuiGroupModule,
   TuiHintModule,
   TuiInputModule,
+  TuiInputPhoneModule,
 ];
 
 @NgModule({

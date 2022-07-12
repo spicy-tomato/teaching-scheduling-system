@@ -1,26 +1,18 @@
-import { Component, ChangeDetectionStrategy, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { TuiDialog } from '@taiga-ui/cdk';
-import {
-  TUI_BUTTON_OPTIONS,
-  TuiAppearance,
-  TuiDialogOptions,
-} from '@taiga-ui/core';
-import { ConfirmDialogOptions } from '../dialog-options';
+import { tuiButtonOptionsProvider, TuiDialogOptions } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import { ConfirmDialogOptions } from '../dialog-options';
 
 @Component({
   templateUrl: './confirm-dialog.component.html',
   styleUrls: ['./confirm-dialog.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    {
-      provide: TUI_BUTTON_OPTIONS,
-      useValue: {
-        shape: null,
-        appearance: TuiAppearance.Primary,
-        size: 'm',
-      },
-    },
+    tuiButtonOptionsProvider({
+      appearance: 'primary',
+      size: 'm',
+    }),
   ],
 })
 export class ConfirmDialogComponent<T extends ConfirmDialogOptions> {

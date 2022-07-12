@@ -8,8 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { TuiDestroyService } from '@taiga-ui/cdk';
-import { TuiInputComponent } from '@taiga-ui/kit';
+import { AbstractTuiControl, TuiDestroyService } from '@taiga-ui/cdk';
 
 @Component({
   selector: 'tss-confirm-input',
@@ -28,13 +27,16 @@ import { TuiInputComponent } from '@taiga-ui/kit';
 export class ConfirmInputComponent implements ControlValueAccessor {
   /** INPUT */
   @Input() public field = '';
-  
+  @Input() public type = '';
+  @Input() public disableConfirm = false;
+
   /** OUTPUT */
   @Output() public save = new EventEmitter();
-  
+
   /** VIEWCHILD */
-  @ViewChild(TuiInputComponent) public inputComponent!: TuiInputComponent;
-  
+  @ViewChild(AbstractTuiControl)
+  public inputComponent!: AbstractTuiControl<string>;
+
   /** PUBLIC PROPERTIES */
   public initialValue = '';
   public value = '';
@@ -64,11 +66,13 @@ export class ConfirmInputComponent implements ControlValueAccessor {
   /** PUBLIC METHODS */
   public onValueChange(value: string): void {
     this.value = value;
+    this.onChange(value);
   }
 
   public onEdit(): void {
     this.showEdit = true;
-    this.inputComponent.nativeFocusableElement?.focus();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (this.inputComponent as any).nativeFocusableElement?.focus();
   }
 
   public onCancel(): void {

@@ -1,6 +1,6 @@
 {
   "name": "teaching-scheduling-system",
-  "version": "3.0.1",
+  "version": "3.5.0",
   "license": "MIT",
   "scripts": {
     "ng": "nx",
@@ -36,6 +36,7 @@
     "@syncfusion/ej2-locale": "^19.4.41",
     "@taiga-ui/addon-charts": "^2.40.0",
     "@taiga-ui/addon-editor": "^2.40.0",
+    "@taiga-ui/addon-mobile": "^2.40.0",
     "@taiga-ui/addon-table": "^2.39.0",
     "@taiga-ui/cdk": "^2.40.0",
     "@taiga-ui/core": "^2.40.0",

@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TuiDestroyService } from '@taiga-ui/cdk';
@@ -7,6 +13,7 @@ import {
   AppShellState,
   selectNotNullTeacher,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
+import { NavbarService } from '@teaching-scheduling-system/web/shell/ui/navbar';
 import {
   teachingScheduleRequestChangeOptions,
   teachingScheduleRequestFilter,
@@ -21,12 +28,16 @@ import { Observable, takeUntil, tap } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TuiDestroyService],
 })
-export class ChangeRequestComponent {
+export class ChangeRequestComponent implements AfterViewInit {
+  /** VIEWCHILD */
+  @ViewChild('rightMenu') public rightMenuTemplate!: TemplateRef<never>;
+
   /** PRIVATE PROPERTIES */
   private readonly teacher$: Observable<Teacher>;
 
   /** CONSTRUCTOR */
   constructor(
+    private readonly navbarService: NavbarService,
     private readonly store: Store<TeachingScheduleRequestState>,
     private readonly appShellStore: Store<AppShellState>,
     private readonly destroy$: TuiDestroyService,
@@ -53,6 +64,11 @@ export class ChangeRequestComponent {
         })
       );
     }
+  }
+
+  /** LIFECYCLE */
+  public ngAfterViewInit(): void {
+    this.navbarService.addRightMenu(this.rightMenuTemplate);
   }
 
   /** PRIVATE METHODS */

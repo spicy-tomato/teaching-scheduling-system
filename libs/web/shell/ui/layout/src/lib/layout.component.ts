@@ -24,7 +24,7 @@ export class LayoutComponent {
       .select(selectStatus)
       .pipe(
         tap((status) => {
-          if (status !== EApiStatus.loading) {
+          if (status === EApiStatus.unknown) {
             store.dispatch(reset());
             store.dispatch(keepLogin());
           }

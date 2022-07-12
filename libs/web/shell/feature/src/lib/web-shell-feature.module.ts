@@ -6,7 +6,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { routerReducer, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { TUI_SANITIZER } from '@taiga-ui/cdk';
-import { TUI_HINT_OPTIONS, TUI_TOOLTIP_ICON } from '@taiga-ui/core';
+import { tuiHintOptionsProvider } from '@taiga-ui/core';
 import { TUI_LANGUAGE, TUI_VIETNAMESE_LANGUAGE } from '@taiga-ui/i18n';
 import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
 import { PermissionConstant } from '@teaching-scheduling-system/core/data-access/constants';
@@ -20,6 +20,7 @@ import { ContentTypeInterceptor } from '@teaching-scheduling-system/core/utils/i
 import { TokenService } from '@teaching-scheduling-system/web/shared/data-access/services';
 import {
   KeepUserGuard,
+  MaintenanceGuard,
   PermissionGuard,
 } from '@teaching-scheduling-system/web/shared/utils/guards';
 import { AuthInterceptor } from '@teaching-scheduling-system/web/shared/utils/interceptors';
@@ -27,14 +28,21 @@ import {
   LayoutComponent,
   LayoutModule,
 } from '@teaching-scheduling-system/web/shell/ui/layout';
+import { NavbarService } from '@teaching-scheduling-system/web/shell/ui/navbar';
 import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
 import { of } from 'rxjs';
 import { extModules } from './build-specifics';
 
+const NGRX = [
+  StoreModule.forRoot({ router: routerReducer }, {}),
+  EffectsModule.forRoot([]),
+  StoreRouterConnectingModule.forRoot(),
+];
+
 export const webShellFeatureRoutes: Routes = [
   {
     path: 'login',
-    canActivate: [KeepUserGuard],
+    canActivate: [MaintenanceGuard, KeepUserGuard],
     loadChildren: async () =>
       (await import('@teaching-scheduling-system/web/login/feature'))
         .LoginModule,
@@ -45,7 +53,7 @@ export const webShellFeatureRoutes: Routes = [
       breadcrumb: 'Trang chủ',
     },
     component: LayoutComponent,
-    canActivate: [KeepUserGuard],
+    canActivate: [MaintenanceGuard, KeepUserGuard],
     children: [
       {
         path: '',
@@ -133,23 +141,38 @@ export const webShellFeatureRoutes: Routes = [
     ],
   },
   {
+    path: 'maintenance',
+    canActivate: [MaintenanceGuard, KeepUserGuard],
+    loadChildren: async () =>
+      (
+        await import(
+          '@teaching-scheduling-system/web/error/feature/maintenance'
+        )
+      ).MaintenanceModule,
+  },
+  {
+    path: 'reset-password',
+    loadChildren: async () =>
+      (
+        await import(
+          '@teaching-scheduling-system/web/reset-password/feature/shell'
+        )
+      ).ShellModule,
+  },
+  {
     path: '403',
+    canActivate: [MaintenanceGuard, KeepUserGuard],
     loadChildren: async () =>
       (await import('@teaching-scheduling-system/web/error/feature/forbidden'))
         .ForbiddenModule,
   },
   {
     path: '**',
+    canActivate: [MaintenanceGuard, KeepUserGuard],
     loadChildren: async () =>
       (await import('@teaching-scheduling-system/web/error/feature/not-found'))
         .NotFoundModule,
   },
-];
-
-const NGRX = [
-  StoreModule.forRoot({ router: routerReducer }, {}),
-  EffectsModule.forRoot([]),
-  StoreRouterConnectingModule.forRoot(),
 ];
 
 @NgModule({
@@ -197,16 +220,12 @@ const NGRX = [
         beforeToday: beforeTodayFactory,
       },
     },
-    {
-      provide: TUI_HINT_OPTIONS,
-      useValue: {
-        tuiHintShowDelay: 300,
-        tuiHintHideDelay: 100,
-        tooltipIcon: TUI_TOOLTIP_ICON,
-        mode: null,
-        direction: 'bottom-middle',
-      },
-    },
+    tuiHintOptionsProvider({
+      tuiHintShowDelay: 300,
+      tuiHintHideDelay: 100,
+      direction: 'bottom-middle',
+    }),
+    NavbarService,
   ],
 })
 export class WebShellFeatureModule {}

@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import {
   HttpErrorResponse,
   HttpEvent,
@@ -18,7 +19,8 @@ export class AuthInterceptor implements HttpInterceptor {
   /** CONSTRUCTOR */
   constructor(
     private readonly accessTokenService: AccessTokenService,
-    private readonly appService: AppService
+    private readonly appService: AppService,
+    private readonly location: Location
   ) {}
 
   /** IMPLEMENTATIONS */
@@ -34,15 +36,16 @@ export class AuthInterceptor implements HttpInterceptor {
       tap({
         error: (error) => {
           if (!(error instanceof HttpErrorResponse)) return;
+          const currentUrl = this.location.path();
 
           switch (error.status) {
             case 401: {
               const token = error.headers.get('Authorization');
               if (token) {
                 this.accessTokenService.save(token);
-              } else {
+              } else if (!currentUrl.includes('/login')) {
                 this.accessTokenService.clear();
-                this.appService.redirectToLogin();
+                this.appService.redirectToLogin(currentUrl);
               }
             }
           }

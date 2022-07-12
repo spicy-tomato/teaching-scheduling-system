@@ -132,12 +132,11 @@
                 {{ item.oldSchedule.date | date: 'dd-MM-Y' }}
               </div>
             </td>
-            <td
-              tuiTd
-              *tuiCell="'newDate'"
-              [class.text-tui-warning-bg-hover]="item.intendTime"
-            >
-              <div class="text-center">
+            <td tuiTd *tuiCell="'newDate'">
+              <div
+                [ngClass]="{ 'text-tui-text-link font-bold': item.intendTime }"
+                class="text-center"
+              >
                 {{
                   item.intendTime || (item.newSchedule.date | date: 'dd-MM-Y')
                 }}

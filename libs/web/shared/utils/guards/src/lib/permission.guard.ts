@@ -32,7 +32,7 @@ export class PermissionGuard
       .select(selectStatus)
       .pipe(
         tap((status) => {
-          if (status !== EApiStatus.loading) {
+          if (status === EApiStatus.unknown) {
             appShellStore.dispatch(reset());
             appShellStore.dispatch(keepLogin());
           }

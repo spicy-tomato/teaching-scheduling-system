@@ -1,42 +1,30 @@
 import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   OnInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
+  TemplateRef,
+  ViewChild
 } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import {
   RANGE_SEPARATOR_CHAR,
   TuiDay,
   TuiDayRange,
-  TuiDestroyService,
+  TuiDestroyService
 } from '@taiga-ui/cdk';
-import { InputDateRangeConstant } from '@teaching-scheduling-system/core/data-access/constants';
+import { IconConstant, InputDateRangeConstant } from '@teaching-scheduling-system/core/data-access/constants';
 import { ObservableHelper } from '@teaching-scheduling-system/core/utils/helpers';
-import {
-  EApiStatus,
-  FileType,
-} from '@teaching-scheduling-system/web/shared/data-access/enums';
-import {
-  ChangeSchedule,
-  Teacher,
-} from '@teaching-scheduling-system/web/shared/data-access/models';
-import { ExportService } from '@teaching-scheduling-system/web/shared/data-access/services';
+import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
+import { Teacher } from '@teaching-scheduling-system/web/shared/data-access/models';
 import {
   AppShellState,
-  selectNotNullTeacher,
+  selectNotNullTeacher
 } from '@teaching-scheduling-system/web/shared/data-access/store';
+import { NavbarService } from '@teaching-scheduling-system/web/shell/ui/navbar';
 import { StatisticChangeScheduleStore } from '@teaching-scheduling-system/web/statistic/data-access';
-import {
-  Observable,
-  Subject,
-  takeUntil,
-  tap,
-  take,
-  withLatestFrom,
-  map,
-} from 'rxjs';
+import { Observable, take, takeUntil, tap } from 'rxjs';
 
 @Component({
   selector: 'tss-change-schedule-filter',
@@ -51,17 +39,18 @@ import {
     },
   ],
 })
-export class ChangeScheduleFilterComponent implements OnInit {
+export class ChangeScheduleFilterComponent implements OnInit, AfterViewInit {
+  /** VIEWCHILD */
+  @ViewChild('export') public exportTemplate!: TemplateRef<never>;
+
   /** PUBLIC PROPERTIES */
   public form!: FormGroup;
 
-  public readonly data$: Observable<ChangeSchedule[]>;
-  public readonly status$: Observable<EApiStatus>;
-
+  public readonly IconConstant = IconConstant;
   public readonly EApiStatus = EApiStatus;
   public readonly items = InputDateRangeConstant.getPeriods();
-  public readonly export$ = new Subject<void>();
   public readonly min = new TuiDay(2021, 10, 1);
+  public readonly status$: Observable<EApiStatus>;
 
   /** PRIVATE PROPERTIES */
   private readonly teacher$: Observable<Teacher>;
@@ -74,42 +63,38 @@ export class ChangeScheduleFilterComponent implements OnInit {
   /** CONSTRUCTOR */
   constructor(
     private readonly fb: FormBuilder,
-    private readonly cdr: ChangeDetectorRef,
-    private readonly exportService: ExportService,
+    private readonly navbarService: NavbarService,
     private readonly store: StatisticChangeScheduleStore,
     private readonly destroy$: TuiDestroyService,
     appShellStore: Store<AppShellState>
   ) {
     this.status$ = store.status$;
-    this.data$ = store.data$;
     this.teacher$ = appShellStore.pipe(
       selectNotNullTeacher,
       takeUntil(this.destroy$)
     );
 
     this.initForm();
-    this.handleStatisticChange();
-    this.handleExport();
   }
 
-  /** LIFE CYCLE */
+  /** LIFECYCLE */
   public ngOnInit(): void {
     this.statisticizeFirstTime();
+  }
+
+  public ngAfterViewInit(): void {
+    this.navbarService.addRightMenu(this.exportTemplate);
   }
 
   /** PUBLIC METHODS */
   public statisticize(): void {
     const range = this.rangeControlValue;
-    this.store.statisticize({ range });
+    if (range) {
+      this.store.statisticize({ range });
+    }
   }
 
   /** PRIVATE METHODS */
-  private initForm(): void {
-    this.form = this.fb.group({
-      range: [this.items[1].range, Validators.required],
-    });
-  }
-
   private statisticizeFirstTime(): void {
     this.teacher$
       .pipe(
@@ -120,57 +105,9 @@ export class ChangeScheduleFilterComponent implements OnInit {
       .subscribe();
   }
 
-  private handleStatisticChange(): void {
-    this.data$.pipe(takeUntil(this.destroy$)).subscribe();
-  }
-
-  private handleExport(): void {
-    this.export$
-      .pipe(
-        withLatestFrom(this.data$, this.teacher$),
-        map(({ 1: changeSchedules, 2: teacher }) => ({
-          changeSchedules,
-          teacher,
-        })),
-        tap(({ changeSchedules, teacher }) =>
-          this.export(changeSchedules, teacher)
-        ),
-        takeUntil(this.destroy$)
-      )
-      .subscribe();
-  }
-
-  private export(changeSchedules: ChangeSchedule[], teacher: Teacher): void {
-    const range = this.rangeControlValue;
-    const rangeOptions = {
-      sameMonth: range.from.monthSame(range.to),
-      inOneYear:
-        range.from.month === 0 &&
-        range.from.day === 1 &&
-        range.to.month === 11 &&
-        range.to.day === 31,
-    };
-    const document = this.exportService.exportChangeScheduleStatistic(
-      changeSchedules,
-      teacher,
-      range,
-      rangeOptions
-    );
-
-    const commonName = 'Thay-doi-lich-giang';
-    const rangeText = rangeOptions.sameMonth
-      ? `thang${range.from.month + 1}_${range.from.year}`
-      : rangeOptions.inOneYear
-      ? range.from.year
-      : `${range.from.formattedDayPart}${range.from.formattedMonthPart}${range.from.formattedYear}_${range.to.formattedDayPart}${range.to.formattedMonthPart}${range.to.formattedYear}`;
-    const fileName = `${teacher.department.id}_${commonName}_${rangeText}.docx`;
-
-    this.exportService.exportBlob({
-      document,
-      name: fileName,
-      mimeType: FileType.WORD,
+  private initForm(): void {
+    this.form = this.fb.group({
+      range: [this.items[1].range, Validators.required],
     });
-
-    this.cdr.markForCheck();
   }
 }

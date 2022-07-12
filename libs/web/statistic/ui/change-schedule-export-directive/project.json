@@ -1,0 +1,27 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/web/statistic/ui/change-schedule-export-directive/src",
+  "prefix": "tss",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "coverage/libs/web/statistic/ui/change-schedule-export-directive"
+      ],
+      "options": {
+        "jestConfig": "libs/web/statistic/ui/change-schedule-export-directive/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/web/statistic/ui/change-schedule-export-directive/**/*.ts",
+          "libs/web/statistic/ui/change-schedule-export-directive/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

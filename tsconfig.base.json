@@ -24,6 +24,9 @@
       "@teaching-scheduling-system/core/directives/recreate-view-key": [
         "libs/core/directives/recreate-view-key/src/index.ts"
       ],
+      "@teaching-scheduling-system/core/directives/touch-screen-or": [
+        "libs/core/directives/touch-screen-or/src/index.ts"
+      ],
       "@teaching-scheduling-system/core/directives/var": [
         "libs/core/directives/var/src/index.ts"
       ],
@@ -32,6 +35,9 @@
       ],
       "@teaching-scheduling-system/core/pipes/filter-by-input-pipe": [
         "libs/core/pipes/filter-by-input-pipe/src/index.ts"
+      ],
+      "@teaching-scheduling-system/core/pipes/shorten-name": [
+        "libs/core/pipes/shorten-name/src/index.ts"
       ],
       "@teaching-scheduling-system/core/ui/animations": [
         "libs/core/ui/animations/src/index.ts"
@@ -48,14 +54,14 @@
       "@teaching-scheduling-system/core/utils/providers": [
         "libs/core/utils/providers/src/index.ts"
       ],
-      "@teaching-scheduling-system/web-calendar-dialogs-exam-dialog-data-access": [
-        "libs/web/calendar/dialogs/exam-dialog/data-access/src/index.ts"
-      ],
       "@teaching-scheduling-system/web-shared-ui-dialog": [
         "libs/web/shared/ui/dialog/src/index.ts"
       ],
       "@teaching-scheduling-system/web/calendar/data-access": [
         "libs/web/calendar/data-access/src/index.ts"
+      ],
+      "@teaching-scheduling-system/web/calendar/dialogs-exam-dialog/data-access": [
+        "libs/web/calendar/dialogs/exam-dialog/data-access/src/index.ts"
       ],
       "@teaching-scheduling-system/web/calendar/dialogs/exam-dialog/feature": [
         "libs/web/calendar/dialogs/exam-dialog/feature/src/index.ts"
@@ -72,23 +78,38 @@
       "@teaching-scheduling-system/web/calendar/dialogs/teaching-dialog/ui/teaching-dialog-navigation": [
         "libs/web/calendar/dialogs/teaching-dialog/ui/teaching-dialog-navigation/src/index.ts"
       ],
+      "@teaching-scheduling-system/web/calendar/dialogs/teaching-dialog/ui/teaching-history": [
+        "libs/web/calendar/dialogs/teaching-dialog/ui/teaching-history/src/index.ts"
+      ],
       "@teaching-scheduling-system/web/calendar/feature": [
         "libs/web/calendar/feature/src/index.ts"
       ],
       "@teaching-scheduling-system/web/calendar/ui/calendar-date-time-pipe": [
         "libs/web/calendar/ui/calendar-date-time-pipe/src/index.ts"
       ],
+      "@teaching-scheduling-system/web/calendar/ui/calendar-filter": [
+        "libs/web/calendar/ui/calendar-filter/src/index.ts"
+      ],
       "@teaching-scheduling-system/web/calendar/ui/calendar-header": [
         "libs/web/calendar/ui/calendar-header/src/index.ts"
       ],
+      "@teaching-scheduling-system/web/calendar/ui/calendar-menu": [
+        "libs/web/calendar/ui/calendar-menu/src/index.ts"
+      ],
       "@teaching-scheduling-system/web/calendar/ui/change-status-type-pipe": [
         "libs/web/calendar/ui/change-status-type-pipe/src/index.ts"
+      ],
+      "@teaching-scheduling-system/web/calendar/ui/navigate": [
+        "libs/web/calendar/ui/navigate/src/index.ts"
       ],
       "@teaching-scheduling-system/web/config/data-access": [
         "libs/web/config/data-access/src/index.ts"
       ],
       "@teaching-scheduling-system/web/error/feature/forbidden": [
         "libs/web/error/feature/forbidden/src/index.ts"
+      ],
+      "@teaching-scheduling-system/web/error/feature/maintenance": [
+        "libs/web/error/feature/maintenance/src/index.ts"
       ],
       "@teaching-scheduling-system/web/error/feature/not-found": [
         "libs/web/error/feature/not-found/src/index.ts"
@@ -128,6 +149,18 @@
       ],
       "@teaching-scheduling-system/web/login/feature": [
         "libs/web/login/feature/src/index.ts"
+      ],
+      "@teaching-scheduling-system/web/reset-password/feature/confirm": [
+        "libs/web/reset-password/feature/confirm/src/index.ts"
+      ],
+      "@teaching-scheduling-system/web/reset-password/feature/send-email": [
+        "libs/web/reset-password/feature/send-email/src/index.ts"
+      ],
+      "@teaching-scheduling-system/web/reset-password/feature/shell": [
+        "libs/web/reset-password/feature/shell/src/index.ts"
+      ],
+      "@teaching-scheduling-system/web/reset-password/ui/success-dialog": [
+        "libs/web/reset-password/ui/success-dialog/src/index.ts"
       ],
       "@teaching-scheduling-system/web/settings/data-access": [
         "libs/web/settings/data-access/src/index.ts"
@@ -183,8 +216,14 @@
       "@teaching-scheduling-system/web/shell/ui/layout": [
         "libs/web/shell/ui/layout/src/index.ts"
       ],
+      "@teaching-scheduling-system/web/shell/ui/loader": [
+        "libs/web/shell/ui/loader/src/index.ts"
+      ],
       "@teaching-scheduling-system/web/shell/ui/main-view": [
         "libs/web/shell/ui/main-view/src/index.ts"
+      ],
+      "@teaching-scheduling-system/web/shell/ui/mobile-sidebar": [
+        "libs/web/shell/ui/mobile-sidebar/src/index.ts"
       ],
       "@teaching-scheduling-system/web/shell/ui/navbar": [
         "libs/web/shell/ui/navbar/src/index.ts"
@@ -203,6 +242,9 @@
       ],
       "@teaching-scheduling-system/web/statistic/ui/change-schedule-chart": [
         "libs/web/statistic/ui/change-schedule-chart/src/index.ts"
+      ],
+      "@teaching-scheduling-system/web/statistic/ui/change-schedule-export-directive": [
+        "libs/web/statistic/ui/change-schedule-export-directive/src/index.ts"
       ],
       "@teaching-scheduling-system/web/statistic/ui/change-schedule-filter": [
         "libs/web/statistic/ui/change-schedule-filter/src/index.ts"
@@ -255,8 +297,14 @@
       "@teaching-scheduling-system/web/teaching-schedule/ui/change-request-filter": [
         "libs/web/teaching-schedule/ui/change-request-filter/src/index.ts"
       ],
+      "@teaching-scheduling-system/web/teaching-schedule/ui/change-request-filter-left": [
+        "libs/web/teaching-schedule/ui/change-request-filter-left/src/index.ts"
+      ],
       "@teaching-scheduling-system/web/teaching-schedule/ui/change-request-list": [
         "libs/web/teaching-schedule/ui/change-request-list/src/index.ts"
+      ],
+      "@teaching-scheduling-system/web/teaching-schedule/ui/change-request-menu": [
+        "libs/web/teaching-schedule/ui/change-request-menu/src/index.ts"
       ],
       "@teaching-scheduling-system/web/teaching-schedule/ui/change-request-pagination": [
         "libs/web/teaching-schedule/ui/change-request-pagination/src/index.ts"

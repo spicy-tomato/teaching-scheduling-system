@@ -1,6 +1,7 @@
 export * from './lib/array.helper';
 export * from './lib/change-status.helper';
 export * from './lib/date.helper';
+export * from './lib/device.helper';
 export * from './lib/form.helper';
 export * from './lib/object.helper';
 export * from './lib/observable.helper';

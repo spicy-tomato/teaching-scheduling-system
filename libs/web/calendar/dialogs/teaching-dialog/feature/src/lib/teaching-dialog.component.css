@@ -1,5 +1,5 @@
 :host {
-  @apply grid gap-x-4;
+  @apply flex flex-col gap-4 md:grid md:gap-y-0;
   grid-template-columns: 260px 1fr;
   grid-template-rows: auto 1fr;
 }

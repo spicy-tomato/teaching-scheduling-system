@@ -2,6 +2,105 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.5.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.4.0...v3.5.0) (2022-07-11)
+
+
+### Features
+
+* **schedule/change:** responsive ([c60c44a](https://github.com/annguyen-it/teaching-scheduling-system/commits/c60c44ac9c70a57deb01b29fafa5032391d6d297))
+* **statistic:** responsive ([6fdbbb9](https://github.com/annguyen-it/teaching-scheduling-system/commits/6fdbbb9e8a871c0d6d80de80220e39f1af07c972))
+
+
+### Bug Fixes
+
+* hide training type and academic year from filters ([2f77eac](https://github.com/annguyen-it/teaching-scheduling-system/commits/2f77eaccb06117d2fd9937d9ad249f33d65d3cfe))
+* **schedule/change:** new date text color is not highlighted ([6273287](https://github.com/annguyen-it/teaching-scheduling-system/commits/62732877950ff31d5d4cb73e767214727487f926))
+
+## [3.4.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.3.0...v3.4.0) (2022-07-10)
+
+
+### Features
+
+* **calendar:** add prev and next button for small untouch device ([849d600](https://github.com/annguyen-it/teaching-scheduling-system/commits/849d600e216601a694fb9fb5ea64fbe504d59562))
+* **calendar:** display today teaching schedule (in teaching dialog) on sidebar ([8398973](https://github.com/annguyen-it/teaching-scheduling-system/commits/83989734227145c2b83f3f0f0cc4080471b8f353))
+* **teaching-schedule/assign:** responsive ([622d03e](https://github.com/annguyen-it/teaching-scheduling-system/commits/622d03ee8abba6a255de8b71fb720a312d7bbb29))
+* **teaching-schedule/import:** responsive ([3460bdb](https://github.com/annguyen-it/teaching-scheduling-system/commits/3460bdb074434db1b651b2eb54133f0658d0bcd0))
+
+
+### Bug Fixes
+
+* **calendar:** buttons in teaching dialog are overlapped ([9098074](https://github.com/annguyen-it/teaching-scheduling-system/commits/90980748e494196b90bfd5b68ac1a441abf36243))
+* **calendar:** cannot open exam dialog ([d86cb97](https://github.com/annguyen-it/teaching-scheduling-system/commits/d86cb97b17ff2a9a165b2d8c80c3c9d8dae1ba14))
+* **calendar:** icons in popup should be aligned ([f292f21](https://github.com/annguyen-it/teaching-scheduling-system/commits/f292f21d32c250604db57a83df7041db397d28ea))
+* **calendar:** quick-info should be hidden when click details ([06220d4](https://github.com/annguyen-it/teaching-scheduling-system/commits/06220d4aa5dcd38d8ae039a1cca82bf51f96bf18))
+
+## [3.3.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.2.1...v3.3.0) (2022-07-09)
+
+
+### Features
+
+* responsive for calendar ([2302ce9](https://github.com/annguyen-it/teaching-scheduling-system/commits/2302ce90f71f676f0923b0cfe19ef9de6ff6d002))
+
+
+### Bug Fixes
+
+* **calendar:** calendar should fill screen horizontal ([5949c57](https://github.com/annguyen-it/teaching-scheduling-system/commits/5949c57b0cca2489fdb88e984c2ba077e2070f2b))
+* **calendar:** icon in month select button should rotate when click ([964f67d](https://github.com/annguyen-it/teaching-scheduling-system/commits/964f67d3483e7fb94d6f3a65b06feb2b749a28a3))
+* **calendar:** month picker does not change when slide calendar on touch device ([201e870](https://github.com/annguyen-it/teaching-scheduling-system/commits/201e8706a8db07b4a0ca2199cafcd513a50374e9))
+* **calendar:** nav button and right filter disappear when slide calendar ([ffd58f7](https://github.com/annguyen-it/teaching-scheduling-system/commits/ffd58f73ffc46b1b4abde5f98c60b7e11ef40323))
+
+### [3.2.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.2.0...v3.2.1) (2022-07-08)
+
+
+### Bug Fixes
+
+* **calendar:** fix responsive bug for small laptop screen ([3a83c5b](https://github.com/annguyen-it/teaching-scheduling-system/commits/3a83c5b4b7f6eefb41b10e6db02f97a02f59c627))
+* error ng0100 after close mobile dialog by clicking item ([09349cf](https://github.com/annguyen-it/teaching-scheduling-system/commits/09349cfd836b5118ecb8291444b44da4db6ba165))
+* fade animation should be play when route changes ([19a47be](https://github.com/annguyen-it/teaching-scheduling-system/commits/19a47bea76be4881a9c8191780c2e3fd20b8f90d))
+
+## [3.2.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.1.0...v3.2.0) (2022-07-06)
+
+
+### Features
+
+* add help link to nav bars ([62da6a8](https://github.com/annguyen-it/teaching-scheduling-system/commits/62da6a87ab3124a559dd5891d782d8be6180a29d))
+* reset password ([6288e69](https://github.com/annguyen-it/teaching-scheduling-system/commits/6288e696cb6a3462f073838a2ac0085a6a3628f4))
+* responsive for layout ([f77518c](https://github.com/annguyen-it/teaching-scheduling-system/commits/f77518c0bbcc31b27b41a8bbe37638c4c413f5ff))
+* responsive for page login ([f171eee](https://github.com/annguyen-it/teaching-scheduling-system/commits/f171eee7a13539e75d53462567ddd8c079f8faa0))
+
+
+### Bug Fixes
+
+* **error:** fix responsive bug ([790a60f](https://github.com/annguyen-it/teaching-scheduling-system/commits/790a60ff7be126fed6eaed1a2db92d23992077b0))
+* remove loader from components when request to user-info api ([28b6ce1](https://github.com/annguyen-it/teaching-scheduling-system/commits/28b6ce131fc313f91ec6d773e19918f7649c7c94))
+* wrong redirect url ([9b70290](https://github.com/annguyen-it/teaching-scheduling-system/commits/9b702908ae546cdbb9d9c42638cc26ab4cfea85d))
+
+## [3.1.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.0.1...v3.1.0) (2022-07-03)
+
+
+### Features
+
+* maintenance page ([8abbd5e](https://github.com/annguyen-it/teaching-scheduling-system/commits/8abbd5e881436c85ff41296c966716c0af3e02d9))
+* show global loader when request to api user-info ([9cec5cf](https://github.com/annguyen-it/teaching-scheduling-system/commits/9cec5cf382c1082a51df8b201924692fa3da4b07))
+* update app logo ([49216cc](https://github.com/annguyen-it/teaching-scheduling-system/commits/49216cc7087162672940b3041671d5011347264e))
+* **user-info:** display skeleton before data loaded ([de5367c](https://github.com/annguyen-it/teaching-scheduling-system/commits/de5367caabf5160062d00682028c79edefad89fc))
+
+
+### Bug Fixes
+
+* api user-info is called multiple times ([b2d0b5a](https://github.com/annguyen-it/teaching-scheduling-system/commits/b2d0b5af6a068f34c38dfa17e6ef085e9b1c06d3))
+* apply keep-user guard for error pages ([6c9352d](https://github.com/annguyen-it/teaching-scheduling-system/commits/6c9352d05fd702f26aae475aa7646cc3bcc38b76))
+* **dep:** upgradate taiga-ui to 2.40.0 ([61804fa](https://github.com/annguyen-it/teaching-scheduling-system/commits/61804fab4e8c70faabcf7d03c210cd48c348f159))
+* fix typo ([83841dc](https://github.com/annguyen-it/teaching-scheduling-system/commits/83841dca04a97ba3fc05c6c176e6d5d7a07f829e))
+* loader does not hide when token expired ([5d76ae6](https://github.com/annguyen-it/teaching-scheduling-system/commits/5d76ae69a40d2c922373aa46164baf4f2171a4cc))
+* should save redirect url after token expired ([66169b4](https://github.com/annguyen-it/teaching-scheduling-system/commits/66169b42f55e14a5a43d4a961aa4af306d3170d0))
+* **ui:** fix tooltip direction of dropdowns and hints ([96f5daa](https://github.com/annguyen-it/teaching-scheduling-system/commits/96f5daac2a442ad3aaf588035fc2c513d5a106ef))
+* **ui:** fix tooltip direction of dropdowns and hints ([2a5c4ee](https://github.com/annguyen-it/teaching-scheduling-system/commits/2a5c4eeaba09c63a7c1898075b94a13062e24186))
+* update commitlint to 17.0.3 ([53e0a88](https://github.com/annguyen-it/teaching-scheduling-system/commits/53e0a887c39926e753b284caaf7b3a3647edaa1e))
+* upgrade to angular 13.3.11 ([dc143f2](https://github.com/annguyen-it/teaching-scheduling-system/commits/dc143f2af46d8ac7ee361426bfc4c0e28a1c1e82))
+* **user-info:** add required validator for phone number ([967e0a4](https://github.com/annguyen-it/teaching-scheduling-system/commits/967e0a4440e96c38e0317ddb0e90856e4a4db35f))
+* **user-info:** add validator for phone number ([642cefc](https://github.com/annguyen-it/teaching-scheduling-system/commits/642cefc8896c3d2c2217a83fd461efffaa73e402))
+
 ### [3.0.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.0.0...v3.0.1) (2022-06-30)
 
 

@@ -11,6 +11,7 @@ import {
   TuiRootModule,
 } from '@taiga-ui/core';
 import { WebShellFeatureModule } from '@teaching-scheduling-system/web/shell/feature';
+import { LoaderModule } from '@teaching-scheduling-system/web/shell/ui/loader';
 import * as gregorian from 'cldr-data/main/vi/ca-gregorian.json';
 import * as numbers from 'cldr-data/main/vi/numbers.json';
 import * as timeZoneNames from 'cldr-data/main/vi/timeZoneNames.json';
@@ -30,6 +31,7 @@ const TAIGA_UI = [TuiRootModule, TuiDialogModule, TuiNotificationsModule];
     HttpClientModule,
     BrowserAnimationsModule,
     WebShellFeatureModule,
+    LoaderModule,
     ...TAIGA_UI,
   ],
   declarations: [AppComponent],

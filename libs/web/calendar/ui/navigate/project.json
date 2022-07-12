@@ -1,0 +1,25 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/web/calendar/ui/navigate/src",
+  "prefix": "tss",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/web/calendar/ui/navigate"],
+      "options": {
+        "jestConfig": "libs/web/calendar/ui/navigate/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/web/calendar/ui/navigate/**/*.ts",
+          "libs/web/calendar/ui/navigate/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

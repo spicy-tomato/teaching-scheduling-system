@@ -84,7 +84,7 @@ export class AssignTableComponent implements OnChanges {
       .pipe(takeUntil(this.destroy$));
   }
 
-  /** LIFE CYCLE */
+  /** LIFECYCLE */
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes['data']) {
       this.resetForm();

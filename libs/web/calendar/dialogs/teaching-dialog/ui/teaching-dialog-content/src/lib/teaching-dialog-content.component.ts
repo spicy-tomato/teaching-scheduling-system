@@ -13,12 +13,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { TuiDay, TuiDestroyService, TuiTime } from '@taiga-ui/cdk';
 import {
-  TuiAppearance,
+  tuiButtonOptionsProvider,
   TuiNotification,
   TuiNotificationsService,
-  TUI_BUTTON_OPTIONS,
 } from '@taiga-ui/core';
-import { CoreConstant } from '@teaching-scheduling-system/core/data-access/constants';
+import {
+  CoreConstant,
+  IconConstant,
+} from '@teaching-scheduling-system/core/data-access/constants';
 import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
 import {
   ChangeStatusHelper,
@@ -77,14 +79,10 @@ import { TeachingDialogButtonsRightComponent } from './teaching-dialog-buttons-r
   providers: [
     TuiDestroyService,
     FormHelper,
-    {
-      provide: TUI_BUTTON_OPTIONS,
-      useValue: {
-        shape: null,
-        appearance: TuiAppearance.Primary,
-        size: 'm',
-      },
-    },
+    tuiButtonOptionsProvider({
+      appearance: 'primary',
+      size: 'm',
+    }),
   ],
 })
 export class TeachingDialogContentComponent implements OnInit {
@@ -111,6 +109,11 @@ export class TeachingDialogContentComponent implements OnInit {
   public requestChangeToUndeterminedDay = false;
   public changed = false;
 
+  public readonly cancelRequest$ = new Subject<void>();
+  public readonly IconConstant = IconConstant;
+  public readonly EApiStatus = EApiStatus;
+  public readonly CoreConstant = CoreConstant;
+
   public readonly changeStatus$: Observable<EApiStatus>;
   public readonly requestStatus$: Observable<EApiStatus>;
   public readonly updateStatus$: Observable<EApiStatus>;
@@ -119,11 +122,6 @@ export class TeachingDialogContentComponent implements OnInit {
   public readonly justRequestedSchedule$: Observable<
     Nullable<SimpleFixedScheduleModel>
   >;
-
-  public readonly cancelRequest$ = new Subject<void>();
-
-  public readonly EApiStatus = EApiStatus;
-  public readonly CoreConstant = CoreConstant;
 
   /** PRIVATE PROPERTIES */
   private readonly change$: Observable<TeachingDialogChange>;
@@ -184,7 +182,7 @@ export class TeachingDialogContentComponent implements OnInit {
       .pipe(takeUntil(this.destroy$));
   }
 
-  /** LIFE CYCLE */
+  /** LIFECYCLE */
   public ngOnInit(): void {
     this.initForm();
 
@@ -225,7 +223,7 @@ export class TeachingDialogContentComponent implements OnInit {
 
   public showNotificationError(): void {
     this.notificationsService
-      .show('Hãy thử lại sau', {
+      .show('Vui lòng thử lại sau', {
         label: 'Đã có lỗi xảy ra',
         status: TuiNotification.Error,
       })
@@ -481,7 +479,7 @@ export class TeachingDialogContentComponent implements OnInit {
 
   private showNotificationRequestChangeSuccessful(): void {
     this.notificationsService
-      .show('Hãy chờ phản hồi của trưởng bộ môn', {
+      .show('Vui lòng chờ phản hồi của trưởng bộ môn', {
         label: 'Gửi yêu cầu thành công',
         status: TuiNotification.Success,
       })

@@ -7,11 +7,10 @@ import {
   TuiStringHandler,
 } from '@taiga-ui/cdk';
 import {
-  TuiAppearance,
+  tuiButtonOptionsProvider,
   TuiDialogContext,
   TuiNotification,
   TuiNotificationsService,
-  TUI_BUTTON_OPTIONS,
 } from '@taiga-ui/core';
 import { tuiItemsHandlersProvider } from '@taiga-ui/kit';
 import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
@@ -44,14 +43,10 @@ const ID_MATCHER_TEACHER: TuiIdentityMatcher<SimpleModel> = (
       stringify: STRINGIFY_TEACHER,
       identityMatcher: ID_MATCHER_TEACHER,
     }),
-    {
-      provide: TUI_BUTTON_OPTIONS,
-      useValue: {
-        shape: null,
-        appearance: TuiAppearance.Primary,
-        size: 'm',
-      },
-    },
+    tuiButtonOptionsProvider({
+      appearance: 'primary',
+      size: 'm',
+    }),
   ],
 })
 export class AssignTeacherDialogComponent {

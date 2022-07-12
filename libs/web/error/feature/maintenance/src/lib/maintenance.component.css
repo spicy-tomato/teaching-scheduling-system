@@ -1,0 +1,57 @@
+.box {
+  box-shadow: 6px 18px 18px rgba(0, 0, 0, 0.08),
+    -6px 18px 18px rgba(0, 0, 0, 0.08);
+}
+
+p {
+  @apply text-base font-bold;
+}
+
+.animation > * {
+  @apply block float-left bg-no-repeat;
+  background-size: 100% 100%;
+}
+
+.one {
+  background: url('/assets/img/maintenance-1.svg');
+}
+
+.two {
+  background: url('/assets/img/maintenance-2.svg');
+}
+
+.three {
+  background: url('/assets/img/maintenance-3.svg');
+}
+
+@keyframes spin-one {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(-359deg);
+    transform: rotate(-359deg);
+  }
+}
+
+.spin-one {
+  -webkit-animation: spin-one 1.5s infinite linear;
+  animation: spin-one 1.5s infinite linear;
+}
+
+@keyframes spin-two {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(-359deg);
+    transform: rotate(359deg);
+  }
+}
+
+.spin-two {
+  -webkit-animation: spin-two 2s infinite linear;
+  animation: spin-two 2s infinite linear;
+}

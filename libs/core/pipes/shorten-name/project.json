@@ -1,0 +1,25 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/core/pipes/shorten-name/src",
+  "prefix": "tss",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/core/pipes/shorten-name"],
+      "options": {
+        "jestConfig": "libs/core/pipes/shorten-name/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/core/pipes/shorten-name/**/*.ts",
+          "libs/core/pipes/shorten-name/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

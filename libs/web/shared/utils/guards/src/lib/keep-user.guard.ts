@@ -35,6 +35,7 @@ export class KeepUserGuard implements CanActivate {
         return true;
       }
 
+      // TODO: Change to route.routeConfig?.path
       this.appService.redirectToLogin(state.url);
       return false;
     }

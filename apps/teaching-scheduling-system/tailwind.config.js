@@ -1,5 +1,6 @@
 const { createGlobPatternsForDependencies } = require('@nrwl/angular/tailwind');
 const { join } = require('path');
+const plugin = require('tailwindcss/plugin');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -10,14 +11,20 @@ module.exports = {
   theme: {
     extend: {
       spacing: {
+        '1/5': '20%',
         '1/10': '10%',
         '9/10': '90%',
+        '15': '3.75rem',
         '18': '4.5rem',
         '30': '7.5rem',
+        '34': '8.5rem',
         '38': '9.5rem',
-        'nav': 'var(--nav-height)',
-        'main-view': 'calc(100vh - 65px)',
-        'content': 'calc(100vh - 127px)',
+        'nav-h': '65px',
+        'main-view-h': 'calc(100vh - 65px)',
+        'main-view-h-md': 'calc(100vh - 79px)',
+        'content-h': 'calc(100vh - 127px)', /* With breadcrumbs */
+        'sidebar-w': '240px',
+        'main-view-w': 'calc(100vw - 240px)',
       },
       inset: {
         '1/5': '20%',
@@ -25,6 +32,10 @@ module.exports = {
         '4/5': '80%',
       },
       colors: {
+        // UTC
+        'utc-1': '#29166f',
+        'utc-2': '#b7b3b2',
+        'utc-3': '#f3d400',
         // Base
         'tui-base-01': 'var(--tui-base-01)',
         'tui-base-02': 'var(--tui-base-02)',
@@ -47,7 +58,7 @@ module.exports = {
         'tui-error-fill': 'var(--tui-error-fill)',
         'tui-error-bg': 'var(--tui-error-bg)',
         'tui-error-bg-hover': 'var(--tui-error-bg-hover)',
-        'tui-text-neutral-fill': 'var(--tui-neutral-fill)',
+        'tui-neutral-fill': 'var(--tui-neutral-fill)',
       },
       borderRadius: {
         'tui-radius-xs': 'var(--tui-radius-xs)'
@@ -60,5 +71,16 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(function ({ addComponents }) {
+      addComponents({
+        '.center-absolute': {
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%,-50%)',
+        }
+      });
+    })
+  ],
 };
