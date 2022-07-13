@@ -33,6 +33,6 @@
       "hidden": true
     }
   ],
-  "commitUrlFormat": "https://github.com/annguyen-it/teaching-scheduling-system/commits/{{hash}}",
+  "commitUrlFormat": "https://github.com/annguyen-it/teaching-scheduling-system/commit/{{hash}}",
   "compareUrlFormat": "https://github.com/annguyen-it/teaching-scheduling-system/compare/{{previousTag}}...{{currentTag}}"
 }
