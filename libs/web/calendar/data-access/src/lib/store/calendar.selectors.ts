@@ -47,6 +47,11 @@ export const calendarSelectFilter = createSelector(
   (filter) => filter.active
 );
 
+export const calendarSelectCurrentFilter = createSelector(
+  calendarSelectFilterStates,
+  (filter) => filter.selecting
+);
+
 const calendarSelectSchedule = createSelector(
   calendarSelector,
   (state) => state.schedules
@@ -103,21 +108,27 @@ const calendarSelectSelectingDepartment = createSelector(
   (filter) => filter.selecting.showDepartmentSchedule
 );
 
-const calendarSelectSelectingTeachers = createSelector(
-  calendarSelectFilterStates,
-  (filter) => filter.selecting.teachers
+const calendarSelectSelectingTeacherIds = createSelector(
+  calendarSelectCurrentFilter,
+  (filter) => filter.teacherIds
+);
+
+export const calendarSelectActiveTeachers = createSelector(
+  calendarSelectTeachers,
+  calendarSelectFilter,
+  (teachers, filter) => teachers.filter((x) => filter.teacherIds.includes(x.id))
 );
 
 export const calendarSelectModules = createSelector(
   calendarSelector,
   calendarSelectSelectingDepartment,
-  calendarSelectSelectingTeachers,
-  (state, selectingDepartment, selectingTeachers) => {
+  calendarSelectSelectingTeacherIds,
+  (state, selectingDepartment, selectingTeacherIds) => {
     const schedules = selectingDepartment
       ? state.schedules.department.study
       : state.schedules.personal.study;
 
-    if (!selectingDepartment || selectingTeachers.length === 0) {
+    if (!selectingDepartment || selectingTeacherIds.length === 0) {
       return Array.from(
         schedules.reduce((acc, curr) => {
           if (!acc.get(curr.moduleName)) {
@@ -134,7 +145,7 @@ export const calendarSelectModules = createSelector(
         if (
           !acc.get(curr.moduleName) &&
           (curr.people as SimpleModel[])?.find((person) =>
-            selectingTeachers.find((p) => p.id === person.id)
+            selectingTeacherIds.find((id) => person.id === id)
           )
         ) {
           acc.set(curr.moduleName, true);
@@ -151,11 +162,11 @@ export const calendarSelectFilteredSchedule = createSelector(
   calendarSelectFilter,
   (schedules, filter) => {
     const result =
-      !filter.showDepartmentSchedule || filter.teachers.length === 0
+      !filter.showDepartmentSchedule || filter.teacherIds.length === 0
         ? schedules
         : schedules.filter((schedule) =>
             (schedule.people as SimpleModel[])?.find((person) =>
-              filter.teachers.find((p) => p.id === person.id)
+              filter.teacherIds.find((id) => person.id === id)
             )
           );
     return filter.modules.length === 0

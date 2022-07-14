@@ -3,7 +3,6 @@ import { View } from '@syncfusion/ej2-angular-schedule';
 import { TuiMonth } from '@taiga-ui/cdk';
 import {
   CalendarFilter,
-  CalendarFilterParams,
   EjsScheduleModel,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 
@@ -34,14 +33,13 @@ export const calendarChangeView = createAction(
   props<{ view: View }>()
 );
 
-export const calendarFilter = createAction(
-  '[Schedule Page] Filter',
-  props<{ filter: CalendarFilter }>()
-);
+export const calendarFilter = createAction('[Schedule Page] Filter');
+
+export const calendarResetFilter = createAction('[Schedule Page] Reset Filter');
 
 export const calendarChangeSelectingState = createAction(
   '[Schedule Page] Change selecting type',
-  props<{ changes: CalendarFilterParams }>()
+  props<{ changes: Partial<CalendarFilter> }>()
 );
 
 export const calendarChangeScheduleInDialog = createAction(

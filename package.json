@@ -1,6 +1,6 @@
 {
   "name": "teaching-scheduling-system",
-  "version": "3.5.0",
+  "version": "3.6.0",
   "license": "MIT",
   "scripts": {
     "ng": "nx",
@@ -50,6 +50,7 @@
     "cldr-data": "^36.0.1",
     "docx": "^7.4.0",
     "file-saver": "^2.0.5",
+    "ng-recaptcha": "^9.0.0",
     "parallax-js": "^3.1.0",
     "rxjs": "~7.4.0",
     "ts-md5": "^1.2.11",

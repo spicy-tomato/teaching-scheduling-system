@@ -111,6 +111,7 @@ export class ChangePasswordComponent {
       password: ['', Validators.required],
       newPassword: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required],
+      token: ['', Validators.required],
     });
 
     this.newPassword.addValidators(

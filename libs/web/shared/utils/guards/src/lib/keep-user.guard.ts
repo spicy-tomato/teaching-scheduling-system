@@ -22,10 +22,11 @@ export class KeepUserGuard implements CanActivate {
 
   /** IMPLEMENTATIONS */
   public canActivate(
-    route: ActivatedRouteSnapshot,
+    _: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
-    const isLoginPath = route.routeConfig?.path === 'login';
+    const path = state.url;
+    const isLoginPath = path.includes('login');
     const hasAccessToken = !!this.localStorageService.getItem(
       LocalStorageKeyConstant.ACCESS_TOKEN
     );
@@ -35,8 +36,7 @@ export class KeepUserGuard implements CanActivate {
         return true;
       }
 
-      // TODO: Change to route.routeConfig?.path
-      this.appService.redirectToLogin(state.url);
+      this.appService.redirectToLogin(path);
       return false;
     }
 

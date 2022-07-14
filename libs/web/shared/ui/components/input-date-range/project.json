@@ -1,0 +1,25 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/web/shared/ui/components/input-date-range/src",
+  "prefix": "tss",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/web/shared/ui/components/input-date-range"],
+      "options": {
+        "jestConfig": "libs/web/shared/ui/components/input-date-range/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/web/shared/ui/components/input-date-range/**/*.ts",
+          "libs/web/shared/ui/components/input-date-range/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

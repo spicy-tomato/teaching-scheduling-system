@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { TuiButtonModule, TuiHostedDropdownModule } from '@taiga-ui/core';
 import { TuiCalendarMonthModule } from '@taiga-ui/kit';
-import { TouchScreenOrDirectiveModule } from '@teaching-scheduling-system/core/directives/touch-screen-or';
+import { TouchScreenDirectiveModule } from '@teaching-scheduling-system/core/directives/touch-screen';
 import { ShortenNamePipeModule } from '@teaching-scheduling-system/core/pipes/shorten-name';
 import { CalendarFilterModule } from '@teaching-scheduling-system/web/calendar/ui/calendar-filter';
 import { NavigateDirectiveModule } from '@teaching-scheduling-system/web/calendar/ui/navigate';
@@ -19,7 +19,7 @@ const TAIGA_UI = [
 @NgModule({
   imports: [
     CommonModule,
-    TouchScreenOrDirectiveModule,
+    TouchScreenDirectiveModule,
     ShortenNamePipeModule,
     CalendarFilterModule,
     NavigateDirectiveModule,

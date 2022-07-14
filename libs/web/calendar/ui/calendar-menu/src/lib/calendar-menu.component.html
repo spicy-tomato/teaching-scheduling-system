@@ -1,7 +1,5 @@
 <div class="flex items-center">
-  <ng-container
-    *tssTouchScreenOr="let ctx; else: navigateButtons"
-  ></ng-container>
+  <ng-container *tssTouchScreen="null; else navigateButtons"></ng-container>
   <ng-template #navigateButtons>
     <button
       tuiIconButton

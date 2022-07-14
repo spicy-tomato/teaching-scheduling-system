@@ -158,8 +158,7 @@ export class AssignFilterComponent implements OnInit {
       items.map(({ id, name }) => [id, name] as [number, string])
     );
 
-    return ({ $implicit }: TuiContextWithImplicit<number>) =>
-      map.get($implicit) || '';
+    return ({ $implicit }) => map.get($implicit) || '';
   }
 
   /** PRIVATE METHODS */

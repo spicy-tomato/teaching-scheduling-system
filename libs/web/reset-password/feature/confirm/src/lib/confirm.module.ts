@@ -12,6 +12,7 @@ import {
 import { SuccessDialogModule } from '@teaching-scheduling-system/web/reset-password/ui/success-dialog';
 import { SuccessDialogHeaderModule } from '@teaching-scheduling-system/web/shared/ui/components/success-dialog-header';
 import { NavbarModule } from '@teaching-scheduling-system/web/shell/ui/navbar';
+import { RecaptchaFormsModule, RecaptchaModule } from 'ng-recaptcha';
 import { ConfirmComponent } from './confirm.component';
 
 const NGRX = [ReactiveComponentModule];
@@ -29,6 +30,8 @@ const TAIGA_UI = [
     CommonModule,
     RouterModule.forChild([{ path: '', component: ConfirmComponent }]),
     ReactiveFormsModule,
+    RecaptchaModule,
+    RecaptchaFormsModule,
     NavbarModule,
     SuccessDialogHeaderModule,
     SuccessDialogModule,

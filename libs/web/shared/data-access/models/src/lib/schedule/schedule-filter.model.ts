@@ -1,12 +1,5 @@
-import { SimpleModel } from '../core';
-
 export interface CalendarFilter {
   showDepartmentSchedule: boolean;
-  teachers: SimpleModel[];
+  teacherIds: string[];
   modules: string[];
-}
-
-export interface CalendarFilterParams {
-  showDepartmentSchedule?: boolean;
-  teachers?: SimpleModel[];
 }

@@ -4,23 +4,25 @@ import {
   Component,
   OnInit,
   TemplateRef,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import {
   RANGE_SEPARATOR_CHAR,
-  TuiDay,
   TuiDayRange,
-  TuiDestroyService
+  TuiDestroyService,
 } from '@taiga-ui/cdk';
-import { IconConstant, InputDateRangeConstant } from '@teaching-scheduling-system/core/data-access/constants';
+import {
+  IconConstant,
+  InputDateRangeConstant,
+} from '@teaching-scheduling-system/core/data-access/constants';
 import { ObservableHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import { Teacher } from '@teaching-scheduling-system/web/shared/data-access/models';
 import {
   AppShellState,
-  selectNotNullTeacher
+  selectNotNullTeacher,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
 import { NavbarService } from '@teaching-scheduling-system/web/shell/ui/navbar';
 import { StatisticChangeScheduleStore } from '@teaching-scheduling-system/web/statistic/data-access';
@@ -48,8 +50,6 @@ export class ChangeScheduleFilterComponent implements OnInit, AfterViewInit {
 
   public readonly IconConstant = IconConstant;
   public readonly EApiStatus = EApiStatus;
-  public readonly items = InputDateRangeConstant.getPeriods();
-  public readonly min = new TuiDay(2021, 10, 1);
   public readonly status$: Observable<EApiStatus>;
 
   /** PRIVATE PROPERTIES */
@@ -95,6 +95,15 @@ export class ChangeScheduleFilterComponent implements OnInit, AfterViewInit {
   }
 
   /** PRIVATE METHODS */
+  private initForm(): void {
+    this.form = this.fb.group({
+      range: [
+        InputDateRangeConstant.getPreviousMonthRange(),
+        Validators.required,
+      ],
+    });
+  }
+
   private statisticizeFirstTime(): void {
     this.teacher$
       .pipe(
@@ -103,11 +112,5 @@ export class ChangeScheduleFilterComponent implements OnInit, AfterViewInit {
         take(1)
       )
       .subscribe();
-  }
-
-  private initForm(): void {
-    this.form = this.fb.group({
-      range: [this.items[1].range, Validators.required],
-    });
   }
 }

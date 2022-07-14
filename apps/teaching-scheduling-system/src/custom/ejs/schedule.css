@@ -16,6 +16,13 @@
   @apply bg-[#ffedd8];
 }
 
+/* Uppercase for date header if use touch device */
+.e-schedule.e-device .e-month-view .e-date-header-wrap td,
+.e-schedule.e-device .e-timeline-view .e-date-header-wrap td,
+.e-schedule.e-device .e-timeline-month-view .e-date-header-wrap td {
+  @apply uppercase;
+}
+
 /* Paint background for today cell header */
 .cell-dimension.e-schedule
   .e-table-wrap:not(.e-month-view)

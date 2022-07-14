@@ -1,9 +1,7 @@
 <div class="wrapper p-2 flex justify-between border border-[rgba(0,0,0,0.12)]">
   <!-- Left -->
   <div class="flex items-center">
-    <ng-container
-      *tssTouchScreenOr="let ctx; else: navigateButtons"
-    ></ng-container>
+    <ng-container *tssTouchScreen="null; else navigateButtons"></ng-container>
     <ng-template #navigateButtons>
       <button
         tuiIconButton
@@ -50,28 +48,30 @@
         <ng-container
           *ngIf="filter.showDepartmentSchedule; else personalSchedule"
         >
-          <ng-container *ngIf="filter.teachers.length === 0">
-            <span class="xl:hidden">&nbsp;Lịch BM,</span>
-            <span class="hidden xl:inline">&nbsp;Lịch bộ môn,</span>
-          </ng-container>
+          <ng-container *ngrxLet="activeTeachers$ as activeTeachers">
+            <ng-container *ngIf="activeTeachers.length === 0">
+              <span class="xl:hidden">&nbsp;Lịch BM,</span>
+              <span class="hidden xl:inline">&nbsp;Lịch bộ môn,</span>
+            </ng-container>
 
-          <ng-container [ngSwitch]="filter.teachers.length">
-            <ng-container *ngSwitchCase="0">
-              <span class="xl:hidden">&nbsp;Tất cả GV,</span>
-              <span class="hidden xl:inline">&nbsp;Tất cả giảng viên,</span>
-            </ng-container>
-            <ng-container *ngSwitchCase="1">
-              <span class="xl:hidden">
-                &nbsp;GV {{ filter.teachers[0].name | shortenName }},
-              </span>
-              <span class="hidden xl:inline">
-                &nbsp;Giảng viên {{ filter.teachers[0].name }},
-              </span>
-            </ng-container>
-            <ng-container *ngSwitchDefault>
-              {{ filter.teachers.length }}
-              <span class="xl:hidden">&nbsp;GV,</span>
-              <span class="hidden xl:inline">&nbsp;giảng viên, </span>
+            <ng-container [ngSwitch]="activeTeachers.length">
+              <ng-container *ngSwitchCase="0">
+                <span class="xl:hidden">&nbsp;Tất cả GV,</span>
+                <span class="hidden xl:inline">&nbsp;Tất cả giảng viên,</span>
+              </ng-container>
+              <ng-container *ngSwitchCase="1">
+                <span class="xl:hidden">
+                  &nbsp;GV {{ activeTeachers[0].name | shortenName }},
+                </span>
+                <span class="hidden xl:inline">
+                  &nbsp;Giảng viên {{ activeTeachers[0].name }},
+                </span>
+              </ng-container>
+              <ng-container *ngSwitchDefault>
+                {{ activeTeachers.length }}
+                <span class="xl:hidden">&nbsp;GV,</span>
+                <span class="hidden xl:inline">&nbsp;giảng viên, </span>
+              </ng-container>
             </ng-container>
           </ng-container>
         </ng-container>
@@ -111,16 +111,16 @@
     <div class="w-px h-full mx-2 bg-[rgba(0,0,0,0.12)]"></div>
     <button
       tuiButton
-      (click)="onClickMonth()"
       [class.active]="view === 'Month'"
+      (click)="onClickMonth()"
       class="uppercase"
     >
       Tháng
     </button>
     <button
       tuiButton
-      (click)="onClickWeek()"
       [class.active]="view === 'Week'"
+      (click)="onClickWeek()"
       class="ml-2 uppercase"
     >
       Tuần
@@ -128,8 +128,8 @@
 
     <button
       tuiButton
-      [class.active]="view === 'Day'"
       (click)="onClickDay()"
+      [class.active]="view === 'Day'"
       class="ml-2 uppercase"
     >
       Ngày
