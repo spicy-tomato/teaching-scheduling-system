@@ -42,6 +42,9 @@ const NGRX = [
 export const webShellFeatureRoutes: Routes = [
   {
     path: 'login',
+    data: {
+      title: 'Đăng nhập',
+    },
     canActivate: [MaintenanceGuard, KeepUserGuard],
     loadChildren: async () =>
       (await import('@teaching-scheduling-system/web/login/feature'))
@@ -142,6 +145,9 @@ export const webShellFeatureRoutes: Routes = [
   },
   {
     path: 'maintenance',
+    data: {
+      title: '🛠️ Ứng dụng đang được bảo trì 🛠️',
+    },
     canActivate: [MaintenanceGuard, KeepUserGuard],
     loadChildren: async () =>
       (
@@ -161,6 +167,9 @@ export const webShellFeatureRoutes: Routes = [
   },
   {
     path: '403',
+    data: {
+      title: 'Không có quyền truy cập',
+    },
     canActivate: [MaintenanceGuard, KeepUserGuard],
     loadChildren: async () =>
       (await import('@teaching-scheduling-system/web/error/feature/forbidden'))
@@ -168,6 +177,9 @@ export const webShellFeatureRoutes: Routes = [
   },
   {
     path: '**',
+    data: {
+      title: 'Không tìm thấy trang',
+    },
     canActivate: [MaintenanceGuard, KeepUserGuard],
     loadChildren: async () =>
       (await import('@teaching-scheduling-system/web/error/feature/not-found'))

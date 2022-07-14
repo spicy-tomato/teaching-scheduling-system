@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
       {
         path: '',
         data: {
+          title: 'Thống kê thay đổi giờ giảng',
           breadcrumb: 'Thay đổi giờ giảng',
         },
         loadChildren: async () =>
