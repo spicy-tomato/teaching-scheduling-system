@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.7.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.6.0...v3.7.0) (2022-07-14)
+
+
+### Features
+
+* apply recaptcha ([3129885](https://github.com/annguyen-it/teaching-scheduling-system/commit/3129885395d88939179461d486c49e03da351bb2))
+
+
+### Bug Fixes
+
+* **calendar:** checked teachers in filter are reset after change month ([24bbcc5](https://github.com/annguyen-it/teaching-scheduling-system/commit/24bbcc564b5eab5e7d9f18c36ebd0b0bfb17b34e))
+* **calendar:** transform day of week to uppercase in month view ([e7fcb00](https://github.com/annguyen-it/teaching-scheduling-system/commit/e7fcb00bd6aa6d1484a5df82ef36f7b747aca393))
+* **dep:** update docx to 7.4.1 ([4ab455b](https://github.com/annguyen-it/teaching-scheduling-system/commit/4ab455ba91f96f766359e10a7778b6e02890b67b))
+* **dep:** update taiga-ui to 2.42.0 ([0bf97ff](https://github.com/annguyen-it/teaching-scheduling-system/commit/0bf97ff29927ce0eeae0e7ba98f214d3299c7a92))
+* **dep:** update tailwindcss to 3.1.6 ([057bf69](https://github.com/annguyen-it/teaching-scheduling-system/commit/057bf692b289484a9edde9c269f0ea56da83d11c))
+* **statistic:** chart style does not work correctly on small devices ([0a3816f](https://github.com/annguyen-it/teaching-scheduling-system/commit/0a3816f9f856b7051113378f89ef70d2ecde30ea))
+
 ## [3.6.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.5.0...v3.6.0) (2022-07-12)
 
 
