@@ -15,12 +15,12 @@ const initialState: CalendarState = {
   filter: {
     active: {
       showDepartmentSchedule: false,
-      teachers: [],
+      teacherIds: [],
       modules: [],
     },
     selecting: {
       showDepartmentSchedule: false,
-      teachers: [],
+      teacherIds: [],
       modules: [],
     },
   },
@@ -59,11 +59,18 @@ export const calendarReducer = createReducer(
     ...state,
     view,
   })),
-  on(PageAction.calendarFilter, (state, { filter }) => ({
+  on(PageAction.calendarFilter, (state) => ({
     ...state,
     filter: {
       ...state.filter,
-      active: filter,
+      active: { ...state.filter.selecting },
+    },
+  })),
+  on(PageAction.calendarResetFilter, (state) => ({
+    ...state,
+    filter: {
+      ...state.filter,
+      selecting: { ...state.filter.active },
     },
   })),
   on(PageAction.calendarChangeSelectingState, (state, { changes }) => ({
@@ -73,6 +80,7 @@ export const calendarReducer = createReducer(
       selecting: {
         ...state.filter.selecting,
         ...changes,
+        modules: changes.modules || [],
       },
     },
   })),
