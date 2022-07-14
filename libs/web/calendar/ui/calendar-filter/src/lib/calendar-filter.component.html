@@ -1,4 +1,4 @@
-<table [class.for-menu]="forMenu" class="w-full">
+<table *ngrxLet="filter$ as filter" [class.for-menu]="forMenu" class="w-full">
   <ng-container
     *tssPermission="PermissionConstant.SEE_DEPARTMENT_TEACHING_SCHEDULE"
   >
@@ -7,16 +7,20 @@
       <td>
         <div class="flex gap-x-8">
           <tui-radio-labeled
-            [(ngModel)]="showDepartmentSchedule"
+            [ngModel]="filter.showDepartmentSchedule"
             [item]="false"
-            (ngModelChange)="onSelectingDepartmentChange($event)"
+            (ngModelChange)="
+              onChangeSelectingState({ showDepartmentSchedule: $event })
+            "
           >
             Cá nhân
           </tui-radio-labeled>
           <tui-radio-labeled
-            [(ngModel)]="showDepartmentSchedule"
+            [ngModel]="filter.showDepartmentSchedule"
             [item]="true"
-            (ngModelChange)="onSelectingDepartmentChange($event)"
+            (ngModelChange)="
+              onChangeSelectingState({ showDepartmentSchedule: $event })
+            "
           >
             Bộ môn
           </tui-radio-labeled>
@@ -26,32 +30,30 @@
 
     <tr>
       <td>
-        <tui-expand [expanded]="showDepartmentSchedule">
+        <tui-expand [expanded]="filter.showDepartmentSchedule">
           Giảng viên:
         </tui-expand>
       </td>
       <td>
-        <tui-expand [expanded]="showDepartmentSchedule">
+        <tui-expand [expanded]="filter.showDepartmentSchedule">
           <div tuiTextfieldSize="s">
             <tui-select
-              [(ngModel)]="filteredTeachers"
-              [valueContent]="selectTeacherTemplate"
+              *ngrxLet="teachers$ as teachers"
+              [ngModel]="filter.teacherIds"
+              [valueContent]="stringifyTeacher(teachers)"
               [tuiActiveZoneParent]="activeZone"
-              (ngModelChange)="onSelectingTeachersChange($event)"
+              (ngModelChange)="onChangeSelectingState({ teacherIds: $event })"
             >
               <ng-template tuiDataList>
                 <tui-data-list>
                   <tui-opt-group>
                     <button tuiOption [value]="[]" size="xs">Tất cả</button>
                   </tui-opt-group>
-                  <tui-opt-group
-                    tuiMultiSelectGroup
-                    *ngrxLet="teachers$ as teachers"
-                  >
+                  <tui-opt-group tuiMultiSelectGroup>
                     <button
                       tuiOption
                       *ngFor="let teacher of teachers; index as i"
-                      [value]="teacher"
+                      [value]="teacher.id"
                       [class.!px-2]="forMenu"
                       size="xs"
                     >
@@ -72,9 +74,10 @@
     <td>
       <div tuiTextfieldSize="s">
         <tui-select
-          [(ngModel)]="filteredModules"
+          [ngModel]="filter.modules"
           [valueContent]="selectModuleTemplate"
           [tuiActiveZoneParent]="activeZone"
+          (ngModelChange)="onChangeSelectingState({ modules: $event })"
         >
           <ng-template tuiDataList>
             <tui-data-list>
@@ -84,7 +87,7 @@
               <tui-opt-group tuiMultiSelectGroup *ngrxLet="modules$ as modules">
                 <button
                   tuiOption
-                  *ngFor="let module of modules; index as i"
+                  *ngFor="let module of modules"
                   [value]="module"
                   [class.!px-2]="forMenu"
                   size="xs"
@@ -111,16 +114,6 @@
     </td>
   </tr>
 </table>
-
-<ng-template #selectTeacherTemplate let-teachers>
-  {{
-    teachers.length === 0
-      ? 'Tất cả'
-      : teachers.length === 1
-      ? teachers[0].name
-      : teachers.length + ' giảng viên'
-  }}
-</ng-template>
 
 <ng-template #selectModuleTemplate let-modules>
   {{
