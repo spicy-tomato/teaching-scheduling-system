@@ -142,6 +142,7 @@ export class ConfirmComponent {
     this.form = this.fb.group({
       newPassword: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required],
+      token: ['', Validators.required],
     });
 
     this.confirmPassword.addValidators(
