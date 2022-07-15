@@ -122,6 +122,10 @@ export class CalendarComponent implements OnInit, AfterViewInit {
         args.element.classList.add('today');
       }
     }
+    // Disable date navigate when click date header in month view
+    if (args.elementType === 'monthCells') {
+      args.element.children[0].classList.remove('e-navigate');
+    }
   }
 
   public onEventRendered(args: EventRenderedArgs): void {

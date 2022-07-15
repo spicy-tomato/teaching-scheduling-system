@@ -35,6 +35,7 @@ const TAIGA_UI = [TuiTabsModule, TuiTabsModule];
             path: 'department',
             canActivate: [PermissionGuard],
             data: {
+              title: 'Thay đổi lịch dạy bộ môn',
               permissions: [
                 PermissionConstant.ACCEPT_CHANGE_TEACHING_SCHEDULE,
                 PermissionConstant.MANAGE_ROOM,
@@ -54,6 +55,7 @@ const TAIGA_UI = [TuiTabsModule, TuiTabsModule];
             pathMatch: 'full',
             canActivate: [PermissionGuard],
             data: {
+              title: 'Thay đổi lịch dạy cá nhân',
               permissions: [
                 PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE,
               ],

@@ -40,7 +40,7 @@ export class SidebarConstant {
           icon: 'mdi mdi-format-list-bulleted',
         },
         {
-          name: 'Import',
+          name: 'Nhập dữ liệu',
           routerLink: '/schedule/import',
           icon: 'tuiIconUpload',
           useTaigaIcon: true,

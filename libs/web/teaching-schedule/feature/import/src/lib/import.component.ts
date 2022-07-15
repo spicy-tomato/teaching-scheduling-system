@@ -143,13 +143,13 @@ export class ImportComponent {
   }
 
   private showSuccessNotification(): void {
-    this.alertService.open('Import lịch thành công!').subscribe();
+    this.alertService.open('Nhập dữ liệu thành công!').subscribe();
   }
 
   private showErrorNotification(): void {
     this.alertService
       .open('Vui lòng thử lại sau', {
-        label: 'Import lịch thất bại!',
+        label: 'Nhập dữ liệu thất bại!',
         status: TuiNotification.Error,
       })
       .subscribe();
