@@ -1,13 +1,14 @@
-thead th {
+th,
+td {
+  @apply whitespace-nowrap;
+}
+
+th {
   @apply text-center;
 }
 
 thead tr:nth-child(2) th {
   @apply top-11;
-}
-
-tbody td ::ng-deep .wrapper {
-  @apply whitespace-nowrap;
 }
 
 .teacher-cell {

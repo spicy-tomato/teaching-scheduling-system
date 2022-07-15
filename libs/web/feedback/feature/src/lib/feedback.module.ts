@@ -4,9 +4,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { TuiEditorModule } from '@taiga-ui/addon-editor';
-import { TuiButtonModule, TuiSvgModule } from '@taiga-ui/core';
+import { TuiButtonModule, TuiErrorModule, TuiSvgModule } from '@taiga-ui/core';
 import {
-  TuiFieldErrorModule,
+  TuiFieldErrorPipeModule,
   TuiFilterModule,
   TuiInputModule,
   TuiIslandModule,
@@ -18,7 +18,8 @@ const NGRX = [ReactiveComponentModule];
 const TAIGA_UI = [
   TuiButtonModule,
   TuiEditorModule,
-  TuiFieldErrorModule,
+  TuiErrorModule,
+  TuiFieldErrorPipeModule,
   TuiFilterModule,
   TuiInputModule,
   TuiIslandModule,

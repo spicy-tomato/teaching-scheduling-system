@@ -1,8 +1,8 @@
 th,
-td ::ng-deep .wrapper {
-  white-space: nowrap;
+td {
+  @apply whitespace-nowrap;
 }
 
 th {
-  text-align: center;
+  @apply text-center;
 }

@@ -58,7 +58,10 @@
       >
         Nội dung
       </tui-editor>
-      <tui-field-error formControlName="content"></tui-field-error>
+      <tui-error
+        [error]="[] | tuiFieldError | async"
+        formControlName="content"
+      ></tui-error>
     </div>
     <div class="tui-form__buttons tui-form__buttons_align_end">
       <button
