@@ -112,7 +112,7 @@ export class TeachingDialogContentComponent implements OnInit {
   public readonly cancelRequest$ = new Subject<void>();
   public readonly IconConstant = IconConstant;
   public readonly EApiStatus = EApiStatus;
-  public readonly CoreConstant = CoreConstant;
+  public readonly noteMaxLength = CoreConstant.NOTE_MAX_LENGTH;
 
   public readonly changeStatus$: Observable<EApiStatus>;
   public readonly requestStatus$: Observable<EApiStatus>;
@@ -290,7 +290,7 @@ export class TeachingDialogContentComponent implements OnInit {
               ? [
                   Validators.required,
                   Validators.maxLength(
-                    this.CoreConstant.REASON_CHANGE_SCHEDULE_MAX_LENGTH
+                    CoreConstant.REASON_CHANGE_SCHEDULE_MAX_LENGTH
                   ),
                 ]
               : [],
@@ -318,7 +318,7 @@ export class TeachingDialogContentComponent implements OnInit {
           [
             Validators.required,
             Validators.maxLength(
-              this.CoreConstant.REASON_CHANGE_SCHEDULE_MAX_LENGTH
+              CoreConstant.REASON_CHANGE_SCHEDULE_MAX_LENGTH
             ),
           ],
         ],
@@ -497,7 +497,7 @@ export class TeachingDialogContentComponent implements OnInit {
   private getNewChangeControl(value: TeachingDialogChange): FormGroup {
     return this.formHelper.createNewFormGroup(
       {
-        note: [value.note],
+        note: [value.note, Validators.maxLength(this.noteMaxLength)],
       },
       sameGroupStaticValueValidator(value, {
         date: (a: Nullable<TuiDay>, b: Nullable<TuiDay>) =>

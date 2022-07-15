@@ -45,8 +45,8 @@
     <div></div>
     <div class="tui-form__row">
       <tui-text-area
+        [tuiTextfieldMaxLength]="noteMaxLength"
         formControlName="note"
-        [tuiTextfieldMaxLength]="CoreConstant.NOTE_MAX_LENGTH"
       >
         Ghi chú
       </tui-text-area>
