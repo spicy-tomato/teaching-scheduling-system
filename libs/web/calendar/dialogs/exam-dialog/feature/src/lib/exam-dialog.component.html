@@ -37,12 +37,15 @@
 
   <div formGroupName="change" class="tui-form__row">
     <tui-text-area
-      formControlName="note"
       [tuiTextfieldMaxLength]="noteMaxLength"
+      formControlName="note"
     >
       Ghi chú
     </tui-text-area>
-    <tui-field-error formControlName="note"></tui-field-error>
+    <tui-error
+      [error]="[] | tuiFieldError | async"
+      formControlName="note"
+    ></tui-error>
   </div>
 
   <div class="tui-form__buttons tui-form__buttons_align_end">

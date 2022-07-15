@@ -50,7 +50,10 @@
       >
         Ghi chú
       </tui-text-area>
-      <tui-field-error formControlName="note"></tui-field-error>
+      <tui-error
+        [error]="[] | tuiFieldError | async"
+        formControlName="note"
+      ></tui-error>
     </div>
   </tui-expand>
 
@@ -143,8 +146,8 @@
 
       <!-- Right buttons -->
       <tss-teaching-dialog-buttons-right
-        (cancel)="cancel.emit()"
         [idSchedule]="schedule.Id"
+        (cancel)="cancel.emit()"
         class="grow -mt-6 md:mt-0"
       ></tss-teaching-dialog-buttons-right>
     </ng-container>

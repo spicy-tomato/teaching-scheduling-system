@@ -6,12 +6,15 @@
     >
       Chọn ngày học
     </tui-input-date>
-    <tui-field-error formControlName="date"></tui-field-error>
+    <tui-error
+      [error]="[] | tuiFieldError | async"
+      formControlName="date"
+    ></tui-error>
   </div>
   <div class="tui-form__row">
     <tui-select
-      (ngModelChange)="changeRequest$.next()"
       [valueContent]="shiftSelectContent"
+      (ngModelChange)="changeRequest$.next()"
       formControlName="shift"
     >
       Chọn ca học:
@@ -53,7 +56,10 @@
       >
       </tui-data-list-wrapper>
     </tui-combo-box>
-    <tui-field-error formControlName="room"></tui-field-error>
+    <tui-error
+      [error]="[] | tuiFieldError | async"
+      formControlName="room"
+    ></tui-error>
   </div>
   <div *ngIf="isPersonal" class="tui-form__row">
     <tui-text-area
@@ -76,5 +82,5 @@
 </ng-template>
 
 <ng-template #studyTypeContent let-online>
-  {{ online ? "Phòng học trực tuyến" : "Học trực tiếp" }}
+  {{ online ? 'Phòng học trực tuyến' : 'Học trực tiếp' }}
 </ng-template>
