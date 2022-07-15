@@ -17,7 +17,6 @@ import { TuiValidationError } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
 import { requiredFactory } from '@teaching-scheduling-system/core/utils/factories';
-import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import {
   AppShellState,
   setLoader,
@@ -47,7 +46,6 @@ import { SendEmailStore } from './store/send-email.store';
 export class SendEmailComponent implements OnInit {
   /** PUBLIC PROPERTIES */
   public readonly status$ = this.store.status$;
-  public readonly EApiStatus = EApiStatus;
   public readonly tokenValidationFailed;
   public form!: FormGroup;
 
@@ -93,7 +91,7 @@ export class SendEmailComponent implements OnInit {
     this.status$
       .pipe(
         tap((status) => {
-          if (status === EApiStatus.successful) {
+          if (status === 'successful') {
             this.tuiDialogService
               .open(
                 `Email xác nhận đặt lại mật khẩu đã được gửi đến địa chỉ ${this.email.value}. Vui lòng nhấn vào đường dẫn được đính kèm để đặt lại mật khẩu!`,
@@ -106,7 +104,7 @@ export class SendEmailComponent implements OnInit {
               )
               .subscribe();
             this.form.disable();
-          } else if (status === EApiStatus.clientError) {
+          } else if (status === 'clientError') {
             if (this.email.untouched) {
               this.email.markAsTouched();
             }

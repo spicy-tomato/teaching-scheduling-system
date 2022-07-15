@@ -72,7 +72,7 @@
   <button
     tuiButton
     *ngrxLet="status$ as status"
-    [showLoader]="status === EApiStatus.loading"
+    [showLoader]="status === 'loading'"
     [disabled]="form.invalid"
     (click)="importFile()"
     class="tui-form__button"

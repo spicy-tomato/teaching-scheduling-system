@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { Store } from '@ngrx/store';
 import { UrlHelper } from '@teaching-scheduling-system/core/utils/helpers';
-import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import {
   GenericState,
   SearchExam,
@@ -28,7 +27,7 @@ export class ExamDialogStore extends ComponentStore<ExamDialogState> {
     searchParams: SearchExam;
   }>((params$) =>
     params$.pipe(
-      tap(() => this.patchState({ status: EApiStatus.loading, error: null })),
+      tap(() => this.patchState({ status: 'loading', error: null })),
       switchMap((params) =>
         this.examService
           .getDepartmentExamSchedule(
@@ -39,12 +38,12 @@ export class ExamDialogStore extends ComponentStore<ExamDialogState> {
             tapResponse(
               () =>
                 this.patchState({
-                  status: EApiStatus.successful,
+                  status: 'successful',
                   error: '',
                 }),
               (error) =>
                 this.patchState({
-                  status: EApiStatus.systemError,
+                  status: 'systemError',
                   error: error as string,
                 })
             )

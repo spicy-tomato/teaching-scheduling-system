@@ -15,7 +15,6 @@ import {
   ObservableHelper,
   UtilsHelper,
 } from '@teaching-scheduling-system/core/utils/helpers';
-import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import { SimpleModel } from '@teaching-scheduling-system/web/shared/data-access/models';
 import {
   AppShellState,
@@ -42,7 +41,6 @@ export class ImportComponent {
   public readonly batchesInTerm = CoreConstant.BATCHES_IN_TERM;
   public readonly rejectedFiles$ = new Subject<Nullable<TuiFileLike>>();
   public readonly status$ = this.store.status$;
-  public readonly EApiStatus = EApiStatus;
 
   /** GETTERS */
   public get fileControl(): FormControl {
@@ -131,9 +129,9 @@ export class ImportComponent {
     this.status$
       .pipe(
         tap((status) => {
-          if (status === EApiStatus.successful) {
+          if (status === 'successful') {
             this.showSuccessNotification();
-          } else if (status === EApiStatus.clientError) {
+          } else if (status === 'clientError') {
             this.showErrorNotification();
           }
         }),

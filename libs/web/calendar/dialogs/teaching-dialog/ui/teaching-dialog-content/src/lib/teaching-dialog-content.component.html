@@ -64,7 +64,7 @@
       <div *ngIf="schedule" class="tui-form__row">
         <ng-container *ngrxLet="cancelStatus$ as cancelStatus">
           <tui-loader
-            [showLoader]="cancelStatus === EApiStatus.loading"
+            [showLoader]="cancelStatus === 'loading'"
             [overlay]="true"
           >
             <tui-notification status="info">

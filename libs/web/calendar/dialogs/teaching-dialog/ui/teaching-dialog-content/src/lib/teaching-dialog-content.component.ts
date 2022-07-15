@@ -111,7 +111,6 @@ export class TeachingDialogContentComponent implements OnInit {
 
   public readonly cancelRequest$ = new Subject<void>();
   public readonly IconConstant = IconConstant;
-  public readonly EApiStatus = EApiStatus;
   public readonly noteMaxLength = CoreConstant.NOTE_MAX_LENGTH;
 
   public readonly changeStatus$: Observable<EApiStatus>;
@@ -334,11 +333,11 @@ export class TeachingDialogContentComponent implements OnInit {
       .pipe(
         tap((status) => {
           switch (status) {
-            case EApiStatus.successful:
+            case 'successful':
               this.changed = true;
               this.showNotificationUpdateSuccessful();
               break;
-            case EApiStatus.systemError:
+            case 'systemError':
               this.showNotificationError();
               break;
           }
@@ -350,10 +349,10 @@ export class TeachingDialogContentComponent implements OnInit {
       .pipe(
         tap((status) => {
           switch (status) {
-            case EApiStatus.successful:
+            case 'successful':
               this.showNotificationRequestChangeSuccessful();
               break;
-            case EApiStatus.systemError:
+            case 'systemError':
               this.showNotificationError();
               break;
           }
@@ -365,7 +364,7 @@ export class TeachingDialogContentComponent implements OnInit {
       .pipe(
         tap((status) => {
           switch (status) {
-            case EApiStatus.successful: {
+            case 'successful': {
               this.changed = true;
               const [start, end] = DateHelper.fromShift(
                 this.dateControlValue.toUtcNativeDate(),
@@ -382,7 +381,7 @@ export class TeachingDialogContentComponent implements OnInit {
               this.showNotificationUpdateSuccessful();
               break;
             }
-            case EApiStatus.systemError:
+            case 'systemError':
               this.showNotificationError();
               break;
           }
@@ -392,7 +391,7 @@ export class TeachingDialogContentComponent implements OnInit {
       .subscribe();
     this.cancelStatus$
       .pipe(
-        filter((status) => status === EApiStatus.successful),
+        filter((status) => status === 'successful'),
         tap(() => {
           this.requestedChangeSchedule = null;
           this.cancelRequest.emit();

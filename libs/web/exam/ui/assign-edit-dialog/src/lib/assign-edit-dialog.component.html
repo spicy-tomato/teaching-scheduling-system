@@ -13,7 +13,7 @@
     <button
       tuiButton
       (click)="confirm()"
-      [showLoader]="status === EApiStatus.loading"
+      [showLoader]="status === 'loading'"
       [disabled]="form.invalid"
       type="submit"
       class="tui-form__button"
@@ -23,7 +23,7 @@
     <button
       tuiButton
       (click)="cancel()"
-      [disabled]="status === EApiStatus.loading"
+      [disabled]="status === 'loading'"
       type="button"
       appearance="secondary"
       class="tui-form__button"

@@ -46,7 +46,6 @@ import {
 } from '@teaching-scheduling-system/web/calendar/data-access';
 import { ExamDialogComponent } from '@teaching-scheduling-system/web/calendar/dialogs/exam-dialog/feature';
 import { TeachingDialogComponent } from '@teaching-scheduling-system/web/calendar/dialogs/teaching-dialog/feature';
-import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import {
   EjsScheduleModel,
   FixedScheduleModel,
@@ -301,7 +300,7 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     this.store
       .select(calendarSelectStatus)
       .pipe(
-        map((status) => status === EApiStatus.loading),
+        map((status) => status === 'loading'),
         distinctUntilChanged(),
         tap((isLoading) => {
           if (isLoading) {

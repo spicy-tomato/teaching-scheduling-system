@@ -4,7 +4,7 @@ import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import {
   GenericState,
-  ResetPassword,
+  ResetPassword
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { UserService } from '@teaching-scheduling-system/web/shared/data-access/services';
 import { of, switchMap, tap } from 'rxjs';
@@ -23,7 +23,7 @@ export class ConfirmStore extends ComponentStore<ConfirmState> {
     token: string | null;
   }>((params$) =>
     params$.pipe(
-      tap(() => this.patchState({ data: EApiStatus.loading })),
+      tap(() => this.patchState({ data: 'loading' })),
       switchMap(({ email, token }) => {
         if (!email || !token) {
           this.navigateToRequest();
@@ -34,7 +34,7 @@ export class ConfirmStore extends ComponentStore<ConfirmState> {
           tapResponse(
             () =>
               this.patchState({
-                data: EApiStatus.successful,
+                data: 'successful',
                 error: '',
               }),
             () => this.navigateToRequest()
@@ -46,18 +46,18 @@ export class ConfirmStore extends ComponentStore<ConfirmState> {
 
   public readonly reset = this.effect<{ data: ResetPassword }>((params$) =>
     params$.pipe(
-      tap(() => this.patchState({ status: EApiStatus.loading, error: null })),
+      tap(() => this.patchState({ status: 'loading', error: null })),
       switchMap(({ data }) =>
         this.userService.resetPassword(data).pipe(
           tapResponse(
             () =>
               this.patchState({
-                status: EApiStatus.successful,
+                status: 'successful',
                 error: '',
               }),
             (error) =>
               this.patchState({
-                status: EApiStatus.systemError,
+                status: 'systemError',
                 error: error as string,
               })
           )

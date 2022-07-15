@@ -14,12 +14,12 @@
                 tuiButton
                 *ngIf="isPersonal; else changeSchedule"
                 (click)="submitRequestChange$.next()"
-                [showLoader]="requestStatus === EApiStatus.loading"
+                [showLoader]="requestStatus === 'loading'"
                 [disabled]="
                   (!requestChangeToUndeterminedDay && requestControl.invalid) ||
                   (requestChangeToUndeterminedDay &&
                     requestIntendControl.invalid) ||
-                  searchStatus === EApiStatus.loading
+                  searchStatus === 'loading'
                 "
                 class="tui-form__button"
               >
@@ -31,10 +31,9 @@
                 <button
                   tuiButton
                   (click)="submitChange$.next()"
-                  [showLoader]="changeStatus === EApiStatus.loading"
+                  [showLoader]="changeStatus === 'loading'"
                   [disabled]="
-                    requestControl.invalid ||
-                    searchStatus === EApiStatus.loading
+                    requestControl.invalid || searchStatus === 'loading'
                   "
                   class="tui-form__button"
                 >

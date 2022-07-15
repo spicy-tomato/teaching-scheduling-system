@@ -17,7 +17,7 @@
       [expanded]="!sameData"
       [ngStyle]="{ padding: sameData ? '0px' : null }"
     >
-      <ng-container *ngIf="searchStatus !== EApiStatus.loading; else loading">
+      <ng-container *ngIf="searchStatus !== 'loading'; else loading">
         <div
           *ngIf="searchSchedule && searchSchedule.length > 0; else notDuplicate"
           class="text-tui-warning-fill"
@@ -49,7 +49,11 @@
     </tui-expand>
 
     <!-- Check reason -->
-    <div *ngIf="hadReason; else notHadReason" [@fadeIn] class="text-tui-success-fill">
+    <div
+      *ngIf="hadReason; else notHadReason"
+      [@fadeIn]
+      class="text-tui-success-fill"
+    >
       <tui-svg src="tuiIconCheckCircleLarge"></tui-svg>
       Đã nhập lý do thay đổi
     </div>

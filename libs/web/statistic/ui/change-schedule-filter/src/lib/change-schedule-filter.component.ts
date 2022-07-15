@@ -49,7 +49,6 @@ export class ChangeScheduleFilterComponent implements OnInit, AfterViewInit {
   public form!: FormGroup;
 
   public readonly IconConstant = IconConstant;
-  public readonly EApiStatus = EApiStatus;
   public readonly status$: Observable<EApiStatus>;
 
   /** PRIVATE PROPERTIES */

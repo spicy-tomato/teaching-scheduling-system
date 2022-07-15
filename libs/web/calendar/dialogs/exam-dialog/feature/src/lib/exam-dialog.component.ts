@@ -10,7 +10,6 @@ import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { CoreConstant } from '@teaching-scheduling-system/core/data-access/constants';
 import { DateHelper } from '@teaching-scheduling-system/core/utils/helpers';
-import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import { EjsScheduleModel } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { sameGroupStaticValueValidator } from '@teaching-scheduling-system/web/shared/utils/validators';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
@@ -29,7 +28,7 @@ export class ExamDialogComponent {
     'Không thể thay đổi thông tin của lịch thi';
   public readonly noteMaxLength = CoreConstant.NOTE_MAX_LENGTH;
   public readonly showLoader$ = this.store.status$.pipe(
-    map((s) => s === EApiStatus.loading)
+    map((s) => s === 'loading')
   );
   public readonly submit$ = new Subject<void>();
   public form!: FormGroup;
@@ -114,11 +113,11 @@ export class ExamDialogComponent {
     this.store.status$
       .pipe(
         tap((status) => {
-          if (status === EApiStatus.successful) {
+          if (status === 'successful') {
             setTimeout(() => {
               this.context.completeWith(this.noteControl.value);
             });
-          } else if (status === EApiStatus.systemError) {
+          } else if (status === 'systemError') {
             this.onCancel();
           }
         }),

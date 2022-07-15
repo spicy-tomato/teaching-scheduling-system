@@ -28,7 +28,6 @@ export class DuplicateCheckerComponent {
   /** PUBLIC PROPERTIES */
   public readonly searchStatus$: Observable<EApiStatus>;
   public readonly searchSchedule$: Observable<Nullable<StudyScheduleModel[]>>;
-  public readonly EApiStatus = EApiStatus;
 
   /** CONSTRUCTOR */
   constructor(

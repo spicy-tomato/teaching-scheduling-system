@@ -6,7 +6,6 @@ import {
   ObservableHelper,
   UrlHelper,
 } from '@teaching-scheduling-system/core/utils/helpers';
-import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import {
   ChangeSchedule,
   ChangeScheduleStatistic,
@@ -39,7 +38,7 @@ export class StatisticChangeScheduleStore extends ComponentStore<ChangeScheduleS
   public readonly statisticize = this.effect<{ range: TuiDayRange }>(
     (params$) =>
       params$.pipe(
-        tap(() => this.patchState({ status: EApiStatus.loading, error: null })),
+        tap(() => this.patchState({ status: 'loading', error: null })),
         withLatestFrom(this.department$),
         mergeMap(([{ range }, department]) =>
           this.getStatistic(department.id, range).pipe(
@@ -47,12 +46,12 @@ export class StatisticChangeScheduleStore extends ComponentStore<ChangeScheduleS
               (data) =>
                 this.patchState({
                   data,
-                  status: EApiStatus.successful,
+                  status: 'successful',
                   error: '',
                 }),
               (error) =>
                 this.patchState({
-                  status: EApiStatus.systemError,
+                  status: 'systemError',
                   error: error as string,
                 })
             )

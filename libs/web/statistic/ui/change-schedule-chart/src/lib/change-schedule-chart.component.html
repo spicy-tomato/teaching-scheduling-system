@@ -1,7 +1,7 @@
 <ng-container *ngrxLet="teachersList$ as teachersList">
   <tui-loader
     *ngrxLet="status$ as status"
-    [showLoader]="status === EApiStatus.loading"
+    [showLoader]="status === 'loading'"
     [overlay]="true"
     class="w-full h-full"
   >
