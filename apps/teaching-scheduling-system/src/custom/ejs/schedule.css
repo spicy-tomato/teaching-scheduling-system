@@ -47,6 +47,12 @@
   @apply w-fit mx-auto bg-[#e3165b] rounded-full;
 }
 
+/* Disable date navigate when click date header in month view */
+.e-schedule .e-month-view .e-date-header:hover {
+  @apply cursor-default;
+  text-decoration: none !important;
+}
+
 /* Align text for cell header in month view */
 .e-schedule .e-month-view .e-date-header-wrap table td,
 .e-schedule .e-month-agenda-view .e-date-header-wrap table td {
