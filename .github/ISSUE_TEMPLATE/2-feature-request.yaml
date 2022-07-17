@@ -1,13 +1,13 @@
 name: '🚀 - Feature Request'
 title: '🚀 - '
-description: Suggest a feature for Taiga UI
+description: Suggest a feature for TSS
 labels: ['feature', 'state: need triage']
 
 body:
   - type: dropdown
     id: affected-packages
     attributes:
-      label: Which @taiga-ui/* package(s) are relevant/releated to the feature request?
+      label: Which lib(s) are relevant/releated to the feature request?
       options:
         - core
         - calendar
