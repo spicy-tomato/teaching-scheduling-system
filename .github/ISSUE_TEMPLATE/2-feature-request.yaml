@@ -1,7 +1,7 @@
 name: '🚀 - Feature Request'
 title: '🚀 - '
 description: Suggest a feature for TSS
-labels: ['feature', 'state: need triage']
+labels: ['feature']
 
 body:
   - type: dropdown
