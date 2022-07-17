@@ -9,6 +9,7 @@ import {
 
 @Pipe({
   name: 'filterByInput',
+  pure: false,
 })
 export class FilterByInputPipe implements PipeTransform {
   /** CONSTRUCTOR */
