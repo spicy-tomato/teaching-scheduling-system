@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.8.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.8.0...v3.8.1) (2022-07-17)
+
+
+### Bug Fixes
+
+* **dep:** update taiga-ui to 2.45.0 ([17bbeef](https://github.com/annguyen-it/teaching-scheduling-system/commit/17bbeef16518405d681da5fd05858ec1827de25e))
+* pipe filterByInput does not update when input changes ([5ec5a68](https://github.com/annguyen-it/teaching-scheduling-system/commit/5ec5a68e0afa908d3e7aeccf403a5939888f50ae))
+* routerLinkActive in sidebar should work ([cd6b4b9](https://github.com/annguyen-it/teaching-scheduling-system/commit/cd6b4b906885c7231a8a19a12c6cf801030561fe))
+* **sidebar:** transition of icon should be synchronus ([e1a6ccb](https://github.com/annguyen-it/teaching-scheduling-system/commit/e1a6ccb3b587f1be2eb5fffcc62293c9409520a4))
+
 ## [3.8.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.7.0...v3.8.0) (2022-07-17)
 
 
