@@ -4,17 +4,14 @@
       Đóng góp ý kiến
     </h3>
     <div class="tui-form__row">
-      <tui-input
-        [readOnly]="status === EApiStatus.successful"
-        formControlName="title"
-      >
+      <tui-input [readOnly]="status === 'successful'" formControlName="title">
         Tiêu đề
       </tui-input>
     </div>
     <div tuiGroup class="tui-form__row">
       <tui-radio-block
         [item]="0"
-        [readOnly]="status === EApiStatus.successful"
+        [readOnly]="status === 'successful'"
         contentAlign="left"
         formControlName="reportBug"
       >
@@ -27,7 +24,7 @@
       </tui-radio-block>
       <tui-radio-block
         [item]="1"
-        [readOnly]="status === EApiStatus.successful"
+        [readOnly]="status === 'successful'"
         contentAlign="left"
         formControlName="reportBug"
       >
@@ -43,9 +40,7 @@
         [content]="filterContent"
         [items]="topics"
         [disabledItemHandler]="
-          status === EApiStatus.successful
-            ? disabledItemHandler
-            : enabledItemHandler
+          status === 'successful' ? disabledItemHandler : enabledItemHandler
         "
         formControlName="tags"
       ></tui-filter>
@@ -53,17 +48,20 @@
     <div tuiGroup class="tui-form__row">
       <tui-editor
         [tools]="tools"
-        [readOnly]="status === EApiStatus.successful"
+        [readOnly]="status === 'successful'"
         formControlName="content"
       >
         Nội dung
       </tui-editor>
-      <tui-field-error formControlName="content"></tui-field-error>
+      <tui-error
+        [error]="[] | tuiFieldError | async"
+        formControlName="content"
+      ></tui-error>
     </div>
     <div class="tui-form__buttons tui-form__buttons_align_end">
       <button
-        [disabled]="form.invalid || status === EApiStatus.successful"
-        [showLoader]="status === EApiStatus.loading"
+        [disabled]="form.invalid || status === 'successful'"
+        [showLoader]="status === 'loading'"
         tuiButton
         type="submit"
         class="tui-form__button"

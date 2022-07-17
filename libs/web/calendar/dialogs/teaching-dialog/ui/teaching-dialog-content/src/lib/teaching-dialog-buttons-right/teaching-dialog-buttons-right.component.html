@@ -8,10 +8,7 @@
         <button
           tuiButton
           (click)="fold()"
-          [disabled]="
-            requestStatus === EApiStatus.loading ||
-            changeStatus === EApiStatus.loading
-          "
+          [disabled]="requestStatus === 'loading' || changeStatus === 'loading'"
           appearance="outline"
           class="tui-form__button"
         >
@@ -25,7 +22,7 @@
       <button
         tuiButton
         (click)="onUpdate()"
-        [showLoader]="updateStatus === EApiStatus.loading"
+        [showLoader]="updateStatus === 'loading'"
         [disabled]="form.controls['change'].invalid"
         class="tui-form__button"
       >

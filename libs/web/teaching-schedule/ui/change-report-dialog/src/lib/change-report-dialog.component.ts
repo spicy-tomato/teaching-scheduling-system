@@ -6,25 +6,23 @@ import { tuiButtonOptionsProvider, TuiDialogContext } from '@taiga-ui/core';
 import { InputDateRangeConstant } from '@teaching-scheduling-system/core/data-access/constants';
 import {
   ObservableHelper,
-  StringHelper,
+  StringHelper
 } from '@teaching-scheduling-system/core/utils/helpers';
 import {
-  EApiStatus,
-  FileType,
+  FileType
 } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import {
   ChangeSchedule,
-  Teacher,
+  Teacher
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { ExportService } from '@teaching-scheduling-system/web/shared/data-access/services';
 import {
   AppShellState,
-  selectNotNullTeacher,
+  selectNotNullTeacher
 } from '@teaching-scheduling-system/web/shared/data-access/store';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { map, Observable, Subject, takeUntil, tap, withLatestFrom } from 'rxjs';
 import { ExportDialogStore } from './store';
-
 @Component({
   templateUrl: './change-report-dialog.component.html',
   styleUrls: ['./change-report-dialog.component.css'],
@@ -42,7 +40,6 @@ export class ChangeReportDialogComponent {
   /** PUBLIC PROPERTIES */
   public form!: FormGroup;
   public readonly status$ = this.store.status$;
-  public readonly EApiStatus = EApiStatus;
   public readonly confirm$ = new Subject<void>();
 
   /** GETTERS */

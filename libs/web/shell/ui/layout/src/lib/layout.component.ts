@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import {
   AppShellState,
   keepLogin,
@@ -24,7 +23,7 @@ export class LayoutComponent {
       .select(selectStatus)
       .pipe(
         tap((status) => {
-          if (status === EApiStatus.unknown) {
+          if (status === 'unknown') {
             store.dispatch(reset());
             store.dispatch(keepLogin());
           }

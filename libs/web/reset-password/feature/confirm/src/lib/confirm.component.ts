@@ -22,7 +22,6 @@ import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
 import { requiredFactory } from '@teaching-scheduling-system/core/utils/factories';
 import { StringHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import { SuccessDialogComponent } from '@teaching-scheduling-system/web/reset-password/ui/success-dialog';
-import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import { ResetPassword } from '@teaching-scheduling-system/web/shared/data-access/models';
 import {
   AppShellState,
@@ -56,7 +55,6 @@ export class ConfirmComponent {
   /** PUBLIC PROPERTIES */
   public readonly status$ = this.store.status$;
   public readonly reset$ = new Subject<void>();
-  public readonly EApiStatus = EApiStatus;
   public form!: FormGroup;
 
   /** GETTERS */
@@ -132,7 +130,7 @@ export class ConfirmComponent {
   private handleVerifyDone(): void {
     this.store.validateStatus$
       .pipe(
-        filter((status) => status === EApiStatus.successful),
+        filter((status) => status === 'successful'),
         tap(() => this.appShellStore.dispatch(setLoader({ showLoader: false })))
       )
       .subscribe();
@@ -158,7 +156,7 @@ export class ConfirmComponent {
     this.status$
       .pipe(
         tap((status) => {
-          if (status === EApiStatus.successful) {
+          if (status === 'successful') {
             this.tuiDialogService
               .open(
                 new PolymorpheusComponent(
@@ -174,7 +172,7 @@ export class ConfirmComponent {
               )
               .pipe(tap(() => this.form.disable()))
               .subscribe();
-          } else if (status === EApiStatus.systemError) {
+          } else if (status === 'systemError') {
             this.alertService
               .open('Mã đặt lại mật khẩu đã hết hạn', {
                 label: 'Đã có lỗi xảy ra',

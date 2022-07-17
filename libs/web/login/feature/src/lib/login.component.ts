@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Inject,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -15,13 +15,13 @@ import {
   clickLogin,
   LoginState,
   reset,
-  selectState
+  selectState,
 } from '@teaching-scheduling-system/web/login/data-access';
 import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import { LoginForm } from '@teaching-scheduling-system/web/shared/data-access/models';
 import {
   AppShellState,
-  setLoader
+  setLoader,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
 import {
   distinctUntilChanged,
@@ -31,7 +31,7 @@ import {
   Observable,
   Subject,
   takeUntil,
-  tap
+  tap,
 } from 'rxjs';
 
 @Component({
@@ -54,7 +54,6 @@ export class LoginComponent {
     password: new FormControl('', [Validators.required]),
     remember: new FormControl(false),
   });
-  public readonly EApiStatus = EApiStatus;
 
   /** GETTERS */
   public get username(): FormControl {
@@ -87,10 +86,7 @@ export class LoginComponent {
   private handleStatusChange(): void {
     this.status$
       .pipe(
-        map(
-          (status) =>
-            status === EApiStatus.loading || status === EApiStatus.successful
-        ),
+        map((status) => status === 'loading' || status === 'successful'),
         distinctUntilChanged(),
         tap((disable) => {
           if (disable) {
@@ -110,13 +106,11 @@ export class LoginComponent {
     this.status$
       .pipe(
         filter(
-          (status) =>
-            status === EApiStatus.clientError ||
-            status === EApiStatus.systemError
+          (status) => status === 'clientError' || status === 'systemError'
         ),
         mergeMap((status) => {
           const label =
-            status === EApiStatus.clientError
+            status === 'clientError'
               ? 'Thông tin đăng nhập không chính xác!'
               : 'Lỗi hệ thống!';
           return this.alertService.open('Vui lòng thử lại', {

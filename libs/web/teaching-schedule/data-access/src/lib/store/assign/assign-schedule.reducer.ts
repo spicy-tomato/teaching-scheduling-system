@@ -1,5 +1,4 @@
 import { createReducer, on } from '@ngrx/store';
-import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import { TeachingScheduleAssignState } from '.';
 import * as ApiAction from './assign-schedule.api.actions';
 import * as PageAction from './assign-schedule.page.actions';
@@ -9,9 +8,9 @@ const initialState: TeachingScheduleAssignState = {
   data: [],
   selected: [],
   status: {
-    filter: EApiStatus.unknown,
-    assign: EApiStatus.unknown,
-    unassign: EApiStatus.unknown,
+    filter: 'unknown',
+    assign: 'unknown',
+    unassign: 'unknown',
   },
   teacher: { data: [], selected: null, action: null, actionCount: 0 },
 };
@@ -24,19 +23,19 @@ export const teachingScheduleAssignReducer = createReducer(
   on(PageAction.teachingScheduleAssign_Filter, (state) => {
     return {
       ...state,
-      status: { ...state.status, filter: EApiStatus.loading },
+      status: { ...state.status, filter: 'loading' },
     };
   }),
   on(PageAction.teachingScheduleAssign_Assign, (state) => {
     return {
       ...state,
-      status: { ...state.status, assign: EApiStatus.loading },
+      status: { ...state.status, assign: 'loading' },
     };
   }),
   on(PageAction.teachingScheduleAssign_Unassign, (state) => {
     return {
       ...state,
-      status: { ...state.status, unassign: EApiStatus.loading },
+      status: { ...state.status, unassign: 'loading' },
     };
   }),
   on(
@@ -72,7 +71,7 @@ export const teachingScheduleAssignReducer = createReducer(
     return {
       ...state,
       data: classes,
-      status: { ...state.status, filter: EApiStatus.successful },
+      status: { ...state.status, filter: 'successful' },
     };
   }),
   on(ApiAction.loadTeacherSuccessful, (state, { teachers }) => {
@@ -99,7 +98,7 @@ export const teachingScheduleAssignReducer = createReducer(
         action: teacher,
         actionCount: classIds.length,
       },
-      status: { ...state.status, assign: EApiStatus.successful },
+      status: { ...state.status, assign: 'successful' },
     };
   }),
   on(ApiAction.unassignSuccessful, (state, { classIds }) => {
@@ -118,7 +117,7 @@ export const teachingScheduleAssignReducer = createReducer(
         actionCount: classIds.length,
       },
       selected: state.selected.filter((s) => !classIds.includes(s)),
-      status: { ...state.status, unassign: EApiStatus.successful },
+      status: { ...state.status, unassign: 'successful' },
     };
   })
 );

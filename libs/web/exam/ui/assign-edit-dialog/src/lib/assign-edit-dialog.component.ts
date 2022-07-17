@@ -15,7 +15,6 @@ import {
   TuiNotification,
   TUI_TEXTFIELD_APPEARANCE,
 } from '@taiga-ui/core';
-import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import {
   ExamScheduleModel,
   UpdateExamModel,
@@ -49,7 +48,6 @@ export class AssignEditDialogComponent {
   /** PUBLIC PROPERTIES */
   public form!: FormGroup;
   public readonly rooms$: Observable<string[]>;
-  public readonly EApiStatus = EApiStatus;
   public readonly status$ = this.store.status$;
 
   /** GETTERS */
@@ -101,7 +99,7 @@ export class AssignEditDialogComponent {
     this.status$
       .pipe(
         tap((status) => {
-          if (status === EApiStatus.successful) {
+          if (status === 'successful') {
             this.alertService
               .open(
                 `Đã cập nhật thành công phòng thi ${this.context.data.name}`,
@@ -111,7 +109,7 @@ export class AssignEditDialogComponent {
             setTimeout(() => {
               this.context.completeWith(this.roomControl.value);
             });
-          } else if (status === EApiStatus.systemError) {
+          } else if (status === 'systemError') {
             this.alertService
               .open('Vui lòng thử lại sau', {
                 label: 'Lỗi hệ thống!',

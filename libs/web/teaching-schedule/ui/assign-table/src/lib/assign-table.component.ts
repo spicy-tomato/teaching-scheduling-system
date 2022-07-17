@@ -34,7 +34,6 @@ export class AssignTableComponent implements OnChanges {
   /** PUBLIC PROPERTIES */
   public form!: FormGroup;
   public filterStatus$: Observable<EApiStatus>;
-  public readonly EApiStatus = EApiStatus;
   public readonly columns = [
     'checkbox',
     'index',

@@ -1,6 +1,6 @@
 <tui-loader
   *ngrxLet="status$ as status"
-  [showLoader]="status === EApiStatus.loading"
+  [showLoader]="status === 'loading'"
   [overlay]="true"
 >
   <table tuiTable [columns]="columns">

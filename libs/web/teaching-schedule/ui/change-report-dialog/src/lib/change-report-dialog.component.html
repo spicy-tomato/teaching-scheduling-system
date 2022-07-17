@@ -4,7 +4,7 @@
     <button
       tuiButton
       (click)="confirm$.next()"
-      [showLoader]="status === EApiStatus.loading"
+      [showLoader]="status === 'loading'"
       [disabled]="form.invalid"
       type="submit"
       class="tui-form__button"
@@ -14,7 +14,7 @@
     <button
       tuiButton
       (click)="context.$implicit.complete()"
-      [disabled]="status === EApiStatus.loading"
+      [disabled]="status === 'loading'"
       appearance="secondary"
       type="button"
       class="tui-form__button"

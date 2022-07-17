@@ -8,11 +8,7 @@
   >
     <div *tuiSidebar="openScheduleList">
       <div class="px-4">
-        <tss-teaching-dialog-navigation
-          [selectedSchedule]="selectedSchedule"
-          [schedules]="schedules"
-          (changeSelectedSchedule)="onChangeSelectedSchedule($event)"
-        ></tss-teaching-dialog-navigation>
+        <ng-container *ngTemplateOutlet="navigation"></ng-container>
       </div>
     </div>
   </button>
@@ -31,12 +27,7 @@
     <div class="hidden ml-1.5 sm:inline">Lịch sử thay đổi giờ giảng</div>
   </button>
 </div>
-<tss-teaching-dialog-navigation
-  [selectedSchedule]="selectedSchedule"
-  [schedules]="schedules"
-  (changeSelectedSchedule)="onChangeSelectedSchedule($event)"
-  class="hidden md:block"
-></tss-teaching-dialog-navigation>
+<ng-container *ngTemplateOutlet="navigation"></ng-container>
 <tui-scrollbar>
   <tss-teaching-dialog-content
     *tssRecreateViewKey="selectedSchedule.Id"
@@ -47,3 +38,12 @@
     (cancel)="onCancel()"
   ></tss-teaching-dialog-content>
 </tui-scrollbar>
+
+<ng-template #navigation>
+  <tss-teaching-dialog-navigation
+    [selectedSchedule]="selectedSchedule"
+    [schedules]="schedules"
+    (changeSelectedSchedule)="onChangeSelectedSchedule($event)"
+    class="hidden md:block"
+  ></tss-teaching-dialog-navigation>
+</ng-template>

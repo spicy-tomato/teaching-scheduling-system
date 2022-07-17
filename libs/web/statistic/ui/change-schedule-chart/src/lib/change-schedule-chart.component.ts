@@ -10,7 +10,6 @@ import {
   ObjectHelper,
   StringHelper,
 } from '@teaching-scheduling-system/core/utils/helpers';
-import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import {
   ChangeSchedule,
   SimpleModel,
@@ -39,7 +38,6 @@ export class ChangeScheduleChartComponent {
 
   public readonly teachersList$: Observable<SimpleModel[]>;
   public readonly status$ = this.store.status$;
-  public readonly EApiStatus = EApiStatus;
   public readonly setNames = ['Đã đổi', 'Bị từ chối'];
   public readonly horizontalLinesHandler: TuiLineHandler = (index, total) => {
     return index === 0 || (total - index) % 5 === 0 ? 'dashed' : 'none';

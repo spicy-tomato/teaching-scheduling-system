@@ -45,12 +45,15 @@
     <div></div>
     <div class="tui-form__row">
       <tui-text-area
+        [tuiTextfieldMaxLength]="noteMaxLength"
         formControlName="note"
-        [tuiTextfieldMaxLength]="CoreConstant.NOTE_MAX_LENGTH"
       >
         Ghi chú
       </tui-text-area>
-      <tui-field-error formControlName="note"></tui-field-error>
+      <tui-error
+        [error]="[] | tuiFieldError | async"
+        formControlName="note"
+      ></tui-error>
     </div>
   </tui-expand>
 
@@ -61,7 +64,7 @@
       <div *ngIf="schedule" class="tui-form__row">
         <ng-container *ngrxLet="cancelStatus$ as cancelStatus">
           <tui-loader
-            [showLoader]="cancelStatus === EApiStatus.loading"
+            [showLoader]="cancelStatus === 'loading'"
             [overlay]="true"
           >
             <tui-notification status="info">
@@ -143,8 +146,8 @@
 
       <!-- Right buttons -->
       <tss-teaching-dialog-buttons-right
-        (cancel)="cancel.emit()"
         [idSchedule]="schedule.Id"
+        (cancel)="cancel.emit()"
         class="grow -mt-6 md:mt-0"
       ></tss-teaching-dialog-buttons-right>
     </ng-container>

@@ -1,5 +1,4 @@
 import { createReducer, on } from '@ngrx/store';
-import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import { AppShellState } from '.';
 import * as ApiAction from './app-shell.api.actions';
 import * as PageAction from './app-shell.page.actions';
@@ -9,7 +8,7 @@ const initialState: AppShellState = {
   breadcrumbs: [],
   academicData: [],
   teacher: null,
-  status: EApiStatus.unknown,
+  status: 'unknown',
   rooms: [],
   teachersInDepartment: [],
   showLoader: null,
@@ -22,7 +21,7 @@ export const appShellReducer = createReducer(
   on(PageAction.reset, () => initialState),
   on(PageAction.keepLogin, (state) => ({
     ...state,
-    status: EApiStatus.loading,
+    status: 'loading',
   })),
   on(PageAction.setLoader, (state, { showLoader }) => ({
     ...state,
@@ -35,12 +34,12 @@ export const appShellReducer = createReducer(
   on(ApiAction.autoLoginSuccessfully, (state, { teacher }) => ({
     ...state,
     teacher,
-    status: EApiStatus.successful,
+    status: 'successful',
   })),
   on(ApiAction.autoLoginFailure, (state) => ({
     ...state,
     teacher: null,
-    status: EApiStatus.clientError,
+    status: 'clientError',
   })),
   on(ApiAction.loadRoomsSuccessfully, (state, { rooms }) => ({
     ...state,

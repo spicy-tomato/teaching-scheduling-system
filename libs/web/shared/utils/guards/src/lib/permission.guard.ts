@@ -1,7 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import {
   AppShellState,
   keepLogin,
@@ -32,7 +31,7 @@ export class PermissionGuard
       .select(selectStatus)
       .pipe(
         tap((status) => {
-          if (status === EApiStatus.unknown) {
+          if (status === 'unknown') {
             appShellStore.dispatch(reset());
             appShellStore.dispatch(keepLogin());
           }

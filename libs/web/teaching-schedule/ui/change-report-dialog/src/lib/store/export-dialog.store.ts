@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { TuiDayRange } from '@taiga-ui/cdk';
-import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import {
   ChangeSchedule,
   GenericState,
@@ -23,19 +22,19 @@ export class ExportDialogStore extends ComponentStore<ExportDialogState> {
     teacherId: string;
   }>((params$) =>
     params$.pipe(
-      tap(() => this.patchState({ status: EApiStatus.loading, error: null })),
+      tap(() => this.patchState({ status: 'loading', error: null })),
       switchMap((params) =>
         this.statisticService.getPersonal(params.range, params.teacherId).pipe(
           tapResponse(
             (r) =>
               this.patchState({
                 data: r.data,
-                status: EApiStatus.successful,
+                status: 'successful',
                 error: '',
               }),
             (error) =>
               this.patchState({
-                status: EApiStatus.systemError,
+                status: 'systemError',
                 error: error as string,
               })
           )

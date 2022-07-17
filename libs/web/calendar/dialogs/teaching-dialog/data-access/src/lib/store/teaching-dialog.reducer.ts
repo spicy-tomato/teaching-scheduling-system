@@ -1,15 +1,14 @@
 import { createReducer, on } from '@ngrx/store';
-import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import { TeachingDialogState } from '.';
 import * as ApiAction from './teaching-dialog.api.actions';
 import * as PageAction from './teaching-dialog.page.actions';
 
 const initialState: TeachingDialogState = {
-  changeStatus: EApiStatus.unknown,
-  requestStatus: EApiStatus.unknown,
-  updateStatus: EApiStatus.unknown,
-  searchStatus: EApiStatus.unknown,
-  cancelStatus: EApiStatus.unknown,
+  changeStatus: 'unknown',
+  requestStatus: 'unknown',
+  updateStatus: 'unknown',
+  searchStatus: 'unknown',
+  cancelStatus: 'unknown',
   requestingChangeSchedule: false,
   justRequestedSchedule: null,
   change: {
@@ -22,30 +21,33 @@ export const teachingDialogFeatureKey = 'studyEditorDialog';
 
 export const teachingDialogReducer = createReducer(
   initialState,
-  on(PageAction.teachingDialogReset, (_, { change }) => ({ ...initialState, change })),
+  on(PageAction.teachingDialogReset, (_, { change }) => ({
+    ...initialState,
+    change,
+  })),
   on(PageAction.teachingDialogChange, (state) => ({
     ...state,
-    changeStatus: EApiStatus.loading,
+    changeStatus: 'loading',
   })),
   on(PageAction.teachingDialogRequest, (state) => ({
     ...state,
-    requestStatus: EApiStatus.loading,
+    requestStatus: 'loading',
   })),
   on(PageAction.teachingDialogRequestIntend, (state) => ({
     ...state,
-    requestStatus: EApiStatus.loading,
+    requestStatus: 'loading',
   })),
   on(PageAction.teachingDialogUpdate, (state) => ({
     ...state,
-    updateStatus: EApiStatus.loading,
+    updateStatus: 'loading',
   })),
   on(PageAction.teachingDialogSearch, (state) => ({
     ...state,
-    searchStatus: EApiStatus.loading,
+    searchStatus: 'loading',
   })),
   on(PageAction.teachingDialogCancel, (state) => ({
     ...state,
-    cancelStatus: EApiStatus.loading,
+    cancelStatus: 'loading',
   })),
   on(PageAction.teachingDialogToggleRequestChange, (state, { open }) => ({
     ...state,
@@ -53,56 +55,56 @@ export const teachingDialogReducer = createReducer(
   })),
   on(ApiAction.changeSuccessful, (state) => ({
     ...state,
-    changeStatus: EApiStatus.successful,
+    changeStatus: 'successful',
     requestingChangeSchedule: false,
   })),
   on(ApiAction.changeFailure, (state) => ({
     ...state,
-    changeStatus: EApiStatus.systemError,
+    changeStatus: 'systemError',
     requestingChangeSchedule: false,
   })),
   on(ApiAction.requestSuccessful, (state, { justRequestedSchedule }) => ({
     ...state,
     justRequestedSchedule,
-    requestStatus: EApiStatus.successful,
+    requestStatus: 'successful',
     requestingChangeSchedule: false,
   })),
   on(ApiAction.requestIntendSuccessful, (state, { justRequestedSchedule }) => ({
     ...state,
     justRequestedSchedule,
-    requestStatus: EApiStatus.successful,
+    requestStatus: 'successful',
     requestingChangeSchedule: false,
   })),
   on(ApiAction.requestFailure, (state) => ({
     ...state,
-    requestStatus: EApiStatus.systemError,
+    requestStatus: 'systemError',
     requestingChangeSchedule: false,
   })),
   on(ApiAction.updateSuccessful, (state, { change }) => ({
     ...state,
-    updateStatus: EApiStatus.successful,
+    updateStatus: 'successful',
     change,
   })),
   on(ApiAction.updateFailure, (state) => ({
     ...state,
-    updateStatus: EApiStatus.systemError,
+    updateStatus: 'systemError',
   })),
   on(ApiAction.searchSuccessful, (state, { searchSchedule }) => ({
     ...state,
-    searchStatus: EApiStatus.successful,
+    searchStatus: 'successful',
     searchSchedule,
   })),
   on(ApiAction.searchFailure, (state) => ({
     ...state,
-    searchStatus: EApiStatus.systemError,
+    searchStatus: 'systemError',
   })),
   on(ApiAction.cancelSuccessful, (state) => ({
     ...state,
     justRequestedSchedule: null,
-    cancelStatus: EApiStatus.successful,
+    cancelStatus: 'successful',
   })),
   on(ApiAction.cancelFailure, (state) => ({
     ...state,
-    cancelStatus: EApiStatus.systemError,
+    cancelStatus: 'systemError',
   }))
 );

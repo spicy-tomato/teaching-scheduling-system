@@ -1,6 +1,6 @@
 <tui-loader
   *ngrxLet="requesting$ as requesting"
-  [showLoader]="requesting.includes(schedule.id)"
+  [showLoader]="requesting | array: 'includes':schedule.id"
   [overlay]="true"
 >
   <div

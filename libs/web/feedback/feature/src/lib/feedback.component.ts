@@ -13,7 +13,6 @@ import {
   FeedbackItem,
 } from '@teaching-scheduling-system/core/data-access/constants';
 import { SuccessDialogComponent } from '@teaching-scheduling-system/web/feedback/ui/success-dialog';
-import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import { Feedback } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { SuccessDialogHeaderComponent } from '@teaching-scheduling-system/web/shared/ui/components/success-dialog-header';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
@@ -29,12 +28,13 @@ import { FeedbackStore } from './store';
 export class FeedbackComponent {
   /** PUBLIC PROPERTIES */
   public form!: FormGroup;
-  public readonly EApiStatus = EApiStatus;
   public readonly topics = FeedbackConstant.items;
   public readonly tools = EditorConstant.tools;
   public readonly status$ = this.store.status$;
-  public readonly disabledItemHandler: TuiBooleanHandler<FeedbackItem> = () => true;
-  public readonly enabledItemHandler: TuiBooleanHandler<FeedbackItem> = () => false;
+  public readonly disabledItemHandler: TuiBooleanHandler<FeedbackItem> = () =>
+    true;
+  public readonly enabledItemHandler: TuiBooleanHandler<FeedbackItem> = () =>
+    false;
 
   /** CONSTRUCTOR */
   constructor(
@@ -80,7 +80,7 @@ export class FeedbackComponent {
     this.status$
       .pipe(
         tap((status) => {
-          if (status === EApiStatus.successful) {
+          if (status === 'successful') {
             this.openSuccessDialog();
           }
         }),
