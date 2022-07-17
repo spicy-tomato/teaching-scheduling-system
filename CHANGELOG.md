@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.8.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.7.0...v3.8.0) (2022-07-17)
+
+
+### Features
+
+* change EApiStatus type from enum to union string ([17a5196](https://github.com/annguyen-it/teaching-scheduling-system/commit/17a5196f25dba6d2116c8d43d28cccf6e48b6fb9))
+* update title on route changes ([62d5c0a](https://github.com/annguyen-it/teaching-scheduling-system/commit/62d5c0aa0d2bc9bdff0916f0384c60f09f50e4f8))
+
+
+### Bug Fixes
+
+* **calendar:** add validator to reason in teaching dialog ([4c7bea5](https://github.com/annguyen-it/teaching-scheduling-system/commit/4c7bea5479d652790024c53966ea6de7ae88469f))
+* **calendar:** disable date navigate when click date header in month view ([38aaeab](https://github.com/annguyen-it/teaching-scheduling-system/commit/38aaeab141909fea189554945ca06712bec19d36))
+* **dep:** update taiga-ui to 2.44.0 ([339bcfa](https://github.com/annguyen-it/teaching-scheduling-system/commit/339bcfa5aaecedb431feb863187c6ffa447eb65f))
+* vietnameseization ([87da393](https://github.com/annguyen-it/teaching-scheduling-system/commit/87da3932a9552ebcdf2f6cd272a0c45814e19eb5))
+
 ## [3.7.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.6.0...v3.7.0) (2022-07-14)
 
 
