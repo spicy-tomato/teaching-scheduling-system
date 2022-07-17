@@ -8,11 +8,7 @@
           [rounded]="false"
           tuiMode="onLight"
         >
-          <tui-accordion-item
-            [borders]="null"
-            [showArrow]="!!item.subItems"
-            size="s"
-          >
+          <tui-accordion-item [borders]="null" size="s">
             <span class="icon-wrapper inline-block">
               <tui-svg
                 *ngIf="item.useTaigaIcon; else iconAccordion"
@@ -33,7 +29,7 @@
                     [routerLinkActiveOptions]="{ exact: true }"
                     [icon]="subItem.useTaigaIcon ? subItem.icon || null : null"
                     (click)="clickItem.emit()"
-                    routerLinkActive="text-tui-base-09"
+                    routerLinkActive="!text-tui-base-09"
                     iconAlign="left"
                     class="block !pt-2 leading-6 w-fit"
                   >
@@ -83,9 +79,9 @@
           <a
             tuiLink
             [routerLink]="item.routerLink ?? ''"
-            [routerLinkActiveOptions]="{ exact: true }"
+            [routerLinkActiveOptions]="{ exact: item.exactRouterLink ?? true }"
             (click)="clickItem.emit()"
-            routerLinkActive="text-tui-base-09"
+            routerLinkActive="!bg-tui-clear"
             class="link"
           >
             <span class="icon-wrapper inline-block">

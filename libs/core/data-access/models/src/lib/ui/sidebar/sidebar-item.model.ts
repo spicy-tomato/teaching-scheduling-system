@@ -11,4 +11,5 @@ export interface SidebarItem {
   permission?: number;
   useTaigaIcon?: boolean;
   externalLink?: string;
+  exactRouterLink?: boolean;
 }
