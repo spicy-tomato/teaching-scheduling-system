@@ -44,7 +44,6 @@ export class TeachingDialogComponent {
 
   /** SETTERS */
   private set currentSelected(schedule: EjsScheduleModel) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     this.schedules = this.schedules.map((s) =>
       s.Id === this.selectedSchedule.Id ? schedule : s
     );
@@ -75,7 +74,6 @@ export class TeachingDialogComponent {
   }
 
   public onUpdateSchedule(schedule: FixedScheduleModel): void {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const copy = { ...this.currentSelected };
     copy.FixedSchedules = [
       schedule,

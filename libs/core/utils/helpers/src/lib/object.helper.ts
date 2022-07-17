@@ -22,22 +22,22 @@ export class ObjectHelper {
     return array;
   }
 
-  public static isNullOrUndefined<T>(obj: T | null | undefined): obj is null | undefined {
+  public static isNullOrUndefined<T>(
+    obj: T | null | undefined
+  ): obj is null | undefined {
     return obj === null || obj === undefined;
   }
 
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  public static toSnakeCase(obj: Object): Record<string, unknown> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public static toSnakeCase(obj: Record<string, any>): Record<string, unknown> {
     const result: Record<string, unknown> = {};
     for (const [key, value] of Object.entries(obj)) {
       const newKey = StringHelper.toSnakeCase(key);
       if (Array.isArray(value)) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         result[newKey] = value.reduce((v) => this.toSnakeCase(v));
       } else if (typeof value === 'object' && value !== null) {
         result[newKey] = this.toSnakeCase(value);
       } else {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         result[newKey] = value;
       }
     }
@@ -45,9 +45,13 @@ export class ObjectHelper {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public static parseDateProperties<T>(obj: T, props: string[]): T {
+  public static parseDateProperties<T extends Record<string, any>>(
+    obj: T,
+    props: string[]
+  ): T {
     props.forEach((prop) => {
-      (obj as any)[prop] = new Date((obj as any)[prop]);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (obj as any)[prop] = new Date(obj[prop]);
     });
     return obj;
   }

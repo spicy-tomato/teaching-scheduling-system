@@ -20,10 +20,8 @@ export class FilterByInputPipe implements PipeTransform {
 
   /** GETTERS */
   private get query(): string {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return this.accessor.nativeFocusableElement
-      ? // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
-        (this.accessor.nativeFocusableElement as any).value || ''
+      ? (this.accessor.nativeFocusableElement as HTMLInputElement).value || ''
       : '';
   }
 
