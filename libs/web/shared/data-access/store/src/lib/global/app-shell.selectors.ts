@@ -1,6 +1,5 @@
 import { createFeatureSelector, createSelector, select } from '@ngrx/store';
 import { ObservableHelper } from '@teaching-scheduling-system/core/utils/helpers';
-import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import { pipe } from 'rxjs';
 import { appShellFeatureKey } from './app-shell.reducer';
 import { AppShellState } from './app-shell.state';
@@ -79,6 +78,6 @@ export const selectShowLoader = createSelector(
     if (showLoader !== null) {
       return showLoader;
     }
-    return status === EApiStatus.loading || status === EApiStatus.unknown;
+    return status === 'loading' || status === 'unknown';
   }
 );

@@ -5,7 +5,6 @@
     class="tui-form__row"
   >
     Nhập phòng
-    <input tuiTextfield />
     <tui-data-list-wrapper *tuiDataList [items]="rooms | filterByInput">
     </tui-data-list-wrapper>
   </tui-combo-box>
@@ -13,7 +12,7 @@
     <button
       tuiButton
       (click)="confirm()"
-      [showLoader]="status === EApiStatus.loading"
+      [showLoader]="status === 'loading'"
       [disabled]="form.invalid"
       type="submit"
       class="tui-form__button"
@@ -23,7 +22,7 @@
     <button
       tuiButton
       (click)="cancel()"
-      [disabled]="status === EApiStatus.loading"
+      [disabled]="status === 'loading'"
       type="button"
       appearance="secondary"
       class="tui-form__button"

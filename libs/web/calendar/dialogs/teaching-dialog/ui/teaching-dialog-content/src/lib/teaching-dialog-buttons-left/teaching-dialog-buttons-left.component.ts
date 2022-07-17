@@ -79,8 +79,6 @@ export class TeachingDialogButtonsLeftComponent implements OnInit {
   public readonly submitRequestChange$ = new Subject<void>();
   public readonly submitChange$ = new Subject<void>();
 
-  public readonly EApiStatus = EApiStatus;
-
   /** GETTERS */
   public get requestControl(): FormGroup {
     return this.form.controls['request'] as FormGroup;

@@ -37,9 +37,7 @@
       <div class="flex flex-col items-center mt-4 sm:mt-7">
         <button
           *ngrxLet="status$ as status"
-          [showLoader]="
-            status === EApiStatus.loading || status === EApiStatus.successful
-          "
+          [showLoader]="status === 'loading' || status === 'successful'"
           [disabled]="loginForm.invalid"
           tuiButton
           size="m"

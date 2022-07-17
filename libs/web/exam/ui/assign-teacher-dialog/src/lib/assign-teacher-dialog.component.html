@@ -4,7 +4,7 @@
     <tui-multi-select
       *ngrxLet="teachers$ as teachers"
       [formControl]="formControl"
-      [readOnly]="status === EApiStatus.loading"
+      [readOnly]="status === 'loading'"
       [editable]="false"
       [tuiTextfieldCleaner]="true"
       tuiDropdownDirection="bottom"
@@ -21,7 +21,7 @@
     <button
       tuiButton
       (click)="onConfirm()"
-      [showLoader]="status === EApiStatus.loading"
+      [showLoader]="status === 'loading'"
       class="tui-form__button"
     >
       Xác nhận
@@ -29,7 +29,7 @@
     <button
       tuiButton
       (click)="onCancel()"
-      [disabled]="status === EApiStatus.loading"
+      [disabled]="status === 'loading'"
       class="tui-form__button"
     >
       Hủy

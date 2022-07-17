@@ -9,7 +9,7 @@
       <button
         tuiButton
         *ngrxLet="someAssignedCheckedChange$ as someAssignedCheckedChange"
-        [showLoader]="unassignStatus === EApiStatus.loading"
+        [showLoader]="unassignStatus === 'loading'"
         [disabled]="!someAssignedCheckedChange"
         (click)="unassign()"
         appearance="accent"

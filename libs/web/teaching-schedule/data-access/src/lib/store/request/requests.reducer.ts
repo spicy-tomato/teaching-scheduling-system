@@ -1,5 +1,4 @@
 import { createReducer, on } from '@ngrx/store';
-import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import { ChangeSchedule } from '@teaching-scheduling-system/web/shared/data-access/models';
 import * as ApiAction from './requests.api.actions';
 import * as PageAction from './requests.page.actions';
@@ -7,7 +6,7 @@ import { TeachingScheduleRequestState } from './requests.state';
 
 const initialState: TeachingScheduleRequestState = {
   status: {
-    data: EApiStatus.unknown,
+    data: 'unknown',
     queue: [],
   },
   options: {
@@ -35,7 +34,7 @@ export const teachingScheduleRequestReducer = createReducer(
     ...state,
     query,
     exportIndexes: [],
-    status: { ...state.status, data: EApiStatus.loading },
+    status: { ...state.status, data: 'loading' },
   })),
   on(PageAction.teachingScheduleRequestChangeOptions, (state, { options }) => ({
     ...state,
@@ -81,12 +80,12 @@ export const teachingScheduleRequestReducer = createReducer(
       ...state,
       changeSchedules: changeSchedulesResponse.data,
       total: changeSchedulesResponse.meta.last_page,
-      status: { ...state.status, data: EApiStatus.successful },
+      status: { ...state.status, data: 'successful' },
     };
   }),
   on(ApiAction.filterFailure, (state) => ({
     ...state,
-    status: { ...state.status, data: EApiStatus.systemError },
+    status: { ...state.status, data: 'systemError' },
   })),
   on(ApiAction.acceptSuccessful, (state, { id, status }) => {
     return {
@@ -112,7 +111,7 @@ export const teachingScheduleRequestReducer = createReducer(
   }),
   on(ApiAction.acceptFailure, (state) => ({
     ...state,
-    status: { ...state.status, accept: EApiStatus.systemError },
+    status: { ...state.status, accept: 'systemError' },
   })),
   on(ApiAction.setRoomSuccessful, (state, { id, room }) => {
     return {
@@ -140,7 +139,7 @@ export const teachingScheduleRequestReducer = createReducer(
   }),
   on(ApiAction.setRoomFailure, (state) => ({
     ...state,
-    status: { ...state.status, accept: EApiStatus.systemError },
+    status: { ...state.status, accept: 'systemError' },
   })),
   on(ApiAction.denySuccessful, (state, { id, status }) => {
     return {
@@ -160,7 +159,7 @@ export const teachingScheduleRequestReducer = createReducer(
   }),
   on(ApiAction.denyFailure, (state) => ({
     ...state,
-    status: { ...state.status, deny: EApiStatus.systemError },
+    status: { ...state.status, deny: 'systemError' },
   })),
   on(ApiAction.cancelSuccessful, (state, { id }) => {
     return {
@@ -180,6 +179,6 @@ export const teachingScheduleRequestReducer = createReducer(
   }),
   on(ApiAction.cancelFailure, (state) => ({
     ...state,
-    status: { ...state.status, deny: EApiStatus.systemError },
+    status: { ...state.status, deny: 'systemError' },
   }))
 );

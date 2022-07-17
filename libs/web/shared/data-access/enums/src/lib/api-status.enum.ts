@@ -1,7 +1,6 @@
-export enum EApiStatus {
-  unknown,
-  clientError,
-  systemError,
-  loading,
-  successful,
-}
+export type EApiStatus =
+  | 'unknown'
+  | 'clientError'
+  | 'systemError'
+  | 'loading'
+  | 'successful';

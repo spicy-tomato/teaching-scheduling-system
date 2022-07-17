@@ -44,7 +44,6 @@ export class ChangePasswordComponent {
   public form!: FormGroup;
   public status$: Observable<EApiStatus>;
   public nameTitle$!: Observable<string>;
-  public readonly EApiStatus = EApiStatus;
 
   /** GETTERS */
   private get password(): FormControl {
@@ -135,7 +134,7 @@ export class ChangePasswordComponent {
     this.status$
       .pipe(
         tap((status) => {
-          if (status === EApiStatus.successful) {
+          if (status === 'successful') {
             this.form.reset();
             this.form.markAsPristine();
             this.alertService
@@ -143,7 +142,7 @@ export class ChangePasswordComponent {
                 status: TuiNotification.Success,
               })
               .subscribe();
-          } else if (status === EApiStatus.clientError) {
+          } else if (status === 'clientError') {
             this.password.setErrors(
               new TuiValidationError(
                 'Mật khẩu không chính xác, vui lòng thử lại!'

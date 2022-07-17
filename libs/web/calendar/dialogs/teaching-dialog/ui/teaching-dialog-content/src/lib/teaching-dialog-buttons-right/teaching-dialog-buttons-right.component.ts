@@ -44,8 +44,6 @@ export class TeachingDialogButtonsRightComponent implements OnInit {
   public readonly updateStatus$: Observable<EApiStatus>;
   public readonly requestingChangeSchedule$: Observable<boolean>;
 
-  public readonly EApiStatus = EApiStatus;
-
   /** GETTERS */
   private get noteControl(): FormControl {
     return (this.form.controls['change'] as FormGroup).controls[

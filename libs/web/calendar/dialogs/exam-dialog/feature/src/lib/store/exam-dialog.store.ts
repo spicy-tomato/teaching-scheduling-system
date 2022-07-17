@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { Store } from '@ngrx/store';
-import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import {
   GenericState,
   Note,
@@ -29,7 +28,7 @@ export class ExamDialogStore extends ComponentStore<ExportDialogState> {
   /** EFFECTS */
   public readonly submit = this.effect<{ id: number; note: Note }>((params$) =>
     params$.pipe(
-      tap(() => this.patchState({ status: EApiStatus.loading, error: null })),
+      tap(() => this.patchState({ status: 'loading', error: null })),
       withLatestFrom(this.teacher$),
       switchMap(([params, teacher]) =>
         this.examService
@@ -38,12 +37,12 @@ export class ExamDialogStore extends ComponentStore<ExportDialogState> {
             tapResponse(
               () =>
                 this.patchState({
-                  status: EApiStatus.successful,
+                  status: 'successful',
                   error: '',
                 }),
               (error) =>
                 this.patchState({
-                  status: EApiStatus.systemError,
+                  status: 'systemError',
                   error: error as string,
                 })
             )

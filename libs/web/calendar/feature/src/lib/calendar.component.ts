@@ -46,7 +46,6 @@ import {
 } from '@teaching-scheduling-system/web/calendar/data-access';
 import { ExamDialogComponent } from '@teaching-scheduling-system/web/calendar/dialogs/exam-dialog/feature';
 import { TeachingDialogComponent } from '@teaching-scheduling-system/web/calendar/dialogs/teaching-dialog/feature';
-import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import {
   EjsScheduleModel,
   FixedScheduleModel,
@@ -155,11 +154,9 @@ export class CalendarComponent implements OnInit, AfterViewInit {
   public onEventClick(): void {
     const popup = document.querySelector('.e-quick-popup-wrapper');
     if (!popup) return;
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const popupInstance = (popup as any).ej2_instances[0];
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     popupInstance.open = () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
       popupInstance.refreshPosition();
     };
   }
@@ -301,7 +298,7 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     this.store
       .select(calendarSelectStatus)
       .pipe(
-        map((status) => status === EApiStatus.loading),
+        map((status) => status === 'loading'),
         distinctUntilChanged(),
         tap((isLoading) => {
           if (isLoading) {

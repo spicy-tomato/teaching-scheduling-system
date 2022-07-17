@@ -47,7 +47,6 @@ import {
 })
 export class AssignRightTitleComponent {
   /** PUBLIC PROPERTIES */
-  public readonly EApiStatus = EApiStatus;
   public assigned$: Observable<ModuleClass[]>;
   public someAssignedCheckedChange$!: Observable<boolean>;
   public unassignStatus$: Observable<EApiStatus>;

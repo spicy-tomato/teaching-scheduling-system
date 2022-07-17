@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import {
   GenericState,
   UpdateExamModel,
@@ -21,18 +20,18 @@ export class AssignEditExamDialogStore extends ComponentStore<AssignEditExamDial
     body: UpdateExamModel;
   }>((params$) =>
     params$.pipe(
-      tap(() => this.patchState({ status: EApiStatus.loading, error: null })),
+      tap(() => this.patchState({ status: 'loading', error: null })),
       switchMap((params) =>
         this.examService.update(params.examId, params.body).pipe(
           tapResponse(
             () =>
               this.patchState({
-                status: EApiStatus.successful,
+                status: 'successful',
                 error: '',
               }),
             (error) =>
               this.patchState({
-                status: EApiStatus.systemError,
+                status: 'systemError',
                 error: error as string,
               })
           )

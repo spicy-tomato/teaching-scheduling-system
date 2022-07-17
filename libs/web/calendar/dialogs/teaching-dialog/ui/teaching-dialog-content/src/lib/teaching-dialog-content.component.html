@@ -45,8 +45,8 @@
     <div></div>
     <div class="tui-form__row">
       <tui-text-area
+        [tuiTextfieldMaxLength]="noteMaxLength"
         formControlName="note"
-        [tuiTextfieldMaxLength]="CoreConstant.NOTE_MAX_LENGTH"
       >
         Ghi chú
       </tui-text-area>
@@ -64,7 +64,7 @@
       <div *ngIf="schedule" class="tui-form__row">
         <ng-container *ngrxLet="cancelStatus$ as cancelStatus">
           <tui-loader
-            [showLoader]="cancelStatus === EApiStatus.loading"
+            [showLoader]="cancelStatus === 'loading'"
             [overlay]="true"
           >
             <tui-notification status="info">

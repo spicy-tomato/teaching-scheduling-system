@@ -1,6 +1,6 @@
 <tui-loader
   *ngrxLet="status$ as status"
-  [showLoader]="status.data === EApiStatus.loading"
+  [showLoader]="status.data === 'loading'"
   [overlay]="true"
 >
   <form [formGroup]="form">

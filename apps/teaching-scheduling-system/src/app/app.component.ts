@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { NavigationEnd, Router } from '@angular/router';
 import { TuiDestroyService } from '@taiga-ui/cdk';
-import { filter, map, takeUntil } from 'rxjs';
+import { filter, takeUntil, tap } from 'rxjs';
 
 @Component({
   selector: 'tss-root',
@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
     this.router.events
       .pipe(
         filter((e) => e instanceof NavigationEnd),
-        map(() => {
+        tap(() => {
           let route = this.router.routerState.root;
           while (route.firstChild) {
             route = route.firstChild;
