@@ -34,7 +34,6 @@ export class LoginEffects {
             return ApiAction.loginSuccessful({ teacher });
           }),
           catchError((e) =>
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             e.status === 401
               ? of(ApiAction.wrongPassword())
               : of(ApiAction.systemError())

@@ -9,7 +9,6 @@
       phoneMaskAfterCountryCode="###-###-#####"
     >
       <ng-container *ngTemplateOutlet="content"></ng-container>
-      <input tuiTextfield />
     </tui-input-phone>
     <tui-input
       *ngSwitchDefault
@@ -18,7 +17,6 @@
       (ngModelChange)="onValueChange($event)"
     >
       <ng-container *ngTemplateOutlet="content"></ng-container>
-      <input tuiTextfield />
     </tui-input>
   </ng-container>
   <button

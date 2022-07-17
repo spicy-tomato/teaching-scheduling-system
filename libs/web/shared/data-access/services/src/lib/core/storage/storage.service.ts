@@ -15,10 +15,11 @@ export abstract class StorageService {
     }
 
     const item = this.getItem(key);
-    this.subjects.get(key)?.next(item);
-
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return this.subjects.get(key)!;
+    const subject = this.subjects.get(key)!;
+    subject.next(item);
+
+    return subject;
   }
 
   public getItem(key: string): Nullable<string> {
