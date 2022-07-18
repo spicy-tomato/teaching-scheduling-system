@@ -32,9 +32,7 @@ export class ClassService {
   ): Observable<ResponseModel<ModuleClass[]>> {
     return this.http.get<ResponseModel<ModuleClass[]>>(
       this.url + `departments/${department}/module-classes`,
-      {
-        params: { ...params },
-      }
+      { params }
     );
   }
 
