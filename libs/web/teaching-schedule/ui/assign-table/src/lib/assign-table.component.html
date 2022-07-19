@@ -31,7 +31,7 @@
           <ng-container formArrayName="checkbox">
             <tr *tuiRow="let item of data; index as i" tuiTr>
               <td *tuiCell="'checkbox'" tuiTd>
-                <div class="flex justify-center">
+                <div class="h-full center-flex">
                   <tui-checkbox
                     [formControlName]="i"
                     (ngModelChange)="onModelChange(i, $event)"
