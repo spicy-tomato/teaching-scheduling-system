@@ -15,9 +15,9 @@
       [workHours]="{ highlight: false }"
       [timeScale]="{ slotCount: 1 }"
       [showHeaderBar]="false"
+      (created)="onCreated()"
       (renderCell)="onRenderCell($event)"
       (eventRendered)="onEventRendered($event)"
-      (eventClick)="onEventClick()"
       (popupOpen)="onPopupOpen($event)"
       (navigating)="onNavigating($event)"
       currentView="Month"
@@ -74,7 +74,7 @@
       </ng-template>
 
       <!-- Footer Template -->
-      <ng-template #quickInfoTemplatesFooter let-data> </ng-template>
+      <ng-template #quickInfoTemplatesFooter></ng-template>
     </ejs-schedule>
   </ng-container>
 </div>
