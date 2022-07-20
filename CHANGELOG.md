@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.8.2](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.8.1...v3.8.2) (2022-07-19)
+
+
+### Bug Fixes
+
+* checkboxes in table should be centered on vertical axis ([48752cd](https://github.com/annguyen-it/teaching-scheduling-system/commit/48752cd2e9e0a78626c684715411c7f023930c1d))
+* **dep:** update taiga-ui to 2.46.0 ([9ec251f](https://github.com/annguyen-it/teaching-scheduling-system/commit/9ec251ff9a07700cfba541a4cdfdc86ef89eaa8d))
+
 ### [3.8.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.8.0...v3.8.1) (2022-07-17)
 
 
