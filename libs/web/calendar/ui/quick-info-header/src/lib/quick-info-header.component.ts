@@ -5,6 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
+import { tuiButtonOptionsProvider } from '@taiga-ui/core';
 import { EjsScheduleModel } from '@teaching-scheduling-system/web/shared/data-access/models';
 
 @Component({
@@ -12,6 +13,13 @@ import { EjsScheduleModel } from '@teaching-scheduling-system/web/shared/data-ac
   templateUrl: './quick-info-header.component.html',
   styleUrls: ['./quick-info-header.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    tuiButtonOptionsProvider({
+      appearance: 'flat-white',
+      shape: 'rounded',
+      size: 's',
+    }),
+  ],
 })
 export class QuickInfoHeaderComponent {
   /** INPUT */
