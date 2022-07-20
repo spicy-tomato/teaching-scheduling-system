@@ -7,22 +7,18 @@
   >
     <div class="e-header-icon-wrapper">
       <button
+        tuiIconButton
         (click)="showEditorDialog.next()"
-        class="e-edit e-btn e-lib e-flat e-round e-small e-icon-btn edit-info"
+        icon="tuiIconInfo"
         title="Xem thông tin"
-      >
-        <i
-          class="mdi mdi-information-outline"
-          style="color: white; font-size: 18px"
-        ></i>
-      </button>
+        class="mr-0.5"
+      ></button>
       <button
+        tuiIconButton
         (click)="closeDialog.next()"
-        class="e-close e-btn e-lib e-flat e-round e-small e-icon-btn"
+        icon="tuiIconClose"
         title="Đóng"
-      >
-        <span class="e-btn-icon e-icons e-close-icon"></span>
-      </button>
+      ></button>
     </div>
     <div class="e-subject-wrap">
       <div [title]="data.Subject" class="e-subject e-text-ellipsis">
