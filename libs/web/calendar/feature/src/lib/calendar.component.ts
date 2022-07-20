@@ -31,7 +31,6 @@ import {
   ObservableHelper,
   ScheduleHelper,
 } from '@teaching-scheduling-system/core/utils/helpers';
-import { ChangeScheduleHistoryComponent } from '@teaching-scheduling-system/web-shared-ui-dialog';
 import {
   calendarChangeScheduleInDialog,
   calendarLoad,
@@ -81,7 +80,6 @@ export class CalendarComponent implements OnInit, AfterViewInit {
 
   /** PUBLIC PROPERTIES */
   public readonly eventSettings$ = new BehaviorSubject<EventSettingsModel>({});
-  public readonly peopleMatcher = (item: string): boolean => item !== 'self';
 
   /** PRIVATE PROPERTIES */
   private readonly staticSettings: EventSettingsModel = {
@@ -166,7 +164,7 @@ export class CalendarComponent implements OnInit, AfterViewInit {
 
     if (args.type === 'Editor') {
       args.cancel = true;
-      this.showEditorDialog(args.data as EjsScheduleModel);
+      this.onShowEditorDialog(args.data as EjsScheduleModel);
     }
   }
 
@@ -195,36 +193,21 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public onCloseClick(): void {
-    this.scheduleComponent.quickPopup.quickPopupHide();
-  }
-
-  public showEditorDialog(data: EjsScheduleModel): void {
+  public onShowEditorDialog(data: EjsScheduleModel): void {
     switch (data.Type) {
       case 'exam':
         this.showExamEditorDialog(data);
-        this.onCloseClick();
+        this.onCloseEditorDialog();
         break;
       case 'study':
         this.showStudyEditorDialog(data);
-        this.onCloseClick();
+        this.onCloseEditorDialog();
         break;
     }
   }
 
-  public onShowHistory(fixedSchedules: FixedScheduleModel[]): void {
-    this.dialogService
-      .open(
-        new PolymorpheusComponent(
-          ChangeScheduleHistoryComponent,
-          this.injector
-        ),
-        {
-          data: fixedSchedules,
-          label: 'Lịch sử thay đổi giờ giảng',
-        }
-      )
-      .subscribe();
+  public onCloseEditorDialog(): void {
+    this.scheduleComponent.quickPopup.quickPopupHide();
   }
 
   /** PRIVATE METHODS */
