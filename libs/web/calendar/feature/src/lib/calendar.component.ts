@@ -149,7 +149,7 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public onEventClick(): void {
+  public onCreated(): void {
     const popup = document.querySelector('.e-quick-popup-wrapper');
     if (!popup) return;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -207,7 +207,8 @@ export class CalendarComponent implements OnInit, AfterViewInit {
   }
 
   public onCloseEditorDialog(): void {
-    this.scheduleComponent.quickPopup.quickPopupHide();
+    this.scheduleComponent.closeQuickInfoPopup();
+
   }
 
   /** PRIVATE METHODS */
