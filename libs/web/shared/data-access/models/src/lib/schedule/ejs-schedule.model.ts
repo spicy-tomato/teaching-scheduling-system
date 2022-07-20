@@ -83,4 +83,9 @@ export interface EjsScheduleModel {
    * Fixed schedule
    */
   FixedSchedules?: FixedScheduleModel[];
+
+  /**
+   * elementType
+   */
+  elementType?: 'cell' | 'event';
 }

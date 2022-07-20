@@ -80,6 +80,11 @@ module.exports = {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%,-50%)',
+        },
+        '.center-flex': {
+          display: 'flex',
+          'justify-content': 'center',
+          'align-items': 'center',
         }
       });
     })
