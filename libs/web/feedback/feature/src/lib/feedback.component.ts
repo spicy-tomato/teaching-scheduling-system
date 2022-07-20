@@ -32,9 +32,7 @@ export class FeedbackComponent {
   public readonly tools = EditorConstant.tools;
   public readonly status$ = this.store.status$;
   public readonly disabledItemHandler: TuiBooleanHandler<FeedbackItem> = () =>
-    true;
-  public readonly enabledItemHandler: TuiBooleanHandler<FeedbackItem> = () =>
-    false;
+    this.form.disabled;
 
   /** CONSTRUCTOR */
   constructor(
@@ -82,6 +80,7 @@ export class FeedbackComponent {
         tap((status) => {
           if (status === 'successful') {
             this.openSuccessDialog();
+            this.form.disable();
           }
         }),
         takeUntil(this.destroy$)
