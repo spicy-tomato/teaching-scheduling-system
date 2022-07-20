@@ -102,6 +102,12 @@
       "@teaching-scheduling-system/web/calendar/ui/navigate": [
         "libs/web/calendar/ui/navigate/src/index.ts"
       ],
+      "@teaching-scheduling-system/web/calendar/ui/quick-info-content": [
+        "libs/web/calendar/ui/quick-info-content/src/index.ts"
+      ],
+      "@teaching-scheduling-system/web/calendar/ui/quick-info-header": [
+        "libs/web/calendar/ui/quick-info-header/src/index.ts"
+      ],
       "@teaching-scheduling-system/web/config/data-access": [
         "libs/web/config/data-access/src/index.ts"
       ],
