@@ -16,7 +16,7 @@ import { SuccessDialogComponent } from '@teaching-scheduling-system/web/feedback
 import { Feedback } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { SuccessDialogHeaderComponent } from '@teaching-scheduling-system/web/shared/ui/components/success-dialog-header';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { takeUntil, tap } from 'rxjs';
+import { Observable, takeUntil, tap } from 'rxjs';
 import { FeedbackStore } from './store';
 
 @Component({
@@ -31,8 +31,9 @@ export class FeedbackComponent {
   public readonly topics = FeedbackConstant.items;
   public readonly tools = EditorConstant.tools;
   public readonly status$ = this.store.status$;
-  public readonly disabledItemHandler: TuiBooleanHandler<FeedbackItem> = () =>
-    this.form.disabled;
+
+  /** PRIVATE PROPERTIES */
+  private successDialog$!: Observable<void>;
 
   /** CONSTRUCTOR */
   constructor(
@@ -42,6 +43,7 @@ export class FeedbackComponent {
     @Inject(Injector) private readonly injector: Injector,
     private readonly destroy$: TuiDestroyService
   ) {
+    this.initDialog();
     this.handleSubmit();
     this.initForm();
   }
@@ -64,7 +66,22 @@ export class FeedbackComponent {
     }
   }
 
+  public readonly disabledItemHandler: TuiBooleanHandler<FeedbackItem> = () =>
+    this.form.disabled;
+
   /** PRIVATE METHODS */
+  private initDialog(): void {
+    this.successDialog$ = this.dialogService.open(
+      new PolymorpheusComponent(SuccessDialogComponent, this.injector),
+      {
+        header: new PolymorpheusComponent(
+          SuccessDialogHeaderComponent,
+          this.injector
+        ),
+      }
+    );
+  }
+
   private initForm(): void {
     this.form = this.fb.group({
       title: [''],
@@ -89,13 +106,6 @@ export class FeedbackComponent {
   }
 
   private openSuccessDialog(): void {
-    this.dialogService
-      .open(new PolymorpheusComponent(SuccessDialogComponent, this.injector), {
-        header: new PolymorpheusComponent(
-          SuccessDialogHeaderComponent,
-          this.injector
-        ),
-      })
-      .subscribe();
+    this.successDialog$.subscribe();
   }
 }

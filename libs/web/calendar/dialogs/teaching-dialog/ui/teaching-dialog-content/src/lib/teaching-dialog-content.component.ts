@@ -57,13 +57,9 @@ import {
 } from '@teaching-scheduling-system/web/shared/data-access/store';
 import { sameGroupStaticValueValidator } from '@teaching-scheduling-system/web/shared/utils/validators';
 import {
-  EMPTY,
   filter,
-  iif,
   map,
-  mergeMap,
   Observable,
-  of,
   Subject,
   takeUntil,
   tap,
@@ -404,28 +400,20 @@ export class TeachingDialogContentComponent implements OnInit {
   private handleJustRequestedScheduleChange(): void {
     this.justRequestedSchedule$
       .pipe(
-        mergeMap((request) =>
-          iif(
-            () => request !== null,
-            of(request).pipe(
-              ObservableHelper.filterNullish(),
-              tap((request) => {
-                const controls = this.form.controls;
-                this.updateSchedule.emit({
-                  ...request,
-                  idSchedule: this.schedule.Id,
-                  oldDate: (
-                    controls['start'].value as [TuiDay, TuiTime]
-                  )[0].getFormattedDay('YMD', '-'),
-                  oldIdRoom: controls['location'].value as string,
-                  oldShift: this.schedule.Shift ?? '1',
-                  isNew: true,
-                });
-              })
-            ),
-            EMPTY
-          )
-        ),
+        ObservableHelper.filterNullish(),
+        tap((request) => {
+          const controls = this.form.controls;
+          this.updateSchedule.emit({
+            ...request,
+            idSchedule: this.schedule.Id,
+            oldDate: (
+              controls['start'].value as [TuiDay, TuiTime]
+            )[0].getFormattedDay('YMD', '-'),
+            oldIdRoom: controls['location'].value as string,
+            oldShift: this.schedule.Shift ?? '1',
+            isNew: true,
+          });
+        }),
         takeUntil(this.destroy$)
       )
       .subscribe();
@@ -435,8 +423,7 @@ export class TeachingDialogContentComponent implements OnInit {
     this.cancelRequest$
       .pipe(
         withLatestFrom(this.nameTitle$),
-        map(({ 1: title }) => title),
-        tap((title) => {
+        tap(({ 1: title }) => {
           this.dialogService
             .showConfirmDialog({
               header: `${title} có chắc chắn muốn hủy yêu cầu này không?`,
