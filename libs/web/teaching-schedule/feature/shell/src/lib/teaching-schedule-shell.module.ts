@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
       {
         path: 'assign',
         data: {
+          title: 'Danh sách phân giảng',
           breadcrumb: 'Phân giảng',
         },
         loadChildren: async () =>
@@ -33,6 +34,7 @@ import { RouterModule } from '@angular/router';
       {
         path: 'import',
         data: {
+          title: 'Nhập dữ liệu phân giảng',
           breadcrumb: 'Nhập dữ liệu',
         },
         loadChildren: async () =>

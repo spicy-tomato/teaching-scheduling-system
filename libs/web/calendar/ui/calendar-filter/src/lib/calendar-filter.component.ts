@@ -6,13 +6,19 @@ import {
   Output,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { TuiActiveZoneDirective, TuiDestroyService } from '@taiga-ui/cdk';
+import {
+  TuiActiveZoneDirective,
+  TuiContextWithImplicit,
+  TuiDestroyService,
+  tuiPure,
+  TuiStringHandler,
+} from '@taiga-ui/cdk';
 import { tuiButtonOptionsProvider } from '@taiga-ui/core';
 import { PermissionConstant } from '@teaching-scheduling-system/core/data-access/constants';
 import {
   calendarChangeSelectingState,
   calendarFilter,
-  calendarSelectFilter,
+  calendarSelectCurrentFilter,
   calendarSelectModules,
   calendarSelectTeachers,
   CalendarState,
@@ -21,7 +27,7 @@ import {
   CalendarFilter,
   SimpleModel,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
-import { combineLatest, Observable, Subject, take, takeUntil, tap } from 'rxjs';
+import { Observable, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'tss-calendar-filter',
@@ -50,20 +56,13 @@ export class CalendarFilterComponent {
   public readonly teachers$: Observable<SimpleModel[]>;
   public readonly modules$: Observable<string[]>;
 
-  public showDepartmentSchedule = false;
-  public filteredTeachers: SimpleModel[] = [];
-  public filteredModules: string[] = [];
-
-  /** PRIVATE PROPERTIES */
-  private readonly reset$ = new Subject<void>();
-
   /** CONSTRUCTOR */
   constructor(
     private readonly store: Store<CalendarState>,
     private readonly destroy$: TuiDestroyService
   ) {
     this.filter$ = store
-      .select(calendarSelectFilter)
+      .select(calendarSelectCurrentFilter)
       .pipe(takeUntil(this.destroy$));
     this.teachers$ = store
       .select(calendarSelectTeachers)
@@ -71,69 +70,31 @@ export class CalendarFilterComponent {
     this.modules$ = store
       .select(calendarSelectModules)
       .pipe(takeUntil(this.destroy$));
-
-    this.bindForm();
-    this.handleReset();
   }
 
   /** PUBLIC METHODS */
-  public onSelectingDepartmentChange(showDepartmentSchedule: boolean): void {
-    this.store.dispatch(
-      calendarChangeSelectingState({ changes: { showDepartmentSchedule } })
+  @tuiPure
+  public stringifyTeacher(
+    items: SimpleModel[]
+  ): TuiStringHandler<TuiContextWithImplicit<string[]>> {
+    const map = new Map(
+      items.map(({ id, name }) => [id, name] as [string, string])
     );
-    this.filteredModules = [];
+
+    return ({ $implicit }) =>
+      $implicit.length === 0
+        ? 'Tất cả'
+        : $implicit.length === 1
+        ? map.get($implicit[0]) || ''
+        : `${$implicit.length} giảng viên`;
   }
 
-  public onSelectingTeachersChange(teachers: SimpleModel[]): void {
-    this.store.dispatch(
-      calendarChangeSelectingState({ changes: { teachers } })
-    );
-    this.filteredModules = [];
+  public onChangeSelectingState(changes: Partial<CalendarFilter>): void {
+    this.store.dispatch(calendarChangeSelectingState({ changes }));
   }
 
   public onFilter(): void {
-    this.store.dispatch(
-      calendarFilter({
-        filter: {
-          showDepartmentSchedule: this.showDepartmentSchedule,
-          teachers: this.filteredTeachers,
-          modules: this.filteredModules,
-        },
-      })
-    );
+    this.store.dispatch(calendarFilter());
     this.filter.emit();
-  }
-
-  public reset(): void {
-    this.reset$.next();
-  }
-
-  /** PRIVATE METHODS */
-  private bindForm(): void {
-    this.filter$
-      .pipe(
-        tap((filter) => {
-          this.showDepartmentSchedule = filter.showDepartmentSchedule;
-          this.filteredTeachers = filter.teachers;
-          this.filteredModules = filter.modules;
-        }),
-        take(1)
-      )
-      .subscribe();
-  }
-
-  private handleReset(): void {
-    combineLatest([this.filter$, this.reset$])
-      .pipe(
-        tap(([filter]) => this.resetFilter(filter)),
-        takeUntil(this.destroy$)
-      )
-      .subscribe();
-  }
-
-  public resetFilter(filter: CalendarFilter): void {
-    this.showDepartmentSchedule = filter.showDepartmentSchedule;
-    this.filteredTeachers = filter.teachers;
-    this.filteredModules = filter.modules;
   }
 }

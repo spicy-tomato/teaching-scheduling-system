@@ -16,6 +16,13 @@
   @apply bg-[#ffedd8];
 }
 
+/* Uppercase for date header if use touch device */
+.e-schedule.e-device .e-month-view .e-date-header-wrap td,
+.e-schedule.e-device .e-timeline-view .e-date-header-wrap td,
+.e-schedule.e-device .e-timeline-month-view .e-date-header-wrap td {
+  @apply uppercase;
+}
+
 /* Paint background for today cell header */
 .cell-dimension.e-schedule
   .e-table-wrap:not(.e-month-view)
@@ -38,6 +45,12 @@
 .e-schedule .e-month-view .e-current-date .e-date-header > div,
 .e-schedule .e-month-agenda-view .e-current-date .e-date-header > div {
   @apply w-fit mx-auto bg-[#e3165b] rounded-full;
+}
+
+/* Disable date navigate when click date header in month view */
+.e-schedule .e-month-view .e-date-header:hover {
+  @apply cursor-default;
+  text-decoration: none !important;
 }
 
 /* Align text for cell header in month view */

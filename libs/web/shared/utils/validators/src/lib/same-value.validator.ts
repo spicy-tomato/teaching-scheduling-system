@@ -10,7 +10,6 @@ export function sameGroupStaticValueValidator(
     let same = true;
 
     for (const key of Object.keys(obj)) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const controlValue = control.get(key)?.value;
       const value = obj[key];
       if (

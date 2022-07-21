@@ -22,7 +22,6 @@ import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
 import { requiredFactory } from '@teaching-scheduling-system/core/utils/factories';
 import { StringHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import { SuccessDialogComponent } from '@teaching-scheduling-system/web/reset-password/ui/success-dialog';
-import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import { ResetPassword } from '@teaching-scheduling-system/web/shared/data-access/models';
 import {
   AppShellState,
@@ -32,7 +31,14 @@ import { SuccessDialogHeaderComponent } from '@teaching-scheduling-system/web/sh
 import { differentControlValueValidator } from '@teaching-scheduling-system/web/shared/utils/validators';
 import { navbarOptionsProvider } from '@teaching-scheduling-system/web/shell/ui/navbar';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { filter, Subject, takeUntil, tap, withLatestFrom } from 'rxjs';
+import {
+  filter,
+  Observable,
+  Subject,
+  takeUntil,
+  tap,
+  withLatestFrom,
+} from 'rxjs';
 import { ConfirmStore } from './store/confirm.store';
 
 @Component({
@@ -56,8 +62,10 @@ export class ConfirmComponent {
   /** PUBLIC PROPERTIES */
   public readonly status$ = this.store.status$;
   public readonly reset$ = new Subject<void>();
-  public readonly EApiStatus = EApiStatus;
   public form!: FormGroup;
+
+  /** PRIVATE PROPERTIES */
+  private successDialog$!: Observable<void>;
 
   /** GETTERS */
   public get newPassword(): FormControl {
@@ -79,6 +87,7 @@ export class ConfirmComponent {
     private readonly appShellStore: Store<AppShellState>,
     private readonly destroy$: TuiDestroyService
   ) {
+    this.initDialog();
     this.handleVerifyDone();
     this.verifyToken();
     this.handleReset();
@@ -115,6 +124,18 @@ export class ConfirmComponent {
   }
 
   /** PRIVATE METHODS */
+  private initDialog(): void {
+    this.successDialog$ = this.tuiDialogService.open(
+      new PolymorpheusComponent(SuccessDialogComponent, this.injector),
+      {
+        header: new PolymorpheusComponent(
+          SuccessDialogHeaderComponent,
+          this.injector
+        ),
+      }
+    );
+  }
+
   private verifyToken(): void {
     this.route.queryParamMap
       .pipe(
@@ -132,7 +153,7 @@ export class ConfirmComponent {
   private handleVerifyDone(): void {
     this.store.validateStatus$
       .pipe(
-        filter((status) => status === EApiStatus.successful),
+        filter((status) => status === 'successful'),
         tap(() => this.appShellStore.dispatch(setLoader({ showLoader: false })))
       )
       .subscribe();
@@ -142,6 +163,7 @@ export class ConfirmComponent {
     this.form = this.fb.group({
       newPassword: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required],
+      token: ['', Validators.required],
     });
 
     this.confirmPassword.addValidators(
@@ -157,23 +179,11 @@ export class ConfirmComponent {
     this.status$
       .pipe(
         tap((status) => {
-          if (status === EApiStatus.successful) {
-            this.tuiDialogService
-              .open(
-                new PolymorpheusComponent(
-                  SuccessDialogComponent,
-                  this.injector
-                ),
-                {
-                  header: new PolymorpheusComponent(
-                    SuccessDialogHeaderComponent,
-                    this.injector
-                  ),
-                }
-              )
+          if (status === 'successful') {
+            this.successDialog$
               .pipe(tap(() => this.form.disable()))
               .subscribe();
-          } else if (status === EApiStatus.systemError) {
+          } else if (status === 'systemError') {
             this.alertService
               .open('Mã đặt lại mật khẩu đã hết hạn', {
                 label: 'Đã có lỗi xảy ra',

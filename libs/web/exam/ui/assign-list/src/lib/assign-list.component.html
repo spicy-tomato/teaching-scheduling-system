@@ -1,6 +1,6 @@
 <tui-loader
   *ngrxLet="status$ as status"
-  [showLoader]="status === EApiStatus.loading"
+  [showLoader]="status === 'loading'"
   [overlay]="true"
 >
   <table tuiTable [columns]="columns">
@@ -27,58 +27,46 @@
         *ngIf="data && data.length > 0; else noData"
         [data]="data"
       >
-        <tr *tuiRow="let item of data; index as i" tuiTr>
-          <td *tuiCell="'index'" tuiTd>
+        <tr tuiTr *tuiRow="let item of data; index as i">
+          <td tuiTd *tuiCell="'index'">
             <div class="text-center">
               {{ i + 1 }}
             </div>
           </td>
-          <td *tuiCell="'name'" tuiTd>{{ item.name }}</td>
-          <td *tuiCell="'method'" tuiTd>{{ item.method }}</td>
-          <td *tuiCell="'credit'" tuiTd>
-            <div class="text-center">
-              {{ item.credit }}
-            </div>
+          <td tuiTd *tuiCell="'name'">{{ item.name }}</td>
+          <td tuiTd *tuiCell="'method'">{{ item.method }}</td>
+          <td tuiTd *tuiCell="'credit'" class="!text-center">
+            {{ item.credit }}
           </td>
-          <td *tuiCell="'date'" tuiTd>
-            <div class="text-center">
-              {{ item.startAt | date: 'dd-MM-Y' }}
-            </div>
+          <td tuiTd *tuiCell="'date'" class="!text-center">
+            {{ item.startAt | date: 'dd-MM-Y' }}
           </td>
-          <td *tuiCell="'time'" tuiTd>
-            <div class="text-center">
-              {{ item.startAt | date: 'HH:mm' }} -
-              {{ item.endAt | date: 'HH:mm' }}
-            </div>
+          <td tuiTd *tuiCell="'time'" class="!text-center">
+            {{ item.startAt | date: 'HH:mm' }} -
+            {{ item.endAt | date: 'HH:mm' }}
           </td>
-          <td *tuiCell="'room'" tuiTd>
-            <div class="text-center">
-              {{ item.idRoom }}
-            </div>
+          <td tuiTd *tuiCell="'room'" class="!text-center">
+            {{ item.idRoom }}
           </td>
-          <td *tuiCell="'numberOfStudents'" tuiTd>
-            <div class="text-center">
-              {{ item.numberOfStudents }}
-            </div>
+          <td tuiTd *tuiCell="'numberOfStudents'" class="!text-center">
+            {{ item.numberOfStudents }}
           </td>
-          <td *tuiCell="'teacher'" tuiTd>
+          <td tuiTd *tuiCell="'teacher'">
             {{ item.teachers.join(', ') }}
           </td>
-          <td *tuiCell="'action'" tuiTd>
-            <div class="text-center">
-              <button
-                tuiIconButton
-                (click)="onOpenAssignDialog(item)"
-                icon="tuiIconCompanyLarge"
-                tuiHint="Phân lịch thi"
-              ></button>
-              <button
-                tuiIconButton
-                (click)="onOpenEditDialog(item)"
-                icon="tuiIconEditLarge"
-                tuiHint="Chỉnh sửa"
-              ></button>
-            </div>
+          <td tuiTd *tuiCell="'action'" class="!text-center">
+            <button
+              tuiIconButton
+              (click)="onOpenAssignDialog(item)"
+              icon="tuiIconCompanyLarge"
+              tuiHint="Phân lịch thi"
+            ></button>
+            <button
+              tuiIconButton
+              (click)="onOpenEditDialog(item)"
+              icon="tuiIconEditLarge"
+              tuiHint="Chỉnh sửa"
+            ></button>
           </td>
         </tr>
       </tbody>

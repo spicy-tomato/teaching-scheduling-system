@@ -6,25 +6,22 @@
     >
       Chọn ngày học
     </tui-input-date>
-    <tui-field-error formControlName="date"></tui-field-error>
+    <tui-error
+      [error]="[] | tuiFieldError | async"
+      formControlName="date"
+    ></tui-error>
   </div>
   <div class="tui-form__row">
     <tui-select
-      (ngModelChange)="changeRequest$.next()"
       [valueContent]="shiftSelectContent"
+      (ngModelChange)="changeRequest$.next()"
       formControlName="shift"
     >
       Chọn ca học:
       <tui-data-list *tuiDataList>
-        <tui-opt-group>
-          <button
-            tuiOption
-            *ngFor="let shiftKey of shiftKeys"
-            [value]="shiftKey"
-          >
-            {{ shiftKey | shift }}
-          </button>
-        </tui-opt-group>
+        <button tuiOption *ngFor="let shiftKey of shiftKeys" [value]="shiftKey">
+          {{ shiftKey | shift }}
+        </button>
       </tui-data-list>
     </tui-select>
   </div>
@@ -46,14 +43,16 @@
       class="tui-form__row"
     >
       Nhập phòng
-      <input tuiTextfield />
       <tui-data-list-wrapper
         *tuiDataList
         [items]="rooms | tuiFilter: roomMatcher | filterByInput"
       >
       </tui-data-list-wrapper>
     </tui-combo-box>
-    <tui-field-error formControlName="room"></tui-field-error>
+    <tui-error
+      [error]="[] | tuiFieldError | async"
+      formControlName="room"
+    ></tui-error>
   </div>
   <div *ngIf="isPersonal" class="tui-form__row">
     <tui-text-area
@@ -76,5 +75,5 @@
 </ng-template>
 
 <ng-template #studyTypeContent let-online>
-  {{ online ? "Phòng học trực tuyến" : "Học trực tiếp" }}
+  {{ online ? 'Phòng học trực tuyến' : 'Học trực tiếp' }}
 </ng-template>

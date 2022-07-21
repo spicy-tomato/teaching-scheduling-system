@@ -1,7 +1,7 @@
 <tui-scrollbar class="max-h-full">
   <tui-loader
     *ngrxLet="filterStatus$ as filterStatus"
-    [showLoader]="filterStatus === EApiStatus.loading"
+    [showLoader]="filterStatus === 'loading'"
     [overlay]="true"
   >
     <table tuiTable [columns]="columns">
@@ -29,38 +29,30 @@
       <tbody tuiTbody *ngIf="data.length > 0; else noData" [data]="data">
         <form [formGroup]="form">
           <ng-container formArrayName="checkbox">
-            <tr *tuiRow="let item of data; index as i" tuiTr>
-              <td *tuiCell="'checkbox'" tuiTd>
-                <div class="flex justify-center">
+            <tr tuiTr *tuiRow="let item of data; index as i">
+              <td tuiTd *tuiCell="'checkbox'">
+                <div class="h-full center-flex">
                   <tui-checkbox
                     [formControlName]="i"
                     (ngModelChange)="onModelChange(i, $event)"
                   ></tui-checkbox>
                 </div>
               </td>
-              <td *tuiCell="'index'" tuiTd>
-                <div class="text-center">
-                  {{ i + 1 }}
-                </div>
+              <td tuiTd *tuiCell="'index'" class="!text-center">
+                {{ i + 1 }}
               </td>
-              <td *tuiCell="'name'" tuiTd>{{ item.name }}</td>
-              <td *tuiCell="'credit'" tuiTd>
-                <div class="text-center">
-                  {{ item.credit }}
-                </div>
+              <td tuiTd *tuiCell="'name'">{{ item.name }}</td>
+              <td tuiTd *tuiCell="'credit'" class="!text-center">
+                {{ item.credit }}
               </td>
-              <td *tuiCell="'numberReality'" tuiTd>
-                <div class="text-center">
-                  {{ item.numberReality }}
-                </div>
+              <td tuiTd *tuiCell="'numberReality'" class="!text-center">
+                {{ item.numberReality }}
               </td>
-              <td *tuiCell="'type'" tuiTd>
-                <div class="text-center">
-                  {{ item.type !== undefined ? classType[item.type] : '' }}
-                </div>
+              <td tuiTd *tuiCell="'type'" class="!text-center">
+                {{ item.type !== undefined ? classType[item.type] : '' }}
               </td>
               <ng-container *ngIf="!excludeTeacher">
-                <td *tuiCell="'teacher'" tuiTd>
+                <td tuiTd *tuiCell="'teacher'">
                   {{ item.teacher }}
                 </td>
               </ng-container>

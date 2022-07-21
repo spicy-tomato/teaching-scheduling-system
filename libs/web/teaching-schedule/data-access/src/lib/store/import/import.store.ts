@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { Store } from '@ngrx/store';
 import { ObservableHelper } from '@teaching-scheduling-system/core/utils/helpers';
-import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import { GenericState } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { ImportService } from '@teaching-scheduling-system/web/shared/data-access/services';
 import {
@@ -27,7 +26,7 @@ export class StatisticImportScheduleStore extends ComponentStore<TeachingSchedul
     studySession: string;
   }>((params$) =>
     params$.pipe(
-      tap(() => this.patchState({ status: EApiStatus.loading, error: null })),
+      tap(() => this.patchState({ status: 'loading', error: null })),
       withLatestFrom(this.department$),
       mergeMap(([{ file, studySession }, department]) =>
         this.importService
@@ -36,12 +35,12 @@ export class StatisticImportScheduleStore extends ComponentStore<TeachingSchedul
             tapResponse(
               () =>
                 this.patchState({
-                  status: EApiStatus.successful,
+                  status: 'successful',
                   error: '',
                 }),
               (error) =>
                 this.patchState({
-                  status: EApiStatus.clientError,
+                  status: 'clientError',
                   error: error as string,
                 })
             )

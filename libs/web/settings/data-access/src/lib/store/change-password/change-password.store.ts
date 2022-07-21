@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { Store } from '@ngrx/store';
-import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import {
   ChangePassword,
   GenericState,
@@ -24,19 +23,19 @@ export class SettingsChangePasswordStore extends ComponentStore<ExamState> {
   /** EFFECTS */
   public readonly change = this.effect<{ form: ChangePassword }>((params$) =>
     params$.pipe(
-      tap(() => this.patchState({ status: EApiStatus.loading, error: null })),
+      tap(() => this.patchState({ status: 'loading', error: null })),
       withLatestFrom(this.teacher$),
       switchMap(([params, teacher]) =>
         this.userService.changePassword(teacher.uuidAccount, params.form).pipe(
           tapResponse(
             () =>
               this.patchState({
-                status: EApiStatus.successful,
+                status: 'successful',
                 error: '',
               }),
             (error) =>
               this.patchState({
-                status: EApiStatus.clientError,
+                status: 'clientError',
                 error: error as string,
               })
           )

@@ -362,8 +362,6 @@ function calculateFetchRange(
   const end = TuiDay.fromUtcNativeDate(last);
   const rangeList = fetchedDateRanges.slice();
 
-  // debugger;
-
   if (rangeList.length === 0) {
     const range = new TuiDayRange(start, end);
     return {
@@ -381,8 +379,7 @@ function calculateFetchRange(
     };
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  if (start.dayAfter(ArrayHelper.lastItem(rangeList)!.to)) {
+  if (start.dayAfter(ArrayHelper.lastItemTruthy(rangeList).to)) {
     const range = new TuiDayRange(start, end);
     rangeList.push(range);
     return {

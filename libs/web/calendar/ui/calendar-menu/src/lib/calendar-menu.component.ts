@@ -63,8 +63,7 @@ export class CalendarMenuComponent {
       this.viewList.map(({ id, name }) => [id, name] as [View, string])
     );
 
-    return ({ $implicit }: TuiContextWithImplicit<View>) =>
-      map.get($implicit) || '';
+    return ({ $implicit }) => map.get($implicit) || '';
   }
 
   public toggleRightMenu(open: boolean): void {

@@ -1,7 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { TuiMonth } from '@taiga-ui/cdk';
 import { ArrayHelper } from '@teaching-scheduling-system/core/utils/helpers';
-import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import {
   EjsScheduleModel,
   StudyScheduleModel,
@@ -11,16 +10,16 @@ import * as ApiAction from './calendar.api.actions';
 import * as PageAction from './calendar.page.actions';
 
 const initialState: CalendarState = {
-  status: EApiStatus.unknown,
+  status: 'unknown',
   filter: {
     active: {
       showDepartmentSchedule: false,
-      teachers: [],
+      teacherIds: [],
       modules: [],
     },
     selecting: {
       showDepartmentSchedule: false,
-      teachers: [],
+      teacherIds: [],
       modules: [],
     },
   },
@@ -48,7 +47,7 @@ export const calendarReducer = createReducer(
   on(PageAction.calendarReset, () => initialState),
   on(PageAction.calendarLoad, (state) => ({
     ...state,
-    status: EApiStatus.loading,
+    status: 'loading',
   })),
   on(ApiAction.changeMonth, (state, { month, date: selectedDate }) => ({
     ...state,
@@ -59,11 +58,18 @@ export const calendarReducer = createReducer(
     ...state,
     view,
   })),
-  on(PageAction.calendarFilter, (state, { filter }) => ({
+  on(PageAction.calendarFilter, (state) => ({
     ...state,
     filter: {
       ...state.filter,
-      active: filter,
+      active: { ...state.filter.selecting },
+    },
+  })),
+  on(PageAction.calendarResetFilter, (state) => ({
+    ...state,
+    filter: {
+      ...state.filter,
+      selecting: { ...state.filter.active },
     },
   })),
   on(PageAction.calendarChangeSelectingState, (state, { changes }) => ({
@@ -73,6 +79,7 @@ export const calendarReducer = createReducer(
       selecting: {
         ...state.filter.selecting,
         ...changes,
+        modules: changes.modules || [],
       },
     },
   })),
@@ -118,7 +125,7 @@ export const calendarReducer = createReducer(
           ),
         },
       },
-      status: EApiStatus.successful,
+      status: 'successful',
     };
   }),
   on(ApiAction.loadPersonalExamSuccessful, (state, { schedules, ranges }) => {
@@ -136,7 +143,7 @@ export const calendarReducer = createReducer(
           ),
         },
       },
-      status: EApiStatus.successful,
+      status: 'successful',
     };
   }),
   on(
@@ -156,7 +163,7 @@ export const calendarReducer = createReducer(
             ),
           },
         },
-        status: EApiStatus.successful,
+        status: 'successful',
       };
     }
   ),
@@ -175,7 +182,7 @@ export const calendarReducer = createReducer(
           ),
         },
       },
-      status: EApiStatus.successful,
+      status: 'successful',
     };
   })
 );

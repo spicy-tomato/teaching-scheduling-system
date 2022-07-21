@@ -9,7 +9,7 @@
 <ng-template #action>
   <tui-loader
     *ngrxLet="requesting$ as requesting"
-    [showLoader]="requesting.includes(item.id)"
+    [showLoader]="requesting | array: 'includes':item.id"
     [overlay]="true"
     class="w-full"
   >

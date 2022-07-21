@@ -15,7 +15,6 @@ import {
 } from '@teaching-scheduling-system/core/data-access/constants';
 import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
 import { ChangeStatusHelper } from '@teaching-scheduling-system/core/utils/helpers';
-import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import {
   ChangeSchedule,
   ChangeScheduleOptions,
@@ -83,7 +82,6 @@ export class ChangeRequestListComponent {
 
   public readonly isPersonal: boolean;
 
-  public readonly EApiStatus = EApiStatus;
   public readonly itemsPerPage = TableConstant.REQUESTS_LIST_ITEMS_PER_PAGE;
   public readonly PermissionConstant = PermissionConstant;
 

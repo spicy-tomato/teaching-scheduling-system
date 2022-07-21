@@ -31,7 +31,6 @@ import {
   ObservableHelper,
   ScheduleHelper,
 } from '@teaching-scheduling-system/core/utils/helpers';
-import { ChangeScheduleHistoryComponent } from '@teaching-scheduling-system/web-shared-ui-dialog';
 import {
   calendarChangeScheduleInDialog,
   calendarLoad,
@@ -46,7 +45,6 @@ import {
 } from '@teaching-scheduling-system/web/calendar/data-access';
 import { ExamDialogComponent } from '@teaching-scheduling-system/web/calendar/dialogs/exam-dialog/feature';
 import { TeachingDialogComponent } from '@teaching-scheduling-system/web/calendar/dialogs/teaching-dialog/feature';
-import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import {
   EjsScheduleModel,
   FixedScheduleModel,
@@ -82,7 +80,6 @@ export class CalendarComponent implements OnInit, AfterViewInit {
 
   /** PUBLIC PROPERTIES */
   public readonly eventSettings$ = new BehaviorSubject<EventSettingsModel>({});
-  public readonly peopleMatcher = (item: string): boolean => item !== 'self';
 
   /** PRIVATE PROPERTIES */
   private readonly staticSettings: EventSettingsModel = {
@@ -122,6 +119,10 @@ export class CalendarComponent implements OnInit, AfterViewInit {
         args.element.classList.add('today');
       }
     }
+    // Disable date navigate when click date header in month view
+    if (args.elementType === 'monthCells') {
+      args.element.children[0].classList.remove('e-navigate');
+    }
   }
 
   public onEventRendered(args: EventRenderedArgs): void {
@@ -148,14 +149,12 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public onEventClick(): void {
+  public onCreated(): void {
     const popup = document.querySelector('.e-quick-popup-wrapper');
     if (!popup) return;
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const popupInstance = (popup as any).ej2_instances[0];
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     popupInstance.open = () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
       popupInstance.refreshPosition();
     };
   }
@@ -165,7 +164,7 @@ export class CalendarComponent implements OnInit, AfterViewInit {
 
     if (args.type === 'Editor') {
       args.cancel = true;
-      this.showEditorDialog(args.data as EjsScheduleModel);
+      this.onShowEditorDialog(args.data as EjsScheduleModel);
     }
   }
 
@@ -194,36 +193,22 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public onCloseClick(): void {
-    this.scheduleComponent.quickPopup.quickPopupHide();
-  }
-
-  public showEditorDialog(data: EjsScheduleModel): void {
+  public onShowEditorDialog(data: EjsScheduleModel): void {
     switch (data.Type) {
       case 'exam':
         this.showExamEditorDialog(data);
-        this.onCloseClick();
+        this.onCloseEditorDialog();
         break;
       case 'study':
         this.showStudyEditorDialog(data);
-        this.onCloseClick();
+        this.onCloseEditorDialog();
         break;
     }
   }
 
-  public onShowHistory(fixedSchedules: FixedScheduleModel[]): void {
-    this.dialogService
-      .open(
-        new PolymorpheusComponent(
-          ChangeScheduleHistoryComponent,
-          this.injector
-        ),
-        {
-          data: fixedSchedules,
-          label: 'Lịch sử thay đổi giờ giảng',
-        }
-      )
-      .subscribe();
+  public onCloseEditorDialog(): void {
+    this.scheduleComponent.closeQuickInfoPopup();
+
   }
 
   /** PRIVATE METHODS */
@@ -297,7 +282,7 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     this.store
       .select(calendarSelectStatus)
       .pipe(
-        map((status) => status === EApiStatus.loading),
+        map((status) => status === 'loading'),
         distinctUntilChanged(),
         tap((isLoading) => {
           if (isLoading) {

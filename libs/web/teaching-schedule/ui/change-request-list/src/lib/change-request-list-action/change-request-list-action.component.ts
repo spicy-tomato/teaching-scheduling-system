@@ -81,6 +81,7 @@ export class ChangeRequestListActionComponent {
   private readonly nameTitle$: Observable<string>;
   private readonly permissions$: Observable<number[]>;
   private readonly teacher$: Observable<Nullable<Teacher>>;
+  private dialog$!: Observable<void>;
 
   /** CONSTRUCTOR */
   constructor(
@@ -112,24 +113,27 @@ export class ChangeRequestListActionComponent {
       .select(selectNameTitle)
       .pipe(takeUntil(this.destroy$));
 
+    this.initDialog();
     this.handleExport();
     this.handleCancel();
   }
 
   /** PUBLIC METHODS */
   public showDetails(): void {
-    this.tuiDialogService
-      .open(
-        new PolymorpheusComponent(ChangeDetailsDialogComponent, this.injector),
-        {
-          data: this.schedule,
-          label: 'Chi tiết yêu cầu thay đổi giờ giảng',
-        }
-      )
-      .subscribe();
+    this.dialog$.subscribe();
   }
 
   /** PRIVATE METHODS */
+  private initDialog(): void {
+    this.dialog$ = this.tuiDialogService.open(
+      new PolymorpheusComponent(ChangeDetailsDialogComponent, this.injector),
+      {
+        data: this.schedule,
+        label: 'Chi tiết yêu cầu thay đổi giờ giảng',
+      }
+    );
+  }
+
   private handleExport(): void {
     this.export$
       .pipe(

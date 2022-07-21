@@ -56,7 +56,6 @@ export class AssignLeftTitleComponent {
   public someNeedAssignCheckedChange$!: Observable<boolean>;
   public selectedNeedAssign$: Observable<ModuleClass[]>;
   public assignStatus$: Observable<EApiStatus>;
-  public readonly EApiStatus = EApiStatus;
 
   /** PRIVATE PROPERTIES */
   private assignedTeacher$: Observable<Nullable<SimpleModel>>;

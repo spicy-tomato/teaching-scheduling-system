@@ -1,6 +1,6 @@
 <tui-loader
   *ngrxLet="status$ as status"
-  [showLoader]="status.data === EApiStatus.loading"
+  [showLoader]="status.data === 'loading'"
   [overlay]="true"
 >
   <form [formGroup]="form">
@@ -24,16 +24,16 @@
             >
               <tui-checkbox
                 [(ngModel)]="checkAll"
-                (ngModelChange)="onCheckAllChange()"
                 [ngModelOptions]="{ standalone: true }"
+                (ngModelChange)="onCheckAllChange()"
               ></tui-checkbox>
             </th>
             <th
               tuiTh
               *tuiHead="'index'"
               [sorter]="null"
-              rowspan="2"
               [class.!border-r-0]="!isPersonal"
+              rowspan="2"
             >
               STT
             </th>
@@ -41,9 +41,9 @@
               tuiTh
               *tuiHead="'teacher'"
               [sorter]="null"
+              #teacherCol
               rowspan="2"
               class="sticky left-0 !border-solid !border-l !border-l-tui-base-04 !z-30"
-              #teacherCol
             >
               Giảng viên
             </th>
@@ -92,25 +92,30 @@
           *ngrxLet="changeSchedules$ as changeSchedules"
           [data]="changeSchedules"
         >
-          <tr *tuiRow="let item of changeSchedules; index as i" tuiTr>
+          <tr tuiTr *tuiRow="let item of changeSchedules; index as i">
             <td
               tuiTd
               *tuiCell="'checkbox'"
               formArrayName="checkbox"
               class="!sticky !z-10"
             >
-              <div class="flex justify-center">
+              <div class="h-full center-flex">
                 <tui-checkbox
                   *ngIf="checkableIndexes | array: 'includes':i"
-                  (ngModelChange)="onCheckChange($event)"
                   [formControlName]="i"
+                  (ngModelChange)="onCheckChange($event)"
                 ></tui-checkbox>
               </div>
             </td>
-            <td tuiTd *tuiCell="'index'" [class.!border-r-0]="!isPersonal">
-              <div *ngrxLet="page$ as page" class="text-center">
+            <td
+              tuiTd
+              *tuiCell="'index'"
+              [class.!border-r-0]="!isPersonal"
+              class="!text-center"
+            >
+              <ng-container *ngrxLet="page$ as page">
                 {{ itemsPerPage * (page - 1) + i + 1 }}
-              </div>
+              </ng-container>
             </td>
             <td
               tuiTd
@@ -127,44 +132,36 @@
             >
               {{ item.moduleClassName }}
             </td>
-            <td tuiTd *tuiCell="'oldDate'">
-              <div class="text-center">
-                {{ item.oldSchedule.date | date: 'dd-MM-Y' }}
-              </div>
+            <td tuiTd *tuiCell="'oldDate'" class="!text-center">
+              {{ item.oldSchedule.date | date: 'dd-MM-Y' }}
             </td>
-            <td tuiTd *tuiCell="'newDate'">
-              <div
-                [ngClass]="{ 'text-tui-text-link font-bold': item.intendTime }"
-                class="text-center"
-              >
-                {{
-                  item.intendTime || (item.newSchedule.date | date: 'dd-MM-Y')
-                }}
-              </div>
+            <td
+              tuiTd
+              *tuiCell="'newDate'"
+              [ngClass]="{ 'text-tui-text-link !font-bold': item.intendTime }"
+              class="!text-center"
+            >
+              {{ item.intendTime || (item.newSchedule.date | date: 'dd-MM-Y') }}
             </td>
-            <td tuiTd *tuiCell="'oldShift'">
-              <div class="text-center">
-                {{ item.oldSchedule.shift }}
-              </div>
+            <td tuiTd *tuiCell="'oldShift'" class="!text-center">
+              {{ item.oldSchedule.shift }}
             </td>
-            <td tuiTd *tuiCell="'newShift'">
-              <div class="text-center">
-                {{ item.newSchedule.shift }}
-              </div>
+            <td tuiTd *tuiCell="'newShift'" class="!text-center">
+              {{ item.newSchedule.shift }}
             </td>
             <td tuiTd *tuiCell="'reason'">
               <div class="w-[250px] whitespace-normal">
                 {{ item.reason }}
               </div>
             </td>
-            <td tuiTd *tuiCell="'createdAt'">
-              <div *ngrxLet="options$ as options" class="text-center">
+            <td tuiTd *tuiCell="'createdAt'" class="!text-center">
+              <ng-container *ngrxLet="options$ as options">
                 {{
                   options.showTime
                     ? (item.createdAt | date: 'dd-MM-Y, HH:mm')
                     : (item.createdAt | date: 'dd-MM-Y')
                 }}
-              </div>
+              </ng-container>
             </td>
             <td tuiTd *tuiCell="'status'">
               <ng-container *ngrxLet="permissions$ as permissions">

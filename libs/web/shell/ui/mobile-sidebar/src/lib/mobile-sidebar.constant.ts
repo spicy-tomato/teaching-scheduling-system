@@ -19,7 +19,7 @@ export class MobileSidebarConstant {
           icon: 'mdi mdi-format-list-bulleted',
         },
         {
-          name: 'Import',
+          name: 'Nhập dữ liệu',
           routerLink: '/schedule/import',
           icon: 'tuiIconUpload',
           useTaigaIcon: true,
@@ -33,7 +33,7 @@ export class MobileSidebarConstant {
       subItems: [
         {
           name: 'Phân lịch thi',
-          routerLink: '/exam',
+          routerLink: '/exam/assign',
           icon: 'mdi mdi-format-list-bulleted',
         },
         // {
@@ -48,6 +48,7 @@ export class MobileSidebarConstant {
       name: 'Thay đổi lịch',
       icon: 'fas fa-exchange-alt',
       routerLink: '/schedule/change',
+      exactRouterLink: false,
     },
     // {
     //   name: 'Thông báo',

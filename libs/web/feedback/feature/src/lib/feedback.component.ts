@@ -13,11 +13,10 @@ import {
   FeedbackItem,
 } from '@teaching-scheduling-system/core/data-access/constants';
 import { SuccessDialogComponent } from '@teaching-scheduling-system/web/feedback/ui/success-dialog';
-import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import { Feedback } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { SuccessDialogHeaderComponent } from '@teaching-scheduling-system/web/shared/ui/components/success-dialog-header';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { takeUntil, tap } from 'rxjs';
+import { Observable, takeUntil, tap } from 'rxjs';
 import { FeedbackStore } from './store';
 
 @Component({
@@ -29,12 +28,12 @@ import { FeedbackStore } from './store';
 export class FeedbackComponent {
   /** PUBLIC PROPERTIES */
   public form!: FormGroup;
-  public readonly EApiStatus = EApiStatus;
   public readonly topics = FeedbackConstant.items;
   public readonly tools = EditorConstant.tools;
   public readonly status$ = this.store.status$;
-  public readonly disabledItemHandler: TuiBooleanHandler<FeedbackItem> = () => true;
-  public readonly enabledItemHandler: TuiBooleanHandler<FeedbackItem> = () => false;
+
+  /** PRIVATE PROPERTIES */
+  private successDialog$!: Observable<void>;
 
   /** CONSTRUCTOR */
   constructor(
@@ -44,6 +43,7 @@ export class FeedbackComponent {
     @Inject(Injector) private readonly injector: Injector,
     private readonly destroy$: TuiDestroyService
   ) {
+    this.initDialog();
     this.handleSubmit();
     this.initForm();
   }
@@ -66,7 +66,22 @@ export class FeedbackComponent {
     }
   }
 
+  public readonly disabledItemHandler: TuiBooleanHandler<FeedbackItem> = () =>
+    this.form.disabled;
+
   /** PRIVATE METHODS */
+  private initDialog(): void {
+    this.successDialog$ = this.dialogService.open(
+      new PolymorpheusComponent(SuccessDialogComponent, this.injector),
+      {
+        header: new PolymorpheusComponent(
+          SuccessDialogHeaderComponent,
+          this.injector
+        ),
+      }
+    );
+  }
+
   private initForm(): void {
     this.form = this.fb.group({
       title: [''],
@@ -80,8 +95,9 @@ export class FeedbackComponent {
     this.status$
       .pipe(
         tap((status) => {
-          if (status === EApiStatus.successful) {
+          if (status === 'successful') {
             this.openSuccessDialog();
+            this.form.disable();
           }
         }),
         takeUntil(this.destroy$)
@@ -90,13 +106,6 @@ export class FeedbackComponent {
   }
 
   private openSuccessDialog(): void {
-    this.dialogService
-      .open(new PolymorpheusComponent(SuccessDialogComponent, this.injector), {
-        header: new PolymorpheusComponent(
-          SuccessDialogHeaderComponent,
-          this.injector
-        ),
-      })
-      .subscribe();
+    this.successDialog$.subscribe();
   }
 }

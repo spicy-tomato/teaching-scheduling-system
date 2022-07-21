@@ -8,6 +8,9 @@ import { RouterModule } from '@angular/router';
     RouterModule.forChild([
       {
         path: 'request',
+        data: {
+          title: 'Đặt lại mật khẩu',
+        },
         loadChildren: async () =>
           (
             await import(
@@ -17,6 +20,9 @@ import { RouterModule } from '@angular/router';
       },
       {
         path: '',
+        data: {
+          title: 'Đặt lại mật khẩu',
+        },
         pathMatch: 'full',
         loadChildren: async () =>
           (

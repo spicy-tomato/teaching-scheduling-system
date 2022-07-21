@@ -76,7 +76,6 @@ export class AssignFilterComponent implements OnInit {
 
   public readonly termsInYear = CoreConstant.TERMS_IN_YEAR;
   public readonly batchesInTerm = CoreConstant.BATCHES_IN_TERM;
-  public readonly EApiStatus = EApiStatus;
   public readonly filter$ = new Subject<void>();
   public readonly trainingTypeChange$ = new Subject<number>();
 
@@ -181,8 +180,7 @@ export class AssignFilterComponent implements OnInit {
       items.map(({ id, name }) => [id, name] as [number, string])
     );
 
-    return ({ $implicit }: TuiContextWithImplicit<number>) =>
-      map.get($implicit) || '';
+    return ({ $implicit }) => map.get($implicit) || '';
   }
 
   @tuiPure
@@ -193,8 +191,7 @@ export class AssignFilterComponent implements OnInit {
       items.map(({ id, name }) => [id, name] as [number, string])
     );
 
-    return ({ $implicit }: TuiContextWithImplicit<number>) =>
-      map.get($implicit) || '';
+    return ({ $implicit }) => map.get($implicit) || '';
   }
 
   @tuiPure
@@ -209,8 +206,7 @@ export class AssignFilterComponent implements OnInit {
       departmentList.map(({ id, name }) => [id, name] as [string, string])
     );
 
-    return ({ $implicit }: TuiContextWithImplicit<string>) =>
-      map.get($implicit) || '';
+    return ({ $implicit }) => map.get($implicit) || '';
   }
 
   /** PRIVATE METHODS */

@@ -90,7 +90,7 @@
     *ngrxLet="filterStatus$ as filterStatus"
     (click)="filter$.next()"
     [disabled]="!expanded"
-    [showLoader]="filterStatus === EApiStatus.loading"
+    [showLoader]="filterStatus === 'loading'"
     icon="tuiIconFilter"
     class="mr-3"
   >

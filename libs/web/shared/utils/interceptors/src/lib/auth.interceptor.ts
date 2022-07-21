@@ -43,7 +43,7 @@ export class AuthInterceptor implements HttpInterceptor {
               const token = error.headers.get('Authorization');
               if (token) {
                 this.accessTokenService.save(token);
-              } else if (!currentUrl.includes('/login')) {
+              } else if (!currentUrl.includes('login')) {
                 this.accessTokenService.clear();
                 this.appService.redirectToLogin(currentUrl);
               }

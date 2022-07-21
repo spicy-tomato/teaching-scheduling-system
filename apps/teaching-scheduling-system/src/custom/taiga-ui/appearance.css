@@ -53,3 +53,15 @@ tui-wrapper[data-appearance='negative'][data-state='pressed'] {
 tui-wrapper[data-appearance='negative'][data-state='disabled'] {
   @apply bg-[#eaecee];
 }
+
+/* Negative */
+tui-wrapper[data-appearance='flat-white'] {
+  @apply text-white;
+}
+tui-wrapper[data-appearance='flat-white'][data-state='hovered'],
+tui-wrapper[data-appearance='flat-white'][data-state='pressed'] {
+  @apply bg-[rgba(255,255,255,0.4)];
+}
+tui-wrapper[data-appearance='flat-white'][data-state='disabled'] {
+  @apply bg-[#eaecee];
+}

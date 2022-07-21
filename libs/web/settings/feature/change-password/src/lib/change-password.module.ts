@@ -10,6 +10,7 @@ import {
   TuiIslandModule,
 } from '@taiga-ui/kit';
 import { SettingsChangePasswordStore } from '@teaching-scheduling-system/web/settings/data-access';
+import { RecaptchaFormsModule, RecaptchaModule } from 'ng-recaptcha';
 import { ChangePasswordComponent } from './change-password.component';
 
 const NGRX = [ReactiveComponentModule];
@@ -26,6 +27,8 @@ const TAIGA_UI = [
     CommonModule,
     RouterModule.forChild([{ path: '', component: ChangePasswordComponent }]),
     ReactiveFormsModule,
+    RecaptchaModule,
+    RecaptchaFormsModule,
     ...NGRX,
     ...TAIGA_UI,
   ],

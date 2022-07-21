@@ -2,6 +2,10 @@ export class ArrayHelper {
   /** SEARCH */
   public static lastItem<T>(array: T[]): T | undefined {
     if (!array) return undefined;
+    return this.lastItemTruthy(array);
+  }
+
+  public static lastItemTruthy<T>(array: T[]): T {
     return array[array.length - 1];
   }
 
@@ -47,14 +51,16 @@ export class ArrayHelper {
     array.splice(index, 0, item);
   }
 
-  public static mergeWith<T>(prop: string, ...arrays: T[][]): T[] {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public static mergeWith<T extends Record<string, any>>(
+    prop: string,
+    ...arrays: T[][]
+  ): T[] {
     let result = arrays[0];
 
     for (let i = 1; i < arrays.length; i++) {
       result = result.concat(
-        arrays[i].filter(
-          (x) => !result.find((y) => (y as any)[prop] === (x as any)[prop])
-        )
+        arrays[i].filter((x) => !result.find((y) => y[prop] === x[prop]))
       );
     }
 
@@ -67,9 +73,8 @@ export class ArrayHelper {
   }
 
   /** CHECK TYPE */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public static isArray(a: any): boolean {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     return !!a && a.constructor === Array;
   }
 }

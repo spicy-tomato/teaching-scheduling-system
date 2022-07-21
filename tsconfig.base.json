@@ -25,8 +25,8 @@
       "@teaching-scheduling-system/core/directives/recreate-view-key": [
         "libs/core/directives/recreate-view-key/src/index.ts"
       ],
-      "@teaching-scheduling-system/core/directives/touch-screen-or": [
-        "libs/core/directives/touch-screen-or/src/index.ts"
+      "@teaching-scheduling-system/core/directives/touch-screen": [
+        "libs/core/directives/touch-screen/src/index.ts"
       ],
       "@teaching-scheduling-system/core/directives/var": [
         "libs/core/directives/var/src/index.ts"
@@ -102,6 +102,12 @@
       ],
       "@teaching-scheduling-system/web/calendar/ui/navigate": [
         "libs/web/calendar/ui/navigate/src/index.ts"
+      ],
+      "@teaching-scheduling-system/web/calendar/ui/quick-info-content": [
+        "libs/web/calendar/ui/quick-info-content/src/index.ts"
+      ],
+      "@teaching-scheduling-system/web/calendar/ui/quick-info-header": [
+        "libs/web/calendar/ui/quick-info-header/src/index.ts"
       ],
       "@teaching-scheduling-system/web/config/data-access": [
         "libs/web/config/data-access/src/index.ts"
@@ -193,6 +199,9 @@
       "@teaching-scheduling-system/web/shared/ui/components/confirm-input": [
         "libs/web/shared/ui/components/confirm-input/src/index.ts"
       ],
+      "@teaching-scheduling-system/web/shared/ui/components/input-date-range": [
+        "libs/web/shared/ui/components/input-date-range/src/index.ts"
+      ],
       "@teaching-scheduling-system/web/shared/ui/components/success-dialog-header": [
         "libs/web/shared/ui/components/success-dialog-header/src/index.ts"
       ],
@@ -201,6 +210,9 @@
       ],
       "@teaching-scheduling-system/web/shared/utils/guards": [
         "libs/web/shared/utils/guards/src/index.ts"
+      ],
+      "@teaching-scheduling-system/web/shared/utils/helpers": [
+        "libs/web/shared/utils/helpers/src/index.ts"
       ],
       "@teaching-scheduling-system/web/shared/utils/interceptors": [
         "libs/web/shared/utils/interceptors/src/index.ts"

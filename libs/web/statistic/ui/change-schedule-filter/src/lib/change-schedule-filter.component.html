@@ -1,22 +1,17 @@
 <form [formGroup]="form" class="b-form">
   <div class="tui-form__row tui-form__row_multi-fields">
     <div class="tui-form__multi-field">
-      <tui-input-date-range
-        [items]="items"
-        [min]="min"
+      <tss-input-date-range
         (ngModelChange)="statisticize()"
         formControlName="range"
-        class="ml-4"
-      >
-        Chọn khoảng thời gian
-      </tui-input-date-range>
+      ></tss-input-date-range>
     </div>
     <div class="tui-form__multi-field hidden md:block">
       <button
         tuiButton
         *ngrxLet="status$ as status"
         [tssChangeScheduleExport]="form.controls['range']"
-        [showLoader]="status === EApiStatus.loading"
+        [showLoader]="status === 'loading'"
         [disabled]="form.invalid"
         class="ml-5"
       >
@@ -33,7 +28,7 @@
     *ngrxLet="status$ as status"
     [tssChangeScheduleExport]="form.controls['range']"
     [icon]="IconConstant.exportVariantLarge"
-    [showLoader]="status === EApiStatus.loading"
+    [showLoader]="status === 'loading'"
     [disabled]="form.invalid"
     appearance="icon"
     size="m"

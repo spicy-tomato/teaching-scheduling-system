@@ -17,14 +17,19 @@ import {
 import {
   calendarChangeMonth,
   calendarChangeView,
+  calendarResetFilter,
   calendarSelectFilter,
   calendarSelectMonth,
   calendarSelectSelectedDate,
   calendarSelectView,
+  calendarSelectActiveTeachers,
   CalendarState,
 } from '@teaching-scheduling-system/web/calendar/data-access';
 import { CalendarFilterComponent } from '@teaching-scheduling-system/web/calendar/ui/calendar-filter';
-import { CalendarFilter } from '@teaching-scheduling-system/web/shared/data-access/models';
+import {
+  CalendarFilter,
+  SimpleModel,
+} from '@teaching-scheduling-system/web/shared/data-access/models';
 import { combineLatest, delay, map, Observable, takeUntil } from 'rxjs';
 
 @Component({
@@ -50,13 +55,14 @@ export class CalendarHeaderComponent implements AfterViewInit {
   public filter!: CalendarFilterComponent;
 
   /** PUBLIC PROPERTIES */
+  public openSelectMonth = false;
+  public openFilter = false;
   public view$: Observable<View>;
   public filter$: Observable<CalendarFilter>;
-  public openSelectMonth = false;
   public month$: Observable<TuiMonth>;
   public dateRange$!: Observable<string>;
-  public openFilter = false;
   public activeToday$!: Observable<boolean>;
+  public activeTeachers$!: Observable<SimpleModel[]>;
 
   /** PRIVATE PROPERTIES */
   private selectedDate$: Observable<Date>;
@@ -78,6 +84,9 @@ export class CalendarHeaderComponent implements AfterViewInit {
     this.view$ = store
       .select(calendarSelectView)
       .pipe(takeUntil(this.destroy$));
+    this.activeTeachers$ = store
+      .select(calendarSelectActiveTeachers)
+      .pipe(takeUntil(this.destroy$));
   }
 
   /** LIFECYCLE */
@@ -94,7 +103,7 @@ export class CalendarHeaderComponent implements AfterViewInit {
 
   public onFilterOpenChange(open: boolean): void {
     if (!open) {
-      this.filter?.reset();
+      this.store.dispatch(calendarResetFilter());
     }
   }
 

@@ -10,7 +10,7 @@ import {
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
 import { TuiDataListWrapperModule, TuiSelectModule } from '@taiga-ui/kit';
-import { TouchScreenOrDirectiveModule } from '@teaching-scheduling-system/core/directives/touch-screen-or';
+import { TouchScreenDirectiveModule } from '@teaching-scheduling-system/core/directives/touch-screen';
 import { CalendarFilterModule } from '@teaching-scheduling-system/web/calendar/ui/calendar-filter';
 import { NavigateDirectiveModule } from '@teaching-scheduling-system/web/calendar/ui/navigate';
 import { CalendarMenuComponent } from './calendar-menu.component';
@@ -32,7 +32,7 @@ const TAIGA_UI = [
     FormsModule,
     CalendarFilterModule,
     NavigateDirectiveModule,
-    TouchScreenOrDirectiveModule,
+    TouchScreenDirectiveModule,
     ...NGRX,
     ...TAIGA_UI,
   ],
