@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.8.4](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.8.3...v3.8.4) (2022-07-22)
+
+
+### Bug Fixes
+
+* **calendar:** status should be colored in change schedule history dialog ([986acf3](https://github.com/annguyen-it/teaching-scheduling-system/commit/986acf3b9832a1909da4804a00d6d855ddb7367f))
+* **dep:** update taiga-ui to 2.48.0 ([16f5312](https://github.com/annguyen-it/teaching-scheduling-system/commit/16f531215342ed95e49184e25a18b4511dd2b02f))
+* **teaching-schedule/request:** cannot open details dialog after refactor code ([82bb7ea](https://github.com/annguyen-it/teaching-scheduling-system/commit/82bb7ead219e31577bcff806cf9641faa47b04b3))
+
 ### [3.8.3](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.8.2...v3.8.3) (2022-07-20)
 
 
