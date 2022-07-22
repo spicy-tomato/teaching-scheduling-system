@@ -3,14 +3,14 @@
     class="item"
     *tssVar="!schedule.newDate && schedule.intendTime as isIntendTime"
   >
-    <h5>Ngày yêu cầu: {{ schedule.createdAt | date: "dd-MM-Y" }}</h5>
+    <h5>Ngày yêu cầu: {{ schedule.createdAt | date: 'dd-MM-Y' }}</h5>
     <div class="content flex justify-center mt-1">
       <table>
         <tr>
           <td>Ngày</td>
           <td>:</td>
           <td class="pl-2 text-center">
-            {{ schedule.oldDate | date: "dd-MM-Y" }}
+            {{ schedule.oldDate | date: 'dd-MM-Y' }}
           </td>
           <td>
             <tui-svg src="tuiIconChevronRight"></tui-svg>
@@ -19,7 +19,7 @@
             {{
               isIntendTime
                 ? schedule.intendTime
-                : (schedule.newDate | date: "dd-MM-Y")
+                : (schedule.newDate | date: 'dd-MM-Y')
             }}
           </td>
         </tr>
@@ -50,30 +50,10 @@
         <tr>
           <td>Trạng thái</td>
           <td>:</td>
-          <td [ngSwitch]="true" class="pl-2 text-center" colspan="3">
-            <ng-container *ngSwitchCase="schedule.status < 200">
-              Đã hủy
-            </ng-container>
-            <ng-container
-              *ngSwitchCase="200 <= schedule.status && schedule.status < 300"
-            >
-              Đang chờ phê duyệt
-            </ng-container>
-            <ng-container
-              *ngSwitchCase="300 <= schedule.status && schedule.status < 400"
-            >
-              Đã chấp nhận
-            </ng-container>
-            <ng-container
-              *ngSwitchCase="400 <= schedule.status && schedule.status < 500"
-            >
-              Trưởng bộ môn thay đổi
-            </ng-container>
-            <ng-container
-              *ngSwitchCase="500 <= schedule.status && schedule.status < 600"
-            >
-              Bị từ chối
-            </ng-container>
+          <td class="text-center font-semibold" colspan="3">
+            <div [ngClass]="schedule.status | statusColor" class="text-center">
+              {{ statusList[schedule.status].name }}
+            </div>
           </td>
         </tr>
       </table>

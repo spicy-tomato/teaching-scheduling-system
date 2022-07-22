@@ -20,6 +20,7 @@ import {
 import {
   TuiCheckboxLabeledModule,
   TuiDataListWrapperModule,
+  TuiDropdownHoverModule,
   TuiFieldErrorPipeModule,
   TuiInputDateModule,
   TuiInputDateTimeModule,
@@ -54,6 +55,7 @@ const TAIGA_UI = [
   TuiCheckboxLabeledModule,
   TuiDataListModule,
   TuiDataListWrapperModule,
+  TuiDropdownHoverModule,
   TuiErrorModule,
   TuiExpandModule,
   TuiFieldErrorPipeModule,

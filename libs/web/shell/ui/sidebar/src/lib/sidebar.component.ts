@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { TuiDestroyService } from '@taiga-ui/cdk';
 import { SidebarConstant } from '@teaching-scheduling-system/core/data-access/constants';
 
 @Component({
@@ -7,7 +6,6 @@ import { SidebarConstant } from '@teaching-scheduling-system/core/data-access/co
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TuiDestroyService],
 })
 export class SidebarComponent {
   /** PUBLIC PROPERTIES */

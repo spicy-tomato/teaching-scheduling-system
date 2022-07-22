@@ -19,15 +19,9 @@
     >
       Chọn ca học:
       <tui-data-list *tuiDataList>
-        <tui-opt-group>
-          <button
-            tuiOption
-            *ngFor="let shiftKey of shiftKeys"
-            [value]="shiftKey"
-          >
-            {{ shiftKey | shift }}
-          </button>
-        </tui-opt-group>
+        <button tuiOption *ngFor="let shiftKey of shiftKeys" [value]="shiftKey">
+          {{ shiftKey | shift }}
+        </button>
       </tui-data-list>
     </tui-select>
   </div>

@@ -55,12 +55,12 @@ export class CalendarHeaderComponent implements AfterViewInit {
   public filter!: CalendarFilterComponent;
 
   /** PUBLIC PROPERTIES */
+  public openSelectMonth = false;
+  public openFilter = false;
   public view$: Observable<View>;
   public filter$: Observable<CalendarFilter>;
-  public openSelectMonth = false;
   public month$: Observable<TuiMonth>;
   public dateRange$!: Observable<string>;
-  public openFilter = false;
   public activeToday$!: Observable<boolean>;
   public activeTeachers$!: Observable<SimpleModel[]>;
 
