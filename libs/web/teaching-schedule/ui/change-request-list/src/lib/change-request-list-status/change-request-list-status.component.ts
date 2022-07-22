@@ -8,7 +8,6 @@ import {
 import { Store } from '@ngrx/store';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { tuiButtonOptionsProvider, TuiDialogService } from '@taiga-ui/core';
-import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
 import { PermissionHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import { ChangeSchedule } from '@teaching-scheduling-system/web/shared/data-access/models';
 import {
@@ -51,6 +50,10 @@ export class ChangeRequestListStatusComponent {
   public readonly accept$ = new Subject<void>();
   public readonly statusList = ScheduleConstant.REQUEST_CHANGE_SCHEDULE_STATUS;
 
+  /** PRIVATE PROPERTIES */
+  private acceptDialog$!: Observable<void>;
+  private denyDialog$!: Observable<void>;
+
   /** CONSTRUCTOR */
   constructor(
     private readonly store: Store<TeachingScheduleRequestState>,
@@ -66,23 +69,33 @@ export class ChangeRequestListStatusComponent {
       .select(selectPermission)
       .pipe(takeUntil(this.destroy$));
 
+    this.initDialog();
     this.handleAccept();
   }
 
   /** PUBLIC METHODS */
   public onDeny(): void {
-    this.dialogService
-      .open(
-        new PolymorpheusComponent(ChangeDenyDialogComponent, this.injector),
-        {
-          label: 'Từ chối yêu cầu thay đổi lịch giảng',
-          data: this.item,
-        }
-      )
-      .subscribe();
+    this.denyDialog$.subscribe();
   }
 
   /** PRIVATE METHODS */
+  private initDialog(): void {
+    this.acceptDialog$ = this.dialogService.open(
+      new PolymorpheusComponent(ChangeSetRoomDialogComponent, this.injector),
+      {
+        label: 'Xếp phòng cho giảng viên',
+        data: this.item,
+      }
+    );
+    this.denyDialog$ = this.dialogService.open(
+      new PolymorpheusComponent(ChangeDenyDialogComponent, this.injector),
+      {
+        label: 'Từ chối yêu cầu thay đổi lịch giảng',
+        data: this.item,
+      }
+    );
+  }
+
   private handleAccept(): void {
     this.accept$
       .pipe(
@@ -95,18 +108,7 @@ export class ChangeRequestListStatusComponent {
             return;
           }
 
-          this.dialogService
-            .open<Nullable<string>>(
-              new PolymorpheusComponent(
-                ChangeSetRoomDialogComponent,
-                this.injector
-              ),
-              {
-                label: 'Xếp phòng cho giảng viên',
-                data: this.item,
-              }
-            )
-            .subscribe();
+          this.acceptDialog$.subscribe();
         }),
         takeUntil(this.destroy$)
       )
