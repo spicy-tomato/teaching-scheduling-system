@@ -8,8 +8,15 @@ import {
   selectPermission,
   selectStatus,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
-import { Observable, ReplaySubject } from 'rxjs';
-import { filter, map, take, takeUntil, tap } from 'rxjs/operators';
+import {
+  filter,
+  map,
+  Observable,
+  ReplaySubject,
+  take,
+  takeUntil,
+  tap,
+} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',

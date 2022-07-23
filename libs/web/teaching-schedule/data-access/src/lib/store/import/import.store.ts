@@ -8,7 +8,7 @@ import {
   AppShellState,
   selectDepartment,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
-import { mergeMap, tap, withLatestFrom } from 'rxjs/operators';
+import { mergeMap, tap, withLatestFrom } from 'rxjs';
 
 type TeachingScheduleState = GenericState<void>;
 

@@ -5,7 +5,7 @@ import {
   UpdateExamModel,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { ExamService } from '@teaching-scheduling-system/web/shared/data-access/services';
-import { switchMap, tap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs';
 
 type AssignEditExamDialogState = GenericState<void>;
 

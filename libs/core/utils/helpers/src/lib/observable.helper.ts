@@ -2,14 +2,17 @@ import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
 import {
   combineLatest,
   concat,
+  filter,
+  map,
   MonoTypeOperatorFunction,
   Observable,
   OperatorFunction,
   pipe,
+  publish,
   Subscription,
   UnaryFunction,
+  withLatestFrom,
 } from 'rxjs';
-import { filter, map, publish, withLatestFrom } from 'rxjs/operators';
 import { ArrayHelper } from './array.helper';
 import { ObjectHelper } from './object.helper';
 
@@ -70,6 +73,7 @@ export class ObservableHelper {
   ): OperatorFunction<T, T> {
     return (source$) =>
       source$.pipe(
+        // TODO: Deprecated
         publish((published) => {
           const delayed = new Observable<T>((subscriber) => {
             let buffering = true;
