@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.9.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.8.4...v3.9.0) (2022-07-23)
+
+
+### Features
+
+* **calendar:** show notification after save exam note, instead of close dialog ([a6ba5e3](https://github.com/annguyen-it/teaching-scheduling-system/commit/a6ba5e32a77d90598ef43fe125e21fd8c8e0a881))
+* **core:** remove form helper ([6611e8d](https://github.com/annguyen-it/teaching-scheduling-system/commit/6611e8d8e4f44f8469f56aa60e7f8bc3372c179f))
+
+
+### Bug Fixes
+
+* **calendar:** cannot save note in exam dialog ([e536744](https://github.com/annguyen-it/teaching-scheduling-system/commit/e5367442c81338053f42f1779d6bf9b4e65f77bd))
+* **calendar:** save button in dialogs should be updated when changing note after save ([548ddb1](https://github.com/annguyen-it/teaching-scheduling-system/commit/548ddb1a096fb1406a7f2244d7d1caaee349af10))
+* **dep:** upgrade taiga-ui to 2.49.2 ([91d9b10](https://github.com/annguyen-it/teaching-scheduling-system/commit/91d9b100e5b88326549d9e234413db253ea52ae2))
+* import from rxjs intead of rxjs/operators ([d743b3e](https://github.com/annguyen-it/teaching-scheduling-system/commit/d743b3efc2e93d4c2e1536dd4c3726ebd8490cf0))
+
 ### [3.8.4](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.8.3...v3.8.4) (2022-07-22)
 
 
