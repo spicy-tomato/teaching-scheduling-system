@@ -13,7 +13,7 @@ import { DateHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import { EjsScheduleModel } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { sameGroupStaticValueValidator } from '@teaching-scheduling-system/web/shared/utils/validators';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { map, Subject, takeUntil, tap } from 'rxjs';
+import { map, takeUntil, tap } from 'rxjs';
 import { ExamDialogStore } from './store';
 
 @Component({
@@ -30,7 +30,6 @@ export class ExamDialogComponent {
   public readonly showLoader$ = this.store.status$.pipe(
     map((s) => s === 'loading')
   );
-  public readonly submit$ = new Subject<void>();
   public form!: FormGroup;
 
   /** GETTERS */

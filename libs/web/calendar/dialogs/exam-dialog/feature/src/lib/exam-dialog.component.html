@@ -52,7 +52,7 @@
     <button
       tuiButton
       *ngrxLet="showLoader$ as showLoader"
-      (click)="submit$.next()"
+      (click)="submit()"
       [showLoader]="showLoader"
       [disabled]="form.invalid"
       size="m"
