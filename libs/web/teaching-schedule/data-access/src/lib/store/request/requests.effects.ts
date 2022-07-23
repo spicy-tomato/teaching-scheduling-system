@@ -22,16 +22,18 @@ import {
   selectTeachersInDepartment,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
 import { ScheduleConstant } from '@teaching-scheduling-system/web/shared/utils/constants';
-import { combineLatest, of, Subject } from 'rxjs';
 import {
   catchError,
+  combineLatest,
   filter,
   map,
   mergeMap,
+  of,
+  Subject,
   take,
   tap,
   withLatestFrom,
-} from 'rxjs/operators';
+} from 'rxjs';
 import * as ApiAction from './requests.api.actions';
 import * as PageAction from './requests.page.actions';
 import { teachingScheduleRequestSelectOptions } from './requests.selectors';

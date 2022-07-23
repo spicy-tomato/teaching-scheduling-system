@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { GenericState } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { ExamService } from '@teaching-scheduling-system/web/shared/data-access/services';
-import { switchMap, tap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs';
 
 type AssignTeacherDialogState = GenericState<void>;
 

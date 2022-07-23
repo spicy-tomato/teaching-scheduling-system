@@ -10,7 +10,7 @@ import {
   AppShellState,
   selectNotNullTeacher,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
-import { switchMap, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
+import { switchMap, takeUntil, tap, withLatestFrom } from 'rxjs';
 
 type ExportDialogState = GenericState<void>;
 

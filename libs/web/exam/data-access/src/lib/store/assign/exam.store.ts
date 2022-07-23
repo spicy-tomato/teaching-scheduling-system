@@ -12,7 +12,7 @@ import {
   AppShellState,
   selectTeachersInDepartment,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
-import { switchMap, tap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs';
 
 type ExamState = GenericState<ExamScheduleModel[]>;
 

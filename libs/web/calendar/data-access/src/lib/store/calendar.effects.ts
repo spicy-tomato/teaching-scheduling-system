@@ -25,15 +25,19 @@ import {
   selectNotNullTeacher,
   selectPermission,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
-import { combineLatest, Observable, of, OperatorFunction, Subject } from 'rxjs';
 import {
   catchError,
+  combineLatest,
   filter,
   map,
   mergeMap,
+  Observable,
+  of,
+  OperatorFunction,
+  Subject,
   tap,
   withLatestFrom,
-} from 'rxjs/operators';
+} from 'rxjs';
 import * as fromSchedule from '.';
 import * as ApiAction from './calendar.api.actions';
 import * as PageAction from './calendar.page.actions';
