@@ -125,6 +125,10 @@ export class TeachingDialogContentComponent implements OnInit {
     return this.form.controls['request'] as FormGroup;
   }
 
+  public get changeControl(): FormGroup {
+    return this.form.controls['change'] as FormGroup;
+  }
+
   private get roomControlValue(): string {
     return this.requestControl.controls['room'].value as string;
   }
@@ -188,7 +192,7 @@ export class TeachingDialogContentComponent implements OnInit {
         ChangeStatusHelper.isPending(x.status)
       ) || null;
 
-    (this.form.controls['change'] as FormGroup).controls['note'].valueChanges
+    this.changeControl.controls['note'].valueChanges
       .pipe(
         withLatestFrom(this.requestingChangeSchedule$),
         filter(({ 1: requestingChangeSchedule }) => !requestingChangeSchedule),
@@ -206,8 +210,7 @@ export class TeachingDialogContentComponent implements OnInit {
   public onUpdate(): void {
     const id = this.schedule.Id;
     const body = {
-      note: (this.form.controls['change'] as FormGroup).controls['note']
-        .value as string,
+      note: this.changeControl.controls['note'].value as string,
     };
 
     this.store.dispatch(teachingDialogUpdate({ id, body }));
@@ -306,7 +309,12 @@ export class TeachingDialogContentComponent implements OnInit {
           ],
         ],
       }),
-      change: this.getNewChangeControl(initialChange),
+      change: this.fb.group(
+        {
+          note: [initialChange.note, Validators.maxLength(this.noteMaxLength)],
+        },
+        { validators: sameGroupStaticValueValidator(initialChange) }
+      ),
     });
 
     this.store.dispatch(teachingDialogReset({ change: initialChange }));
@@ -442,7 +450,10 @@ export class TeachingDialogContentComponent implements OnInit {
     this.change$
       .pipe(
         tap((change) => {
-          this.form.controls['change'] = this.getNewChangeControl(change);
+          this.changeControl.setValidators(
+            sameGroupStaticValueValidator(change)
+          );
+          this.changeControl.updateValueAndValidity();
           this.changeScheduleInfo.emit(change);
           this.cdr.markForCheck();
         }),
@@ -475,12 +486,5 @@ export class TeachingDialogContentComponent implements OnInit {
         status: TuiNotification.Error,
       })
       .subscribe();
-  }
-
-  private getNewChangeControl(value: TeachingDialogChange): FormGroup {
-    return this.fb.group(
-      { note: [value.note, Validators.maxLength(this.noteMaxLength)] },
-      { validators: sameGroupStaticValueValidator(value) }
-    );
   }
 }

@@ -20,10 +20,6 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { map, takeUntil, tap } from 'rxjs';
 import { ExamDialogStore } from './store';
 
-type ExamDialogChange = {
-  note: string;
-};
-
 @Component({
   templateUrl: './exam-dialog.component.html',
   styleUrls: ['./exam-dialog.component.css'],
@@ -44,7 +40,7 @@ export class ExamDialogComponent {
   private needUpdateAfterClose = false;
 
   /** GETTERS */
-  public get idControl(): FormControl {
+  private get idControl(): FormControl {
     return this.form.controls['id'] as FormControl;
   }
 
@@ -52,10 +48,12 @@ export class ExamDialogComponent {
     return this.form.controls['people'] as FormArray;
   }
 
-  public get noteControl(): FormControl {
-    return (this.form.controls['change'] as FormGroup).controls[
-      'note'
-    ] as FormControl;
+  public get changeControl(): FormGroup {
+    return this.form.controls['change'] as FormGroup;
+  }
+
+  private get noteControl(): FormControl {
+    return this.changeControl.controls['note'] as FormControl;
   }
 
   /** CONSTRUCTOR */
@@ -103,7 +101,7 @@ export class ExamDialogComponent {
       : DateHelper.toTuiDay(today);
 
     const initialChange = {
-      note: data?.Note,
+      note: data?.Note ?? '',
     };
 
     this.form = this.fb.group({
@@ -118,9 +116,7 @@ export class ExamDialogComponent {
         {
           note: [initialChange.note, Validators.maxLength(this.noteMaxLength)],
         },
-        {
-          validators: sameGroupStaticValueValidator(initialChange),
-        }
+        { validators: sameGroupStaticValueValidator(initialChange) }
       ),
     });
   }
@@ -131,6 +127,10 @@ export class ExamDialogComponent {
         tap((status) => {
           if (status === 'successful') {
             this.needUpdateAfterClose = true;
+            this.changeControl.setValidators(
+              sameGroupStaticValueValidator(this.changeControl.value)
+            );
+            this.changeControl.updateValueAndValidity();
             this.showNotificationUpdateSuccessful();
           } else if (status === 'systemError') {
             this.showNotificationError();
@@ -143,7 +143,7 @@ export class ExamDialogComponent {
 
   private showNotificationUpdateSuccessful(): void {
     this.alertService
-      .open('Cập nhật lịch thành công!', {
+      .open('Cập nhật lịch thi thành công!', {
         status: TuiNotification.Success,
       })
       .subscribe();
