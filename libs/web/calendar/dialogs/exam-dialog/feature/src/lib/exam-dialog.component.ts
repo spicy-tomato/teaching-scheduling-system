@@ -7,7 +7,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { TuiDestroyService } from '@taiga-ui/cdk';
-import { TuiDialogContext } from '@taiga-ui/core';
+import {
+  TuiAlertService,
+  TuiDialogContext,
+  TuiNotification,
+} from '@taiga-ui/core';
 import { CoreConstant } from '@teaching-scheduling-system/core/data-access/constants';
 import { DateHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import { EjsScheduleModel } from '@teaching-scheduling-system/web/shared/data-access/models';
@@ -15,6 +19,10 @@ import { sameGroupStaticValueValidator } from '@teaching-scheduling-system/web/s
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { map, takeUntil, tap } from 'rxjs';
 import { ExamDialogStore } from './store';
+
+type ExamDialogChange = {
+  note: string;
+};
 
 @Component({
   templateUrl: './exam-dialog.component.html',
@@ -31,6 +39,9 @@ export class ExamDialogComponent {
     map((s) => s === 'loading')
   );
   public form!: FormGroup;
+
+  /** PRIVATE PROPERTIES */
+  private needUpdateAfterClose = false;
 
   /** GETTERS */
   public get idControl(): FormControl {
@@ -52,6 +63,8 @@ export class ExamDialogComponent {
     @Inject(POLYMORPHEUS_CONTEXT)
     private readonly context: TuiDialogContext<string, EjsScheduleModel>,
     private readonly fb: FormBuilder,
+    @Inject(TuiAlertService)
+    private readonly alertService: TuiAlertService,
     private readonly store: ExamDialogStore,
     private readonly destroy$: TuiDestroyService
   ) {
@@ -69,7 +82,11 @@ export class ExamDialogComponent {
 
   public onCancel(): void {
     setTimeout(() => {
-      this.context.$implicit.complete();
+      if (this.needUpdateAfterClose) {
+        this.context.completeWith(this.noteControl.value);
+      } else {
+        this.context.$implicit.complete();
+      }
     });
   }
 
@@ -113,15 +130,31 @@ export class ExamDialogComponent {
       .pipe(
         tap((status) => {
           if (status === 'successful') {
-            setTimeout(() => {
-              this.context.completeWith(this.noteControl.value);
-            });
+            this.needUpdateAfterClose = true;
+            this.showNotificationUpdateSuccessful();
           } else if (status === 'systemError') {
-            this.onCancel();
+            this.showNotificationError();
           }
         }),
         takeUntil(this.destroy$)
       )
+      .subscribe();
+  }
+
+  private showNotificationUpdateSuccessful(): void {
+    this.alertService
+      .open('Cập nhật lịch thành công!', {
+        status: TuiNotification.Success,
+      })
+      .subscribe();
+  }
+
+  private showNotificationError(): void {
+    this.alertService
+      .open('Vui lòng thử lại sau', {
+        label: 'Đã có lỗi xảy ra',
+        status: TuiNotification.Error,
+      })
       .subscribe();
   }
 }

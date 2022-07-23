@@ -216,15 +216,6 @@ export class TeachingDialogContentComponent implements OnInit {
     this.store.dispatch(teachingDialogUpdate({ id, body }));
   }
 
-  public showNotificationError(): void {
-    this.alertService
-      .open('Vui lòng thử lại sau', {
-        label: 'Đã có lỗi xảy ra',
-        status: TuiNotification.Error,
-      })
-      .subscribe();
-  }
-
   /** PRIVATE METHODS */
   private initForm(): void {
     const data = this.schedule;
@@ -476,6 +467,15 @@ export class TeachingDialogContentComponent implements OnInit {
     this.alertService
       .open('Cập nhật lịch thành công!', {
         status: TuiNotification.Success,
+      })
+      .subscribe();
+  }
+
+  private showNotificationError(): void {
+    this.alertService
+      .open('Vui lòng thử lại sau', {
+        label: 'Đã có lỗi xảy ra',
+        status: TuiNotification.Error,
       })
       .subscribe();
   }
