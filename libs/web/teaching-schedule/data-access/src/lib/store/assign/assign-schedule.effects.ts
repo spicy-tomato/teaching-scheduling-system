@@ -7,8 +7,7 @@ import {
   CommonInfoService,
   TeacherService,
 } from '@teaching-scheduling-system/web/shared/data-access/services';
-import { of } from 'rxjs';
-import { catchError, map, mergeMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, map, mergeMap, of, withLatestFrom } from 'rxjs';
 import * as ApiAction from './assign-schedule.api.actions';
 import * as PageAction from './assign-schedule.page.actions';
 import {

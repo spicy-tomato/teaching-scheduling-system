@@ -11,8 +11,7 @@ import {
   TeacherService,
   UserService,
 } from '@teaching-scheduling-system/web/shared/data-access/services';
-import { of } from 'rxjs';
-import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import { catchError, map, mergeMap, of, tap } from 'rxjs';
 import * as ApiAction from './app-shell.api.actions';
 import * as PageAction from './app-shell.page.actions';
 
@@ -57,7 +56,9 @@ export class AppShellEffects {
             tap(() => {
               this.accessTokenService.clear();
               const path = this.location.path();
-              this.appService.redirectToLogin(path.includes('login') ? undefined : path);
+              this.appService.redirectToLogin(
+                path.includes('login') ? undefined : path
+              );
             })
           )
         )

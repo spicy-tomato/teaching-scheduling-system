@@ -208,7 +208,6 @@ export class CalendarComponent implements OnInit, AfterViewInit {
 
   public onCloseEditorDialog(): void {
     this.scheduleComponent.closeQuickInfoPopup();
-
   }
 
   /** PRIVATE METHODS */
@@ -330,7 +329,7 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     const selectedId = schedule.Id;
 
     this.dialogService
-      .open<EjsScheduleModel[] | undefined>(
+      .open<EjsScheduleModel[]>(
         new PolymorpheusComponent(TeachingDialogComponent, this.injector),
         {
           data: { schedules, selectedId },
@@ -340,10 +339,9 @@ export class CalendarComponent implements OnInit, AfterViewInit {
         }
       )
       .pipe(
-        ObservableHelper.filterNullish(),
-        tap((schedules) => {
-          this.store.dispatch(calendarChangeScheduleInDialog({ schedules }));
-        })
+        tap((schedules) =>
+          this.store.dispatch(calendarChangeScheduleInDialog({ schedules }))
+        )
       )
       .subscribe();
   }

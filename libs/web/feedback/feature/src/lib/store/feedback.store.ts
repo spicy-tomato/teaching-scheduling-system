@@ -5,7 +5,7 @@ import {
   GenericState,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { UserService } from '@teaching-scheduling-system/web/shared/data-access/services';
-import { switchMap, tap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs';
 
 type FeedbackState = GenericState<void>;
 
