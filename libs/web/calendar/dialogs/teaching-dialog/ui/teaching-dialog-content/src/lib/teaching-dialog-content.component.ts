@@ -25,7 +25,6 @@ import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
 import {
   ChangeStatusHelper,
   DateHelper,
-  FormHelper,
   ObservableHelper,
 } from '@teaching-scheduling-system/core/utils/helpers';
 import { DialogService } from '@teaching-scheduling-system/web-shared-ui-dialog';
@@ -74,7 +73,6 @@ import { TeachingDialogButtonsRightComponent } from './teaching-dialog-buttons-r
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     TuiDestroyService,
-    FormHelper,
     tuiButtonOptionsProvider({
       appearance: 'primary',
       size: 'm',
@@ -144,7 +142,6 @@ export class TeachingDialogContentComponent implements OnInit {
     private readonly fb: FormBuilder,
     private readonly cdr: ChangeDetectorRef,
     private readonly store: Store<TeachingDialogState>,
-    private readonly formHelper: FormHelper,
     private readonly dialogService: DialogService,
     @Inject(TuiAlertService)
     private readonly alertService: TuiAlertService,
@@ -481,14 +478,9 @@ export class TeachingDialogContentComponent implements OnInit {
   }
 
   private getNewChangeControl(value: TeachingDialogChange): FormGroup {
-    return this.formHelper.createNewFormGroup(
-      {
-        note: [value.note, Validators.maxLength(this.noteMaxLength)],
-      },
-      sameGroupStaticValueValidator(value, {
-        date: (a: Nullable<TuiDay>, b: Nullable<TuiDay>) =>
-          !!a && !!b && a.daySame(b),
-      })
+    return this.fb.group(
+      { note: [value.note, Validators.maxLength(this.noteMaxLength)] },
+      { validators: sameGroupStaticValueValidator(value) }
     );
   }
 }
