@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { Store } from '@ngrx/store';
-import {
-  GenericState,
-  Note,
-} from '@teaching-scheduling-system/web/shared/data-access/models';
+import { GenericState } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { ExamService } from '@teaching-scheduling-system/web/shared/data-access/services';
 import {
   AppShellState,
@@ -26,14 +23,13 @@ export class ExamDialogStore extends ComponentStore<ExportDialogState> {
   public readonly status$ = this.select((s) => s.status);
 
   /** EFFECTS */
-  public readonly submit = this.effect<{ id: number; note: Note }>((params$) =>
-    params$.pipe(
-      tap(() => this.patchState({ status: 'loading', error: null })),
-      withLatestFrom(this.teacher$),
-      switchMap(([params, teacher]) =>
-        this.examService
-          .updateExamNote(teacher.id, params.id, { ...params.note })
-          .pipe(
+  public readonly submit = this.effect<{ id: number; note: string }>(
+    (params$) =>
+      params$.pipe(
+        tap(() => this.patchState({ status: 'loading', error: null })),
+        withLatestFrom(this.teacher$),
+        switchMap(([{ id, note }, teacher]) =>
+          this.examService.updateExamNote(teacher.id, id, { note }).pipe(
             tapResponse(
               () =>
                 this.patchState({
@@ -47,8 +43,8 @@ export class ExamDialogStore extends ComponentStore<ExportDialogState> {
                 })
             )
           )
+        )
       )
-    )
   );
 
   /** CONSTRUCTOR */

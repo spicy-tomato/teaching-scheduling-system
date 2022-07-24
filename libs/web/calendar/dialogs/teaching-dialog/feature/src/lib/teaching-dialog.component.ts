@@ -35,6 +35,7 @@ export class TeachingDialogComponent {
 
   /** PRIVATE PROPERTIES */
   private haveOpened = false;
+  private needUpdateAfterClose = false;
 
   /** GETTERS */
   private get currentSelected(): EjsScheduleModel {
@@ -80,12 +81,14 @@ export class TeachingDialogComponent {
       ...(this.selectedSchedule.FixedSchedules?.filter((x) => !x.isNew) ?? []),
     ];
     this.currentSelected = copy;
+    this.needUpdateAfterClose = true;
   }
 
   public onChangeScheduleInfo(changes: TeachingDialogChange): void {
     const copy = { ...this.currentSelected };
     copy.Note = changes.note;
     this.currentSelected = copy;
+    this.needUpdateAfterClose = true;
   }
 
   public onCancelRequest(): void {
@@ -97,7 +100,11 @@ export class TeachingDialogComponent {
 
   public onCancel(): void {
     setTimeout(() => {
-      this.context.completeWith(this.schedules);
+      if (this.needUpdateAfterClose) {
+        this.context.completeWith(this.schedules);
+      } else {
+        this.context.$implicit.complete();
+      }
     });
   }
 }

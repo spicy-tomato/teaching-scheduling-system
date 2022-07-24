@@ -1,10 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { TuiMonth } from '@taiga-ui/cdk';
 import { ArrayHelper } from '@teaching-scheduling-system/core/utils/helpers';
-import {
-  EjsScheduleModel,
-  StudyScheduleModel,
-} from '@teaching-scheduling-system/web/shared/data-access/models';
 import { CalendarState } from '.';
 import * as ApiAction from './calendar.api.actions';
 import * as PageAction from './calendar.page.actions';
@@ -80,19 +76,6 @@ export const calendarReducer = createReducer(
         ...state.filter.selecting,
         ...changes,
         modules: changes.modules || [],
-      },
-    },
-  })),
-  on(PageAction.calendarChangeScheduleInDialog, (state, { schedules }) => ({
-    ...state,
-    schedules: {
-      personal: {
-        ...state.schedules.personal,
-        study: updateSchedule(state.schedules.personal.study, schedules),
-      },
-      department: {
-        ...state.schedules.department,
-        study: updateSchedule(state.schedules.department.study, schedules),
       },
     },
   })),
@@ -186,23 +169,3 @@ export const calendarReducer = createReducer(
     };
   })
 );
-
-function updateSchedule(
-  oldSchedules: StudyScheduleModel[],
-  schedules: EjsScheduleModel[]
-): StudyScheduleModel[] {
-  schedules.forEach((s) => {
-    let scheduleNeedToChange = oldSchedules.find((os) => os.id === s.Id);
-    if (!scheduleNeedToChange) {
-      return;
-    }
-
-    scheduleNeedToChange = StudyScheduleModel.parse(scheduleNeedToChange);
-    if (s.FixedSchedules) {
-      scheduleNeedToChange.fixedSchedules = s.FixedSchedules;
-    }
-    scheduleNeedToChange.note = s.Note;
-  });
-
-  return oldSchedules;
-}
