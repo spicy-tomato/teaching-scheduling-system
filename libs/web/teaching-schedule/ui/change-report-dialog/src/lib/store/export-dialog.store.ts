@@ -6,7 +6,7 @@ import {
   GenericState,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { StatisticService } from '@teaching-scheduling-system/web/shared/data-access/services';
-import { switchMap, tap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs';
 
 type ExportDialogState = GenericState<ChangeSchedule[]>;
 

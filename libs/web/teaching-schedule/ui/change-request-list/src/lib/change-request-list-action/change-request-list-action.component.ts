@@ -5,6 +5,7 @@ import {
   Inject,
   Injector,
   Input,
+  OnInit,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TuiDestroyService } from '@taiga-ui/cdk';
@@ -63,7 +64,7 @@ import {
     }),
   ],
 })
-export class ChangeRequestListActionComponent {
+export class ChangeRequestListActionComponent implements OnInit {
   /** INPUT */
   @Input() public schedule!: ChangeSchedule;
   @Input() public canCancel!: boolean;
@@ -113,9 +114,13 @@ export class ChangeRequestListActionComponent {
       .select(selectNameTitle)
       .pipe(takeUntil(this.destroy$));
 
-    this.initDialog();
     this.handleExport();
     this.handleCancel();
+  }
+
+  /** LIFE CYCLE */
+  ngOnInit(): void {
+    this.initDialog();
   }
 
   /** PUBLIC METHODS */

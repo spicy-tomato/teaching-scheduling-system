@@ -17,8 +17,7 @@ import {
   selectDepartment,
   selectTeachersInDepartment,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
-import { Observable } from 'rxjs';
-import { map, mergeMap, tap, withLatestFrom } from 'rxjs/operators';
+import { map, mergeMap, Observable, tap, withLatestFrom } from 'rxjs';
 
 type ChangeScheduleState = GenericState<ChangeSchedule[]>;
 

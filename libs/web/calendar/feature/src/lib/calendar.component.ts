@@ -32,7 +32,6 @@ import {
   ScheduleHelper,
 } from '@teaching-scheduling-system/core/utils/helpers';
 import {
-  calendarChangeScheduleInDialog,
   calendarLoad,
   calendarNext,
   calendarPrev,
@@ -208,7 +207,6 @@ export class CalendarComponent implements OnInit, AfterViewInit {
 
   public onCloseEditorDialog(): void {
     this.scheduleComponent.closeQuickInfoPopup();
-
   }
 
   /** PRIVATE METHODS */
@@ -341,9 +339,7 @@ export class CalendarComponent implements OnInit, AfterViewInit {
       )
       .pipe(
         ObservableHelper.filterNullish(),
-        tap((schedules) => {
-          this.store.dispatch(calendarChangeScheduleInDialog({ schedules }));
-        })
+        tap((schedules) => this.scheduleComponent.saveEvent(schedules))
       )
       .subscribe();
   }

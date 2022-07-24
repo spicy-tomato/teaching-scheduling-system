@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import {
-  APP_CONFIG,
   AppConfig,
+  APP_CONFIG,
 } from '@teaching-scheduling-system/web/config/data-access';
 import {
   AcademicData,
@@ -10,8 +10,7 @@ import {
   SimpleMapModel,
   SimpleModel,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',

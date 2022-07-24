@@ -7,12 +7,11 @@ import {
 } from '@teaching-scheduling-system/web/config/data-access';
 import {
   AuthResponse,
+  LoginForm,
   ResponseModel,
   Teacher,
-  LoginForm,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',

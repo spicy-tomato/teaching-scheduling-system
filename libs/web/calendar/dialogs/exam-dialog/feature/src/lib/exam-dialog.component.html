@@ -52,9 +52,9 @@
     <button
       tuiButton
       *ngrxLet="showLoader$ as showLoader"
-      (click)="submit$.next()"
+      (click)="submit()"
       [showLoader]="showLoader"
-      [disabled]="form.invalid"
+      [disabled]="form.controls['change'].invalid"
       size="m"
       class="tui-form__button"
     >
@@ -67,7 +67,7 @@
       size="m"
       class="tui-form__button"
     >
-      {{ form.valid ? 'Hủy' : 'Đóng' }}
+      Đóng
     </button>
   </div>
 </form>
