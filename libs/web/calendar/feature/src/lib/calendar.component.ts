@@ -32,7 +32,6 @@ import {
   ScheduleHelper,
 } from '@teaching-scheduling-system/core/utils/helpers';
 import {
-  calendarChangeScheduleInDialog,
   calendarLoad,
   calendarNext,
   calendarPrev,
@@ -329,7 +328,7 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     const selectedId = schedule.Id;
 
     this.dialogService
-      .open<EjsScheduleModel[]>(
+      .open<EjsScheduleModel[] | undefined>(
         new PolymorpheusComponent(TeachingDialogComponent, this.injector),
         {
           data: { schedules, selectedId },
@@ -339,9 +338,8 @@ export class CalendarComponent implements OnInit, AfterViewInit {
         }
       )
       .pipe(
-        tap((schedules) =>
-          this.store.dispatch(calendarChangeScheduleInDialog({ schedules }))
-        )
+        ObservableHelper.filterNullish(),
+        tap((schedules) => this.scheduleComponent.saveEvent(schedules))
       )
       .subscribe();
   }
