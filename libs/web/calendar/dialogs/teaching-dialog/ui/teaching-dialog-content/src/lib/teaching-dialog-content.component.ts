@@ -59,6 +59,7 @@ import {
   filter,
   map,
   Observable,
+  skip,
   Subject,
   takeUntil,
   tap,
@@ -449,6 +450,7 @@ export class TeachingDialogContentComponent implements OnInit {
   private handleChange(): void {
     this.change$
       .pipe(
+        skip(1),
         tap((change) => {
           this.changeControl.setValidators(
             sameGroupStaticValueValidator(change)

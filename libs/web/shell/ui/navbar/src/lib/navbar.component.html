@@ -58,6 +58,7 @@
           *ngIf="item.externalLink; else link"
           [href]="item.externalLink"
           target="_blank"
+          role="menuitem"
         >
           <tui-svg [src]="item.icon"></tui-svg>
           <span>{{ item.label }}</span>
@@ -69,13 +70,18 @@
             *ngIf="item.routerLink; else button"
             [routerLink]="item.routerLink"
             (click)="onClickDropDownItem(item.key)"
+            role="menuitem"
           >
             <tui-svg [src]="item.icon"></tui-svg>
             <span>{{ item.label }}</span>
           </a>
         </ng-template>
         <ng-template #button>
-          <button tuiOption (click)="onClickDropDownItem(item.key)">
+          <button
+            tuiOption
+            (click)="onClickDropDownItem(item.key)"
+            role="menuitem"
+          >
             <tui-svg [src]="item.icon"></tui-svg>
             <span>{{ item.label }}</span>
           </button>

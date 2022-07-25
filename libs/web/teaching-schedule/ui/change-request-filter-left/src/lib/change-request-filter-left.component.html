@@ -13,9 +13,11 @@
   >
     Trạng thái
     <ng-template tuiDataList>
-      <tui-data-list>
+      <tui-data-list role="listbox">
         <tui-opt-group>
-          <button tuiOption [value]="null" size="xs">Tất cả</button>
+          <button tuiOption [value]="null" size="xs" role="option">
+            Tất cả
+          </button>
         </tui-opt-group>
         <tui-opt-group>
           <ng-container *ngFor="let status of statusArray">
@@ -25,6 +27,7 @@
                 *tssPermission="status.value.feature"
                 [value]="status.id"
                 size="xs"
+                role="option"
               >
                 {{ status.value.name }}
               </button>
@@ -44,9 +47,9 @@
 >
   Chọn giảng viên
   <ng-template tuiDataList>
-    <tui-data-list>
+    <tui-data-list role="listbox">
       <tui-opt-group>
-        <button tuiOption [value]="null" size="xs">Tất cả</button>
+        <button tuiOption [value]="null" size="xs" role="option">Tất cả</button>
       </tui-opt-group>
       <tui-opt-group>
         <button
@@ -54,6 +57,7 @@
           tuiOption
           [value]="teacher"
           size="xs"
+          role="option"
         >
           {{ teacher.name }}
         </button>
