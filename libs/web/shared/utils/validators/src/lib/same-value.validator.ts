@@ -7,8 +7,6 @@ export function sameGroupStaticValueValidator(
   comp?: Record<string, (a: any, b: any) => boolean>
 ): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    let same = true;
-
     for (const key of Object.keys(obj)) {
       const controlValue = control.get(key)?.value;
       const value = obj[key];
@@ -23,12 +21,11 @@ export function sameGroupStaticValueValidator(
         (controlValue !== value && !comp?.[key]) ||
         comp?.[key]?.(controlValue, value) === false
       ) {
-        same = false;
-        break;
+        return null;
       }
     }
 
-    return same ? { sameValue: true } : null;
+    return { sameValue: true };
   };
 }
 

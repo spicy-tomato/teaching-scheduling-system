@@ -1,31 +1,30 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import {
-  ResponseModel,
-  StudyScheduleModel,
-  SearchSchedule,
-  Note,
-  ChangeScheduleSearch,
-  PaginationResponseModel,
-  ChangeSchedule,
-  StatusModel,
-  RequestChangeSchedulePayload,
-  RequestIntendChangeSchedulePayload,
-  AcceptChangeScheduleRequestPayload,
-  DenyChangeScheduleRequestPayload,
-  IntendTimeChangeScheduleRequestPayload,
-  SetRoomChangeScheduleRequestPayload,
-} from '@teaching-scheduling-system/web/shared/data-access/models';
 import {
   ObjectHelper,
   QueryFilterResult,
 } from '@teaching-scheduling-system/core/utils/helpers';
 import {
-  APP_CONFIG,
   AppConfig,
+  APP_CONFIG,
 } from '@teaching-scheduling-system/web/config/data-access';
+import {
+  AcceptChangeScheduleRequestPayload,
+  ChangeSchedule,
+  ChangeScheduleSearch,
+  DenyChangeScheduleRequestPayload,
+  IntendTimeChangeScheduleRequestPayload,
+  Note,
+  PaginationResponseModel,
+  RequestChangeSchedulePayload,
+  RequestIntendChangeSchedulePayload,
+  ResponseModel,
+  SearchSchedule,
+  SetRoomChangeScheduleRequestPayload,
+  StatusModel,
+  StudyScheduleModel,
+} from '@teaching-scheduling-system/web/shared/data-access/models';
+import { map, Observable } from 'rxjs';
 
 const parseStudyScheduleModel = (
   response: ResponseModel<StudyScheduleModel[]>

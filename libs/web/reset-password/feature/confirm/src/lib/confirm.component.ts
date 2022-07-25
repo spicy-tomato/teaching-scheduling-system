@@ -31,7 +31,14 @@ import { SuccessDialogHeaderComponent } from '@teaching-scheduling-system/web/sh
 import { differentControlValueValidator } from '@teaching-scheduling-system/web/shared/utils/validators';
 import { navbarOptionsProvider } from '@teaching-scheduling-system/web/shell/ui/navbar';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { filter, Subject, takeUntil, tap, withLatestFrom } from 'rxjs';
+import {
+  filter,
+  Observable,
+  Subject,
+  takeUntil,
+  tap,
+  withLatestFrom,
+} from 'rxjs';
 import { ConfirmStore } from './store/confirm.store';
 
 @Component({
@@ -57,6 +64,9 @@ export class ConfirmComponent {
   public readonly reset$ = new Subject<void>();
   public form!: FormGroup;
 
+  /** PRIVATE PROPERTIES */
+  private successDialog$!: Observable<void>;
+
   /** GETTERS */
   public get newPassword(): FormControl {
     return this.form.controls['newPassword'] as FormControl;
@@ -77,6 +87,7 @@ export class ConfirmComponent {
     private readonly appShellStore: Store<AppShellState>,
     private readonly destroy$: TuiDestroyService
   ) {
+    this.initDialog();
     this.handleVerifyDone();
     this.verifyToken();
     this.handleReset();
@@ -113,6 +124,18 @@ export class ConfirmComponent {
   }
 
   /** PRIVATE METHODS */
+  private initDialog(): void {
+    this.successDialog$ = this.tuiDialogService.open(
+      new PolymorpheusComponent(SuccessDialogComponent, this.injector),
+      {
+        header: new PolymorpheusComponent(
+          SuccessDialogHeaderComponent,
+          this.injector
+        ),
+      }
+    );
+  }
+
   private verifyToken(): void {
     this.route.queryParamMap
       .pipe(
@@ -157,19 +180,7 @@ export class ConfirmComponent {
       .pipe(
         tap((status) => {
           if (status === 'successful') {
-            this.tuiDialogService
-              .open(
-                new PolymorpheusComponent(
-                  SuccessDialogComponent,
-                  this.injector
-                ),
-                {
-                  header: new PolymorpheusComponent(
-                    SuccessDialogHeaderComponent,
-                    this.injector
-                  ),
-                }
-              )
+            this.successDialog$
               .pipe(tap(() => this.form.disable()))
               .subscribe();
           } else if (status === 'systemError') {

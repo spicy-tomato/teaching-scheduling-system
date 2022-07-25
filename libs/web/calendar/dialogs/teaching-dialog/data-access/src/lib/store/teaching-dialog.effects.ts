@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { UrlHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import { ScheduleService } from '@teaching-scheduling-system/web/shared/data-access/services';
-import { of } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, of } from 'rxjs';
 import * as ApiAction from './teaching-dialog.api.actions';
 import * as PageAction from './teaching-dialog.page.actions';
 

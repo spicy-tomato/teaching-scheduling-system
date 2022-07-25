@@ -1,7 +1,6 @@
 export { CalendarEffects } from './calendar.effects';
 export {
   calendarChangeMonth,
-  calendarChangeScheduleInDialog,
   calendarChangeSelectingState,
   calendarChangeView,
   calendarFilter,

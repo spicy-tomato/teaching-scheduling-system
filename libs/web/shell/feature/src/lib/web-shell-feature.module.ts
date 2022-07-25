@@ -45,7 +45,7 @@ export const webShellFeatureRoutes: Routes = [
     data: {
       title: 'Đăng nhập',
     },
-    canActivate: [MaintenanceGuard, KeepUserGuard],
+    canActivate: [KeepUserGuard],
     loadChildren: async () =>
       (await import('@teaching-scheduling-system/web/login/feature'))
         .LoginModule,
