@@ -35,11 +35,12 @@
       class="min-w-[175px]"
     >
       Hệ đào tạo
-      <tui-data-list *tuiDataList>
+      <tui-data-list *tuiDataList role="listbox">
         <button
           tuiOption
           *ngFor="let trainingType of trainingTypes"
           [value]="trainingType.id"
+          role="option"
         >
           {{ trainingType.name }}
         </button>

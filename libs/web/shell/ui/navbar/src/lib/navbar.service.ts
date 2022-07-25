@@ -1,26 +1,32 @@
-import { Injectable, TemplateRef } from '@angular/core';
+import { Injectable, OnDestroy, TemplateRef } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
 import {
   AppShellState,
   selectBreadcrumbs,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
-import { BehaviorSubject, tap } from 'rxjs';
+import { BehaviorSubject, Subscription, tap } from 'rxjs';
 
 @Injectable()
-export class NavbarService {
+export class NavbarService implements OnDestroy {
   /** PROPERTIES */
   private readonly _rightMenu$ = new BehaviorSubject<
     Nullable<TemplateRef<never>>
   >(null);
   public readonly rightMenu$ = this._rightMenu$.asObservable();
+  private readonly breadcrumbsSubscription: Subscription;
 
   /** CONSTRUCTOR */
   constructor(appShellStore: Store<AppShellState>) {
-    appShellStore
+    this.breadcrumbsSubscription = appShellStore
       .select(selectBreadcrumbs)
       .pipe(tap(() => this.addRightMenu(null)))
       .subscribe();
+  }
+
+  /** LIFE CYCLE */
+  public ngOnDestroy(): void {
+    this.breadcrumbsSubscription.unsubscribe();
   }
 
   /** PUBLIC METHODS */

@@ -17,6 +17,8 @@
     "core-utils-providers": "libs/core/utils/providers",
     "teaching-scheduling-system": "apps/teaching-scheduling-system",
     "teaching-scheduling-system-e2e": "apps/teaching-scheduling-system-e2e",
+    "web-admin-feature-shell": "libs/web/admin/feature/shell",
+    "web-admin-feature-web-config": "libs/web/admin/feature/web-config",
     "web-calendar-data-access": "libs/web/calendar/data-access",
     "web-calendar-dialogs-exam-dialog-data-access": "libs/web/calendar/dialogs/exam-dialog/data-access",
     "web-calendar-dialogs-exam-dialog-feature": "libs/web/calendar/dialogs/exam-dialog/feature",

@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.10.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.9.0...v3.10.0) (2022-07-25)
+
+
+### Features
+
+* add aria roles ([bede153](https://github.com/annguyen-it/teaching-scheduling-system/commit/bede1536569ed9704bc9c3e9a37fc48789e2420a))
+
+
+### Bug Fixes
+
+* close [#2](https://github.com/annguyen-it/teaching-scheduling-system/issues/2) ([06523b5](https://github.com/annguyen-it/teaching-scheduling-system/commit/06523b5af27fcc1513fe9465638c258ae32bd3ff))
+* **dep:** upgrade taiga-ui to 2.50.2 ([d697b38](https://github.com/annguyen-it/teaching-scheduling-system/commit/d697b387903554dfe2afee050b42f97ea24eb353))
+* **navbar:** breadcrumbs should be unsubscribe ([67c4949](https://github.com/annguyen-it/teaching-scheduling-system/commit/67c4949083ab0bb7dfd8e978c1df44960df3addf))
+
 ## [3.9.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.8.4...v3.9.0) (2022-07-23)
 
 

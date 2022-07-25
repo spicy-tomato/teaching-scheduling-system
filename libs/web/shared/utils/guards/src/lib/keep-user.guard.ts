@@ -1,10 +1,14 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   CanActivate,
   RouterStateSnapshot,
 } from '@angular/router';
 import { LocalStorageKeyConstant } from '@teaching-scheduling-system/core/data-access/constants';
+import {
+  APP_CONFIG,
+  AppConfig,
+} from '@teaching-scheduling-system/web/config/data-access';
 import {
   AppService,
   LocalStorageService,
@@ -16,6 +20,7 @@ import {
 export class KeepUserGuard implements CanActivate {
   /** CONSTRUCTOR */
   constructor(
+    @Inject(APP_CONFIG) private readonly config: AppConfig,
     private readonly appService: AppService,
     private readonly localStorageService: LocalStorageService
   ) {}
@@ -40,7 +45,8 @@ export class KeepUserGuard implements CanActivate {
       return false;
     }
 
-    if (!isLoginPath) {
+    // If have access token
+    if (!isLoginPath || this.config.maintenance) {
       return true;
     }
 
