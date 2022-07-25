@@ -9,7 +9,10 @@ import { TUI_SANITIZER } from '@taiga-ui/cdk';
 import { tuiHintOptionsProvider } from '@taiga-ui/core';
 import { TUI_LANGUAGE, TUI_VIETNAMESE_LANGUAGE } from '@taiga-ui/i18n';
 import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
-import { PermissionConstant } from '@teaching-scheduling-system/core/data-access/constants';
+import {
+  PermissionConstant,
+  RoleConstant,
+} from '@teaching-scheduling-system/core/data-access/constants';
 import {
   beforeTodayFactory,
   maxLengthFactory,
@@ -42,21 +45,21 @@ const NGRX = [
 export const webShellFeatureRoutes: Routes = [
   {
     path: 'login',
+    canActivate: [KeepUserGuard],
     data: {
       title: 'Đăng nhập',
     },
-    canActivate: [KeepUserGuard],
     loadChildren: async () =>
       (await import('@teaching-scheduling-system/web/login/feature'))
         .LoginModule,
   },
   {
     path: '',
+    canActivate: [KeepUserGuard],
     data: {
       breadcrumb: 'Trang chủ',
     },
     component: LayoutComponent,
-    canActivate: [MaintenanceGuard, KeepUserGuard],
     children: [
       {
         path: '',
@@ -65,7 +68,19 @@ export const webShellFeatureRoutes: Routes = [
         redirectTo: 'calendar',
       },
       {
+        path: 'admin',
+        canActivate: [PermissionGuard],
+        data: {
+          roles: [RoleConstant.ADMIN],
+          breadcrumb: 'Admin',
+        },
+        loadChildren: async () =>
+          (await import('@teaching-scheduling-system/web/admin/feature/shell'))
+            .ShellModule,
+      },
+      {
         path: 'calendar',
+        canActivate: [MaintenanceGuard],
         data: {
           breadcrumb: 'Lịch biểu',
         },
@@ -75,7 +90,7 @@ export const webShellFeatureRoutes: Routes = [
       },
       {
         path: 'schedule',
-        canActivate: [PermissionGuard],
+        canActivate: [MaintenanceGuard, PermissionGuard],
         data: {
           permissions: [PermissionConstant.ASSIGN_SCHEDULE],
           breadcrumb: 'Lịch giảng dạy',
@@ -89,7 +104,7 @@ export const webShellFeatureRoutes: Routes = [
       },
       {
         path: 'exam',
-        canActivate: [PermissionGuard],
+        canActivate: [MaintenanceGuard, PermissionGuard],
         data: {
           permissions: [PermissionConstant.ASSIGN_SCHEDULE],
           breadcrumb: 'Lịch thi',
@@ -100,7 +115,7 @@ export const webShellFeatureRoutes: Routes = [
       },
       {
         path: 'statistic',
-        canActivate: [PermissionGuard],
+        canActivate: [MaintenanceGuard, PermissionGuard],
         data: {
           breadcrumb: 'Thống kê',
         },
@@ -113,6 +128,7 @@ export const webShellFeatureRoutes: Routes = [
       },
       {
         path: 'settings',
+        canActivate: [MaintenanceGuard],
         data: {
           breadcrumb: 'Cài đặt',
         },
@@ -125,6 +141,7 @@ export const webShellFeatureRoutes: Routes = [
       },
       {
         path: 'feedback',
+        canActivate: [MaintenanceGuard],
         data: {
           breadcrumb: 'Đóng góp ý kiến',
         },
@@ -134,6 +151,7 @@ export const webShellFeatureRoutes: Routes = [
       },
       {
         path: 'user-info',
+        canActivate: [MaintenanceGuard],
         data: {
           breadcrumb: 'Thông tin cá nhân',
         },

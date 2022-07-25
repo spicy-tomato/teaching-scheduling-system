@@ -1,12 +1,15 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
+import { ObservableHelper } from '@teaching-scheduling-system/core/utils/helpers';
+import { Teacher } from '@teaching-scheduling-system/web/shared/data-access/models';
 import {
   AppShellState,
   keepLogin,
   reset,
-  selectPermission,
   selectStatus,
+  selectTeacher,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
 import {
   filter,
@@ -25,7 +28,7 @@ export class PermissionGuard
   extends ReplaySubject<void>
   implements CanActivate, OnDestroy
 {
-  private permissions$: Observable<number[]>;
+  private teacher$: Observable<Nullable<Teacher>>;
 
   /** CONSTRUCTOR */
   constructor(
@@ -47,23 +50,29 @@ export class PermissionGuard
       )
       .subscribe();
 
-    this.permissions$ = appShellStore
-      .select(selectPermission)
-      .pipe(takeUntil(this));
+    this.teacher$ = appShellStore.select(selectTeacher).pipe(takeUntil(this));
   }
 
   /** IMPLEMENTATION */
   public canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
-    return this.permissions$.pipe(
-      filter((x) => x.length > 0),
-      map((permissions) => {
-        const acceptPermissions = route.data['permissions'] as number[];
-        const canActivate =
-          (!acceptPermissions ||
-            permissions.some((p) => acceptPermissions.includes(p))) ??
-          false;
+    return this.teacher$.pipe(
+      ObservableHelper.filterNullish(),
+      filter((x) => x.permissions.length > 0),
+      map(({ permissions, idRole }) => {
+        const acceptRoles = route.data['roles'] as number[] | undefined;
+        const acceptPermissions = route.data['permissions'] as
+          | number[]
+          | undefined;
 
-        if (canActivate) {
+        if (!acceptRoles && !acceptPermissions) {
+          return true;
+        }
+
+        if (
+          (acceptRoles && acceptRoles.includes(idRole)) ||
+          (acceptPermissions &&
+            permissions.some((p) => acceptPermissions.includes(p)))
+        ) {
           return true;
         }
 
