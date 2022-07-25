@@ -70,13 +70,13 @@ export class SendEmailComponent implements OnInit {
       this.router.getCurrentNavigation()?.extras.state?.['validationFailed'] ||
       false;
 
-    this.initDialog();
     this.initForm();
     this.handleStatusChange();
   }
 
   /** LIFECYCLE */
   public ngOnInit(): void {
+    this.initDialog();
     this.appShellStore.dispatch(setLoader({ showLoader: false }));
   }
 
