@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { routerNavigatedAction } from '@ngrx/router-store';
+import { ObservableHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import { BreadcrumbItem } from '@teaching-scheduling-system/web/shared/data-access/models';
 import {
   AccessTokenService,
@@ -111,8 +112,10 @@ export class AppShellEffects {
   public loadTeachersInDepartment$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ApiAction.autoLoginSuccessfully),
-      mergeMap(({ teacher }) => {
-        return this.teacherService.getByDepartment(teacher.department.id).pipe(
+      map(({ teacher }) => teacher.department?.id),
+      ObservableHelper.filterNullish(),
+      mergeMap((id) => {
+        return this.teacherService.getByDepartment(id).pipe(
           map(({ data }) =>
             ApiAction.loadTeachersInDepartmentSuccessful({ teachers: data })
           ),

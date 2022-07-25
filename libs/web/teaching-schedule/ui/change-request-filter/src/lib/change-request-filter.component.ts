@@ -101,7 +101,7 @@ export class ChangeRequestFilterComponent {
             this.exportService.exportChangeScheduleRequestForTeacher(
               schedules,
               teacher.name,
-              teacher.department.name || '',
+              teacher.department?.name || '',
               schedules[0].reason
             );
 
