@@ -224,7 +224,7 @@ export class ChangeRequestListActionComponent implements OnInit {
     const document = this.exportService.exportChangeScheduleRequestForTeacher(
       [this.schedule],
       this.schedule.teacher.name ?? teacher?.name,
-      teacher?.department.name || '',
+      teacher?.department?.name || '',
       this.schedule.reason
     );
 
