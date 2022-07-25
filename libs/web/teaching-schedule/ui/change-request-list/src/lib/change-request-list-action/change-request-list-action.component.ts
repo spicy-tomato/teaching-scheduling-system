@@ -5,6 +5,7 @@ import {
   Inject,
   Injector,
   Input,
+  OnInit,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TuiDestroyService } from '@taiga-ui/cdk';
@@ -63,7 +64,7 @@ import {
     }),
   ],
 })
-export class ChangeRequestListActionComponent {
+export class ChangeRequestListActionComponent implements OnInit {
   /** INPUT */
   @Input() public schedule!: ChangeSchedule;
   @Input() public canCancel!: boolean;
@@ -81,6 +82,7 @@ export class ChangeRequestListActionComponent {
   private readonly nameTitle$: Observable<string>;
   private readonly permissions$: Observable<number[]>;
   private readonly teacher$: Observable<Nullable<Teacher>>;
+  private dialog$!: Observable<void>;
 
   /** CONSTRUCTOR */
   constructor(
@@ -116,20 +118,27 @@ export class ChangeRequestListActionComponent {
     this.handleCancel();
   }
 
+  /** LIFE CYCLE */
+  ngOnInit(): void {
+    this.initDialog();
+  }
+
   /** PUBLIC METHODS */
   public showDetails(): void {
-    this.tuiDialogService
-      .open(
-        new PolymorpheusComponent(ChangeDetailsDialogComponent, this.injector),
-        {
-          data: this.schedule,
-          label: 'Chi tiết yêu cầu thay đổi giờ giảng',
-        }
-      )
-      .subscribe();
+    this.dialog$.subscribe();
   }
 
   /** PRIVATE METHODS */
+  private initDialog(): void {
+    this.dialog$ = this.tuiDialogService.open(
+      new PolymorpheusComponent(ChangeDetailsDialogComponent, this.injector),
+      {
+        data: this.schedule,
+        label: 'Chi tiết yêu cầu thay đổi giờ giảng',
+      }
+    );
+  }
+
   private handleExport(): void {
     this.export$
       .pipe(
@@ -215,7 +224,7 @@ export class ChangeRequestListActionComponent {
     const document = this.exportService.exportChangeScheduleRequestForTeacher(
       [this.schedule],
       this.schedule.teacher.name ?? teacher?.name,
-      teacher?.department.name || '',
+      teacher?.department?.name || '',
       this.schedule.reason
     );
 

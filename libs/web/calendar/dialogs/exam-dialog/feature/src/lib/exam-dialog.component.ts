@@ -7,13 +7,17 @@ import {
   Validators,
 } from '@angular/forms';
 import { TuiDestroyService } from '@taiga-ui/cdk';
-import { TuiDialogContext } from '@taiga-ui/core';
+import {
+  TuiAlertService,
+  TuiDialogContext,
+  TuiNotification,
+} from '@taiga-ui/core';
 import { CoreConstant } from '@teaching-scheduling-system/core/data-access/constants';
 import { DateHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import { EjsScheduleModel } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { sameGroupStaticValueValidator } from '@teaching-scheduling-system/web/shared/utils/validators';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { map, Subject, takeUntil, tap } from 'rxjs';
+import { map, takeUntil, tap } from 'rxjs';
 import { ExamDialogStore } from './store';
 
 @Component({
@@ -30,11 +34,13 @@ export class ExamDialogComponent {
   public readonly showLoader$ = this.store.status$.pipe(
     map((s) => s === 'loading')
   );
-  public readonly submit$ = new Subject<void>();
   public form!: FormGroup;
 
+  /** PRIVATE PROPERTIES */
+  private needUpdateAfterClose = false;
+
   /** GETTERS */
-  public get idControl(): FormControl {
+  private get idControl(): FormControl {
     return this.form.controls['id'] as FormControl;
   }
 
@@ -42,10 +48,12 @@ export class ExamDialogComponent {
     return this.form.controls['people'] as FormArray;
   }
 
-  public get noteControl(): FormControl {
-    return (this.form.controls['change'] as FormGroup).controls[
-      'note'
-    ] as FormControl;
+  public get changeControl(): FormGroup {
+    return this.form.controls['change'] as FormGroup;
+  }
+
+  private get noteControl(): FormControl {
+    return this.changeControl.controls['note'] as FormControl;
   }
 
   /** CONSTRUCTOR */
@@ -53,6 +61,8 @@ export class ExamDialogComponent {
     @Inject(POLYMORPHEUS_CONTEXT)
     private readonly context: TuiDialogContext<string, EjsScheduleModel>,
     private readonly fb: FormBuilder,
+    @Inject(TuiAlertService)
+    private readonly alertService: TuiAlertService,
     private readonly store: ExamDialogStore,
     private readonly destroy$: TuiDestroyService
   ) {
@@ -70,7 +80,11 @@ export class ExamDialogComponent {
 
   public onCancel(): void {
     setTimeout(() => {
-      this.context.$implicit.complete();
+      if (this.needUpdateAfterClose) {
+        this.context.completeWith(this.noteControl.value);
+      } else {
+        this.context.$implicit.complete();
+      }
     });
   }
 
@@ -87,7 +101,7 @@ export class ExamDialogComponent {
       : DateHelper.toTuiDay(today);
 
     const initialChange = {
-      note: data?.Note,
+      note: data?.Note ?? '',
     };
 
     this.form = this.fb.group({
@@ -102,9 +116,7 @@ export class ExamDialogComponent {
         {
           note: [initialChange.note, Validators.maxLength(this.noteMaxLength)],
         },
-        {
-          validators: sameGroupStaticValueValidator(initialChange),
-        }
+        { validators: sameGroupStaticValueValidator(initialChange) }
       ),
     });
   }
@@ -114,15 +126,35 @@ export class ExamDialogComponent {
       .pipe(
         tap((status) => {
           if (status === 'successful') {
-            setTimeout(() => {
-              this.context.completeWith(this.noteControl.value);
-            });
+            this.needUpdateAfterClose = true;
+            this.changeControl.setValidators(
+              sameGroupStaticValueValidator(this.changeControl.value)
+            );
+            this.changeControl.updateValueAndValidity();
+            this.showNotificationUpdateSuccessful();
           } else if (status === 'systemError') {
-            this.onCancel();
+            this.showNotificationError();
           }
         }),
         takeUntil(this.destroy$)
       )
+      .subscribe();
+  }
+
+  private showNotificationUpdateSuccessful(): void {
+    this.alertService
+      .open('Cập nhật lịch thi thành công!', {
+        status: TuiNotification.Success,
+      })
+      .subscribe();
+  }
+
+  private showNotificationError(): void {
+    this.alertService
+      .open('Vui lòng thử lại sau', {
+        label: 'Đã có lỗi xảy ra',
+        status: TuiNotification.Error,
+      })
       .subscribe();
   }
 }

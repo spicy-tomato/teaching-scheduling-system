@@ -20,6 +20,7 @@ import { Observable, takeUntil } from 'rxjs';
   templateUrl: './change-request-filter-left.component.html',
   styleUrls: ['./change-request-filter-left.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [TuiDestroyService]
 })
 export class ChangeRequestFilterLeftComponent {
   /** INPUT */

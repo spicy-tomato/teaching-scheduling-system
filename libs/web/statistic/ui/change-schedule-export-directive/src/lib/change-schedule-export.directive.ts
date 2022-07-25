@@ -102,7 +102,7 @@ export class ChangeScheduleExportDirective {
       : rangeOptions.inOneYear
       ? range.from.year
       : `${range.from.formattedDayPart}${range.from.formattedMonthPart}${range.from.formattedYear}_${range.to.formattedDayPart}${range.to.formattedMonthPart}${range.to.formattedYear}`;
-    const fileName = `${teacher.department.id}_${commonName}_${rangeText}.docx`;
+    const fileName = `${teacher.department?.id}_${commonName}_${rangeText}.docx`;
 
     this.exportService.exportBlob({
       document,

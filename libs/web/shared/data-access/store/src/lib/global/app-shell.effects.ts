@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { routerNavigatedAction } from '@ngrx/router-store';
+import { ObservableHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import { BreadcrumbItem } from '@teaching-scheduling-system/web/shared/data-access/models';
 import {
   AccessTokenService,
@@ -11,8 +12,7 @@ import {
   TeacherService,
   UserService,
 } from '@teaching-scheduling-system/web/shared/data-access/services';
-import { of } from 'rxjs';
-import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import { catchError, map, mergeMap, of, tap } from 'rxjs';
 import * as ApiAction from './app-shell.api.actions';
 import * as PageAction from './app-shell.page.actions';
 
@@ -57,7 +57,9 @@ export class AppShellEffects {
             tap(() => {
               this.accessTokenService.clear();
               const path = this.location.path();
-              this.appService.redirectToLogin(path.includes('login') ? undefined : path);
+              this.appService.redirectToLogin(
+                path.includes('login') ? undefined : path
+              );
             })
           )
         )
@@ -110,8 +112,10 @@ export class AppShellEffects {
   public loadTeachersInDepartment$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ApiAction.autoLoginSuccessfully),
-      mergeMap(({ teacher }) => {
-        return this.teacherService.getByDepartment(teacher.department.id).pipe(
+      map(({ teacher }) => teacher.department?.id),
+      ObservableHelper.filterNullish(),
+      mergeMap((id) => {
+        return this.teacherService.getByDepartment(id).pipe(
           map(({ data }) =>
             ApiAction.loadTeachersInDepartmentSuccessful({ teachers: data })
           ),
