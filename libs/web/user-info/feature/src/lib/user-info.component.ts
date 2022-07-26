@@ -88,8 +88,6 @@ export class UserInfoComponent {
     this.handleSave();
   }
 
-  /** PUBLIC METHODS */
-
   /** PRIVATE METHODS */
   private initForm(): void {
     this.form = this.fb.group({
@@ -106,7 +104,8 @@ export class UserInfoComponent {
         tap((teacher) => {
           this.form.patchValue({
             name: teacher.name,
-            department: teacher.department.name,
+            // TODO: Hide component
+            department: teacher.department?.name,
             faculty: teacher.faculty.name,
             phone: teacher.phone || '',
           });

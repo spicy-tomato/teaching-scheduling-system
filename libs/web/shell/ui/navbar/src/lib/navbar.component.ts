@@ -9,6 +9,7 @@ import {
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TuiDestroyService } from '@taiga-ui/cdk';
+import { tuiButtonOptionsProvider } from '@taiga-ui/core';
 import { NavbarConstants } from '@teaching-scheduling-system/core/data-access/constants';
 import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
 import { Teacher } from '@teaching-scheduling-system/web/shared/data-access/models';
@@ -29,7 +30,13 @@ import { NavbarOptions, NAVBAR_OPTIONS } from './navbar.token';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TuiDestroyService],
+  providers: [
+    tuiButtonOptionsProvider({
+      appearance: 'icon',
+      size: 'm',
+    }),
+    TuiDestroyService,
+  ],
 })
 export class NavbarComponent {
   /** PUBLIC PROPERTIES */
