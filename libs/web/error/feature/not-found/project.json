@@ -5,7 +5,9 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/web/error/feature/not-found"],
+      "outputs": [
+        "coverage/libs/web/error/feature/not-found"
+      ],
       "options": {
         "jestConfig": "libs/web/error/feature/not-found/jest.config.ts",
         "passWithNoTests": true

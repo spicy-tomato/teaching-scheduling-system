@@ -6,7 +6,9 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/core/directives/var"],
+      "outputs": [
+        "coverage/libs/core/directives/var"
+      ],
       "options": {
         "jestConfig": "libs/core/directives/var/jest.config.ts",
         "passWithNoTests": true
