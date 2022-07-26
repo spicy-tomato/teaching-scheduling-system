@@ -7,6 +7,7 @@
       [scheduleComponent]="scheduleComponent"
       shape="rounded"
       icon="tuiIconChevronLeftLarge"
+      aria-label="Chevron Left"
     ></button>
     <button
       tuiIconButton
@@ -14,6 +15,7 @@
       [scheduleComponent]="scheduleComponent"
       shape="rounded"
       icon="tuiIconChevronRightLarge"
+      aria-label="Chevron Right"
     ></button>
   </ng-template>
   <tui-select
@@ -43,12 +45,14 @@
     tssNavigate="today"
     [scheduleComponent]="scheduleComponent"
     icon="tuiIconCalendarLarge"
+    aria-label="Today"
   ></button>
   <button
     tuiIconButton
     (click)="toggleRightMenu(true)"
     (tuiActiveZoneChange)="toggleRightMenu($event)"
     icon="tuiIconFilterLarge"
+    aria-label="Filter"
   >
     <div *tuiSidebar="openRightMenu; direction: 'right'">
       <div class="p-0.5">

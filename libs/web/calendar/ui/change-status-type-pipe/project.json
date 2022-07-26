@@ -5,7 +5,9 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/web/calendar/ui/change-status-type-pipe"],
+      "outputs": [
+        "coverage/libs/web/calendar/ui/change-status-type-pipe"
+      ],
       "options": {
         "jestConfig": "libs/web/calendar/ui/change-status-type-pipe/jest.config.ts",
         "passWithNoTests": true

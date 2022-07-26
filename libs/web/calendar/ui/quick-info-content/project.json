@@ -5,7 +5,9 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/web/calendar/ui/quick-info-content"],
+      "outputs": [
+        "coverage/libs/web/calendar/ui/quick-info-content"
+      ],
       "options": {
         "jestConfig": "libs/web/calendar/ui/quick-info-content/jest.config.ts",
         "passWithNoTests": true
