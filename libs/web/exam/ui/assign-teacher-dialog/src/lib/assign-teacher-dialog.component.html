@@ -20,16 +20,16 @@
   <div class="tui-form__buttons tui-form__buttons_align_end">
     <button
       tuiButton
-      (click)="onConfirm()"
       [showLoader]="status === 'loading'"
+      (click)="onConfirm()"
       class="tui-form__button"
     >
       Xác nhận
     </button>
     <button
       tuiButton
-      (click)="onCancel()"
       [disabled]="status === 'loading'"
+      (click)="onCancel()"
       class="tui-form__button"
     >
       Hủy
