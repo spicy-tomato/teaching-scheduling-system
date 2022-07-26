@@ -5,7 +5,9 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/web/exam/feature/assign"],
+      "outputs": [
+        "coverage/libs/web/exam/feature/assign"
+      ],
       "options": {
         "jestConfig": "libs/web/exam/feature/assign/jest.config.ts",
         "passWithNoTests": true

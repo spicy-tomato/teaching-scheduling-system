@@ -5,7 +5,9 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/web/error/feature/maintenance"],
+      "outputs": [
+        "coverage/libs/web/error/feature/maintenance"
+      ],
       "options": {
         "jestConfig": "libs/web/error/feature/maintenance/jest.config.ts",
         "passWithNoTests": true

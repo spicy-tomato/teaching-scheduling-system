@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.11.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.10.0...v3.11.0) (2022-07-26)
+
+
+### Features
+
+* add `alt` attribute to `img` tags ([4718366](https://github.com/annguyen-it/teaching-scheduling-system/commit/4718366503fbb01387570119ac5e2faca6e866a9))
+* add `description` meta tag ([c01dfd1](https://github.com/annguyen-it/teaching-scheduling-system/commit/c01dfd108596f1e2da12a17a335272f5f0589f52))
+* add aria-label to `button` tags with icon ([b20f3b7](https://github.com/annguyen-it/teaching-scheduling-system/commit/b20f3b714efbf1fed277c3f27e421bbee3a2f5ce))
+* admin page ([9c5f5d2](https://github.com/annguyen-it/teaching-scheduling-system/commit/9c5f5d26fb2e948a39fae631403c6999dfa3389c))
+* property `department` of `Teacher` can be undefined ([abe0dbc](https://github.com/annguyen-it/teaching-scheduling-system/commit/abe0dbc2314afd16c8e2ddc9bdbce65267408a95))
+
+
+### Bug Fixes
+
+* add size attributes to `img` ([875527b](https://github.com/annguyen-it/teaching-scheduling-system/commit/875527b49283d8373e86cf30ad6fceb9170db10c))
+* cannot load reset password page ([9330b41](https://github.com/annguyen-it/teaching-scheduling-system/commit/9330b4179087ccacdd7aefdb31272cfc28efb1d2))
+* **dep:** upgrade angular-cli to 13.3.9 ([49daf66](https://github.com/annguyen-it/teaching-scheduling-system/commit/49daf6671533b8e875129a6790899feef6177489))
+* **dep:** upgrade taiga-ui to 2.51.1 ([854dcb9](https://github.com/annguyen-it/teaching-scheduling-system/commit/854dcb9d3a095bcb85a21402b4c1633fe82de7a7))
+* **login:** page should be accessible when in maintainance ([0fbcdff](https://github.com/annguyen-it/teaching-scheduling-system/commit/0fbcdff4e6349f8b0612aa8fcc5f16bb1ffb426c))
+* title in navbar should not be line-break ([5ddb17b](https://github.com/annguyen-it/teaching-scheduling-system/commit/5ddb17b55d4a8f54a6771267cdcff52e9c1bef88))
+* use `pseudoHovered` for button transition instead of custom css class ([05ac238](https://github.com/annguyen-it/teaching-scheduling-system/commit/05ac2383136083eb502da90b4613becc69c2804a))
+
 ## [3.10.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.9.0...v3.10.0) (2022-07-25)
 
 

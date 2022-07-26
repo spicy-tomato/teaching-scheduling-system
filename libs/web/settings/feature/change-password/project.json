@@ -5,7 +5,9 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/web/settings/feature/change-password"],
+      "outputs": [
+        "coverage/libs/web/settings/feature/change-password"
+      ],
       "options": {
         "jestConfig": "libs/web/settings/feature/change-password/jest.config.ts",
         "passWithNoTests": true

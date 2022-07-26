@@ -5,14 +5,20 @@
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["libs/web/statistic/data-access/**/*.ts"]
+        "lintFilePatterns": [
+          "libs/web/statistic/data-access/**/*.ts"
+        ]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/web/statistic/data-access"],
+      "outputs": [
+        "coverage/libs/web/statistic/data-access"
+      ],
       "options": {
         "jestConfig": "libs/web/statistic/data-access/jest.config.ts",
         "passWithNoTests": true

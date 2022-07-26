@@ -60,12 +60,14 @@
               (click)="onOpenAssignDialog(item)"
               icon="tuiIconCompanyLarge"
               tuiHint="Phân lịch thi"
+              aria-label="Assign"
             ></button>
             <button
               tuiIconButton
               (click)="onOpenEditDialog(item)"
               icon="tuiIconEditLarge"
               tuiHint="Chỉnh sửa"
+              aria-label="Edit"
             ></button>
           </td>
         </tr>
@@ -75,9 +77,7 @@
       <ng-template #noData>
         <tbody tuiTbody>
           <th colspan="7">
-            <div class="no-data">
-              <h6>Chưa có dữ liệu</h6>
-            </div>
+            <div>Chưa có dữ liệu</div>
           </th>
         </tbody>
       </ng-template>

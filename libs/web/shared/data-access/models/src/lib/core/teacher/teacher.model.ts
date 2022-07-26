@@ -6,7 +6,7 @@ export class Teacher {
   public readonly phone?: string;
   public readonly universityTeacherDegree?: string;
   public readonly email?: string;
-  public readonly department!: SimpleModel;
+  public readonly department?: SimpleModel;
   public readonly faculty!: SimpleModel;
   public readonly id!: string;
   public readonly idRole!: number;
