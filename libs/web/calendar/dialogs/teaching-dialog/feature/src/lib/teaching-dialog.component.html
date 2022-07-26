@@ -5,6 +5,7 @@
     (tuiActiveZoneChange)="toggleScheduleList($event, true)"
     icon="tuiIconViewListLarge"
     class="md:!hidden"
+    aria-label="Toggle Schedule List"
   >
     <div *tuiSidebar="openScheduleList">
       <div class="px-4">
@@ -22,6 +23,7 @@
     "
     [tssTeachingHistory]="selectedSchedule.FixedSchedules"
     class="ml-auto mr-4 md:!hidden"
+    aria-label="History"
   >
     <tui-svg [src]="IconConstant.historyLarge"></tui-svg>
     <div class="hidden ml-1.5 sm:inline">Lịch sử thay đổi giờ giảng</div>
