@@ -1,9 +1,6 @@
 button[tuiButton] {
   @apply rounded-tui-radius-xs;
 }
-button.active ::ng-deep > tui-wrapper {
-  @apply bg-tui-secondary-active;
-}
 .wrapper button ::ng-deep .t-wrapper .t-content {
   @apply text-tui-text-01;
 }

@@ -5,14 +5,20 @@
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["libs/core/utils/factories/**/*.ts"]
+        "lintFilePatterns": [
+          "libs/core/utils/factories/**/*.ts"
+        ]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/core/utils/factories"],
+      "outputs": [
+        "coverage/libs/core/utils/factories"
+      ],
       "options": {
         "jestConfig": "libs/core/utils/factories/jest.config.ts",
         "passWithNoTests": true

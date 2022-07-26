@@ -5,14 +5,20 @@
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["libs/web/shared/data-access/dta/**/*.ts"]
+        "lintFilePatterns": [
+          "libs/web/shared/data-access/dta/**/*.ts"
+        ]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/web/shared/data-access/dta"],
+      "outputs": [
+        "coverage/libs/web/shared/data-access/dta"
+      ],
       "options": {
         "jestConfig": "libs/web/shared/data-access/dta/jest.config.ts",
         "passWithNoTests": true

@@ -8,8 +8,8 @@
       (click)="toggleMobileNav(true)"
       (tuiActiveZoneChange)="toggleMobileNav($event)"
       icon="tuiIconMenuLarge"
-      appearance="icon"
       class="lg:!hidden"
+      aria-label="Menu"
     >
       <div *tuiSidebar="openMobileNav">
         <tss-mobile-sidebar
@@ -18,9 +18,13 @@
       </div>
     </button>
     <a routerLink="/" class="h-full">
-      <img src="/assets/favicon/logo.png" class="block h-full object-cover" />
+      <img
+        src="/assets/favicon/logo.png"
+        class="block w-12 h-12 object-cover"
+        alt="Logo"
+      />
     </a>
-    <h3 class="hidden ml-1 text-lg font-bold uppercase sm:block">
+    <h3 class="hidden ml-1 text-sm font-bold uppercase sm:block md:text-lg">
       Hệ thống quản lý lịch giảng dạy
     </h3>
   </div>
@@ -30,7 +34,6 @@
       <button
         tuiButton
         *ngrxLet="user$ as user"
-        size="m"
         appearance="nav-button"
         type="button"
       >

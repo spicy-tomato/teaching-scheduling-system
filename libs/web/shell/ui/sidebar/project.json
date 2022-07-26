@@ -5,7 +5,9 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/web/shell/ui/sidebar"],
+      "outputs": [
+        "coverage/libs/web/shell/ui/sidebar"
+      ],
       "options": {
         "jestConfig": "libs/web/shell/ui/sidebar/jest.config.ts",
         "passWithNoTests": true
