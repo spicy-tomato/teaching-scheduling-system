@@ -17,12 +17,18 @@
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["apps/teaching-scheduling-system-e2e/**/*.{js,ts}"]
+        "lintFilePatterns": [
+          "apps/teaching-scheduling-system-e2e/**/*.{js,ts}"
+        ]
       }
     }
   },
   "tags": [],
-  "implicitDependencies": ["teaching-scheduling-system"]
+  "implicitDependencies": [
+    "teaching-scheduling-system"
+  ]
 }

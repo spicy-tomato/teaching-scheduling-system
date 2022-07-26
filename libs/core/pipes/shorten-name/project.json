@@ -5,7 +5,9 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/core/pipes/shorten-name"],
+      "outputs": [
+        "coverage/libs/core/pipes/shorten-name"
+      ],
       "options": {
         "jestConfig": "libs/core/pipes/shorten-name/jest.config.ts",
         "passWithNoTests": true

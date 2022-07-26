@@ -5,7 +5,9 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/web/reset-password/feature/confirm"],
+      "outputs": [
+        "coverage/libs/web/reset-password/feature/confirm"
+      ],
       "options": {
         "jestConfig": "libs/web/reset-password/feature/confirm/jest.config.ts",
         "passWithNoTests": true

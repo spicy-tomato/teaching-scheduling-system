@@ -5,7 +5,9 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/web/teaching-schedule/feature/import"],
+      "outputs": [
+        "coverage/libs/web/teaching-schedule/feature/import"
+      ],
       "options": {
         "jestConfig": "libs/web/teaching-schedule/feature/import/jest.config.ts",
         "passWithNoTests": true

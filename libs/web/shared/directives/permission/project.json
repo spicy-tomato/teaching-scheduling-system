@@ -5,7 +5,9 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/web/shared/directives/permission"],
+      "outputs": [
+        "coverage/libs/web/shared/directives/permission"
+      ],
       "options": {
         "jestConfig": "libs/web/shared/directives/permission/jest.config.ts",
         "passWithNoTests": true
