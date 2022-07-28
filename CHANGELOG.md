@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.12.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.11.0...v3.12.0) (2022-07-28)
+
+
+### Features
+
+* auto open sidebar accordion ([60c7f7e](https://github.com/annguyen-it/teaching-scheduling-system/commit/60c7f7eaedec0d277dab52c6155e03b09b4e22aa))
+* **calendar:** filter by schedule type ([aa5e96a](https://github.com/annguyen-it/teaching-scheduling-system/commit/aa5e96a765ffd05b0d13a2db988ce86dcd233c58))
+
+
+### Bug Fixes
+
+* **dep:** update taiga-ui to 2.52.0 ([d2bd6fc](https://github.com/annguyen-it/teaching-scheduling-system/commit/d2bd6fcd6b7d63078412eea6cb9c8033fd9775be))
+
 ## [3.11.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.10.0...v3.11.0) (2022-07-26)
 
 
