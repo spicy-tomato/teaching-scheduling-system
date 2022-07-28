@@ -1,5 +1,5 @@
+import { PermissionConstant } from '@teaching-scheduling-system/core/data-access/constants';
 import { SidebarItem } from '@teaching-scheduling-system/core/data-access/models';
-import { PermissionConstant } from '../core/permission.constant';
 
 export class SidebarConstant {
   public static items: SidebarItem[] = [
@@ -25,9 +25,20 @@ export class SidebarConstant {
     //   subItems: [{ name: 'Thông tin lớp học phần', routerLink: '' }],
     // },
     {
+      controlName: 'calendar',
       name: 'Lịch biểu',
       icon: 'far fa-calendar-alt',
       routerLink: '/calendar',
+      subCheckboxes: [
+        {
+          controlName: 'study',
+          name: 'Lịch giảng dạy',
+        },
+        {
+          controlName: 'exam',
+          name: 'Lịch thi',
+        },
+      ],
     },
     {
       name: 'Phân giảng',
