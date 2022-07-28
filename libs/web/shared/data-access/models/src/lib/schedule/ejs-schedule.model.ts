@@ -39,8 +39,6 @@ export interface EjsScheduleModel {
 
   /**
    * Type of event. Can be `study` or `exam`
-   *
-   * @default study
    */
   Type: 'exam' | 'study';
 

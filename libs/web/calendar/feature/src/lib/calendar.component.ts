@@ -21,6 +21,7 @@ import {
   ScheduleComponent,
   WeekService,
 } from '@syncfusion/ej2-angular-schedule';
+import { Predicate, Query } from '@syncfusion/ej2-data';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import {
@@ -49,6 +50,7 @@ import {
   FixedScheduleModel,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { NavbarService } from '@teaching-scheduling-system/web/shell/ui/navbar';
+import { SidebarService } from '@teaching-scheduling-system/web/shell/ui/sidebar';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import {
   BehaviorSubject,
@@ -86,6 +88,7 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     allowEditing: true,
     allowDeleting: false,
   };
+  private calendars: Record<string, boolean> = {};
 
   /** CONSTRUCTOR */
   constructor(
@@ -93,10 +96,13 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
     @Inject(Injector) private readonly injector: Injector,
     private readonly navbarService: NavbarService,
+    private readonly sidebarService: SidebarService,
     private readonly store: Store<CalendarState>
   ) {
     this.store.dispatch(calendarReset());
     this.handleLoadSchedule();
+    this.handleSidebarAddItem();
+    this.handleSidebarCheckboxChange();
   }
 
   /** LIFECYCLE */
@@ -223,6 +229,54 @@ export class CalendarComponent implements OnInit, AfterViewInit {
           });
         }),
         takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
+  private handleSidebarAddItem(): void {
+    this.sidebarService
+      .listen('calendar.create')
+      .pipe(
+        tap((events) => {
+          events.forEach((e) => {
+            if (!this.calendars[e]) {
+              this.calendars[e] = true;
+            }
+          });
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
+  private handleSidebarCheckboxChange(): void {
+    this.sidebarService.event$
+      .pipe(
+        filter(
+          (e) => e.name === 'calendar.exam' || e.name === 'calendar.study'
+        ),
+        tap((e) => {
+          // https://ej2.syncfusion.com/angular/documentation/schedule/appointments/#appointment-filtering
+          this.calendars[e.name] = e.value as boolean;
+          let predicate: Predicate | undefined;
+
+          for (const [key, checked] of Object.entries(this.calendars)) {
+            if (checked) {
+              //    key         : calendar.study
+              // => compareValue: study
+              const compareValue = key.substring(9);
+              if (predicate) {
+                predicate = predicate.or('Type', 'equal', compareValue);
+              } else {
+                predicate = new Predicate('Type', 'equal', compareValue);
+              }
+            }
+          }
+
+          this.scheduleComponent.eventSettings.query = predicate
+            ? new Query().where(predicate)
+            : new Query();
+        })
       )
       .subscribe();
   }
