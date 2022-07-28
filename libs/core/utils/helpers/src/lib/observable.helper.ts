@@ -49,7 +49,7 @@ export class ObservableHelper {
           if (!ArrayHelper.isArray(accept)) {
             return other.includes(accept as U);
           }
-          return ArrayHelper.includesArray(other, accept as U[]);
+          return ArrayHelper.isSubset(accept as U[], other);
         }),
         map(([source]) => source)
       );
