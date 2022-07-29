@@ -25,7 +25,6 @@ import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
 import {
   ChangeStatusHelper,
   DateHelper,
-  FormHelper,
   ObservableHelper,
 } from '@teaching-scheduling-system/core/utils/helpers';
 import { DialogService } from '@teaching-scheduling-system/web-shared-ui-dialog';
@@ -57,13 +56,10 @@ import {
 } from '@teaching-scheduling-system/web/shared/data-access/store';
 import { sameGroupStaticValueValidator } from '@teaching-scheduling-system/web/shared/utils/validators';
 import {
-  EMPTY,
   filter,
-  iif,
   map,
-  mergeMap,
   Observable,
-  of,
+  skip,
   Subject,
   takeUntil,
   tap,
@@ -78,7 +74,6 @@ import { TeachingDialogButtonsRightComponent } from './teaching-dialog-buttons-r
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     TuiDestroyService,
-    FormHelper,
     tuiButtonOptionsProvider({
       appearance: 'primary',
       size: 'm',
@@ -131,6 +126,10 @@ export class TeachingDialogContentComponent implements OnInit {
     return this.form.controls['request'] as FormGroup;
   }
 
+  public get changeControl(): FormGroup {
+    return this.form.controls['change'] as FormGroup;
+  }
+
   private get roomControlValue(): string {
     return this.requestControl.controls['room'].value as string;
   }
@@ -148,7 +147,6 @@ export class TeachingDialogContentComponent implements OnInit {
     private readonly fb: FormBuilder,
     private readonly cdr: ChangeDetectorRef,
     private readonly store: Store<TeachingDialogState>,
-    private readonly formHelper: FormHelper,
     private readonly dialogService: DialogService,
     @Inject(TuiAlertService)
     private readonly alertService: TuiAlertService,
@@ -195,7 +193,7 @@ export class TeachingDialogContentComponent implements OnInit {
         ChangeStatusHelper.isPending(x.status)
       ) || null;
 
-    (this.form.controls['change'] as FormGroup).controls['note'].valueChanges
+    this.changeControl.controls['note'].valueChanges
       .pipe(
         withLatestFrom(this.requestingChangeSchedule$),
         filter(({ 1: requestingChangeSchedule }) => !requestingChangeSchedule),
@@ -213,20 +211,10 @@ export class TeachingDialogContentComponent implements OnInit {
   public onUpdate(): void {
     const id = this.schedule.Id;
     const body = {
-      note: (this.form.controls['change'] as FormGroup).controls['note']
-        .value as string,
+      note: this.changeControl.controls['note'].value as string,
     };
 
     this.store.dispatch(teachingDialogUpdate({ id, body }));
-  }
-
-  public showNotificationError(): void {
-    this.alertService
-      .open('Vui lòng thử lại sau', {
-        label: 'Đã có lỗi xảy ra',
-        status: TuiNotification.Error,
-      })
-      .subscribe();
   }
 
   /** PRIVATE METHODS */
@@ -322,7 +310,12 @@ export class TeachingDialogContentComponent implements OnInit {
           ],
         ],
       }),
-      change: this.getNewChangeControl(initialChange),
+      change: this.fb.group(
+        {
+          note: [initialChange.note, Validators.maxLength(this.noteMaxLength)],
+        },
+        { validators: sameGroupStaticValueValidator(initialChange) }
+      ),
     });
 
     this.store.dispatch(teachingDialogReset({ change: initialChange }));
@@ -404,28 +397,20 @@ export class TeachingDialogContentComponent implements OnInit {
   private handleJustRequestedScheduleChange(): void {
     this.justRequestedSchedule$
       .pipe(
-        mergeMap((request) =>
-          iif(
-            () => request !== null,
-            of(request).pipe(
-              ObservableHelper.filterNullish(),
-              tap((request) => {
-                const controls = this.form.controls;
-                this.updateSchedule.emit({
-                  ...request,
-                  idSchedule: this.schedule.Id,
-                  oldDate: (
-                    controls['start'].value as [TuiDay, TuiTime]
-                  )[0].getFormattedDay('YMD', '-'),
-                  oldIdRoom: controls['location'].value as string,
-                  oldShift: this.schedule.Shift ?? '1',
-                  isNew: true,
-                });
-              })
-            ),
-            EMPTY
-          )
-        ),
+        ObservableHelper.filterNullish(),
+        tap((request) => {
+          const controls = this.form.controls;
+          this.updateSchedule.emit({
+            ...request,
+            idSchedule: this.schedule.Id,
+            oldDate: (
+              controls['start'].value as [TuiDay, TuiTime]
+            )[0].getFormattedDay('YMD', '-'),
+            oldIdRoom: controls['location'].value as string,
+            oldShift: this.schedule.Shift ?? '1',
+            isNew: true,
+          });
+        }),
         takeUntil(this.destroy$)
       )
       .subscribe();
@@ -435,8 +420,7 @@ export class TeachingDialogContentComponent implements OnInit {
     this.cancelRequest$
       .pipe(
         withLatestFrom(this.nameTitle$),
-        map(({ 1: title }) => title),
-        tap((title) => {
+        tap(({ 1: title }) => {
           this.dialogService
             .showConfirmDialog({
               header: `${title} có chắc chắn muốn hủy yêu cầu này không?`,
@@ -466,8 +450,12 @@ export class TeachingDialogContentComponent implements OnInit {
   private handleChange(): void {
     this.change$
       .pipe(
+        skip(1),
         tap((change) => {
-          this.form.controls['change'] = this.getNewChangeControl(change);
+          this.changeControl.setValidators(
+            sameGroupStaticValueValidator(change)
+          );
+          this.changeControl.updateValueAndValidity();
           this.changeScheduleInfo.emit(change);
           this.cdr.markForCheck();
         }),
@@ -493,15 +481,12 @@ export class TeachingDialogContentComponent implements OnInit {
       .subscribe();
   }
 
-  private getNewChangeControl(value: TeachingDialogChange): FormGroup {
-    return this.formHelper.createNewFormGroup(
-      {
-        note: [value.note, Validators.maxLength(this.noteMaxLength)],
-      },
-      sameGroupStaticValueValidator(value, {
-        date: (a: Nullable<TuiDay>, b: Nullable<TuiDay>) =>
-          !!a && !!b && a.daySame(b),
+  private showNotificationError(): void {
+    this.alertService
+      .open('Vui lòng thử lại sau', {
+        label: 'Đã có lỗi xảy ra',
+        status: TuiNotification.Error,
       })
-    );
+      .subscribe();
   }
 }

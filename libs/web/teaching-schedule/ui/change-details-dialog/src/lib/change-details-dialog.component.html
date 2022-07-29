@@ -25,7 +25,7 @@
       <td>:</td>
       <td class="text-center" colspan="3">
         <i *ngIf="!context.data.moduleClassNumberReality; else numberReality">
-          (Chưa có dữ liệu)ư
+          (Chưa có dữ liệu)
         </i>
         <ng-template #numberReality>
           {{ context.data.moduleClassNumberReality }}
@@ -113,7 +113,7 @@
     <tr>
       <td>Trạng thái</td>
       <td>:</td>
-      <td [ngSwitch]="true" class="text-center font-semibold" colspan="3">
+      <td class="text-center font-semibold" colspan="3">
         <div [ngClass]="context.data.status | statusColor" class="text-center">
           {{ statusList[context.data.status].name }}
         </div>

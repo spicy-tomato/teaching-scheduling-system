@@ -1164,7 +1164,7 @@ export class ExportService {
                             }),
                             new TextRun({
                               break: 1,
-                              text: `Bộ môn ${teacher.department.name}`,
+                              text: `Bộ môn ${teacher.department?.name}`,
                               bold: true,
                             }),
                             new TextRun({
@@ -1270,7 +1270,7 @@ export class ExportService {
                 }),
                 new TextRun({
                   break: 2,
-                  text: `Bộ môn ${teacher.department.name} xin gửi tới phòng Thanh tra Pháp chế thay đổi lịch giảng dạy trong bộ môn ${rangeText}:`,
+                  text: `Bộ môn ${teacher.department?.name} xin gửi tới phòng Thanh tra Pháp chế thay đổi lịch giảng dạy trong bộ môn ${rangeText}:`,
                 }),
                 new TextRun({ break: 1 }),
               ],
@@ -1639,7 +1639,7 @@ export class ExportService {
                             }),
                             new TextRun({
                               break: 1,
-                              text: `Bộ môn ${teacher.department.name}`,
+                              text: `Bộ môn ${teacher.department?.name}`,
                               bold: true,
                             }),
                             new TextRun({

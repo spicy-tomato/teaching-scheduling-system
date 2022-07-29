@@ -5,14 +5,20 @@
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["libs/web/teaching-schedule/data-access/**/*.ts"]
+        "lintFilePatterns": [
+          "libs/web/teaching-schedule/data-access/**/*.ts"
+        ]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/web/teaching-schedule/data-access"],
+      "outputs": [
+        "coverage/libs/web/teaching-schedule/data-access"
+      ],
       "options": {
         "jestConfig": "libs/web/teaching-schedule/data-access/jest.config.ts",
         "passWithNoTests": true

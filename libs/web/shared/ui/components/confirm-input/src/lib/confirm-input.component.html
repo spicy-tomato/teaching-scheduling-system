@@ -9,7 +9,6 @@
       phoneMaskAfterCountryCode="###-###-#####"
     >
       <ng-container *ngTemplateOutlet="content"></ng-container>
-      <input tuiTextfield />
     </tui-input-phone>
     <tui-input
       *ngSwitchDefault
@@ -18,7 +17,6 @@
       (ngModelChange)="onValueChange($event)"
     >
       <ng-container *ngTemplateOutlet="content"></ng-container>
-      <input tuiTextfield />
     </tui-input>
   </ng-container>
   <button
@@ -30,6 +28,7 @@
     tuiHint="Chỉnh sửa thông tin"
     tuiHintMode="onDark"
     class="tui-group__auto-width-item"
+    aria-label="Edit"
   ></button>
   <ng-template #doneBtn>
     <button
@@ -46,6 +45,7 @@
       tuiHint="Lưu"
       tuiHintMode="onDark"
       class="tui-group__auto-width-item"
+      aria-label="Save"
     ></button>
     <button
       tuiIconButton
@@ -56,6 +56,7 @@
       tuiHint="Hủy"
       tuiHintMode="onDark"
       class="tui-group__auto-width-item"
+      aria-label="Cancel"
     ></button>
   </ng-template>
 </div>

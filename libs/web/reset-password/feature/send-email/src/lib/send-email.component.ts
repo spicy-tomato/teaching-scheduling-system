@@ -24,7 +24,7 @@ import {
 import { SuccessDialogHeaderComponent } from '@teaching-scheduling-system/web/shared/ui/components/success-dialog-header';
 import { navbarOptionsProvider } from '@teaching-scheduling-system/web/shell/ui/navbar';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { SendEmailStore } from './store/send-email.store';
 
 @Component({
@@ -49,6 +49,9 @@ export class SendEmailComponent implements OnInit {
   public readonly tokenValidationFailed;
   public form!: FormGroup;
 
+  /** PRIVATE PROPERTIES */
+  private dialog$!: Observable<void>;
+
   /** GETTERS */
   public get email(): FormControl {
     return this.form.controls['email'] as FormControl;
@@ -66,12 +69,14 @@ export class SendEmailComponent implements OnInit {
     this.tokenValidationFailed =
       this.router.getCurrentNavigation()?.extras.state?.['validationFailed'] ||
       false;
+
     this.initForm();
     this.handleStatusChange();
   }
 
   /** LIFECYCLE */
   public ngOnInit(): void {
+    this.initDialog();
     this.appShellStore.dispatch(setLoader({ showLoader: false }));
   }
 
@@ -81,6 +86,18 @@ export class SendEmailComponent implements OnInit {
   }
 
   /** PRIVATE METHODS */
+  private initDialog(): void {
+    this.dialog$ = this.tuiDialogService.open(
+      `Email xác nhận đặt lại mật khẩu đã được gửi đến địa chỉ ${this.email.value}. Vui lòng nhấn vào đường dẫn được đính kèm để đặt lại mật khẩu!`,
+      {
+        header: new PolymorpheusComponent(
+          SuccessDialogHeaderComponent,
+          this.injector
+        ),
+      }
+    );
+  }
+
   private initForm(): void {
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -92,17 +109,7 @@ export class SendEmailComponent implements OnInit {
       .pipe(
         tap((status) => {
           if (status === 'successful') {
-            this.tuiDialogService
-              .open(
-                `Email xác nhận đặt lại mật khẩu đã được gửi đến địa chỉ ${this.email.value}. Vui lòng nhấn vào đường dẫn được đính kèm để đặt lại mật khẩu!`,
-                {
-                  header: new PolymorpheusComponent(
-                    SuccessDialogHeaderComponent,
-                    this.injector
-                  ),
-                }
-              )
-              .subscribe();
+            this.dialog$.subscribe();
             this.form.disable();
           } else if (status === 'clientError') {
             if (this.email.untouched) {

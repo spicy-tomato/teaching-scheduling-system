@@ -8,7 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { AbstractTuiControl, TuiDestroyService } from '@taiga-ui/cdk';
+import { AbstractTuiControl } from '@taiga-ui/cdk';
 
 @Component({
   selector: 'tss-confirm-input',
@@ -16,7 +16,6 @@ import { AbstractTuiControl, TuiDestroyService } from '@taiga-ui/cdk';
   styleUrls: ['./confirm-input.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    TuiDestroyService,
     {
       provide: NG_VALUE_ACCESSOR,
       multi: true,

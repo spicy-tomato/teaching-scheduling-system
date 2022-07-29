@@ -25,15 +25,19 @@ import {
   selectNotNullTeacher,
   selectPermission,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
-import { combineLatest, Observable, of, OperatorFunction, Subject } from 'rxjs';
 import {
   catchError,
+  combineLatest,
   filter,
   map,
   mergeMap,
+  Observable,
+  of,
+  OperatorFunction,
+  Subject,
   tap,
   withLatestFrom,
-} from 'rxjs/operators';
+} from 'rxjs';
 import * as fromSchedule from '.';
 import * as ApiAction from './calendar.api.actions';
 import * as PageAction from './calendar.page.actions';
@@ -362,8 +366,6 @@ function calculateFetchRange(
   const end = TuiDay.fromUtcNativeDate(last);
   const rangeList = fetchedDateRanges.slice();
 
-  // debugger;
-
   if (rangeList.length === 0) {
     const range = new TuiDayRange(start, end);
     return {
@@ -381,8 +383,7 @@ function calculateFetchRange(
     };
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  if (start.dayAfter(ArrayHelper.lastItem(rangeList)!.to)) {
+  if (start.dayAfter(ArrayHelper.lastItemTruthy(rangeList).to)) {
     const range = new TuiDayRange(start, end);
     rangeList.push(range);
     return {

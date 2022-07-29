@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { filter, takeUntil, tap } from 'rxjs/operators';
+import { BehaviorSubject, filter, Observable, of, takeUntil, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',

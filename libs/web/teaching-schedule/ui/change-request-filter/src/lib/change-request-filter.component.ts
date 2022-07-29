@@ -50,6 +50,7 @@ export class ChangeRequestFilterComponent {
 
   /** PRIVATE PROPERTIES */
   private readonly teacher$: Observable<Teacher>;
+  private dialog$!: Observable<void>;
 
   /** CONSTRUCTOR */
   constructor(
@@ -70,23 +71,27 @@ export class ChangeRequestFilterComponent {
     );
 
     this.isPersonal = route.snapshot.data['personal'] as boolean;
+
+    this.initDialog();
     this.handleExportMultiple();
   }
 
   /** PUBLIC METHODS */
   public onExport(): void {
-    this.dialogService
-      .open(
-        new PolymorpheusComponent(ChangeReportDialogComponent, this.injector),
-        {
-          label: 'Xuất báo cáo thay đổi giờ giảng',
-          dismissible: false,
-        }
-      )
-      .subscribe();
+    this.dialog$.subscribe();
   }
 
   /** PRIVATE METHODS */
+  private initDialog(): void {
+    this.dialog$ = this.dialogService.open(
+      new PolymorpheusComponent(ChangeReportDialogComponent, this.injector),
+      {
+        label: 'Xuất báo cáo thay đổi giờ giảng',
+        dismissible: false,
+      }
+    );
+  }
+
   private handleExportMultiple(): void {
     this.exportMultiple$
       .pipe(
@@ -96,7 +101,7 @@ export class ChangeRequestFilterComponent {
             this.exportService.exportChangeScheduleRequestForTeacher(
               schedules,
               teacher.name,
-              teacher.department.name || '',
+              teacher.department?.name || '',
               schedules[0].reason
             );
 

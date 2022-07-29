@@ -2,14 +2,17 @@ import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
 import {
   combineLatest,
   concat,
+  connect,
+  filter,
+  map,
   MonoTypeOperatorFunction,
   Observable,
   OperatorFunction,
   pipe,
   Subscription,
   UnaryFunction,
+  withLatestFrom,
 } from 'rxjs';
-import { filter, map, publish, withLatestFrom } from 'rxjs/operators';
 import { ArrayHelper } from './array.helper';
 import { ObjectHelper } from './object.helper';
 
@@ -46,7 +49,7 @@ export class ObservableHelper {
           if (!ArrayHelper.isArray(accept)) {
             return other.includes(accept as U);
           }
-          return ArrayHelper.includesArray(other, accept as U[]);
+          return ArrayHelper.isSubset(accept as U[], other);
         }),
         map(([source]) => source)
       );
@@ -70,29 +73,29 @@ export class ObservableHelper {
   ): OperatorFunction<T, T> {
     return (source$) =>
       source$.pipe(
-        publish((published) => {
+        connect((published) => {
           const delayed = new Observable<T>((subscriber) => {
             let buffering = true;
             const buffer: T[] = [];
             const subscription = new Subscription();
             subscription.add(
-              notifier$.subscribe(
-                () => {
+              notifier$.subscribe({
+                next: () => {
                   buffer.forEach((value) => subscriber.next(value));
                   subscriber.complete();
                 },
-                (e) => subscriber.error(e),
-                () => {
+                error: (e) => subscriber.error(e),
+                complete: () => {
                   buffering = false;
                   buffer.length = 0;
-                }
-              )
+                },
+              })
             );
             subscription.add(
-              published.subscribe(
-                (value) => buffering && buffer.push(value),
-                (e) => subscriber.error(e)
-              )
+              published.subscribe({
+                next: (value) => buffering && buffer.push(value),
+                error: (e) => subscriber.error(e),
+              })
             );
             subscription.add(() => (buffer.length = 0));
             return subscription;

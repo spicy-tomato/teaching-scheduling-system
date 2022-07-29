@@ -2,6 +2,123 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.12.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.11.0...v3.12.0) (2022-07-28)
+
+
+### Features
+
+* auto open sidebar accordion ([60c7f7e](https://github.com/annguyen-it/teaching-scheduling-system/commit/60c7f7eaedec0d277dab52c6155e03b09b4e22aa))
+* **calendar:** filter by schedule type ([aa5e96a](https://github.com/annguyen-it/teaching-scheduling-system/commit/aa5e96a765ffd05b0d13a2db988ce86dcd233c58))
+
+
+### Bug Fixes
+
+* **dep:** update taiga-ui to 2.52.0 ([d2bd6fc](https://github.com/annguyen-it/teaching-scheduling-system/commit/d2bd6fcd6b7d63078412eea6cb9c8033fd9775be))
+
+## [3.11.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.10.0...v3.11.0) (2022-07-26)
+
+
+### Features
+
+* add `alt` attribute to `img` tags ([4718366](https://github.com/annguyen-it/teaching-scheduling-system/commit/4718366503fbb01387570119ac5e2faca6e866a9))
+* add `description` meta tag ([c01dfd1](https://github.com/annguyen-it/teaching-scheduling-system/commit/c01dfd108596f1e2da12a17a335272f5f0589f52))
+* add aria-label to `button` tags with icon ([b20f3b7](https://github.com/annguyen-it/teaching-scheduling-system/commit/b20f3b714efbf1fed277c3f27e421bbee3a2f5ce))
+* admin page ([9c5f5d2](https://github.com/annguyen-it/teaching-scheduling-system/commit/9c5f5d26fb2e948a39fae631403c6999dfa3389c))
+* property `department` of `Teacher` can be undefined ([abe0dbc](https://github.com/annguyen-it/teaching-scheduling-system/commit/abe0dbc2314afd16c8e2ddc9bdbce65267408a95))
+
+
+### Bug Fixes
+
+* add size attributes to `img` ([875527b](https://github.com/annguyen-it/teaching-scheduling-system/commit/875527b49283d8373e86cf30ad6fceb9170db10c))
+* cannot load reset password page ([9330b41](https://github.com/annguyen-it/teaching-scheduling-system/commit/9330b4179087ccacdd7aefdb31272cfc28efb1d2))
+* **dep:** upgrade angular-cli to 13.3.9 ([49daf66](https://github.com/annguyen-it/teaching-scheduling-system/commit/49daf6671533b8e875129a6790899feef6177489))
+* **dep:** upgrade taiga-ui to 2.51.1 ([854dcb9](https://github.com/annguyen-it/teaching-scheduling-system/commit/854dcb9d3a095bcb85a21402b4c1633fe82de7a7))
+* **login:** page should be accessible when in maintainance ([0fbcdff](https://github.com/annguyen-it/teaching-scheduling-system/commit/0fbcdff4e6349f8b0612aa8fcc5f16bb1ffb426c))
+* title in navbar should not be line-break ([5ddb17b](https://github.com/annguyen-it/teaching-scheduling-system/commit/5ddb17b55d4a8f54a6771267cdcff52e9c1bef88))
+* use `pseudoHovered` for button transition instead of custom css class ([05ac238](https://github.com/annguyen-it/teaching-scheduling-system/commit/05ac2383136083eb502da90b4613becc69c2804a))
+
+## [3.10.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.9.0...v3.10.0) (2022-07-25)
+
+
+### Features
+
+* add aria roles ([bede153](https://github.com/annguyen-it/teaching-scheduling-system/commit/bede1536569ed9704bc9c3e9a37fc48789e2420a))
+
+
+### Bug Fixes
+
+* close [#2](https://github.com/annguyen-it/teaching-scheduling-system/issues/2) ([06523b5](https://github.com/annguyen-it/teaching-scheduling-system/commit/06523b5af27fcc1513fe9465638c258ae32bd3ff))
+* **dep:** upgrade taiga-ui to 2.50.2 ([d697b38](https://github.com/annguyen-it/teaching-scheduling-system/commit/d697b387903554dfe2afee050b42f97ea24eb353))
+* **navbar:** breadcrumbs should be unsubscribe ([67c4949](https://github.com/annguyen-it/teaching-scheduling-system/commit/67c4949083ab0bb7dfd8e978c1df44960df3addf))
+
+## [3.9.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.8.4...v3.9.0) (2022-07-23)
+
+
+### Features
+
+* **calendar:** show notification after save exam note, instead of close dialog ([a6ba5e3](https://github.com/annguyen-it/teaching-scheduling-system/commit/a6ba5e32a77d90598ef43fe125e21fd8c8e0a881))
+* **core:** remove form helper ([6611e8d](https://github.com/annguyen-it/teaching-scheduling-system/commit/6611e8d8e4f44f8469f56aa60e7f8bc3372c179f))
+
+
+### Bug Fixes
+
+* **calendar:** cannot save note in exam dialog ([e536744](https://github.com/annguyen-it/teaching-scheduling-system/commit/e5367442c81338053f42f1779d6bf9b4e65f77bd))
+* **calendar:** save button in dialogs should be updated when changing note after save ([548ddb1](https://github.com/annguyen-it/teaching-scheduling-system/commit/548ddb1a096fb1406a7f2244d7d1caaee349af10))
+* **dep:** upgrade taiga-ui to 2.49.2 ([91d9b10](https://github.com/annguyen-it/teaching-scheduling-system/commit/91d9b100e5b88326549d9e234413db253ea52ae2))
+* import from rxjs intead of rxjs/operators ([d743b3e](https://github.com/annguyen-it/teaching-scheduling-system/commit/d743b3efc2e93d4c2e1536dd4c3726ebd8490cf0))
+
+### [3.8.4](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.8.3...v3.8.4) (2022-07-22)
+
+
+### Bug Fixes
+
+* **calendar:** status should be colored in change schedule history dialog ([986acf3](https://github.com/annguyen-it/teaching-scheduling-system/commit/986acf3b9832a1909da4804a00d6d855ddb7367f))
+* **dep:** update taiga-ui to 2.48.0 ([16f5312](https://github.com/annguyen-it/teaching-scheduling-system/commit/16f531215342ed95e49184e25a18b4511dd2b02f))
+* **teaching-schedule/request:** cannot open details dialog after refactor code ([82bb7ea](https://github.com/annguyen-it/teaching-scheduling-system/commit/82bb7ead219e31577bcff806cf9641faa47b04b3))
+
+### [3.8.3](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.8.2...v3.8.3) (2022-07-20)
+
+
+### Bug Fixes
+
+* **calendar:** duplicate details should be display on hover ([829fe35](https://github.com/annguyen-it/teaching-scheduling-system/commit/829fe35942dbef5962f0069cd18b4519c3d57aec))
+* **calendar:** use tuiButton in quick view dialog instead of default button ([705bdcc](https://github.com/annguyen-it/teaching-scheduling-system/commit/705bdcc949560c2f61fe331edf1de26a108d0055))
+* **dep:** upgrade taiga-ui to 2.47.0 ([325b449](https://github.com/annguyen-it/teaching-scheduling-system/commit/325b449c524d6c89e798d1131235fa1693aaaaee))
+
+### [3.8.2](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.8.1...v3.8.2) (2022-07-19)
+
+
+### Bug Fixes
+
+* checkboxes in table should be centered on vertical axis ([48752cd](https://github.com/annguyen-it/teaching-scheduling-system/commit/48752cd2e9e0a78626c684715411c7f023930c1d))
+* **dep:** update taiga-ui to 2.46.0 ([9ec251f](https://github.com/annguyen-it/teaching-scheduling-system/commit/9ec251ff9a07700cfba541a4cdfdc86ef89eaa8d))
+
+### [3.8.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.8.0...v3.8.1) (2022-07-17)
+
+
+### Bug Fixes
+
+* **dep:** update taiga-ui to 2.45.0 ([17bbeef](https://github.com/annguyen-it/teaching-scheduling-system/commit/17bbeef16518405d681da5fd05858ec1827de25e))
+* pipe filterByInput does not update when input changes ([5ec5a68](https://github.com/annguyen-it/teaching-scheduling-system/commit/5ec5a68e0afa908d3e7aeccf403a5939888f50ae))
+* routerLinkActive in sidebar should work ([cd6b4b9](https://github.com/annguyen-it/teaching-scheduling-system/commit/cd6b4b906885c7231a8a19a12c6cf801030561fe))
+* **sidebar:** transition of icon should be synchronus ([e1a6ccb](https://github.com/annguyen-it/teaching-scheduling-system/commit/e1a6ccb3b587f1be2eb5fffcc62293c9409520a4))
+
+## [3.8.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.7.0...v3.8.0) (2022-07-17)
+
+
+### Features
+
+* change EApiStatus type from enum to union string ([17a5196](https://github.com/annguyen-it/teaching-scheduling-system/commit/17a5196f25dba6d2116c8d43d28cccf6e48b6fb9))
+* update title on route changes ([62d5c0a](https://github.com/annguyen-it/teaching-scheduling-system/commit/62d5c0aa0d2bc9bdff0916f0384c60f09f50e4f8))
+
+
+### Bug Fixes
+
+* **calendar:** add validator to reason in teaching dialog ([4c7bea5](https://github.com/annguyen-it/teaching-scheduling-system/commit/4c7bea5479d652790024c53966ea6de7ae88469f))
+* **calendar:** disable date navigate when click date header in month view ([38aaeab](https://github.com/annguyen-it/teaching-scheduling-system/commit/38aaeab141909fea189554945ca06712bec19d36))
+* **dep:** update taiga-ui to 2.44.0 ([339bcfa](https://github.com/annguyen-it/teaching-scheduling-system/commit/339bcfa5aaecedb431feb863187c6ffa447eb65f))
+* vietnameseization ([87da393](https://github.com/annguyen-it/teaching-scheduling-system/commit/87da3932a9552ebcdf2f6cd272a0c45814e19eb5))
+
 ## [3.7.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.6.0...v3.7.0) (2022-07-14)
 
 

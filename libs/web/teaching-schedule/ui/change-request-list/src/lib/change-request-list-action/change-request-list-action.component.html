@@ -12,6 +12,7 @@
       (click)="showDetails()"
       icon="tuiIconShowLarge"
       tuiHint="Xem chi tiết"
+      aria-label="Details"
     ></button>
     <button
       tuiIconButton
@@ -19,6 +20,7 @@
       [disabled]="!(schedule.status | canExport)"
       (click)="export$.next()"
       tuiHint="Xuất file yêu cầu"
+      aria-label="Export"
     ></button>
     <button
       tuiIconButton
@@ -28,6 +30,7 @@
       icon="tuiIconTrashLarge"
       tuiHint="Hủy yêu cầu"
       tuiHintDirection="bottom-left"
+      aria-label="Cancel"
     ></button>
   </div>
 </tui-loader>

@@ -1,0 +1,31 @@
+<div *ngIf="data.elementType === 'cell' || data.elementType === 'event'">
+  <div
+    [ngStyle]="{
+      'background-color': data.Type === 'exam' ? '#ff0000' : data.Color || ''
+    }"
+    class="e-popup-header"
+  >
+    <div class="e-header-icon-wrapper">
+      <button
+        tuiIconButton
+        (click)="showEditorDialog.next()"
+        icon="tuiIconInfo"
+        title="Xem thông tin"
+        class="mr-1"
+        aria-label="Information"
+      ></button>
+      <button
+        tuiIconButton
+        (click)="closeDialog.next()"
+        icon="tuiIconCloseLarge"
+        title="Đóng"
+        aria-label="Close"
+      ></button>
+    </div>
+    <div class="e-subject-wrap">
+      <div [title]="data.Subject" class="e-subject e-text-ellipsis">
+        {{ data.Subject }}
+      </div>
+    </div>
+  </div>
+</div>

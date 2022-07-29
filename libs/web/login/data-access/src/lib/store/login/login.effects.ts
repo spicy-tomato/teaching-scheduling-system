@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
-import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import { of, catchError, map, mergeMap, tap } from 'rxjs';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as PageAction from './login.page.actions';
 import * as ApiAction from './login.api.actions';
@@ -34,7 +33,6 @@ export class LoginEffects {
             return ApiAction.loginSuccessful({ teacher });
           }),
           catchError((e) =>
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             e.status === 401
               ? of(ApiAction.wrongPassword())
               : of(ApiAction.systemError())

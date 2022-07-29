@@ -5,7 +5,9 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/web/exam/ui/assign-filter"],
+      "outputs": [
+        "coverage/libs/web/exam/ui/assign-filter"
+      ],
       "options": {
         "jestConfig": "libs/web/exam/ui/assign-filter/jest.config.ts",
         "passWithNoTests": true

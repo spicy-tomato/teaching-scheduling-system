@@ -1,23 +1,22 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import {
-  ExamScheduleModel,
-  Note,
-  ResponseModel,
-  SearchSchedule as SearchExam,
-  UpdateExamModel,
-} from '@teaching-scheduling-system/web/shared/data-access/models';
-import { map } from 'rxjs/operators';
 import {
   ObjectHelper,
   QueryFilterResult,
 } from '@teaching-scheduling-system/core/utils/helpers';
+import {
+  AppConfig,
+  APP_CONFIG,
+} from '@teaching-scheduling-system/web/config/data-access';
 import { DepartmentExamDta } from '@teaching-scheduling-system/web/shared/data-access/dta';
 import {
-  APP_CONFIG,
-  AppConfig,
-} from '@teaching-scheduling-system/web/config/data-access';
+  ExamScheduleModel,
+  Note,
+  ResponseModel,
+  SearchSchedule,
+  UpdateExamModel,
+} from '@teaching-scheduling-system/web/shared/data-access/models';
+import { map, Observable } from 'rxjs';
 
 const parseExamSchedule = (response: ResponseModel<ExamScheduleModel[]>) => ({
   ...response,
@@ -45,7 +44,7 @@ export class ExamService {
 
   public getExamSchedule(
     idTeacher: string,
-    params: QueryFilterResult<SearchExam>
+    params: QueryFilterResult<SearchSchedule>
   ): Observable<ResponseModel<ExamScheduleModel[]>> {
     return this.http
       .get<ResponseModel<ExamScheduleModel[]>>(
@@ -57,7 +56,7 @@ export class ExamService {
 
   public getDepartmentExamSchedule(
     department: string,
-    params: QueryFilterResult<SearchExam>
+    params: QueryFilterResult<SearchSchedule>
   ): Observable<ResponseModel<ExamScheduleModel[]>> {
     const parsedParams = ObjectHelper.toSnakeCase(
       params

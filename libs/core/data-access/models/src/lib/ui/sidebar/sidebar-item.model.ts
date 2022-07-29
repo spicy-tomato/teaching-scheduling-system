@@ -8,7 +8,13 @@ export interface SidebarItem {
     icon: string;
     useTaigaIcon?: boolean;
   }[];
+  subCheckboxes?: {
+    controlName: string;
+    name: string;
+  }[];
   permission?: number;
   useTaigaIcon?: boolean;
   externalLink?: string;
+  exactRouterLink?: boolean;
+  controlName?: string;
 }

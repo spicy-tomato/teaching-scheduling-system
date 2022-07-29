@@ -4,14 +4,11 @@
       Đóng góp ý kiến
     </h3>
     <div class="tui-form__row">
-      <tui-input [readOnly]="status === 'successful'" formControlName="title">
-        Tiêu đề
-      </tui-input>
+      <tui-input formControlName="title"> Tiêu đề </tui-input>
     </div>
     <div tuiGroup class="tui-form__row">
       <tui-radio-block
         [item]="0"
-        [readOnly]="status === 'successful'"
         contentAlign="left"
         formControlName="reportBug"
       >
@@ -24,7 +21,6 @@
       </tui-radio-block>
       <tui-radio-block
         [item]="1"
-        [readOnly]="status === 'successful'"
         contentAlign="left"
         formControlName="reportBug"
       >
@@ -39,18 +35,12 @@
       <tui-filter
         [content]="filterContent"
         [items]="topics"
-        [disabledItemHandler]="
-          status === 'successful' ? disabledItemHandler : enabledItemHandler
-        "
+        [disabledItemHandler]="disabledItemHandler"
         formControlName="tags"
       ></tui-filter>
     </div>
     <div tuiGroup class="tui-form__row">
-      <tui-editor
-        [tools]="tools"
-        [readOnly]="status === 'successful'"
-        formControlName="content"
-      >
+      <tui-editor [tools]="tools" formControlName="content">
         Nội dung
       </tui-editor>
       <tui-error
@@ -60,9 +50,9 @@
     </div>
     <div class="tui-form__buttons tui-form__buttons_align_end">
       <button
-        [disabled]="form.invalid || status === 'successful'"
-        [showLoader]="status === 'loading'"
         tuiButton
+        [disabled]="form.invalid || form.disabled"
+        [showLoader]="status === 'loading'"
         type="submit"
         class="tui-form__button"
       >

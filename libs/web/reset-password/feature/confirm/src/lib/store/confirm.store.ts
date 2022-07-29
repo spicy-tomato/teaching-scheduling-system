@@ -4,7 +4,7 @@ import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import {
   GenericState,
-  ResetPassword
+  ResetPassword,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { UserService } from '@teaching-scheduling-system/web/shared/data-access/services';
 import { of, switchMap, tap } from 'rxjs';

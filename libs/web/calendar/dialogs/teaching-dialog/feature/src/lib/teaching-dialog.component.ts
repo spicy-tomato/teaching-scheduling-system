@@ -35,6 +35,7 @@ export class TeachingDialogComponent {
 
   /** PRIVATE PROPERTIES */
   private haveOpened = false;
+  private needUpdateAfterClose = false;
 
   /** GETTERS */
   private get currentSelected(): EjsScheduleModel {
@@ -44,7 +45,6 @@ export class TeachingDialogComponent {
 
   /** SETTERS */
   private set currentSelected(schedule: EjsScheduleModel) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     this.schedules = this.schedules.map((s) =>
       s.Id === this.selectedSchedule.Id ? schedule : s
     );
@@ -75,19 +75,20 @@ export class TeachingDialogComponent {
   }
 
   public onUpdateSchedule(schedule: FixedScheduleModel): void {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const copy = { ...this.currentSelected };
     copy.FixedSchedules = [
       schedule,
       ...(this.selectedSchedule.FixedSchedules?.filter((x) => !x.isNew) ?? []),
     ];
     this.currentSelected = copy;
+    this.needUpdateAfterClose = true;
   }
 
   public onChangeScheduleInfo(changes: TeachingDialogChange): void {
     const copy = { ...this.currentSelected };
     copy.Note = changes.note;
     this.currentSelected = copy;
+    this.needUpdateAfterClose = true;
   }
 
   public onCancelRequest(): void {
@@ -99,7 +100,11 @@ export class TeachingDialogComponent {
 
   public onCancel(): void {
     setTimeout(() => {
-      this.context.completeWith(this.schedules);
+      if (this.needUpdateAfterClose) {
+        this.context.completeWith(this.schedules);
+      } else {
+        this.context.$implicit.complete();
+      }
     });
   }
 }

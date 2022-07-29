@@ -18,16 +18,15 @@
       formControlName="shift"
     >
       Chọn ca học:
-      <tui-data-list *tuiDataList>
-        <tui-opt-group>
-          <button
-            tuiOption
-            *ngFor="let shiftKey of shiftKeys"
-            [value]="shiftKey"
-          >
-            {{ shiftKey | shift }}
-          </button>
-        </tui-opt-group>
+      <tui-data-list *tuiDataList role="listbox">
+        <button
+          tuiOption
+          *ngFor="let shiftKey of shiftKeys"
+          [value]="shiftKey"
+          role="option"
+        >
+          {{ shiftKey | shift }}
+        </button>
       </tui-data-list>
     </tui-select>
   </div>
@@ -35,9 +34,11 @@
     <tui-select [valueContent]="studyTypeContent" formControlName="online">
       Chọn hình thức học:
       <ng-template tuiDataList>
-        <tui-data-list>
-          <button tuiOption [value]="true">Phòng học trực tuyến</button>
-          <button tuiOption [value]="false">Học trực tiếp</button>
+        <tui-data-list role="listbox">
+          <button tuiOption [value]="true" role="option">
+            Phòng học trực tuyến
+          </button>
+          <button tuiOption [value]="false" role="option">Học trực tiếp</button>
         </tui-data-list>
       </ng-template>
     </tui-select>
@@ -49,7 +50,6 @@
       class="tui-form__row"
     >
       Nhập phòng
-      <input tuiTextfield />
       <tui-data-list-wrapper
         *tuiDataList
         [items]="rooms | tuiFilter: roomMatcher | filterByInput"

@@ -36,11 +36,12 @@
         class="min-w-[175px]"
       >
         Hệ đào tạo
-        <tui-data-list *tuiDataList>
+        <tui-data-list *tuiDataList role="listbox">
           <button
             tuiOption
             *ngFor="let trainingType of trainingTypes"
             [value]="trainingType.id"
+            role="option"
           >
             {{ trainingType.name }}
           </button>
@@ -64,7 +65,7 @@
         class="min-w-[400px]"
       >
         Bộ môn
-        <tui-data-list *tuiDataList>
+        <tui-data-list *tuiDataList role="listbox">
           <tui-opt-group
             *ngFor="let faculty of faculties"
             [label]="faculty.name"
@@ -73,6 +74,7 @@
               tuiOption
               *ngFor="let department of faculty.value"
               [value]="department.id"
+              role="option"
             >
               {{ department.name }}
             </button>

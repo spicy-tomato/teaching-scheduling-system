@@ -5,7 +5,9 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/web/feedback/ui/success-dialog"],
+      "outputs": [
+        "coverage/libs/web/feedback/ui/success-dialog"
+      ],
       "options": {
         "jestConfig": "libs/web/feedback/ui/success-dialog/jest.config.ts",
         "passWithNoTests": true

@@ -11,8 +11,7 @@ import {
   AccessTokenService,
   AppService,
 } from '@teaching-scheduling-system/web/shared/data-access/services';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, tap } from 'rxjs';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {

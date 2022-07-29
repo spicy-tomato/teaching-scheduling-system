@@ -1,10 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { View } from '@syncfusion/ej2-angular-schedule';
 import { TuiMonth } from '@taiga-ui/cdk';
-import {
-  CalendarFilter,
-  EjsScheduleModel,
-} from '@teaching-scheduling-system/web/shared/data-access/models';
+import { CalendarFilter } from '@teaching-scheduling-system/web/shared/data-access/models';
 
 export const calendarReset = createAction('[Schedule Page] Reset');
 
@@ -40,9 +37,4 @@ export const calendarResetFilter = createAction('[Schedule Page] Reset Filter');
 export const calendarChangeSelectingState = createAction(
   '[Schedule Page] Change selecting type',
   props<{ changes: Partial<CalendarFilter> }>()
-);
-
-export const calendarChangeScheduleInDialog = createAction(
-  '[Schedule Page] Change schedule in dialog',
-  props<{ schedules: EjsScheduleModel[] }>()
 );

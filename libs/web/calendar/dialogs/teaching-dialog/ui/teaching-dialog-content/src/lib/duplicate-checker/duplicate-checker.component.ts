@@ -21,7 +21,7 @@ import { Observable, takeUntil } from 'rxjs';
   animations: [fadeIn],
 })
 export class DuplicateCheckerComponent {
-  /** INPUTS */
+  /** INPUT */
   @Input() public sameData!: boolean;
   @Input() public hadReason!: boolean;
 

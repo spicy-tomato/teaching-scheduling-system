@@ -57,6 +57,12 @@
       "@teaching-scheduling-system/web-shared-ui-dialog": [
         "libs/web/shared/ui/dialog/src/index.ts"
       ],
+      "@teaching-scheduling-system/web/admin/feature/shell": [
+        "libs/web/admin/feature/shell/src/index.ts"
+      ],
+      "@teaching-scheduling-system/web/admin/feature/web-config": [
+        "libs/web/admin/feature/web-config/src/index.ts"
+      ],
       "@teaching-scheduling-system/web/calendar/data-access": [
         "libs/web/calendar/data-access/src/index.ts"
       ],
@@ -101,6 +107,12 @@
       ],
       "@teaching-scheduling-system/web/calendar/ui/navigate": [
         "libs/web/calendar/ui/navigate/src/index.ts"
+      ],
+      "@teaching-scheduling-system/web/calendar/ui/quick-info-content": [
+        "libs/web/calendar/ui/quick-info-content/src/index.ts"
+      ],
+      "@teaching-scheduling-system/web/calendar/ui/quick-info-header": [
+        "libs/web/calendar/ui/quick-info-header/src/index.ts"
       ],
       "@teaching-scheduling-system/web/config/data-access": [
         "libs/web/config/data-access/src/index.ts"

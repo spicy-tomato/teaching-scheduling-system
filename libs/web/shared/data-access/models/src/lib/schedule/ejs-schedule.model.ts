@@ -39,8 +39,6 @@ export interface EjsScheduleModel {
 
   /**
    * Type of event. Can be `study` or `exam`
-   *
-   * @default study
    */
   Type: 'exam' | 'study';
 
@@ -83,4 +81,9 @@ export interface EjsScheduleModel {
    * Fixed schedule
    */
   FixedSchedules?: FixedScheduleModel[];
+
+  /**
+   * elementType
+   */
+  elementType?: 'cell' | 'event';
 }
