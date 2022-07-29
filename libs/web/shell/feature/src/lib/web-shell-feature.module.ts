@@ -32,6 +32,7 @@ import {
   LayoutModule,
 } from '@teaching-scheduling-system/web/shell/ui/layout';
 import { NavbarService } from '@teaching-scheduling-system/web/shell/ui/navbar';
+import { SidebarService } from '@teaching-scheduling-system/web/shell/ui/sidebar';
 import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
 import { of } from 'rxjs';
 import { extModules } from './build-specifics';
@@ -256,6 +257,7 @@ export const webShellFeatureRoutes: Routes = [
       direction: 'bottom-middle',
     }),
     NavbarService,
+    SidebarService,
   ],
 })
 export class WebShellFeatureModule {}
