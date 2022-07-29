@@ -62,7 +62,9 @@ export class InputDateRangeComponent implements ControlValueAccessor {
 
   /** PUBLIC METHODS */
   public onOpenTouchDialog(): void {
-    this.dialog$.pipe(tap((value) => this.onValueChange(value, true))).subscribe();
+    this.dialog$
+      .pipe(tap((value) => this.onValueChange(value, true)))
+      .subscribe();
   }
 
   public onValueChange(

@@ -1,4 +1,4 @@
-import { RequestChangeScheduleCode } from "@teaching-scheduling-system/core/data-access/models";
+import { RequestChangeScheduleCode } from '@teaching-scheduling-system/core/data-access/models';
 
 export type ChangeScheduleStatistic = {
   status: RequestChangeScheduleCode[];
