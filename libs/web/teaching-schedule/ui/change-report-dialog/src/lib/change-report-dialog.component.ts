@@ -6,19 +6,17 @@ import { tuiButtonOptionsProvider, TuiDialogContext } from '@taiga-ui/core';
 import { InputDateRangeConstant } from '@teaching-scheduling-system/core/data-access/constants';
 import {
   ObservableHelper,
-  StringHelper
+  StringHelper,
 } from '@teaching-scheduling-system/core/utils/helpers';
-import {
-  FileType
-} from '@teaching-scheduling-system/web/shared/data-access/enums';
+import { FileType } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import {
   ChangeSchedule,
-  Teacher
+  Teacher,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { ExportService } from '@teaching-scheduling-system/web/shared/data-access/services';
 import {
   AppShellState,
-  selectNotNullTeacher
+  selectNotNullTeacher,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { map, Observable, Subject, takeUntil, tap, withLatestFrom } from 'rxjs';

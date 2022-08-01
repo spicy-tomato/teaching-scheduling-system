@@ -9,8 +9,7 @@ export default {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory:
-    '../../../../coverage/libs/core/directives/touch-screen',
+  coverageDirectory: '../../../../coverage/libs/core/directives/touch-screen',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },
