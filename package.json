@@ -26,6 +26,7 @@
     "@angular/router": "^13.3.11",
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
+    "@ng-web-apis/universal": "^1.13.0",
     "@ngrx/component": "^13.2.0",
     "@ngrx/component-store": "^13.2.0",
     "@ngrx/effects": "^13.2.0",
