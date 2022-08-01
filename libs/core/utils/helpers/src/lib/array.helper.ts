@@ -88,7 +88,7 @@ export class ArrayHelper {
   /**
    * Merge multiple arrays, use a property to compare objects.
    * @param prop property of object for comparison
-   * @param arrays 
+   * @param arrays
    * @returns An array which was merged by `arrays`, according property `prop`
    * @example
    * ArrayHelper.mergeWith('id', [{id: 0, value: 0}, {id: 1, value: 1}], [{id: 0, value: 1}])
@@ -113,8 +113,8 @@ export class ArrayHelper {
   /** COMPARE */
   /**
    * Compare two arrays, ignore position and number of appearance of elements.
-   * @param a 
-   * @param b 
+   * @param a
+   * @param b
    * @returns two arrays are equal or not
    * @example
    * ArrayHelper.equals([0, 0, 1, 2], [0, 1, 2, 2, 0])
@@ -127,7 +127,7 @@ export class ArrayHelper {
   /** CHECK TYPE */
   /**
    * Check if a variable is an array.
-   * @param a 
+   * @param a
    * @returns `a` is an array or not
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -6,7 +6,7 @@
 
 /* Paint background for today cell */
 .cell-dimension.e-schedule .e-schedule-table .e-work-cells.today {
-  @apply !w-auto bg-[#ffedd8];
+  @apply bg-[#ffedd8];
 }
 
 .cell-dimension.e-schedule

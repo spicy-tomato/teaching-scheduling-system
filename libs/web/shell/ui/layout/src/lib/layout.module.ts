@@ -18,13 +18,7 @@ const NGRX = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    NavbarModule,
-    SidebarModule,
-    MainViewModule,
-    ...NGRX,
-  ],
+  imports: [CommonModule, NavbarModule, SidebarModule, MainViewModule, ...NGRX],
   declarations: [LayoutComponent],
   exports: [LayoutComponent],
 })
