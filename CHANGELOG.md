@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.12.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.12.0...v3.12.1) (2022-08-01)
+
+
+### Bug Fixes
+
+* **calendar:** month view layout should not break ([196e5c8](https://github.com/annguyen-it/teaching-scheduling-system/commit/196e5c8c5e4db19606330bd57dd2d52742841498))
+* **dep:** upgrade taiga-ui to 2.53.0 ([448e4a8](https://github.com/annguyen-it/teaching-scheduling-system/commit/448e4a8d1d0932c7e260ac5aa00dd1d0f7b0da84))
+
 ## [3.12.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.11.0...v3.12.0) (2022-07-28)
 
 
