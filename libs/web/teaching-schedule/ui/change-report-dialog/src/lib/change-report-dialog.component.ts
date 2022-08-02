@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
-import { TuiDayRange, TuiDestroyService } from '@taiga-ui/cdk';
+import { TuiDayRange } from '@taiga-ui/cdk';
 import { tuiButtonOptionsProvider, TuiDialogContext } from '@taiga-ui/core';
 import { InputDateRangeConstant } from '@teaching-scheduling-system/core/data-access/constants';
 import {
@@ -14,20 +13,14 @@ import {
   Teacher,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { ExportService } from '@teaching-scheduling-system/web/shared/data-access/services';
-import {
-  AppShellState,
-  selectNotNullTeacher,
-} from '@teaching-scheduling-system/web/shared/data-access/store';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { map, Observable, Subject, takeUntil, tap, withLatestFrom } from 'rxjs';
+import { map, Subject, tap, withLatestFrom } from 'rxjs';
 import { ExportDialogStore } from './store';
 @Component({
   templateUrl: './change-report-dialog.component.html',
   styleUrls: ['./change-report-dialog.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    ExportDialogStore,
-    TuiDestroyService,
     tuiButtonOptionsProvider({
       appearance: 'primary',
       size: 'm',
@@ -46,7 +39,7 @@ export class ChangeReportDialogComponent {
   }
 
   /** PRIVATE PROPERTIES */
-  private readonly teacher$: Observable<Teacher>;
+  private readonly teacher$ = this.store.teacher$;
 
   /** CONSTRUCTOR */
   constructor(
@@ -54,12 +47,8 @@ export class ChangeReportDialogComponent {
     private readonly store: ExportDialogStore,
     private readonly exportService: ExportService,
     @Inject(POLYMORPHEUS_CONTEXT)
-    public readonly context: TuiDialogContext<void, ChangeSchedule>,
-    private readonly destroy$: TuiDestroyService,
-    appShellStore: Store<AppShellState>
+    public readonly context: TuiDialogContext<void, ChangeSchedule>
   ) {
-    this.teacher$ = appShellStore.pipe(selectNotNullTeacher);
-
     this.initForm();
     this.handleConfirm();
     this.handleReceiveData();
@@ -94,8 +83,7 @@ export class ChangeReportDialogComponent {
       .pipe(
         ObservableHelper.filterNullish(),
         withLatestFrom(this.teacher$),
-        tap(([data, teacher]) => this.export(data, teacher)),
-        takeUntil(this.destroy$)
+        tap(([data, teacher]) => this.export(data, teacher))
       )
       .subscribe();
   }

@@ -1,1 +1,1 @@
-export * from './send-email';
+export * from './confirm.store';

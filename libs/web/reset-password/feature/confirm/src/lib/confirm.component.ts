@@ -11,7 +11,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Store } from '@ngrx/store';
 import { TuiDestroyService, TuiValidationError } from '@taiga-ui/cdk';
 import {
   TuiAlertService,
@@ -23,30 +22,18 @@ import { requiredFactory } from '@teaching-scheduling-system/core/utils/factorie
 import { StringHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import { SuccessDialogComponent } from '@teaching-scheduling-system/web/reset-password/ui/success-dialog';
 import { ResetPassword } from '@teaching-scheduling-system/web/shared/data-access/models';
-import {
-  AppShellState,
-  setLoader,
-} from '@teaching-scheduling-system/web/shared/data-access/store';
 import { SuccessDialogHeaderComponent } from '@teaching-scheduling-system/web/shared/ui/components/success-dialog-header';
 import { differentControlValueValidator } from '@teaching-scheduling-system/web/shared/utils/validators';
 import { navbarOptionsProvider } from '@teaching-scheduling-system/web/shell/ui/navbar';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import {
-  filter,
-  Observable,
-  Subject,
-  takeUntil,
-  tap,
-  withLatestFrom,
-} from 'rxjs';
-import { ConfirmStore } from './store/confirm.store';
+import { Observable, Subject, takeUntil, tap, withLatestFrom } from 'rxjs';
+import { ConfirmStore } from './store';
 
 @Component({
   templateUrl: './confirm.component.html',
   styleUrls: ['./confirm.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    ConfirmStore,
     TuiDestroyService,
     navbarOptionsProvider({ showInfo: false }),
     {
@@ -84,11 +71,9 @@ export class ConfirmComponent {
     private readonly tuiDialogService: TuiDialogService,
     private readonly alertService: TuiAlertService,
     private readonly store: ConfirmStore,
-    private readonly appShellStore: Store<AppShellState>,
     private readonly destroy$: TuiDestroyService
   ) {
     this.initDialog();
-    this.handleVerifyDone();
     this.verifyToken();
     this.handleReset();
     this.initForm();
@@ -117,8 +102,7 @@ export class ConfirmComponent {
             newPassword: StringHelper.md5(this.newPassword.value),
           };
           this.store.reset({ data });
-        }),
-        takeUntil(this.destroy$)
+        })
       )
       .subscribe();
   }
@@ -146,15 +130,6 @@ export class ConfirmComponent {
           });
         }),
         takeUntil(this.destroy$)
-      )
-      .subscribe();
-  }
-
-  private handleVerifyDone(): void {
-    this.store.validateStatus$
-      .pipe(
-        filter((status) => status === 'successful'),
-        tap(() => this.appShellStore.dispatch(setLoader({ showLoader: false })))
       )
       .subscribe();
   }

@@ -65,7 +65,7 @@
   <button
     tuiButton
     *ngrxLet="filterStatus$ as filterStatus"
-    (click)="filter$.next()"
+    (click)="filter()"
     [showLoader]="filterStatus === 'loading'"
     icon="tuiIconFilter"
   >

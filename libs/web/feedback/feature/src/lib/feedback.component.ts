@@ -5,7 +5,7 @@ import {
   Injector,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TuiBooleanHandler, TuiDestroyService } from '@taiga-ui/cdk';
+import { TuiBooleanHandler } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import {
   EditorConstant,
@@ -16,14 +16,13 @@ import { SuccessDialogComponent } from '@teaching-scheduling-system/web/feedback
 import { Feedback } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { SuccessDialogHeaderComponent } from '@teaching-scheduling-system/web/shared/ui/components/success-dialog-header';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { Observable, takeUntil, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { FeedbackStore } from './store';
 
 @Component({
   templateUrl: './feedback.component.html',
   styleUrls: ['./feedback.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [FeedbackStore, TuiDestroyService],
 })
 export class FeedbackComponent {
   /** PUBLIC PROPERTIES */
@@ -40,8 +39,7 @@ export class FeedbackComponent {
     private readonly fb: FormBuilder,
     private readonly store: FeedbackStore,
     @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
-    @Inject(Injector) private readonly injector: Injector,
-    private readonly destroy$: TuiDestroyService
+    @Inject(Injector) private readonly injector: Injector
   ) {
     this.initDialog();
     this.handleSubmit();
@@ -99,8 +97,7 @@ export class FeedbackComponent {
             this.openSuccessDialog();
             this.form.disable();
           }
-        }),
-        takeUntil(this.destroy$)
+        })
       )
       .subscribe();
   }

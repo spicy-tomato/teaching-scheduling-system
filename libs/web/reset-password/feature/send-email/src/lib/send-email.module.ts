@@ -16,6 +16,7 @@ import {
 } from '@taiga-ui/kit';
 import { NavbarModule } from '@teaching-scheduling-system/web/shell/ui/navbar';
 import { SendEmailComponent } from './send-email.component';
+import { SendEmailStore } from './store';
 
 const NGRX = [ReactiveComponentModule];
 const TAIGA_UI = [
@@ -38,5 +39,6 @@ const TAIGA_UI = [
     ...TAIGA_UI,
   ],
   declarations: [SendEmailComponent],
+  providers: [SendEmailStore],
 })
 export class SendEmailModule {}

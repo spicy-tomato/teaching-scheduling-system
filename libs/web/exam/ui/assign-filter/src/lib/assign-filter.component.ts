@@ -1,42 +1,28 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Store } from '@ngrx/store';
 import {
   TuiContextWithImplicit,
-  TuiDestroyService,
   tuiPure,
   TuiStringHandler,
 } from '@taiga-ui/cdk';
 import { tuiButtonOptionsProvider } from '@taiga-ui/core';
 import { CoreConstant } from '@teaching-scheduling-system/core/data-access/constants';
-import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
 import {
   ArrayHelper,
   ObservableHelper,
   UtilsHelper,
 } from '@teaching-scheduling-system/core/utils/helpers';
-import { ExamAssignStore } from '@teaching-scheduling-system/web/exam/data-access';
-import {
-  AcademicData,
-  SimpleModel,
-} from '@teaching-scheduling-system/web/shared/data-access/models';
-import {
-  AppShellState,
-  selectAcademicData,
-  selectDepartment,
-  selectSchoolYear,
-  selectTrainingTypes,
-} from '@teaching-scheduling-system/web/shared/data-access/store';
+import { SimpleModel } from '@teaching-scheduling-system/web/shared/data-access/models';
 import {
   filter,
   map,
   Observable,
   Subject,
   take,
-  takeUntil,
   tap,
   withLatestFrom,
 } from 'rxjs';
+import { AssignFilterStore } from './store';
 
 @Component({
   selector: 'tss-assign-filter',
@@ -44,7 +30,6 @@ import {
   styleUrls: ['./assign-filter.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    TuiDestroyService,
     tuiButtonOptionsProvider({
       appearance: 'primary',
       size: 's',
@@ -56,15 +41,17 @@ export class AssignFilterComponent implements OnInit {
   public form!: FormGroup;
   public schoolYears$!: Observable<string[]>;
 
-  public readonly currentTerm$: Observable<string>;
-  public readonly academicData$: Observable<AcademicData[]>;
-  public readonly trainingTypes$: Observable<SimpleModel<number>[]>;
-
   public readonly batchesInTerm = CoreConstant.BATCHES_IN_TERM;
   public readonly termsInYear = CoreConstant.TERMS_IN_YEAR;
-  public readonly filter$ = new Subject<void>();
   public readonly trainingTypeChange$ = new Subject<number>();
-  public readonly filterStatus$ = this.store.status$;
+
+  public readonly currentTerm$ = this.store.currentTerm$;
+  public readonly academicData$ = this.store.academicData$;
+  public readonly trainingTypes$ = this.store.trainingTypes$;
+  public readonly filterStatus$ = this.store.filterStatus$;
+
+  /** PRIVATE PROPERTIES */
+  private readonly myDepartment$ = this.store.myDepartment$;
 
   /** GETTERS */
   public get termInYearControl(): FormControl {
@@ -93,36 +80,14 @@ export class AssignFilterComponent implements OnInit {
     }_${this.batchInTermControl.value as string}`;
   }
 
-  /** PRIVATE PROPERTIES */
-  private myDepartment$: Observable<Nullable<SimpleModel>>;
-
   /** CONSTRUCTOR */
   constructor(
     private readonly fb: FormBuilder,
-    private readonly store: ExamAssignStore,
-    private readonly destroy$: TuiDestroyService,
-    appShellStore: Store<AppShellState>
+    private readonly store: AssignFilterStore
   ) {
-    this.myDepartment$ = appShellStore
-      .select(selectDepartment)
-      .pipe(ObservableHelper.filterNullish(), takeUntil(this.destroy$));
-    this.currentTerm$ = appShellStore
-      .select(selectSchoolYear)
-      .pipe(takeUntil(this.destroy$));
-    this.myDepartment$ = appShellStore
-      .select(selectDepartment)
-      .pipe(takeUntil(this.destroy$));
-    this.academicData$ = appShellStore
-      .select(selectAcademicData)
-      .pipe(takeUntil(this.destroy$));
-    this.trainingTypes$ = appShellStore
-      .select(selectTrainingTypes)
-      .pipe(takeUntil(this.destroy$));
-
     this.initForm();
     this.triggerSchoolYearChange();
     this.handleTrainingTypeChange();
-    this.handleFilter();
 
     this.bindCurrentTerm();
     this.bindTrainingType();
@@ -134,20 +99,13 @@ export class AssignFilterComponent implements OnInit {
     this.myDepartment$
       .pipe(
         ObservableHelper.filterNullish(),
-        tap(() => this.filter$.next()),
+        tap(() => this.filter()),
         take(1)
       )
       .subscribe();
   }
 
   /** PUBLIC METHODS */
-  public onTermInYearChange(termInYear: number): void {
-    const selectedBatchInTerm = this.batchInTermControl.value as number;
-    if (!this.batchesInTerm[termInYear].includes(selectedBatchInTerm)) {
-      this.batchInTermControl.setValue(1);
-    }
-  }
-
   @tuiPure
   public stringifyTrainingType(
     items: SimpleModel<number>[]
@@ -157,6 +115,17 @@ export class AssignFilterComponent implements OnInit {
     );
 
     return ({ $implicit }) => map.get($implicit) || '';
+  }
+
+  public onTermInYearChange(termInYear: number): void {
+    const selectedBatchInTerm = this.batchInTermControl.value as number;
+    if (!this.batchesInTerm[termInYear].includes(selectedBatchInTerm)) {
+      this.batchInTermControl.setValue(1);
+    }
+  }
+
+  public filter(): void {
+    this.store.filter({ studySession: this.studySession });
   }
 
   /** PRIVATE METHODS */
@@ -184,28 +153,7 @@ export class AssignFilterComponent implements OnInit {
           this.academicYearControl.setValue(
             ArrayHelper.lastItem(academicData[trainingTypeId].academicYears)
           );
-        }),
-        takeUntil(this.destroy$)
-      )
-      .subscribe();
-  }
-
-  private handleFilter(): void {
-    this.filter$
-      .pipe(
-        withLatestFrom(
-          this.myDepartment$.pipe(ObservableHelper.filterNullish())
-        ),
-        ObservableHelper.filterNullish(),
-        tap(({ 1: department }) => {
-          this.store.getExam({
-            departmentId: department.id,
-            searchParams: {
-              studySession: this.studySession,
-            },
-          });
-        }),
-        takeUntil(this.destroy$)
+        })
       )
       .subscribe();
   }

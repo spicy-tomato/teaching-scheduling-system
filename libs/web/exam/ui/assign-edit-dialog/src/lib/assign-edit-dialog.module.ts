@@ -6,6 +6,7 @@ import { TuiButtonModule } from '@taiga-ui/core';
 import { TuiComboBoxModule, TuiDataListWrapperModule } from '@taiga-ui/kit';
 import { FilterByInputPipeModule } from '@teaching-scheduling-system/core/pipes/filter-by-input-pipe';
 import { AssignEditDialogComponent } from './assign-edit-dialog.component';
+import { AssignEditExamDialogStore } from './store';
 
 const NGRX = [ReactiveComponentModule];
 const TAIGA_UI = [TuiComboBoxModule, TuiDataListWrapperModule, TuiButtonModule];
@@ -20,5 +21,6 @@ const TAIGA_UI = [TuiComboBoxModule, TuiDataListWrapperModule, TuiButtonModule];
   ],
   declarations: [AssignEditDialogComponent],
   exports: [AssignEditDialogComponent],
+  providers: [AssignEditExamDialogStore],
 })
 export class AssignEditDialogModule {}

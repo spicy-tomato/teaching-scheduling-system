@@ -1,13 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
+import { Store } from '@ngrx/store';
 import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import {
   GenericState,
   ResetPassword,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { UserService } from '@teaching-scheduling-system/web/shared/data-access/services';
-import { of, switchMap, tap } from 'rxjs';
+import {
+  AppShellState,
+  setLoader,
+} from '@teaching-scheduling-system/web/shared/data-access/store';
+import { filter, of, switchMap, tap } from 'rxjs';
 
 type ConfirmState = GenericState<EApiStatus>;
 
@@ -69,9 +74,11 @@ export class ConfirmStore extends ComponentStore<ConfirmState> {
   /** CONSTRUCTOR */
   constructor(
     private readonly router: Router,
-    private readonly userService: UserService
+    private readonly userService: UserService,
+    private readonly appShellStore: Store<AppShellState>
   ) {
     super(<ConfirmState>{});
+    this.handleVerifyDone();
   }
 
   /** PRIVATE METHODS */
@@ -79,5 +86,14 @@ export class ConfirmStore extends ComponentStore<ConfirmState> {
     void this.router.navigate(['reset-password/request'], {
       state: { validationFailed: true },
     });
+  }
+
+  private handleVerifyDone(): void {
+    this.validateStatus$
+      .pipe(
+        filter((status) => status === 'successful'),
+        tap(() => this.appShellStore.dispatch(setLoader({ showLoader: false })))
+      )
+      .subscribe();
   }
 }
