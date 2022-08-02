@@ -38,9 +38,6 @@ import { AssignFilterStore } from './store';
 })
 export class AssignFilterComponent implements OnInit {
   /** PUBLIC PROPERTIES */
-  public form!: FormGroup;
-  public schoolYears$!: Observable<string[]>;
-
   public readonly batchesInTerm = CoreConstant.BATCHES_IN_TERM;
   public readonly termsInYear = CoreConstant.TERMS_IN_YEAR;
   public readonly trainingTypeChange$ = new Subject<number>();
@@ -49,6 +46,10 @@ export class AssignFilterComponent implements OnInit {
   public readonly academicData$ = this.store.academicData$;
   public readonly trainingTypes$ = this.store.trainingTypes$;
   public readonly filterStatus$ = this.store.filterStatus$;
+
+  public disableFilterButton = false;
+  public form!: FormGroup;
+  public schoolYears$!: Observable<string[]>;
 
   /** PRIVATE PROPERTIES */
   private readonly myDepartment$ = this.store.myDepartment$;
@@ -122,9 +123,15 @@ export class AssignFilterComponent implements OnInit {
     if (!this.batchesInTerm[termInYear].includes(selectedBatchInTerm)) {
       this.batchInTermControl.setValue(1);
     }
+    this.onControlChange();
+  }
+
+  public onControlChange(): void {
+    this.disableFilterButton = false;
   }
 
   public filter(): void {
+    this.disableFilterButton = true;
     this.store.filter({ studySession: this.studySession });
   }
 
