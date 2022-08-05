@@ -12,27 +12,21 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
 import { TuiValidationError } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
 import { requiredFactory } from '@teaching-scheduling-system/core/utils/factories';
-import {
-  AppShellState,
-  setLoader,
-} from '@teaching-scheduling-system/web/shared/data-access/store';
 import { SuccessDialogHeaderComponent } from '@teaching-scheduling-system/web/shared/ui/components/success-dialog-header';
 import { navbarOptionsProvider } from '@teaching-scheduling-system/web/shell/ui/navbar';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { Observable, tap } from 'rxjs';
-import { SendEmailStore } from './store/send-email.store';
+import { SendEmailStore } from './store';
 
 @Component({
   templateUrl: './send-email.component.html',
   styleUrls: ['./send-email.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    SendEmailStore,
     navbarOptionsProvider({ showInfo: false }),
     {
       provide: TUI_VALIDATION_ERRORS,
@@ -63,8 +57,7 @@ export class SendEmailComponent implements OnInit {
     private readonly router: Router,
     @Inject(Injector) private readonly injector: Injector,
     private readonly tuiDialogService: TuiDialogService,
-    private readonly store: SendEmailStore,
-    private readonly appShellStore: Store<AppShellState>
+    private readonly store: SendEmailStore
   ) {
     this.tokenValidationFailed =
       this.router.getCurrentNavigation()?.extras.state?.['validationFailed'] ||
@@ -77,7 +70,7 @@ export class SendEmailComponent implements OnInit {
   /** LIFECYCLE */
   public ngOnInit(): void {
     this.initDialog();
-    this.appShellStore.dispatch(setLoader({ showLoader: false }));
+    this.store.hideLoader();
   }
 
   /** PUBLIC METHODS */

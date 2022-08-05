@@ -13,6 +13,7 @@ import {
   TuiInputModule,
   TuiTextAreaModule,
 } from '@taiga-ui/kit';
+import { ExamDialogStore } from '@teaching-scheduling-system/web/calendar/dialogs-exam-dialog/data-access';
 import { ExamDialogComponent } from './exam-dialog.component';
 
 const NGRX = [ReactiveComponentModule];
@@ -30,5 +31,6 @@ const TAIGA_UI = [
   imports: [CommonModule, ReactiveFormsModule, ...NGRX, ...TAIGA_UI],
   declarations: [ExamDialogComponent],
   exports: [ExamDialogComponent],
+  providers: [ExamDialogStore],
 })
 export class ExamDialogModule {}

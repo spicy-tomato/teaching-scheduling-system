@@ -15,7 +15,7 @@ import {
   SimpleModel,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { StatisticChangeScheduleStore } from '@teaching-scheduling-system/web/statistic/data-access';
-import { combineLatest, filter, Observable, takeUntil, tap } from 'rxjs';
+import { combineLatest, filter, tap } from 'rxjs';
 
 type TeacherData = { [key: string]: { accept: number; deny: number } };
 
@@ -36,7 +36,7 @@ export class ChangeScheduleChartComponent {
   public axisYLabels: string[] = [];
   public max = 0;
 
-  public readonly teachersList$: Observable<SimpleModel[]>;
+  public readonly teachersList$ = this.store.teachersInDepartment$;
   public readonly status$ = this.store.status$;
   public readonly setNames = ['Đã đổi', 'Bị từ chối'];
   public readonly horizontalLinesHandler: TuiLineHandler = (index, total) => {
@@ -52,10 +52,6 @@ export class ChangeScheduleChartComponent {
     private readonly store: StatisticChangeScheduleStore,
     private readonly destroy$: TuiDestroyService
   ) {
-    this.status$ = store.status$;
-    this.teachersList$ = store.teachersInDepartment$;
-    this.data$ = store.data$;
-
     this.handleChangeScheduleChange();
   }
 
@@ -69,8 +65,7 @@ export class ChangeScheduleChartComponent {
         ),
         tap(([changeSchedules, teachersList]) =>
           this.calculateChartData(changeSchedules, teachersList)
-        ),
-        takeUntil(this.destroy$)
+        )
       )
       .subscribe();
   }

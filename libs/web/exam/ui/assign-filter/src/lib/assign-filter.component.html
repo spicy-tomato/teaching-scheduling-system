@@ -1,7 +1,11 @@
 <!-- Filters -->
 <form *ngIf="form" [formGroup]="form">
   <div class="tui-form__row flex flex-wrap gap-x-4 gap-y-3">
-    <tui-select formControlName="schoolYear" class="min-w-[145px]">
+    <tui-select
+      (ngModelChange)="onControlChange()"
+      formControlName="schoolYear"
+      class="min-w-[145px]"
+    >
       Năm học
       <ng-container *ngrxLet="schoolYears$ as schoolYears">
         <tui-data-list-wrapper
@@ -20,7 +24,10 @@
         [items]="termsInYear"
       ></tui-data-list-wrapper>
     </tui-select>
-    <tui-select formControlName="batchInTerm">
+    <tui-select
+      (ngModelChange)="onControlChange()"
+      formControlName="batchInTerm"
+    >
       Đợt học
       <tui-data-list-wrapper
         *tuiDataList
@@ -65,8 +72,9 @@
   <button
     tuiButton
     *ngrxLet="filterStatus$ as filterStatus"
-    (click)="filter$.next()"
     [showLoader]="filterStatus === 'loading'"
+    [disabled]="disableFilterButton"
+    (click)="filter()"
     icon="tuiIconFilter"
   >
     Lọc

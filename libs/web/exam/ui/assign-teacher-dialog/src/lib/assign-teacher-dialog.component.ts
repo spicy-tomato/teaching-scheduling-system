@@ -1,11 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Store } from '@ngrx/store';
-import {
-  TuiDestroyService,
-  TuiIdentityMatcher,
-  TuiStringHandler,
-} from '@taiga-ui/cdk';
+import { TuiIdentityMatcher, TuiStringHandler } from '@taiga-ui/cdk';
 import {
   TuiAlertService,
   tuiButtonOptionsProvider,
@@ -17,12 +12,8 @@ import {
   ExamScheduleModel,
   SimpleModel,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
-import {
-  AppShellState,
-  selectTeachersInDepartment,
-} from '@teaching-scheduling-system/web/shared/data-access/store';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { takeUntil, tap } from 'rxjs';
+import { tap } from 'rxjs';
 import { AssignTeacherDialogStore } from './store';
 
 const STRINGIFY_TEACHER: TuiStringHandler<SimpleModel> = (item) => item.name;
@@ -36,8 +27,6 @@ const ID_MATCHER_TEACHER: TuiIdentityMatcher<SimpleModel> = (
   styleUrls: ['./assign-teacher-dialog.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    AssignTeacherDialogStore,
-    TuiDestroyService,
     tuiItemsHandlersProvider({
       stringify: STRINGIFY_TEACHER,
       identityMatcher: ID_MATCHER_TEACHER,
@@ -52,19 +41,15 @@ export class AssignTeacherDialogComponent {
   /** PUBLIC PROPERTIES */
   public readonly formControl = new FormControl([]);
   public readonly status$ = this.store.status$;
-  public readonly teachers$ = this.appShellStore
-    .select(selectTeachersInDepartment)
-    .pipe(takeUntil(this.destroy$));
+  public readonly teachers$ = this.store.teachers$;
 
   /** CONSTRUCTOR */
   constructor(
     private readonly store: AssignTeacherDialogStore,
-    private readonly appShellStore: Store<AppShellState>,
     @Inject(POLYMORPHEUS_CONTEXT)
     public readonly context: TuiDialogContext<string[], ExamScheduleModel>,
     @Inject(TuiAlertService)
-    private readonly alertService: TuiAlertService,
-    private readonly destroy$: TuiDestroyService
+    private readonly alertService: TuiAlertService
   ) {
     this.loadTeachers();
     this.handleStatusChange();
@@ -92,8 +77,7 @@ export class AssignTeacherDialogComponent {
           this.formControl.setValue(
             teachers.filter((t) => this.context.data.teachers.includes(t.name))
           );
-        }),
-        takeUntil(this.destroy$)
+        })
       )
       .subscribe();
   }

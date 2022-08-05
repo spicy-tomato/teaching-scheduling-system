@@ -1,7 +1,12 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
+import { Store } from '@ngrx/store';
 import { GenericState } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { UserService } from '@teaching-scheduling-system/web/shared/data-access/services';
+import {
+  AppShellState,
+  setLoader,
+} from '@teaching-scheduling-system/web/shared/data-access/store';
 import { switchMap, tap } from 'rxjs';
 
 type SendEmailState = GenericState<void>;
@@ -37,7 +42,15 @@ export class SendEmailStore extends ComponentStore<SendEmailState> {
   );
 
   /** CONSTRUCTOR */
-  constructor(private readonly userService: UserService) {
+  constructor(
+    private readonly userService: UserService,
+    private readonly appShellStore: Store<AppShellState>
+  ) {
     super(<SendEmailState>{});
+  }
+
+  /** PUBLIC METHODS */
+  public hideLoader(): void {
+    this.appShellStore.dispatch(setLoader({ showLoader: false }));
   }
 }

@@ -1,1 +1,1 @@
-export * from './send-email';
+export * from './send-email.store';

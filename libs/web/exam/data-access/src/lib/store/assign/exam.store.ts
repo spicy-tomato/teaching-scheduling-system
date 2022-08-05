@@ -12,7 +12,7 @@ import {
   AppShellState,
   selectTeachersInDepartment,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
-import { switchMap, tap } from 'rxjs';
+import { switchMap, takeUntil, tap } from 'rxjs';
 
 type ExamState = GenericState<ExamScheduleModel[]>;
 
@@ -21,9 +21,9 @@ export class ExamAssignStore extends ComponentStore<ExamState> {
   /** PUBLIC PROPERTIES */
   public readonly data$ = this.select((s) => s.data);
   public readonly status$ = this.select((s) => s.status);
-  public readonly teachers = this.appShellStore.select(
-    selectTeachersInDepartment
-  );
+  public readonly teachers = this.appShellStore
+    .select(selectTeachersInDepartment)
+    .pipe(takeUntil(this.destroy$));
 
   /** EFFECTS */
   public readonly getExam = this.effect<{

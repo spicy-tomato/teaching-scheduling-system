@@ -5,24 +5,14 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Store } from '@ngrx/store';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiAlertService, TuiNotification } from '@taiga-ui/core';
 import { TuiFileLike } from '@taiga-ui/kit';
 import { CoreConstant } from '@teaching-scheduling-system/core/data-access/constants';
 import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
-import {
-  ObservableHelper,
-  UtilsHelper,
-} from '@teaching-scheduling-system/core/utils/helpers';
-import { SimpleModel } from '@teaching-scheduling-system/web/shared/data-access/models';
-import {
-  AppShellState,
-  selectDepartment,
-  selectSchoolYear,
-} from '@teaching-scheduling-system/web/shared/data-access/store';
+import { UtilsHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import { StatisticImportScheduleStore } from '@teaching-scheduling-system/web/teaching-schedule/data-access';
-import { map, Observable, Subject, takeUntil, tap } from 'rxjs';
+import { map, Observable, Subject, tap } from 'rxjs';
 
 @Component({
   templateUrl: './import.component.html',
@@ -35,11 +25,11 @@ export class ImportComponent {
   public form!: FormGroup;
   public schoolYears$!: Observable<string[]>;
 
-  public readonly currentTerm$: Observable<string>;
-  public readonly department$: Observable<SimpleModel>;
   public readonly termsInYear = CoreConstant.TERMS_IN_YEAR;
   public readonly batchesInTerm = CoreConstant.BATCHES_IN_TERM;
   public readonly rejectedFiles$ = new Subject<Nullable<TuiFileLike>>();
+  public readonly currentTerm$ = this.store.currentTerm$;
+  public readonly department$ = this.store.department$;
   public readonly status$ = this.store.status$;
 
   /** GETTERS */
@@ -64,17 +54,8 @@ export class ImportComponent {
     private readonly fb: FormBuilder,
     @Inject(TuiAlertService)
     private readonly alertService: TuiAlertService,
-    private readonly destroy$: TuiDestroyService,
-    private readonly store: StatisticImportScheduleStore,
-    appShellStore: Store<AppShellState>
+    private readonly store: StatisticImportScheduleStore
   ) {
-    this.currentTerm$ = appShellStore
-      .select(selectSchoolYear)
-      .pipe(takeUntil(this.destroy$));
-    this.department$ = appShellStore
-      .select(selectDepartment)
-      .pipe(ObservableHelper.filterNullish(), takeUntil(this.destroy$));
-
     this.initForm();
     this.triggerSchoolYearChange();
     this.handleStatusChange();
@@ -134,8 +115,7 @@ export class ImportComponent {
           } else if (status === 'clientError') {
             this.showErrorNotification();
           }
-        }),
-        takeUntil(this.destroy$)
+        })
       )
       .subscribe();
   }
