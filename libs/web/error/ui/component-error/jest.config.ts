@@ -14,7 +14,9 @@ export default {
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },
-  transformIgnorePatterns: ['node_modules/(?!.*\\.mjs$|@angular|@taiga-ui|rxjs)'],
+  transformIgnorePatterns: [
+    'node_modules/(?!.*\\.mjs$|@angular|@taiga-ui|rxjs)',
+  ],
   snapshotSerializers: [
     'jest-preset-angular/build/serializers/no-ng-attributes',
     'jest-preset-angular/build/serializers/ng-snapshot',
