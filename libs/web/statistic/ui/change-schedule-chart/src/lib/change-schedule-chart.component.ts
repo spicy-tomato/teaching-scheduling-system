@@ -27,7 +27,7 @@ type TeacherData = { [key: string]: { accept: number; deny: number } };
   providers: [TuiDestroyService],
 })
 export class ChangeScheduleChartComponent {
-  // PUBLIC PROPERTIES 
+  // PUBLIC PROPERTIES
   teachersNameList: string[] = [];
 
   value: [number[], number[]] = [[], []];
@@ -43,10 +43,10 @@ export class ChangeScheduleChartComponent {
     return index === 0 || (total - index) % 5 === 0 ? 'dashed' : 'none';
   };
 
-  // PRIVATE PROPERTIES 
+  // PRIVATE PROPERTIES
   private readonly data$ = this.store.data$;
 
-  // CONSTRUCTOR 
+  // CONSTRUCTOR
   constructor(
     private readonly cdr: ChangeDetectorRef,
     private readonly store: StatisticChangeScheduleStore,
@@ -55,7 +55,7 @@ export class ChangeScheduleChartComponent {
     this.handleChangeScheduleChange();
   }
 
-  // PRIVATE METHODS 
+  // PRIVATE METHODS
   private handleChangeScheduleChange(): void {
     combineLatest([this.data$, this.teachersList$])
       .pipe(

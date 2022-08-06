@@ -53,7 +53,7 @@ import {
   providers: [TuiDestroyService],
 })
 export class TeachingDialogButtonsLeftComponent implements OnInit {
-  // INPUT 
+  // INPUT
   @Input() idSchedule!: number;
   @Input() changed!: boolean;
   @Input() validRequestChangeSchedule!: boolean;
@@ -61,10 +61,10 @@ export class TeachingDialogButtonsLeftComponent implements OnInit {
   @Input() isPersonal!: boolean;
   @Input() requestChangeToUndeterminedDay!: boolean;
 
-  // OUTPUT 
+  // OUTPUT
   @Output() changedChange = new EventEmitter<boolean>();
 
-  // PUBLIC PROPERTIES 
+  // PUBLIC PROPERTIES
   form!: FormGroup;
   readonly justRequestedSchedule$: Observable<
     Nullable<SimpleFixedScheduleModel>
@@ -79,7 +79,7 @@ export class TeachingDialogButtonsLeftComponent implements OnInit {
   readonly submitRequestChange$ = new Subject<void>();
   readonly submitChange$ = new Subject<void>();
 
-  // GETTERS 
+  // GETTERS
   get requestControl(): FormGroup {
     return this.form.controls['request'] as FormGroup;
   }
@@ -100,7 +100,7 @@ export class TeachingDialogButtonsLeftComponent implements OnInit {
     return this.requestControl.controls['date'].value as TuiDay;
   }
 
-  // CONSTRUCTOR 
+  // CONSTRUCTOR
   constructor(
     private readonly cdr: ChangeDetectorRef,
     private readonly controlContainer: ControlContainer,
@@ -134,18 +134,18 @@ export class TeachingDialogButtonsLeftComponent implements OnInit {
     this.handleSubmitChange();
   }
 
-  // LIFECYCLE 
+  // LIFECYCLE
   ngOnInit(): void {
     this.form = this.controlContainer.control as FormGroup;
     this.handleFormChange();
   }
 
-  // PUBLIC METHODS 
+  // PUBLIC METHODS
   unfold(): void {
     this.store.dispatch(teachingDialogToggleRequestChange({ open: true }));
   }
 
-  // PRIVATE METHODS 
+  // PRIVATE METHODS
   private handleSubmitRequestChange(): void {
     this.submitRequestChange$
       .pipe(

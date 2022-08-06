@@ -9,14 +9,14 @@ import { BehaviorSubject, Subscription, tap } from 'rxjs';
 
 @Injectable()
 export class NavbarService implements OnDestroy {
-  // PROPERTIES 
+  // PROPERTIES
   private readonly _rightMenu$ = new BehaviorSubject<
     Nullable<TemplateRef<never>>
   >(null);
   readonly rightMenu$ = this._rightMenu$.asObservable();
   private readonly breadcrumbsSubscription: Subscription;
 
-  // CONSTRUCTOR 
+  // CONSTRUCTOR
   constructor(appShellStore: Store<AppShellState>) {
     this.breadcrumbsSubscription = appShellStore
       .select(selectBreadcrumbs)
@@ -24,12 +24,12 @@ export class NavbarService implements OnDestroy {
       .subscribe();
   }
 
-  // LIFECYCLE 
+  // LIFECYCLE
   ngOnDestroy(): void {
     this.breadcrumbsSubscription.unsubscribe();
   }
 
-  // PUBLIC METHODS 
+  // PUBLIC METHODS
   addRightMenu(data: Nullable<TemplateRef<never>>): void {
     this._rightMenu$.next(data);
   }

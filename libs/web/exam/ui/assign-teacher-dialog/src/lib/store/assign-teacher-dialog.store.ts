@@ -13,13 +13,13 @@ type AssignTeacherDialogState = GenericState<void>;
 
 @Injectable()
 export class AssignTeacherDialogStore extends ComponentStore<AssignTeacherDialogState> {
-  // PUBLIC PROPERTIES 
+  // PUBLIC PROPERTIES
   readonly status$ = this.select((s) => s.status);
   readonly teachers$ = this.appShellStore
     .select(selectTeachersInDepartment)
     .pipe(takeUntil(this.destroy$));
 
-  // EFFECTS 
+  // EFFECTS
   readonly updateProctor = this.effect<{
     examId: number;
     teachersId: string[];
@@ -45,7 +45,7 @@ export class AssignTeacherDialogStore extends ComponentStore<AssignTeacherDialog
     )
   );
 
-  // CONSTRUCTOR 
+  // CONSTRUCTOR
   constructor(
     private readonly examService: ExamService,
     private readonly appShellStore: Store<AppShellState>

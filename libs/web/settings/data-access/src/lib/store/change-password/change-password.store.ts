@@ -17,7 +17,7 @@ type ExamState = GenericState<void>;
 
 @Injectable()
 export class SettingsChangePasswordStore extends ComponentStore<ExamState> {
-  // PUBLIC PROPERTIES 
+  // PUBLIC PROPERTIES
   readonly status$ = this.select((s) => s.status);
   readonly nameTitle$ = this.appShellStore
     .select(selectNameTitle)
@@ -27,7 +27,7 @@ export class SettingsChangePasswordStore extends ComponentStore<ExamState> {
     takeUntil(this.destroy$)
   );
 
-  // EFFECTS 
+  // EFFECTS
   readonly change = this.effect<{ form: ChangePassword }>((params$) =>
     params$.pipe(
       tap(() => this.patchState({ status: 'loading', error: null })),
@@ -51,7 +51,7 @@ export class SettingsChangePasswordStore extends ComponentStore<ExamState> {
     )
   );
 
-  // CONSTRUCTOR 
+  // CONSTRUCTOR
   constructor(
     private readonly userService: UserService,
     private readonly appShellStore: Store<AppShellState>

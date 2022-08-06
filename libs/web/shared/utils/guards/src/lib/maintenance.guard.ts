@@ -9,13 +9,13 @@ import {
   providedIn: 'root',
 })
 export class MaintenanceGuard implements CanActivate {
-  // CONSTRUCTOR 
+  // CONSTRUCTOR
   constructor(
     @Inject(APP_CONFIG) private readonly config: AppConfig,
     private readonly router: Router
   ) {}
 
-  // IMPLEMENTATIONS 
+  // IMPLEMENTATIONS
   canActivate(route: ActivatedRouteSnapshot): boolean {
     if (route.url[0]?.path === 'maintenance' && !this.config.maintenance) {
       void this.router.navigate(['/']);

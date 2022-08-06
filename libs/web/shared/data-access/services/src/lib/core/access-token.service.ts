@@ -7,10 +7,10 @@ import { LocalStorageService } from './storage/local-storage.service';
   providedIn: 'root',
 })
 export class AccessTokenService {
-  // CONSTRUCTOR 
+  // CONSTRUCTOR
   constructor(private readonly localStorageService: LocalStorageService) {}
 
-  // PUBLIC METHODS 
+  // PUBLIC METHODS
   get(): Nullable<string> {
     return this.localStorageService.getItem(
       LocalStorageKeyConstant.ACCESS_TOKEN

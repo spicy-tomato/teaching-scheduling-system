@@ -9,7 +9,7 @@ type VarContext = {
   selector: '[tssVar]',
 })
 export class VarDirective {
-  // INPUT 
+  // INPUT
   @Input() set tssVar(context: unknown) {
     this.context.$implicit = this.context.tssVar = context;
 
@@ -19,7 +19,7 @@ export class VarDirective {
     }
   }
 
-  // PRIVATE PROPERTIES 
+  // PRIVATE PROPERTIES
   private context: VarContext = {
     $implicit: null,
     tssVar: null,
@@ -27,7 +27,7 @@ export class VarDirective {
 
   private hasView = false;
 
-  // CONSTRUCTOR 
+  // CONSTRUCTOR
   constructor(
     private templateRef: TemplateRef<unknown>,
     private viewContainerRef: ViewContainerRef

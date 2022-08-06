@@ -35,7 +35,7 @@ import {
   providers: [TuiDestroyService],
 })
 export class UserInfoComponent {
-  // PUBLIC PROPERTIES 
+  // PUBLIC PROPERTIES
   readonly fields = [
     {
       formControlName: 'name',
@@ -62,14 +62,14 @@ export class UserInfoComponent {
   }>();
   form!: FormGroup;
 
-  // VIEW CHILDREN 
+  // VIEW CHILDREN
   @ViewChildren(ConfirmInputComponent)
   confirmInputs!: QueryList<ConfirmInputComponent>;
 
-  // PRIVATE PROPERTIES 
+  // PRIVATE PROPERTIES
   private readonly teacher$: Observable<Teacher>;
 
-  // CONSTRUCTOR 
+  // CONSTRUCTOR
   constructor(
     private readonly fb: FormBuilder,
     private readonly userService: UserService,
@@ -88,7 +88,7 @@ export class UserInfoComponent {
     this.handleSave();
   }
 
-  // PRIVATE METHODS 
+  // PRIVATE METHODS
   private initForm(): void {
     this.form = this.fb.group({
       name: [],

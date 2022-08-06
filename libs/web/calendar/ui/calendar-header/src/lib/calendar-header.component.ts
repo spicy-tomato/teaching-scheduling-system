@@ -47,14 +47,14 @@ import { combineLatest, delay, map, Observable, takeUntil } from 'rxjs';
   ],
 })
 export class CalendarHeaderComponent implements AfterViewInit {
-  // INPUT 
+  // INPUT
   @Input() scheduleComponent!: ScheduleComponent;
 
-  // VIEWCHILD 
+  // VIEWCHILD
   @ViewChild(CalendarFilterComponent, { static: false })
   filter!: CalendarFilterComponent;
 
-  // PUBLIC PROPERTIES 
+  // PUBLIC PROPERTIES
   openSelectMonth = false;
   openFilter = false;
   view$: Observable<View>;
@@ -64,10 +64,10 @@ export class CalendarHeaderComponent implements AfterViewInit {
   activeToday$!: Observable<boolean>;
   activeTeachers$!: Observable<SimpleModel[]>;
 
-  // PRIVATE PROPERTIES 
+  // PRIVATE PROPERTIES
   private selectedDate$: Observable<Date>;
 
-  // CONSTRUCTOR 
+  // CONSTRUCTOR
   constructor(
     private readonly store: Store<CalendarState>,
     private readonly destroy$: TuiDestroyService
@@ -89,13 +89,13 @@ export class CalendarHeaderComponent implements AfterViewInit {
       .pipe(takeUntil(this.destroy$));
   }
 
-  // LIFECYCLE 
+  // LIFECYCLE
   ngAfterViewInit(): void {
     this.triggerDateRange();
     this.triggerActiveToday();
   }
 
-  // PUBLIC METHODS 
+  // PUBLIC METHODS
   onSelectMonth(month: TuiMonth): void {
     this.openSelectMonth = false;
     this.store.dispatch(calendarChangeMonth({ month }));
@@ -123,7 +123,7 @@ export class CalendarHeaderComponent implements AfterViewInit {
     this.openFilter = false;
   }
 
-  // PRIVATE METHODS 
+  // PRIVATE METHODS
   private triggerDateRange(): void {
     this.dateRange$ = combineLatest([this.view$, this.selectedDate$]).pipe(
       map(([view]) => view),

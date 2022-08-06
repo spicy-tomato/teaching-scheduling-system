@@ -46,15 +46,15 @@ import {
   animations: [fadeInOut],
 })
 export class AssignRightTitleComponent {
-  // PUBLIC PROPERTIES 
+  // PUBLIC PROPERTIES
   assigned$: Observable<ModuleClass[]>;
   someAssignedCheckedChange$!: Observable<boolean>;
   unassignStatus$: Observable<EApiStatus>;
 
-  // PRIVATE PROPERTIES 
+  // PRIVATE PROPERTIES
   private assignedTeacher$: Observable<Nullable<SimpleModel>>;
 
-  // CONSTRUCTOR 
+  // CONSTRUCTOR
   constructor(
     private readonly store: Store<TeachingScheduleAssignState>,
     @Inject(TuiAlertService)
@@ -75,12 +75,12 @@ export class AssignRightTitleComponent {
     this.handleUnassignSuccessful();
   }
 
-  // PUBLIC METHODS 
+  // PUBLIC METHODS
   unassign(): void {
     this.store.dispatch(teachingScheduleAssign_Unassign());
   }
 
-  // PRIVATE METHODS 
+  // PRIVATE METHODS
   private handleSomeAssignedChecked(): void {
     this.someAssignedCheckedChange$ = this.store
       .select(teachingScheduleAssign_SelectSelectedAssigned)

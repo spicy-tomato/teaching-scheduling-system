@@ -46,15 +46,15 @@ import { ConfirmStore } from './store';
   ],
 })
 export class ConfirmComponent {
-  // PUBLIC PROPERTIES 
+  // PUBLIC PROPERTIES
   readonly status$ = this.store.status$;
   readonly reset$ = new Subject<void>();
   form!: FormGroup;
 
-  // PRIVATE PROPERTIES 
+  // PRIVATE PROPERTIES
   private successDialog$!: Observable<void>;
 
-  // GETTERS 
+  // GETTERS
   get newPassword(): FormControl {
     return this.form.controls['newPassword'] as FormControl;
   }
@@ -63,7 +63,7 @@ export class ConfirmComponent {
     return this.form.controls['confirmPassword'] as FormControl;
   }
 
-  // CONSTRUCTOR 
+  // CONSTRUCTOR
   constructor(
     private readonly fb: FormBuilder,
     private readonly route: ActivatedRoute,
@@ -80,7 +80,7 @@ export class ConfirmComponent {
     this.handleStatusChange();
   }
 
-  // PUBLIC METHODS 
+  // PUBLIC METHODS
   onNewPasswordChange(): void {
     this.confirmPassword.updateValueAndValidity();
   }
@@ -107,7 +107,7 @@ export class ConfirmComponent {
       .subscribe();
   }
 
-  // PRIVATE METHODS 
+  // PRIVATE METHODS
   private initDialog(): void {
     this.successDialog$ = this.tuiDialogService.open(
       new PolymorpheusComponent(SuccessDialogComponent, this.injector),

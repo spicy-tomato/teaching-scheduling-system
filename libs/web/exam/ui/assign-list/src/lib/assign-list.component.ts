@@ -25,7 +25,7 @@ import { tap } from 'rxjs';
   ],
 })
 export class AssignListComponent {
-  // PUBLIC PROPERTIES 
+  // PUBLIC PROPERTIES
   readonly columns = [
     'index',
     'name',
@@ -41,7 +41,7 @@ export class AssignListComponent {
   readonly data$ = this.store.data$;
   readonly status$ = this.store.status$;
 
-  // CONSTRUCTOR 
+  // CONSTRUCTOR
   constructor(
     private readonly store: ExamAssignStore,
     @Inject(Injector) private readonly injector: Injector,
@@ -49,7 +49,7 @@ export class AssignListComponent {
     private readonly dialogService: TuiDialogService
   ) {}
 
-  // PUBLIC METHOD 
+  // PUBLIC METHOD
   onOpenAssignDialog(exam: ExamScheduleModel): void {
     this.dialogService
       .open<string[]>(

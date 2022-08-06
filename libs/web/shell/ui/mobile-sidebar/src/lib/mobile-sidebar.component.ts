@@ -32,10 +32,10 @@ export class MobileSidebarComponent
   extends SidebarAbstract
   implements AfterViewInit
 {
-  // PUBLIC PROPERTIES 
+  // PUBLIC PROPERTIES
   override readonly items = MobileSidebarConstant.items;
 
-  // CONSTRUCTOR 
+  // CONSTRUCTOR
   constructor(
     router: Router,
     fb: FormBuilder,
@@ -49,7 +49,7 @@ export class MobileSidebarComponent
     super(router, fb, destroy$, elementRef, sidebarStore, appShellStore);
   }
 
-  // LIFECYCLE 
+  // LIFECYCLE
   ngAfterViewInit(): void {
     this.breadcrumbs$
       .pipe(
@@ -71,7 +71,7 @@ export class MobileSidebarComponent
       .subscribe();
   }
 
-  // PUBLIC METHODS 
+  // PUBLIC METHODS
   onLogout(): void {
     this.authService.logOut().subscribe();
     this.accessTokenService.clear();
@@ -79,7 +79,7 @@ export class MobileSidebarComponent
     this.clickItem.emit();
   }
 
-  // PROTECTED METHODS 
+  // PROTECTED METHODS
   protected initForm(): void {
     /**
      * form value:

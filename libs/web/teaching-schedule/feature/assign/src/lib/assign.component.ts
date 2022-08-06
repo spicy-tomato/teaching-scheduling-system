@@ -11,7 +11,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AssignComponent {
-  // CONSTRUCTOR 
+  // CONSTRUCTOR
   constructor(store: Store<TeachingScheduleAssignState>) {
     store.dispatch(teachingScheduleAssign_Reset());
   }

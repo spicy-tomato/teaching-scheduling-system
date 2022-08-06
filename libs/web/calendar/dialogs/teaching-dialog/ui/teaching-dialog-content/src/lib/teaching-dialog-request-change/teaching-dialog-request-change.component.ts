@@ -33,11 +33,11 @@ import { Observable, Subject, takeUntil, withLatestFrom, map, tap } from 'rxjs';
   providers: [TuiDestroyService],
 })
 export class TeachingDialogRequestChangeComponent implements OnInit {
-  // INPUT 
+  // INPUT
   @Input() isPersonal!: boolean;
   @Input() people?: string[] | SimpleModel[];
 
-  // PUBLIC PROPERTIES 
+  // PUBLIC PROPERTIES
   form!: FormGroup;
 
   readonly rooms$: Observable<string[]>;
@@ -46,10 +46,10 @@ export class TeachingDialogRequestChangeComponent implements OnInit {
   readonly CoreConstant = CoreConstant;
   readonly roomMatcher = (item: string): boolean => item !== 'PTTT';
 
-  // PRIVATE PROPERTIES 
+  // PRIVATE PROPERTIES
   private readonly teacher$: Observable<Nullable<Teacher>>;
 
-  // GETTERS 
+  // GETTERS
   private get shiftControlValue(): string {
     return this.form.controls['shift'].value as string;
   }
@@ -58,7 +58,7 @@ export class TeachingDialogRequestChangeComponent implements OnInit {
     return this.form.controls['date'].value as TuiDay;
   }
 
-  // CONSTRUCTOR 
+  // CONSTRUCTOR
   constructor(
     private readonly controlContainer: ControlContainer,
     private readonly store: Store<TeachingDialogState>,
@@ -75,12 +75,12 @@ export class TeachingDialogRequestChangeComponent implements OnInit {
     this.handleChangeRequest();
   }
 
-  // LIFECYCLE 
+  // LIFECYCLE
   ngOnInit(): void {
     this.form = this.controlContainer.control as FormGroup;
   }
 
-  // PRIVATE METHODS 
+  // PRIVATE METHODS
   private handleChangeRequest(): void {
     this.changeRequest$
       .pipe(

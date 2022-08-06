@@ -60,7 +60,7 @@ import {
   ],
 })
 export class AssignFilterComponent implements OnInit {
-  // PUBLIC PROPERTIES 
+  // PUBLIC PROPERTIES
   expanded = true;
   openImportDialog = false;
   form!: FormGroup;
@@ -77,10 +77,10 @@ export class AssignFilterComponent implements OnInit {
   readonly filter$ = new Subject<void>();
   readonly trainingTypeChange$ = new Subject<number>();
 
-  // PRIVATE PROPERTIES 
+  // PRIVATE PROPERTIES
   private myDepartment$: Observable<Nullable<SimpleModel>>;
 
-  // GETTERS 
+  // GETTERS
   get termInYear(): FormControl {
     return this.form.controls['termInYear'] as FormControl;
   }
@@ -105,7 +105,7 @@ export class AssignFilterComponent implements OnInit {
     return this.form.controls['department'] as FormControl;
   }
 
-  // CONSTRUCTOR 
+  // CONSTRUCTOR
   constructor(
     private readonly fb: FormBuilder,
     private readonly store: Store<TeachingScheduleAssignState>,
@@ -142,7 +142,7 @@ export class AssignFilterComponent implements OnInit {
     this.bindDepartment();
   }
 
-  // LIFECYCLE 
+  // LIFECYCLE
   ngOnInit(): void {
     this.store.dispatch(teachingScheduleAssign_LoadFilter());
     this.myDepartment$
@@ -154,7 +154,7 @@ export class AssignFilterComponent implements OnInit {
       .subscribe();
   }
 
-  // PUBLIC METHODS 
+  // PUBLIC METHODS
   onTermInYearChange(termInYear: number): void {
     const selectedBatchInTerm = this.batchInTerm.value as number;
     if (!this.batchesInTerm[termInYear].includes(selectedBatchInTerm)) {
@@ -207,7 +207,7 @@ export class AssignFilterComponent implements OnInit {
     return ({ $implicit }) => map.get($implicit) || '';
   }
 
-  // PRIVATE METHODS 
+  // PRIVATE METHODS
   private initForm(): void {
     this.form = this.fb.group({
       schoolYear: '',

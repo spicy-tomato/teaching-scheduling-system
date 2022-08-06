@@ -18,7 +18,7 @@ import {
 
 @Injectable()
 export class LoginEffects {
-  // EFFECTS 
+  // EFFECTS
   login$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.clickLogin),
@@ -62,7 +62,7 @@ export class LoginEffects {
     { dispatch: false }
   );
 
-  // CONSTRUCTOR 
+  // CONSTRUCTOR
   constructor(
     private readonly actions$: Actions,
     private readonly route: ActivatedRoute,

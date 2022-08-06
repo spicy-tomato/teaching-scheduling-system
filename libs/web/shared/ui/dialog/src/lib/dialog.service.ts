@@ -9,13 +9,13 @@ import { ConfirmDialogOptions } from './dialog-options';
   providedIn: 'root',
 })
 export class DialogService {
-  // CONSTRUCTOR 
+  // CONSTRUCTOR
   constructor(
     private readonly dialogService: TuiDialogService,
     @Inject(Injector) private readonly injector: Injector
   ) {}
 
-  // PUBLIC METHODS 
+  // PUBLIC METHODS
   showConfirmDialog<T extends ConfirmDialogOptions>(
     data: Partial<T>
   ): Observable<boolean> {

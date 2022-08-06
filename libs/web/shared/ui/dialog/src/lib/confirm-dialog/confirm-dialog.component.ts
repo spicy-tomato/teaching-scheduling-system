@@ -16,13 +16,13 @@ import { ConfirmDialogOptions } from '../dialog-options';
   ],
 })
 export class ConfirmDialogComponent<T extends ConfirmDialogOptions> {
-  // CONSTRUCTOR 
+  // CONSTRUCTOR
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT)
     public readonly context: TuiDialog<TuiDialogOptions<T>, boolean>
   ) {}
 
-  // PUBLIC METHODS 
+  // PUBLIC METHODS
   onClick(response: boolean): void {
     setTimeout(() => {
       this.context.completeWith(response);

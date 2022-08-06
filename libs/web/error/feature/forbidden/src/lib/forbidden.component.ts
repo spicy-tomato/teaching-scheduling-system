@@ -11,7 +11,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ForbiddenComponent {
-  // CONSTRUCTOR 
+  // CONSTRUCTOR
   constructor(appShellStore: Store<AppShellState>) {
     appShellStore.dispatch(setLoader({ showLoader: false }));
   }

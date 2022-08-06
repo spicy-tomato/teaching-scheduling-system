@@ -25,16 +25,16 @@ import { ExamDialogStore } from './store';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExamDialogComponent {
-  // PUBLIC PROPERTIES 
+  // PUBLIC PROPERTIES
   readonly notAllowFieldHint = 'Không thể thay đổi thông tin của lịch thi';
   readonly noteMaxLength = CoreConstant.NOTE_MAX_LENGTH;
   readonly showLoader$ = this.store.status$.pipe(map((s) => s === 'loading'));
   form!: FormGroup;
 
-  // PRIVATE PROPERTIES 
+  // PRIVATE PROPERTIES
   private needUpdateAfterClose = false;
 
-  // GETTERS 
+  // GETTERS
   private get idControl(): FormControl {
     return this.form.controls['id'] as FormControl;
   }
@@ -51,7 +51,7 @@ export class ExamDialogComponent {
     return this.changeControl.controls['note'] as FormControl;
   }
 
-  // CONSTRUCTOR 
+  // CONSTRUCTOR
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT)
     private readonly context: TuiDialogContext<string, EjsScheduleModel>,
@@ -64,7 +64,7 @@ export class ExamDialogComponent {
     this.handleSubmitStatus();
   }
 
-  // PUBLIC METHODS 
+  // PUBLIC METHODS
   submit(): void {
     this.store.submit({
       id: this.idControl.value,
@@ -82,7 +82,7 @@ export class ExamDialogComponent {
     });
   }
 
-  // PRIVATE METHODS 
+  // PRIVATE METHODS
   private initForm(data?: EjsScheduleModel): void {
     const startDate = data?.StartTime as Date;
     const endDate = data?.EndTime as Date;

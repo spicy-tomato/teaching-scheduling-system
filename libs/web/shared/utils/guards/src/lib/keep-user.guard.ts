@@ -18,14 +18,14 @@ import {
   providedIn: 'root',
 })
 export class KeepUserGuard implements CanActivate {
-  // CONSTRUCTOR 
+  // CONSTRUCTOR
   constructor(
     @Inject(APP_CONFIG) private readonly config: AppConfig,
     private readonly appService: AppService,
     private readonly localStorageService: LocalStorageService
   ) {}
 
-  // IMPLEMENTATIONS 
+  // IMPLEMENTATIONS
   canActivate(_: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     const path = state.url;
     const isLoginPath = path.includes('login');

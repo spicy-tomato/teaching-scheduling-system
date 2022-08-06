@@ -22,7 +22,7 @@ export class ChangeRequestPaginationComponent {
   pageCount$: Observable<number>;
   page$: Observable<number>;
 
-  // CONSTRUCTOR 
+  // CONSTRUCTOR
   constructor(
     private readonly store: Store<TeachingScheduleRequestState>,
     private readonly destroy$: TuiDestroyService
@@ -35,7 +35,7 @@ export class ChangeRequestPaginationComponent {
       .pipe(takeUntil(this.destroy$));
   }
 
-  // PUBLIC METHODS 
+  // PUBLIC METHODS
   onPageChange(page: number): void {
     this.store.dispatch(teachingScheduleRequestChangePage({ page }));
   }

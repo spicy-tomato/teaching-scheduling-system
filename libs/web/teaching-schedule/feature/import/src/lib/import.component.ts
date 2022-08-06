@@ -21,7 +21,7 @@ import { map, Observable, Subject, tap } from 'rxjs';
   providers: [TuiDestroyService],
 })
 export class ImportComponent {
-  // PUBLIC PROPERTIES 
+  // PUBLIC PROPERTIES
   form!: FormGroup;
   schoolYears$!: Observable<string[]>;
 
@@ -32,7 +32,7 @@ export class ImportComponent {
   readonly department$ = this.store.department$;
   readonly status$ = this.store.status$;
 
-  // GETTERS 
+  // GETTERS
   get fileControl(): FormControl {
     return this.form.controls['file'] as FormControl;
   }
@@ -49,7 +49,7 @@ export class ImportComponent {
     return this.fileControl.value as File;
   }
 
-  // CONSTRUCTOR 
+  // CONSTRUCTOR
   constructor(
     private readonly fb: FormBuilder,
     @Inject(TuiAlertService)
@@ -61,7 +61,7 @@ export class ImportComponent {
     this.handleStatusChange();
   }
 
-  // PUBLIC METHODS 
+  // PUBLIC METHODS
   onTermInYearChange(termInYear: number): void {
     const selectedBatchInTerm = this.batchInTermControl.value as number;
     if (!this.batchesInTerm[termInYear].includes(selectedBatchInTerm)) {
@@ -90,7 +90,7 @@ export class ImportComponent {
     this.store.importFile({ file: this.file, studySession });
   }
 
-  // PRIVATE METHODS 
+  // PRIVATE METHODS
   private initForm(): void {
     this.form = this.fb.group({
       schoolYear: [null, Validators.required],

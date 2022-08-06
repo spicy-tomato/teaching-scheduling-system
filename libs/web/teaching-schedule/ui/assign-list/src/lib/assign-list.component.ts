@@ -16,10 +16,10 @@ import { Observable, takeUntil } from 'rxjs';
   providers: [TuiDestroyService],
 })
 export class AssignListComponent {
-  // PUBLIC PROPERTIES 
+  // PUBLIC PROPERTIES
   data$: Observable<ModuleClass[]>;
 
-  // CONSTRUCTOR 
+  // CONSTRUCTOR
   constructor(
     store: Store<TeachingScheduleAssignState>,
     destroy$: TuiDestroyService

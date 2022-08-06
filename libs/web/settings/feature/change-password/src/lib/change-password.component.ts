@@ -33,12 +33,12 @@ import { tap } from 'rxjs';
   ],
 })
 export class ChangePasswordComponent {
-  // PUBLIC METHODS 
+  // PUBLIC METHODS
   status$ = this.store.status$;
   nameTitle$ = this.store.nameTitle$;
   form!: FormGroup;
 
-  // GETTERS 
+  // GETTERS
   private get password(): FormControl {
     return this.form.controls['password'] as FormControl;
   }
@@ -51,7 +51,7 @@ export class ChangePasswordComponent {
     return this.form.controls['confirmPassword'] as FormControl;
   }
 
-  // CONSTRUCTOR 
+  // CONSTRUCTOR
   constructor(
     private readonly fb: FormBuilder,
     private readonly store: SettingsChangePasswordStore,
@@ -62,7 +62,7 @@ export class ChangePasswordComponent {
     this.handleStatusChange();
   }
 
-  // PUBLIC METHODS 
+  // PUBLIC METHODS
   onSubmit(): void {
     if (this.form.valid) {
       const password = this.password.value as string;
@@ -90,7 +90,7 @@ export class ChangePasswordComponent {
     }
   }
 
-  // PRIVATE METHODS 
+  // PRIVATE METHODS
   private initForm(): void {
     this.form = this.fb.group({
       password: ['', Validators.required],

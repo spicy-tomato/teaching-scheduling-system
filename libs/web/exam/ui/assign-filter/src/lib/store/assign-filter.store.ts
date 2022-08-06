@@ -16,7 +16,7 @@ import { Subject, takeUntil, tap, withLatestFrom } from 'rxjs';
 
 @Injectable()
 export class AssignFilterStore extends ComponentStore<object> {
-  // PUBLIC PROPERTIES 
+  // PUBLIC PROPERTIES
   readonly filterStatus$ = this.examAssignStore.status$;
   readonly teachers = this.appShellStore
     .select(selectTeachersInDepartment)
@@ -34,10 +34,10 @@ export class AssignFilterStore extends ComponentStore<object> {
     .select(selectTrainingTypes)
     .pipe(takeUntil(this.destroy$));
 
-  // PRIVATE METHODS 
+  // PRIVATE METHODS
   private readonly filter$ = new Subject<SearchExam>();
 
-  // CONSTRUCTOR 
+  // CONSTRUCTOR
   constructor(
     private readonly examAssignStore: ExamAssignStore,
     private readonly appShellStore: Store<AppShellState>
@@ -46,12 +46,12 @@ export class AssignFilterStore extends ComponentStore<object> {
     this.handleFilter();
   }
 
-  // PUBLIC METHODS 
+  // PUBLIC METHODS
   filter(params: SearchExam): void {
     this.filter$.next(params);
   }
 
-  // PRIVATE METHODS 
+  // PRIVATE METHODS
   handleFilter(): void {
     this.filter$
       .pipe(

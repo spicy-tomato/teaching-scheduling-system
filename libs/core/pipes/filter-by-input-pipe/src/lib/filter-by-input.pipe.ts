@@ -12,20 +12,20 @@ import {
   pure: false,
 })
 export class FilterByInputPipe implements PipeTransform {
-  // CONSTRUCTOR 
+  // CONSTRUCTOR
   constructor(
     @Inject(TUI_FOCUSABLE_ITEM_ACCESSOR)
     private readonly accessor: TuiFocusableElementAccessor
   ) {}
 
-  // GETTERS 
+  // GETTERS
   private get query(): string {
     return this.accessor.nativeFocusableElement
       ? (this.accessor.nativeFocusableElement as HTMLInputElement).value || ''
       : '';
   }
 
-  // IMPLEMENTATION 
+  // IMPLEMENTATION
   transform<T>(
     items: readonly T[] | null,
     matcher: TuiStringMatcher<T> = TUI_DEFAULT_MATCHER
@@ -33,7 +33,7 @@ export class FilterByInputPipe implements PipeTransform {
     return this.filter(items, matcher);
   }
 
-  // PRIVATE METHODS 
+  // PRIVATE METHODS
   private filter<T>(
     items: readonly T[] | null,
     matcher: TuiStringMatcher<T>

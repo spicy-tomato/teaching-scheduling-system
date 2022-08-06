@@ -18,7 +18,7 @@ import * as PageAction from './app-shell.page.actions';
 
 @Injectable()
 export class AppShellEffects {
-  // EFFECTS 
+  // EFFECTS
   changeRouter$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(routerNavigatedAction),
@@ -125,7 +125,7 @@ export class AppShellEffects {
     );
   });
 
-  // CONSTRUCTOR 
+  // CONSTRUCTOR
   constructor(
     private readonly actions$: Actions,
     private readonly appService: AppService,
@@ -136,7 +136,7 @@ export class AppShellEffects {
     private readonly location: Location
   ) {}
 
-  // PRIVATE METHODS 
+  // PRIVATE METHODS
   private createBreadcrumbs(
     route: ActivatedRouteSnapshot,
     url = '',

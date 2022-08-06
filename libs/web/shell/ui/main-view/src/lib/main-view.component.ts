@@ -18,10 +18,10 @@ import { Observable, takeUntil } from 'rxjs';
   animations: [routerFade],
 })
 export class MainViewComponent {
-  // PUBLIC METHODS 
+  // PUBLIC METHODS
   readonly breadcrumbs$: Observable<BreadcrumbItem[]>;
 
-  // CONSTRUCTOR 
+  // CONSTRUCTOR
   constructor(
     private readonly destroy$: TuiDestroyService,
     appShellStore: Store<AppShellState>

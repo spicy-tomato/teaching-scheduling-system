@@ -17,10 +17,10 @@ import { Observable, takeUntil } from 'rxjs';
   providers: [TuiDestroyService],
 })
 export class SuccessDialogComponent {
-  // PUBLIC PROPERTIES 
+  // PUBLIC PROPERTIES
   nameTitle$!: Observable<string>;
 
-  // CONSTRUCTOR 
+  // CONSTRUCTOR
   constructor(
     private readonly router: Router,
     @Inject(POLYMORPHEUS_CONTEXT)
@@ -33,7 +33,7 @@ export class SuccessDialogComponent {
       .pipe(takeUntil(this.destroy$));
   }
 
-  // PUBLIC METHODS 
+  // PUBLIC METHODS
   returnHome(): void {
     setTimeout(() => {
       this.context.$implicit.complete();

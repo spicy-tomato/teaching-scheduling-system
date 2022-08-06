@@ -37,11 +37,11 @@ import { Observable, takeUntil } from 'rxjs';
   ],
 })
 export class ChangeSetRoomDialogComponent {
-  // PUBLIC PROPERTIES 
+  // PUBLIC PROPERTIES
   form!: FormGroup;
   readonly rooms$: Observable<string[]>;
 
-  // CONSTRUCTOR 
+  // CONSTRUCTOR
   constructor(
     private readonly fb: FormBuilder,
     private readonly store: Store<TeachingScheduleRequestState>,
@@ -55,7 +55,7 @@ export class ChangeSetRoomDialogComponent {
     this.initForm();
   }
 
-  // PUBLIC METHODS 
+  // PUBLIC METHODS
   confirm(): void {
     const newIdRoom = this.form.controls['newRoom'].value as string;
     this.store.dispatch(
@@ -70,7 +70,7 @@ export class ChangeSetRoomDialogComponent {
     });
   }
 
-  // PRIVATE METHODS 
+  // PRIVATE METHODS
   private initForm(): void {
     this.form = this.fb.group({
       newRoom: ['', Validators.required],

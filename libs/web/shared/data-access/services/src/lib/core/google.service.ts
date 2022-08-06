@@ -7,16 +7,16 @@ import { BehaviorSubject, filter, Observable, of, takeUntil, tap } from 'rxjs';
   deps: [TuiDestroyService],
 })
 export class GoogleService {
-  // PRIVATE PROPERTIES 
+  // PRIVATE PROPERTIES
   private load$ = new BehaviorSubject<boolean | null>(null);
   loggedIn$ = new BehaviorSubject<boolean | null>(null);
 
-  // CONSTRUCTOR 
+  // CONSTRUCTOR
   constructor(private readonly destroy$: TuiDestroyService) {
     this.handleClientLoad();
   }
 
-  // PUBLIC METHODS 
+  // PUBLIC METHODS
   load(): void {
     const script = document.createElement('script');
     script.type = 'text/javascript';
@@ -69,7 +69,7 @@ export class GoogleService {
     );
   }
 
-  // PRIVATE METHODS 
+  // PRIVATE METHODS
   private handleClientLoad(): void {
     this.load$
       .pipe(

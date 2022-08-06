@@ -38,20 +38,20 @@ import { SendEmailStore } from './store';
   ],
 })
 export class SendEmailComponent implements OnInit {
-  // PUBLIC PROPERTIES 
+  // PUBLIC PROPERTIES
   readonly status$ = this.store.status$;
   readonly tokenValidationFailed;
   form!: FormGroup;
 
-  // PRIVATE PROPERTIES 
+  // PRIVATE PROPERTIES
   private dialog$!: Observable<void>;
 
-  // GETTERS 
+  // GETTERS
   get email(): FormControl {
     return this.form.controls['email'] as FormControl;
   }
 
-  // CONSTRUCTOR 
+  // CONSTRUCTOR
   constructor(
     private readonly fb: FormBuilder,
     private readonly router: Router,
@@ -67,18 +67,18 @@ export class SendEmailComponent implements OnInit {
     this.handleStatusChange();
   }
 
-  // LIFECYCLE 
+  // LIFECYCLE
   ngOnInit(): void {
     this.initDialog();
     this.store.hideLoader();
   }
 
-  // PUBLIC METHODS 
+  // PUBLIC METHODS
   request(): void {
     this.store.requestResetPassword({ email: this.email.value });
   }
 
-  // PRIVATE METHODS 
+  // PRIVATE METHODS
   private initDialog(): void {
     this.dialog$ = this.tuiDialogService.open(
       `Email xác nhận đặt lại mật khẩu đã được gửi đến địa chỉ ${this.email.value}. Vui lòng nhấn vào đường dẫn được đính kèm để đặt lại mật khẩu!`,

@@ -37,10 +37,10 @@ import { RoleConstant } from '@teaching-scheduling-system/core/data-access/const
   providedIn: 'root',
 })
 export class ExportService {
-  // PRIVATE PROPERTIES 
+  // PRIVATE PROPERTIES
   private readonly datePipe: DatePipe;
 
-  // GETTERS 
+  // GETTERS
   private get documentStyle(): IStylesOptions {
     return {
       default: {
@@ -82,7 +82,7 @@ export class ExportService {
     };
   }
 
-  // CONSTRUCTOR 
+  // CONSTRUCTOR
   constructor(
     private readonly tokenService: TokenService,
     @Inject(Injector) injector: Injector
@@ -92,7 +92,7 @@ export class ExportService {
     );
   }
 
-  // PUBLIC METHODS 
+  // PUBLIC METHODS
   exportBlob(settings: {
     document: Document;
     name: string;

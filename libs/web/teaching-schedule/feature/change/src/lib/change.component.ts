@@ -7,6 +7,6 @@ import { PermissionConstant } from '@teaching-scheduling-system/core/data-access
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChangeComponent {
-  // PUBLIC PROPERTIES 
+  // PUBLIC PROPERTIES
   readonly PermissionConstant = PermissionConstant;
 }

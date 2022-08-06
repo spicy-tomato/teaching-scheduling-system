@@ -11,7 +11,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NotFoundComponent {
-  // CONSTRUCTOR 
+  // CONSTRUCTOR
   constructor(appShellStore: Store<AppShellState>) {
     appShellStore.dispatch(setLoader({ showLoader: false }));
   }

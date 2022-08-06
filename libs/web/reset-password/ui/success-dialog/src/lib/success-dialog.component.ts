@@ -9,14 +9,14 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SuccessDialogComponent {
-  // CONSTRUCTOR 
+  // CONSTRUCTOR
   constructor(
     private readonly router: Router,
     @Inject(POLYMORPHEUS_CONTEXT)
     private readonly context: TuiDialogContext
   ) {}
 
-  // PUBLIC METHODS 
+  // PUBLIC METHODS
   returnLogin(): void {
     setTimeout(() => {
       this.context.$implicit.complete();
