@@ -14,6 +14,7 @@ import { SuccessDialogHeaderModule } from '@teaching-scheduling-system/web/share
 import { NavbarModule } from '@teaching-scheduling-system/web/shell/ui/navbar';
 import { RecaptchaFormsModule, RecaptchaModule } from 'ng-recaptcha';
 import { ConfirmComponent } from './confirm.component';
+import { ConfirmStore } from './store';
 
 const NGRX = [ReactiveComponentModule];
 const TAIGA_UI = [
@@ -39,5 +40,6 @@ const TAIGA_UI = [
     ...TAIGA_UI,
   ],
   declarations: [ConfirmComponent],
+  providers: [ConfirmStore],
 })
 export class ConfirmModule {}

@@ -13,6 +13,7 @@ import {
   TuiRadioBlockModule,
 } from '@taiga-ui/kit';
 import { FeedbackComponent } from './feedback.component';
+import { FeedbackStore } from './store';
 
 const NGRX = [ReactiveComponentModule];
 const TAIGA_UI = [
@@ -36,5 +37,6 @@ const TAIGA_UI = [
     ...TAIGA_UI,
   ],
   declarations: [FeedbackComponent],
+  providers: [FeedbackStore],
 })
 export class FeedbackModule {}

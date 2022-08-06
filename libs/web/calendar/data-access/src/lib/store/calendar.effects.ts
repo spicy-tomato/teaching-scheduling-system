@@ -44,7 +44,7 @@ import * as PageAction from './calendar.page.actions';
 
 @Injectable()
 export class CalendarEffects {
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES
   private ranges$ = this.store.select(fromSchedule.calendarSelectRanges);
   private view$ = this.store.select(fromSchedule.calendarSelectView);
 
@@ -56,8 +56,8 @@ export class CalendarEffects {
   private readonly loadDepartmentExamSubject$ = new Subject<Date>();
   private readonly loadDepartmentScheduleSubject$ = new Subject<Date>();
 
-  /** EFFECTS */
-  public loadPersonalSchedule$ = createEffect(
+  // EFFECTS
+  loadPersonalSchedule$ = createEffect(
     () => {
       return this.actions$.pipe(
         ofType(PageAction.calendarLoad),
@@ -70,7 +70,7 @@ export class CalendarEffects {
     { dispatch: false }
   );
 
-  public loadDepartmentSchedule$ = createEffect(
+  loadDepartmentSchedule$ = createEffect(
     () => {
       return this.actions$.pipe(
         ofType(PageAction.calendarLoad),
@@ -83,7 +83,7 @@ export class CalendarEffects {
     { dispatch: false }
   );
 
-  public prev$ = createEffect(() => {
+  prev$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.calendarPrev),
       withLatestFrom(this.view$),
@@ -95,7 +95,7 @@ export class CalendarEffects {
     );
   });
 
-  public next$ = createEffect(() => {
+  next$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.calendarNext),
       withLatestFrom(this.view$),
@@ -107,21 +107,21 @@ export class CalendarEffects {
     );
   });
 
-  public loadPrev$ = createEffect(() => {
+  loadPrev$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ApiAction.prev),
       map(({ date }) => PageAction.calendarLoad({ date }))
     );
   });
 
-  public loadNext$ = createEffect(() => {
+  loadNext$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ApiAction.next),
       map(({ date }) => PageAction.calendarLoad({ date }))
     );
   });
 
-  public changeMonth$ = createEffect(() => {
+  changeMonth$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.calendarChangeMonth),
       map(({ month }) =>
@@ -133,14 +133,14 @@ export class CalendarEffects {
     );
   });
 
-  public loadChangeMonth$ = createEffect(() => {
+  loadChangeMonth$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ApiAction.changeMonth),
       map(({ date }) => PageAction.calendarLoad({ date }))
     );
   });
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly actions$: Actions,
     private readonly scheduleService: ScheduleService,
@@ -158,7 +158,7 @@ export class CalendarEffects {
     this.handleLoadDepartmentExam();
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS
   private handleLoadPersonalSchedule(): void {
     combineLatest([
       this.loadPersonalScheduleSubject$,

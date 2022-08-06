@@ -19,7 +19,7 @@ export class ExamScheduleModel extends ScheduleModel {
     super(id, idModuleClass, name, idRoom, 'exam', note ?? '', [...teachers]);
   }
 
-  public static parse(obj: ExamScheduleModel): ExamScheduleModel {
+  static parse(obj: ExamScheduleModel): ExamScheduleModel {
     return new ExamScheduleModel(
       obj.id,
       obj.idModuleClass,
@@ -35,7 +35,7 @@ export class ExamScheduleModel extends ScheduleModel {
     );
   }
 
-  public toEjsSchedule(): EjsScheduleModel {
+  toEjsSchedule(): EjsScheduleModel {
     return {
       Id: this.id,
       Subject: `Thi ${this.name}`,

@@ -1,11 +1,11 @@
 import { Md5 } from 'ts-md5';
 
 export class StringHelper {
-  public static toSnakeCase(str: string): string {
+  static toSnakeCase(str: string): string {
     return str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
   }
 
-  public static toLatinText(text: string): string {
+  static toLatinText(text: string): string {
     if (!text) return '';
 
     text = text.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, 'a');
@@ -27,14 +27,14 @@ export class StringHelper {
     return text;
   }
 
-  public static shortenName(text: string): string {
+  static shortenName(text: string): string {
     const words = text.split(' ');
     return words
       .map((word, i) => (i === words.length - 1 ? ` ${word}` : word[0]))
       .join('.');
   }
 
-  public static md5(text: string): string {
+  static md5(text: string): string {
     return new Md5().appendStr(text).end() as string;
   }
 }

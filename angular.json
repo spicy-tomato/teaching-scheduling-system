@@ -74,6 +74,7 @@
     "web-shared-utils-helpers": "libs/web/shared/utils/helpers",
     "web-shared-utils-interceptors": "libs/web/shared/utils/interceptors",
     "web-shared-utils-validators": "libs/web/shared/utils/validators",
+    "web-shell-data-access": "libs/web/shell/data-access",
     "web-shell-feature": "libs/web/shell/feature",
     "web-shell-ui-breadcrumb": "libs/web/shell/ui/breadcrumb",
     "web-shell-ui-layout": "libs/web/shell/ui/layout",

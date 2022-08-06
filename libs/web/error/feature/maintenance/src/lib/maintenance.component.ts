@@ -16,9 +16,9 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MaintenanceComponent {
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
-    @Inject(APP_CONFIG) public readonly config: AppConfig,
+    @Inject(APP_CONFIG) readonly config: AppConfig,
     appShellStore: Store<AppShellState>
   ) {
     appShellStore.dispatch(setLoader({ showLoader: false }));

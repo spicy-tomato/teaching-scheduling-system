@@ -1,24 +1,29 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
+import { Store } from '@ngrx/store';
 import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import {
   GenericState,
   ResetPassword,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { UserService } from '@teaching-scheduling-system/web/shared/data-access/services';
-import { of, switchMap, tap } from 'rxjs';
+import {
+  AppShellState,
+  setLoader,
+} from '@teaching-scheduling-system/web/shared/data-access/store';
+import { filter, of, switchMap, tap } from 'rxjs';
 
 type ConfirmState = GenericState<EApiStatus>;
 
 @Injectable()
 export class ConfirmStore extends ComponentStore<ConfirmState> {
-  /** PUBLIC PROPERTIES */
-  public readonly status$ = this.select((s) => s.status);
-  public readonly validateStatus$ = this.select((s) => s.data);
+  // PUBLIC PROPERTIES
+  readonly status$ = this.select((s) => s.status);
+  readonly validateStatus$ = this.select((s) => s.data);
 
-  /** EFFECTS */
-  public readonly verifyToken = this.effect<{
+  // EFFECTS
+  readonly verifyToken = this.effect<{
     email: string | null;
     token: string | null;
   }>((params$) =>
@@ -44,7 +49,7 @@ export class ConfirmStore extends ComponentStore<ConfirmState> {
     )
   );
 
-  public readonly reset = this.effect<{ data: ResetPassword }>((params$) =>
+  readonly reset = this.effect<{ data: ResetPassword }>((params$) =>
     params$.pipe(
       tap(() => this.patchState({ status: 'loading', error: null })),
       switchMap(({ data }) =>
@@ -66,18 +71,29 @@ export class ConfirmStore extends ComponentStore<ConfirmState> {
     )
   );
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly router: Router,
-    private readonly userService: UserService
+    private readonly userService: UserService,
+    private readonly appShellStore: Store<AppShellState>
   ) {
     super(<ConfirmState>{});
+    this.handleVerifyDone();
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS
   private navigateToRequest(): void {
     void this.router.navigate(['reset-password/request'], {
       state: { validationFailed: true },
     });
+  }
+
+  private handleVerifyDone(): void {
+    this.validateStatus$
+      .pipe(
+        filter((status) => status === 'successful'),
+        tap(() => this.appShellStore.dispatch(setLoader({ showLoader: false })))
+      )
+      .subscribe();
   }
 }

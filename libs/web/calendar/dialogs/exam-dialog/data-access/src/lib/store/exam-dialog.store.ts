@@ -11,18 +11,21 @@ import {
   AppShellState,
   selectNotNullTeacher,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
-import { switchMap, tap } from 'rxjs';
+import { switchMap, takeUntil, tap } from 'rxjs';
 
 type ExamDialogState = GenericState<void>;
 
 @Injectable()
 export class ExamDialogStore extends ComponentStore<ExamDialogState> {
-  /** PUBLIC PROPERTIES */
-  public readonly status$ = this.select((s) => s.status);
-  public readonly teacher = this.appShellStore.pipe(selectNotNullTeacher);
+  // PUBLIC PROPERTIES
+  readonly status$ = this.select((s) => s.status);
+  readonly teacher = this.appShellStore.pipe(
+    selectNotNullTeacher,
+    takeUntil(this.destroy$)
+  );
 
-  /** EFFECTS */
-  public readonly getExam = this.effect<{
+  // EFFECTS
+  readonly getExam = this.effect<{
     departmentId: string;
     searchParams: SearchExam;
   }>((params$) =>
@@ -52,7 +55,7 @@ export class ExamDialogStore extends ComponentStore<ExamDialogState> {
     )
   );
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly examService: ExamService,
     private readonly appShellStore: Store<AppShellState>

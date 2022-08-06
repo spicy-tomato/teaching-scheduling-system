@@ -15,10 +15,10 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ClassService {
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES
   private readonly url: string;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly http: HttpClient,
     @Inject(APP_CONFIG) config: AppConfig
@@ -26,7 +26,7 @@ export class ClassService {
     this.url = config.baseUrl;
   }
 
-  public getDepartmentModuleClass(
+  getDepartmentModuleClass(
     department: string,
     params: SearchAssignSchedule
   ): Observable<ResponseModel<ModuleClass[]>> {
@@ -36,14 +36,14 @@ export class ClassService {
     );
   }
 
-  public assign(idTeacher: string, idClass: string[]): Observable<void> {
+  assign(idTeacher: string, idClass: string[]): Observable<void> {
     return this.http.put<void>(this.url + 'module-classes/update', {
       ids: idClass,
       id_teacher: idTeacher,
     });
   }
 
-  public unassign(idClass: string[]): Observable<void> {
+  unassign(idClass: string[]): Observable<void> {
     return this.http.put<void>(this.url + 'module-classes/update', {
       ids: idClass,
       id_teacher: null,

@@ -14,11 +14,11 @@ import { tuiButtonOptionsProvider } from '@taiga-ui/core';
   ],
 })
 export class ChangeRequestMenuComponent {
-  /** PUBLIC PROPERTIES */
-  public openRightMenu = false;
+  // PUBLIC PROPERTIES
+  openRightMenu = false;
 
-  /** PUBLIC METHODS */
-  public toggleRightMenu(open: boolean): void {
+  // PUBLIC METHODS
+  toggleRightMenu(open: boolean): void {
     this.openRightMenu = open;
   }
 }

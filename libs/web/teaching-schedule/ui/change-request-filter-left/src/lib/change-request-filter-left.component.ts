@@ -23,18 +23,18 @@ import { Observable, takeUntil } from 'rxjs';
   providers: [TuiDestroyService],
 })
 export class ChangeRequestFilterLeftComponent {
-  /** INPUT */
-  @Input() public forMenu = false;
+  // INPUT
+  @Input() forMenu = false;
 
-  /** PUBLIC PROPERTIES */
-  public readonly statusList = ScheduleConstant.REQUEST_CHANGE_SCHEDULE_STATUS;
-  public readonly statusArray = ObjectHelper.toArray(this.statusList, {
+  // PUBLIC PROPERTIES
+  readonly statusList = ScheduleConstant.REQUEST_CHANGE_SCHEDULE_STATUS;
+  readonly statusArray = ObjectHelper.toArray(this.statusList, {
     uniqueValue: true,
   }).sort((a, b) => (a.id as number) - (b.id as number));
-  public readonly options$: Observable<ChangeScheduleOptions>;
-  public readonly isPersonal: boolean;
+  readonly options$: Observable<ChangeScheduleOptions>;
+  readonly isPersonal: boolean;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly store: Store<TeachingScheduleRequestState>,
     private readonly destroy$: TuiDestroyService,
@@ -47,8 +47,8 @@ export class ChangeRequestFilterLeftComponent {
     this.isPersonal = route.snapshot.data['personal'] as boolean;
   }
 
-  /** PUBLIC METHODS */
-  public changeOptions(options: ChangeScheduleOptionsParam): void {
+  // PUBLIC METHODS
+  changeOptions(options: ChangeScheduleOptionsParam): void {
     this.store.dispatch(teachingScheduleRequestChangeOptions({ options }));
   }
 }

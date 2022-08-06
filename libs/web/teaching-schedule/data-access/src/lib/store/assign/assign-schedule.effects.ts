@@ -19,7 +19,7 @@ import { TeachingScheduleAssignState } from './assign-schedule.state';
 
 @Injectable()
 export class TeachingScheduleAssignEffects {
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES
   private selectingTeacher$ = this.store.select(
     teachingScheduleAssign_SelectSelectedTeacher
   );
@@ -30,8 +30,8 @@ export class TeachingScheduleAssignEffects {
     teachingScheduleAssign_SelectSelectedAssigned
   );
 
-  /** EFFECTS */
-  public loadDepartment$ = createEffect(() => {
+  // EFFECTS
+  loadDepartment$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.teachingScheduleAssign_LoadFilter),
       mergeMap(() => {
@@ -47,7 +47,7 @@ export class TeachingScheduleAssignEffects {
     );
   });
 
-  public filter$ = createEffect(() => {
+  filter$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.teachingScheduleAssign_Filter),
       mergeMap(({ dep, params }) => {
@@ -61,7 +61,7 @@ export class TeachingScheduleAssignEffects {
     );
   });
 
-  public loadTeacher$ = createEffect(() => {
+  loadTeacher$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.teachingScheduleAssign_Filter),
       mergeMap(({ dep }) => {
@@ -74,7 +74,7 @@ export class TeachingScheduleAssignEffects {
     );
   });
 
-  public assign$ = createEffect(() => {
+  assign$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.teachingScheduleAssign_Assign),
       withLatestFrom(
@@ -90,7 +90,7 @@ export class TeachingScheduleAssignEffects {
     );
   });
 
-  public unassign$ = createEffect(() => {
+  unassign$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.teachingScheduleAssign_Unassign),
       withLatestFrom(
@@ -105,7 +105,7 @@ export class TeachingScheduleAssignEffects {
     );
   });
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly actions$: Actions,
     private readonly commonInfoService: CommonInfoService,

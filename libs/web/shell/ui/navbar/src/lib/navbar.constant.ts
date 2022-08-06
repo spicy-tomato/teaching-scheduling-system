@@ -7,7 +7,7 @@ import {
 import { NavbarGroup } from '@teaching-scheduling-system/core/data-access/models';
 
 export class NavbarConstants {
-  public static keys = {
+  static keys = {
     USER_INFO: 'user-info',
     COMMENTS: 'comments',
     SETTINGS: 'settings',
@@ -16,7 +16,7 @@ export class NavbarConstants {
     LOG_OUT: 'log-out',
   };
 
-  public static items: NavbarGroup[] = [
+  static items: NavbarGroup[] = [
     {
       items: [
         {
