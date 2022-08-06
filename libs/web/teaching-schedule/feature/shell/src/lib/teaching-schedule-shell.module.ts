@@ -36,6 +36,7 @@ import { RouterModule } from '@angular/router';
         data: {
           title: 'Nhập dữ liệu phân giảng',
           breadcrumb: 'Nhập dữ liệu',
+          group: 'Phân giảng',
         },
         loadChildren: async () =>
           (

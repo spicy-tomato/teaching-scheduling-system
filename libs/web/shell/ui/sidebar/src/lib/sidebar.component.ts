@@ -24,7 +24,11 @@ export class SidebarComponent extends SidebarAbstract implements AfterViewInit {
         delay(2000),
         tap((breadcrumbs) => {
           const itemNeedOpen = this.accordionItems.find(
-            (x) => !!breadcrumbs?.find((b) => b.label.includes(x.nativeId))
+            (x) =>
+              !!breadcrumbs?.find(
+                (b) =>
+                  b.label.includes(x.nativeId) || b.group?.includes(x.nativeId)
+              )
           );
           // Have to call to close() first
           itemNeedOpen?.close();
