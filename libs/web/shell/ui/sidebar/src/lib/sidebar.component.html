@@ -26,6 +26,7 @@
             <div class="sub-item -mt-4 -mb-2">
               <div
                 [ngClass]="{ 'border-l-2': item.subItems }"
+                (click)="$event.stopPropagation()"
                 class="my-2 pl-3 border-tui-base-03"
               >
                 <!-- Subitem as link -->

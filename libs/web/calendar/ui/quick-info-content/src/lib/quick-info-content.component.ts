@@ -34,7 +34,7 @@ export class QuickInfoContentComponent implements OnInit {
     @Inject(Injector) private readonly injector: Injector
   ) {}
 
-  /** LIFE CYCLE */
+  /** LIFECYCLE */
   public ngOnInit(): void {
     this.initDialog();
   }
