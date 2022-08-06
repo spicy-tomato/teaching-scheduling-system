@@ -24,7 +24,7 @@ export class NavbarService implements OnDestroy {
       .subscribe();
   }
 
-  /** LIFE CYCLE */
+  /** LIFECYCLE */
   public ngOnDestroy(): void {
     this.breadcrumbsSubscription.unsubscribe();
   }

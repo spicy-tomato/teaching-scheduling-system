@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.13.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.12.1...v3.13.0) (2022-08-06)
+
+
+### Features
+
+* **calendar:** filter by schedule type for mobile ([557231f](https://github.com/annguyen-it/teaching-scheduling-system/commit/557231f13450b2462429a2704805a21313e86be6))
+* **exam/assign:** disable filter button after filter ([6db9f61](https://github.com/annguyen-it/teaching-scheduling-system/commit/6db9f611e2cb5be3aae8838928f911a235df02c3))
+
+
+### Bug Fixes
+
+* **dep:** upgrade @nrwl/nx-cloud to 14.3.0 ([32be753](https://github.com/annguyen-it/teaching-scheduling-system/commit/32be753c049472607532e300f2fb6cb2629dab5d))
+* **dep:** upgrade autoprefixer to 10.4.8 ([3bbcf44](https://github.com/annguyen-it/teaching-scheduling-system/commit/3bbcf4431bc5e12b6d6ba408f829dc81ba06c380))
+* **dep:** upgrade taiga-ui to 2.54.1 ([dae24a8](https://github.com/annguyen-it/teaching-scheduling-system/commit/dae24a8b186bbe8a74f4f37838432b77642bf337))
+* **dep:** upgrade tailwindcss to 3.1.8 ([76f5c69](https://github.com/annguyen-it/teaching-scheduling-system/commit/76f5c69f36652f5fda1a1398880f9524d9d51a7d))
+* **shell:** auto toggle on sidebar does not work on route /schedule/import ([91e1ca9](https://github.com/annguyen-it/teaching-scheduling-system/commit/91e1ca99cc1cb6538f4e2cf0cf6b0a346776f453))
+
 ### [3.12.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.12.0...v3.12.1) (2022-08-01)
 
 

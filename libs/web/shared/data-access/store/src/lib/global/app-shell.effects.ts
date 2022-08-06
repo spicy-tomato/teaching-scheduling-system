@@ -156,12 +156,13 @@ export class AppShellEffects {
       }
 
       const label = child.data['breadcrumb'] as string;
+      const group = child.data['group'] as string | undefined;
       if (
         label &&
         (breadcrumbs.length === 0 ||
           label !== breadcrumbs[breadcrumbs.length - 1].label)
       ) {
-        breadcrumbs.push({ label, url });
+        breadcrumbs.push({ label, url, group });
       }
 
       return this.createBreadcrumbs(child, url, breadcrumbs);

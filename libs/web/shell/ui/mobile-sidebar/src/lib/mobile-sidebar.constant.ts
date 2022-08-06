@@ -4,9 +4,20 @@ import { SidebarItem } from '@teaching-scheduling-system/core/data-access/models
 export class MobileSidebarConstant {
   public static items: SidebarItem[] = [
     {
+      controlName: 'calendar',
       name: 'Lịch biểu',
       icon: 'far fa-calendar-alt',
       routerLink: '/calendar',
+      subCheckboxes: [
+        {
+          controlName: 'study',
+          name: 'Lịch giảng dạy',
+        },
+        {
+          controlName: 'exam',
+          name: 'Lịch thi',
+        },
+      ],
     },
     {
       name: 'Phân giảng',
