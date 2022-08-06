@@ -5,13 +5,14 @@ import {
   Injector,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TuiEditorTool } from '@taiga-ui/addon-editor';
 import { TuiBooleanHandler } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import {
-  EditorConstant,
-  FeedbackConstant,
-  FeedbackItem,
-} from '@teaching-scheduling-system/core/data-access/constants';
+  tuiIconDesktopLarge,
+  tuiIconSettingsLarge,
+  tuiIconStarLarge,
+} from '@taiga-ui/icons';
 import { SuccessDialogComponent } from '@teaching-scheduling-system/web/feedback/ui/success-dialog';
 import { Feedback } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { SuccessDialogHeaderComponent } from '@teaching-scheduling-system/web/shared/ui/components/success-dialog-header';
@@ -19,22 +20,43 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { Observable, tap } from 'rxjs';
 import { FeedbackStore } from './store';
 
+interface FeedbackItem {
+  key: number;
+  label: string;
+  icon: string;
+}
+
 @Component({
   templateUrl: './feedback.component.html',
   styleUrls: ['./feedback.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FeedbackComponent {
-  // PUBLIC PROPERTIES 
+  // PUBLIC PROPERTIES
   form!: FormGroup;
-  readonly topics = FeedbackConstant.items;
-  readonly tools = EditorConstant.tools;
+  readonly topics: FeedbackItem[] = [
+    { key: 0, label: 'Chung', icon: tuiIconStarLarge },
+    { key: 1, label: 'Giao diện', icon: tuiIconDesktopLarge },
+    { key: 2, label: 'Chức năng', icon: tuiIconSettingsLarge },
+  ];
+  readonly tools = [
+    TuiEditorTool.Undo,
+    TuiEditorTool.Size,
+    TuiEditorTool.Bold,
+    TuiEditorTool.Italic,
+    TuiEditorTool.Underline,
+    TuiEditorTool.Strikethrough,
+    TuiEditorTool.Align,
+    TuiEditorTool.List,
+    TuiEditorTool.Link,
+    TuiEditorTool.Color,
+  ];
   readonly status$ = this.store.status$;
 
-  // PRIVATE PROPERTIES 
+  // PRIVATE PROPERTIES
   private successDialog$!: Observable<void>;
 
-  // CONSTRUCTOR 
+  // CONSTRUCTOR
   constructor(
     private readonly fb: FormBuilder,
     private readonly store: FeedbackStore,
@@ -46,7 +68,7 @@ export class FeedbackComponent {
     this.initForm();
   }
 
-  // PUBLIC METHODS 
+  // PUBLIC METHODS
   onSubmit(): void {
     if (this.form.valid) {
       const title = this.form.get('title')?.value as string;
@@ -67,7 +89,7 @@ export class FeedbackComponent {
   readonly disabledItemHandler: TuiBooleanHandler<FeedbackItem> = () =>
     this.form.disabled;
 
-  // PRIVATE METHODS 
+  // PRIVATE METHODS
   private initDialog(): void {
     this.successDialog$ = this.dialogService.open(
       new PolymorpheusComponent(SuccessDialogComponent, this.injector),

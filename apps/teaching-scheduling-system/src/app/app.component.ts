@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
     private readonly destroy$: TuiDestroyService
   ) {}
 
-  // IMPLEMENTATIONS 
+  // LIFECYCLE 
   ngOnInit(): void {
     this.router.events
       .pipe(
