@@ -1,5 +1,5 @@
 <div class="w-full h-screen flex flex-col">
-  <tui-scrollbar [formGroup]="form" class="grow">
+  <tui-scrollbar *ngIf="form" [formGroup]="form" class="grow">
     <ng-container *ngFor="let item of items">
       <ng-container *tssPermission="item.permission">
         <div (click)="onClickItem(item)">

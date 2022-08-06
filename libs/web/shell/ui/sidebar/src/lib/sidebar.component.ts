@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
 } from '@angular/core';
+import { sidebar_emit } from '@teaching-scheduling-system/web/shell/data-access';
 import { filter, delay, tap, take, takeUntil } from 'rxjs';
 import { SidebarAbstract } from './sidebar.abstract';
 import { SidebarConstant } from './sidebar.constant';
@@ -52,10 +53,14 @@ export class SidebarComponent extends SidebarAbstract implements AfterViewInit {
       )
       .subscribe();
 
-    this.sidebarService.emit({
-      name: 'calendar.create',
-      value: ['calendar.study', 'calendar.exam'],
-    });
+    this.sidebarStore.dispatch(
+      sidebar_emit({
+        event: {
+          name: 'calendar.create',
+          value: ['calendar.study', 'calendar.exam'],
+        },
+      })
+    );
   }
 
   /** PROTECTED METHODS */

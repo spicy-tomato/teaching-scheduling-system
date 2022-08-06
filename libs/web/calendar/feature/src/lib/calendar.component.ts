@@ -49,8 +49,12 @@ import {
   EjsScheduleModel,
   FixedScheduleModel,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
+import {
+  SidebarState,
+  sidebar_listen,
+  sidebar_selectEvent,
+} from '@teaching-scheduling-system/web/shell/data-access';
 import { NavbarService } from '@teaching-scheduling-system/web/shell/ui/navbar';
-import { SidebarService } from '@teaching-scheduling-system/web/shell/ui/sidebar';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import {
   BehaviorSubject,
@@ -96,13 +100,12 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
     @Inject(Injector) private readonly injector: Injector,
     private readonly navbarService: NavbarService,
-    private readonly sidebarService: SidebarService,
+    private readonly sidebarStore: Store<SidebarState>,
     private readonly store: Store<CalendarState>
   ) {
     this.store.dispatch(calendarReset());
     this.handleLoadSchedule();
     this.handleSidebarAddItem();
-    this.handleSidebarCheckboxChange();
   }
 
   /** LIFECYCLE */
@@ -162,6 +165,8 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     popupInstance.open = () => {
       popupInstance.refreshPosition();
     };
+
+    this.handleSidebarCheckboxChange();
   }
 
   public onPopupOpen(args: PopupOpenEventArgs): void {
@@ -234,9 +239,9 @@ export class CalendarComponent implements OnInit, AfterViewInit {
   }
 
   private handleSidebarAddItem(): void {
-    this.sidebarService
-      .listen('calendar.create')
+    this.sidebarStore
       .pipe(
+        sidebar_listen('calendar.create'),
         tap((events) => {
           events.forEach((e) => {
             if (!this.calendars[e]) {
@@ -250,8 +255,10 @@ export class CalendarComponent implements OnInit, AfterViewInit {
   }
 
   private handleSidebarCheckboxChange(): void {
-    this.sidebarService.event$
+    this.sidebarStore
+      .select(sidebar_selectEvent)
       .pipe(
+        ObservableHelper.filterNullish(),
         filter(
           (e) => e.name === 'calendar.exam' || e.name === 'calendar.study'
         ),
@@ -276,7 +283,8 @@ export class CalendarComponent implements OnInit, AfterViewInit {
           this.scheduleComponent.eventSettings.query = predicate
             ? new Query().where(predicate)
             : new Query();
-        })
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe();
   }

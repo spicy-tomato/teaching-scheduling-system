@@ -14,10 +14,11 @@ import {
 } from '@teaching-scheduling-system/web/shared/data-access/services';
 import { AppShellState } from '@teaching-scheduling-system/web/shared/data-access/store';
 import {
-  SidebarAbstract,
   SidebarField,
-  SidebarService,
-} from '@teaching-scheduling-system/web/shell/ui/sidebar';
+  SidebarState,
+  sidebar_selectDataState,
+} from '@teaching-scheduling-system/web/shell/data-access';
+import { SidebarAbstract } from '@teaching-scheduling-system/web/shell/ui/sidebar';
 import { delay, take, tap } from 'rxjs';
 import { MobileSidebarConstant } from './mobile-sidebar.constant';
 
@@ -38,14 +39,14 @@ export class MobileSidebarComponent
   constructor(
     router: Router,
     fb: FormBuilder,
-    sidebarService: SidebarService,
     destroy$: TuiDestroyService,
     elementRef: ElementRef,
+    sidebarStore: Store<SidebarState>,
     appShellStore: Store<AppShellState>,
     private readonly accessTokenService: AccessTokenService,
     private readonly authService: AuthService
   ) {
-    super(router, fb, sidebarService, destroy$, elementRef, appShellStore);
+    super(router, fb, destroy$, elementRef, sidebarStore, appShellStore);
   }
 
   /** LIFECYCLE */
@@ -89,25 +90,31 @@ export class MobileSidebarComponent
      *    }
      *  }
      */
-    this.form = this.fb.group(
-      this.items.reduce<Record<string, unknown>>((acc, curr) => {
-        if (curr.subCheckboxes && curr.controlName) {
-          acc[curr.controlName] = this.fb.group(
-            curr.subCheckboxes.reduce<Record<string, unknown>>(
-              (accControl, currControl) => {
-                const field =
-                  `${curr.controlName}.${currControl.controlName}` as SidebarField;
-                accControl[currControl.controlName] = [
-                  this.sidebarService.state$.value[field],
-                ];
-                return accControl;
-              },
-              {}
-            )
+    this.sidebarStore
+      .select(sidebar_selectDataState)
+      .pipe(
+        tap((dataState) => {
+          this.form = this.fb.group(
+            this.items.reduce<Record<string, unknown>>((acc, curr) => {
+              if (curr.subCheckboxes && curr.controlName) {
+                acc[curr.controlName] = this.fb.group(
+                  curr.subCheckboxes.reduce<Record<string, unknown>>(
+                    (accControl, currControl) => {
+                      const field =
+                        `${curr.controlName}.${currControl.controlName}` as SidebarField;
+                      accControl[currControl.controlName] = [dataState[field]];
+                      return accControl;
+                    },
+                    {}
+                  )
+                );
+              }
+              return acc;
+            }, {})
           );
-        }
-        return acc;
-      }, {})
-    );
+        }),
+        take(1)
+      )
+      .subscribe();
   }
 }

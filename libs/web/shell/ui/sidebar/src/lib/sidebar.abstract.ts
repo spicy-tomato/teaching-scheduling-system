@@ -18,8 +18,11 @@ import {
   AppShellState,
   selectBreadcrumbs,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
+import {
+  SidebarState,
+  sidebar_emit,
+} from '@teaching-scheduling-system/web/shell/data-access';
 import { Observable, takeUntil } from 'rxjs';
-import { SidebarService } from './sidebar.service';
 
 @Directive({
   providers: [TuiDestroyService],
@@ -43,9 +46,9 @@ export abstract class SidebarAbstract implements OnInit {
   constructor(
     protected readonly router: Router,
     protected readonly fb: FormBuilder,
-    protected readonly sidebarService: SidebarService,
     protected readonly destroy$: TuiDestroyService,
     protected readonly elementRef: ElementRef,
+    protected readonly sidebarStore: Store<SidebarState>,
     appShellStore: Store<AppShellState>
   ) {
     this.breadcrumbs$ = appShellStore
@@ -72,7 +75,7 @@ export abstract class SidebarAbstract implements OnInit {
       | 'calendar.study'
       | 'calendar.exam'
       | `calendar.@${string}`;
-    this.sidebarService.emit({ name, value });
+    this.sidebarStore.dispatch(sidebar_emit({ event: { name, value } }));
   }
 
   /** PROTECTED METHODS */
