@@ -7,8 +7,9 @@ import { ImportService } from '@teaching-scheduling-system/web/shared/data-acces
 import {
   AppShellState,
   selectDepartment,
+  selectSchoolYear,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
-import { mergeMap, tap, withLatestFrom } from 'rxjs';
+import { mergeMap, takeUntil, tap, withLatestFrom } from 'rxjs';
 
 type TeachingScheduleState = GenericState<void>;
 
@@ -18,7 +19,10 @@ export class StatisticImportScheduleStore extends ComponentStore<TeachingSchedul
   public readonly status$ = this.select((s) => s.status);
   public readonly department$ = this.appShellStore
     .select(selectDepartment)
-    .pipe(ObservableHelper.filterNullish());
+    .pipe(ObservableHelper.filterNullish(), takeUntil(this.destroy$));
+  public readonly currentTerm$ = this.appShellStore
+    .select(selectSchoolYear)
+    .pipe(takeUntil(this.destroy$));
 
   /** EFFECTS */
   public readonly importFile = this.effect<{

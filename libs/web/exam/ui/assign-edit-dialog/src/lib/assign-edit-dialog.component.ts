@@ -5,8 +5,6 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Store } from '@ngrx/store';
-import { TuiDestroyService } from '@taiga-ui/cdk';
 import {
   TuiAlertService,
   TuiAppearance,
@@ -19,12 +17,8 @@ import {
   ExamScheduleModel,
   UpdateExamModel,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
-import {
-  AppShellState,
-  selectRooms,
-} from '@teaching-scheduling-system/web/shared/data-access/store';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { Observable, takeUntil, tap } from 'rxjs';
+import { tap } from 'rxjs';
 import { AssignEditExamDialogStore } from './store';
 
 @Component({
@@ -32,8 +26,6 @@ import { AssignEditExamDialogStore } from './store';
   styleUrls: ['./assign-edit-dialog.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    AssignEditExamDialogStore,
-    TuiDestroyService,
     tuiButtonOptionsProvider({
       appearance: 'primary',
       size: 'm',
@@ -47,8 +39,8 @@ import { AssignEditExamDialogStore } from './store';
 export class AssignEditDialogComponent {
   /** PUBLIC PROPERTIES */
   public form!: FormGroup;
-  public readonly rooms$: Observable<string[]>;
   public readonly status$ = this.store.status$;
+  public readonly rooms$ = this.store.rooms$;
 
   /** GETTERS */
   private get roomControl(): FormControl {
@@ -62,14 +54,8 @@ export class AssignEditDialogComponent {
     private readonly context: TuiDialogContext<string, ExamScheduleModel>,
     private readonly store: AssignEditExamDialogStore,
     @Inject(TuiAlertService)
-    private readonly alertService: TuiAlertService,
-    private readonly destroy$: TuiDestroyService,
-    appShellStore: Store<AppShellState>
+    private readonly alertService: TuiAlertService
   ) {
-    this.rooms$ = appShellStore
-      .select(selectRooms)
-      .pipe(takeUntil(this.destroy$));
-
     this.initForm();
     this.handleStatusChange();
   }

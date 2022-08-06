@@ -5,6 +5,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { TuiButtonModule, TuiDataListModule } from '@taiga-ui/core';
 import { TuiDataListWrapperModule, TuiSelectModule } from '@taiga-ui/kit';
 import { AssignFilterComponent } from './assign-filter.component';
+import { AssignFilterStore } from './store';
 
 const NGRX = [ReactiveComponentModule];
 const TAIGA_UI = [
@@ -18,5 +19,6 @@ const TAIGA_UI = [
   imports: [CommonModule, ReactiveFormsModule, ...NGRX, ...TAIGA_UI],
   declarations: [AssignFilterComponent],
   exports: [AssignFilterComponent],
+  providers: [AssignFilterStore],
 })
 export class AssignFilterModule {}

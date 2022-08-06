@@ -118,7 +118,7 @@ export class ChangeRequestListActionComponent implements OnInit {
     this.handleCancel();
   }
 
-  /** LIFE CYCLE */
+  /** LIFECYCLE */
   ngOnInit(): void {
     this.initDialog();
   }

@@ -25,7 +25,7 @@ export class ErrorComponent implements AfterViewInit {
   /** VIEW CHILD */
   @ViewChild('scene') public scene!: ElementRef<HTMLDivElement>;
 
-  /** LIFE CYCLES */
+  /** LIFECYCLE */
   public ngAfterViewInit(): void {
     new Parallax(this.scene.nativeElement, {});
   }

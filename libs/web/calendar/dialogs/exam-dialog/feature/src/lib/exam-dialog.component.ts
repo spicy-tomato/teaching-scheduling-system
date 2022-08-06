@@ -6,7 +6,6 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { TuiDestroyService } from '@taiga-ui/cdk';
 import {
   TuiAlertService,
   TuiDialogContext,
@@ -17,14 +16,13 @@ import { DateHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import { EjsScheduleModel } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { sameGroupStaticValueValidator } from '@teaching-scheduling-system/web/shared/utils/validators';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { map, takeUntil, tap } from 'rxjs';
+import { map, tap } from 'rxjs';
 import { ExamDialogStore } from './store';
 
 @Component({
   templateUrl: './exam-dialog.component.html',
   styleUrls: ['./exam-dialog.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [ExamDialogStore, TuiDestroyService],
 })
 export class ExamDialogComponent {
   /** PUBLIC PROPERTIES */
@@ -63,8 +61,7 @@ export class ExamDialogComponent {
     private readonly fb: FormBuilder,
     @Inject(TuiAlertService)
     private readonly alertService: TuiAlertService,
-    private readonly store: ExamDialogStore,
-    private readonly destroy$: TuiDestroyService
+    private readonly store: ExamDialogStore
   ) {
     this.initForm(context.data);
     this.handleSubmitStatus();
@@ -135,8 +132,7 @@ export class ExamDialogComponent {
           } else if (status === 'systemError') {
             this.showNotificationError();
           }
-        }),
-        takeUntil(this.destroy$)
+        })
       )
       .subscribe();
   }
