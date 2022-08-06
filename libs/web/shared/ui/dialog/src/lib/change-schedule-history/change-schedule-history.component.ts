@@ -11,7 +11,7 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 })
 export class ChangeScheduleHistoryComponent {
   /** PUBLIC PROPERTIES */
-  public readonly statusList = ScheduleConstant.REQUEST_CHANGE_SCHEDULE_STATUS;
+  readonly statusList = ScheduleConstant.REQUEST_CHANGE_SCHEDULE_STATUS;
 
   /** CONSTRUCTOR */
   constructor(

@@ -1,7 +1,7 @@
 import { TuiEditorTool } from '@taiga-ui/addon-editor';
 
 export class EditorConstant {
-  public static readonly tools: ReadonlyArray<TuiEditorTool> = [
+  static readonly tools: ReadonlyArray<TuiEditorTool> = [
     TuiEditorTool.Undo,
     TuiEditorTool.Size,
     TuiEditorTool.Bold,

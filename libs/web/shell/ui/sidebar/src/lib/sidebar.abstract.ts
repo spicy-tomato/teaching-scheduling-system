@@ -30,14 +30,14 @@ import { Observable, takeUntil } from 'rxjs';
 export abstract class SidebarAbstract implements OnInit {
   /** VIEW CHILD */
   @ViewChildren(TuiAccordionItemComponent)
-  public accordionItems!: QueryList<TuiAccordionItemComponent>;
+  accordionItems!: QueryList<TuiAccordionItemComponent>;
 
   /** OUTPUT */
-  @Output() public readonly clickItem = new EventEmitter<void>();
+  @Output() readonly clickItem = new EventEmitter<void>();
 
   /** PUBLIC PROPERTIES */
-  public abstract readonly items: SidebarItem[];
-  public form!: FormGroup;
+  abstract readonly items: SidebarItem[];
+  form!: FormGroup;
 
   /** PRIVATE PROPERTIES */
   protected readonly breadcrumbs$: Observable<BreadcrumbItem[]>;
@@ -57,11 +57,11 @@ export abstract class SidebarAbstract implements OnInit {
   }
 
   /** LIFECYCLE */
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.initForm();
   }
 
-  public onClickItem(item: SidebarItem): void {
+  onClickItem(item: SidebarItem): void {
     if (item.subCheckboxes) {
       if (item.routerLink?.includes('calendar')) {
         void this.router.navigate(['/calendar']);
@@ -70,7 +70,7 @@ export abstract class SidebarAbstract implements OnInit {
     }
   }
 
-  public onClickCheckbox(controlName: string, value: boolean): void {
+  onClickCheckbox(controlName: string, value: boolean): void {
     const name = controlName as
       | 'calendar.study'
       | 'calendar.exam'

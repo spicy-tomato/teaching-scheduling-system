@@ -31,18 +31,18 @@ import { Observable, takeUntil } from 'rxjs';
 })
 export class TeachingDialogButtonsRightComponent implements OnInit {
   /** INPUT */
-  @Input() public idSchedule!: number;
+  @Input() idSchedule!: number;
 
   /** OUTPUT */
-  @Output() public cancel = new EventEmitter();
+  @Output() cancel = new EventEmitter();
 
   /** PUBLIC PROPERTIES */
-  public form!: FormGroup;
+  form!: FormGroup;
 
-  public readonly changeStatus$: Observable<EApiStatus>;
-  public readonly requestStatus$: Observable<EApiStatus>;
-  public readonly updateStatus$: Observable<EApiStatus>;
-  public readonly requestingChangeSchedule$: Observable<boolean>;
+  readonly changeStatus$: Observable<EApiStatus>;
+  readonly requestStatus$: Observable<EApiStatus>;
+  readonly updateStatus$: Observable<EApiStatus>;
+  readonly requestingChangeSchedule$: Observable<boolean>;
 
   /** GETTERS */
   private get noteControl(): FormControl {
@@ -72,16 +72,16 @@ export class TeachingDialogButtonsRightComponent implements OnInit {
   }
 
   /** LIFECYCLE */
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.form = this.controlContainer.control as FormGroup;
   }
 
   /** PUBLIC METHODS */
-  public fold(): void {
+  fold(): void {
     this.store.dispatch(teachingDialogToggleRequestChange({ open: false }));
   }
 
-  public onUpdate(): void {
+  onUpdate(): void {
     const body = {
       note: this.noteControl.value as string,
     };
@@ -89,7 +89,7 @@ export class TeachingDialogButtonsRightComponent implements OnInit {
     this.store.dispatch(teachingDialogUpdate({ id: this.idSchedule, body }));
   }
 
-  public markForCheck(): void {
+  markForCheck(): void {
     this.cdr.markForCheck();
   }
 }

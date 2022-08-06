@@ -19,14 +19,14 @@ const Parallax = require('parallax-js');
 })
 export class ErrorComponent implements AfterViewInit {
   /** INPUT */
-  @Input() public code!: number;
-  @Input() public message!: string;
+  @Input() code!: number;
+  @Input() message!: string;
 
   /** VIEW CHILD */
-  @ViewChild('scene') public scene!: ElementRef<HTMLDivElement>;
+  @ViewChild('scene') scene!: ElementRef<HTMLDivElement>;
 
   /** LIFECYCLE */
-  public ngAfterViewInit(): void {
+  ngAfterViewInit(): void {
     new Parallax(this.scene.nativeElement, {});
   }
 }

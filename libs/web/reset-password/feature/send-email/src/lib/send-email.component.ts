@@ -39,15 +39,15 @@ import { SendEmailStore } from './store';
 })
 export class SendEmailComponent implements OnInit {
   /** PUBLIC PROPERTIES */
-  public readonly status$ = this.store.status$;
-  public readonly tokenValidationFailed;
-  public form!: FormGroup;
+  readonly status$ = this.store.status$;
+  readonly tokenValidationFailed;
+  form!: FormGroup;
 
   /** PRIVATE PROPERTIES */
   private dialog$!: Observable<void>;
 
   /** GETTERS */
-  public get email(): FormControl {
+  get email(): FormControl {
     return this.form.controls['email'] as FormControl;
   }
 
@@ -68,13 +68,13 @@ export class SendEmailComponent implements OnInit {
   }
 
   /** LIFECYCLE */
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.initDialog();
     this.store.hideLoader();
   }
 
   /** PUBLIC METHODS */
-  public request(): void {
+  request(): void {
     this.store.requestResetPassword({ email: this.email.value });
   }
 

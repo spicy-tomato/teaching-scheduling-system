@@ -57,7 +57,7 @@ export class CalendarEffects {
   private readonly loadDepartmentScheduleSubject$ = new Subject<Date>();
 
   /** EFFECTS */
-  public loadPersonalSchedule$ = createEffect(
+  loadPersonalSchedule$ = createEffect(
     () => {
       return this.actions$.pipe(
         ofType(PageAction.calendarLoad),
@@ -70,7 +70,7 @@ export class CalendarEffects {
     { dispatch: false }
   );
 
-  public loadDepartmentSchedule$ = createEffect(
+  loadDepartmentSchedule$ = createEffect(
     () => {
       return this.actions$.pipe(
         ofType(PageAction.calendarLoad),
@@ -83,7 +83,7 @@ export class CalendarEffects {
     { dispatch: false }
   );
 
-  public prev$ = createEffect(() => {
+  prev$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.calendarPrev),
       withLatestFrom(this.view$),
@@ -95,7 +95,7 @@ export class CalendarEffects {
     );
   });
 
-  public next$ = createEffect(() => {
+  next$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.calendarNext),
       withLatestFrom(this.view$),
@@ -107,21 +107,21 @@ export class CalendarEffects {
     );
   });
 
-  public loadPrev$ = createEffect(() => {
+  loadPrev$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ApiAction.prev),
       map(({ date }) => PageAction.calendarLoad({ date }))
     );
   });
 
-  public loadNext$ = createEffect(() => {
+  loadNext$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ApiAction.next),
       map(({ date }) => PageAction.calendarLoad({ date }))
     );
   });
 
-  public changeMonth$ = createEffect(() => {
+  changeMonth$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.calendarChangeMonth),
       map(({ month }) =>
@@ -133,7 +133,7 @@ export class CalendarEffects {
     );
   });
 
-  public loadChangeMonth$ = createEffect(() => {
+  loadChangeMonth$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ApiAction.changeMonth),
       map(({ date }) => PageAction.calendarLoad({ date }))

@@ -2,7 +2,7 @@ import { ScheduleComponent, View } from '@syncfusion/ej2-angular-schedule';
 import { DateHelper } from './date.helper';
 
 export class ScheduleHelper {
-  public static dayInCurrentView(
+  static dayInCurrentView(
     schedule: ScheduleComponent,
     view: View,
     date: Date = new Date()

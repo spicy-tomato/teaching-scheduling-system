@@ -26,7 +26,7 @@ export class TeacherService {
     this.url = config.baseUrl;
   }
 
-  public getByDepartment(
+  getByDepartment(
     department: string
   ): Observable<ResponseModel<SimpleModel[]>> {
     return this.http.get<ResponseModel<SimpleModel[]>>(
@@ -34,9 +34,7 @@ export class TeacherService {
     );
   }
 
-  public getTeacherInfo(
-    teacherId: string
-  ): Observable<ResponseModel<SimpleTeacher>> {
+  getTeacherInfo(teacherId: string): Observable<ResponseModel<SimpleTeacher>> {
     return this.http.get<ResponseModel<SimpleTeacher>>(
       this.url + `teachers/${teacherId}`
     );

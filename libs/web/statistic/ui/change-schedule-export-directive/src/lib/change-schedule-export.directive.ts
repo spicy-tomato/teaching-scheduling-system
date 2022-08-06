@@ -26,10 +26,10 @@ import { map, Observable, Subject, takeUntil, tap, withLatestFrom } from 'rxjs';
 })
 export class ChangeScheduleExportDirective {
   /** INPUT */
-  @Input('tssChangeScheduleExport') public rangeControl!: AbstractControl;
+  @Input('tssChangeScheduleExport') rangeControl!: AbstractControl;
 
   /** PUBLIC PROPERTIES */
-  public readonly export$ = new Subject<void>();
+  readonly export$ = new Subject<void>();
 
   /** PRIVATE PROPERTIES */
   private readonly teacher$: Observable<Teacher>;
@@ -57,7 +57,7 @@ export class ChangeScheduleExportDirective {
   }
 
   /** HOST LISTENER */
-  @HostListener('click') public onClick(): void {
+  @HostListener('click') onClick(): void {
     this.export$.next();
   }
 

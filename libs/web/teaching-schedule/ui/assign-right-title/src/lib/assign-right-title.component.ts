@@ -47,9 +47,9 @@ import {
 })
 export class AssignRightTitleComponent {
   /** PUBLIC PROPERTIES */
-  public assigned$: Observable<ModuleClass[]>;
-  public someAssignedCheckedChange$!: Observable<boolean>;
-  public unassignStatus$: Observable<EApiStatus>;
+  assigned$: Observable<ModuleClass[]>;
+  someAssignedCheckedChange$!: Observable<boolean>;
+  unassignStatus$: Observable<EApiStatus>;
 
   /** PRIVATE PROPERTIES */
   private assignedTeacher$: Observable<Nullable<SimpleModel>>;
@@ -76,7 +76,7 @@ export class AssignRightTitleComponent {
   }
 
   /** PUBLIC METHODS */
-  public unassign(): void {
+  unassign(): void {
     this.store.dispatch(teachingScheduleAssign_Unassign());
   }
 

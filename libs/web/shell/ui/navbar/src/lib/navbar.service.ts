@@ -13,7 +13,7 @@ export class NavbarService implements OnDestroy {
   private readonly _rightMenu$ = new BehaviorSubject<
     Nullable<TemplateRef<never>>
   >(null);
-  public readonly rightMenu$ = this._rightMenu$.asObservable();
+  readonly rightMenu$ = this._rightMenu$.asObservable();
   private readonly breadcrumbsSubscription: Subscription;
 
   /** CONSTRUCTOR */
@@ -25,12 +25,12 @@ export class NavbarService implements OnDestroy {
   }
 
   /** LIFECYCLE */
-  public ngOnDestroy(): void {
+  ngOnDestroy(): void {
     this.breadcrumbsSubscription.unsubscribe();
   }
 
   /** PUBLIC METHODS */
-  public addRightMenu(data: Nullable<TemplateRef<never>>): void {
+  addRightMenu(data: Nullable<TemplateRef<never>>): void {
     this._rightMenu$.next(data);
   }
 }

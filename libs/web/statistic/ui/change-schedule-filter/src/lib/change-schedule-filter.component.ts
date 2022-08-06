@@ -31,13 +31,13 @@ import { take, tap } from 'rxjs';
 })
 export class ChangeScheduleFilterComponent implements OnInit, AfterViewInit {
   /** VIEWCHILD */
-  @ViewChild('export') public exportTemplate!: TemplateRef<never>;
+  @ViewChild('export') exportTemplate!: TemplateRef<never>;
 
   /** PUBLIC PROPERTIES */
-  public form!: FormGroup;
+  form!: FormGroup;
 
-  public readonly IconConstant = IconConstant;
-  public readonly status$ = this.store.status$;
+  readonly IconConstant = IconConstant;
+  readonly status$ = this.store.status$;
 
   /** PRIVATE PROPERTIES */
   private readonly teacher$ = this.store.teacher$;
@@ -57,16 +57,16 @@ export class ChangeScheduleFilterComponent implements OnInit, AfterViewInit {
   }
 
   /** LIFECYCLE */
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.statisticizeFirstTime();
   }
 
-  public ngAfterViewInit(): void {
+  ngAfterViewInit(): void {
     this.navbarService.addRightMenu(this.exportTemplate);
   }
 
   /** PUBLIC METHODS */
-  public statisticize(): void {
+  statisticize(): void {
     const range = this.rangeControlValue;
     if (range) {
       this.store.statisticize({ range });

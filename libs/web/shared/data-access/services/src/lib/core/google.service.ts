@@ -9,7 +9,7 @@ import { BehaviorSubject, filter, Observable, of, takeUntil, tap } from 'rxjs';
 export class GoogleService {
   /** PRIVATE PROPERTIES */
   private load$ = new BehaviorSubject<boolean | null>(null);
-  public loggedIn$ = new BehaviorSubject<boolean | null>(null);
+  loggedIn$ = new BehaviorSubject<boolean | null>(null);
 
   /** CONSTRUCTOR */
   constructor(private readonly destroy$: TuiDestroyService) {
@@ -17,7 +17,7 @@ export class GoogleService {
   }
 
   /** PUBLIC METHODS */
-  public load(): void {
+  load(): void {
     const script = document.createElement('script');
     script.type = 'text/javascript';
     script.src = 'https://apis.google.com/js/api.js';
@@ -29,7 +29,7 @@ export class GoogleService {
     document.getElementsByTagName('head')[0].appendChild(script);
   }
 
-  public auth(): void {
+  auth(): void {
     this.loggedIn$.next(null);
     void gapi.auth2
       .getAuthInstance()
@@ -43,12 +43,12 @@ export class GoogleService {
       );
   }
 
-  public signOut(): void {
+  signOut(): void {
     void gapi.auth2.getAuthInstance().signOut();
     this.loggedIn$.next(false);
   }
 
-  public getInfo(): gapi.auth2.CurrentUser {
+  getInfo(): gapi.auth2.CurrentUser {
     return gapi.auth2.getAuthInstance().currentUser;
   }
 

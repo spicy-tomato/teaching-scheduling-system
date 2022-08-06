@@ -22,7 +22,7 @@ export class ImportService {
     this.url = config.baseUrl + 'import-data/';
   }
 
-  public importSchedule(
+  importSchedule(
     file: File,
     departmentId: string,
     studySession: string

@@ -29,9 +29,9 @@ import { ExportDialogStore } from './store';
 })
 export class ChangeReportDialogComponent {
   /** PUBLIC PROPERTIES */
-  public form!: FormGroup;
-  public readonly status$ = this.store.status$;
-  public readonly confirm$ = new Subject<void>();
+  form!: FormGroup;
+  readonly status$ = this.store.status$;
+  readonly confirm$ = new Subject<void>();
 
   /** GETTERS */
   private get rangeControlValue(): TuiDayRange {

@@ -29,7 +29,7 @@ export class AuthService {
   }
 
   /** PUBLIC METHODS */
-  public auth(loginData: LoginForm): Observable<AuthResponse> {
+  auth(loginData: LoginForm): Observable<AuthResponse> {
     const obj = { username: loginData.username, password: loginData.password };
     return this.http
       .post<ResponseModel<Nullable<Teacher>>>(this.url + 'login', obj, {
@@ -45,7 +45,7 @@ export class AuthService {
       );
   }
 
-  public logOut(): Observable<void> {
+  logOut(): Observable<void> {
     return this.http.post<void>(this.url + 'logout', {});
   }
 }

@@ -19,7 +19,7 @@ import { Observable, takeUntil } from 'rxjs';
 })
 export class MainViewComponent {
   /** PUBLIC METHODS */
-  public readonly breadcrumbs$: Observable<BreadcrumbItem[]>;
+  readonly breadcrumbs$: Observable<BreadcrumbItem[]>;
 
   /** CONSTRUCTOR */
   constructor(

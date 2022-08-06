@@ -43,10 +43,10 @@ import { Observable, Subject, takeUntil, tap, withLatestFrom } from 'rxjs';
 })
 export class ChangeRequestFilterComponent {
   /** PUBLIC PROPERTIES */
-  public readonly exportMultiple$ = new Subject<void>();
-  public readonly IconConstant = IconConstant;
-  public readonly exportSchedule$: Observable<ChangeSchedule[]>;
-  public readonly isPersonal: boolean;
+  readonly exportMultiple$ = new Subject<void>();
+  readonly IconConstant = IconConstant;
+  readonly exportSchedule$: Observable<ChangeSchedule[]>;
+  readonly isPersonal: boolean;
 
   /** PRIVATE PROPERTIES */
   private readonly teacher$: Observable<Teacher>;
@@ -77,7 +77,7 @@ export class ChangeRequestFilterComponent {
   }
 
   /** PUBLIC METHODS */
-  public onExport(): void {
+  onExport(): void {
     this.dialog$.subscribe();
   }
 

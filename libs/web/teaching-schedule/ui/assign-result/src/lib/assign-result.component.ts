@@ -22,7 +22,7 @@ import { combineLatest, map, Observable, takeUntil } from 'rxjs';
 })
 export class AssignResultComponent {
   /** PUBLIC PROPERTIES */
-  public data$!: Observable<ModuleClass[]>;
+  data$!: Observable<ModuleClass[]>;
 
   /** PRIVATE METHODS */
   private assigned$: Observable<ModuleClass[]>;

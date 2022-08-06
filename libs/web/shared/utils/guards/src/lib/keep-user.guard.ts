@@ -26,10 +26,7 @@ export class KeepUserGuard implements CanActivate {
   ) {}
 
   /** IMPLEMENTATIONS */
-  public canActivate(
-    _: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): boolean {
+  canActivate(_: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     const path = state.url;
     const isLoginPath = path.includes('login');
     const hasAccessToken = !!this.localStorageService.getItem(

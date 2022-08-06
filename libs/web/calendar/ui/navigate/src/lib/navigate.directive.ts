@@ -24,8 +24,8 @@ import { Subject, takeUntil, tap, withLatestFrom } from 'rxjs';
 })
 export class NavigateDirective {
   /** INPUT */
-  @Input('tssNavigate') public type!: 'prev' | 'next' | 'today';
-  @Input() public scheduleComponent!: ScheduleComponent;
+  @Input('tssNavigate') type!: 'prev' | 'next' | 'today';
+  @Input() scheduleComponent!: ScheduleComponent;
 
   /** PRIVATE PROPERTIES */
   private readonly today$ = new Subject<void>();
@@ -45,7 +45,7 @@ export class NavigateDirective {
   }
 
   /** HOST LISTENER */
-  @HostListener('click') public onClick(): void {
+  @HostListener('click') onClick(): void {
     switch (this.type) {
       case 'prev':
         this.onPrev();

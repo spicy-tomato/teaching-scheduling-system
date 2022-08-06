@@ -82,11 +82,11 @@ import {
 })
 export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
   /** VIEWCHILD */
-  @ViewChild('schedule') public scheduleComponent!: ScheduleComponent;
-  @ViewChild('rightMenu') public rightMenuTemplate!: TemplateRef<never>;
+  @ViewChild('schedule') scheduleComponent!: ScheduleComponent;
+  @ViewChild('rightMenu') rightMenuTemplate!: TemplateRef<never>;
 
   /** PUBLIC PROPERTIES */
-  public readonly eventSettings$ = new BehaviorSubject<EventSettingsModel>({});
+  readonly eventSettings$ = new BehaviorSubject<EventSettingsModel>({});
 
   /** PRIVATE PROPERTIES */
   private readonly staticSettings: EventSettingsModel = {
@@ -111,23 +111,23 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /** LIFECYCLE */
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.store.dispatch(calendarLoad({ date: new Date() }));
   }
 
-  public ngAfterViewInit(): void {
+  ngAfterViewInit(): void {
     this.handleSelectedDateChanges();
     this.handleChangeView();
     this.handleChangeStatus();
     this.navbarService.addRightMenu(this.rightMenuTemplate);
   }
 
-  public ngOnDestroy(): void {
+  ngOnDestroy(): void {
     this.sidebarStore.dispatch(sidebar_reset());
   }
 
   /** PUBLIC METHODS */
-  public onRenderCell(args: RenderCellEventArgs): void {
+  onRenderCell(args: RenderCellEventArgs): void {
     if (args.element.classList.contains('e-work-cells')) {
       if (args.date && DateHelper.sameDay(args.date, new Date())) {
         args.element.classList.add('today');
@@ -139,7 +139,7 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  public onEventRendered(args: EventRenderedArgs): void {
+  onEventRendered(args: EventRenderedArgs): void {
     switch (args.data['Type']) {
       case 'exam':
         args.element.style.backgroundColor = '#ff0000';
@@ -163,7 +163,7 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  public onCreated(): void {
+  onCreated(): void {
     const popup = document.querySelector('.e-quick-popup-wrapper');
     if (!popup) return;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -175,7 +175,7 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
     this.handleSidebarCheckboxChange();
   }
 
-  public onPopupOpen(args: PopupOpenEventArgs): void {
+  onPopupOpen(args: PopupOpenEventArgs): void {
     if (!args.data) return;
 
     if (args.type === 'Editor') {
@@ -184,7 +184,7 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  public onNavigating(args: NavigatingEventArgs): void {
+  onNavigating(args: NavigatingEventArgs): void {
     if (!DeviceHelper.isTouchDevice()) {
       return;
     }
@@ -209,7 +209,7 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  public onShowEditorDialog(data: EjsScheduleModel): void {
+  onShowEditorDialog(data: EjsScheduleModel): void {
     switch (data.Type) {
       case 'exam':
         this.showExamEditorDialog(data);
@@ -222,7 +222,7 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  public onCloseEditorDialog(): void {
+  onCloseEditorDialog(): void {
     this.scheduleComponent.closeQuickInfoPopup();
   }
 

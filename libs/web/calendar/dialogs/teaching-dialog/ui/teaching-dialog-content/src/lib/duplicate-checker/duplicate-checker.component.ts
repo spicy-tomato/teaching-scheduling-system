@@ -22,12 +22,12 @@ import { Observable, takeUntil } from 'rxjs';
 })
 export class DuplicateCheckerComponent {
   /** INPUT */
-  @Input() public sameData!: boolean;
-  @Input() public hadReason!: boolean;
+  @Input() sameData!: boolean;
+  @Input() hadReason!: boolean;
 
   /** PUBLIC PROPERTIES */
-  public readonly searchStatus$: Observable<EApiStatus>;
-  public readonly searchSchedule$: Observable<Nullable<StudyScheduleModel[]>>;
+  readonly searchStatus$: Observable<EApiStatus>;
+  readonly searchSchedule$: Observable<Nullable<StudyScheduleModel[]>>;
 
   /** CONSTRUCTOR */
   constructor(

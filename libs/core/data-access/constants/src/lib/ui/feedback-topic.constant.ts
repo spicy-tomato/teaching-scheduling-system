@@ -11,7 +11,7 @@ export interface FeedbackItem {
 }
 
 export class FeedbackConstant {
-  public static readonly items: FeedbackItem[] = [
+  static readonly items: FeedbackItem[] = [
     { key: 0, label: 'Chung', icon: tuiIconStarLarge },
     { key: 1, label: 'Giao diện', icon: tuiIconDesktopLarge },
     { key: 2, label: 'Chức năng', icon: tuiIconSettingsLarge },

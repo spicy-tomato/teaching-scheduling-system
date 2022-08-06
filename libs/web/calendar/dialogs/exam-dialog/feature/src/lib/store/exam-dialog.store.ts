@@ -20,31 +20,30 @@ export class ExamDialogStore extends ComponentStore<ExportDialogState> {
   );
 
   /** PUBLIC PROPERTIES */
-  public readonly status$ = this.select((s) => s.status);
+  readonly status$ = this.select((s) => s.status);
 
   /** EFFECTS */
-  public readonly submit = this.effect<{ id: number; note: string }>(
-    (params$) =>
-      params$.pipe(
-        tap(() => this.patchState({ status: 'loading', error: null })),
-        withLatestFrom(this.teacher$),
-        switchMap(([{ id, note }, teacher]) =>
-          this.examService.updateExamNote(teacher.id, id, { note }).pipe(
-            tapResponse(
-              () =>
-                this.patchState({
-                  status: 'successful',
-                  error: '',
-                }),
-              (error) =>
-                this.patchState({
-                  status: 'systemError',
-                  error: error as string,
-                })
-            )
+  readonly submit = this.effect<{ id: number; note: string }>((params$) =>
+    params$.pipe(
+      tap(() => this.patchState({ status: 'loading', error: null })),
+      withLatestFrom(this.teacher$),
+      switchMap(([{ id, note }, teacher]) =>
+        this.examService.updateExamNote(teacher.id, id, { note }).pipe(
+          tapResponse(
+            () =>
+              this.patchState({
+                status: 'successful',
+                error: '',
+              }),
+            (error) =>
+              this.patchState({
+                status: 'systemError',
+                error: error as string,
+              })
           )
         )
       )
+    )
   );
 
   /** CONSTRUCTOR */

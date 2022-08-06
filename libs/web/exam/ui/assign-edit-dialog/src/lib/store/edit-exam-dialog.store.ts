@@ -17,13 +17,13 @@ type AssignEditExamDialogState = GenericState<void>;
 @Injectable()
 export class AssignEditExamDialogStore extends ComponentStore<AssignEditExamDialogState> {
   /** PUBLIC PROPERTIES */
-  public readonly status$ = this.select((s) => s.status);
-  public readonly rooms$ = this.appShellStore
+  readonly status$ = this.select((s) => s.status);
+  readonly rooms$ = this.appShellStore
     .select(selectRooms)
     .pipe(takeUntil(this.destroy$));
 
   /** EFFECTS */
-  public readonly update = this.effect<{
+  readonly update = this.effect<{
     examId: number;
     body: UpdateExamModel;
   }>((params$) =>

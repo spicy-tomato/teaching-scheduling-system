@@ -9,7 +9,7 @@ import { ChangeStatusHelper } from '@teaching-scheduling-system/core/utils/helpe
   name: 'changeStatusType',
 })
 export class ChangeStatusTypePipe implements PipeTransform {
-  public transform(value: number): Nullable<RequestChangeScheduleType> {
+  transform(value: number): Nullable<RequestChangeScheduleType> {
     return ChangeStatusHelper.getType(value);
   }
 }

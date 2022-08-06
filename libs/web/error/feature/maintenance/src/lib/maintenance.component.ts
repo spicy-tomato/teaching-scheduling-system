@@ -18,7 +18,7 @@ import {
 export class MaintenanceComponent {
   /** CONSTRUCTOR */
   constructor(
-    @Inject(APP_CONFIG) public readonly config: AppConfig,
+    @Inject(APP_CONFIG) readonly config: AppConfig,
     appShellStore: Store<AppShellState>
   ) {
     appShellStore.dispatch(setLoader({ showLoader: false }));

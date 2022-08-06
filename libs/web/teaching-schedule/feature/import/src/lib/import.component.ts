@@ -22,22 +22,22 @@ import { map, Observable, Subject, tap } from 'rxjs';
 })
 export class ImportComponent {
   /** PUBLIC PROPERTIES */
-  public form!: FormGroup;
-  public schoolYears$!: Observable<string[]>;
+  form!: FormGroup;
+  schoolYears$!: Observable<string[]>;
 
-  public readonly termsInYear = CoreConstant.TERMS_IN_YEAR;
-  public readonly batchesInTerm = CoreConstant.BATCHES_IN_TERM;
-  public readonly rejectedFiles$ = new Subject<Nullable<TuiFileLike>>();
-  public readonly currentTerm$ = this.store.currentTerm$;
-  public readonly department$ = this.store.department$;
-  public readonly status$ = this.store.status$;
+  readonly termsInYear = CoreConstant.TERMS_IN_YEAR;
+  readonly batchesInTerm = CoreConstant.BATCHES_IN_TERM;
+  readonly rejectedFiles$ = new Subject<Nullable<TuiFileLike>>();
+  readonly currentTerm$ = this.store.currentTerm$;
+  readonly department$ = this.store.department$;
+  readonly status$ = this.store.status$;
 
   /** GETTERS */
-  public get fileControl(): FormControl {
+  get fileControl(): FormControl {
     return this.form.controls['file'] as FormControl;
   }
 
-  public get termInYearControl(): FormControl {
+  get termInYearControl(): FormControl {
     return this.form.controls['termInYear'] as FormControl;
   }
 
@@ -45,7 +45,7 @@ export class ImportComponent {
     return this.form.controls['batchInTerm'] as FormControl;
   }
 
-  public get file(): File {
+  get file(): File {
     return this.fileControl.value as File;
   }
 
@@ -62,14 +62,14 @@ export class ImportComponent {
   }
 
   /** PUBLIC METHODS */
-  public onTermInYearChange(termInYear: number): void {
+  onTermInYearChange(termInYear: number): void {
     const selectedBatchInTerm = this.batchInTermControl.value as number;
     if (!this.batchesInTerm[termInYear].includes(selectedBatchInTerm)) {
       this.batchInTermControl.setValue(1);
     }
   }
 
-  public onReject(file: TuiFileLike | readonly TuiFileLike[]): void {
+  onReject(file: TuiFileLike | readonly TuiFileLike[]): void {
     if (file instanceof Array) {
       this.rejectedFiles$.next(file[0]);
     } else {
@@ -77,11 +77,11 @@ export class ImportComponent {
     }
   }
 
-  public removeFile(): void {
+  removeFile(): void {
     this.fileControl.setValue(null);
   }
 
-  public importFile(): void {
+  importFile(): void {
     const schoolYear = this.form.controls['schoolYear'].value as string;
     const termInYear = this.form.controls['termInYear'].value as string;
     const batchInTerm = this.form.controls['batchInTerm'].value as string;

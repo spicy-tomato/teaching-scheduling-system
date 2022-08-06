@@ -16,16 +16,16 @@ type TeachingScheduleState = GenericState<void>;
 @Injectable()
 export class StatisticImportScheduleStore extends ComponentStore<TeachingScheduleState> {
   /** PUBLIC PROPERTIES */
-  public readonly status$ = this.select((s) => s.status);
-  public readonly department$ = this.appShellStore
+  readonly status$ = this.select((s) => s.status);
+  readonly department$ = this.appShellStore
     .select(selectDepartment)
     .pipe(ObservableHelper.filterNullish(), takeUntil(this.destroy$));
-  public readonly currentTerm$ = this.appShellStore
+  readonly currentTerm$ = this.appShellStore
     .select(selectSchoolYear)
     .pipe(takeUntil(this.destroy$));
 
   /** EFFECTS */
-  public readonly importFile = this.effect<{
+  readonly importFile = this.effect<{
     file: File;
     studySession: string;
   }>((params$) =>

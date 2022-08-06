@@ -7,7 +7,7 @@ import { Teacher } from '@teaching-scheduling-system/web/shared/data-access/mode
   name: 'navbarName',
 })
 export class NavbarNamePipe implements PipeTransform {
-  public transform(value: Nullable<Teacher>): string {
+  transform(value: Nullable<Teacher>): string {
     if (value === null) {
       return 'người dùng';
     }

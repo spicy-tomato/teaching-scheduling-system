@@ -14,7 +14,7 @@ export class SidebarEffects {
   private dataState$ = this.store.select(sidebar_selectDataState);
 
   /** EFFECTS */
-  public emit$ = createEffect(() => {
+  emit$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.sidebar_emit),
       withLatestFrom(this.dataState$),

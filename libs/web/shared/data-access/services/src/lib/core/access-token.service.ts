@@ -11,20 +11,20 @@ export class AccessTokenService {
   constructor(private readonly localStorageService: LocalStorageService) {}
 
   /** PUBLIC METHODS */
-  public get(): Nullable<string> {
+  get(): Nullable<string> {
     return this.localStorageService.getItem(
       LocalStorageKeyConstant.ACCESS_TOKEN
     );
   }
 
-  public save(token: string): void {
+  save(token: string): void {
     this.localStorageService.setItem(
       LocalStorageKeyConstant.ACCESS_TOKEN,
       token
     );
   }
 
-  public clear(): void {
+  clear(): void {
     this.localStorageService.removeItem(LocalStorageKeyConstant.ACCESS_TOKEN);
   }
 }

@@ -28,13 +28,13 @@ import { Observable, takeUntil } from 'rxjs';
 })
 export class AssignTableComponent implements OnChanges {
   /** INPUT */
-  @Input() public data!: ModuleClass[];
-  @Input() public excludeTeacher = false;
+  @Input() data!: ModuleClass[];
+  @Input() excludeTeacher = false;
 
   /** PUBLIC PROPERTIES */
-  public form!: FormGroup;
-  public filterStatus$: Observable<EApiStatus>;
-  public readonly columns = [
+  form!: FormGroup;
+  filterStatus$: Observable<EApiStatus>;
+  readonly columns = [
     'checkbox',
     'index',
     'name',
@@ -43,19 +43,19 @@ export class AssignTableComponent implements OnChanges {
     'numberReality',
     'teacher',
   ];
-  public classType = CoreConstant.CLASS_TYPE;
-  public defaultSort = defaultSort;
+  classType = CoreConstant.CLASS_TYPE;
+  defaultSort = defaultSort;
 
   /** PRIVATE PROPERTIES */
   private _selectAll = false;
 
   /** GETTERS */
-  public get selectAll(): boolean {
+  get selectAll(): boolean {
     return this._selectAll;
   }
 
   /** SETTERS */
-  public set selectAll(checked: boolean) {
+  set selectAll(checked: boolean) {
     this.checkboxes.controls.forEach((checkbox) => {
       checkbox.setValue(checked);
     });
@@ -68,7 +68,7 @@ export class AssignTableComponent implements OnChanges {
     );
   }
 
-  public get checkboxes(): FormArray {
+  get checkboxes(): FormArray {
     return this.form.controls['checkbox'] as FormArray;
   }
 
@@ -84,14 +84,14 @@ export class AssignTableComponent implements OnChanges {
   }
 
   /** LIFECYCLE */
-  public ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(changes: SimpleChanges): void {
     if (changes['data']) {
       this.resetForm();
     }
   }
 
   /** PUBLIC METHODS */
-  public onModelChange(index: number, checked: boolean): void {
+  onModelChange(index: number, checked: boolean): void {
     if (
       this._selectAll &&
       this.checkboxes.controls.some((checkbox) => !checkbox.value)

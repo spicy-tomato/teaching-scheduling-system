@@ -40,13 +40,13 @@ import { NavbarOptions, NAVBAR_OPTIONS } from './navbar.token';
 })
 export class NavbarComponent {
   /** PUBLIC PROPERTIES */
-  public readonly items = NavbarConstants.items;
-  public readonly rightMenu$: Observable<Nullable<TemplateRef<never>>>;
+  readonly items = NavbarConstants.items;
+  readonly rightMenu$: Observable<Nullable<TemplateRef<never>>>;
 
-  public openMobileNav = false;
-  public openDropDown = false;
-  public isMobileScreen = true;
-  public user$: Observable<Nullable<Teacher>> | undefined;
+  openMobileNav = false;
+  openDropDown = false;
+  isMobileScreen = true;
+  user$: Observable<Nullable<Teacher>> | undefined;
 
   /** CONSTRUCTOR */
   constructor(
@@ -69,7 +69,7 @@ export class NavbarComponent {
   }
 
   /** PUBLIC METHODS */
-  public onClickDropDownItem(action: string): void {
+  onClickDropDownItem(action: string): void {
     this.openDropDown = false;
     if (action === NavbarConstants.keys.LOG_OUT) {
       this.authService.logOut().subscribe();
@@ -89,7 +89,7 @@ export class NavbarComponent {
     }
   }
 
-  public toggleMobileNav(open: boolean, needMarkForCheck = false): void {
+  toggleMobileNav(open: boolean, needMarkForCheck = false): void {
     this.openMobileNav = open;
     if (needMarkForCheck) {
       this.cdr.markForCheck();

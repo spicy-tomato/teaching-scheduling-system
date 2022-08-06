@@ -10,7 +10,7 @@ type VarContext = {
 })
 export class VarDirective {
   /** INPUT */
-  @Input() public set tssVar(context: unknown) {
+  @Input() set tssVar(context: unknown) {
     this.context.$implicit = this.context.tssVar = context;
 
     if (!this.hasView) {

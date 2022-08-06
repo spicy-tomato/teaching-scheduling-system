@@ -3,27 +3,27 @@ import { CoreConstant } from '@teaching-scheduling-system/core/data-access/const
 
 export class DateHelper {
   /** To string */
-  public static beautifyTime(dt: Date): string {
+  static beautifyTime(dt: Date): string {
     return [
       DateHelper.beautifyDay(dt.getHours()),
       DateHelper.beautifyDay(dt.getMinutes()),
     ].join(':');
   }
 
-  public static beautifyDay(day: number): string {
+  static beautifyDay(day: number): string {
     return `0${day}`.slice(-2);
   }
 
-  public static toDateOnlyString(date: Date): string {
+  static toDateOnlyString(date: Date): string {
     return date.toISOString().split('T')[0];
   }
 
-  public static toSqlDate(date: Date): string {
+  static toSqlDate(date: Date): string {
     return date.toISOString().slice(0, 19).replace('T', ' ');
   }
 
   /** From other types */
-  public static fromShift(date: Date, shift: string): [Date, Date] {
+  static fromShift(date: Date, shift: string): [Date, Date] {
     const end = new Date(date.getTime());
     const map = CoreConstant.SHIFTS;
 
@@ -36,12 +36,12 @@ export class DateHelper {
   }
 
   /** To other types */
-  public static toTuiDay(date: Date): TuiDay {
+  static toTuiDay(date: Date): TuiDay {
     return new TuiDay(date.getFullYear(), date.getMonth(), date.getDate());
   }
 
   /** Calculation */
-  public static weekIncludedByTwoMonths(date: Date): boolean {
+  static weekIncludedByTwoMonths(date: Date): boolean {
     const dow = date.getDay();
     const first = new Date(date);
     const last = new Date(date);
@@ -57,12 +57,12 @@ export class DateHelper {
     return first.getMonth() === last.getMonth();
   }
 
-  public static subtract(day: Date, amount: number): Date {
+  static subtract(day: Date, amount: number): Date {
     day.setDate(day.getDate() - amount);
     return day;
   }
 
-  public static sameDay(d1: Date, d2: Date): boolean {
+  static sameDay(d1: Date, d2: Date): boolean {
     return (
       d1.getDate() === d2.getDate() &&
       d1.getMonth() === d2.getMonth() &&
@@ -71,7 +71,7 @@ export class DateHelper {
   }
 
   /** Factory */
-  public static dateAtZero(date = new Date()): Date {
+  static dateAtZero(date = new Date()): Date {
     return new Date(date.getFullYear(), date.getMonth(), date.getDate());
   }
 }

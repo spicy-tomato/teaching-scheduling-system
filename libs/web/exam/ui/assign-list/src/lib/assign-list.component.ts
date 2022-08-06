@@ -26,7 +26,7 @@ import { tap } from 'rxjs';
 })
 export class AssignListComponent {
   /** PUBLIC PROPERTIES */
-  public readonly columns = [
+  readonly columns = [
     'index',
     'name',
     'method',
@@ -38,8 +38,8 @@ export class AssignListComponent {
     'teacher',
     'action',
   ];
-  public readonly data$ = this.store.data$;
-  public readonly status$ = this.store.status$;
+  readonly data$ = this.store.data$;
+  readonly status$ = this.store.status$;
 
   /** CONSTRUCTOR */
   constructor(
@@ -50,7 +50,7 @@ export class AssignListComponent {
   ) {}
 
   /** PUBLIC METHOD */
-  public onOpenAssignDialog(exam: ExamScheduleModel): void {
+  onOpenAssignDialog(exam: ExamScheduleModel): void {
     this.dialogService
       .open<string[]>(
         new PolymorpheusComponent(AssignTeacherDialogComponent, this.injector),
@@ -63,7 +63,7 @@ export class AssignListComponent {
       .subscribe();
   }
 
-  public onOpenEditDialog(exam: ExamScheduleModel): void {
+  onOpenEditDialog(exam: ExamScheduleModel): void {
     this.dialogService
       .open<string>(
         new PolymorpheusComponent(AssignEditDialogComponent, this.injector),

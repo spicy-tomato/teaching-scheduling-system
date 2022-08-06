@@ -32,43 +32,42 @@ type ChangeScheduleState = GenericState<ChangeSchedule[]>;
 @Injectable()
 export class StatisticChangeScheduleStore extends ComponentStore<ChangeScheduleState> {
   /** PUBLIC PROPERTIES */
-  public readonly data$ = this.select((s) => s.data);
-  public readonly status$ = this.select((s) => s.status);
-  public readonly department$ = this.appShellStore
+  readonly data$ = this.select((s) => s.data);
+  readonly status$ = this.select((s) => s.status);
+  readonly department$ = this.appShellStore
     .select(selectDepartment)
     .pipe(ObservableHelper.filterNullish(), takeUntil(this.destroy$));
-  public readonly teachersInDepartment$ = this.appShellStore
+  readonly teachersInDepartment$ = this.appShellStore
     .select(selectTeachersInDepartment)
     .pipe(takeUntil(this.destroy$));
-  public readonly teacher$ = this.appShellStore.pipe(
+  readonly teacher$ = this.appShellStore.pipe(
     selectNotNullTeacher,
     takeUntil(this.destroy$)
   );
 
   /** EFFECTS */
-  public readonly statisticize = this.effect<{ range: TuiDayRange }>(
-    (params$) =>
-      params$.pipe(
-        tap(() => this.patchState({ status: 'loading', error: null })),
-        withLatestFrom(this.department$),
-        mergeMap(([{ range }, department]) =>
-          this.getStatistic(department.id, range).pipe(
-            tapResponse(
-              (data) =>
-                this.patchState({
-                  data,
-                  status: 'successful',
-                  error: '',
-                }),
-              (error) =>
-                this.patchState({
-                  status: 'systemError',
-                  error: error as string,
-                })
-            )
+  readonly statisticize = this.effect<{ range: TuiDayRange }>((params$) =>
+    params$.pipe(
+      tap(() => this.patchState({ status: 'loading', error: null })),
+      withLatestFrom(this.department$),
+      mergeMap(([{ range }, department]) =>
+        this.getStatistic(department.id, range).pipe(
+          tapResponse(
+            (data) =>
+              this.patchState({
+                data,
+                status: 'successful',
+                error: '',
+              }),
+            (error) =>
+              this.patchState({
+                status: 'systemError',
+                error: error as string,
+              })
           )
         )
       )
+    )
   );
 
   /** CONSTRUCTOR */

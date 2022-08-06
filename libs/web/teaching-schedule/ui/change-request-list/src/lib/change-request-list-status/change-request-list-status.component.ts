@@ -41,14 +41,14 @@ import { Observable, Subject, takeUntil, tap, withLatestFrom } from 'rxjs';
 })
 export class ChangeRequestListStatusComponent {
   /** INPUT */
-  @Input() public displayText!: boolean;
-  @Input() public item!: ChangeSchedule;
+  @Input() displayText!: boolean;
+  @Input() item!: ChangeSchedule;
 
   /** PUBLIC PROPERTIES */
-  public readonly requesting$: Observable<number[]>;
-  public readonly permissions$: Observable<number[]>;
-  public readonly accept$ = new Subject<void>();
-  public readonly statusList = ScheduleConstant.REQUEST_CHANGE_SCHEDULE_STATUS;
+  readonly requesting$: Observable<number[]>;
+  readonly permissions$: Observable<number[]>;
+  readonly accept$ = new Subject<void>();
+  readonly statusList = ScheduleConstant.REQUEST_CHANGE_SCHEDULE_STATUS;
 
   /** PRIVATE PROPERTIES */
   private acceptDialog$!: Observable<void>;
@@ -74,7 +74,7 @@ export class ChangeRequestListStatusComponent {
   }
 
   /** PUBLIC METHODS */
-  public onDeny(): void {
+  onDeny(): void {
     this.denyDialog$.subscribe();
   }
 

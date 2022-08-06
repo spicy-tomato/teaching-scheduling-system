@@ -17,20 +17,20 @@ import { Subject, takeUntil, tap, withLatestFrom } from 'rxjs';
 @Injectable()
 export class AssignFilterStore extends ComponentStore<object> {
   /** PUBLIC PROPERTIES */
-  public readonly filterStatus$ = this.examAssignStore.status$;
-  public readonly teachers = this.appShellStore
+  readonly filterStatus$ = this.examAssignStore.status$;
+  readonly teachers = this.appShellStore
     .select(selectTeachersInDepartment)
     .pipe(takeUntil(this.destroy$));
-  public readonly myDepartment$ = this.appShellStore
+  readonly myDepartment$ = this.appShellStore
     .select(selectDepartment)
     .pipe(ObservableHelper.filterNullish(), takeUntil(this.destroy$));
-  public readonly currentTerm$ = this.appShellStore
+  readonly currentTerm$ = this.appShellStore
     .select(selectSchoolYear)
     .pipe(takeUntil(this.destroy$));
-  public readonly academicData$ = this.appShellStore
+  readonly academicData$ = this.appShellStore
     .select(selectAcademicData)
     .pipe(takeUntil(this.destroy$));
-  public readonly trainingTypes$ = this.appShellStore
+  readonly trainingTypes$ = this.appShellStore
     .select(selectTrainingTypes)
     .pipe(takeUntil(this.destroy$));
 
@@ -47,12 +47,12 @@ export class AssignFilterStore extends ComponentStore<object> {
   }
 
   /** PUBLIC METHODS */
-  public filter(params: SearchExam): void {
+  filter(params: SearchExam): void {
     this.filter$.next(params);
   }
 
   /** PRIVATE METHODS */
-  public handleFilter(): void {
+  handleFilter(): void {
     this.filter$
       .pipe(
         withLatestFrom(this.myDepartment$),

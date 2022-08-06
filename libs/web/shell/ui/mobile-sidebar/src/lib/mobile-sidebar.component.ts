@@ -33,7 +33,7 @@ export class MobileSidebarComponent
   implements AfterViewInit
 {
   /** PUBLIC PROPERTIES */
-  public override readonly items = MobileSidebarConstant.items;
+  override readonly items = MobileSidebarConstant.items;
 
   /** CONSTRUCTOR */
   constructor(
@@ -50,7 +50,7 @@ export class MobileSidebarComponent
   }
 
   /** LIFECYCLE */
-  public ngAfterViewInit(): void {
+  ngAfterViewInit(): void {
     this.breadcrumbs$
       .pipe(
         delay(200),
@@ -72,7 +72,7 @@ export class MobileSidebarComponent
   }
 
   /** PUBLIC METHODS */
-  public onLogout(): void {
+  onLogout(): void {
     this.authService.logOut().subscribe();
     this.accessTokenService.clear();
     void this.router.navigate(['/login']);

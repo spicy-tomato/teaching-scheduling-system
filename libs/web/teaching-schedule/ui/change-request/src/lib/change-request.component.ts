@@ -30,7 +30,7 @@ import { Observable, takeUntil, tap } from 'rxjs';
 })
 export class ChangeRequestComponent implements AfterViewInit {
   /** VIEWCHILD */
-  @ViewChild('rightMenu') public rightMenuTemplate!: TemplateRef<never>;
+  @ViewChild('rightMenu') rightMenuTemplate!: TemplateRef<never>;
 
   /** PRIVATE PROPERTIES */
   private readonly teacher$: Observable<Teacher>;
@@ -67,7 +67,7 @@ export class ChangeRequestComponent implements AfterViewInit {
   }
 
   /** LIFECYCLE */
-  public ngAfterViewInit(): void {
+  ngAfterViewInit(): void {
     this.navbarService.addRightMenu(this.rightMenuTemplate);
   }
 

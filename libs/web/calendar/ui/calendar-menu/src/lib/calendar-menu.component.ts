@@ -35,16 +35,16 @@ type ViewItem = {
 })
 export class CalendarMenuComponent {
   /** INPUT */
-  @Input() public scheduleComponent!: ScheduleComponent;
+  @Input() scheduleComponent!: ScheduleComponent;
 
   /** PUBLIC PROPERTIES */
-  public readonly view$: Observable<View>;
-  public readonly viewList: ViewItem[] = [
+  readonly view$: Observable<View>;
+  readonly viewList: ViewItem[] = [
     { id: 'Month', name: 'Tháng' },
     { id: 'Week', name: 'Tuần' },
     { id: 'Day', name: 'Ngày' },
   ];
-  public openRightMenu = false;
+  openRightMenu = false;
 
   /** CONSTRUCTOR */
   constructor(
@@ -58,7 +58,7 @@ export class CalendarMenuComponent {
 
   /** PUBLIC METHODS */
   @tuiPure
-  public stringifyView(): TuiStringHandler<TuiContextWithImplicit<View>> {
+  stringifyView(): TuiStringHandler<TuiContextWithImplicit<View>> {
     const map = new Map(
       this.viewList.map(({ id, name }) => [id, name] as [View, string])
     );
@@ -66,15 +66,15 @@ export class CalendarMenuComponent {
     return ({ $implicit }) => map.get($implicit) || '';
   }
 
-  public toggleRightMenu(open: boolean): void {
+  toggleRightMenu(open: boolean): void {
     this.openRightMenu = open;
   }
 
-  public onSelectView(view: View): void {
+  onSelectView(view: View): void {
     this.store.dispatch(calendarChangeView({ view }));
   }
 
-  public onFilter(): void {
+  onFilter(): void {
     this.openRightMenu = false;
   }
 }

@@ -36,7 +36,7 @@ import {
 })
 export class UserInfoComponent {
   /** PUBLIC PROPERTIES */
-  public readonly fields = [
+  readonly fields = [
     {
       formControlName: 'name',
       placeholder: 'Họ và tên',
@@ -56,11 +56,11 @@ export class UserInfoComponent {
       type: 'input-phone',
     },
   ];
-  public readonly save$ = new Subject<{
+  readonly save$ = new Subject<{
     controlName: string;
     value: string;
   }>();
-  public form!: FormGroup;
+  form!: FormGroup;
 
   /** VIEW CHILDREN */
   @ViewChildren(ConfirmInputComponent)

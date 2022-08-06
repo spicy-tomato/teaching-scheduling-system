@@ -18,9 +18,9 @@ import { Observable, takeUntil } from 'rxjs';
   providers: [TuiDestroyService],
 })
 export class ChangeRequestPaginationComponent {
-  public selectedStatus: Nullable<number> = null;
-  public pageCount$: Observable<number>;
-  public page$: Observable<number>;
+  selectedStatus: Nullable<number> = null;
+  pageCount$: Observable<number>;
+  page$: Observable<number>;
 
   /** CONSTRUCTOR */
   constructor(
@@ -36,7 +36,7 @@ export class ChangeRequestPaginationComponent {
   }
 
   /** PUBLIC METHODS */
-  public onPageChange(page: number): void {
+  onPageChange(page: number): void {
     this.store.dispatch(teachingScheduleRequestChangePage({ page }));
   }
 }

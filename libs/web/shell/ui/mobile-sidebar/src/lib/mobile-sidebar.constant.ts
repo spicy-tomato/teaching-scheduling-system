@@ -2,7 +2,7 @@ import { PermissionConstant } from '@teaching-scheduling-system/core/data-access
 import { SidebarItem } from '@teaching-scheduling-system/core/data-access/models';
 
 export class MobileSidebarConstant {
-  public static items: SidebarItem[] = [
+  static items: SidebarItem[] = [
     {
       controlName: 'calendar',
       name: 'Lịch biểu',

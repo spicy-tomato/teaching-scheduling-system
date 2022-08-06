@@ -23,7 +23,7 @@ import { Observable } from 'rxjs';
 })
 export class QuickInfoContentComponent implements OnInit {
   /** INPUT */
-  @Input() public data!: EjsScheduleModel;
+  @Input() data!: EjsScheduleModel;
 
   /** PRIVATE PROPERTIES */
   private historyDialog$!: Observable<void>;
@@ -35,15 +35,15 @@ export class QuickInfoContentComponent implements OnInit {
   ) {}
 
   /** LIFECYCLE */
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.initDialog();
   }
 
   /** PUBLIC METHODS */
-  public readonly peopleMatcher = (item: string | SimpleModel): boolean =>
+  readonly peopleMatcher = (item: string | SimpleModel): boolean =>
     item !== 'self';
 
-  public onShowHistory(): void {
+  onShowHistory(): void {
     this.historyDialog$.subscribe();
   }
 

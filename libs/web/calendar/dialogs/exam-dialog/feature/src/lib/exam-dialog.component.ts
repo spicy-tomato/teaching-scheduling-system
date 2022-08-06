@@ -26,13 +26,10 @@ import { ExamDialogStore } from './store';
 })
 export class ExamDialogComponent {
   /** PUBLIC PROPERTIES */
-  public readonly notAllowFieldHint =
-    'Không thể thay đổi thông tin của lịch thi';
-  public readonly noteMaxLength = CoreConstant.NOTE_MAX_LENGTH;
-  public readonly showLoader$ = this.store.status$.pipe(
-    map((s) => s === 'loading')
-  );
-  public form!: FormGroup;
+  readonly notAllowFieldHint = 'Không thể thay đổi thông tin của lịch thi';
+  readonly noteMaxLength = CoreConstant.NOTE_MAX_LENGTH;
+  readonly showLoader$ = this.store.status$.pipe(map((s) => s === 'loading'));
+  form!: FormGroup;
 
   /** PRIVATE PROPERTIES */
   private needUpdateAfterClose = false;
@@ -42,11 +39,11 @@ export class ExamDialogComponent {
     return this.form.controls['id'] as FormControl;
   }
 
-  public get peopleControl(): FormArray {
+  get peopleControl(): FormArray {
     return this.form.controls['people'] as FormArray;
   }
 
-  public get changeControl(): FormGroup {
+  get changeControl(): FormGroup {
     return this.form.controls['change'] as FormGroup;
   }
 
@@ -68,14 +65,14 @@ export class ExamDialogComponent {
   }
 
   /** PUBLIC METHODS */
-  public submit(): void {
+  submit(): void {
     this.store.submit({
       id: this.idControl.value,
       note: this.noteControl.value,
     });
   }
 
-  public onCancel(): void {
+  onCancel(): void {
     setTimeout(() => {
       if (this.needUpdateAfterClose) {
         this.context.completeWith(this.noteControl.value);

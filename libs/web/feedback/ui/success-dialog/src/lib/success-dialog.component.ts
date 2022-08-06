@@ -18,7 +18,7 @@ import { Observable, takeUntil } from 'rxjs';
 })
 export class SuccessDialogComponent {
   /** PUBLIC PROPERTIES */
-  public nameTitle$!: Observable<string>;
+  nameTitle$!: Observable<string>;
 
   /** CONSTRUCTOR */
   constructor(
@@ -34,14 +34,14 @@ export class SuccessDialogComponent {
   }
 
   /** PUBLIC METHODS */
-  public returnHome(): void {
+  returnHome(): void {
     setTimeout(() => {
       this.context.$implicit.complete();
       void this.router.navigate(['']);
     });
   }
 
-  public seeFeedback(): void {
+  seeFeedback(): void {
     setTimeout(() => {
       this.context.$implicit.complete();
     });

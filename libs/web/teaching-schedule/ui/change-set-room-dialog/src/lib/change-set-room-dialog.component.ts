@@ -38,8 +38,8 @@ import { Observable, takeUntil } from 'rxjs';
 })
 export class ChangeSetRoomDialogComponent {
   /** PUBLIC PROPERTIES */
-  public form!: FormGroup;
-  public readonly rooms$: Observable<string[]>;
+  form!: FormGroup;
+  readonly rooms$: Observable<string[]>;
 
   /** CONSTRUCTOR */
   constructor(
@@ -56,7 +56,7 @@ export class ChangeSetRoomDialogComponent {
   }
 
   /** PUBLIC METHODS */
-  public confirm(): void {
+  confirm(): void {
     const newIdRoom = this.form.controls['newRoom'].value as string;
     this.store.dispatch(
       teachingScheduleRequestSetRoom({ schedule: this.context.data, newIdRoom })
@@ -64,7 +64,7 @@ export class ChangeSetRoomDialogComponent {
     this.cancel();
   }
 
-  public cancel(): void {
+  cancel(): void {
     setTimeout(() => {
       this.context.$implicit.complete();
     });

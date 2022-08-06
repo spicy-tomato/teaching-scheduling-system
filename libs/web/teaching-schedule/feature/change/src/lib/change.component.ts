@@ -8,5 +8,5 @@ import { PermissionConstant } from '@teaching-scheduling-system/core/data-access
 })
 export class ChangeComponent {
   /** PUBLIC PROPERTIES */
-  public readonly PermissionConstant = PermissionConstant;
+  readonly PermissionConstant = PermissionConstant;
 }

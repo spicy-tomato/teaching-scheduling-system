@@ -61,33 +61,31 @@ import {
 })
 export class AssignFilterComponent implements OnInit {
   /** PUBLIC PROPERTIES */
-  public expanded = true;
-  public openImportDialog = false;
-  public form!: FormGroup;
-  public schoolYears$!: Observable<string[]>;
+  expanded = true;
+  openImportDialog = false;
+  form!: FormGroup;
+  schoolYears$!: Observable<string[]>;
 
-  public readonly currentTerm$: Observable<string>;
-  public readonly academicData$: Observable<AcademicData[]>;
-  public readonly trainingTypes$: Observable<SimpleModel<number>[]>;
-  public readonly departments$: Observable<
-    SimpleMapModel<string, SimpleModel[]>[]
-  >;
-  public readonly filterStatus$: Observable<EApiStatus>;
+  readonly currentTerm$: Observable<string>;
+  readonly academicData$: Observable<AcademicData[]>;
+  readonly trainingTypes$: Observable<SimpleModel<number>[]>;
+  readonly departments$: Observable<SimpleMapModel<string, SimpleModel[]>[]>;
+  readonly filterStatus$: Observable<EApiStatus>;
 
-  public readonly termsInYear = CoreConstant.TERMS_IN_YEAR;
-  public readonly batchesInTerm = CoreConstant.BATCHES_IN_TERM;
-  public readonly filter$ = new Subject<void>();
-  public readonly trainingTypeChange$ = new Subject<number>();
+  readonly termsInYear = CoreConstant.TERMS_IN_YEAR;
+  readonly batchesInTerm = CoreConstant.BATCHES_IN_TERM;
+  readonly filter$ = new Subject<void>();
+  readonly trainingTypeChange$ = new Subject<number>();
 
   /** PRIVATE PROPERTIES */
   private myDepartment$: Observable<Nullable<SimpleModel>>;
 
   /** GETTERS */
-  public get termInYear(): FormControl {
+  get termInYear(): FormControl {
     return this.form.controls['termInYear'] as FormControl;
   }
 
-  public get trainingType(): FormControl {
+  get trainingType(): FormControl {
     return this.form.controls['trainingType'] as FormControl;
   }
 
@@ -145,7 +143,7 @@ export class AssignFilterComponent implements OnInit {
   }
 
   /** LIFECYCLE */
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.store.dispatch(teachingScheduleAssign_LoadFilter());
     this.myDepartment$
       .pipe(
@@ -157,23 +155,23 @@ export class AssignFilterComponent implements OnInit {
   }
 
   /** PUBLIC METHODS */
-  public onTermInYearChange(termInYear: number): void {
+  onTermInYearChange(termInYear: number): void {
     const selectedBatchInTerm = this.batchInTerm.value as number;
     if (!this.batchesInTerm[termInYear].includes(selectedBatchInTerm)) {
       this.batchInTerm.setValue(1);
     }
   }
 
-  public onToggle(): void {
+  onToggle(): void {
     this.expanded = !this.expanded;
   }
 
-  public onOpenImportDialog(): void {
+  onOpenImportDialog(): void {
     this.openImportDialog = true;
   }
 
   @tuiPure
-  public stringifyTrainingType(
+  stringifyTrainingType(
     items: SimpleModel<number>[]
   ): TuiStringHandler<TuiContextWithImplicit<number>> {
     const map = new Map(
@@ -184,7 +182,7 @@ export class AssignFilterComponent implements OnInit {
   }
 
   @tuiPure
-  public stringifyAcademicYear(
+  stringifyAcademicYear(
     items: SimpleModel<number>[]
   ): TuiStringHandler<TuiContextWithImplicit<number>> {
     const map = new Map(
@@ -195,7 +193,7 @@ export class AssignFilterComponent implements OnInit {
   }
 
   @tuiPure
-  public stringifyDepartment(
+  stringifyDepartment(
     items: SimpleMapModel<string, SimpleModel[]>[]
   ): TuiStringHandler<TuiContextWithImplicit<string>> {
     const departmentList = items.reduce<SimpleModel[]>(

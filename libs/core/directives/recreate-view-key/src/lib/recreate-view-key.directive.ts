@@ -12,7 +12,7 @@ import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
 })
 export class RecreateViewKeyDirective {
   /** INPUT */
-  @Input('tssRecreateViewKey') public set key(value: unknown) {
+  @Input('tssRecreateViewKey') set key(value: unknown) {
     if (value !== this._key) {
       if (this.viewRef) {
         this.viewContainer.clear();

@@ -31,7 +31,7 @@ export class TeachingScheduleAssignEffects {
   );
 
   /** EFFECTS */
-  public loadDepartment$ = createEffect(() => {
+  loadDepartment$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.teachingScheduleAssign_LoadFilter),
       mergeMap(() => {
@@ -47,7 +47,7 @@ export class TeachingScheduleAssignEffects {
     );
   });
 
-  public filter$ = createEffect(() => {
+  filter$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.teachingScheduleAssign_Filter),
       mergeMap(({ dep, params }) => {
@@ -61,7 +61,7 @@ export class TeachingScheduleAssignEffects {
     );
   });
 
-  public loadTeacher$ = createEffect(() => {
+  loadTeacher$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.teachingScheduleAssign_Filter),
       mergeMap(({ dep }) => {
@@ -74,7 +74,7 @@ export class TeachingScheduleAssignEffects {
     );
   });
 
-  public assign$ = createEffect(() => {
+  assign$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.teachingScheduleAssign_Assign),
       withLatestFrom(
@@ -90,7 +90,7 @@ export class TeachingScheduleAssignEffects {
     );
   });
 
-  public unassign$ = createEffect(() => {
+  unassign$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.teachingScheduleAssign_Unassign),
       withLatestFrom(

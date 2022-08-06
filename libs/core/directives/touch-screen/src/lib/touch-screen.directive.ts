@@ -10,12 +10,12 @@ export class TouchScreenDirective {
   private hadElse = false;
 
   /** SETTER */
-  @Input() public set tssTouchScreen(_: null) {
+  @Input() set tssTouchScreen(_: null) {
     this._tssTouchScreen = true;
     this.updateView();
   }
 
-  @Input() public set tssTouchScreenElse(templateRef: TemplateRef<unknown>) {
+  @Input() set tssTouchScreenElse(templateRef: TemplateRef<unknown>) {
     this.hadElse = true;
     this.elseThenTemplateRef = templateRef;
     this.updateView();

@@ -47,19 +47,19 @@ import { ConfirmStore } from './store';
 })
 export class ConfirmComponent {
   /** PUBLIC PROPERTIES */
-  public readonly status$ = this.store.status$;
-  public readonly reset$ = new Subject<void>();
-  public form!: FormGroup;
+  readonly status$ = this.store.status$;
+  readonly reset$ = new Subject<void>();
+  form!: FormGroup;
 
   /** PRIVATE PROPERTIES */
   private successDialog$!: Observable<void>;
 
   /** GETTERS */
-  public get newPassword(): FormControl {
+  get newPassword(): FormControl {
     return this.form.controls['newPassword'] as FormControl;
   }
 
-  public get confirmPassword(): FormControl {
+  get confirmPassword(): FormControl {
     return this.form.controls['confirmPassword'] as FormControl;
   }
 
@@ -81,11 +81,11 @@ export class ConfirmComponent {
   }
 
   /** PUBLIC METHODS */
-  public onNewPasswordChange(): void {
+  onNewPasswordChange(): void {
     this.confirmPassword.updateValueAndValidity();
   }
 
-  public onConfirmPasswordChange(): void {
+  onConfirmPasswordChange(): void {
     if (this.confirmPassword.untouched) {
       this.confirmPassword.markAllAsTouched();
     }

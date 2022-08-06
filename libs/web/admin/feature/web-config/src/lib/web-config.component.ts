@@ -7,5 +7,5 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 })
 export class WebConfigComponent {
   /** PUBLIC PROPERTIES */
-  public inMaintenance = false;
+  inMaintenance = false;
 }

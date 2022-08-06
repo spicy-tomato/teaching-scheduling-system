@@ -12,10 +12,10 @@ type FeedbackState = GenericState<void>;
 @Injectable()
 export class FeedbackStore extends ComponentStore<FeedbackState> {
   /** PUBLIC PROPERTIES */
-  public readonly status$ = this.select((s) => s.status);
+  readonly status$ = this.select((s) => s.status);
 
   /** EFFECTS */
-  public readonly submit = this.effect<{ data: Feedback }>((params$) =>
+  readonly submit = this.effect<{ data: Feedback }>((params$) =>
     params$.pipe(
       tap(() => this.patchState({ status: 'loading', error: null })),
       switchMap((params) =>

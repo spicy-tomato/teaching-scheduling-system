@@ -17,7 +17,7 @@ export class SuccessDialogComponent {
   ) {}
 
   /** PUBLIC METHODS */
-  public returnLogin(): void {
+  returnLogin(): void {
     setTimeout(() => {
       this.context.$implicit.complete();
       void this.router.navigate(['/login']);

@@ -66,16 +66,16 @@ import {
 })
 export class ChangeRequestListActionComponent implements OnInit {
   /** INPUT */
-  @Input() public schedule!: ChangeSchedule;
-  @Input() public canCancel!: boolean;
+  @Input() schedule!: ChangeSchedule;
+  @Input() canCancel!: boolean;
 
   /** PUBLIC PROPERTIES */
-  public showLoader = false;
-  public readonly export$ = new Subject<void>();
-  public readonly cancel$ = new Subject<void>();
-  public readonly IconConstant = IconConstant;
+  showLoader = false;
+  readonly export$ = new Subject<void>();
+  readonly cancel$ = new Subject<void>();
+  readonly IconConstant = IconConstant;
 
-  public readonly requesting$: Observable<number[]>;
+  readonly requesting$: Observable<number[]>;
 
   /** PRIVATE PROPERTIES */
   private readonly datePipe: DatePipe;
@@ -124,7 +124,7 @@ export class ChangeRequestListActionComponent implements OnInit {
   }
 
   /** PUBLIC METHODS */
-  public showDetails(): void {
+  showDetails(): void {
     this.dialog$.subscribe();
   }
 

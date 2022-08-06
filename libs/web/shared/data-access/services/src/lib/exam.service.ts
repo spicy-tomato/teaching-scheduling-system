@@ -42,7 +42,7 @@ export class ExamService {
     this.url = config.baseUrl;
   }
 
-  public getExamSchedule(
+  getExamSchedule(
     idTeacher: string,
     params: QueryFilterResult<SearchSchedule>
   ): Observable<ResponseModel<ExamScheduleModel[]>> {
@@ -54,7 +54,7 @@ export class ExamService {
       .pipe(map(parseExamSchedule));
   }
 
-  public getDepartmentExamSchedule(
+  getDepartmentExamSchedule(
     department: string,
     params: QueryFilterResult<SearchSchedule>
   ): Observable<ResponseModel<ExamScheduleModel[]>> {
@@ -71,24 +71,21 @@ export class ExamService {
       .pipe(map(parseExamSchedule));
   }
 
-  public update(
-    idExamSchedule: number,
-    body: UpdateExamModel
-  ): Observable<void> {
+  update(idExamSchedule: number, body: UpdateExamModel): Observable<void> {
     return this.http.patch<void>(
       this.url + `v1/exam-schedules/${idExamSchedule}`,
       ObjectHelper.toSnakeCase(body)
     );
   }
 
-  public updateProctor(idExam: number, proctorsId: string[]): Observable<void> {
+  updateProctor(idExam: number, proctorsId: string[]): Observable<void> {
     return this.http.post<void>(
       this.url + `v1/exam-schedules/${idExam}/proctors`,
       proctorsId
     );
   }
 
-  public updateExamNote(
+  updateExamNote(
     idTeacher: string,
     idExamSchedule: number,
     body: Note

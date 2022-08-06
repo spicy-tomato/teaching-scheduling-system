@@ -44,17 +44,17 @@ import { Observable, takeUntil } from 'rxjs';
 })
 export class CalendarFilterComponent {
   /** INPUT */
-  @Input() public activeZone!: TuiActiveZoneDirective;
-  @Input() public forMenu = false;
+  @Input() activeZone!: TuiActiveZoneDirective;
+  @Input() forMenu = false;
 
   /** OUTPUT */
-  @Output() public readonly filter = new EventEmitter<void>();
+  @Output() readonly filter = new EventEmitter<void>();
 
   /** PUBLIC PROPERTIES */
-  public readonly PermissionConstant = PermissionConstant;
-  public readonly filter$: Observable<CalendarFilter>;
-  public readonly teachers$: Observable<SimpleModel[]>;
-  public readonly modules$: Observable<string[]>;
+  readonly PermissionConstant = PermissionConstant;
+  readonly filter$: Observable<CalendarFilter>;
+  readonly teachers$: Observable<SimpleModel[]>;
+  readonly modules$: Observable<string[]>;
 
   /** CONSTRUCTOR */
   constructor(
@@ -74,7 +74,7 @@ export class CalendarFilterComponent {
 
   /** PUBLIC METHODS */
   @tuiPure
-  public stringifyTeacher(
+  stringifyTeacher(
     items: SimpleModel[]
   ): TuiStringHandler<TuiContextWithImplicit<string[]>> {
     const map = new Map(
@@ -89,11 +89,11 @@ export class CalendarFilterComponent {
         : `${$implicit.length} giảng viên`;
   }
 
-  public onChangeSelectingState(changes: Partial<CalendarFilter>): void {
+  onChangeSelectingState(changes: Partial<CalendarFilter>): void {
     this.store.dispatch(calendarChangeSelectingState({ changes }));
   }
 
-  public onFilter(): void {
+  onFilter(): void {
     this.store.dispatch(calendarFilter());
     this.filter.emit();
   }

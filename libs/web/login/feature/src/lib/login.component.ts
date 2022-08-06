@@ -44,23 +44,23 @@ import {
 export class LoginComponent {
   /** VIEWCHILD */
   @ViewChild(TuiInputPasswordComponent, { static: true })
-  public passwordComponent!: TuiInputPasswordComponent;
+  passwordComponent!: TuiInputPasswordComponent;
 
   /** PUBLIC PROPERTIES */
-  public status$: Observable<EApiStatus>;
-  public readonly submit$ = new Subject<void>();
-  public readonly loginForm = new FormGroup({
+  status$: Observable<EApiStatus>;
+  readonly submit$ = new Subject<void>();
+  readonly loginForm = new FormGroup({
     username: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
     remember: new FormControl(false),
   });
 
   /** GETTERS */
-  public get username(): FormControl {
+  get username(): FormControl {
     return this.loginForm.controls['username'] as FormControl;
   }
 
-  public get password(): FormControl {
+  get password(): FormControl {
     return this.loginForm.controls['password'] as FormControl;
   }
 

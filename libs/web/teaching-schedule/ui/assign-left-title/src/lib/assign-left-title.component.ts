@@ -50,12 +50,12 @@ import {
 })
 export class AssignLeftTitleComponent {
   /** PUBLIC PROPERTIES */
-  public needAssign$: Observable<ModuleClass[]>;
-  public teachers$: Observable<SimpleModel[]>;
-  public selectedTeacher$: Observable<Nullable<SimpleModel>>;
-  public someNeedAssignCheckedChange$!: Observable<boolean>;
-  public selectedNeedAssign$: Observable<ModuleClass[]>;
-  public assignStatus$: Observable<EApiStatus>;
+  needAssign$: Observable<ModuleClass[]>;
+  teachers$: Observable<SimpleModel[]>;
+  selectedTeacher$: Observable<Nullable<SimpleModel>>;
+  someNeedAssignCheckedChange$!: Observable<boolean>;
+  selectedNeedAssign$: Observable<ModuleClass[]>;
+  assignStatus$: Observable<EApiStatus>;
 
   /** PRIVATE PROPERTIES */
   private assignedTeacher$: Observable<Nullable<SimpleModel>>;
@@ -91,13 +91,13 @@ export class AssignLeftTitleComponent {
   }
 
   /** PUBLIC METHODS */
-  public selectedTeacherChange(teacher: Nullable<SimpleModel>): void {
+  selectedTeacherChange(teacher: Nullable<SimpleModel>): void {
     this.store.dispatch(
       teachingScheduleAssign_ChangeSelectingTeacher({ teacher })
     );
   }
 
-  public assign(): void {
+  assign(): void {
     this.store.dispatch(teachingScheduleAssign_Assign());
   }
 

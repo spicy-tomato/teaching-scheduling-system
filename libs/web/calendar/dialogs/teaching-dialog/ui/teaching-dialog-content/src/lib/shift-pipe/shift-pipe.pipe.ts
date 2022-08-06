@@ -8,7 +8,7 @@ import { DateHelper } from '@teaching-scheduling-system/core/utils/helpers';
 })
 export class ShiftPipe implements PipeTransform {
   /** PUBLIC METHODS */
-  public transform(shiftKey: Nullable<string>): string {
+  transform(shiftKey: Nullable<string>): string {
     if (!shiftKey) return '';
 
     const shift = CoreConstant.SHIFTS[shiftKey];

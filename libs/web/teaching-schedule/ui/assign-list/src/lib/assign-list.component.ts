@@ -17,7 +17,7 @@ import { Observable, takeUntil } from 'rxjs';
 })
 export class AssignListComponent {
   /** PUBLIC PROPERTIES */
-  public data$: Observable<ModuleClass[]>;
+  data$: Observable<ModuleClass[]>;
 
   /** CONSTRUCTOR */
   constructor(

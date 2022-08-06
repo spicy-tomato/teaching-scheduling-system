@@ -38,9 +38,9 @@ import { AssignEditExamDialogStore } from './store';
 })
 export class AssignEditDialogComponent {
   /** PUBLIC PROPERTIES */
-  public form!: FormGroup;
-  public readonly status$ = this.store.status$;
-  public readonly rooms$ = this.store.rooms$;
+  form!: FormGroup;
+  readonly status$ = this.store.status$;
+  readonly rooms$ = this.store.rooms$;
 
   /** GETTERS */
   private get roomControl(): FormControl {
@@ -61,14 +61,14 @@ export class AssignEditDialogComponent {
   }
 
   /** PUBLIC METHODS */
-  public confirm(): void {
+  confirm(): void {
     this.store.update({
       examId: this.context.data.id,
       body: this.form.value as UpdateExamModel,
     });
   }
 
-  public cancel(): void {
+  cancel(): void {
     setTimeout(() => {
       this.context.$implicit.complete();
     });

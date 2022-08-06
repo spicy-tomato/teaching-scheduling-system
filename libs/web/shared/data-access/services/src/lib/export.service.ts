@@ -93,7 +93,7 @@ export class ExportService {
   }
 
   /** PUBLIC METHODS */
-  public exportBlob(settings: {
+  exportBlob(settings: {
     document: Document;
     name: string;
     mimeType: FileType;
@@ -104,7 +104,7 @@ export class ExportService {
     });
   }
 
-  public exportChangeScheduleRequestForTeacher(
+  exportChangeScheduleRequestForTeacher(
     schedules: ChangeSchedule[],
     teacherName: string,
     department: string,
@@ -644,7 +644,7 @@ export class ExportService {
     });
   }
 
-  public exportChangeScheduleRequestForRoomManager(
+  exportChangeScheduleRequestForRoomManager(
     schedule: ChangeSchedule,
     teacher: SimpleTeacher
   ): Document {
@@ -1109,7 +1109,7 @@ export class ExportService {
     });
   }
 
-  public exportChangeScheduleStatistic(
+  exportChangeScheduleStatistic(
     schedules: ChangeSchedule[],
     teacher: Teacher,
     range: TuiDayRange,
@@ -1574,7 +1574,7 @@ export class ExportService {
     });
   }
 
-  public exportPersonalChangeScheduleStatistic(
+  exportPersonalChangeScheduleStatistic(
     schedules: ChangeSchedule[],
     teacher: Teacher,
     range: TuiDayRange,

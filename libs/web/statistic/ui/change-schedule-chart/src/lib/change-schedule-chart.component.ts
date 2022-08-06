@@ -28,18 +28,18 @@ type TeacherData = { [key: string]: { accept: number; deny: number } };
 })
 export class ChangeScheduleChartComponent {
   /** PUBLIC PROPERTIES */
-  public teachersNameList: string[] = [];
+  teachersNameList: string[] = [];
 
-  public value: [number[], number[]] = [[], []];
-  public labelsX: string[] = [];
-  public labelsY: string[] = [];
-  public axisYLabels: string[] = [];
-  public max = 0;
+  value: [number[], number[]] = [[], []];
+  labelsX: string[] = [];
+  labelsY: string[] = [];
+  axisYLabels: string[] = [];
+  max = 0;
 
-  public readonly teachersList$ = this.store.teachersInDepartment$;
-  public readonly status$ = this.store.status$;
-  public readonly setNames = ['Đã đổi', 'Bị từ chối'];
-  public readonly horizontalLinesHandler: TuiLineHandler = (index, total) => {
+  readonly teachersList$ = this.store.teachersInDepartment$;
+  readonly status$ = this.store.status$;
+  readonly setNames = ['Đã đổi', 'Bị từ chối'];
+  readonly horizontalLinesHandler: TuiLineHandler = (index, total) => {
     return index === 0 || (total - index) % 5 === 0 ? 'dashed' : 'none';
   };
 

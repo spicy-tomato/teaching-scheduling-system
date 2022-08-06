@@ -18,15 +18,15 @@ type ExportDialogState = GenericState<ChangeSchedule[]>;
 @Injectable()
 export class ExportDialogStore extends ComponentStore<ExportDialogState> {
   /** PUBLIC PROPERTIES */
-  public readonly data$ = this.select((s) => s.data);
-  public readonly status$ = this.select((s) => s.status);
-  public readonly teacher$ = this.appShellStore.pipe(
+  readonly data$ = this.select((s) => s.data);
+  readonly status$ = this.select((s) => s.status);
+  readonly teacher$ = this.appShellStore.pipe(
     selectNotNullTeacher,
     takeUntil(this.destroy$)
   );
 
   /** EFFECTS */
-  public readonly getPersonalChangeScheduleRequests = this.effect<{
+  readonly getPersonalChangeScheduleRequests = this.effect<{
     range: TuiDayRange;
     teacherId: string;
   }>((params$) =>

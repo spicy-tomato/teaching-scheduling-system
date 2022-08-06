@@ -16,10 +16,10 @@ import { SidebarConstant } from './sidebar.constant';
 })
 export class SidebarComponent extends SidebarAbstract implements AfterViewInit {
   /** PUBLIC PROPERTIES */
-  public items = SidebarConstant.items;
+  items = SidebarConstant.items;
 
   /** LIFECYCLE */
-  public ngAfterViewInit(): void {
+  ngAfterViewInit(): void {
     this.breadcrumbs$
       .pipe(
         delay(2000),

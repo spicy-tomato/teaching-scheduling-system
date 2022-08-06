@@ -24,15 +24,15 @@ import { Observable, takeUntil } from 'rxjs';
 })
 export class ChangeRequestFilterLeftComponent {
   /** INPUT */
-  @Input() public forMenu = false;
+  @Input() forMenu = false;
 
   /** PUBLIC PROPERTIES */
-  public readonly statusList = ScheduleConstant.REQUEST_CHANGE_SCHEDULE_STATUS;
-  public readonly statusArray = ObjectHelper.toArray(this.statusList, {
+  readonly statusList = ScheduleConstant.REQUEST_CHANGE_SCHEDULE_STATUS;
+  readonly statusArray = ObjectHelper.toArray(this.statusList, {
     uniqueValue: true,
   }).sort((a, b) => (a.id as number) - (b.id as number));
-  public readonly options$: Observable<ChangeScheduleOptions>;
-  public readonly isPersonal: boolean;
+  readonly options$: Observable<ChangeScheduleOptions>;
+  readonly isPersonal: boolean;
 
   /** CONSTRUCTOR */
   constructor(
@@ -48,7 +48,7 @@ export class ChangeRequestFilterLeftComponent {
   }
 
   /** PUBLIC METHODS */
-  public changeOptions(options: ChangeScheduleOptionsParam): void {
+  changeOptions(options: ChangeScheduleOptionsParam): void {
     this.store.dispatch(teachingScheduleRequestChangeOptions({ options }));
   }
 }

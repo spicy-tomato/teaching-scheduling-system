@@ -31,7 +31,7 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 })
 export class ChangeDenyDialogComponent {
   /** PUBLIC PROPERTIES */
-  public form!: FormGroup;
+  form!: FormGroup;
 
   /** CONSTRUCTOR */
   constructor(
@@ -44,7 +44,7 @@ export class ChangeDenyDialogComponent {
   }
 
   /** PUBLIC METHODS */
-  public confirm(): void {
+  confirm(): void {
     const reason = this.form.controls['reason'].value as string;
     this.store.dispatch(
       teachingScheduleRequestDeny({ schedule: this.context.data, reason })
@@ -52,7 +52,7 @@ export class ChangeDenyDialogComponent {
     this.cancel();
   }
 
-  public cancel(): void {
+  cancel(): void {
     setTimeout(() => {
       this.context.$implicit.complete();
     });

@@ -19,11 +19,11 @@ type ConfirmState = GenericState<EApiStatus>;
 @Injectable()
 export class ConfirmStore extends ComponentStore<ConfirmState> {
   /** PUBLIC PROPERTIES */
-  public readonly status$ = this.select((s) => s.status);
-  public readonly validateStatus$ = this.select((s) => s.data);
+  readonly status$ = this.select((s) => s.status);
+  readonly validateStatus$ = this.select((s) => s.data);
 
   /** EFFECTS */
-  public readonly verifyToken = this.effect<{
+  readonly verifyToken = this.effect<{
     email: string | null;
     token: string | null;
   }>((params$) =>
@@ -49,7 +49,7 @@ export class ConfirmStore extends ComponentStore<ConfirmState> {
     )
   );
 
-  public readonly reset = this.effect<{ data: ResetPassword }>((params$) =>
+  readonly reset = this.effect<{ data: ResetPassword }>((params$) =>
     params$.pipe(
       tap(() => this.patchState({ status: 'loading', error: null })),
       switchMap(({ data }) =>

@@ -16,9 +16,7 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 })
 export class TeachingHistoryDirective {
   /** INPUT */
-  @Input('tssTeachingHistory') public fixedSchedules!: Nullable<
-    FixedScheduleModel[]
-  >;
+  @Input('tssTeachingHistory') fixedSchedules!: Nullable<FixedScheduleModel[]>;
 
   /** CONSTRUCTOR */
   constructor(
@@ -28,7 +26,7 @@ export class TeachingHistoryDirective {
   ) {}
 
   /** PUBLIC METHODS */
-  @HostListener('click') public onClick(): void {
+  @HostListener('click') onClick(): void {
     this.tuiDialogService
       .open(
         new PolymorpheusComponent(

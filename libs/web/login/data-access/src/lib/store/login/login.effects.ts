@@ -19,7 +19,7 @@ import {
 @Injectable()
 export class LoginEffects {
   /** EFFECTS */
-  public login$ = createEffect(() => {
+  login$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.clickLogin),
       mergeMap(({ loginForm }) => {
@@ -42,7 +42,7 @@ export class LoginEffects {
     );
   });
 
-  public loginSuccessful$ = createEffect(
+  loginSuccessful$ = createEffect(
     () => {
       return this.actions$.pipe(
         ofType(ApiAction.loginSuccessful),

@@ -54,7 +54,7 @@ export class PermissionGuard
   }
 
   /** IMPLEMENTATION */
-  public canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
+  canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
     return this.teacher$.pipe(
       ObservableHelper.filterNullish(),
       filter((x) => x.permissions.length > 0),
@@ -85,7 +85,7 @@ export class PermissionGuard
     );
   }
 
-  public ngOnDestroy(): void {
+  ngOnDestroy(): void {
     this.next();
     this.complete();
   }

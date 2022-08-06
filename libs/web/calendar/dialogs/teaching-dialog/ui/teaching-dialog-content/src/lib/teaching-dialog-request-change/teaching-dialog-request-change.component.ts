@@ -34,17 +34,17 @@ import { Observable, Subject, takeUntil, withLatestFrom, map, tap } from 'rxjs';
 })
 export class TeachingDialogRequestChangeComponent implements OnInit {
   /** INPUT */
-  @Input() public isPersonal!: boolean;
-  @Input() public people?: string[] | SimpleModel[];
+  @Input() isPersonal!: boolean;
+  @Input() people?: string[] | SimpleModel[];
 
   /** PUBLIC PROPERTIES */
-  public form!: FormGroup;
+  form!: FormGroup;
 
-  public readonly rooms$: Observable<string[]>;
-  public readonly changeRequest$ = new Subject<void>();
-  public readonly shiftKeys = Object.keys(CoreConstant.SHIFTS);
-  public readonly CoreConstant = CoreConstant;
-  public readonly roomMatcher = (item: string): boolean => item !== 'PTTT';
+  readonly rooms$: Observable<string[]>;
+  readonly changeRequest$ = new Subject<void>();
+  readonly shiftKeys = Object.keys(CoreConstant.SHIFTS);
+  readonly CoreConstant = CoreConstant;
+  readonly roomMatcher = (item: string): boolean => item !== 'PTTT';
 
   /** PRIVATE PROPERTIES */
   private readonly teacher$: Observable<Nullable<Teacher>>;
@@ -76,7 +76,7 @@ export class TeachingDialogRequestChangeComponent implements OnInit {
   }
 
   /** LIFECYCLE */
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.form = this.controlContainer.control as FormGroup;
   }
 

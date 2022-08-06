@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
   ) {}
 
   /** IMPLEMENTATIONS */
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.router.events
       .pipe(
         filter((e) => e instanceof NavigationEnd),

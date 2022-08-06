@@ -51,15 +51,15 @@ import {
 export class ChangeRequestListComponent {
   /** VIEW CHILD */
   @ViewChild('teacherCol', { static: false, read: ElementRef })
-  public teacherColumn!: ElementRef;
+  teacherColumn!: ElementRef;
 
   /** PUBLIC PROPERTIES */
-  public form: FormGroup = new FormGroup({});
-  public teacherColumnWidth = 0;
-  public checkAll: Nullable<boolean> = false;
-  public checkableIndexes: number[] = [];
-  public columns: string[] = [];
-  public initialColumns = [
+  form: FormGroup = new FormGroup({});
+  teacherColumnWidth = 0;
+  checkAll: Nullable<boolean> = false;
+  checkableIndexes: number[] = [];
+  columns: string[] = [];
+  initialColumns = [
     'checkbox',
     'index',
     'teacher',
@@ -74,16 +74,16 @@ export class ChangeRequestListComponent {
     'actions',
   ];
 
-  public readonly changeSchedules$: Observable<ChangeSchedule[]>;
-  public readonly status$: Observable<ChangeScheduleStatus>;
-  public readonly page$: Observable<number>;
-  public readonly options$: Observable<ChangeScheduleOptions>;
-  public readonly permissions$: Observable<number[]>;
+  readonly changeSchedules$: Observable<ChangeSchedule[]>;
+  readonly status$: Observable<ChangeScheduleStatus>;
+  readonly page$: Observable<number>;
+  readonly options$: Observable<ChangeScheduleOptions>;
+  readonly permissions$: Observable<number[]>;
 
-  public readonly isPersonal: boolean;
+  readonly isPersonal: boolean;
 
-  public readonly itemsPerPage = TableConstant.REQUESTS_LIST_ITEMS_PER_PAGE;
-  public readonly PermissionConstant = PermissionConstant;
+  readonly itemsPerPage = TableConstant.REQUESTS_LIST_ITEMS_PER_PAGE;
+  readonly PermissionConstant = PermissionConstant;
 
   /** GETTER */
   private get checkboxControl(): FormArray {
@@ -123,7 +123,7 @@ export class ChangeRequestListComponent {
   }
 
   /** PUBLIC METHODS */
-  public onCheckAllChange(): void {
+  onCheckAllChange(): void {
     const checkboxesValue = Array(this.checkboxControl.length).fill(false);
     if (this.checkAll) {
       this.checkableIndexes.forEach((idx) => {
@@ -136,7 +136,7 @@ export class ChangeRequestListComponent {
     });
   }
 
-  public onCheckChange(checked: boolean): void {
+  onCheckChange(checked: boolean): void {
     for (let i = 0; i < this.checkableIndexes.length; i++) {
       const index = this.checkableIndexes[i];
       if (this.checkboxControl.at(index).value !== checked) {

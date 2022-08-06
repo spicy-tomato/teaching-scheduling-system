@@ -26,10 +26,10 @@ import { FeedbackStore } from './store';
 })
 export class FeedbackComponent {
   /** PUBLIC PROPERTIES */
-  public form!: FormGroup;
-  public readonly topics = FeedbackConstant.items;
-  public readonly tools = EditorConstant.tools;
-  public readonly status$ = this.store.status$;
+  form!: FormGroup;
+  readonly topics = FeedbackConstant.items;
+  readonly tools = EditorConstant.tools;
+  readonly status$ = this.store.status$;
 
   /** PRIVATE PROPERTIES */
   private successDialog$!: Observable<void>;
@@ -47,7 +47,7 @@ export class FeedbackComponent {
   }
 
   /** PUBLIC METHODS */
-  public onSubmit(): void {
+  onSubmit(): void {
     if (this.form.valid) {
       const title = this.form.get('title')?.value as string;
       const form: Feedback = {
@@ -64,7 +64,7 @@ export class FeedbackComponent {
     }
   }
 
-  public readonly disabledItemHandler: TuiBooleanHandler<FeedbackItem> = () =>
+  readonly disabledItemHandler: TuiBooleanHandler<FeedbackItem> = () =>
     this.form.disabled;
 
   /** PRIVATE METHODS */

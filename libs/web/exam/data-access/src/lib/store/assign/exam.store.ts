@@ -19,14 +19,14 @@ type ExamState = GenericState<ExamScheduleModel[]>;
 @Injectable()
 export class ExamAssignStore extends ComponentStore<ExamState> {
   /** PUBLIC PROPERTIES */
-  public readonly data$ = this.select((s) => s.data);
-  public readonly status$ = this.select((s) => s.status);
-  public readonly teachers = this.appShellStore
+  readonly data$ = this.select((s) => s.data);
+  readonly status$ = this.select((s) => s.status);
+  readonly teachers = this.appShellStore
     .select(selectTeachersInDepartment)
     .pipe(takeUntil(this.destroy$));
 
   /** EFFECTS */
-  public readonly getExam = this.effect<{
+  readonly getExam = this.effect<{
     departmentId: string;
     searchParams: SearchExam;
   }>((params$) =>
@@ -66,10 +66,7 @@ export class ExamAssignStore extends ComponentStore<ExamState> {
   }
 
   /** PUBLIC METHODS */
-  public updateExam(
-    idExam: number,
-    examInfo: Partial<ExamScheduleModel>
-  ): void {
+  updateExam(idExam: number, examInfo: Partial<ExamScheduleModel>): void {
     this.patchState((state) => ({
       data: state.data?.map((exam) => {
         if (exam.id === idExam) {

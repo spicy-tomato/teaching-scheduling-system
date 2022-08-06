@@ -27,17 +27,17 @@ export class CommonInfoService {
     this.url = config.baseUrl;
   }
 
-  public getAcademicYear(): Observable<AcademicData[]> {
+  getAcademicYear(): Observable<AcademicData[]> {
     return this.http
       .get<ResponseModel<AcademicData[]>>(this.url + 'training-types')
       .pipe(map((response) => response.data));
   }
 
-  public getCurrentTerm(): Observable<string> {
+  getCurrentTerm(): Observable<string> {
     return of(this.config.currentTerm);
   }
 
-  public getFaculties(): Observable<
+  getFaculties(): Observable<
     ResponseModel<SimpleMapModel<string, SimpleModel[]>[]>
   > {
     return this.http.get<
@@ -45,7 +45,7 @@ export class CommonInfoService {
     >(this.url + 'faculties');
   }
 
-  public getRooms(): Observable<string[]> {
+  getRooms(): Observable<string[]> {
     return this.http
       .get<ResponseModel<string[]>>(this.url + 'rooms')
       .pipe(map((r) => r.data));

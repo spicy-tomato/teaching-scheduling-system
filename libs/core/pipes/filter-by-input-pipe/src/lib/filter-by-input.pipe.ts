@@ -26,7 +26,7 @@ export class FilterByInputPipe implements PipeTransform {
   }
 
   /** IMPLEMENTATION */
-  public transform<T>(
+  transform<T>(
     items: readonly T[] | null,
     matcher: TuiStringMatcher<T> = TUI_DEFAULT_MATCHER
   ): readonly T[] | null {

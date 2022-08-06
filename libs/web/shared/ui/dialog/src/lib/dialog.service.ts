@@ -16,7 +16,7 @@ export class DialogService {
   ) {}
 
   /** PUBLIC METHODS */
-  public showConfirmDialog<T extends ConfirmDialogOptions>(
+  showConfirmDialog<T extends ConfirmDialogOptions>(
     data: Partial<T>
   ): Observable<boolean> {
     return this.dialogService.open<boolean>(

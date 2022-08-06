@@ -23,7 +23,7 @@ export class AuthInterceptor implements HttpInterceptor {
   ) {}
 
   /** IMPLEMENTATIONS */
-  public intercept(
+  intercept(
     req: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
