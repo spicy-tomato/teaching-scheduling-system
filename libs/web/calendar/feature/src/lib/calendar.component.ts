@@ -4,6 +4,7 @@ import {
   Component,
   Inject,
   Injector,
+  OnDestroy,
   OnInit,
   TemplateRef,
   ViewChild,
@@ -52,6 +53,7 @@ import {
 import {
   SidebarState,
   sidebar_listen,
+  sidebar_reset,
   sidebar_selectEvent,
 } from '@teaching-scheduling-system/web/shell/data-access';
 import { NavbarService } from '@teaching-scheduling-system/web/shell/ui/navbar';
@@ -78,7 +80,7 @@ import {
     AgendaService,
   ],
 })
-export class CalendarComponent implements OnInit, AfterViewInit {
+export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
   /** VIEWCHILD */
   @ViewChild('schedule') public scheduleComponent!: ScheduleComponent;
   @ViewChild('rightMenu') public rightMenuTemplate!: TemplateRef<never>;
@@ -118,6 +120,10 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     this.handleChangeView();
     this.handleChangeStatus();
     this.navbarService.addRightMenu(this.rightMenuTemplate);
+  }
+
+  public ngOnDestroy(): void {
+    this.sidebarStore.dispatch(sidebar_reset());
   }
 
   /** PUBLIC METHODS */
