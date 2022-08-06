@@ -41,7 +41,7 @@ import { TeachingScheduleRequestState } from './requests.state';
 
 @Injectable()
 export class TeachingScheduleRequestEffects {
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES 
   private personal!: boolean;
 
   private readonly loadSubject$ = new Subject<ChangeScheduleSearch>();
@@ -55,7 +55,7 @@ export class TeachingScheduleRequestEffects {
     selectTeachersInDepartment
   );
 
-  /** EFFECTS */
+  // EFFECTS 
   reset$ = createEffect(
     () => {
       return this.actions$.pipe(
@@ -198,7 +198,7 @@ export class TeachingScheduleRequestEffects {
     );
   });
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR 
   constructor(
     private readonly actions$: Actions,
     private readonly scheduleService: ScheduleService,
@@ -212,7 +212,7 @@ export class TeachingScheduleRequestEffects {
     this.handleLoadManager();
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS 
   private handleLoadPersonal(): void {
     this.loadSubject$
       .pipe(

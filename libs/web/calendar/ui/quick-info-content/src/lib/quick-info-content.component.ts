@@ -22,24 +22,24 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuickInfoContentComponent implements OnInit {
-  /** INPUT */
+  // INPUT 
   @Input() data!: EjsScheduleModel;
 
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES 
   private historyDialog$!: Observable<void>;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR 
   constructor(
     @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
     @Inject(Injector) private readonly injector: Injector
   ) {}
 
-  /** LIFECYCLE */
+  // LIFECYCLE 
   ngOnInit(): void {
     this.initDialog();
   }
 
-  /** PUBLIC METHODS */
+  // PUBLIC METHODS 
   readonly peopleMatcher = (item: string | SimpleModel): boolean =>
     item !== 'self';
 
@@ -47,7 +47,7 @@ export class QuickInfoContentComponent implements OnInit {
     this.historyDialog$.subscribe();
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS 
   private initDialog(): void {
     this.historyDialog$ = this.dialogService.open(
       new PolymorpheusComponent(ChangeScheduleHistoryComponent, this.injector),

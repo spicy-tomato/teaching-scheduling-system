@@ -13,10 +13,10 @@ type SendEmailState = GenericState<void>;
 
 @Injectable()
 export class SendEmailStore extends ComponentStore<SendEmailState> {
-  /** PUBLIC PROPERTIES */
+  // PUBLIC PROPERTIES 
   readonly status$ = this.select((s) => s.status);
 
-  /** EFFECTS */
+  // EFFECTS 
   readonly requestResetPassword = this.effect<{
     email: string;
   }>((params$) =>
@@ -41,7 +41,7 @@ export class SendEmailStore extends ComponentStore<SendEmailState> {
     )
   );
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR 
   constructor(
     private readonly userService: UserService,
     private readonly appShellStore: Store<AppShellState>
@@ -49,7 +49,7 @@ export class SendEmailStore extends ComponentStore<SendEmailState> {
     super(<SendEmailState>{});
   }
 
-  /** PUBLIC METHODS */
+  // PUBLIC METHODS 
   hideLoader(): void {
     this.appShellStore.dispatch(setLoader({ showLoader: false }));
   }

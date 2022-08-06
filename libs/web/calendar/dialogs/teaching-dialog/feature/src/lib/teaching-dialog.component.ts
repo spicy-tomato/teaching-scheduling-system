@@ -22,7 +22,7 @@ import { IconConstant } from '@teaching-scheduling-system/core/data-access/const
   ],
 })
 export class TeachingDialogComponent {
-  /** PUBLIC PROPERTIES */
+  // PUBLIC PROPERTIES 
   readonly IconConstant = IconConstant;
   schedules = this.context.data.schedules;
   openScheduleList = false;
@@ -33,24 +33,24 @@ export class TeachingDialogComponent {
     }, {});
   selectedSchedule!: EjsScheduleModel;
 
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES 
   private haveOpened = false;
   private needUpdateAfterClose = false;
 
-  /** GETTERS */
+  // GETTERS 
   private get currentSelected(): EjsScheduleModel {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return this.schedules.find((s) => s.Id === this.selectedSchedule.Id)!;
   }
 
-  /** SETTERS */
+  // SETTERS 
   private set currentSelected(schedule: EjsScheduleModel) {
     this.schedules = this.schedules.map((s) =>
       s.Id === this.selectedSchedule.Id ? schedule : s
     );
   }
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT)
     public readonly context: TuiDialogContext<
@@ -61,7 +61,7 @@ export class TeachingDialogComponent {
     this.onChangeSelectedSchedule(context.data.selectedId);
   }
 
-  /** PUBLIC METHODS */
+  // PUBLIC METHODS 
   toggleScheduleList(open: boolean, needCheck = false): void {
     if (!open || !needCheck || this.haveOpened) {
       this.openScheduleList = open;

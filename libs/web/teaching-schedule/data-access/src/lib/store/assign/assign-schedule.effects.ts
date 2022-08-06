@@ -19,7 +19,7 @@ import { TeachingScheduleAssignState } from './assign-schedule.state';
 
 @Injectable()
 export class TeachingScheduleAssignEffects {
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES 
   private selectingTeacher$ = this.store.select(
     teachingScheduleAssign_SelectSelectedTeacher
   );
@@ -30,7 +30,7 @@ export class TeachingScheduleAssignEffects {
     teachingScheduleAssign_SelectSelectedAssigned
   );
 
-  /** EFFECTS */
+  // EFFECTS 
   loadDepartment$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.teachingScheduleAssign_LoadFilter),
@@ -105,7 +105,7 @@ export class TeachingScheduleAssignEffects {
     );
   });
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR 
   constructor(
     private readonly actions$: Actions,
     private readonly commonInfoService: CommonInfoService,

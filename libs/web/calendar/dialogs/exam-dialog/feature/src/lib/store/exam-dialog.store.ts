@@ -13,16 +13,16 @@ type ExportDialogState = GenericState<void>;
 
 @Injectable()
 export class ExamDialogStore extends ComponentStore<ExportDialogState> {
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES 
   private teacher$ = this.appShellStore.pipe(
     selectNotNullTeacher,
     takeUntil(this.destroy$)
   );
 
-  /** PUBLIC PROPERTIES */
+  // PUBLIC PROPERTIES 
   readonly status$ = this.select((s) => s.status);
 
-  /** EFFECTS */
+  // EFFECTS 
   readonly submit = this.effect<{ id: number; note: string }>((params$) =>
     params$.pipe(
       tap(() => this.patchState({ status: 'loading', error: null })),
@@ -46,7 +46,7 @@ export class ExamDialogStore extends ComponentStore<ExportDialogState> {
     )
   );
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR 
   constructor(
     private readonly examService: ExamService,
     private readonly appShellStore: Store<AppShellState>

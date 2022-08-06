@@ -15,10 +15,10 @@ import {
   providedIn: 'root',
 })
 export class TeacherService {
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES 
   private readonly url: string;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR 
   constructor(
     private readonly http: HttpClient,
     @Inject(APP_CONFIG) config: AppConfig

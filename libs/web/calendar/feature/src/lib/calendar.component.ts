@@ -81,14 +81,14 @@ import {
   ],
 })
 export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
-  /** VIEWCHILD */
+  // VIEWCHILD 
   @ViewChild('schedule') scheduleComponent!: ScheduleComponent;
   @ViewChild('rightMenu') rightMenuTemplate!: TemplateRef<never>;
 
-  /** PUBLIC PROPERTIES */
+  // PUBLIC PROPERTIES 
   readonly eventSettings$ = new BehaviorSubject<EventSettingsModel>({});
 
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES 
   private readonly staticSettings: EventSettingsModel = {
     allowAdding: false,
     allowEditing: true,
@@ -96,7 +96,7 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
   };
   private calendars: Record<string, boolean> = {};
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR 
   constructor(
     private readonly destroy$: TuiDestroyService,
     @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
@@ -110,7 +110,7 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
     this.handleSidebarAddItem();
   }
 
-  /** LIFECYCLE */
+  // LIFECYCLE 
   ngOnInit(): void {
     this.store.dispatch(calendarLoad({ date: new Date() }));
   }
@@ -126,7 +126,7 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
     this.sidebarStore.dispatch(sidebar_reset());
   }
 
-  /** PUBLIC METHODS */
+  // PUBLIC METHODS 
   onRenderCell(args: RenderCellEventArgs): void {
     if (args.element.classList.contains('e-work-cells')) {
       if (args.date && DateHelper.sameDay(args.date, new Date())) {
@@ -226,7 +226,7 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
     this.scheduleComponent.closeQuickInfoPopup();
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS 
   private handleLoadSchedule(): void {
     this.store
       .select(calendarSelectFilteredSchedule)

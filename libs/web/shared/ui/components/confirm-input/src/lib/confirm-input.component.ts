@@ -24,31 +24,31 @@ import { AbstractTuiControl } from '@taiga-ui/cdk';
   ],
 })
 export class ConfirmInputComponent implements ControlValueAccessor {
-  /** INPUT */
+  // INPUT 
   @Input() field = '';
   @Input() type = '';
   @Input() disableConfirm = false;
 
-  /** OUTPUT */
+  // OUTPUT 
   @Output() save = new EventEmitter();
 
-  /** VIEWCHILD */
+  // VIEWCHILD 
   @ViewChild(AbstractTuiControl)
   inputComponent!: AbstractTuiControl<string>;
 
-  /** PUBLIC PROPERTIES */
+  // PUBLIC PROPERTIES 
   initialValue = '';
   value = '';
   processing = false;
   showEdit = false;
 
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES 
   private onChange!: (value: string) => void;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR 
   constructor(private readonly cdr: ChangeDetectorRef) {}
 
-  /** IMPLEMENTATIONS */
+  // IMPLEMENTATIONS 
   writeValue(value: string): void {
     this.initialValue = this.value = value;
     this.cdr.markForCheck();
@@ -62,7 +62,7 @@ export class ConfirmInputComponent implements ControlValueAccessor {
     // Do nothing
   }
 
-  /** PUBLIC METHODS */
+  // PUBLIC METHODS 
   onValueChange(value: string): void {
     this.value = value;
     this.onChange(value);

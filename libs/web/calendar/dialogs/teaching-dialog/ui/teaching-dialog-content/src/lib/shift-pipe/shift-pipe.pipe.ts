@@ -7,7 +7,7 @@ import { DateHelper } from '@teaching-scheduling-system/core/utils/helpers';
   name: 'shift',
 })
 export class ShiftPipe implements PipeTransform {
-  /** PUBLIC METHODS */
+  // PUBLIC METHODS 
   transform(shiftKey: Nullable<string>): string {
     if (!shiftKey) return '';
 
@@ -17,7 +17,7 @@ export class ShiftPipe implements PipeTransform {
     )} - ${this.beautify(shift.end[0])}:${this.beautify(shift.end[1])})`;
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS 
   private beautify(value: number): string {
     return DateHelper.beautifyDay(value);
   }

@@ -30,7 +30,7 @@ export class PermissionGuard
 {
   private teacher$: Observable<Nullable<Teacher>>;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR 
   constructor(
     private readonly router: Router,
     appShellStore: Store<AppShellState>
@@ -53,7 +53,7 @@ export class PermissionGuard
     this.teacher$ = appShellStore.select(selectTeacher).pipe(takeUntil(this));
   }
 
-  /** IMPLEMENTATION */
+  // IMPLEMENTATION 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
     return this.teacher$.pipe(
       ObservableHelper.filterNullish(),

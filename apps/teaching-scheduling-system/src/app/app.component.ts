@@ -12,18 +12,18 @@ import { filter, takeUntil, tap } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES 
   private readonly defaultTitle = 'Hệ thống quản lý lịch giảng dạy UTCKetnoi';
   private setTitle = false;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR 
   constructor(
     private readonly router: Router,
     private readonly title: Title,
     private readonly destroy$: TuiDestroyService
   ) {}
 
-  /** IMPLEMENTATIONS */
+  // IMPLEMENTATIONS 
   ngOnInit(): void {
     this.router.events
       .pipe(

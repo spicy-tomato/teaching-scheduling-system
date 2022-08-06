@@ -8,7 +8,7 @@ import * as PageAction from './teaching-dialog.page.actions';
 
 @Injectable()
 export class TeachingDialogEffects {
-  /** EFFECTS */
+  // EFFECTS 
   request$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.teachingDialogRequest),
@@ -124,7 +124,7 @@ export class TeachingDialogEffects {
     );
   });
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR 
   constructor(
     private readonly actions$: Actions,
     private readonly scheduleService: ScheduleService

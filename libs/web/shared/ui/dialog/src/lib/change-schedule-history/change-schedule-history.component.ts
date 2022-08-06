@@ -10,10 +10,10 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChangeScheduleHistoryComponent {
-  /** PUBLIC PROPERTIES */
+  // PUBLIC PROPERTIES 
   readonly statusList = ScheduleConstant.REQUEST_CHANGE_SCHEDULE_STATUS;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT)
     public readonly context: TuiDialogContext<void, FixedScheduleModel[]>

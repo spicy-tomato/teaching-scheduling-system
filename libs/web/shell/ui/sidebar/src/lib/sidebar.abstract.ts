@@ -28,21 +28,21 @@ import { Observable, takeUntil } from 'rxjs';
   providers: [TuiDestroyService],
 })
 export abstract class SidebarAbstract implements OnInit {
-  /** VIEW CHILD */
+  // VIEW CHILD 
   @ViewChildren(TuiAccordionItemComponent)
   accordionItems!: QueryList<TuiAccordionItemComponent>;
 
-  /** OUTPUT */
+  // OUTPUT 
   @Output() readonly clickItem = new EventEmitter<void>();
 
-  /** PUBLIC PROPERTIES */
+  // PUBLIC PROPERTIES 
   abstract readonly items: SidebarItem[];
   form!: FormGroup;
 
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES 
   protected readonly breadcrumbs$: Observable<BreadcrumbItem[]>;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR 
   constructor(
     protected readonly router: Router,
     protected readonly fb: FormBuilder,
@@ -56,7 +56,7 @@ export abstract class SidebarAbstract implements OnInit {
       .pipe(takeUntil(destroy$));
   }
 
-  /** LIFECYCLE */
+  // LIFECYCLE 
   ngOnInit(): void {
     this.initForm();
   }
@@ -78,6 +78,6 @@ export abstract class SidebarAbstract implements OnInit {
     this.sidebarStore.dispatch(sidebar_emit({ event: { name, value } }));
   }
 
-  /** PROTECTED METHODS */
+  // PROTECTED METHODS 
   protected abstract initForm(): void;
 }

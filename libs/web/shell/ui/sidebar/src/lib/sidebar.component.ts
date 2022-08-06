@@ -15,10 +15,10 @@ import { SidebarConstant } from './sidebar.constant';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarComponent extends SidebarAbstract implements AfterViewInit {
-  /** PUBLIC PROPERTIES */
+  // PUBLIC PROPERTIES 
   items = SidebarConstant.items;
 
-  /** LIFECYCLE */
+  // LIFECYCLE 
   ngAfterViewInit(): void {
     this.breadcrumbs$
       .pipe(
@@ -63,7 +63,7 @@ export class SidebarComponent extends SidebarAbstract implements AfterViewInit {
     );
   }
 
-  /** PROTECTED METHODS */
+  // PROTECTED METHODS 
   protected initForm(): void {
     /**
      * form value:

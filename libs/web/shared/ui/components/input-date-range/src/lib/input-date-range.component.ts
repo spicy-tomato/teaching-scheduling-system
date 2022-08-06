@@ -30,16 +30,16 @@ import { Observable, tap } from 'rxjs';
   ],
 })
 export class InputDateRangeComponent implements ControlValueAccessor {
-  /** PUBLIC PROPERTIES */
+  // PUBLIC PROPERTIES 
   readonly items = InputDateRangeConstant.getPeriods();
   readonly min = new TuiDay(2021, 10, 1);
   control = new FormControl();
 
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES 
   private dialog$!: Observable<TuiDayRange>;
   private onChange!: (value: Nullable<TuiDayRange>) => void;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR 
   constructor(
     @Inject(Injector) private readonly injector: Injector,
     @Inject(TuiDialogService) private readonly dialogService: TuiDialogService
@@ -47,7 +47,7 @@ export class InputDateRangeComponent implements ControlValueAccessor {
     this.initDialog();
   }
 
-  /** IMPLEMENTATIONS */
+  // IMPLEMENTATIONS 
   writeValue(value: Nullable<TuiDayRange>): void {
     this.control.setValue(value);
   }
@@ -60,7 +60,7 @@ export class InputDateRangeComponent implements ControlValueAccessor {
     // Do nothing
   }
 
-  /** PUBLIC METHODS */
+  // PUBLIC METHODS 
   onOpenTouchDialog(): void {
     this.dialog$
       .pipe(tap((value) => this.onValueChange(value, true)))
@@ -74,7 +74,7 @@ export class InputDateRangeComponent implements ControlValueAccessor {
     this.onChange(value);
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS 
   private initDialog(): void {
     const content = ComponentHelper.getMobileDialogContent(
       this.injector,

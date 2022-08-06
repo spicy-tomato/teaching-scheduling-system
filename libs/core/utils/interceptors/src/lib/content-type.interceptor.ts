@@ -10,7 +10,7 @@ import { InterceptorCustomHeader } from './constants';
 
 @Injectable()
 export class ContentTypeInterceptor implements HttpInterceptor {
-  /** IMPLEMENTATIONS */
+  // IMPLEMENTATIONS 
   intercept(
     req: HttpRequest<unknown>,
     next: HttpHandler

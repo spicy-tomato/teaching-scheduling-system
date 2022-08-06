@@ -10,10 +10,10 @@ import { SidebarState } from './sidebar.state';
 
 @Injectable()
 export class SidebarEffects {
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES 
   private dataState$ = this.store.select(sidebar_selectDataState);
 
-  /** EFFECTS */
+  // EFFECTS 
   emit$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.sidebar_emit),
@@ -33,7 +33,7 @@ export class SidebarEffects {
     );
   });
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR 
   constructor(
     private readonly actions$: Actions,
     private readonly store: Store<SidebarState>

@@ -39,7 +39,7 @@ import { NavbarOptions, NAVBAR_OPTIONS } from './navbar.token';
   ],
 })
 export class NavbarComponent {
-  /** PUBLIC PROPERTIES */
+  // PUBLIC PROPERTIES 
   readonly items = NavbarConstants.items;
   readonly rightMenu$: Observable<Nullable<TemplateRef<never>>>;
 
@@ -48,7 +48,7 @@ export class NavbarComponent {
   isMobileScreen = true;
   user$: Observable<Nullable<Teacher>> | undefined;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR 
   constructor(
     private readonly router: Router,
     private readonly accessTokenService: AccessTokenService,
@@ -68,7 +68,7 @@ export class NavbarComponent {
     this.rightMenu$ = navbarService.rightMenu$.pipe(takeUntil(destroy$));
   }
 
-  /** PUBLIC METHODS */
+  // PUBLIC METHODS 
   onClickDropDownItem(action: string): void {
     this.openDropDown = false;
     if (action === NavbarConstants.keys.LOG_OUT) {
@@ -78,7 +78,7 @@ export class NavbarComponent {
     }
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS 
   @HostListener('window:resize')
   private onResize(): void {
     if (window.innerWidth < 1024 && !this.isMobileScreen) {

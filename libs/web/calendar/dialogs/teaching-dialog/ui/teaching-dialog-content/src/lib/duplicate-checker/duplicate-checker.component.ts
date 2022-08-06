@@ -21,15 +21,15 @@ import { Observable, takeUntil } from 'rxjs';
   animations: [fadeIn],
 })
 export class DuplicateCheckerComponent {
-  /** INPUT */
+  // INPUT 
   @Input() sameData!: boolean;
   @Input() hadReason!: boolean;
 
-  /** PUBLIC PROPERTIES */
+  // PUBLIC PROPERTIES 
   readonly searchStatus$: Observable<EApiStatus>;
   readonly searchSchedule$: Observable<Nullable<StudyScheduleModel[]>>;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR 
   constructor(
     private readonly destroy$: TuiDestroyService,
     store: Store<TeachingDialogState>

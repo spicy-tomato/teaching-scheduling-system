@@ -49,7 +49,7 @@ import {
   animations: [fadeInOut],
 })
 export class AssignLeftTitleComponent {
-  /** PUBLIC PROPERTIES */
+  // PUBLIC PROPERTIES 
   needAssign$: Observable<ModuleClass[]>;
   teachers$: Observable<SimpleModel[]>;
   selectedTeacher$: Observable<Nullable<SimpleModel>>;
@@ -57,10 +57,10 @@ export class AssignLeftTitleComponent {
   selectedNeedAssign$: Observable<ModuleClass[]>;
   assignStatus$: Observable<EApiStatus>;
 
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES 
   private assignedTeacher$: Observable<Nullable<SimpleModel>>;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR 
   constructor(
     private readonly store: Store<TeachingScheduleAssignState>,
     @Inject(TuiAlertService)
@@ -90,7 +90,7 @@ export class AssignLeftTitleComponent {
     this.handleAssignSuccessful();
   }
 
-  /** PUBLIC METHODS */
+  // PUBLIC METHODS 
   selectedTeacherChange(teacher: Nullable<SimpleModel>): void {
     this.store.dispatch(
       teachingScheduleAssign_ChangeSelectingTeacher({ teacher })
@@ -101,7 +101,7 @@ export class AssignLeftTitleComponent {
     this.store.dispatch(teachingScheduleAssign_Assign());
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS 
   private handleSomeNeedAssignChecked(): void {
     this.someNeedAssignCheckedChange$ = this.selectedNeedAssign$.pipe(
       map((needAssign) => needAssign.some((x) => x)),

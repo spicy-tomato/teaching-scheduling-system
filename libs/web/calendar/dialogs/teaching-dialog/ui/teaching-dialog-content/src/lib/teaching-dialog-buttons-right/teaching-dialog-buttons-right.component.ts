@@ -30,13 +30,13 @@ import { Observable, takeUntil } from 'rxjs';
   providers: [TuiDestroyService],
 })
 export class TeachingDialogButtonsRightComponent implements OnInit {
-  /** INPUT */
+  // INPUT 
   @Input() idSchedule!: number;
 
-  /** OUTPUT */
+  // OUTPUT 
   @Output() cancel = new EventEmitter();
 
-  /** PUBLIC PROPERTIES */
+  // PUBLIC PROPERTIES 
   form!: FormGroup;
 
   readonly changeStatus$: Observable<EApiStatus>;
@@ -44,7 +44,7 @@ export class TeachingDialogButtonsRightComponent implements OnInit {
   readonly updateStatus$: Observable<EApiStatus>;
   readonly requestingChangeSchedule$: Observable<boolean>;
 
-  /** GETTERS */
+  // GETTERS 
   private get noteControl(): FormControl {
     return (this.form.controls['change'] as FormGroup).controls[
       'note'
@@ -71,12 +71,12 @@ export class TeachingDialogButtonsRightComponent implements OnInit {
       .pipe(takeUntil(this.destroy$));
   }
 
-  /** LIFECYCLE */
+  // LIFECYCLE 
   ngOnInit(): void {
     this.form = this.controlContainer.control as FormGroup;
   }
 
-  /** PUBLIC METHODS */
+  // PUBLIC METHODS 
   fold(): void {
     this.store.dispatch(teachingDialogToggleRequestChange({ open: false }));
   }

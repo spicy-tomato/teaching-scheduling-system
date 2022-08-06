@@ -16,10 +16,10 @@ import { map, Observable, of } from 'rxjs';
   providedIn: 'root',
 })
 export class CommonInfoService {
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES 
   private readonly url: string;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR 
   constructor(
     private readonly http: HttpClient,
     @Inject(APP_CONFIG) private readonly config: AppConfig

@@ -19,10 +19,10 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class UserService {
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES 
   private readonly url: string;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR 
   constructor(
     private readonly http: HttpClient,
     @Inject(APP_CONFIG) config: AppConfig

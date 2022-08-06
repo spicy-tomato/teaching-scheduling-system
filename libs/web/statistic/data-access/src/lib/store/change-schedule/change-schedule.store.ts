@@ -31,7 +31,7 @@ type ChangeScheduleState = GenericState<ChangeSchedule[]>;
 
 @Injectable()
 export class StatisticChangeScheduleStore extends ComponentStore<ChangeScheduleState> {
-  /** PUBLIC PROPERTIES */
+  // PUBLIC PROPERTIES 
   readonly data$ = this.select((s) => s.data);
   readonly status$ = this.select((s) => s.status);
   readonly department$ = this.appShellStore
@@ -45,7 +45,7 @@ export class StatisticChangeScheduleStore extends ComponentStore<ChangeScheduleS
     takeUntil(this.destroy$)
   );
 
-  /** EFFECTS */
+  // EFFECTS 
   readonly statisticize = this.effect<{ range: TuiDayRange }>((params$) =>
     params$.pipe(
       tap(() => this.patchState({ status: 'loading', error: null })),
@@ -70,7 +70,7 @@ export class StatisticChangeScheduleStore extends ComponentStore<ChangeScheduleS
     )
   );
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR 
   constructor(
     private readonly statisticService: StatisticService,
     private readonly appShellStore: Store<AppShellState>
@@ -78,7 +78,7 @@ export class StatisticChangeScheduleStore extends ComponentStore<ChangeScheduleS
     super(<ChangeScheduleState>{});
   }
 
-  /** PUBLIC METHODS */
+  // PUBLIC METHODS 
   private getStatistic(
     departmentId: string,
     range: TuiDayRange

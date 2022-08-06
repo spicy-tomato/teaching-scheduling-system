@@ -65,11 +65,11 @@ import {
   ],
 })
 export class ChangeRequestListActionComponent implements OnInit {
-  /** INPUT */
+  // INPUT 
   @Input() schedule!: ChangeSchedule;
   @Input() canCancel!: boolean;
 
-  /** PUBLIC PROPERTIES */
+  // PUBLIC PROPERTIES 
   showLoader = false;
   readonly export$ = new Subject<void>();
   readonly cancel$ = new Subject<void>();
@@ -77,14 +77,14 @@ export class ChangeRequestListActionComponent implements OnInit {
 
   readonly requesting$: Observable<number[]>;
 
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES 
   private readonly datePipe: DatePipe;
   private readonly nameTitle$: Observable<string>;
   private readonly permissions$: Observable<number[]>;
   private readonly teacher$: Observable<Nullable<Teacher>>;
   private dialog$!: Observable<void>;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR 
   constructor(
     private readonly exportService: ExportService,
     private readonly teacherService: TeacherService,
@@ -118,17 +118,17 @@ export class ChangeRequestListActionComponent implements OnInit {
     this.handleCancel();
   }
 
-  /** LIFECYCLE */
+  // LIFECYCLE 
   ngOnInit(): void {
     this.initDialog();
   }
 
-  /** PUBLIC METHODS */
+  // PUBLIC METHODS 
   showDetails(): void {
     this.dialog$.subscribe();
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS 
   private initDialog(): void {
     this.dialog$ = this.tuiDialogService.open(
       new PolymorpheusComponent(ChangeDetailsDialogComponent, this.injector),

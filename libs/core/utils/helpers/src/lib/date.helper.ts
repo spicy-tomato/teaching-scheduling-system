@@ -2,7 +2,7 @@ import { TuiDay } from '@taiga-ui/cdk';
 import { CoreConstant } from '@teaching-scheduling-system/core/data-access/constants';
 
 export class DateHelper {
-  /** To string */
+  // To string 
   static beautifyTime(dt: Date): string {
     return [
       DateHelper.beautifyDay(dt.getHours()),
@@ -22,7 +22,7 @@ export class DateHelper {
     return date.toISOString().slice(0, 19).replace('T', ' ');
   }
 
-  /** From other types */
+  // From other types 
   static fromShift(date: Date, shift: string): [Date, Date] {
     const end = new Date(date.getTime());
     const map = CoreConstant.SHIFTS;
@@ -35,12 +35,12 @@ export class DateHelper {
     return [date, end];
   }
 
-  /** To other types */
+  // To other types 
   static toTuiDay(date: Date): TuiDay {
     return new TuiDay(date.getFullYear(), date.getMonth(), date.getDate());
   }
 
-  /** Calculation */
+  // Calculation 
   static weekIncludedByTwoMonths(date: Date): boolean {
     const dow = date.getDay();
     const first = new Date(date);
@@ -70,7 +70,7 @@ export class DateHelper {
     );
   }
 
-  /** Factory */
+  // Factory 
   static dateAtZero(date = new Date()): Date {
     return new Date(date.getFullYear(), date.getMonth(), date.getDate());
   }

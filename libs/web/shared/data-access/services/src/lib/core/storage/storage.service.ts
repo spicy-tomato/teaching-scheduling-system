@@ -2,13 +2,13 @@ import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 export abstract class StorageService {
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES 
   private subjects = new Map<string, BehaviorSubject<Nullable<string>>>();
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR 
   constructor(protected storage: Storage) {}
 
-  /** PUBLIC METHODS */
+  // PUBLIC METHODS 
   watch(key: string): Observable<Nullable<string>> {
     if (!this.subjects.has(key)) {
       this.subjects.set(key, new BehaviorSubject<Nullable<string>>(null));

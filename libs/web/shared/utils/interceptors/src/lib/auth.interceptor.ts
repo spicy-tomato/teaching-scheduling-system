@@ -15,14 +15,14 @@ import { Observable, tap } from 'rxjs';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR 
   constructor(
     private readonly accessTokenService: AccessTokenService,
     private readonly appService: AppService,
     private readonly location: Location
   ) {}
 
-  /** IMPLEMENTATIONS */
+  // IMPLEMENTATIONS 
   intercept(
     req: HttpRequest<unknown>,
     next: HttpHandler

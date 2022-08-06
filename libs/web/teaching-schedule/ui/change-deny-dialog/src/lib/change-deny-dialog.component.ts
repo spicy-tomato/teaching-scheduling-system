@@ -30,10 +30,10 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
   ],
 })
 export class ChangeDenyDialogComponent {
-  /** PUBLIC PROPERTIES */
+  // PUBLIC PROPERTIES 
   form!: FormGroup;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR 
   constructor(
     private readonly fb: FormBuilder,
     private readonly store: Store<TeachingScheduleRequestState>,
@@ -43,7 +43,7 @@ export class ChangeDenyDialogComponent {
     this.initForm();
   }
 
-  /** PUBLIC METHODS */
+  // PUBLIC METHODS 
   confirm(): void {
     const reason = this.form.controls['reason'].value as string;
     this.store.dispatch(
@@ -58,7 +58,7 @@ export class ChangeDenyDialogComponent {
     });
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS 
   private initForm(): void {
     this.form = this.fb.group({
       reason: ['', Validators.required],

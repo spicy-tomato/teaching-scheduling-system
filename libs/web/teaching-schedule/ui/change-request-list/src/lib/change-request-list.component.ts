@@ -49,11 +49,11 @@ import {
   providers: [TuiDestroyService],
 })
 export class ChangeRequestListComponent {
-  /** VIEW CHILD */
+  // VIEW CHILD 
   @ViewChild('teacherCol', { static: false, read: ElementRef })
   teacherColumn!: ElementRef;
 
-  /** PUBLIC PROPERTIES */
+  // PUBLIC PROPERTIES 
   form: FormGroup = new FormGroup({});
   teacherColumnWidth = 0;
   checkAll: Nullable<boolean> = false;
@@ -85,12 +85,12 @@ export class ChangeRequestListComponent {
   readonly itemsPerPage = TableConstant.REQUESTS_LIST_ITEMS_PER_PAGE;
   readonly PermissionConstant = PermissionConstant;
 
-  /** GETTER */
+  // GETTER 
   private get checkboxControl(): FormArray {
     return this.form.controls['checkbox'] as FormArray;
   }
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR 
   constructor(
     private readonly cdr: ChangeDetectorRef,
     private readonly fb: FormBuilder,
@@ -122,7 +122,7 @@ export class ChangeRequestListComponent {
     this.triggerDataChange();
   }
 
-  /** PUBLIC METHODS */
+  // PUBLIC METHODS 
   onCheckAllChange(): void {
     const checkboxesValue = Array(this.checkboxControl.length).fill(false);
     if (this.checkAll) {
@@ -148,7 +148,7 @@ export class ChangeRequestListComponent {
     this.checkAll = checked;
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS 
   private configureColumns(): void {
     if (this.isPersonal) {
       this.initialColumns = this.initialColumns.filter((x) => x !== 'teacher');

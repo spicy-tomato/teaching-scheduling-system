@@ -27,11 +27,11 @@ import { Observable, takeUntil } from 'rxjs';
   providers: [TuiDestroyService],
 })
 export class AssignTableComponent implements OnChanges {
-  /** INPUT */
+  // INPUT 
   @Input() data!: ModuleClass[];
   @Input() excludeTeacher = false;
 
-  /** PUBLIC PROPERTIES */
+  // PUBLIC PROPERTIES 
   form!: FormGroup;
   filterStatus$: Observable<EApiStatus>;
   readonly columns = [
@@ -46,15 +46,15 @@ export class AssignTableComponent implements OnChanges {
   classType = CoreConstant.CLASS_TYPE;
   defaultSort = defaultSort;
 
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES 
   private _selectAll = false;
 
-  /** GETTERS */
+  // GETTERS 
   get selectAll(): boolean {
     return this._selectAll;
   }
 
-  /** SETTERS */
+  // SETTERS 
   set selectAll(checked: boolean) {
     this.checkboxes.controls.forEach((checkbox) => {
       checkbox.setValue(checked);
@@ -72,7 +72,7 @@ export class AssignTableComponent implements OnChanges {
     return this.form.controls['checkbox'] as FormArray;
   }
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR 
   constructor(
     private readonly fb: FormBuilder,
     private readonly store: Store<TeachingScheduleAssignState>,
@@ -83,14 +83,14 @@ export class AssignTableComponent implements OnChanges {
       .pipe(takeUntil(this.destroy$));
   }
 
-  /** LIFECYCLE */
+  // LIFECYCLE 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['data']) {
       this.resetForm();
     }
   }
 
-  /** PUBLIC METHODS */
+  // PUBLIC METHODS 
   onModelChange(index: number, checked: boolean): void {
     if (
       this._selectAll &&
@@ -112,7 +112,7 @@ export class AssignTableComponent implements OnChanges {
     );
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS 
   private resetForm(): void {
     this.form = this.fb.group({
       checkbox: this.fb.array(this.data.map(() => false)),

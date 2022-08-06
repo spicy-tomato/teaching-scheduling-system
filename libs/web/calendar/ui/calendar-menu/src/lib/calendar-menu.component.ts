@@ -34,10 +34,10 @@ type ViewItem = {
   ],
 })
 export class CalendarMenuComponent {
-  /** INPUT */
+  // INPUT 
   @Input() scheduleComponent!: ScheduleComponent;
 
-  /** PUBLIC PROPERTIES */
+  // PUBLIC PROPERTIES 
   readonly view$: Observable<View>;
   readonly viewList: ViewItem[] = [
     { id: 'Month', name: 'Tháng' },
@@ -46,7 +46,7 @@ export class CalendarMenuComponent {
   ];
   openRightMenu = false;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR 
   constructor(
     private readonly store: Store<CalendarState>,
     private readonly destroy$: TuiDestroyService
@@ -56,7 +56,7 @@ export class CalendarMenuComponent {
       .pipe(takeUntil(this.destroy$));
   }
 
-  /** PUBLIC METHODS */
+  // PUBLIC METHODS 
   @tuiPure
   stringifyView(): TuiStringHandler<TuiContextWithImplicit<View>> {
     const map = new Map(

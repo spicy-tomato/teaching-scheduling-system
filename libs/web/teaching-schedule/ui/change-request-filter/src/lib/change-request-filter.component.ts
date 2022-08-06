@@ -42,17 +42,17 @@ import { Observable, Subject, takeUntil, tap, withLatestFrom } from 'rxjs';
   ],
 })
 export class ChangeRequestFilterComponent {
-  /** PUBLIC PROPERTIES */
+  // PUBLIC PROPERTIES 
   readonly exportMultiple$ = new Subject<void>();
   readonly IconConstant = IconConstant;
   readonly exportSchedule$: Observable<ChangeSchedule[]>;
   readonly isPersonal: boolean;
 
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES 
   private readonly teacher$: Observable<Teacher>;
   private dialog$!: Observable<void>;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR 
   constructor(
     private readonly exportService: ExportService,
     @Inject(Injector) private readonly injector: Injector,
@@ -76,12 +76,12 @@ export class ChangeRequestFilterComponent {
     this.handleExportMultiple();
   }
 
-  /** PUBLIC METHODS */
+  // PUBLIC METHODS 
   onExport(): void {
     this.dialog$.subscribe();
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS 
   private initDialog(): void {
     this.dialog$ = this.dialogService.open(
       new PolymorpheusComponent(ChangeReportDialogComponent, this.injector),

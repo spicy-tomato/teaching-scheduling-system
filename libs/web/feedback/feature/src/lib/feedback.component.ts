@@ -25,16 +25,16 @@ import { FeedbackStore } from './store';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FeedbackComponent {
-  /** PUBLIC PROPERTIES */
+  // PUBLIC PROPERTIES 
   form!: FormGroup;
   readonly topics = FeedbackConstant.items;
   readonly tools = EditorConstant.tools;
   readonly status$ = this.store.status$;
 
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES 
   private successDialog$!: Observable<void>;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR 
   constructor(
     private readonly fb: FormBuilder,
     private readonly store: FeedbackStore,
@@ -46,7 +46,7 @@ export class FeedbackComponent {
     this.initForm();
   }
 
-  /** PUBLIC METHODS */
+  // PUBLIC METHODS 
   onSubmit(): void {
     if (this.form.valid) {
       const title = this.form.get('title')?.value as string;
@@ -67,7 +67,7 @@ export class FeedbackComponent {
   readonly disabledItemHandler: TuiBooleanHandler<FeedbackItem> = () =>
     this.form.disabled;
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS 
   private initDialog(): void {
     this.successDialog$ = this.dialogService.open(
       new PolymorpheusComponent(SuccessDialogComponent, this.injector),

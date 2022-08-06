@@ -44,7 +44,7 @@ import * as PageAction from './calendar.page.actions';
 
 @Injectable()
 export class CalendarEffects {
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES 
   private ranges$ = this.store.select(fromSchedule.calendarSelectRanges);
   private view$ = this.store.select(fromSchedule.calendarSelectView);
 
@@ -56,7 +56,7 @@ export class CalendarEffects {
   private readonly loadDepartmentExamSubject$ = new Subject<Date>();
   private readonly loadDepartmentScheduleSubject$ = new Subject<Date>();
 
-  /** EFFECTS */
+  // EFFECTS 
   loadPersonalSchedule$ = createEffect(
     () => {
       return this.actions$.pipe(
@@ -140,7 +140,7 @@ export class CalendarEffects {
     );
   });
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR 
   constructor(
     private readonly actions$: Actions,
     private readonly scheduleService: ScheduleService,
@@ -158,7 +158,7 @@ export class CalendarEffects {
     this.handleLoadDepartmentExam();
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS 
   private handleLoadPersonalSchedule(): void {
     combineLatest([
       this.loadPersonalScheduleSubject$,

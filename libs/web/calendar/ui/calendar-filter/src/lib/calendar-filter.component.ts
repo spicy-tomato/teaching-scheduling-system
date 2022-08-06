@@ -43,20 +43,20 @@ import { Observable, takeUntil } from 'rxjs';
   ],
 })
 export class CalendarFilterComponent {
-  /** INPUT */
+  // INPUT 
   @Input() activeZone!: TuiActiveZoneDirective;
   @Input() forMenu = false;
 
-  /** OUTPUT */
+  // OUTPUT 
   @Output() readonly filter = new EventEmitter<void>();
 
-  /** PUBLIC PROPERTIES */
+  // PUBLIC PROPERTIES 
   readonly PermissionConstant = PermissionConstant;
   readonly filter$: Observable<CalendarFilter>;
   readonly teachers$: Observable<SimpleModel[]>;
   readonly modules$: Observable<string[]>;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR 
   constructor(
     private readonly store: Store<CalendarState>,
     private readonly destroy$: TuiDestroyService
@@ -72,7 +72,7 @@ export class CalendarFilterComponent {
       .pipe(takeUntil(this.destroy$));
   }
 
-  /** PUBLIC METHODS */
+  // PUBLIC METHODS 
   @tuiPure
   stringifyTeacher(
     items: SimpleModel[]

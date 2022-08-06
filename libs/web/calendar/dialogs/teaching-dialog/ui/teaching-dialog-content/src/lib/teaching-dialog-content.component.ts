@@ -81,20 +81,20 @@ import { TeachingDialogButtonsRightComponent } from './teaching-dialog-buttons-r
   ],
 })
 export class TeachingDialogContentComponent implements OnInit {
-  /** INPUT */
+  // INPUT 
   @Input() schedule!: EjsScheduleModel;
 
-  /** OUTPUT */
+  // OUTPUT 
   @Output() updateSchedule = new EventEmitter<FixedScheduleModel>();
   @Output() changeScheduleInfo = new EventEmitter<TeachingDialogChange>();
   @Output() cancelRequest = new EventEmitter();
   @Output() cancel = new EventEmitter();
 
-  /** VIEWCHILD */
+  // VIEWCHILD 
   @ViewChild(TeachingDialogButtonsRightComponent)
   rightButtonComponent!: TeachingDialogButtonsRightComponent;
 
-  /** PUBLIC PROPERTIES */
+  // PUBLIC PROPERTIES 
   form!: FormGroup;
   isPersonal!: boolean;
   validRequestChangeSchedule!: boolean;
@@ -116,11 +116,11 @@ export class TeachingDialogContentComponent implements OnInit {
     Nullable<SimpleFixedScheduleModel>
   >;
 
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES 
   private readonly change$: Observable<TeachingDialogChange>;
   private readonly nameTitle$: Observable<string>;
 
-  /** GETTERS */
+  // GETTERS 
   get requestControl(): FormGroup {
     return this.form.controls['request'] as FormGroup;
   }
@@ -141,7 +141,7 @@ export class TeachingDialogContentComponent implements OnInit {
     return this.requestControl.controls['date'].value as TuiDay;
   }
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR 
   constructor(
     private readonly fb: FormBuilder,
     private readonly cdr: ChangeDetectorRef,
@@ -178,7 +178,7 @@ export class TeachingDialogContentComponent implements OnInit {
       .pipe(takeUntil(this.destroy$));
   }
 
-  /** LIFECYCLE */
+  // LIFECYCLE 
   ngOnInit(): void {
     this.initForm();
 
@@ -202,7 +202,7 @@ export class TeachingDialogContentComponent implements OnInit {
       .subscribe();
   }
 
-  /** PUBLIC METHODS */
+  // PUBLIC METHODS 
   toggleRequestArea(open: boolean): void {
     this.store.dispatch(teachingDialogToggleRequestChange({ open }));
   }
@@ -216,7 +216,7 @@ export class TeachingDialogContentComponent implements OnInit {
     this.store.dispatch(teachingDialogUpdate({ id, body }));
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS 
   private initForm(): void {
     const data = this.schedule;
 
