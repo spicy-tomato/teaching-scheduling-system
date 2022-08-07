@@ -47,7 +47,7 @@
     "@taiga-ui/kit": "^2.56.0",
     "@tinkoff/ng-dompurify": "^3.0.0",
     "@types/gapi": "^0.0.42",
-    "@types/gapi.auth2": "^0.0.55",
+    "@types/gapi.auth2": "^0.0.56",
     "@types/gapi.calendar": "^3.0.6",
     "cldr-data": "^36.0.1",
     "docx": "^7.4.1",
