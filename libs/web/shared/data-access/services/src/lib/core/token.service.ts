@@ -5,11 +5,9 @@ import { Injectable, InjectionToken } from '@angular/core';
   providedIn: 'root',
 })
 export class TokenService {
-  public static readonly DATE_PIPE_TOKEN = new InjectionToken<DatePipe>(
-    'datePipe'
-  );
+  static readonly DATE_PIPE_TOKEN = new InjectionToken<DatePipe>('datePipe');
 
-  public getToken<T>(name: string): InjectionToken<T> {
+  getToken<T>(name: string): InjectionToken<T> {
     if (name === 'datePipe') {
       return TokenService.DATE_PIPE_TOKEN;
     }

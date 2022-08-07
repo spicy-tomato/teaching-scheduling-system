@@ -18,8 +18,8 @@ import * as PageAction from './app-shell.page.actions';
 
 @Injectable()
 export class AppShellEffects {
-  /** EFFECTS */
-  public changeRouter$ = createEffect(() => {
+  // EFFECTS
+  changeRouter$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(routerNavigatedAction),
       map((action) => {
@@ -31,7 +31,7 @@ export class AppShellEffects {
     );
   });
 
-  public keepLogin$ = createEffect(() => {
+  keepLogin$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.keepLogin),
       mergeMap(() => {
@@ -48,7 +48,7 @@ export class AppShellEffects {
     );
   });
 
-  public autoLoginFailure$ = createEffect(
+  autoLoginFailure$ = createEffect(
     () => {
       return this.actions$.pipe(
         ofType(ApiAction.autoLoginFailure),
@@ -68,7 +68,7 @@ export class AppShellEffects {
     { dispatch: false }
   );
 
-  public loadRooms$ = createEffect(() => {
+  loadRooms$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ApiAction.autoLoginSuccessfully),
       mergeMap(() => {
@@ -80,7 +80,7 @@ export class AppShellEffects {
     );
   });
 
-  public loadSchoolYear$ = createEffect(() => {
+  loadSchoolYear$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ApiAction.autoLoginSuccessfully),
       mergeMap(() => {
@@ -95,7 +95,7 @@ export class AppShellEffects {
     );
   });
 
-  public loadAcademicYear$ = createEffect(() => {
+  loadAcademicYear$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ApiAction.autoLoginSuccessfully),
       mergeMap(() => {
@@ -109,7 +109,7 @@ export class AppShellEffects {
     );
   });
 
-  public loadTeachersInDepartment$ = createEffect(() => {
+  loadTeachersInDepartment$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ApiAction.autoLoginSuccessfully),
       map(({ teacher }) => teacher.department?.id),
@@ -125,7 +125,7 @@ export class AppShellEffects {
     );
   });
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly actions$: Actions,
     private readonly appService: AppService,
@@ -136,7 +136,7 @@ export class AppShellEffects {
     private readonly location: Location
   ) {}
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS
   private createBreadcrumbs(
     route: ActivatedRouteSnapshot,
     url = '',

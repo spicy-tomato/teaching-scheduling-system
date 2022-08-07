@@ -30,24 +30,24 @@ import { take, tap } from 'rxjs';
   ],
 })
 export class ChangeScheduleFilterComponent implements OnInit, AfterViewInit {
-  /** VIEWCHILD */
-  @ViewChild('export') public exportTemplate!: TemplateRef<never>;
+  // VIEWCHILD
+  @ViewChild('export') exportTemplate!: TemplateRef<never>;
 
-  /** PUBLIC PROPERTIES */
-  public form!: FormGroup;
+  // PUBLIC PROPERTIES
+  form!: FormGroup;
 
-  public readonly IconConstant = IconConstant;
-  public readonly status$ = this.store.status$;
+  readonly IconConstant = IconConstant;
+  readonly status$ = this.store.status$;
 
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES
   private readonly teacher$ = this.store.teacher$;
 
-  /** GETTERS */
+  // GETTERS
   private get rangeControlValue(): TuiDayRange {
     return this.form.controls['range'].value as TuiDayRange;
   }
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly fb: FormBuilder,
     private readonly navbarService: NavbarService,
@@ -56,24 +56,24 @@ export class ChangeScheduleFilterComponent implements OnInit, AfterViewInit {
     this.initForm();
   }
 
-  /** LIFECYCLE */
-  public ngOnInit(): void {
+  // LIFECYCLE
+  ngOnInit(): void {
     this.statisticizeFirstTime();
   }
 
-  public ngAfterViewInit(): void {
+  ngAfterViewInit(): void {
     this.navbarService.addRightMenu(this.exportTemplate);
   }
 
-  /** PUBLIC METHODS */
-  public statisticize(): void {
+  // PUBLIC METHODS
+  statisticize(): void {
     const range = this.rangeControlValue;
     if (range) {
       this.store.statisticize({ range });
     }
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS
   private initForm(): void {
     this.form = this.fb.group({
       range: [

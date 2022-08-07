@@ -32,7 +32,7 @@ export type QueryFilterResult<
       QueryFilterOptionPartResult<P>;
 
 export class UrlHelper {
-  public static queryFilter<
+  static queryFilter<
     T extends Record<string, unknown>,
     Q extends string,
     P extends string

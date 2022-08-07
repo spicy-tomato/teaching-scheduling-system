@@ -17,10 +17,10 @@ import { map, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES
   private readonly url: string;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly http: HttpClient,
     @Inject(APP_CONFIG) config: AppConfig
@@ -28,8 +28,8 @@ export class AuthService {
     this.url = config.baseUrl;
   }
 
-  /** PUBLIC METHODS */
-  public auth(loginData: LoginForm): Observable<AuthResponse> {
+  // PUBLIC METHODS
+  auth(loginData: LoginForm): Observable<AuthResponse> {
     const obj = { username: loginData.username, password: loginData.password };
     return this.http
       .post<ResponseModel<Nullable<Teacher>>>(this.url + 'login', obj, {
@@ -45,7 +45,7 @@ export class AuthService {
       );
   }
 
-  public logOut(): Observable<void> {
+  logOut(): Observable<void> {
     return this.http.post<void>(this.url + 'logout', {});
   }
 }

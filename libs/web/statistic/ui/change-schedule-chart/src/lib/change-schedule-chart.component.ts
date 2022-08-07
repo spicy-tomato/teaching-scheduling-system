@@ -27,26 +27,26 @@ type TeacherData = { [key: string]: { accept: number; deny: number } };
   providers: [TuiDestroyService],
 })
 export class ChangeScheduleChartComponent {
-  /** PUBLIC PROPERTIES */
-  public teachersNameList: string[] = [];
+  // PUBLIC PROPERTIES
+  teachersNameList: string[] = [];
 
-  public value: [number[], number[]] = [[], []];
-  public labelsX: string[] = [];
-  public labelsY: string[] = [];
-  public axisYLabels: string[] = [];
-  public max = 0;
+  value: [number[], number[]] = [[], []];
+  labelsX: string[] = [];
+  labelsY: string[] = [];
+  axisYLabels: string[] = [];
+  max = 0;
 
-  public readonly teachersList$ = this.store.teachersInDepartment$;
-  public readonly status$ = this.store.status$;
-  public readonly setNames = ['Đã đổi', 'Bị từ chối'];
-  public readonly horizontalLinesHandler: TuiLineHandler = (index, total) => {
+  readonly teachersList$ = this.store.teachersInDepartment$;
+  readonly status$ = this.store.status$;
+  readonly setNames = ['Đã đổi', 'Bị từ chối'];
+  readonly horizontalLinesHandler: TuiLineHandler = (index, total) => {
     return index === 0 || (total - index) % 5 === 0 ? 'dashed' : 'none';
   };
 
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES
   private readonly data$ = this.store.data$;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly cdr: ChangeDetectorRef,
     private readonly store: StatisticChangeScheduleStore,
@@ -55,7 +55,7 @@ export class ChangeScheduleChartComponent {
     this.handleChangeScheduleChange();
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS
   private handleChangeScheduleChange(): void {
     combineLatest([this.data$, this.teachersList$])
       .pipe(

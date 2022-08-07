@@ -49,18 +49,18 @@ import {
   animations: [fadeInOut],
 })
 export class AssignLeftTitleComponent {
-  /** PUBLIC PROPERTIES */
-  public needAssign$: Observable<ModuleClass[]>;
-  public teachers$: Observable<SimpleModel[]>;
-  public selectedTeacher$: Observable<Nullable<SimpleModel>>;
-  public someNeedAssignCheckedChange$!: Observable<boolean>;
-  public selectedNeedAssign$: Observable<ModuleClass[]>;
-  public assignStatus$: Observable<EApiStatus>;
+  // PUBLIC PROPERTIES
+  needAssign$: Observable<ModuleClass[]>;
+  teachers$: Observable<SimpleModel[]>;
+  selectedTeacher$: Observable<Nullable<SimpleModel>>;
+  someNeedAssignCheckedChange$!: Observable<boolean>;
+  selectedNeedAssign$: Observable<ModuleClass[]>;
+  assignStatus$: Observable<EApiStatus>;
 
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES
   private assignedTeacher$: Observable<Nullable<SimpleModel>>;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly store: Store<TeachingScheduleAssignState>,
     @Inject(TuiAlertService)
@@ -90,18 +90,18 @@ export class AssignLeftTitleComponent {
     this.handleAssignSuccessful();
   }
 
-  /** PUBLIC METHODS */
-  public selectedTeacherChange(teacher: Nullable<SimpleModel>): void {
+  // PUBLIC METHODS
+  selectedTeacherChange(teacher: Nullable<SimpleModel>): void {
     this.store.dispatch(
       teachingScheduleAssign_ChangeSelectingTeacher({ teacher })
     );
   }
 
-  public assign(): void {
+  assign(): void {
     this.store.dispatch(teachingScheduleAssign_Assign());
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS
   private handleSomeNeedAssignChecked(): void {
     this.someNeedAssignCheckedChange$ = this.selectedNeedAssign$.pipe(
       map((needAssign) => needAssign.some((x) => x)),

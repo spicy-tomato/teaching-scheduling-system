@@ -37,29 +37,29 @@ import { AssignFilterStore } from './store';
   ],
 })
 export class AssignFilterComponent implements OnInit {
-  /** PUBLIC PROPERTIES */
-  public readonly batchesInTerm = CoreConstant.BATCHES_IN_TERM;
-  public readonly termsInYear = CoreConstant.TERMS_IN_YEAR;
-  public readonly trainingTypeChange$ = new Subject<number>();
+  // PUBLIC PROPERTIES
+  readonly batchesInTerm = CoreConstant.BATCHES_IN_TERM;
+  readonly termsInYear = CoreConstant.TERMS_IN_YEAR;
+  readonly trainingTypeChange$ = new Subject<number>();
 
-  public readonly currentTerm$ = this.store.currentTerm$;
-  public readonly academicData$ = this.store.academicData$;
-  public readonly trainingTypes$ = this.store.trainingTypes$;
-  public readonly filterStatus$ = this.store.filterStatus$;
+  readonly currentTerm$ = this.store.currentTerm$;
+  readonly academicData$ = this.store.academicData$;
+  readonly trainingTypes$ = this.store.trainingTypes$;
+  readonly filterStatus$ = this.store.filterStatus$;
 
-  public disableFilterButton = false;
-  public form!: FormGroup;
-  public schoolYears$!: Observable<string[]>;
+  disableFilterButton = false;
+  form!: FormGroup;
+  schoolYears$!: Observable<string[]>;
 
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES
   private readonly myDepartment$ = this.store.myDepartment$;
 
-  /** GETTERS */
-  public get termInYearControl(): FormControl {
+  // GETTERS
+  get termInYearControl(): FormControl {
     return this.form.controls['termInYear'] as FormControl;
   }
 
-  public get trainingTypeControl(): FormControl {
+  get trainingTypeControl(): FormControl {
     return this.form.controls['trainingType'] as FormControl;
   }
 
@@ -81,7 +81,7 @@ export class AssignFilterComponent implements OnInit {
     }_${this.batchInTermControl.value as string}`;
   }
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly fb: FormBuilder,
     private readonly store: AssignFilterStore
@@ -95,8 +95,8 @@ export class AssignFilterComponent implements OnInit {
     this.bindAcademicYear();
   }
 
-  /** LIFECYCLE */
-  public ngOnInit(): void {
+  // LIFECYCLE
+  ngOnInit(): void {
     this.myDepartment$
       .pipe(
         ObservableHelper.filterNullish(),
@@ -106,9 +106,9 @@ export class AssignFilterComponent implements OnInit {
       .subscribe();
   }
 
-  /** PUBLIC METHODS */
+  // PUBLIC METHODS
   @tuiPure
-  public stringifyTrainingType(
+  stringifyTrainingType(
     items: SimpleModel<number>[]
   ): TuiStringHandler<TuiContextWithImplicit<number>> {
     const map = new Map(
@@ -118,7 +118,7 @@ export class AssignFilterComponent implements OnInit {
     return ({ $implicit }) => map.get($implicit) || '';
   }
 
-  public onTermInYearChange(termInYear: number): void {
+  onTermInYearChange(termInYear: number): void {
     const selectedBatchInTerm = this.batchInTermControl.value as number;
     if (!this.batchesInTerm[termInYear].includes(selectedBatchInTerm)) {
       this.batchInTermControl.setValue(1);
@@ -126,16 +126,16 @@ export class AssignFilterComponent implements OnInit {
     this.onControlChange();
   }
 
-  public onControlChange(): void {
+  onControlChange(): void {
     this.disableFilterButton = false;
   }
 
-  public filter(): void {
+  filter(): void {
     this.disableFilterButton = true;
     this.store.filter({ studySession: this.studySession });
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS
   private initForm(): void {
     this.form = this.fb.group({
       schoolYear: '',

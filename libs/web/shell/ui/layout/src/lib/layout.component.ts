@@ -14,7 +14,7 @@ import { take, tap } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LayoutComponent {
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     store: Store<AppShellState>
     // , googleService: GoogleService

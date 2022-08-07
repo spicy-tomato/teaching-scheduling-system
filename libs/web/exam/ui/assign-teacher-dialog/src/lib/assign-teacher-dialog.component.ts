@@ -38,12 +38,12 @@ const ID_MATCHER_TEACHER: TuiIdentityMatcher<SimpleModel> = (
   ],
 })
 export class AssignTeacherDialogComponent {
-  /** PUBLIC PROPERTIES */
-  public readonly formControl = new FormControl([]);
-  public readonly status$ = this.store.status$;
-  public readonly teachers$ = this.store.teachers$;
+  // PUBLIC PROPERTIES
+  readonly formControl = new FormControl([]);
+  readonly status$ = this.store.status$;
+  readonly teachers$ = this.store.teachers$;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly store: AssignTeacherDialogStore,
     @Inject(POLYMORPHEUS_CONTEXT)
@@ -55,21 +55,21 @@ export class AssignTeacherDialogComponent {
     this.handleStatusChange();
   }
 
-  /** PUBLIC METHODS */
-  public onConfirm(): void {
+  // PUBLIC METHODS
+  onConfirm(): void {
     this.store.updateProctor({
       examId: this.context.data.id,
       teachersId: (this.formControl.value as SimpleModel[]).map((x) => x.id),
     });
   }
 
-  public onCancel(): void {
+  onCancel(): void {
     setTimeout(() => {
       this.context.$implicit.complete();
     });
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS
   private loadTeachers(): void {
     this.teachers$
       .pipe(

@@ -30,21 +30,21 @@ import { Observable, takeUntil } from 'rxjs';
   providers: [TuiDestroyService],
 })
 export class TeachingDialogButtonsRightComponent implements OnInit {
-  /** INPUT */
-  @Input() public idSchedule!: number;
+  // INPUT
+  @Input() idSchedule!: number;
 
-  /** OUTPUT */
-  @Output() public cancel = new EventEmitter();
+  // OUTPUT
+  @Output() cancel = new EventEmitter();
 
-  /** PUBLIC PROPERTIES */
-  public form!: FormGroup;
+  // PUBLIC PROPERTIES
+  form!: FormGroup;
 
-  public readonly changeStatus$: Observable<EApiStatus>;
-  public readonly requestStatus$: Observable<EApiStatus>;
-  public readonly updateStatus$: Observable<EApiStatus>;
-  public readonly requestingChangeSchedule$: Observable<boolean>;
+  readonly changeStatus$: Observable<EApiStatus>;
+  readonly requestStatus$: Observable<EApiStatus>;
+  readonly updateStatus$: Observable<EApiStatus>;
+  readonly requestingChangeSchedule$: Observable<boolean>;
 
-  /** GETTERS */
+  // GETTERS
   private get noteControl(): FormControl {
     return (this.form.controls['change'] as FormGroup).controls[
       'note'
@@ -71,17 +71,17 @@ export class TeachingDialogButtonsRightComponent implements OnInit {
       .pipe(takeUntil(this.destroy$));
   }
 
-  /** LIFECYCLE */
-  public ngOnInit(): void {
+  // LIFECYCLE
+  ngOnInit(): void {
     this.form = this.controlContainer.control as FormGroup;
   }
 
-  /** PUBLIC METHODS */
-  public fold(): void {
+  // PUBLIC METHODS
+  fold(): void {
     this.store.dispatch(teachingDialogToggleRequestChange({ open: false }));
   }
 
-  public onUpdate(): void {
+  onUpdate(): void {
     const body = {
       note: this.noteControl.value as string,
     };
@@ -89,7 +89,7 @@ export class TeachingDialogButtonsRightComponent implements OnInit {
     this.store.dispatch(teachingDialogUpdate({ id: this.idSchedule, body }));
   }
 
-  public markForCheck(): void {
+  markForCheck(): void {
     this.cdr.markForCheck();
   }
 }

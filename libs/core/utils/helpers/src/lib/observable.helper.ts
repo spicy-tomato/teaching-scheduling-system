@@ -17,7 +17,7 @@ import { ArrayHelper } from './array.helper';
 import { ObjectHelper } from './object.helper';
 
 export class ObservableHelper {
-  public static filterNullish<T>(): UnaryFunction<
+  static filterNullish<T>(): UnaryFunction<
     Observable<Nullable<T> | undefined>,
     Observable<T>
   > {
@@ -29,7 +29,7 @@ export class ObservableHelper {
     );
   }
 
-  public static filterUndefined<T>(): UnaryFunction<
+  static filterUndefined<T>(): UnaryFunction<
     Observable<T | undefined>,
     Observable<T>
   > {
@@ -38,7 +38,7 @@ export class ObservableHelper {
     );
   }
 
-  public static filterWith<T, U>(
+  static filterWith<T, U>(
     other$: Observable<U[]>,
     accept: U[] | U
   ): MonoTypeOperatorFunction<T> {
@@ -56,7 +56,7 @@ export class ObservableHelper {
     };
   }
 
-  public static waitNullish<T1, T2>(
+  static waitNullish<T1, T2>(
     ob$: Observable<Nullable<T2> | undefined>
   ): OperatorFunction<T1, [T1, T2]> {
     return (source$) => {
@@ -68,9 +68,7 @@ export class ObservableHelper {
     };
   }
 
-  public static delayUntil<T>(
-    notifier$: Observable<unknown>
-  ): OperatorFunction<T, T> {
+  static delayUntil<T>(notifier$: Observable<unknown>): OperatorFunction<T, T> {
     return (source$) =>
       source$.pipe(
         connect((published) => {

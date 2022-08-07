@@ -33,23 +33,23 @@ import { Observable, Subject, takeUntil, withLatestFrom, map, tap } from 'rxjs';
   providers: [TuiDestroyService],
 })
 export class TeachingDialogRequestChangeComponent implements OnInit {
-  /** INPUT */
-  @Input() public isPersonal!: boolean;
-  @Input() public people?: string[] | SimpleModel[];
+  // INPUT
+  @Input() isPersonal!: boolean;
+  @Input() people?: string[] | SimpleModel[];
 
-  /** PUBLIC PROPERTIES */
-  public form!: FormGroup;
+  // PUBLIC PROPERTIES
+  form!: FormGroup;
 
-  public readonly rooms$: Observable<string[]>;
-  public readonly changeRequest$ = new Subject<void>();
-  public readonly shiftKeys = Object.keys(CoreConstant.SHIFTS);
-  public readonly CoreConstant = CoreConstant;
-  public readonly roomMatcher = (item: string): boolean => item !== 'PTTT';
+  readonly rooms$: Observable<string[]>;
+  readonly changeRequest$ = new Subject<void>();
+  readonly shiftKeys = Object.keys(CoreConstant.SHIFTS);
+  readonly CoreConstant = CoreConstant;
+  readonly roomMatcher = (item: string): boolean => item !== 'PTTT';
 
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES
   private readonly teacher$: Observable<Nullable<Teacher>>;
 
-  /** GETTERS */
+  // GETTERS
   private get shiftControlValue(): string {
     return this.form.controls['shift'].value as string;
   }
@@ -58,7 +58,7 @@ export class TeachingDialogRequestChangeComponent implements OnInit {
     return this.form.controls['date'].value as TuiDay;
   }
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly controlContainer: ControlContainer,
     private readonly store: Store<TeachingDialogState>,
@@ -75,12 +75,12 @@ export class TeachingDialogRequestChangeComponent implements OnInit {
     this.handleChangeRequest();
   }
 
-  /** LIFECYCLE */
-  public ngOnInit(): void {
+  // LIFECYCLE
+  ngOnInit(): void {
     this.form = this.controlContainer.control as FormGroup;
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS
   private handleChangeRequest(): void {
     this.changeRequest$
       .pipe(

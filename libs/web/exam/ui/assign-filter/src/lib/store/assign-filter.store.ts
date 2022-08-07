@@ -16,28 +16,28 @@ import { Subject, takeUntil, tap, withLatestFrom } from 'rxjs';
 
 @Injectable()
 export class AssignFilterStore extends ComponentStore<object> {
-  /** PUBLIC PROPERTIES */
-  public readonly filterStatus$ = this.examAssignStore.status$;
-  public readonly teachers = this.appShellStore
+  // PUBLIC PROPERTIES
+  readonly filterStatus$ = this.examAssignStore.status$;
+  readonly teachers = this.appShellStore
     .select(selectTeachersInDepartment)
     .pipe(takeUntil(this.destroy$));
-  public readonly myDepartment$ = this.appShellStore
+  readonly myDepartment$ = this.appShellStore
     .select(selectDepartment)
     .pipe(ObservableHelper.filterNullish(), takeUntil(this.destroy$));
-  public readonly currentTerm$ = this.appShellStore
+  readonly currentTerm$ = this.appShellStore
     .select(selectSchoolYear)
     .pipe(takeUntil(this.destroy$));
-  public readonly academicData$ = this.appShellStore
+  readonly academicData$ = this.appShellStore
     .select(selectAcademicData)
     .pipe(takeUntil(this.destroy$));
-  public readonly trainingTypes$ = this.appShellStore
+  readonly trainingTypes$ = this.appShellStore
     .select(selectTrainingTypes)
     .pipe(takeUntil(this.destroy$));
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS
   private readonly filter$ = new Subject<SearchExam>();
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly examAssignStore: ExamAssignStore,
     private readonly appShellStore: Store<AppShellState>
@@ -46,13 +46,13 @@ export class AssignFilterStore extends ComponentStore<object> {
     this.handleFilter();
   }
 
-  /** PUBLIC METHODS */
-  public filter(params: SearchExam): void {
+  // PUBLIC METHODS
+  filter(params: SearchExam): void {
     this.filter$.next(params);
   }
 
-  /** PRIVATE METHODS */
-  public handleFilter(): void {
+  // PRIVATE METHODS
+  handleFilter(): void {
     this.filter$
       .pipe(
         withLatestFrom(this.myDepartment$),

@@ -37,17 +37,17 @@ import { AssignEditExamDialogStore } from './store';
   ],
 })
 export class AssignEditDialogComponent {
-  /** PUBLIC PROPERTIES */
-  public form!: FormGroup;
-  public readonly status$ = this.store.status$;
-  public readonly rooms$ = this.store.rooms$;
+  // PUBLIC PROPERTIES
+  form!: FormGroup;
+  readonly status$ = this.store.status$;
+  readonly rooms$ = this.store.rooms$;
 
-  /** GETTERS */
+  // GETTERS
   private get roomControl(): FormControl {
     return this.form.controls['idRoom'] as FormControl;
   }
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly fb: FormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT)
@@ -60,21 +60,21 @@ export class AssignEditDialogComponent {
     this.handleStatusChange();
   }
 
-  /** PUBLIC METHODS */
-  public confirm(): void {
+  // PUBLIC METHODS
+  confirm(): void {
     this.store.update({
       examId: this.context.data.id,
       body: this.form.value as UpdateExamModel,
     });
   }
 
-  public cancel(): void {
+  cancel(): void {
     setTimeout(() => {
       this.context.$implicit.complete();
     });
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS
   private initForm(): void {
     this.form = this.fb.group({
       idRoom: ['', Validators.required],

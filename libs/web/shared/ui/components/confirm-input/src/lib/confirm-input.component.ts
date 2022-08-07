@@ -24,72 +24,72 @@ import { AbstractTuiControl } from '@taiga-ui/cdk';
   ],
 })
 export class ConfirmInputComponent implements ControlValueAccessor {
-  /** INPUT */
-  @Input() public field = '';
-  @Input() public type = '';
-  @Input() public disableConfirm = false;
+  // INPUT
+  @Input() field = '';
+  @Input() type = '';
+  @Input() disableConfirm = false;
 
-  /** OUTPUT */
-  @Output() public save = new EventEmitter();
+  // OUTPUT
+  @Output() save = new EventEmitter();
 
-  /** VIEWCHILD */
+  // VIEWCHILD
   @ViewChild(AbstractTuiControl)
-  public inputComponent!: AbstractTuiControl<string>;
+  inputComponent!: AbstractTuiControl<string>;
 
-  /** PUBLIC PROPERTIES */
-  public initialValue = '';
-  public value = '';
-  public processing = false;
-  public showEdit = false;
+  // PUBLIC PROPERTIES
+  initialValue = '';
+  value = '';
+  processing = false;
+  showEdit = false;
 
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES
   private onChange!: (value: string) => void;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(private readonly cdr: ChangeDetectorRef) {}
 
-  /** IMPLEMENTATIONS */
-  public writeValue(value: string): void {
+  // IMPLEMENTATIONS
+  writeValue(value: string): void {
     this.initialValue = this.value = value;
     this.cdr.markForCheck();
   }
 
-  public registerOnChange(onChange: (value: string) => void): void {
+  registerOnChange(onChange: (value: string) => void): void {
     this.onChange = onChange;
   }
 
-  public registerOnTouched(): void {
+  registerOnTouched(): void {
     // Do nothing
   }
 
-  /** PUBLIC METHODS */
-  public onValueChange(value: string): void {
+  // PUBLIC METHODS
+  onValueChange(value: string): void {
     this.value = value;
     this.onChange(value);
   }
 
-  public onEdit(): void {
+  onEdit(): void {
     this.showEdit = true;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (this.inputComponent as any).nativeFocusableElement?.focus();
   }
 
-  public onCancel(): void {
+  onCancel(): void {
     this.showEdit = false;
     this.value = this.initialValue;
   }
 
-  public saveStart(): void {
+  saveStart(): void {
     this.processing = true;
     this.save.emit(this.value);
   }
 
-  public saveValue(): void {
+  saveValue(): void {
     this.writeValue(this.value);
     this.onChange(this.value);
   }
 
-  public finish() {
+  finish() {
     this.showEdit = false;
     this.processing = false;
     this.cdr.markForCheck();
