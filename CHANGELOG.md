@@ -2,6 +2,47 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.14.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.13.0...v3.14.0) (2022-08-07)
+
+
+### Features
+
+* remove sqlDateFactory ([ecefd2c](https://github.com/annguyen-it/teaching-scheduling-system/commit/ecefd2c73daf65aab03cccd8de3ae042e1810626))
+
+
+### Bug Fixes
+
+* **calendar:** month view layout should not break ([c618226](https://github.com/annguyen-it/teaching-scheduling-system/commit/c61822638d8a31c53da6d8fdf3f8f39112f537db))
+* **calendar:** wrong filter after navigation from other routes ([8c46ffd](https://github.com/annguyen-it/teaching-scheduling-system/commit/8c46ffd54c51dccf1bbb5f3b184cf1f096b1a173))
+* **dep:** upgrade @types/node to 17.0.45 ([98ac4b3](https://github.com/annguyen-it/teaching-scheduling-system/commit/98ac4b38894f8f8a313934afdc273285c54bd017))
+* **dep:** upgrade taiga-ui to 2.55.0 ([3ee64c7](https://github.com/annguyen-it/teaching-scheduling-system/commit/3ee64c7ce07f18dc547951f71cfa64402785b2e3))
+* **shell:** checkbox items list in mobile sidebar should not have left border ([b8224e3](https://github.com/annguyen-it/teaching-scheduling-system/commit/b8224e3eec2c456966e285f6a6f10365ffd0775b))
+
+## [3.13.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.12.1...v3.13.0) (2022-08-06)
+
+
+### Features
+
+* **calendar:** filter by schedule type for mobile ([557231f](https://github.com/annguyen-it/teaching-scheduling-system/commit/557231f13450b2462429a2704805a21313e86be6))
+* **exam/assign:** disable filter button after filter ([6db9f61](https://github.com/annguyen-it/teaching-scheduling-system/commit/6db9f611e2cb5be3aae8838928f911a235df02c3))
+
+
+### Bug Fixes
+
+* **dep:** upgrade @nrwl/nx-cloud to 14.3.0 ([32be753](https://github.com/annguyen-it/teaching-scheduling-system/commit/32be753c049472607532e300f2fb6cb2629dab5d))
+* **dep:** upgrade autoprefixer to 10.4.8 ([3bbcf44](https://github.com/annguyen-it/teaching-scheduling-system/commit/3bbcf4431bc5e12b6d6ba408f829dc81ba06c380))
+* **dep:** upgrade taiga-ui to 2.54.1 ([dae24a8](https://github.com/annguyen-it/teaching-scheduling-system/commit/dae24a8b186bbe8a74f4f37838432b77642bf337))
+* **dep:** upgrade tailwindcss to 3.1.8 ([76f5c69](https://github.com/annguyen-it/teaching-scheduling-system/commit/76f5c69f36652f5fda1a1398880f9524d9d51a7d))
+* **shell:** auto toggle on sidebar does not work on route /schedule/import ([91e1ca9](https://github.com/annguyen-it/teaching-scheduling-system/commit/91e1ca99cc1cb6538f4e2cf0cf6b0a346776f453))
+
+### [3.12.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.12.0...v3.12.1) (2022-08-01)
+
+
+### Bug Fixes
+
+* **calendar:** month view layout should not break ([196e5c8](https://github.com/annguyen-it/teaching-scheduling-system/commit/196e5c8c5e4db19606330bd57dd2d52742841498))
+* **dep:** upgrade taiga-ui to 2.53.0 ([448e4a8](https://github.com/annguyen-it/teaching-scheduling-system/commit/448e4a8d1d0932c7e260ac5aa00dd1d0f7b0da84))
+
 ## [3.12.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.11.0...v3.12.0) (2022-07-28)
 
 

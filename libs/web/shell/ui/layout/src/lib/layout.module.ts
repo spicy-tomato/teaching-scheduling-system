@@ -7,6 +7,11 @@ import {
   appShellFeatureKey,
   appShellReducer,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
+import {
+  SidebarEffects,
+  sidebarFeatureKey,
+  sidebarReducer,
+} from '@teaching-scheduling-system/web/shell/data-access';
 import { MainViewModule } from '@teaching-scheduling-system/web/shell/ui/main-view';
 import { NavbarModule } from '@teaching-scheduling-system/web/shell/ui/navbar';
 import { SidebarModule } from '@teaching-scheduling-system/web/shell/ui/sidebar';
@@ -14,17 +19,12 @@ import { LayoutComponent } from './layout.component';
 
 const NGRX = [
   StoreModule.forFeature(appShellFeatureKey, appShellReducer),
-  EffectsModule.forFeature([AppShellEffects]),
+  StoreModule.forFeature(sidebarFeatureKey, sidebarReducer),
+  EffectsModule.forFeature([AppShellEffects, SidebarEffects]),
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    NavbarModule,
-    SidebarModule,
-    MainViewModule,
-    ...NGRX,
-  ],
+  imports: [CommonModule, NavbarModule, SidebarModule, MainViewModule, ...NGRX],
   declarations: [LayoutComponent],
   exports: [LayoutComponent],
 })

@@ -2,7 +2,7 @@ import { TuiDay, TuiDayRange } from '@taiga-ui/cdk';
 import { TuiDayRangePeriod } from '@taiga-ui/kit';
 
 export class InputDateRangeConstant {
-  public static getPeriods(): ReadonlyArray<TuiDayRangePeriod> {
+  static getPeriods(): ReadonlyArray<TuiDayRangePeriod> {
     const today = TuiDay.currentLocal();
     const startOfMonth = today.append({ day: 1 - today.day });
     const startOfYear = new TuiDay(today.year, 0, 1);
@@ -36,7 +36,7 @@ export class InputDateRangeConstant {
     ];
   }
 
-  public static getPreviousMonthRange(): TuiDayRange {
+  static getPreviousMonthRange(): TuiDayRange {
     return this.getPeriods()[1].range;
   }
 }

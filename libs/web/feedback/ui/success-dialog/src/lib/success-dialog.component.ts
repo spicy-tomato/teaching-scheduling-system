@@ -17,10 +17,10 @@ import { Observable, takeUntil } from 'rxjs';
   providers: [TuiDestroyService],
 })
 export class SuccessDialogComponent {
-  /** PUBLIC PROPERTIES */
-  public nameTitle$!: Observable<string>;
+  // PUBLIC PROPERTIES
+  nameTitle$!: Observable<string>;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly router: Router,
     @Inject(POLYMORPHEUS_CONTEXT)
@@ -33,15 +33,15 @@ export class SuccessDialogComponent {
       .pipe(takeUntil(this.destroy$));
   }
 
-  /** PUBLIC METHODS */
-  public returnHome(): void {
+  // PUBLIC METHODS
+  returnHome(): void {
     setTimeout(() => {
       this.context.$implicit.complete();
       void this.router.navigate(['']);
     });
   }
 
-  public seeFeedback(): void {
+  seeFeedback(): void {
     setTimeout(() => {
       this.context.$implicit.complete();
     });

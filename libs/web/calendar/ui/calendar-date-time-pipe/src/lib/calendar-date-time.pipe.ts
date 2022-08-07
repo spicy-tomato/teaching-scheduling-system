@@ -5,7 +5,7 @@ import { DateHelper } from '@teaching-scheduling-system/core/utils/helpers';
   name: 'calendarDateTime',
 })
 export class CalendarDateTimePipe implements PipeTransform {
-  public transform(from: Date, to: Date): string {
+  transform(from: Date, to: Date): string {
     const fromDate = from.getDate();
     const fromMonth = from.getMonth() + 1;
     const fromYear = from.getFullYear();

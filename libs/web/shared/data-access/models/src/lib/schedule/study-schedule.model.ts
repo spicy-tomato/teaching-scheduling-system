@@ -20,7 +20,7 @@ export class StudyScheduleModel extends ScheduleModel {
     super(id, idModuleClass, name, idRoom, 'study', note, [teacher]);
   }
 
-  public static parse(obj: StudyScheduleModel): StudyScheduleModel {
+  static parse(obj: StudyScheduleModel): StudyScheduleModel {
     return new StudyScheduleModel(
       obj.id,
       obj.idModuleClass,
@@ -36,7 +36,7 @@ export class StudyScheduleModel extends ScheduleModel {
     );
   }
 
-  public toEjsSchedule(): EjsScheduleModel {
+  toEjsSchedule(): EjsScheduleModel {
     const [start, end] = DateHelper.fromShift(this.date, this.shift);
 
     return {

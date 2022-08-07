@@ -22,10 +22,10 @@ import { EjsScheduleModel } from '@teaching-scheduling-system/web/shared/data-ac
   ],
 })
 export class QuickInfoHeaderComponent {
-  /** INPUT */
-  @Input() public data!: EjsScheduleModel;
+  // INPUT
+  @Input() data!: EjsScheduleModel;
 
-  /** OUTPUT */
-  @Output() public showEditorDialog = new EventEmitter<void>();
-  @Output() public closeDialog = new EventEmitter<void>();
+  // OUTPUT
+  @Output() showEditorDialog = new EventEmitter<void>();
+  @Output() closeDialog = new EventEmitter<void>();
 }

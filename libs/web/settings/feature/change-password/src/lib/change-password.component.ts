@@ -5,31 +5,24 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Store } from '@ngrx/store';
-import { TuiDestroyService, TuiValidationError } from '@taiga-ui/cdk';
+import { TuiValidationError } from '@taiga-ui/cdk';
 import { TuiAlertService, TuiNotification } from '@taiga-ui/core';
 import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
 import { requiredFactory } from '@teaching-scheduling-system/core/utils/factories';
 import { StringHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import { SettingsChangePasswordStore } from '@teaching-scheduling-system/web/settings/data-access';
-import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import { ChangePassword } from '@teaching-scheduling-system/web/shared/data-access/models';
-import {
-  AppShellState,
-  selectNameTitle,
-} from '@teaching-scheduling-system/web/shared/data-access/store';
 import {
   differentControlValueValidator,
   sameControlValueValidator,
 } from '@teaching-scheduling-system/web/shared/utils/validators';
-import { Observable, takeUntil, tap } from 'rxjs';
+import { tap } from 'rxjs';
 
 @Component({
   templateUrl: './change-password.component.html',
   styleUrls: ['./change-password.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    TuiDestroyService,
     {
       provide: TUI_VALIDATION_ERRORS,
       useValue: {
@@ -40,44 +33,37 @@ import { Observable, takeUntil, tap } from 'rxjs';
   ],
 })
 export class ChangePasswordComponent {
-  /** PUBLIC METHODS */
-  public form!: FormGroup;
-  public status$: Observable<EApiStatus>;
-  public nameTitle$!: Observable<string>;
+  // PUBLIC METHODS
+  status$ = this.store.status$;
+  nameTitle$ = this.store.nameTitle$;
+  form!: FormGroup;
 
-  /** GETTERS */
+  // GETTERS
   private get password(): FormControl {
     return this.form.controls['password'] as FormControl;
   }
 
-  public get newPassword(): FormControl {
+  get newPassword(): FormControl {
     return this.form.controls['newPassword'] as FormControl;
   }
 
-  public get confirmPassword(): FormControl {
+  get confirmPassword(): FormControl {
     return this.form.controls['confirmPassword'] as FormControl;
   }
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly fb: FormBuilder,
     private readonly store: SettingsChangePasswordStore,
     @Inject(TuiAlertService)
-    private readonly alertService: TuiAlertService,
-    private readonly destroy$: TuiDestroyService,
-    appShellStore: Store<AppShellState>
+    private readonly alertService: TuiAlertService
   ) {
-    this.status$ = store.status$;
-    this.nameTitle$ = appShellStore
-      .select(selectNameTitle)
-      .pipe(takeUntil(this.destroy$));
-
     this.initForm();
     this.handleStatusChange();
   }
 
-  /** PUBLIC METHODS */
-  public onSubmit(): void {
+  // PUBLIC METHODS
+  onSubmit(): void {
     if (this.form.valid) {
       const password = this.password.value as string;
       const newPassword = this.newPassword.value as string;
@@ -90,21 +76,21 @@ export class ChangePasswordComponent {
     }
   }
 
-  public onPasswordChange(): void {
+  onPasswordChange(): void {
     this.newPassword.updateValueAndValidity();
   }
 
-  public onNewPasswordChange(): void {
+  onNewPasswordChange(): void {
     this.confirmPassword.updateValueAndValidity();
   }
 
-  public onConfirmPasswordChange(): void {
+  onConfirmPasswordChange(): void {
     if (this.confirmPassword.untouched) {
       this.confirmPassword.markAllAsTouched();
     }
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS
   private initForm(): void {
     this.form = this.fb.group({
       password: ['', Validators.required],

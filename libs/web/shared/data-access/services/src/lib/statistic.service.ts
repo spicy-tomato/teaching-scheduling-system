@@ -21,10 +21,10 @@ import {
   providedIn: 'root',
 })
 export class StatisticService {
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES
   private readonly url: string;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly http: HttpClient,
     @Inject(APP_CONFIG) config: AppConfig
@@ -32,7 +32,7 @@ export class StatisticService {
     this.url = config.baseUrl;
   }
 
-  public getDepartment(
+  getDepartment(
     departmentId: string,
     params: QueryFilterResult<ChangeScheduleStatistic, string>
   ): Observable<ResponseModel<ChangeSchedule[]>> {
@@ -46,7 +46,7 @@ export class StatisticService {
     );
   }
 
-  public getPersonal(
+  getPersonal(
     range: TuiDayRange,
     teacherId: string
   ): Observable<ResponseModel<ChangeSchedule[]>> {

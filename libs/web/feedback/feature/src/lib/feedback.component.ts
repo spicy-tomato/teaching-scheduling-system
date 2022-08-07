@@ -5,51 +5,71 @@ import {
   Injector,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TuiBooleanHandler, TuiDestroyService } from '@taiga-ui/cdk';
+import { TuiEditorTool } from '@taiga-ui/addon-editor';
+import { TuiBooleanHandler } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import {
-  EditorConstant,
-  FeedbackConstant,
-  FeedbackItem,
-} from '@teaching-scheduling-system/core/data-access/constants';
+  tuiIconDesktopLarge,
+  tuiIconSettingsLarge,
+  tuiIconStarLarge,
+} from '@taiga-ui/icons';
 import { SuccessDialogComponent } from '@teaching-scheduling-system/web/feedback/ui/success-dialog';
 import { Feedback } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { SuccessDialogHeaderComponent } from '@teaching-scheduling-system/web/shared/ui/components/success-dialog-header';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { Observable, takeUntil, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { FeedbackStore } from './store';
+
+interface FeedbackItem {
+  key: number;
+  label: string;
+  icon: string;
+}
 
 @Component({
   templateUrl: './feedback.component.html',
   styleUrls: ['./feedback.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [FeedbackStore, TuiDestroyService],
 })
 export class FeedbackComponent {
-  /** PUBLIC PROPERTIES */
-  public form!: FormGroup;
-  public readonly topics = FeedbackConstant.items;
-  public readonly tools = EditorConstant.tools;
-  public readonly status$ = this.store.status$;
+  // PUBLIC PROPERTIES
+  form!: FormGroup;
+  readonly topics: FeedbackItem[] = [
+    { key: 0, label: 'Chung', icon: tuiIconStarLarge },
+    { key: 1, label: 'Giao diện', icon: tuiIconDesktopLarge },
+    { key: 2, label: 'Chức năng', icon: tuiIconSettingsLarge },
+  ];
+  readonly tools = [
+    TuiEditorTool.Undo,
+    TuiEditorTool.Size,
+    TuiEditorTool.Bold,
+    TuiEditorTool.Italic,
+    TuiEditorTool.Underline,
+    TuiEditorTool.Strikethrough,
+    TuiEditorTool.Align,
+    TuiEditorTool.List,
+    TuiEditorTool.Link,
+    TuiEditorTool.Color,
+  ];
+  readonly status$ = this.store.status$;
 
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES
   private successDialog$!: Observable<void>;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly fb: FormBuilder,
     private readonly store: FeedbackStore,
     @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
-    @Inject(Injector) private readonly injector: Injector,
-    private readonly destroy$: TuiDestroyService
+    @Inject(Injector) private readonly injector: Injector
   ) {
     this.initDialog();
     this.handleSubmit();
     this.initForm();
   }
 
-  /** PUBLIC METHODS */
-  public onSubmit(): void {
+  // PUBLIC METHODS
+  onSubmit(): void {
     if (this.form.valid) {
       const title = this.form.get('title')?.value as string;
       const form: Feedback = {
@@ -66,10 +86,10 @@ export class FeedbackComponent {
     }
   }
 
-  public readonly disabledItemHandler: TuiBooleanHandler<FeedbackItem> = () =>
+  readonly disabledItemHandler: TuiBooleanHandler<FeedbackItem> = () =>
     this.form.disabled;
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS
   private initDialog(): void {
     this.successDialog$ = this.dialogService.open(
       new PolymorpheusComponent(SuccessDialogComponent, this.injector),
@@ -99,8 +119,7 @@ export class FeedbackComponent {
             this.openSuccessDialog();
             this.form.disable();
           }
-        }),
-        takeUntil(this.destroy$)
+        })
       )
       .subscribe();
   }

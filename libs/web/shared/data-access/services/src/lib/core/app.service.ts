@@ -8,7 +8,7 @@ import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
 export class AppService {
   constructor(private readonly router: Router) {}
 
-  public redirectToLogin(redirect?: string): void {
+  redirectToLogin(redirect?: string): void {
     if (redirect?.includes('/login')) {
       redirect = '';
     }
@@ -17,7 +17,7 @@ export class AppService {
     });
   }
 
-  public redirectToApp(redirect?: Nullable<string>): void {
+  redirectToApp(redirect?: Nullable<string>): void {
     if (redirect) {
       void this.router.navigate([redirect]);
       return;

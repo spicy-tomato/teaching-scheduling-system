@@ -4,6 +4,7 @@ import {
   Component,
   Inject,
   Injector,
+  OnDestroy,
   OnInit,
   TemplateRef,
   ViewChild,
@@ -49,8 +50,13 @@ import {
   EjsScheduleModel,
   FixedScheduleModel,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
+import {
+  SidebarState,
+  sidebar_listen,
+  sidebar_reset,
+  sidebar_selectEvent,
+} from '@teaching-scheduling-system/web/shell/data-access';
 import { NavbarService } from '@teaching-scheduling-system/web/shell/ui/navbar';
-import { SidebarService } from '@teaching-scheduling-system/web/shell/ui/sidebar';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import {
   BehaviorSubject,
@@ -74,15 +80,15 @@ import {
     AgendaService,
   ],
 })
-export class CalendarComponent implements OnInit, AfterViewInit {
-  /** VIEWCHILD */
-  @ViewChild('schedule') public scheduleComponent!: ScheduleComponent;
-  @ViewChild('rightMenu') public rightMenuTemplate!: TemplateRef<never>;
+export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
+  // VIEWCHILD
+  @ViewChild('schedule') scheduleComponent!: ScheduleComponent;
+  @ViewChild('rightMenu') rightMenuTemplate!: TemplateRef<never>;
 
-  /** PUBLIC PROPERTIES */
-  public readonly eventSettings$ = new BehaviorSubject<EventSettingsModel>({});
+  // PUBLIC PROPERTIES
+  readonly eventSettings$ = new BehaviorSubject<EventSettingsModel>({});
 
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES
   private readonly staticSettings: EventSettingsModel = {
     allowAdding: false,
     allowEditing: true,
@@ -90,35 +96,38 @@ export class CalendarComponent implements OnInit, AfterViewInit {
   };
   private calendars: Record<string, boolean> = {};
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly destroy$: TuiDestroyService,
     @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
     @Inject(Injector) private readonly injector: Injector,
     private readonly navbarService: NavbarService,
-    private readonly sidebarService: SidebarService,
+    private readonly sidebarStore: Store<SidebarState>,
     private readonly store: Store<CalendarState>
   ) {
     this.store.dispatch(calendarReset());
     this.handleLoadSchedule();
     this.handleSidebarAddItem();
-    this.handleSidebarCheckboxChange();
   }
 
-  /** LIFECYCLE */
-  public ngOnInit(): void {
+  // LIFECYCLE
+  ngOnInit(): void {
     this.store.dispatch(calendarLoad({ date: new Date() }));
   }
 
-  public ngAfterViewInit(): void {
+  ngAfterViewInit(): void {
     this.handleSelectedDateChanges();
     this.handleChangeView();
     this.handleChangeStatus();
     this.navbarService.addRightMenu(this.rightMenuTemplate);
   }
 
-  /** PUBLIC METHODS */
-  public onRenderCell(args: RenderCellEventArgs): void {
+  ngOnDestroy(): void {
+    this.sidebarStore.dispatch(sidebar_reset());
+  }
+
+  // PUBLIC METHODS
+  onRenderCell(args: RenderCellEventArgs): void {
     if (args.element.classList.contains('e-work-cells')) {
       if (args.date && DateHelper.sameDay(args.date, new Date())) {
         args.element.classList.add('today');
@@ -130,7 +139,7 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public onEventRendered(args: EventRenderedArgs): void {
+  onEventRendered(args: EventRenderedArgs): void {
     switch (args.data['Type']) {
       case 'exam':
         args.element.style.backgroundColor = '#ff0000';
@@ -154,7 +163,7 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public onCreated(): void {
+  onCreated(): void {
     const popup = document.querySelector('.e-quick-popup-wrapper');
     if (!popup) return;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -162,9 +171,11 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     popupInstance.open = () => {
       popupInstance.refreshPosition();
     };
+
+    this.handleSidebarCheckboxChange();
   }
 
-  public onPopupOpen(args: PopupOpenEventArgs): void {
+  onPopupOpen(args: PopupOpenEventArgs): void {
     if (!args.data) return;
 
     if (args.type === 'Editor') {
@@ -173,7 +184,7 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public onNavigating(args: NavigatingEventArgs): void {
+  onNavigating(args: NavigatingEventArgs): void {
     if (!DeviceHelper.isTouchDevice()) {
       return;
     }
@@ -198,7 +209,7 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public onShowEditorDialog(data: EjsScheduleModel): void {
+  onShowEditorDialog(data: EjsScheduleModel): void {
     switch (data.Type) {
       case 'exam':
         this.showExamEditorDialog(data);
@@ -211,11 +222,11 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public onCloseEditorDialog(): void {
+  onCloseEditorDialog(): void {
     this.scheduleComponent.closeQuickInfoPopup();
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS
   private handleLoadSchedule(): void {
     this.store
       .select(calendarSelectFilteredSchedule)
@@ -234,9 +245,9 @@ export class CalendarComponent implements OnInit, AfterViewInit {
   }
 
   private handleSidebarAddItem(): void {
-    this.sidebarService
-      .listen('calendar.create')
+    this.sidebarStore
       .pipe(
+        sidebar_listen('calendar.create'),
         tap((events) => {
           events.forEach((e) => {
             if (!this.calendars[e]) {
@@ -250,8 +261,10 @@ export class CalendarComponent implements OnInit, AfterViewInit {
   }
 
   private handleSidebarCheckboxChange(): void {
-    this.sidebarService.event$
+    this.sidebarStore
+      .select(sidebar_selectEvent)
       .pipe(
+        ObservableHelper.filterNullish(),
         filter(
           (e) => e.name === 'calendar.exam' || e.name === 'calendar.study'
         ),
@@ -276,7 +289,8 @@ export class CalendarComponent implements OnInit, AfterViewInit {
           this.scheduleComponent.eventSettings.query = predicate
             ? new Query().where(predicate)
             : new Query();
-        })
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe();
   }

@@ -5,24 +5,14 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Store } from '@ngrx/store';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiAlertService, TuiNotification } from '@taiga-ui/core';
 import { TuiFileLike } from '@taiga-ui/kit';
 import { CoreConstant } from '@teaching-scheduling-system/core/data-access/constants';
 import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
-import {
-  ObservableHelper,
-  UtilsHelper,
-} from '@teaching-scheduling-system/core/utils/helpers';
-import { SimpleModel } from '@teaching-scheduling-system/web/shared/data-access/models';
-import {
-  AppShellState,
-  selectDepartment,
-  selectSchoolYear,
-} from '@teaching-scheduling-system/web/shared/data-access/store';
+import { UtilsHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import { StatisticImportScheduleStore } from '@teaching-scheduling-system/web/teaching-schedule/data-access';
-import { map, Observable, Subject, takeUntil, tap } from 'rxjs';
+import { map, Observable, Subject, tap } from 'rxjs';
 
 @Component({
   templateUrl: './import.component.html',
@@ -31,23 +21,23 @@ import { map, Observable, Subject, takeUntil, tap } from 'rxjs';
   providers: [TuiDestroyService],
 })
 export class ImportComponent {
-  /** PUBLIC PROPERTIES */
-  public form!: FormGroup;
-  public schoolYears$!: Observable<string[]>;
+  // PUBLIC PROPERTIES
+  form!: FormGroup;
+  schoolYears$!: Observable<string[]>;
 
-  public readonly currentTerm$: Observable<string>;
-  public readonly department$: Observable<SimpleModel>;
-  public readonly termsInYear = CoreConstant.TERMS_IN_YEAR;
-  public readonly batchesInTerm = CoreConstant.BATCHES_IN_TERM;
-  public readonly rejectedFiles$ = new Subject<Nullable<TuiFileLike>>();
-  public readonly status$ = this.store.status$;
+  readonly termsInYear = CoreConstant.TERMS_IN_YEAR;
+  readonly batchesInTerm = CoreConstant.BATCHES_IN_TERM;
+  readonly rejectedFiles$ = new Subject<Nullable<TuiFileLike>>();
+  readonly currentTerm$ = this.store.currentTerm$;
+  readonly department$ = this.store.department$;
+  readonly status$ = this.store.status$;
 
-  /** GETTERS */
-  public get fileControl(): FormControl {
+  // GETTERS
+  get fileControl(): FormControl {
     return this.form.controls['file'] as FormControl;
   }
 
-  public get termInYearControl(): FormControl {
+  get termInYearControl(): FormControl {
     return this.form.controls['termInYear'] as FormControl;
   }
 
@@ -55,40 +45,31 @@ export class ImportComponent {
     return this.form.controls['batchInTerm'] as FormControl;
   }
 
-  public get file(): File {
+  get file(): File {
     return this.fileControl.value as File;
   }
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly fb: FormBuilder,
     @Inject(TuiAlertService)
     private readonly alertService: TuiAlertService,
-    private readonly destroy$: TuiDestroyService,
-    private readonly store: StatisticImportScheduleStore,
-    appShellStore: Store<AppShellState>
+    private readonly store: StatisticImportScheduleStore
   ) {
-    this.currentTerm$ = appShellStore
-      .select(selectSchoolYear)
-      .pipe(takeUntil(this.destroy$));
-    this.department$ = appShellStore
-      .select(selectDepartment)
-      .pipe(ObservableHelper.filterNullish(), takeUntil(this.destroy$));
-
     this.initForm();
     this.triggerSchoolYearChange();
     this.handleStatusChange();
   }
 
-  /** PUBLIC METHODS */
-  public onTermInYearChange(termInYear: number): void {
+  // PUBLIC METHODS
+  onTermInYearChange(termInYear: number): void {
     const selectedBatchInTerm = this.batchInTermControl.value as number;
     if (!this.batchesInTerm[termInYear].includes(selectedBatchInTerm)) {
       this.batchInTermControl.setValue(1);
     }
   }
 
-  public onReject(file: TuiFileLike | readonly TuiFileLike[]): void {
+  onReject(file: TuiFileLike | readonly TuiFileLike[]): void {
     if (file instanceof Array) {
       this.rejectedFiles$.next(file[0]);
     } else {
@@ -96,11 +77,11 @@ export class ImportComponent {
     }
   }
 
-  public removeFile(): void {
+  removeFile(): void {
     this.fileControl.setValue(null);
   }
 
-  public importFile(): void {
+  importFile(): void {
     const schoolYear = this.form.controls['schoolYear'].value as string;
     const termInYear = this.form.controls['termInYear'].value as string;
     const batchInTerm = this.form.controls['batchInTerm'].value as string;
@@ -109,7 +90,7 @@ export class ImportComponent {
     this.store.importFile({ file: this.file, studySession });
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS
   private initForm(): void {
     this.form = this.fb.group({
       schoolYear: [null, Validators.required],
@@ -134,8 +115,7 @@ export class ImportComponent {
           } else if (status === 'clientError') {
             this.showErrorNotification();
           }
-        }),
-        takeUntil(this.destroy$)
+        })
       )
       .subscribe();
   }

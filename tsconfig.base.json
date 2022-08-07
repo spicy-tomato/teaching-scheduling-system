@@ -226,6 +226,9 @@
       "@teaching-scheduling-system/web/shared/utils/validators": [
         "libs/web/shared/utils/validators/src/index.ts"
       ],
+      "@teaching-scheduling-system/web/shell/data-access": [
+        "libs/web/shell/data-access/src/index.ts"
+      ],
       "@teaching-scheduling-system/web/shell/feature": [
         "libs/web/shell/feature/src/index.ts"
       ],

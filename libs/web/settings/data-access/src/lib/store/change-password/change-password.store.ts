@@ -8,20 +8,27 @@ import {
 import { UserService } from '@teaching-scheduling-system/web/shared/data-access/services';
 import {
   AppShellState,
+  selectNameTitle,
   selectNotNullTeacher,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
-import { switchMap, tap, withLatestFrom } from 'rxjs';
+import { switchMap, takeUntil, tap, withLatestFrom } from 'rxjs';
 
 type ExamState = GenericState<void>;
 
 @Injectable()
 export class SettingsChangePasswordStore extends ComponentStore<ExamState> {
-  /** PUBLIC PROPERTIES */
-  public readonly status$ = this.select((s) => s.status);
-  private readonly teacher$ = this.appShellStore.pipe(selectNotNullTeacher);
+  // PUBLIC PROPERTIES
+  readonly status$ = this.select((s) => s.status);
+  readonly nameTitle$ = this.appShellStore
+    .select(selectNameTitle)
+    .pipe(takeUntil(this.destroy$));
+  private readonly teacher$ = this.appShellStore.pipe(
+    selectNotNullTeacher,
+    takeUntil(this.destroy$)
+  );
 
-  /** EFFECTS */
-  public readonly change = this.effect<{ form: ChangePassword }>((params$) =>
+  // EFFECTS
+  readonly change = this.effect<{ form: ChangePassword }>((params$) =>
     params$.pipe(
       tap(() => this.patchState({ status: 'loading', error: null })),
       withLatestFrom(this.teacher$),
@@ -44,7 +51,7 @@ export class SettingsChangePasswordStore extends ComponentStore<ExamState> {
     )
   );
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly userService: UserService,
     private readonly appShellStore: Store<AppShellState>

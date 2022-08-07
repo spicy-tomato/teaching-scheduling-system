@@ -35,8 +35,8 @@ import {
   providers: [TuiDestroyService],
 })
 export class UserInfoComponent {
-  /** PUBLIC PROPERTIES */
-  public readonly fields = [
+  // PUBLIC PROPERTIES
+  readonly fields = [
     {
       formControlName: 'name',
       placeholder: 'Họ và tên',
@@ -56,20 +56,20 @@ export class UserInfoComponent {
       type: 'input-phone',
     },
   ];
-  public readonly save$ = new Subject<{
+  readonly save$ = new Subject<{
     controlName: string;
     value: string;
   }>();
-  public form!: FormGroup;
+  form!: FormGroup;
 
-  /** VIEW CHILDREN */
+  // VIEW CHILDREN
   @ViewChildren(ConfirmInputComponent)
   confirmInputs!: QueryList<ConfirmInputComponent>;
 
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES
   private readonly teacher$: Observable<Teacher>;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly fb: FormBuilder,
     private readonly userService: UserService,
@@ -88,7 +88,7 @@ export class UserInfoComponent {
     this.handleSave();
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS
   private initForm(): void {
     this.form = this.fb.group({
       name: [],

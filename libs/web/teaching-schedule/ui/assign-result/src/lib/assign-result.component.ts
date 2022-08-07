@@ -21,14 +21,14 @@ import { combineLatest, map, Observable, takeUntil } from 'rxjs';
   providers: [TuiDestroyService],
 })
 export class AssignResultComponent {
-  /** PUBLIC PROPERTIES */
-  public data$!: Observable<ModuleClass[]>;
+  // PUBLIC PROPERTIES
+  data$!: Observable<ModuleClass[]>;
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS
   private assigned$: Observable<ModuleClass[]>;
   private selectedTeacher$: Observable<Nullable<SimpleModel>>;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     store: Store<TeachingScheduleAssignState>,
     destroy$: TuiDestroyService
@@ -43,7 +43,7 @@ export class AssignResultComponent {
     this.triggerChangeData();
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS
   private triggerChangeData(): void {
     this.data$ = combineLatest([this.assigned$, this.selectedTeacher$]).pipe(
       map(([assigned, teacher]) =>
