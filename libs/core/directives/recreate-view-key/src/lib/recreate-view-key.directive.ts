@@ -11,8 +11,8 @@ import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
   selector: '[tssRecreateViewKey]',
 })
 export class RecreateViewKeyDirective {
-  /** INPUT */
-  @Input('tssRecreateViewKey') public set key(value: unknown) {
+  // INPUT
+  @Input('tssRecreateViewKey') set key(value: unknown) {
     if (value !== this._key) {
       if (this.viewRef) {
         this.viewContainer.clear();
@@ -22,11 +22,11 @@ export class RecreateViewKeyDirective {
     }
   }
 
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES
   private viewRef: Nullable<EmbeddedViewRef<unknown>> = null;
   private _key: unknown = null;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly templateRef: TemplateRef<unknown>,
     private readonly viewContainer: ViewContainerRef

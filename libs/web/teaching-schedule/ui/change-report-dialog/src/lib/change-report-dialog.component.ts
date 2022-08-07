@@ -28,20 +28,20 @@ import { ExportDialogStore } from './store';
   ],
 })
 export class ChangeReportDialogComponent {
-  /** PUBLIC PROPERTIES */
-  public form!: FormGroup;
-  public readonly status$ = this.store.status$;
-  public readonly confirm$ = new Subject<void>();
+  // PUBLIC PROPERTIES
+  form!: FormGroup;
+  readonly status$ = this.store.status$;
+  readonly confirm$ = new Subject<void>();
 
-  /** GETTERS */
+  // GETTERS
   private get rangeControlValue(): TuiDayRange {
     return this.form.controls['range'].value as TuiDayRange;
   }
 
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES
   private readonly teacher$ = this.store.teacher$;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly fb: FormBuilder,
     private readonly store: ExportDialogStore,
@@ -54,7 +54,7 @@ export class ChangeReportDialogComponent {
     this.handleReceiveData();
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS
   private initForm(): void {
     this.form = this.fb.group({
       range: [

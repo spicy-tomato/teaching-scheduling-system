@@ -1,18 +1,18 @@
 export class CoreConstant {
-  public static readonly REASON_CHANGE_SCHEDULE_MAX_LENGTH = 500;
-  public static readonly INTEND_TIME_CHANGE_SCHEDULE_MAX_LENGTH = 100;
-  public static readonly NOTE_MAX_LENGTH = 1000;
-  public static readonly TERMS_IN_YEAR = [1, 2];
-  public static readonly BATCHES_IN_TERM: { [key: number]: number[] } = {
+  static readonly REASON_CHANGE_SCHEDULE_MAX_LENGTH = 500;
+  static readonly INTEND_TIME_CHANGE_SCHEDULE_MAX_LENGTH = 100;
+  static readonly NOTE_MAX_LENGTH = 1000;
+  static readonly TERMS_IN_YEAR = [1, 2];
+  static readonly BATCHES_IN_TERM: { [key: number]: number[] } = {
     1: [1, 2, 3],
     2: [1, 2, 3, 5],
   };
-  public static readonly CLASS_TYPE: { [key: number]: string } = {
+  static readonly CLASS_TYPE: { [key: number]: string } = {
     1: 'Lý thuyết',
     2: 'Bài tập',
     3: 'Thực hành',
   };
-  public static readonly SHIFTS: {
+  static readonly SHIFTS: {
     [key: string]: { start: number[]; end: number[] };
   } = {
     '1': {

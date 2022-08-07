@@ -18,8 +18,8 @@ import {
 
 @Injectable()
 export class LoginEffects {
-  /** EFFECTS */
-  public login$ = createEffect(() => {
+  // EFFECTS
+  login$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.clickLogin),
       mergeMap(({ loginForm }) => {
@@ -42,7 +42,7 @@ export class LoginEffects {
     );
   });
 
-  public loginSuccessful$ = createEffect(
+  loginSuccessful$ = createEffect(
     () => {
       return this.actions$.pipe(
         ofType(ApiAction.loginSuccessful),
@@ -62,7 +62,7 @@ export class LoginEffects {
     { dispatch: false }
   );
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly actions$: Actions,
     private readonly route: ActivatedRoute,

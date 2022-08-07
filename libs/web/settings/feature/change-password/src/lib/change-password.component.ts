@@ -33,25 +33,25 @@ import { tap } from 'rxjs';
   ],
 })
 export class ChangePasswordComponent {
-  /** PUBLIC METHODS */
-  public status$ = this.store.status$;
-  public nameTitle$ = this.store.nameTitle$;
-  public form!: FormGroup;
+  // PUBLIC METHODS
+  status$ = this.store.status$;
+  nameTitle$ = this.store.nameTitle$;
+  form!: FormGroup;
 
-  /** GETTERS */
+  // GETTERS
   private get password(): FormControl {
     return this.form.controls['password'] as FormControl;
   }
 
-  public get newPassword(): FormControl {
+  get newPassword(): FormControl {
     return this.form.controls['newPassword'] as FormControl;
   }
 
-  public get confirmPassword(): FormControl {
+  get confirmPassword(): FormControl {
     return this.form.controls['confirmPassword'] as FormControl;
   }
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly fb: FormBuilder,
     private readonly store: SettingsChangePasswordStore,
@@ -62,8 +62,8 @@ export class ChangePasswordComponent {
     this.handleStatusChange();
   }
 
-  /** PUBLIC METHODS */
-  public onSubmit(): void {
+  // PUBLIC METHODS
+  onSubmit(): void {
     if (this.form.valid) {
       const password = this.password.value as string;
       const newPassword = this.newPassword.value as string;
@@ -76,21 +76,21 @@ export class ChangePasswordComponent {
     }
   }
 
-  public onPasswordChange(): void {
+  onPasswordChange(): void {
     this.newPassword.updateValueAndValidity();
   }
 
-  public onNewPasswordChange(): void {
+  onNewPasswordChange(): void {
     this.confirmPassword.updateValueAndValidity();
   }
 
-  public onConfirmPasswordChange(): void {
+  onConfirmPasswordChange(): void {
     if (this.confirmPassword.untouched) {
       this.confirmPassword.markAllAsTouched();
     }
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS
   private initForm(): void {
     this.form = this.fb.group({
       password: ['', Validators.required],

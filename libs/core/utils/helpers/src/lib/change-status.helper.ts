@@ -4,27 +4,27 @@ import {
 } from '@teaching-scheduling-system/core/data-access/models';
 
 export class ChangeStatusHelper {
-  public static isCancelled(status: number): boolean {
+  static isCancelled(status: number): boolean {
     return this.isBetween(status, 100);
   }
 
-  public static isPending(status: number): boolean {
+  static isPending(status: number): boolean {
     return this.isBetween(status, 200);
   }
 
-  public static isApproved(status: number): boolean {
+  static isApproved(status: number): boolean {
     return this.isBetween(status, 300);
   }
 
-  public static isChanged(status: number): boolean {
+  static isChanged(status: number): boolean {
     return this.isBetween(status, 400);
   }
 
-  public static isDenied(status: number): boolean {
+  static isDenied(status: number): boolean {
     return this.isBetween(status, 500);
   }
 
-  public static getType(status: number): Nullable<RequestChangeScheduleType> {
+  static getType(status: number): Nullable<RequestChangeScheduleType> {
     switch (true) {
       case this.isCancelled(status):
         return 'cancel';
@@ -40,7 +40,7 @@ export class ChangeStatusHelper {
     return null;
   }
 
-  public static canExport(status: number): boolean {
+  static canExport(status: number): boolean {
     const statusType = this.getType(status);
     return !(
       statusType === null ||

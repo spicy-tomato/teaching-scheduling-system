@@ -27,14 +27,14 @@ import { Observable, takeUntil } from 'rxjs';
   providers: [TuiDestroyService],
 })
 export class AssignTableComponent implements OnChanges {
-  /** INPUT */
-  @Input() public data!: ModuleClass[];
-  @Input() public excludeTeacher = false;
+  // INPUT
+  @Input() data!: ModuleClass[];
+  @Input() excludeTeacher = false;
 
-  /** PUBLIC PROPERTIES */
-  public form!: FormGroup;
-  public filterStatus$: Observable<EApiStatus>;
-  public readonly columns = [
+  // PUBLIC PROPERTIES
+  form!: FormGroup;
+  filterStatus$: Observable<EApiStatus>;
+  readonly columns = [
     'checkbox',
     'index',
     'name',
@@ -43,19 +43,19 @@ export class AssignTableComponent implements OnChanges {
     'numberReality',
     'teacher',
   ];
-  public classType = CoreConstant.CLASS_TYPE;
-  public defaultSort = defaultSort;
+  classType = CoreConstant.CLASS_TYPE;
+  defaultSort = defaultSort;
 
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES
   private _selectAll = false;
 
-  /** GETTERS */
-  public get selectAll(): boolean {
+  // GETTERS
+  get selectAll(): boolean {
     return this._selectAll;
   }
 
-  /** SETTERS */
-  public set selectAll(checked: boolean) {
+  // SETTERS
+  set selectAll(checked: boolean) {
     this.checkboxes.controls.forEach((checkbox) => {
       checkbox.setValue(checked);
     });
@@ -68,11 +68,11 @@ export class AssignTableComponent implements OnChanges {
     );
   }
 
-  public get checkboxes(): FormArray {
+  get checkboxes(): FormArray {
     return this.form.controls['checkbox'] as FormArray;
   }
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly fb: FormBuilder,
     private readonly store: Store<TeachingScheduleAssignState>,
@@ -83,15 +83,15 @@ export class AssignTableComponent implements OnChanges {
       .pipe(takeUntil(this.destroy$));
   }
 
-  /** LIFECYCLE */
-  public ngOnChanges(changes: SimpleChanges): void {
+  // LIFECYCLE
+  ngOnChanges(changes: SimpleChanges): void {
     if (changes['data']) {
       this.resetForm();
     }
   }
 
-  /** PUBLIC METHODS */
-  public onModelChange(index: number, checked: boolean): void {
+  // PUBLIC METHODS
+  onModelChange(index: number, checked: boolean): void {
     if (
       this._selectAll &&
       this.checkboxes.controls.some((checkbox) => !checkbox.value)
@@ -112,7 +112,7 @@ export class AssignTableComponent implements OnChanges {
     );
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS
   private resetForm(): void {
     this.form = this.fb.group({
       checkbox: this.fb.array(this.data.map(() => false)),

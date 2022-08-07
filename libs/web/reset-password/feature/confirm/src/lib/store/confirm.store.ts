@@ -18,12 +18,12 @@ type ConfirmState = GenericState<EApiStatus>;
 
 @Injectable()
 export class ConfirmStore extends ComponentStore<ConfirmState> {
-  /** PUBLIC PROPERTIES */
-  public readonly status$ = this.select((s) => s.status);
-  public readonly validateStatus$ = this.select((s) => s.data);
+  // PUBLIC PROPERTIES
+  readonly status$ = this.select((s) => s.status);
+  readonly validateStatus$ = this.select((s) => s.data);
 
-  /** EFFECTS */
-  public readonly verifyToken = this.effect<{
+  // EFFECTS
+  readonly verifyToken = this.effect<{
     email: string | null;
     token: string | null;
   }>((params$) =>
@@ -49,7 +49,7 @@ export class ConfirmStore extends ComponentStore<ConfirmState> {
     )
   );
 
-  public readonly reset = this.effect<{ data: ResetPassword }>((params$) =>
+  readonly reset = this.effect<{ data: ResetPassword }>((params$) =>
     params$.pipe(
       tap(() => this.patchState({ status: 'loading', error: null })),
       switchMap(({ data }) =>
@@ -71,7 +71,7 @@ export class ConfirmStore extends ComponentStore<ConfirmState> {
     )
   );
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly router: Router,
     private readonly userService: UserService,
@@ -81,7 +81,7 @@ export class ConfirmStore extends ComponentStore<ConfirmState> {
     this.handleVerifyDone();
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS
   private navigateToRequest(): void {
     void this.router.navigate(['reset-password/request'], {
       state: { validationFailed: true },

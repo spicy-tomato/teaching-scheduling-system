@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.14.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.13.0...v3.14.0) (2022-08-07)
+
+
+### Features
+
+* remove sqlDateFactory ([ecefd2c](https://github.com/annguyen-it/teaching-scheduling-system/commit/ecefd2c73daf65aab03cccd8de3ae042e1810626))
+
+
+### Bug Fixes
+
+* **calendar:** month view layout should not break ([c618226](https://github.com/annguyen-it/teaching-scheduling-system/commit/c61822638d8a31c53da6d8fdf3f8f39112f537db))
+* **calendar:** wrong filter after navigation from other routes ([8c46ffd](https://github.com/annguyen-it/teaching-scheduling-system/commit/8c46ffd54c51dccf1bbb5f3b184cf1f096b1a173))
+* **dep:** upgrade @types/node to 17.0.45 ([98ac4b3](https://github.com/annguyen-it/teaching-scheduling-system/commit/98ac4b38894f8f8a313934afdc273285c54bd017))
+* **dep:** upgrade taiga-ui to 2.55.0 ([3ee64c7](https://github.com/annguyen-it/teaching-scheduling-system/commit/3ee64c7ce07f18dc547951f71cfa64402785b2e3))
+* **shell:** checkbox items list in mobile sidebar should not have left border ([b8224e3](https://github.com/annguyen-it/teaching-scheduling-system/commit/b8224e3eec2c456966e285f6a6f10365ffd0775b))
+
 ## [3.13.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.12.1...v3.13.0) (2022-08-06)
 
 

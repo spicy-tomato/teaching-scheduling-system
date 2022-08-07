@@ -46,24 +46,24 @@ import { ConfirmStore } from './store';
   ],
 })
 export class ConfirmComponent {
-  /** PUBLIC PROPERTIES */
-  public readonly status$ = this.store.status$;
-  public readonly reset$ = new Subject<void>();
-  public form!: FormGroup;
+  // PUBLIC PROPERTIES
+  readonly status$ = this.store.status$;
+  readonly reset$ = new Subject<void>();
+  form!: FormGroup;
 
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES
   private successDialog$!: Observable<void>;
 
-  /** GETTERS */
-  public get newPassword(): FormControl {
+  // GETTERS
+  get newPassword(): FormControl {
     return this.form.controls['newPassword'] as FormControl;
   }
 
-  public get confirmPassword(): FormControl {
+  get confirmPassword(): FormControl {
     return this.form.controls['confirmPassword'] as FormControl;
   }
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly fb: FormBuilder,
     private readonly route: ActivatedRoute,
@@ -80,12 +80,12 @@ export class ConfirmComponent {
     this.handleStatusChange();
   }
 
-  /** PUBLIC METHODS */
-  public onNewPasswordChange(): void {
+  // PUBLIC METHODS
+  onNewPasswordChange(): void {
     this.confirmPassword.updateValueAndValidity();
   }
 
-  public onConfirmPasswordChange(): void {
+  onConfirmPasswordChange(): void {
     if (this.confirmPassword.untouched) {
       this.confirmPassword.markAllAsTouched();
     }
@@ -107,7 +107,7 @@ export class ConfirmComponent {
       .subscribe();
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS
   private initDialog(): void {
     this.successDialog$ = this.tuiDialogService.open(
       new PolymorpheusComponent(SuccessDialogComponent, this.injector),

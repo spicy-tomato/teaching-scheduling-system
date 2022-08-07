@@ -23,16 +23,16 @@ import { Subject, takeUntil, tap, withLatestFrom } from 'rxjs';
   providers: [TuiDestroyService],
 })
 export class NavigateDirective {
-  /** INPUT */
-  @Input('tssNavigate') public type!: 'prev' | 'next' | 'today';
-  @Input() public scheduleComponent!: ScheduleComponent;
+  // INPUT
+  @Input('tssNavigate') type!: 'prev' | 'next' | 'today';
+  @Input() scheduleComponent!: ScheduleComponent;
 
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES
   private readonly today$ = new Subject<void>();
   private readonly displayNotification$ = new Subject<void>();
   private canDisplayNotification = true;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     @Inject(TuiAlertService)
     private readonly alertService: TuiAlertService,
@@ -44,8 +44,8 @@ export class NavigateDirective {
     this.handleDisplayNotification();
   }
 
-  /** HOST LISTENER */
-  @HostListener('click') public onClick(): void {
+  // HOST LISTENER
+  @HostListener('click') onClick(): void {
     switch (this.type) {
       case 'prev':
         this.onPrev();
@@ -59,7 +59,7 @@ export class NavigateDirective {
     }
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS
   private onPrev(): void {
     this.store.dispatch(
       calendarPrev({

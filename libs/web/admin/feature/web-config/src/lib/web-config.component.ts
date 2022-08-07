@@ -6,6 +6,6 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WebConfigComponent {
-  /** PUBLIC PROPERTIES */
-  public inMaintenance = false;
+  // PUBLIC PROPERTIES
+  inMaintenance = false;
 }

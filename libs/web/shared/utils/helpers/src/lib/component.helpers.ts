@@ -7,7 +7,7 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { of } from 'rxjs';
 
 export class ComponentHelper {
-  public static getMobileDialogContent(
+  static getMobileDialogContent(
     injector: Injector,
     control: AbstractControl
   ): PolymorpheusComponent<TuiMobileCalendarDialogComponent, object> {

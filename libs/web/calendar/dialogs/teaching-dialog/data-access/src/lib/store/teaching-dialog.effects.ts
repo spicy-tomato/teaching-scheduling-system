@@ -8,8 +8,8 @@ import * as PageAction from './teaching-dialog.page.actions';
 
 @Injectable()
 export class TeachingDialogEffects {
-  /** EFFECTS */
-  public request$ = createEffect(() => {
+  // EFFECTS
+  request$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.teachingDialogRequest),
       mergeMap(({ body }) => {
@@ -34,7 +34,7 @@ export class TeachingDialogEffects {
     );
   });
 
-  public requestIntend$ = createEffect(() => {
+  requestIntend$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.teachingDialogRequestIntend),
       mergeMap(({ body }) => {
@@ -59,7 +59,7 @@ export class TeachingDialogEffects {
     );
   });
 
-  public change$ = createEffect(() => {
+  change$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.teachingDialogChange),
       mergeMap(({ body }) => {
@@ -73,7 +73,7 @@ export class TeachingDialogEffects {
     );
   });
 
-  public update$ = createEffect(() => {
+  update$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.teachingDialogUpdate),
       mergeMap(({ id, body }) => {
@@ -90,7 +90,7 @@ export class TeachingDialogEffects {
     );
   });
 
-  public search$ = createEffect(() => {
+  search$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.teachingDialogSearch),
       mergeMap(({ params, teacherId }) => {
@@ -112,7 +112,7 @@ export class TeachingDialogEffects {
     );
   });
 
-  public cancel$ = createEffect(() => {
+  cancel$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.teachingDialogCancel),
       mergeMap(({ id }) => {
@@ -124,7 +124,7 @@ export class TeachingDialogEffects {
     );
   });
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly actions$: Actions,
     private readonly scheduleService: ScheduleService

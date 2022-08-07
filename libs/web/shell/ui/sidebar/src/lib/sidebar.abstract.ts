@@ -18,34 +18,37 @@ import {
   AppShellState,
   selectBreadcrumbs,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
+import {
+  SidebarState,
+  sidebar_emit,
+} from '@teaching-scheduling-system/web/shell/data-access';
 import { Observable, takeUntil } from 'rxjs';
-import { SidebarService } from './sidebar.service';
 
 @Directive({
   providers: [TuiDestroyService],
 })
 export abstract class SidebarAbstract implements OnInit {
-  /** VIEW CHILD */
+  // VIEW CHILD
   @ViewChildren(TuiAccordionItemComponent)
-  public accordionItems!: QueryList<TuiAccordionItemComponent>;
+  accordionItems!: QueryList<TuiAccordionItemComponent>;
 
-  /** OUTPUT */
-  @Output() public readonly clickItem = new EventEmitter<void>();
+  // OUTPUT
+  @Output() readonly clickItem = new EventEmitter<void>();
 
-  /** PUBLIC PROPERTIES */
-  public abstract readonly items: SidebarItem[];
-  public form!: FormGroup;
+  // PUBLIC PROPERTIES
+  abstract readonly items: SidebarItem[];
+  form!: FormGroup;
 
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES
   protected readonly breadcrumbs$: Observable<BreadcrumbItem[]>;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     protected readonly router: Router,
     protected readonly fb: FormBuilder,
-    protected readonly sidebarService: SidebarService,
     protected readonly destroy$: TuiDestroyService,
     protected readonly elementRef: ElementRef,
+    protected readonly sidebarStore: Store<SidebarState>,
     appShellStore: Store<AppShellState>
   ) {
     this.breadcrumbs$ = appShellStore
@@ -53,12 +56,12 @@ export abstract class SidebarAbstract implements OnInit {
       .pipe(takeUntil(destroy$));
   }
 
-  /** LIFECYCLE */
-  public ngOnInit(): void {
+  // LIFECYCLE
+  ngOnInit(): void {
     this.initForm();
   }
 
-  public onClickItem(item: SidebarItem): void {
+  onClickItem(item: SidebarItem): void {
     if (item.subCheckboxes) {
       if (item.routerLink?.includes('calendar')) {
         void this.router.navigate(['/calendar']);
@@ -67,14 +70,14 @@ export abstract class SidebarAbstract implements OnInit {
     }
   }
 
-  public onClickCheckbox(controlName: string, value: boolean): void {
+  onClickCheckbox(controlName: string, value: boolean): void {
     const name = controlName as
       | 'calendar.study'
       | 'calendar.exam'
       | `calendar.@${string}`;
-    this.sidebarService.emit({ name, value });
+    this.sidebarStore.dispatch(sidebar_emit({ event: { name, value } }));
   }
 
-  /** PROTECTED METHODS */
+  // PROTECTED METHODS
   protected abstract initForm(): void;
 }

@@ -5,7 +5,7 @@ import { StringHelper } from '@teaching-scheduling-system/core/utils/helpers';
   name: 'shortenName',
 })
 export class ShortenNamePipe implements PipeTransform {
-  public transform(value: string): string {
+  transform(value: string): string {
     return StringHelper.shortenName(value);
   }
 }

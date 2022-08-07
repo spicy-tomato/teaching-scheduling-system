@@ -41,7 +41,7 @@ import { TeachingScheduleRequestState } from './requests.state';
 
 @Injectable()
 export class TeachingScheduleRequestEffects {
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES
   private personal!: boolean;
 
   private readonly loadSubject$ = new Subject<ChangeScheduleSearch>();
@@ -55,8 +55,8 @@ export class TeachingScheduleRequestEffects {
     selectTeachersInDepartment
   );
 
-  /** EFFECTS */
-  public reset$ = createEffect(
+  // EFFECTS
+  reset$ = createEffect(
     () => {
       return this.actions$.pipe(
         ofType(PageAction.teachingScheduleRequestReset),
@@ -68,7 +68,7 @@ export class TeachingScheduleRequestEffects {
     { dispatch: false }
   );
 
-  public loadChangeSchedules$ = createEffect(
+  loadChangeSchedules$ = createEffect(
     () => {
       return this.actions$.pipe(
         ofType(PageAction.teachingScheduleRequestFilter),
@@ -80,7 +80,7 @@ export class TeachingScheduleRequestEffects {
     { dispatch: false }
   );
 
-  public changeSelectedStatus$ = createEffect(() => {
+  changeSelectedStatus$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.teachingScheduleRequestChangeOptions),
       map((x) => ({
@@ -105,7 +105,7 @@ export class TeachingScheduleRequestEffects {
     );
   });
 
-  public changePage$ = createEffect(() => {
+  changePage$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.teachingScheduleRequestChangePage),
       withLatestFrom(this.permissions$),
@@ -129,7 +129,7 @@ export class TeachingScheduleRequestEffects {
     );
   });
 
-  public accept$ = createEffect(() => {
+  accept$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.teachingScheduleRequestAccept),
       mergeMap(({ schedule }) => {
@@ -148,7 +148,7 @@ export class TeachingScheduleRequestEffects {
     );
   });
 
-  public setRoom$ = createEffect(() => {
+  setRoom$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.teachingScheduleRequestSetRoom),
       mergeMap(({ schedule, newIdRoom }) => {
@@ -168,7 +168,7 @@ export class TeachingScheduleRequestEffects {
     );
   });
 
-  public deny$ = createEffect(() => {
+  deny$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.teachingScheduleRequestDeny),
       mergeMap(({ schedule, reason }) => {
@@ -186,7 +186,7 @@ export class TeachingScheduleRequestEffects {
     );
   });
 
-  public cancel$ = createEffect(() => {
+  cancel$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.teachingScheduleRequestCancel),
       mergeMap(({ id }) => {
@@ -198,7 +198,7 @@ export class TeachingScheduleRequestEffects {
     );
   });
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly actions$: Actions,
     private readonly scheduleService: ScheduleService,
@@ -212,7 +212,7 @@ export class TeachingScheduleRequestEffects {
     this.handleLoadManager();
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS
   private handleLoadPersonal(): void {
     this.loadSubject$
       .pipe(

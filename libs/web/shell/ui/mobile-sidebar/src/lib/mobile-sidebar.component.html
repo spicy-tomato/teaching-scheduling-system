@@ -1,5 +1,5 @@
 <div class="w-full h-screen flex flex-col">
-  <tui-scrollbar [formGroup]="form" class="grow">
+  <tui-scrollbar *ngIf="form" [formGroup]="form" class="grow">
     <ng-container *ngFor="let item of items">
       <ng-container *tssPermission="item.permission">
         <div (click)="onClickItem(item)">
@@ -27,8 +27,9 @@
             <ng-template tuiAccordionItemContent>
               <div class="sub-item -mt-4 -mb-2">
                 <div
+                  [class.border-l-2]="item.subItems"
                   (click)="$event.stopPropagation()"
-                  class="my-2 pl-3 border-l-2 border-tui-base-03"
+                  class="my-2 pl-3 border-tui-base-03"
                 >
                   <!-- Subitem as link -->
                   <ng-container *ngIf="item.subItems; else subCheckboxes">
@@ -37,9 +38,7 @@
                       *ngFor="let subItem of item.subItems; first as first"
                       [routerLink]="subItem.routerLink"
                       [routerLinkActiveOptions]="{ exact: true }"
-                      [icon]="
-                        subItem.useTaigaIcon ? subItem.icon || null : null
-                      "
+                      [icon]="subItem.useTaigaIcon ? subItem.icon : null"
                       (click)="clickItem.emit()"
                       tuiMode="onLight"
                       routerLinkActive="!text-tui-base-09"

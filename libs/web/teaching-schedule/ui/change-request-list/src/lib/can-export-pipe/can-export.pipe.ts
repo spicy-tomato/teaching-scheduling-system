@@ -5,7 +5,7 @@ import { ChangeStatusHelper } from '@teaching-scheduling-system/core/utils/helpe
   name: 'canExport',
 })
 export class CanExportPipe implements PipeTransform {
-  public transform(value: number): boolean {
+  transform(value: number): boolean {
     return ChangeStatusHelper.canExport(value);
   }
 }

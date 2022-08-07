@@ -1,8 +1,8 @@
 export class IconConstant {
-  public static readonly exportVariantLarge =
+  static readonly exportVariantLarge =
     '<i class="mdi mdi-export-variant" style="font-size: 23px"></i>';
-  public static readonly accountOutlineLarge =
+  static readonly accountOutlineLarge =
     '<i class="mdi mdi-account-outline" style="font-size: 29px"></i>';
-  public static readonly historyLarge =
+  static readonly historyLarge =
     '<i class="mdi mdi-history" style="font-size: 29px"></i>';
 }
