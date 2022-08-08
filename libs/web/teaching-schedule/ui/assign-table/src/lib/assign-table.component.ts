@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { defaultSort } from '@taiga-ui/addon-table';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { CoreConstant } from '@teaching-scheduling-system/core/data-access/constants';
 import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
@@ -32,8 +31,6 @@ export class AssignTableComponent implements OnChanges {
   @Input() excludeTeacher = false;
 
   // PUBLIC PROPERTIES
-  form!: FormGroup;
-  filterStatus$: Observable<EApiStatus>;
   readonly columns = [
     'checkbox',
     'index',
@@ -43,13 +40,18 @@ export class AssignTableComponent implements OnChanges {
     'numberReality',
     'teacher',
   ];
-  classType = CoreConstant.CLASS_TYPE;
-  defaultSort = defaultSort;
+  readonly classType = CoreConstant.CLASS_TYPE;
+  readonly filterStatus$: Observable<EApiStatus>;
+  form!: FormGroup;
 
   // PRIVATE PROPERTIES
   private _selectAll = false;
 
   // GETTERS
+  get checkboxes(): FormArray {
+    return this.form.controls['checkbox'] as FormArray;
+  }
+
   get selectAll(): boolean {
     return this._selectAll;
   }
@@ -66,10 +68,6 @@ export class AssignTableComponent implements OnChanges {
         checked,
       })
     );
-  }
-
-  get checkboxes(): FormArray {
-    return this.form.controls['checkbox'] as FormArray;
   }
 
   // CONSTRUCTOR
@@ -91,7 +89,7 @@ export class AssignTableComponent implements OnChanges {
   }
 
   // PUBLIC METHODS
-  onModelChange(index: number, checked: boolean): void {
+  onModelChange(id: string, checked: boolean): void {
     if (
       this._selectAll &&
       this.checkboxes.controls.some((checkbox) => !checkbox.value)
@@ -106,7 +104,7 @@ export class AssignTableComponent implements OnChanges {
 
     this.store.dispatch(
       teachingScheduleAssign_ChangeSelected({
-        classIds: [this.data[index].id],
+        classIds: [id],
         checked,
       })
     );
