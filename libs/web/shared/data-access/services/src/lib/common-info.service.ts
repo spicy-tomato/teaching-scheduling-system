@@ -42,7 +42,7 @@ export class CommonInfoService {
   > {
     return this.http.get<
       ResponseModel<SimpleMapModel<string, SimpleModel[]>[]>
-    >(this.url + 'faculties');
+    >(this.url + 'v1/faculties/with-departments');
   }
 
   getRooms(): Observable<string[]> {

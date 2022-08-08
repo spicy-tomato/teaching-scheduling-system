@@ -9,7 +9,6 @@ import {
   selectAcademicData,
   selectDepartment,
   selectSchoolYear,
-  selectTeachersInDepartment,
   selectTrainingTypes,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
 import { Subject, takeUntil, tap, withLatestFrom } from 'rxjs';
@@ -18,9 +17,6 @@ import { Subject, takeUntil, tap, withLatestFrom } from 'rxjs';
 export class AssignFilterStore extends ComponentStore<object> {
   // PUBLIC PROPERTIES
   readonly filterStatus$ = this.examAssignStore.status$;
-  readonly teachers = this.appShellStore
-    .select(selectTeachersInDepartment)
-    .pipe(takeUntil(this.destroy$));
   readonly myDepartment$ = this.appShellStore
     .select(selectDepartment)
     .pipe(ObservableHelper.filterNullish(), takeUntil(this.destroy$));

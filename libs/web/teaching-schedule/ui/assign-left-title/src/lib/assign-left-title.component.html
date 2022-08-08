@@ -1,56 +1,55 @@
 <h4 class="text-lg font-bold">Học phần chưa được phân công</h4>
-<ng-container *ngrxLet="needAssign$ as needAssign">
-  <div
-    *ngIf="needAssign.length > 0"
-    [@fadeInOut]="{ value: true, params: { duration: '300ms' } }"
-    class="flex"
+<div *ngrxLet="selectedTeacher$ as selectedTeacher" class="flex">
+  <!-- Select -->
+  <tui-select
+    *ngrxLet="teachers$ as teachers"
+    [ngModel]="selectedTeacher"
+    [valueContent]="teacherTemplate"
+    (ngModelChange)="selectedTeacherChange($event)"
+    tuiTextfieldSize="s"
+    class="min-w-[175px]"
   >
-    <ng-container *ngrxLet="selectedTeacher$ as selectedTeacher">
-      <tui-select
-        *ngrxLet="teachers$ as teachers"
-        [ngModel]="selectedTeacher"
-        [valueContent]="teacherTemplate"
-        (ngModelChange)="selectedTeacherChange($event)"
-        tuiTextfieldSize="s"
-        class="min-w-[175px]"
+    Chọn giảng viên
+    <ng-template tuiDataList>
+      <tui-data-list role="listbox">
+        <tui-opt-group>
+          <button tuiOption [value]="null" size="xs" role="option">
+            Tất cả
+          </button>
+        </tui-opt-group>
+        <tui-opt-group>
+          <button
+            tuiOption
+            *ngFor="let teacher of teachers"
+            [value]="teacher"
+            size="xs"
+            role="option"
+          >
+            {{ teacher.name }}
+          </button>
+        </tui-opt-group>
+      </tui-data-list>
+    </ng-template>
+  </tui-select>
+
+  <!-- Assign button -->
+  <ng-container *ngrxLet="needAssign$ as needAssign">
+    <ng-container *ngrxLet="assignStatus$ as assignStatus">
+      <button
+        tuiButton
+        *ngrxLet="someNeedAssignCheckedChange$ as someNeedAssignCheckedChange"
+        [disabled]="
+          !needAssign.length || !selectedTeacher || !someNeedAssignCheckedChange
+        "
+        [showLoader]="assignStatus === 'loading'"
+        (click)="assign()"
+        class="ml-2"
       >
-        Chọn giảng viên
-        <ng-template tuiDataList>
-          <tui-data-list role="listbox">
-            <tui-opt-group>
-              <button tuiOption [value]="null" size="xs" role="option">
-                Tất cả
-              </button>
-            </tui-opt-group>
-            <tui-opt-group>
-              <button
-                tuiOption
-                *ngFor="let teacher of teachers"
-                [value]="teacher"
-                size="xs"
-                role="option"
-              >
-                {{ teacher.name }}
-              </button>
-            </tui-opt-group>
-          </tui-data-list>
-        </ng-template>
-      </tui-select>
-      <ng-container *ngrxLet="assignStatus$ as assignStatus">
-        <button
-          tuiButton
-          *ngrxLet="someNeedAssignCheckedChange$ as someNeedAssignCheckedChange"
-          [disabled]="!selectedTeacher || !someNeedAssignCheckedChange"
-          [showLoader]="assignStatus === 'loading'"
-          (click)="assign()"
-          class="ml-2"
-        >
-          Phân công
-        </button>
-      </ng-container>
+        Phân công
+      </button>
     </ng-container>
-  </div>
-</ng-container>
+  </ng-container>
+</div>
 
 <!-- Templates -->
 <ng-template #teacherTemplate let-teacher>

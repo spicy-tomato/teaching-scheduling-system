@@ -1,4 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
+import { StringHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import { AppShellState } from '.';
 import * as ApiAction from './app-shell.api.actions';
 import * as PageAction from './app-shell.page.actions';
@@ -58,9 +59,13 @@ export const appShellReducer = createReducer(
     };
   }),
   on(ApiAction.loadTeachersInDepartmentSuccessful, (state, { teachers }) => {
+    const teachersInDepartment = [...teachers];
+    teachersInDepartment.sort((a, b) =>
+      StringHelper.nameCompareFn(a.name, b.name)
+    );
     return {
       ...state,
-      teachersInDepartment: teachers,
+      teachersInDepartment,
     };
   })
 );
