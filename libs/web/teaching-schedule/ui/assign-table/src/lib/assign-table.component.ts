@@ -5,7 +5,7 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { CoreConstant } from '@teaching-scheduling-system/core/data-access/constants';
@@ -108,6 +108,10 @@ export class AssignTableComponent implements OnChanges {
         checked,
       })
     );
+  }
+
+  getCheckbox(i: number): FormControl {
+    return this.checkboxes.at(i) as FormControl;
   }
 
   // PRIVATE METHODS

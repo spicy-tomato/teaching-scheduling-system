@@ -33,7 +33,7 @@
               <td tuiTd *tuiCell="'checkbox'">
                 <div class="h-full center-flex">
                   <tui-checkbox
-                    [formControlName]="i"
+                    [formControl]="getCheckbox(i)"
                     (ngModelChange)="onModelChange(item.id, $event)"
                   ></tui-checkbox>
                 </div>
