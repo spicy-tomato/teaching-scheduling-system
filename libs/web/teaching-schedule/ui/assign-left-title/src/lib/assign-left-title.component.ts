@@ -7,7 +7,6 @@ import {
   TuiNotification,
 } from '@taiga-ui/core';
 import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
-import { fadeInOut } from '@teaching-scheduling-system/core/ui/animations';
 import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import {
   ModuleClass,
@@ -46,7 +45,6 @@ import {
       size: 's',
     }),
   ],
-  animations: [fadeInOut],
 })
 export class AssignLeftTitleComponent {
   // PUBLIC PROPERTIES
