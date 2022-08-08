@@ -1,4 +1,5 @@
 import { Md5 } from 'ts-md5';
+import { ArrayHelper } from './array.helper';
 
 export class StringHelper {
   static toSnakeCase(str: string): string {
@@ -36,5 +37,14 @@ export class StringHelper {
 
   static md5(text: string): string {
     return new Md5().appendStr(text).end() as string;
+  }
+
+  static nameCompareFn(a: string, b: string): number {
+    const getName = (fullName: string): string =>
+      ArrayHelper.lastItemTruthy(fullName.split(' '));
+
+    const name1 = getName(StringHelper.toLatinText(a));
+    const name2 = getName(StringHelper.toLatinText(b));
+    return name1 < name2 ? -1 : name1 > name2 ? 1 : a < b ? -1 : a > b ? 1 : 0;
   }
 }

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { Store } from '@ngrx/store';
 import { UrlHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import {
   ExamScheduleModel,
@@ -8,11 +7,7 @@ import {
   SearchExam,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { ExamService } from '@teaching-scheduling-system/web/shared/data-access/services';
-import {
-  AppShellState,
-  selectTeachersInDepartment,
-} from '@teaching-scheduling-system/web/shared/data-access/store';
-import { switchMap, takeUntil, tap } from 'rxjs';
+import { switchMap, tap } from 'rxjs';
 
 type ExamState = GenericState<ExamScheduleModel[]>;
 
@@ -21,9 +16,6 @@ export class ExamAssignStore extends ComponentStore<ExamState> {
   // PUBLIC PROPERTIES
   readonly data$ = this.select((s) => s.data);
   readonly status$ = this.select((s) => s.status);
-  readonly teachers = this.appShellStore
-    .select(selectTeachersInDepartment)
-    .pipe(takeUntil(this.destroy$));
 
   // EFFECTS
   readonly getExam = this.effect<{
@@ -58,10 +50,7 @@ export class ExamAssignStore extends ComponentStore<ExamState> {
   );
 
   // CONSTRUCTOR
-  constructor(
-    private readonly examService: ExamService,
-    private readonly appShellStore: Store<AppShellState>
-  ) {
+  constructor(private readonly examService: ExamService) {
     super(<ExamState>{});
   }
 

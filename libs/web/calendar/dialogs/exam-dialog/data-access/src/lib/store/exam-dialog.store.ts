@@ -1,56 +1,47 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { Store } from '@ngrx/store';
-import { UrlHelper } from '@teaching-scheduling-system/core/utils/helpers';
-import {
-  GenericState,
-  SearchExam,
-} from '@teaching-scheduling-system/web/shared/data-access/models';
+import { GenericState } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { ExamService } from '@teaching-scheduling-system/web/shared/data-access/services';
 import {
   AppShellState,
   selectNotNullTeacher,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
-import { switchMap, takeUntil, tap } from 'rxjs';
+import { switchMap, takeUntil, tap, withLatestFrom } from 'rxjs';
 
-type ExamDialogState = GenericState<void>;
+type ExportDialogState = GenericState<void>;
 
 @Injectable()
-export class ExamDialogStore extends ComponentStore<ExamDialogState> {
-  // PUBLIC PROPERTIES
-  readonly status$ = this.select((s) => s.status);
-  readonly teacher = this.appShellStore.pipe(
+export class ExamDialogStore extends ComponentStore<ExportDialogState> {
+  // PRIVATE PROPERTIES
+  private teacher$ = this.appShellStore.pipe(
     selectNotNullTeacher,
     takeUntil(this.destroy$)
   );
 
+  // PUBLIC PROPERTIES
+  readonly status$ = this.select((s) => s.status);
+
   // EFFECTS
-  readonly getExam = this.effect<{
-    departmentId: string;
-    searchParams: SearchExam;
-  }>((params$) =>
+  readonly submit = this.effect<{ id: number; note: string }>((params$) =>
     params$.pipe(
       tap(() => this.patchState({ status: 'loading', error: null })),
-      switchMap((params) =>
-        this.examService
-          .getDepartmentExamSchedule(
-            params.departmentId,
-            UrlHelper.queryFilter(params.searchParams, { date: 'between' })
+      withLatestFrom(this.teacher$),
+      switchMap(([{ id, note }, teacher]) =>
+        this.examService.updateExamNote(teacher.id, id, { note }).pipe(
+          tapResponse(
+            () =>
+              this.patchState({
+                status: 'successful',
+                error: '',
+              }),
+            (error) =>
+              this.patchState({
+                status: 'systemError',
+                error: error as string,
+              })
           )
-          .pipe(
-            tapResponse(
-              () =>
-                this.patchState({
-                  status: 'successful',
-                  error: '',
-                }),
-              (error) =>
-                this.patchState({
-                  status: 'systemError',
-                  error: error as string,
-                })
-            )
-          )
+        )
       )
     )
   );
@@ -60,6 +51,6 @@ export class ExamDialogStore extends ComponentStore<ExamDialogState> {
     private readonly examService: ExamService,
     private readonly appShellStore: Store<AppShellState>
   ) {
-    super(<ExamDialogState>{});
+    super(<ExportDialogState>{});
   }
 }
