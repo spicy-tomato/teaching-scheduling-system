@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.15.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.14.0...v3.15.0) (2022-08-08)
+
+
+### Features
+
+* sort teachers list by alphabet order ([ab49365](https://github.com/annguyen-it/teaching-scheduling-system/commit/ab49365ce1df86ccdc35f2ec4b62d0a421146fba))
+* **teaching-schedule/assign:** display teacher selector and assign button even when all classes had been assigned ([9f2b31a](https://github.com/annguyen-it/teaching-scheduling-system/commit/9f2b31a63c1fdda8f74e95a25d28b78d97b2bedc))
+
+
+### Bug Fixes
+
+* **calendar:** cannot open exam dialog ([673469e](https://github.com/annguyen-it/teaching-scheduling-system/commit/673469e85b35f28e808768d13fb5cd9002e6b49f))
+* **calendar:** cannot select room to change teaching schedule ([eb1d7ee](https://github.com/annguyen-it/teaching-scheduling-system/commit/eb1d7eee32dfb8d8df38c8edbdb3afd9c552e16e))
+* **dep:** upgrade @syncfusion/ej2-angular-schedule to 20.2.40 ([74a7707](https://github.com/annguyen-it/teaching-scheduling-system/commit/74a7707c03a2ff17ffd61515d268c311a3268bbe))
+* **dep:** upgrade @types/gapi to 0.0.42 ([5daa23c](https://github.com/annguyen-it/teaching-scheduling-system/commit/5daa23cd8c46ffdf9e85070bbe3e203333280525))
+* **dep:** upgrade @types/gapi.auth2 to 0.0.56 ([2b2ed76](https://github.com/annguyen-it/teaching-scheduling-system/commit/2b2ed76b4361e44a6569c042927c8ca2c0093b2d))
+* **dep:** upgrade taiga-ui to 2.56.0 ([622e613](https://github.com/annguyen-it/teaching-scheduling-system/commit/622e6130f6f60f3600f5feb31e8bafa7ae694c45))
+* **teaching-schedule/assign:** button "cancel assign" should be enable when select teacher and tick assign table checkboxes ([ba0f27e](https://github.com/annguyen-it/teaching-scheduling-system/commit/ba0f27e013a170024b70124abb5d7287efbcb0d7))
+* **teaching-schedule/assign:** wrong assignment after sort ([cd78fa1](https://github.com/annguyen-it/teaching-scheduling-system/commit/cd78fa187467ba1167ef5ca7d8258861ef6520f9))
+
 ## [3.14.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.13.0...v3.14.0) (2022-08-07)
 
 
