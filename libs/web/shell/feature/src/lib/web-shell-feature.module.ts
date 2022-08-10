@@ -90,9 +90,8 @@ export const webShellFeatureRoutes: Routes = [
       },
       {
         path: 'schedule',
-        canActivate: [MaintenanceGuard, PermissionGuard],
+        canActivate: [MaintenanceGuard],
         data: {
-          permissions: [PermissionConstant.ASSIGN_SCHEDULE],
           breadcrumb: 'Lịch giảng dạy',
         },
         loadChildren: async () =>
