@@ -1,0 +1,3 @@
+tui-line-clamp ::ng-deep div {
+  overflow: initial !important;
+}

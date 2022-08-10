@@ -15,4 +15,5 @@ export class Teacher {
   readonly notificationDataVersion!: number;
   readonly isFemale!: boolean;
   readonly permissions!: number[];
+  readonly tags!: string[]
 }

@@ -3,6 +3,12 @@ import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import {
+  EchoService,
+  NotificationEffects,
+  notificationFeatureKey,
+  notificationReducer,
+} from '@teaching-scheduling-system/web/notification/data-access';
+import {
   AppShellEffects,
   appShellFeatureKey,
   appShellReducer,
@@ -20,12 +26,18 @@ import { LayoutComponent } from './layout.component';
 const NGRX = [
   StoreModule.forFeature(appShellFeatureKey, appShellReducer),
   StoreModule.forFeature(sidebarFeatureKey, sidebarReducer),
-  EffectsModule.forFeature([AppShellEffects, SidebarEffects]),
+  StoreModule.forFeature(notificationFeatureKey, notificationReducer),
+  EffectsModule.forFeature([
+    AppShellEffects,
+    SidebarEffects,
+    NotificationEffects,
+  ]),
 ];
 
 @NgModule({
   imports: [CommonModule, NavbarModule, SidebarModule, MainViewModule, ...NGRX],
   declarations: [LayoutComponent],
   exports: [LayoutComponent],
+  providers: [EchoService],
 })
 export class LayoutModule {}

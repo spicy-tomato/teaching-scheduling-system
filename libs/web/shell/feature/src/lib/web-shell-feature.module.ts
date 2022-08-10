@@ -90,9 +90,8 @@ export const webShellFeatureRoutes: Routes = [
       },
       {
         path: 'schedule',
-        canActivate: [MaintenanceGuard, PermissionGuard],
+        canActivate: [MaintenanceGuard],
         data: {
-          permissions: [PermissionConstant.ASSIGN_SCHEDULE],
           breadcrumb: 'Lịch giảng dạy',
         },
         loadChildren: async () =>
@@ -158,6 +157,15 @@ export const webShellFeatureRoutes: Routes = [
         loadChildren: async () =>
           (await import('@teaching-scheduling-system/web/user-info/feature'))
             .UserInfoModule,
+      },
+      {
+        path: 'notifications',
+        data: {
+          breadcrumb: 'Thông báo',
+        },
+        loadChildren: async () =>
+          (await import('@teaching-scheduling-system/web/notification/feature'))
+            .FeatureModule,
       },
     ],
   },

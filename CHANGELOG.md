@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.16.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.15.0...v3.16.0) (2022-08-10)
+
+
+### Features
+
+* change sql parser function to timezone GMT+7 ([57bd1c3](https://github.com/annguyen-it/teaching-scheduling-system/commit/57bd1c30eefbb151e1b3e7ae6430dc96c8af672e))
+* notification ([d345c4a](https://github.com/annguyen-it/teaching-scheduling-system/commit/d345c4a0c3161414cd1c9c18f551a07185b7b17c))
+* notification ([cd88673](https://github.com/annguyen-it/teaching-scheduling-system/commit/cd88673eb28cee7fb3c239a3af27e467939a37f9))
+
+
+### Bug Fixes
+
+* **calendar:** cannot cancel change request right after request ([5f10891](https://github.com/annguyen-it/teaching-scheduling-system/commit/5f1089109e5d6bff9b5e0622a44f0491e2bd3056))
+* room manager should be able to access /schedule/change/department ([1f7d16b](https://github.com/annguyen-it/teaching-scheduling-system/commit/1f7d16b7eaeb54cfe51a5b0182164fb4e371b716))
+
 ## [3.15.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.14.0...v3.15.0) (2022-08-08)
 
 
