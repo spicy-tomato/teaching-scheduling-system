@@ -8,8 +8,7 @@ All notable changes to this project will be documented in this file. See [standa
 ### Features
 
 * change sql parser function to timezone GMT+7 ([57bd1c3](https://github.com/annguyen-it/teaching-scheduling-system/commit/57bd1c30eefbb151e1b3e7ae6430dc96c8af672e))
-* notification ([d345c4a](https://github.com/annguyen-it/teaching-scheduling-system/commit/d345c4a0c3161414cd1c9c18f551a07185b7b17c))
-* notification ([cd88673](https://github.com/annguyen-it/teaching-scheduling-system/commit/cd88673eb28cee7fb3c239a3af27e467939a37f9))
+* notification ([d345c4a](https://github.com/annguyen-it/teaching-scheduling-system/commit/d345c4a0c3161414cd1c9c18f551a07185b7b17c), [cd88673](https://github.com/annguyen-it/teaching-scheduling-system/commit/cd88673eb28cee7fb3c239a3af27e467939a37f9))
 
 
 ### Bug Fixes
