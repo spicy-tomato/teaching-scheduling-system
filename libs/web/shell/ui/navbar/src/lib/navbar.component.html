@@ -29,27 +29,33 @@
     </h3>
   </div>
 
-  <div *ngIf="options.showInfo" class="hidden lg:block">
-    <tui-hosted-dropdown [(open)]="openDropDown" [content]="content">
-      <button
-        tuiButton
-        *ngrxLet="user$ as user"
-        appearance="nav-button"
-        type="button"
-      >
-        Xin chào {{ user | navbarName }}!
-      </button>
-    </tui-hosted-dropdown>
-  </div>
-
-  <ng-container *ngrxLet="rightMenu$ as rightMenu">
-    <div
-      *ngIf="options.showInfo && rightMenu"
-      class="flex items-center lg:hidden"
-    >
-      <ng-container [ngTemplateOutlet]="rightMenu"></ng-container>
+  <div class="flex items-center">
+    <div class="flex items-center">
+      <tss-bell class="lg:mr-1"></tss-bell>
     </div>
-  </ng-container>
+
+    <div *ngIf="options.showInfo" class="hidden lg:block">
+      <tui-hosted-dropdown [(open)]="openDropDown" [content]="content">
+        <button
+          tuiButton
+          *ngrxLet="user$ as user"
+          appearance="nav-button"
+          type="button"
+        >
+          Xin chào {{ user | navbarName }}!
+        </button>
+      </tui-hosted-dropdown>
+    </div>
+
+    <ng-container *ngrxLet="rightMenu$ as rightMenu">
+      <div
+        *ngIf="options.showInfo && rightMenu"
+        class="flex items-center lg:hidden"
+      >
+        <ng-container [ngTemplateOutlet]="rightMenu"></ng-container>
+      </div>
+    </ng-container>
+  </div>
 </div>
 
 <ng-template #content>

@@ -1,0 +1,126 @@
+<ng-container *ngrxLet="data$ as data">
+  <ng-container *ngrxLet="hasUnread$ as hasUnread">
+    <div *tssVar="activeTabIndex$ | async as activeTabIndex" class="p-0.5">
+      <!-- Title -->
+      <div class="flex justify-between mr-4 mb-2 ml-5">
+        <h2 class="text-xl font-bold">Thông báo</h2>
+        <tui-hosted-dropdown [(open)]="openOptions" [content]="more">
+          <button
+            tuiIconButton
+            [pseudoHovered]="openOptions || null"
+            icon="tuiIconMoreHorLarge"
+          ></button>
+        </tui-hosted-dropdown>
+      </div>
+
+      <!-- Buttons -->
+      <div class="ml-4">
+        <button
+          *ngFor="let btn of tabsBtn; index as i; first as first"
+          tuiButton
+          [appearance]="activeTabIndex === i ? 'primary' : 'flat'"
+          [class.ml-2]="!first"
+          (click)="activeTabIndex$.next(i)"
+        >
+          {{ btn }}
+        </button>
+      </div>
+
+      <!-- List -->
+      <tui-data-list [emptyContent]="emptyContent" role="listbox">
+        <a
+          tuiOption
+          *ngFor="let notification of data[activeTabIndex]"
+          size="s"
+          class="group relative"
+        >
+          <div class="self-start">
+            <tui-marker-icon src="tuiIconTimeLarge" size="s"></tui-marker-icon>
+          </div>
+          <div
+            [ngClass]="
+              notification.readAt ? 'text-tui-text-02' : 'text-tui-text-01'
+            "
+            class="flex flex-col flex-grow ml-2 text-sm"
+          >
+            <tui-line-clamp
+              [content]="notification.data.content"
+              [linesLimit]="3"
+              [lineHeight]="16"
+              class="leading-4 pointer-events-none"
+            >
+            </tui-line-clamp>
+            <div
+              [ngClass]="{ 'text-tui-primary font-bold': !notification.readAt }"
+              class="mt-1 text-xs text-tui-primary"
+            >
+              {{ notification.createdAt | relativeTime }}
+            </div>
+          </div>
+
+          <!-- Dot -->
+          <div *ngIf="!notification.readAt" class="flex items-center">
+            <span class="w-2 h-2 block bg-tui-primary rounded-full"></span>
+          </div>
+
+          <!-- Notification more -->
+          <div
+            *ngIf="!notification.readAt"
+            class="absolute right-8 opacity-0 duration-200 group-hover:opacity-100"
+          >
+            <button
+              tuiIconButton
+              (click)="markAsRead(notification.id)"
+              icon="tuiIconCheck"
+              appearance="whiteblock"
+              tuiHint="Đánh dấu là đã đọc"
+            ></button>
+          </div>
+        </a>
+      </tui-data-list>
+
+      <!-- See more -->
+      <ng-container *ngrxLet="hasNext$ as hasNext">
+        <div *ngIf="hasNext[activeTabIndex]" class="flex justify-center">
+          <button tuiButton (click)="onSeeMore(activeTabIndex)">
+            Xem thêm
+          </button>
+        </div>
+      </ng-container>
+    </div>
+
+    <ng-template #more>
+      <tui-data-list [tuiActiveZoneParent]="activeZone ?? null" role="menu">
+        <button
+          tuiOption
+          [disabled]="!hasUnread"
+          (click)="markAllAsRead()"
+          size="s"
+        >
+          <tui-svg src="tuiIconCheck"></tui-svg>
+          <div class="flex-grow ml-1.5">Đánh dấu tất cả là đã đọc</div>
+        </button>
+        <a
+          tuiOption
+          *ngIf="options.forBell"
+          size="s"
+          routerLink="/notifications"
+        >
+          <tui-svg src="tuiIconFlag"></tui-svg>
+          <div class="flex-grow ml-1.5">Mở thông báo</div>
+        </a>
+      </tui-data-list>
+    </ng-template>
+
+    <ng-template #emptyContent>
+      <div class="flex flex-col text-center font-bold">
+        <div class="flex justify-center">
+          <img src="/assets/img/bell.svg" class="h-28" />
+        </div>
+        <div *ngrxLet="nameTitle$ as nameTitle" class="mt-2 text-tui-text-02">
+          {{ nameTitle }} không có thông báo nào
+        </div>
+      </div>
+    </ng-template>
+  </ng-container>
+</ng-container>

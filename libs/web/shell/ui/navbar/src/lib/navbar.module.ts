@@ -10,6 +10,7 @@ import {
   TuiHostedDropdownModule,
   TuiSvgModule,
 } from '@taiga-ui/core';
+import { BellModule } from '@teaching-scheduling-system/web/notification/ui/bell';
 import { MobileSidebarModule } from '@teaching-scheduling-system/web/shell/ui/mobile-sidebar';
 import { NavbarNamePipeModule } from './navbar-name/navbar-name.module';
 import { NavbarComponent } from './navbar.component';
@@ -30,6 +31,7 @@ const TAIGA_UI = [
     RouterModule,
     NavbarNamePipeModule,
     MobileSidebarModule,
+    BellModule,
     ...NGRX,
     ...TAIGA_UI,
   ],

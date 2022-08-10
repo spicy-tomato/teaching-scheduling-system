@@ -1,7 +1,6 @@
 {
   "extends": "../../tsconfig.base.json",
   "files": [],
-  "include": ["pusher.d.ts", "../../pusher.d.ts"],
   "references": [
     {
       "path": "./tsconfig.app.json"
