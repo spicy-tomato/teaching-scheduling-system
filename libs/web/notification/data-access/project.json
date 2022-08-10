@@ -1,0 +1,25 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/web/notification/data-access/src",
+  "prefix": "tss",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/web/notification/data-access"],
+      "options": {
+        "jestConfig": "libs/web/notification/data-access/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/web/notification/data-access/**/*.ts",
+          "libs/web/notification/data-access/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}
