@@ -158,6 +158,15 @@ export const webShellFeatureRoutes: Routes = [
           (await import('@teaching-scheduling-system/web/user-info/feature'))
             .UserInfoModule,
       },
+      {
+        path: 'notifications',
+        data: {
+          breadcrumb: 'Thông báo',
+        },
+        loadChildren: async () =>
+          (await import('@teaching-scheduling-system/web/notification/feature'))
+            .FeatureModule,
+      },
     ],
   },
   {

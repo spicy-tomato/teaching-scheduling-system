@@ -84,7 +84,6 @@ export class ArrayHelper {
     );
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   /**
    * Merge multiple arrays, use a property to compare objects.
    * @param prop property of object for comparison
