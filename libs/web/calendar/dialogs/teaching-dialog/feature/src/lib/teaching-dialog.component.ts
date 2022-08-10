@@ -45,9 +45,13 @@ export class TeachingDialogComponent {
 
   // SETTERS
   private set currentSelected(schedule: EjsScheduleModel) {
-    this.schedules = this.schedules.map((s) =>
-      s.Id === this.selectedSchedule.Id ? schedule : s
-    );
+    this.schedules = this.schedules.map((s) => {
+      if (s.Id === this.selectedSchedule.Id) {
+        this.selectedSchedule = schedule;
+        return schedule;
+      }
+      return s;
+    });
   }
 
   // CONSTRUCTOR
