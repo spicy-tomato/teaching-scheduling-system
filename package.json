@@ -7,6 +7,7 @@
     "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2015 browser module main",
     "start": "nx serve --port 3333",
     "build": "nx build",
+    "build:dev": "nx build --configuration=dev",
     "test": "nx run-many --all --target=test",
     "release": "standard-version",
     "release:minor": "standard-version --release-as minor",
