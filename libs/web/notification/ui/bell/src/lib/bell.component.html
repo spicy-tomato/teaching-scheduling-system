@@ -1,0 +1,23 @@
+<ng-container *ngrxLet="hasUnread$ as hasUnread">
+  <tui-badged-content
+    *ngIf="show$ | async"
+    [rounded]="true"
+    [colorTop]="hasUnread ? 'var(--tui-error-fill)' : ''"
+    [@fadeInOut]
+  >
+    <tui-hosted-dropdown [(open)]="openDropdown" [content]="dropdown">
+      <button
+        tuiIconButton
+        [pseudoHovered]="openDropdown || null"
+        icon="tuiIconBellLarge"
+        size="m"
+      ></button>
+    </tui-hosted-dropdown>
+  </tui-badged-content>
+
+  <ng-template #dropdown let-activeZone>
+    <div class="w-80 pt-5">
+      <tss-notification-list [activeZone]="activeZone"></tss-notification-list>
+    </div>
+  </ng-template>
+</ng-container>

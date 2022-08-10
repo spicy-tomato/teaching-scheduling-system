@@ -39,15 +39,21 @@ export class TeachingDialogComponent {
 
   // GETTERS
   private get currentSelected(): EjsScheduleModel {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return this.schedules.find((s) => s.Id === this.selectedSchedule.Id)!;
+    return (
+      this.schedules.find((s) => s.Id === this.selectedSchedule.Id) ||
+      this.selectedSchedule
+    );
   }
 
   // SETTERS
   private set currentSelected(schedule: EjsScheduleModel) {
-    this.schedules = this.schedules.map((s) =>
-      s.Id === this.selectedSchedule.Id ? schedule : s
-    );
+    this.schedules = this.schedules.map((s) => {
+      if (s.Id === this.selectedSchedule.Id) {
+        this.selectedSchedule = schedule;
+        return schedule;
+      }
+      return s;
+    });
   }
 
   // CONSTRUCTOR
@@ -70,8 +76,10 @@ export class TeachingDialogComponent {
   }
 
   onChangeSelectedSchedule(scheduleId: number): void {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    this.selectedSchedule = this.schedules.find((s) => s.Id === scheduleId)!;
+    const newSelectSchedule = this.schedules.find((s) => s.Id === scheduleId);
+    if (newSelectSchedule) {
+      this.selectedSchedule = newSelectSchedule;
+    }
   }
 
   onUpdateSchedule(schedule: FixedScheduleModel): void {

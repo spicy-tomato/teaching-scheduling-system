@@ -2,6 +2,56 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.16.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.15.0...v3.16.0) (2022-08-10)
+
+
+### Features
+
+* change sql parser function to timezone GMT+7 ([57bd1c3](https://github.com/annguyen-it/teaching-scheduling-system/commit/57bd1c30eefbb151e1b3e7ae6430dc96c8af672e))
+* notification ([d345c4a](https://github.com/annguyen-it/teaching-scheduling-system/commit/d345c4a0c3161414cd1c9c18f551a07185b7b17c), [cd88673](https://github.com/annguyen-it/teaching-scheduling-system/commit/cd88673eb28cee7fb3c239a3af27e467939a37f9))
+
+
+### Bug Fixes
+
+* **calendar:** cannot cancel change request right after request ([5f10891](https://github.com/annguyen-it/teaching-scheduling-system/commit/5f1089109e5d6bff9b5e0622a44f0491e2bd3056))
+* room manager should be able to access /schedule/change/department ([1f7d16b](https://github.com/annguyen-it/teaching-scheduling-system/commit/1f7d16b7eaeb54cfe51a5b0182164fb4e371b716))
+
+## [3.15.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.14.0...v3.15.0) (2022-08-08)
+
+
+### Features
+
+* sort teachers list by alphabet order ([ab49365](https://github.com/annguyen-it/teaching-scheduling-system/commit/ab49365ce1df86ccdc35f2ec4b62d0a421146fba))
+* **teaching-schedule/assign:** display teacher selector and assign button even when all classes had been assigned ([9f2b31a](https://github.com/annguyen-it/teaching-scheduling-system/commit/9f2b31a63c1fdda8f74e95a25d28b78d97b2bedc))
+
+
+### Bug Fixes
+
+* **calendar:** cannot open exam dialog ([673469e](https://github.com/annguyen-it/teaching-scheduling-system/commit/673469e85b35f28e808768d13fb5cd9002e6b49f))
+* **calendar:** cannot select room to change teaching schedule ([eb1d7ee](https://github.com/annguyen-it/teaching-scheduling-system/commit/eb1d7eee32dfb8d8df38c8edbdb3afd9c552e16e))
+* **dep:** upgrade @syncfusion/ej2-angular-schedule to 20.2.40 ([74a7707](https://github.com/annguyen-it/teaching-scheduling-system/commit/74a7707c03a2ff17ffd61515d268c311a3268bbe))
+* **dep:** upgrade @types/gapi to 0.0.42 ([5daa23c](https://github.com/annguyen-it/teaching-scheduling-system/commit/5daa23cd8c46ffdf9e85070bbe3e203333280525))
+* **dep:** upgrade @types/gapi.auth2 to 0.0.56 ([2b2ed76](https://github.com/annguyen-it/teaching-scheduling-system/commit/2b2ed76b4361e44a6569c042927c8ca2c0093b2d))
+* **dep:** upgrade taiga-ui to 2.56.0 ([622e613](https://github.com/annguyen-it/teaching-scheduling-system/commit/622e6130f6f60f3600f5feb31e8bafa7ae694c45))
+* **teaching-schedule/assign:** button "cancel assign" should be enable when select teacher and tick assign table checkboxes ([ba0f27e](https://github.com/annguyen-it/teaching-scheduling-system/commit/ba0f27e013a170024b70124abb5d7287efbcb0d7))
+* **teaching-schedule/assign:** wrong assignment after sort ([cd78fa1](https://github.com/annguyen-it/teaching-scheduling-system/commit/cd78fa187467ba1167ef5ca7d8258861ef6520f9))
+
+## [3.14.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.13.0...v3.14.0) (2022-08-07)
+
+
+### Features
+
+* remove sqlDateFactory ([ecefd2c](https://github.com/annguyen-it/teaching-scheduling-system/commit/ecefd2c73daf65aab03cccd8de3ae042e1810626))
+
+
+### Bug Fixes
+
+* **calendar:** month view layout should not break ([c618226](https://github.com/annguyen-it/teaching-scheduling-system/commit/c61822638d8a31c53da6d8fdf3f8f39112f537db))
+* **calendar:** wrong filter after navigation from other routes ([8c46ffd](https://github.com/annguyen-it/teaching-scheduling-system/commit/8c46ffd54c51dccf1bbb5f3b184cf1f096b1a173))
+* **dep:** upgrade @types/node to 17.0.45 ([98ac4b3](https://github.com/annguyen-it/teaching-scheduling-system/commit/98ac4b38894f8f8a313934afdc273285c54bd017))
+* **dep:** upgrade taiga-ui to 2.55.0 ([3ee64c7](https://github.com/annguyen-it/teaching-scheduling-system/commit/3ee64c7ce07f18dc547951f71cfa64402785b2e3))
+* **shell:** checkbox items list in mobile sidebar should not have left border ([b8224e3](https://github.com/annguyen-it/teaching-scheduling-system/commit/b8224e3eec2c456966e285f6a6f10365ffd0775b))
+
 ## [3.13.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.12.1...v3.13.0) (2022-08-06)
 
 

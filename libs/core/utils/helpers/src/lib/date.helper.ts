@@ -2,6 +2,8 @@ import { TuiDay } from '@taiga-ui/cdk';
 import { CoreConstant } from '@teaching-scheduling-system/core/data-access/constants';
 
 export class DateHelper {
+  static readonly TIMEZONE_OFFSET = -25_200_000; // = -420 * 60_000 milliseconds
+
   // To string
   static beautifyTime(dt: Date): string {
     return [
@@ -15,11 +17,16 @@ export class DateHelper {
   }
 
   static toDateOnlyString(date: Date): string {
-    return date.toISOString().split('T')[0];
+    return new Date(date.valueOf() - this.TIMEZONE_OFFSET)
+      .toISOString()
+      .split('T')[0];
   }
 
   static toSqlDate(date: Date): string {
-    return date.toISOString().slice(0, 19).replace('T', ' ');
+    return new Date(date.valueOf() - this.TIMEZONE_OFFSET)
+      .toISOString()
+      .slice(0, 19)
+      .replace('T', ' ');
   }
 
   // From other types

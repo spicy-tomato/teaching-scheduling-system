@@ -19,7 +19,6 @@ import {
   selectDepartment,
   selectNotNullTeacher,
   selectPermission,
-  selectTeachersInDepartment,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
 import { ScheduleConstant } from '@teaching-scheduling-system/web/shared/utils/constants';
 import {
@@ -51,9 +50,6 @@ export class TeachingScheduleRequestEffects {
   private readonly department$ = this.appShellStore.select(selectDepartment);
   private readonly permissions$ = this.appShellStore.select(selectPermission);
   private readonly teacher$ = this.appShellStore.pipe(selectNotNullTeacher);
-  private readonly teachersInDepartment$ = this.appShellStore.select(
-    selectTeachersInDepartment
-  );
 
   // EFFECTS
   reset$ = createEffect(

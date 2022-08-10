@@ -13,11 +13,11 @@ import {
 } from '@taiga-ui/core';
 import { CoreConstant } from '@teaching-scheduling-system/core/data-access/constants';
 import { DateHelper } from '@teaching-scheduling-system/core/utils/helpers';
+import { ExamDialogStore } from '@teaching-scheduling-system/web/calendar/dialogs-exam-dialog/data-access';
 import { EjsScheduleModel } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { sameGroupStaticValueValidator } from '@teaching-scheduling-system/web/shared/utils/validators';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { map, tap } from 'rxjs';
-import { ExamDialogStore } from './store';
 
 @Component({
   templateUrl: './exam-dialog.component.html',

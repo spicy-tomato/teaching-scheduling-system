@@ -180,6 +180,7 @@ export class TeachingDialogContentComponent implements OnInit {
 
   // LIFECYCLE
   ngOnInit(): void {
+    // This function use ```schedule```, which is an @Input, so must be called in ngOnInit
     this.initForm();
 
     this.handleStatusChange();
@@ -246,7 +247,7 @@ export class TeachingDialogContentComponent implements OnInit {
       : {
           date: startTuiDate,
           shift: data.Shift ?? '1',
-          room: room,
+          room,
         };
 
     const initialChange = {
