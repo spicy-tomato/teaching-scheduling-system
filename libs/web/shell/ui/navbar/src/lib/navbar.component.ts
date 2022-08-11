@@ -6,18 +6,14 @@ import {
   Inject,
   TemplateRef,
 } from '@angular/core';
-import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { tuiButtonOptionsProvider } from '@taiga-ui/core';
 import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
 import { Teacher } from '@teaching-scheduling-system/web/shared/data-access/models';
 import {
-  AccessTokenService,
-  AuthService,
-} from '@teaching-scheduling-system/web/shared/data-access/services';
-import {
   AppShellState,
+  logout,
   selectTeacher,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
 import { Observable, takeUntil } from 'rxjs';
@@ -50,12 +46,9 @@ export class NavbarComponent {
 
   // CONSTRUCTOR
   constructor(
-    private readonly router: Router,
-    private readonly accessTokenService: AccessTokenService,
-    private readonly authService: AuthService,
     private readonly cdr: ChangeDetectorRef,
     @Inject(NAVBAR_OPTIONS) public readonly options: NavbarOptions,
-    appShellStore: Store<AppShellState>,
+    private readonly appShellStore: Store<AppShellState>,
     navbarService: NavbarService,
     destroy$: TuiDestroyService
   ) {
@@ -72,9 +65,7 @@ export class NavbarComponent {
   onClickDropDownItem(action: string): void {
     this.openDropDown = false;
     if (action === NavbarConstants.keys.LOG_OUT) {
-      this.authService.logOut().subscribe();
-      this.accessTokenService.clear();
-      void this.router.navigate(['/login']);
+      this.appShellStore.dispatch(logout());
     }
   }
 
