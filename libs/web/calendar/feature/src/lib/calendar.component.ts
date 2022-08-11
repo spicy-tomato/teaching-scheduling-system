@@ -13,6 +13,7 @@ import { Store } from '@ngrx/store';
 import {
   AgendaService,
   DayService,
+  EJ2Instance,
   EventRenderedArgs,
   EventSettingsModel,
   MonthService,
@@ -23,6 +24,7 @@ import {
   WeekService,
 } from '@syncfusion/ej2-angular-schedule';
 import { Predicate, Query } from '@syncfusion/ej2-data';
+import { Popup } from '@syncfusion/ej2-popups';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import {
@@ -164,10 +166,12 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onCreated(): void {
-    const popup = document.querySelector('.e-quick-popup-wrapper');
+    const popup = document.querySelector(
+      '.e-quick-popup-wrapper'
+    ) as EJ2Instance;
     if (!popup) return;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const popupInstance = (popup as any).ej2_instances[0];
+
+    const popupInstance = popup.ej2_instances[0] as Popup;
     popupInstance.open = () => {
       popupInstance.refreshPosition();
     };

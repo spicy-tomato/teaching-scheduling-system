@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { routerNavigatedAction } from '@ngrx/router-store';
 import { ObservableHelper } from '@teaching-scheduling-system/core/utils/helpers';
@@ -8,6 +8,7 @@ import { BreadcrumbItem } from '@teaching-scheduling-system/web/shared/data-acce
 import {
   AccessTokenService,
   AppService,
+  AuthService,
   CommonInfoService,
   TeacherService,
   UserService,
@@ -47,6 +48,20 @@ export class AppShellEffects {
       })
     );
   });
+
+  logout$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(PageAction.logout),
+        tap(() => {
+          this.authService.logOut().subscribe();
+          this.accessTokenService.clear();
+          void this.router.navigate(['/login']);
+        })
+      );
+    },
+    { dispatch: false }
+  );
 
   autoLoginFailure$ = createEffect(
     () => {
@@ -128,12 +143,14 @@ export class AppShellEffects {
   // CONSTRUCTOR
   constructor(
     private readonly actions$: Actions,
+    private readonly router: Router,
+    private readonly location: Location,
     private readonly appService: AppService,
+    private readonly authService: AuthService,
     private readonly userService: UserService,
     private readonly commonInfoService: CommonInfoService,
     private readonly teacherService: TeacherService,
-    private readonly accessTokenService: AccessTokenService,
-    private readonly location: Location
+    private readonly accessTokenService: AccessTokenService
   ) {}
 
   // PRIVATE METHODS
