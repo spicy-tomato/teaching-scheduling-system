@@ -40,21 +40,21 @@ import { Observable, Subject, takeUntil, tap, withLatestFrom } from 'rxjs';
   ],
 })
 export class ChangeRequestListStatusComponent {
-  /** INPUT */
-  @Input() public displayText!: boolean;
-  @Input() public item!: ChangeSchedule;
+  // INPUT
+  @Input() displayText!: boolean;
+  @Input() item!: ChangeSchedule;
 
-  /** PUBLIC PROPERTIES */
-  public readonly requesting$: Observable<number[]>;
-  public readonly permissions$: Observable<number[]>;
-  public readonly accept$ = new Subject<void>();
-  public readonly statusList = ScheduleConstant.REQUEST_CHANGE_SCHEDULE_STATUS;
+  // PUBLIC PROPERTIES
+  readonly requesting$: Observable<number[]>;
+  readonly permissions$: Observable<number[]>;
+  readonly accept$ = new Subject<void>();
+  readonly statusList = ScheduleConstant.REQUEST_CHANGE_SCHEDULE_STATUS;
 
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES
   private acceptDialog$!: Observable<void>;
   private denyDialog$!: Observable<void>;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly store: Store<TeachingScheduleRequestState>,
     @Inject(Injector) private readonly injector: Injector,
@@ -73,12 +73,12 @@ export class ChangeRequestListStatusComponent {
     this.handleAccept();
   }
 
-  /** PUBLIC METHODS */
-  public onDeny(): void {
+  // PUBLIC METHODS
+  onDeny(): void {
     this.denyDialog$.subscribe();
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS
   private initDialog(): void {
     this.acceptDialog$ = this.dialogService.open(
       new PolymorpheusComponent(ChangeSetRoomDialogComponent, this.injector),

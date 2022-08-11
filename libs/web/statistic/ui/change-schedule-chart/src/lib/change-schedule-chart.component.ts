@@ -15,7 +15,7 @@ import {
   SimpleModel,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { StatisticChangeScheduleStore } from '@teaching-scheduling-system/web/statistic/data-access';
-import { combineLatest, filter, Observable, takeUntil, tap } from 'rxjs';
+import { combineLatest, filter, tap } from 'rxjs';
 
 type TeacherData = { [key: string]: { accept: number; deny: number } };
 
@@ -27,39 +27,35 @@ type TeacherData = { [key: string]: { accept: number; deny: number } };
   providers: [TuiDestroyService],
 })
 export class ChangeScheduleChartComponent {
-  /** PUBLIC PROPERTIES */
-  public teachersNameList: string[] = [];
+  // PUBLIC PROPERTIES
+  teachersNameList: string[] = [];
 
-  public value: [number[], number[]] = [[], []];
-  public labelsX: string[] = [];
-  public labelsY: string[] = [];
-  public axisYLabels: string[] = [];
-  public max = 0;
+  value: [number[], number[]] = [[], []];
+  labelsX: string[] = [];
+  labelsY: string[] = [];
+  axisYLabels: string[] = [];
+  max = 0;
 
-  public readonly teachersList$: Observable<SimpleModel[]>;
-  public readonly status$ = this.store.status$;
-  public readonly setNames = ['Đã đổi', 'Bị từ chối'];
-  public readonly horizontalLinesHandler: TuiLineHandler = (index, total) => {
+  readonly teachersList$ = this.store.teachersInDepartment$;
+  readonly status$ = this.store.status$;
+  readonly setNames = ['Đã đổi', 'Bị từ chối'];
+  readonly horizontalLinesHandler: TuiLineHandler = (index, total) => {
     return index === 0 || (total - index) % 5 === 0 ? 'dashed' : 'none';
   };
 
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES
   private readonly data$ = this.store.data$;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly cdr: ChangeDetectorRef,
     private readonly store: StatisticChangeScheduleStore,
     private readonly destroy$: TuiDestroyService
   ) {
-    this.status$ = store.status$;
-    this.teachersList$ = store.teachersInDepartment$;
-    this.data$ = store.data$;
-
     this.handleChangeScheduleChange();
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS
   private handleChangeScheduleChange(): void {
     combineLatest([this.data$, this.teachersList$])
       .pipe(
@@ -69,8 +65,7 @@ export class ChangeScheduleChartComponent {
         ),
         tap(([changeSchedules, teachersList]) =>
           this.calculateChartData(changeSchedules, teachersList)
-        ),
-        takeUntil(this.destroy$)
+        )
       )
       .subscribe();
   }

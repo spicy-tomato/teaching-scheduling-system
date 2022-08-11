@@ -53,7 +53,7 @@
       tuiButton
       *ngrxLet="showLoader$ as showLoader"
       [showLoader]="showLoader"
-      [disabled]="form.controls['change'].invalid"
+      [disabled]="changeControl.invalid"
       (click)="submit()"
       size="m"
       class="tui-form__button"

@@ -16,10 +16,10 @@ import { Observable, takeUntil } from 'rxjs';
   providers: [TuiDestroyService],
 })
 export class BreadcrumbComponent {
-  /** PUBLIC METHODS */
-  public readonly breadcrumbs$: Observable<BreadcrumbItem[]>;
+  // PUBLIC METHODS
+  readonly breadcrumbs$: Observable<BreadcrumbItem[]>;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly destroy$: TuiDestroyService,
     appShellStore: Store<AppShellState>

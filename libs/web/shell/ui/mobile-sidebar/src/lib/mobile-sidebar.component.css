@@ -11,7 +11,7 @@ tui-scrollbar a {
   font: var(--tui-font-text-m);
 }
 
-tui-accordion-item ::ng-deep .header {
+tui-accordion-item ::ng-deep .t-header {
   @apply !pl-3 !pr-4;
 }
 

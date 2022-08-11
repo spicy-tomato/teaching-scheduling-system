@@ -1,4 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
+import { StringHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import { TeachingScheduleAssignState } from '.';
 import * as ApiAction from './assign-schedule.api.actions';
 import * as PageAction from './assign-schedule.page.actions';
@@ -75,9 +76,16 @@ export const teachingScheduleAssignReducer = createReducer(
     };
   }),
   on(ApiAction.loadTeacherSuccessful, (state, { teachers }) => {
+    const data = [...teachers];
+    data.sort((a, b) => StringHelper.nameCompareFn(a.name, b.name));
     return {
       ...state,
-      teacher: { data: teachers, selected: null, action: null, actionCount: 0 },
+      teacher: {
+        data,
+        selected: null,
+        action: null,
+        actionCount: 0,
+      },
     };
   }),
   on(ApiAction.assignSuccessful, (state, { teacher, classIds }) => {

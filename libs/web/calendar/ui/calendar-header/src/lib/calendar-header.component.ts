@@ -47,27 +47,27 @@ import { combineLatest, delay, map, Observable, takeUntil } from 'rxjs';
   ],
 })
 export class CalendarHeaderComponent implements AfterViewInit {
-  /** INPUT */
-  @Input() public scheduleComponent!: ScheduleComponent;
+  // INPUT
+  @Input() scheduleComponent!: ScheduleComponent;
 
-  /** VIEWCHILD */
+  // VIEWCHILD
   @ViewChild(CalendarFilterComponent, { static: false })
-  public filter!: CalendarFilterComponent;
+  filter!: CalendarFilterComponent;
 
-  /** PUBLIC PROPERTIES */
-  public openSelectMonth = false;
-  public openFilter = false;
-  public view$: Observable<View>;
-  public filter$: Observable<CalendarFilter>;
-  public month$: Observable<TuiMonth>;
-  public dateRange$!: Observable<string>;
-  public activeToday$!: Observable<boolean>;
-  public activeTeachers$!: Observable<SimpleModel[]>;
+  // PUBLIC PROPERTIES
+  openSelectMonth = false;
+  openFilter = false;
+  view$: Observable<View>;
+  filter$: Observable<CalendarFilter>;
+  month$: Observable<TuiMonth>;
+  dateRange$!: Observable<string>;
+  activeToday$!: Observable<boolean>;
+  activeTeachers$!: Observable<SimpleModel[]>;
 
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES
   private selectedDate$: Observable<Date>;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly store: Store<CalendarState>,
     private readonly destroy$: TuiDestroyService
@@ -89,41 +89,41 @@ export class CalendarHeaderComponent implements AfterViewInit {
       .pipe(takeUntil(this.destroy$));
   }
 
-  /** LIFECYCLE */
-  public ngAfterViewInit(): void {
+  // LIFECYCLE
+  ngAfterViewInit(): void {
     this.triggerDateRange();
     this.triggerActiveToday();
   }
 
-  /** PUBLIC METHODS */
-  public onSelectMonth(month: TuiMonth): void {
+  // PUBLIC METHODS
+  onSelectMonth(month: TuiMonth): void {
     this.openSelectMonth = false;
     this.store.dispatch(calendarChangeMonth({ month }));
   }
 
-  public onFilterOpenChange(open: boolean): void {
+  onFilterOpenChange(open: boolean): void {
     if (!open) {
       this.store.dispatch(calendarResetFilter());
     }
   }
 
-  public onClickMonth(): void {
+  onClickMonth(): void {
     this.store.dispatch(calendarChangeView({ view: 'Month' }));
   }
 
-  public onClickWeek(): void {
+  onClickWeek(): void {
     this.store.dispatch(calendarChangeView({ view: 'Week' }));
   }
 
-  public onClickDay(): void {
+  onClickDay(): void {
     this.store.dispatch(calendarChangeView({ view: 'Day' }));
   }
 
-  public onFilter(): void {
+  onFilter(): void {
     this.openFilter = false;
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS
   private triggerDateRange(): void {
     this.dateRange$ = combineLatest([this.view$, this.selectedDate$]).pipe(
       map(([view]) => view),

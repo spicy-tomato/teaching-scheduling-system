@@ -19,6 +19,7 @@ import {
 } from '@taiga-ui/core';
 import {
   TuiCheckboxLabeledModule,
+  TuiComboBoxModule,
   TuiDataListWrapperModule,
   TuiDropdownHoverModule,
   TuiFieldErrorPipeModule,
@@ -53,6 +54,7 @@ const NGRX = [
 const TAIGA_UI = [
   TuiButtonModule,
   TuiCheckboxLabeledModule,
+  TuiComboBoxModule,
   TuiDataListModule,
   TuiDataListWrapperModule,
   TuiDropdownHoverModule,

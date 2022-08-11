@@ -1,0 +1,27 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/core/pipes/relative-time/src",
+  "prefix": "tss",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "coverage/libs/core/pipes/relative-time"
+      ],
+      "options": {
+        "jestConfig": "libs/core/pipes/relative-time/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/core/pipes/relative-time/**/*.ts",
+          "libs/core/pipes/relative-time/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

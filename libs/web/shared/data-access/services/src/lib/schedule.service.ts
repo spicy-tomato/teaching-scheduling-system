@@ -39,10 +39,10 @@ const parseStudyScheduleModel = (
   providedIn: 'root',
 })
 export class ScheduleService {
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES
   private readonly url: string;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly http: HttpClient,
     @Inject(APP_CONFIG) config: AppConfig
@@ -50,7 +50,7 @@ export class ScheduleService {
     this.url = config.baseUrl;
   }
 
-  public getSchedule(
+  getSchedule(
     idTeacher: string,
     params: QueryFilterResult<SearchSchedule>
   ): Observable<ResponseModel<StudyScheduleModel[]>> {
@@ -62,7 +62,7 @@ export class ScheduleService {
       .pipe(map(parseStudyScheduleModel));
   }
 
-  public getDepartmentSchedule(
+  getDepartmentSchedule(
     department: string,
     params: QueryFilterResult<SearchSchedule>
   ): Observable<ResponseModel<StudyScheduleModel[]>> {
@@ -75,14 +75,14 @@ export class ScheduleService {
       .pipe(map(parseStudyScheduleModel));
   }
 
-  public updateStudyNote(idSchedule: number, body: Note): Observable<void> {
+  updateStudyNote(idSchedule: number, body: Note): Observable<void> {
     return this.http.patch<void>(
       this.url + `v1/schedules/update/${idSchedule}`,
       body
     );
   }
 
-  public requestChangeSchedule(
+  requestChangeSchedule(
     body: RequestChangeSchedulePayload
   ): Observable<ResponseModel<number>> {
     return this.http.post<ResponseModel<number>>(
@@ -91,7 +91,7 @@ export class ScheduleService {
     );
   }
 
-  public requestIntendChangeSchedule(
+  requestIntendChangeSchedule(
     body: RequestIntendChangeSchedulePayload
   ): Observable<ResponseModel<number>> {
     return this.http.post<ResponseModel<number>>(
@@ -100,7 +100,7 @@ export class ScheduleService {
     );
   }
 
-  public changeSchedule(
+  changeSchedule(
     body: RequestChangeSchedulePayload
   ): Observable<ResponseModel<number>> {
     return this.http.post<ResponseModel<number>>(
@@ -109,7 +109,7 @@ export class ScheduleService {
     );
   }
 
-  public getDepartmentChangeScheduleRequests(
+  getDepartmentChangeScheduleRequests(
     department: string,
     params: QueryFilterResult<ChangeScheduleSearch, string, string>
   ): Observable<PaginationResponseModel<ChangeSchedule[]>> {
@@ -119,7 +119,7 @@ export class ScheduleService {
     );
   }
 
-  public getPersonalChangeScheduleRequests(
+  getPersonalChangeScheduleRequests(
     teacherId: string,
     params: QueryFilterResult<ChangeScheduleSearch, string, string>
   ): Observable<PaginationResponseModel<ChangeSchedule[]>> {
@@ -129,7 +129,7 @@ export class ScheduleService {
     );
   }
 
-  public getManagerChangeScheduleRequests(
+  getManagerChangeScheduleRequests(
     params: QueryFilterResult<ChangeScheduleSearch, string, string>
   ): Observable<PaginationResponseModel<ChangeSchedule[]>> {
     return this.http.get<PaginationResponseModel<ChangeSchedule[]>>(
@@ -138,7 +138,7 @@ export class ScheduleService {
     );
   }
 
-  public acceptChangeScheduleRequests(
+  acceptChangeScheduleRequests(
     id: number,
     body: AcceptChangeScheduleRequestPayload
   ): Observable<ResponseModel<StatusModel>> {
@@ -148,7 +148,7 @@ export class ScheduleService {
     );
   }
 
-  public setRoomChangeScheduleRequests(
+  setRoomChangeScheduleRequests(
     id: number,
     body: SetRoomChangeScheduleRequestPayload
   ): Observable<void> {
@@ -158,7 +158,7 @@ export class ScheduleService {
     );
   }
 
-  public denyChangeScheduleRequests(
+  denyChangeScheduleRequests(
     id: number,
     body: DenyChangeScheduleRequestPayload
   ): Observable<ResponseModel<StatusModel>> {
@@ -168,14 +168,14 @@ export class ScheduleService {
     );
   }
 
-  public cancelChangeScheduleRequests(id: number): Observable<void> {
+  cancelChangeScheduleRequests(id: number): Observable<void> {
     return this.http.patch<void>(
       this.url + `fixed-schedules/update/${id}?type=cancel`,
       {}
     );
   }
 
-  public intendTimeChangeScheduleRequests(
+  intendTimeChangeScheduleRequests(
     id: number,
     body: IntendTimeChangeScheduleRequestPayload
   ): Observable<void> {

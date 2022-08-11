@@ -11,10 +11,10 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ImportService {
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES
   private readonly url: string;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly http: HttpClient,
     @Inject(APP_CONFIG) config: AppConfig
@@ -22,12 +22,11 @@ export class ImportService {
     this.url = config.baseUrl + 'import-data/';
   }
 
-  public importSchedule(
+  importSchedule(
     file: File,
     departmentId: string,
     studySession: string
-    // eslint-disable-next-line @typescript-eslint/ban-types
-  ): Observable<Object> {
+  ): Observable<void> {
     const headers = new HttpHeaders().set(
       InterceptorCustomHeader.skipContentType,
       'true'
@@ -37,6 +36,6 @@ export class ImportService {
     formData.append('study_session', studySession);
     formData.append('id_department', departmentId);
 
-    return this.http.post(this.url + 'schedule', formData, { headers });
+    return this.http.post<void>(this.url + 'schedule', formData, { headers });
   }
 }

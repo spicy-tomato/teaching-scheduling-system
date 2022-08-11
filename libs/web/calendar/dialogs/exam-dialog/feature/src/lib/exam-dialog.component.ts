@@ -6,7 +6,6 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { TuiDestroyService } from '@taiga-ui/cdk';
 import {
   TuiAlertService,
   TuiDialogContext,
@@ -14,41 +13,37 @@ import {
 } from '@taiga-ui/core';
 import { CoreConstant } from '@teaching-scheduling-system/core/data-access/constants';
 import { DateHelper } from '@teaching-scheduling-system/core/utils/helpers';
+import { ExamDialogStore } from '@teaching-scheduling-system/web/calendar/dialogs-exam-dialog/data-access';
 import { EjsScheduleModel } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { sameGroupStaticValueValidator } from '@teaching-scheduling-system/web/shared/utils/validators';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { map, takeUntil, tap } from 'rxjs';
-import { ExamDialogStore } from './store';
+import { map, tap } from 'rxjs';
 
 @Component({
   templateUrl: './exam-dialog.component.html',
   styleUrls: ['./exam-dialog.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [ExamDialogStore, TuiDestroyService],
 })
 export class ExamDialogComponent {
-  /** PUBLIC PROPERTIES */
-  public readonly notAllowFieldHint =
-    'Không thể thay đổi thông tin của lịch thi';
-  public readonly noteMaxLength = CoreConstant.NOTE_MAX_LENGTH;
-  public readonly showLoader$ = this.store.status$.pipe(
-    map((s) => s === 'loading')
-  );
-  public form!: FormGroup;
+  // PUBLIC PROPERTIES
+  readonly notAllowFieldHint = 'Không thể thay đổi thông tin của lịch thi';
+  readonly noteMaxLength = CoreConstant.NOTE_MAX_LENGTH;
+  readonly showLoader$ = this.store.status$.pipe(map((s) => s === 'loading'));
+  form!: FormGroup;
 
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES
   private needUpdateAfterClose = false;
 
-  /** GETTERS */
+  // GETTERS
   private get idControl(): FormControl {
     return this.form.controls['id'] as FormControl;
   }
 
-  public get peopleControl(): FormArray {
+  get peopleControl(): FormArray {
     return this.form.controls['people'] as FormArray;
   }
 
-  public get changeControl(): FormGroup {
+  get changeControl(): FormGroup {
     return this.form.controls['change'] as FormGroup;
   }
 
@@ -56,29 +51,28 @@ export class ExamDialogComponent {
     return this.changeControl.controls['note'] as FormControl;
   }
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT)
     private readonly context: TuiDialogContext<string, EjsScheduleModel>,
     private readonly fb: FormBuilder,
     @Inject(TuiAlertService)
     private readonly alertService: TuiAlertService,
-    private readonly store: ExamDialogStore,
-    private readonly destroy$: TuiDestroyService
+    private readonly store: ExamDialogStore
   ) {
     this.initForm(context.data);
     this.handleSubmitStatus();
   }
 
-  /** PUBLIC METHODS */
-  public submit(): void {
+  // PUBLIC METHODS
+  submit(): void {
     this.store.submit({
       id: this.idControl.value,
       note: this.noteControl.value,
     });
   }
 
-  public onCancel(): void {
+  onCancel(): void {
     setTimeout(() => {
       if (this.needUpdateAfterClose) {
         this.context.completeWith(this.noteControl.value);
@@ -88,7 +82,7 @@ export class ExamDialogComponent {
     });
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS
   private initForm(data?: EjsScheduleModel): void {
     const startDate = data?.StartTime as Date;
     const endDate = data?.EndTime as Date;
@@ -135,8 +129,7 @@ export class ExamDialogComponent {
           } else if (status === 'systemError') {
             this.showNotificationError();
           }
-        }),
-        takeUntil(this.destroy$)
+        })
       )
       .subscribe();
   }

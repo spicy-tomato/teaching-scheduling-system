@@ -81,52 +81,51 @@ import { TeachingDialogButtonsRightComponent } from './teaching-dialog-buttons-r
   ],
 })
 export class TeachingDialogContentComponent implements OnInit {
-  /** INPUT */
-  @Input() public schedule!: EjsScheduleModel;
+  // INPUT
+  @Input() schedule!: EjsScheduleModel;
 
-  /** OUTPUT */
-  @Output() public updateSchedule = new EventEmitter<FixedScheduleModel>();
-  @Output() public changeScheduleInfo =
-    new EventEmitter<TeachingDialogChange>();
-  @Output() public cancelRequest = new EventEmitter();
-  @Output() public cancel = new EventEmitter();
+  // OUTPUT
+  @Output() updateSchedule = new EventEmitter<FixedScheduleModel>();
+  @Output() changeScheduleInfo = new EventEmitter<TeachingDialogChange>();
+  @Output() cancelRequest = new EventEmitter();
+  @Output() cancel = new EventEmitter();
 
-  /** VIEWCHILD */
+  // VIEWCHILD
   @ViewChild(TeachingDialogButtonsRightComponent)
-  public rightButtonComponent!: TeachingDialogButtonsRightComponent;
+  rightButtonComponent!: TeachingDialogButtonsRightComponent;
 
-  /** PUBLIC PROPERTIES */
-  public form!: FormGroup;
-  public isPersonal!: boolean;
-  public validRequestChangeSchedule!: boolean;
-  public firstDateAllowRequestChange!: Date;
-  public requestedChangeSchedule: Nullable<FixedScheduleModel> = null;
-  public requestChangeToUndeterminedDay = false;
-  public changed = false;
+  // PUBLIC PROPERTIES
+  form!: FormGroup;
+  isPersonal!: boolean;
+  validRequestChangeSchedule!: boolean;
+  firstDateAllowRequestChange!: Date;
+  requestedChangeSchedule: Nullable<FixedScheduleModel> = null;
+  requestChangeToUndeterminedDay = false;
+  changed = false;
 
-  public readonly cancelRequest$ = new Subject<void>();
-  public readonly IconConstant = IconConstant;
-  public readonly noteMaxLength = CoreConstant.NOTE_MAX_LENGTH;
+  readonly cancelRequest$ = new Subject<void>();
+  readonly IconConstant = IconConstant;
+  readonly noteMaxLength = CoreConstant.NOTE_MAX_LENGTH;
 
-  public readonly changeStatus$: Observable<EApiStatus>;
-  public readonly requestStatus$: Observable<EApiStatus>;
-  public readonly updateStatus$: Observable<EApiStatus>;
-  public readonly cancelStatus$: Observable<EApiStatus>;
-  public readonly requestingChangeSchedule$: Observable<boolean>;
-  public readonly justRequestedSchedule$: Observable<
+  readonly changeStatus$: Observable<EApiStatus>;
+  readonly requestStatus$: Observable<EApiStatus>;
+  readonly updateStatus$: Observable<EApiStatus>;
+  readonly cancelStatus$: Observable<EApiStatus>;
+  readonly requestingChangeSchedule$: Observable<boolean>;
+  readonly justRequestedSchedule$: Observable<
     Nullable<SimpleFixedScheduleModel>
   >;
 
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES
   private readonly change$: Observable<TeachingDialogChange>;
   private readonly nameTitle$: Observable<string>;
 
-  /** GETTERS */
-  public get requestControl(): FormGroup {
+  // GETTERS
+  get requestControl(): FormGroup {
     return this.form.controls['request'] as FormGroup;
   }
 
-  public get changeControl(): FormGroup {
+  get changeControl(): FormGroup {
     return this.form.controls['change'] as FormGroup;
   }
 
@@ -142,7 +141,7 @@ export class TeachingDialogContentComponent implements OnInit {
     return this.requestControl.controls['date'].value as TuiDay;
   }
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly fb: FormBuilder,
     private readonly cdr: ChangeDetectorRef,
@@ -179,8 +178,9 @@ export class TeachingDialogContentComponent implements OnInit {
       .pipe(takeUntil(this.destroy$));
   }
 
-  /** LIFECYCLE */
-  public ngOnInit(): void {
+  // LIFECYCLE
+  ngOnInit(): void {
+    // This function use ```schedule```, which is an @Input, so must be called in ngOnInit
     this.initForm();
 
     this.handleStatusChange();
@@ -203,12 +203,12 @@ export class TeachingDialogContentComponent implements OnInit {
       .subscribe();
   }
 
-  /** PUBLIC METHODS */
-  public toggleRequestArea(open: boolean): void {
+  // PUBLIC METHODS
+  toggleRequestArea(open: boolean): void {
     this.store.dispatch(teachingDialogToggleRequestChange({ open }));
   }
 
-  public onUpdate(): void {
+  onUpdate(): void {
     const id = this.schedule.Id;
     const body = {
       note: this.changeControl.controls['note'].value as string,
@@ -217,7 +217,7 @@ export class TeachingDialogContentComponent implements OnInit {
     this.store.dispatch(teachingDialogUpdate({ id, body }));
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS
   private initForm(): void {
     const data = this.schedule;
 
@@ -247,7 +247,7 @@ export class TeachingDialogContentComponent implements OnInit {
       : {
           date: startTuiDate,
           shift: data.Shift ?? '1',
-          room: room,
+          room,
         };
 
     const initialChange = {

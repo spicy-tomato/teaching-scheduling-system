@@ -11,7 +11,7 @@
   tss-sidebar {
     grid-area: aside;
   }
-  
+
   tss-navbar {
     grid-area: nav;
   }

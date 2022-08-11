@@ -43,6 +43,7 @@ module.exports = {
         'tui-base-04': 'var(--tui-base-04)',
         'tui-base-09': 'var(--tui-base-09)',
         'tui-clear': 'var(--tui-clear)',
+        'tui-primary': 'var(--tui-primary)',
         // Text
         'tui-text-01': 'var(--tui-text-01)',
         'tui-text-02': 'var(--tui-text-02)',

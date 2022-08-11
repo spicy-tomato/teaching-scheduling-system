@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { PermissionConstant } from '@teaching-scheduling-system/core/data-access/constants';
+import { PermissionGuard } from '@teaching-scheduling-system/web/shared/utils/guards';
 
 @NgModule({
   imports: [
@@ -8,7 +10,9 @@ import { RouterModule } from '@angular/router';
     RouterModule.forChild([
       {
         path: 'assign',
+        canActivate: [PermissionGuard],
         data: {
+          permissions: [PermissionConstant.ASSIGN_SCHEDULE],
           title: 'Danh sách phân giảng',
           breadcrumb: 'Phân giảng',
         },
@@ -33,9 +37,12 @@ import { RouterModule } from '@angular/router';
       },
       {
         path: 'import',
+        canActivate: [PermissionGuard],
         data: {
+          permissions: [PermissionConstant.ASSIGN_SCHEDULE],
           title: 'Nhập dữ liệu phân giảng',
           breadcrumb: 'Nhập dữ liệu',
+          group: 'Phân giảng',
         },
         loadChildren: async () =>
           (

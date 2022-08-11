@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { routerNavigatedAction } from '@ngrx/router-store';
 import { ObservableHelper } from '@teaching-scheduling-system/core/utils/helpers';
@@ -8,6 +8,7 @@ import { BreadcrumbItem } from '@teaching-scheduling-system/web/shared/data-acce
 import {
   AccessTokenService,
   AppService,
+  AuthService,
   CommonInfoService,
   TeacherService,
   UserService,
@@ -18,8 +19,8 @@ import * as PageAction from './app-shell.page.actions';
 
 @Injectable()
 export class AppShellEffects {
-  /** EFFECTS */
-  public changeRouter$ = createEffect(() => {
+  // EFFECTS
+  changeRouter$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(routerNavigatedAction),
       map((action) => {
@@ -31,7 +32,7 @@ export class AppShellEffects {
     );
   });
 
-  public keepLogin$ = createEffect(() => {
+  keepLogin$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.keepLogin),
       mergeMap(() => {
@@ -48,7 +49,21 @@ export class AppShellEffects {
     );
   });
 
-  public autoLoginFailure$ = createEffect(
+  logout$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(PageAction.logout),
+        tap(() => {
+          this.authService.logOut().subscribe();
+          this.accessTokenService.clear();
+          void this.router.navigate(['/login']);
+        })
+      );
+    },
+    { dispatch: false }
+  );
+
+  autoLoginFailure$ = createEffect(
     () => {
       return this.actions$.pipe(
         ofType(ApiAction.autoLoginFailure),
@@ -68,7 +83,7 @@ export class AppShellEffects {
     { dispatch: false }
   );
 
-  public loadRooms$ = createEffect(() => {
+  loadRooms$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ApiAction.autoLoginSuccessfully),
       mergeMap(() => {
@@ -80,7 +95,7 @@ export class AppShellEffects {
     );
   });
 
-  public loadSchoolYear$ = createEffect(() => {
+  loadSchoolYear$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ApiAction.autoLoginSuccessfully),
       mergeMap(() => {
@@ -95,7 +110,7 @@ export class AppShellEffects {
     );
   });
 
-  public loadAcademicYear$ = createEffect(() => {
+  loadAcademicYear$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ApiAction.autoLoginSuccessfully),
       mergeMap(() => {
@@ -109,7 +124,7 @@ export class AppShellEffects {
     );
   });
 
-  public loadTeachersInDepartment$ = createEffect(() => {
+  loadTeachersInDepartment$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ApiAction.autoLoginSuccessfully),
       map(({ teacher }) => teacher.department?.id),
@@ -125,18 +140,20 @@ export class AppShellEffects {
     );
   });
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly actions$: Actions,
+    private readonly router: Router,
+    private readonly location: Location,
     private readonly appService: AppService,
+    private readonly authService: AuthService,
     private readonly userService: UserService,
     private readonly commonInfoService: CommonInfoService,
     private readonly teacherService: TeacherService,
-    private readonly accessTokenService: AccessTokenService,
-    private readonly location: Location
+    private readonly accessTokenService: AccessTokenService
   ) {}
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS
   private createBreadcrumbs(
     route: ActivatedRouteSnapshot,
     url = '',
@@ -156,12 +173,13 @@ export class AppShellEffects {
       }
 
       const label = child.data['breadcrumb'] as string;
+      const group = child.data['group'] as string | undefined;
       if (
         label &&
         (breadcrumbs.length === 0 ||
           label !== breadcrumbs[breadcrumbs.length - 1].label)
       ) {
-        breadcrumbs.push({ label, url });
+        breadcrumbs.push({ label, url, group });
       }
 
       return this.createBreadcrumbs(child, url, breadcrumbs);
