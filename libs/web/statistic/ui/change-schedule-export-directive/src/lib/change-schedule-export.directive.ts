@@ -25,22 +25,22 @@ import { map, Observable, Subject, takeUntil, tap, withLatestFrom } from 'rxjs';
   providers: [TuiDestroyService],
 })
 export class ChangeScheduleExportDirective {
-  /** INPUT */
-  @Input('tssChangeScheduleExport') public rangeControl!: AbstractControl;
+  // INPUT
+  @Input('tssChangeScheduleExport') rangeControl!: AbstractControl;
 
-  /** PUBLIC PROPERTIES */
-  public readonly export$ = new Subject<void>();
+  // PUBLIC PROPERTIES
+  readonly export$ = new Subject<void>();
 
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES
   private readonly teacher$: Observable<Teacher>;
   private readonly data$: Observable<ChangeSchedule[]>;
 
-  /** GETTERS */
+  // GETTERS
   private get rangeControlValue(): TuiDayRange {
     return this.rangeControl.value as TuiDayRange;
   }
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly cdr: ChangeDetectorRef,
     private readonly exportService: ExportService,
@@ -56,12 +56,12 @@ export class ChangeScheduleExportDirective {
     this.handleExport();
   }
 
-  /** HOST LISTENER */
-  @HostListener('click') public onClick(): void {
+  // HOST LISTENER
+  @HostListener('click') onClick(): void {
     this.export$.next();
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS
 
   private handleExport(): void {
     this.export$

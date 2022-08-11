@@ -1,11 +1,11 @@
 import { ManagingClassDta } from '@teaching-scheduling-system/web/shared/data-access/dta';
 
 export class ManagingClass {
-  public readonly academicYear!: number;
-  public readonly name!: string;
-  public readonly faculty!: string;
+  readonly academicYear!: number;
+  readonly name!: string;
+  readonly faculty!: string;
 
-  public static parse(obj: ManagingClassDta): ManagingClass {
+  static parse(obj: ManagingClassDta): ManagingClass {
     return {
       academicYear: obj.id_academic_year,
       name: obj.id_class,

@@ -5,7 +5,7 @@ import {
 } from '@teaching-scheduling-system/core/data-access/models';
 
 export class ScheduleConstant {
-  public static REQUEST_CHANGE_SCHEDULE_STATUS: Record<
+  static REQUEST_CHANGE_SCHEDULE_STATUS: Record<
     RequestChangeScheduleCode,
     {
       name: string;

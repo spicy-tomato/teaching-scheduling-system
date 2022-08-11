@@ -11,20 +11,20 @@ import { fadeIn } from '@teaching-scheduling-system/core/ui/animations';
   animations: [fadeIn],
 })
 export class TeachingDialogRequestChangeIntendComponent implements OnInit {
-  /** PUBLIC PROPERTIES */
-  public form!: FormGroup;
-  public readonly CoreConstant = CoreConstant;
+  // PUBLIC PROPERTIES
+  form!: FormGroup;
+  readonly CoreConstant = CoreConstant;
 
-  /** GETTERS */
-  public get requestIntendControl(): FormGroup {
+  // GETTERS
+  get requestIntendControl(): FormGroup {
     return this.form.controls['requestIntend'] as FormGroup;
   }
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(public readonly controlContainer: ControlContainer) {}
 
-  /** LIFECYCLE */
-  public ngOnInit(): void {
+  // LIFECYCLE
+  ngOnInit(): void {
     this.form = this.controlContainer.control as FormGroup;
   }
 }

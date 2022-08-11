@@ -5,6 +5,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { TuiButtonModule } from '@taiga-ui/core';
 import { InputDateRangeModule } from '@teaching-scheduling-system/web/shared/ui/components/input-date-range';
 import { ChangeReportDialogComponent } from './change-report-dialog.component';
+import { ExportDialogStore } from './store';
 
 const NGRX = [ReactiveComponentModule];
 const TAIGA_UI = [TuiButtonModule];
@@ -19,5 +20,6 @@ const TAIGA_UI = [TuiButtonModule];
   ],
   declarations: [ChangeReportDialogComponent],
   exports: [ChangeReportDialogComponent],
+  providers: [ExportDialogStore],
 })
 export class ChangeReportDialogModule {}

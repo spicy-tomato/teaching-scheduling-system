@@ -19,10 +19,10 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class UserService {
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES
   private readonly url: string;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly http: HttpClient,
     @Inject(APP_CONFIG) config: AppConfig
@@ -30,39 +30,39 @@ export class UserService {
     this.url = config.baseUrl;
   }
 
-  public me(): Observable<ResponseModel<Teacher>> {
+  me(): Observable<ResponseModel<Teacher>> {
     return this.http.get<ResponseModel<Teacher>>(this.url + 'me');
   }
 
-  public changePassword(uuid: string, body: ChangePassword): Observable<void> {
+  changePassword(uuid: string, body: ChangePassword): Observable<void> {
     return this.http.patch<void>(
       this.url + `accounts/change-password/${uuid}`,
       body
     );
   }
 
-  public sendFeedback(body: Feedback): Observable<void> {
+  sendFeedback(body: Feedback): Observable<void> {
     return this.http.post<void>(this.url + 'feedback/create', body);
   }
 
-  public updateInformation(
+  updateInformation(
     body: Record<string, string>,
     id: string
   ): Observable<void> {
     return this.http.patch<void>(this.url + `accounts/update/${id}`, body);
   }
 
-  public verifyResetPassword(body: ValidateToken): Observable<void> {
+  verifyResetPassword(body: ValidateToken): Observable<void> {
     return this.http.post<void>(this.url + 'v1/verify-reset-password', body);
   }
 
-  public requestResetPassword(email: string): Observable<void> {
+  requestResetPassword(email: string): Observable<void> {
     return this.http.post<void>(this.url + 'v1/request-reset-password', {
       email,
     });
   }
 
-  public resetPassword(body: ResetPassword): Observable<void> {
+  resetPassword(body: ResetPassword): Observable<void> {
     return this.http.patch<void>(
       this.url + 'v1/reset-password',
       ObjectHelper.toSnakeCase(body)

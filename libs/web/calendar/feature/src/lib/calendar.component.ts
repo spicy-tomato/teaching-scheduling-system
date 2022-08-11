@@ -4,6 +4,7 @@ import {
   Component,
   Inject,
   Injector,
+  OnDestroy,
   OnInit,
   TemplateRef,
   ViewChild,
@@ -12,6 +13,7 @@ import { Store } from '@ngrx/store';
 import {
   AgendaService,
   DayService,
+  EJ2Instance,
   EventRenderedArgs,
   EventSettingsModel,
   MonthService,
@@ -21,6 +23,8 @@ import {
   ScheduleComponent,
   WeekService,
 } from '@syncfusion/ej2-angular-schedule';
+import { Predicate, Query } from '@syncfusion/ej2-data';
+import { Popup } from '@syncfusion/ej2-popups';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import {
@@ -48,6 +52,12 @@ import {
   EjsScheduleModel,
   FixedScheduleModel,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
+import {
+  SidebarState,
+  sidebar_listen,
+  sidebar_reset,
+  sidebar_selectEvent,
+} from '@teaching-scheduling-system/web/shell/data-access';
 import { NavbarService } from '@teaching-scheduling-system/web/shell/ui/navbar';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import {
@@ -72,47 +82,54 @@ import {
     AgendaService,
   ],
 })
-export class CalendarComponent implements OnInit, AfterViewInit {
-  /** VIEWCHILD */
-  @ViewChild('schedule') public scheduleComponent!: ScheduleComponent;
-  @ViewChild('rightMenu') public rightMenuTemplate!: TemplateRef<never>;
+export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
+  // VIEWCHILD
+  @ViewChild('schedule') scheduleComponent!: ScheduleComponent;
+  @ViewChild('rightMenu') rightMenuTemplate!: TemplateRef<never>;
 
-  /** PUBLIC PROPERTIES */
-  public readonly eventSettings$ = new BehaviorSubject<EventSettingsModel>({});
+  // PUBLIC PROPERTIES
+  readonly eventSettings$ = new BehaviorSubject<EventSettingsModel>({});
 
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES
   private readonly staticSettings: EventSettingsModel = {
     allowAdding: false,
     allowEditing: true,
     allowDeleting: false,
   };
+  private calendars: Record<string, boolean> = {};
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly destroy$: TuiDestroyService,
     @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
     @Inject(Injector) private readonly injector: Injector,
     private readonly navbarService: NavbarService,
+    private readonly sidebarStore: Store<SidebarState>,
     private readonly store: Store<CalendarState>
   ) {
     this.store.dispatch(calendarReset());
     this.handleLoadSchedule();
+    this.handleSidebarAddItem();
   }
 
-  /** LIFECYCLE */
-  public ngOnInit(): void {
+  // LIFECYCLE
+  ngOnInit(): void {
     this.store.dispatch(calendarLoad({ date: new Date() }));
   }
 
-  public ngAfterViewInit(): void {
+  ngAfterViewInit(): void {
     this.handleSelectedDateChanges();
     this.handleChangeView();
     this.handleChangeStatus();
     this.navbarService.addRightMenu(this.rightMenuTemplate);
   }
 
-  /** PUBLIC METHODS */
-  public onRenderCell(args: RenderCellEventArgs): void {
+  ngOnDestroy(): void {
+    this.sidebarStore.dispatch(sidebar_reset());
+  }
+
+  // PUBLIC METHODS
+  onRenderCell(args: RenderCellEventArgs): void {
     if (args.element.classList.contains('e-work-cells')) {
       if (args.date && DateHelper.sameDay(args.date, new Date())) {
         args.element.classList.add('today');
@@ -124,7 +141,7 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public onEventRendered(args: EventRenderedArgs): void {
+  onEventRendered(args: EventRenderedArgs): void {
     switch (args.data['Type']) {
       case 'exam':
         args.element.style.backgroundColor = '#ff0000';
@@ -148,17 +165,21 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public onCreated(): void {
-    const popup = document.querySelector('.e-quick-popup-wrapper');
+  onCreated(): void {
+    const popup = document.querySelector(
+      '.e-quick-popup-wrapper'
+    ) as EJ2Instance;
     if (!popup) return;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const popupInstance = (popup as any).ej2_instances[0];
+
+    const popupInstance = popup.ej2_instances[0] as Popup;
     popupInstance.open = () => {
       popupInstance.refreshPosition();
     };
+
+    this.handleSidebarCheckboxChange();
   }
 
-  public onPopupOpen(args: PopupOpenEventArgs): void {
+  onPopupOpen(args: PopupOpenEventArgs): void {
     if (!args.data) return;
 
     if (args.type === 'Editor') {
@@ -167,7 +188,7 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public onNavigating(args: NavigatingEventArgs): void {
+  onNavigating(args: NavigatingEventArgs): void {
     if (!DeviceHelper.isTouchDevice()) {
       return;
     }
@@ -192,7 +213,7 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public onShowEditorDialog(data: EjsScheduleModel): void {
+  onShowEditorDialog(data: EjsScheduleModel): void {
     switch (data.Type) {
       case 'exam':
         this.showExamEditorDialog(data);
@@ -205,11 +226,11 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public onCloseEditorDialog(): void {
+  onCloseEditorDialog(): void {
     this.scheduleComponent.closeQuickInfoPopup();
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS
   private handleLoadSchedule(): void {
     this.store
       .select(calendarSelectFilteredSchedule)
@@ -221,6 +242,57 @@ export class CalendarComponent implements OnInit, AfterViewInit {
             dataSource,
             ...this.staticSettings,
           });
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
+  private handleSidebarAddItem(): void {
+    this.sidebarStore
+      .pipe(
+        sidebar_listen('calendar.create'),
+        tap((events) => {
+          events.forEach((e) => {
+            if (!this.calendars[e]) {
+              this.calendars[e] = true;
+            }
+          });
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
+  private handleSidebarCheckboxChange(): void {
+    this.sidebarStore
+      .select(sidebar_selectEvent)
+      .pipe(
+        ObservableHelper.filterNullish(),
+        filter(
+          (e) => e.name === 'calendar.exam' || e.name === 'calendar.study'
+        ),
+        tap((e) => {
+          // https://ej2.syncfusion.com/angular/documentation/schedule/appointments/#appointment-filtering
+          this.calendars[e.name] = e.value as boolean;
+          let predicate: Predicate | undefined;
+
+          for (const [key, checked] of Object.entries(this.calendars)) {
+            if (checked) {
+              //    key         : calendar.study
+              // => compareValue: study
+              const compareValue = key.substring(9);
+              if (predicate) {
+                predicate = predicate.or('Type', 'equal', compareValue);
+              } else {
+                predicate = new Predicate('Type', 'equal', compareValue);
+              }
+            }
+          }
+
+          this.scheduleComponent.eventSettings.query = predicate
+            ? new Query().where(predicate)
+            : new Query();
         }),
         takeUntil(this.destroy$)
       )

@@ -1,5 +1,5 @@
 export class UtilsHelper {
-  public static generateSchoolYears(currentTerm: string): string[] {
+  static generateSchoolYears(currentTerm: string): string[] {
     const curr = +currentTerm.split('_')[0] + 1;
     const result = [];
 

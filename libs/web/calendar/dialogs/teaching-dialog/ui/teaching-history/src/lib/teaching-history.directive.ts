@@ -15,20 +15,18 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
   selector: '[tssTeachingHistory]',
 })
 export class TeachingHistoryDirective {
-  /** INPUT */
-  @Input('tssTeachingHistory') public fixedSchedules!: Nullable<
-    FixedScheduleModel[]
-  >;
+  // INPUT
+  @Input('tssTeachingHistory') fixedSchedules!: Nullable<FixedScheduleModel[]>;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     @Inject(Injector) private readonly injector: Injector,
     @Inject(TuiDialogService)
     private readonly tuiDialogService: TuiDialogService
   ) {}
 
-  /** PUBLIC METHODS */
-  @HostListener('click') public onClick(): void {
+  // PUBLIC METHODS
+  @HostListener('click') onClick(): void {
     this.tuiDialogService
       .open(
         new PolymorpheusComponent(

@@ -7,9 +7,7 @@ import { ComponentErrorModule } from '@teaching-scheduling-system/web/error/ui/c
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild([
-      { path: '', component: NotFoundComponent },
-    ]),
+    RouterModule.forChild([{ path: '', component: NotFoundComponent }]),
     ComponentErrorModule,
   ],
   declarations: [NotFoundComponent],

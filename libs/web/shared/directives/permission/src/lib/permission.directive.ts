@@ -25,25 +25,25 @@ import {
   providers: [TuiDestroyService],
 })
 export class PermissionDirective {
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES
   private _tssPermission?: number | null;
   private permissions$: Observable<number[]>;
   private bind$ = new Subject<void>();
   private hadElse = false;
 
-  /** SETTER */
-  @Input() public set tssPermission(permissions: number | undefined | null) {
+  // SETTER
+  @Input() set tssPermission(permissions: number | undefined | null) {
     this._tssPermission = permissions;
     this.bind$.next();
   }
 
-  @Input() public set tssPermissionElse(templateRef: TemplateRef<unknown>) {
+  @Input() set tssPermissionElse(templateRef: TemplateRef<unknown>) {
     this.elseThenTemplateRef = templateRef;
     this.hadElse = true;
     this.bind$.next();
   }
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly thenTemplateRef: TemplateRef<unknown>,
     private readonly viewContainerRef: ViewContainerRef,
@@ -59,7 +59,7 @@ export class PermissionDirective {
     this.triggerUpdateView();
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS
   private triggerUpdateView(): void {
     combineLatest([this.permissions$.pipe(filter((x) => !!x)), this.bind$])
       .pipe(tap(([permissions]) => this.updateView(permissions)))
