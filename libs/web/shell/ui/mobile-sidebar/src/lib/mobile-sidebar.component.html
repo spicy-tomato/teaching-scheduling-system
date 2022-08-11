@@ -1,14 +1,17 @@
 <div class="w-full h-screen flex flex-col">
-  <tui-scrollbar class="grow">
+  <tui-scrollbar *ngIf="form" [formGroup]="form" class="grow">
     <ng-container *ngFor="let item of items">
       <ng-container *tssPermission="item.permission">
-        <tui-accordion
-          *ngIf="item.subItems; else externalLink"
-          [closeOthers]="false"
-          [rounded]="false"
-          tuiMode="onLight"
-        >
-          <tui-accordion-item [borders]="null" size="s">
+        <div (click)="onClickItem(item)">
+          <!-- Accordion item -->
+          <tui-accordion-item
+            *ngIf="item.subItems || item.subCheckboxes; else externalLink"
+            [nativeId]="item.name"
+            [borders]="null"
+            size="s"
+            class="!rounded-none"
+          >
+            <!-- Accordion title -->
             <span class="icon-wrapper inline-block">
               <tui-svg
                 *ngIf="item.useTaigaIcon; else iconAccordion"
@@ -19,38 +22,71 @@
               </ng-template>
             </span>
             <strong>{{ item.name }}</strong>
+
+            <!-- Accordion content -->
             <ng-template tuiAccordionItemContent>
               <div class="sub-item -mt-4 -mb-2">
-                <div class="my-2 pl-3 border-l-2 border-tui-base-03">
-                  <a
-                    tuiLink
-                    *ngFor="let subItem of item.subItems; first as first"
-                    [routerLink]="subItem.routerLink"
-                    [routerLinkActiveOptions]="{ exact: true }"
-                    [icon]="subItem.useTaigaIcon ? subItem.icon || null : null"
-                    (click)="clickItem.emit()"
-                    routerLinkActive="!text-tui-base-09"
-                    iconAlign="left"
-                    class="block !pt-2 leading-6 w-fit"
-                  >
-                    <span
-                      *ngIf="
-                        subItem.useTaigaIcon === null || !subItem.useTaigaIcon
-                      "
-                      class="inline-block"
+                <div
+                  [class.border-l-2]="item.subItems"
+                  (click)="$event.stopPropagation()"
+                  class="my-2 pl-3 border-tui-base-03"
+                >
+                  <!-- Subitem as link -->
+                  <ng-container *ngIf="item.subItems; else subCheckboxes">
+                    <a
+                      tuiLink
+                      *ngFor="let subItem of item.subItems; first as first"
+                      [routerLink]="subItem.routerLink"
+                      [routerLinkActiveOptions]="{ exact: true }"
+                      [icon]="subItem.useTaigaIcon ? subItem.icon : null"
+                      (click)="clickItem.emit()"
+                      tuiMode="onLight"
+                      routerLinkActive="!text-tui-base-09"
+                      iconAlign="left"
+                      class="block !pt-2 leading-6 w-fit"
                     >
-                      <div class="flex w-6 h-6">
-                        <i [class]="subItem.icon" class="block mx-auto"></i>
-                      </div>
-                    </span>
-                    {{ subItem.name }}
-                  </a>
+                      <span
+                        *ngIf="
+                          subItem.useTaigaIcon === null || !subItem.useTaigaIcon
+                        "
+                        class="inline-block"
+                      >
+                        <div class="flex w-6 h-6">
+                          <i [class]="subItem.icon" class="block mx-auto"></i>
+                        </div>
+                      </span>
+                      {{ subItem.name }}
+                    </a>
+                  </ng-container>
+
+                  <!-- Subitem as checkbox -->
+                  <ng-template #subCheckboxes>
+                    <ng-container [formGroupName]="item.controlName!">
+                      <tui-checkbox-labeled
+                        *ngFor="
+                          let subCheckbox of item.subCheckboxes;
+                          first as first
+                        "
+                        [formControlName]="subCheckbox.controlName"
+                        [class.mt-2]="!first"
+                        (ngModelChange)="
+                          onClickCheckbox(
+                            item.controlName + '.' + subCheckbox.controlName,
+                            $event
+                          )
+                        "
+                      >
+                        {{ subCheckbox.name }}
+                      </tui-checkbox-labeled>
+                    </ng-container>
+                  </ng-template>
                 </div>
               </div>
             </ng-template>
           </tui-accordion-item>
-        </tui-accordion>
+        </div>
 
+        <!-- External link -->
         <ng-template #externalLink>
           <a
             tuiLink
@@ -75,11 +111,14 @@
           </a>
         </ng-template>
 
+        <!-- Normal link -->
         <ng-template #normalLink>
           <a
             tuiLink
             [routerLink]="item.routerLink ?? ''"
-            [routerLinkActiveOptions]="{ exact: item.exactRouterLink ?? true }"
+            [routerLinkActiveOptions]="{
+              exact: item.exactRouterLink ?? true
+            }"
             (click)="clickItem.emit()"
             routerLinkActive="!bg-tui-clear"
             class="link"
@@ -100,6 +139,7 @@
     </ng-container>
   </tui-scrollbar>
 
+  <!-- Bottom buttons -->
   <div class="flex">
     <a
       tuiIconButton

@@ -1,5 +1,5 @@
 export class ArrayHelper {
-  /** SEARCH */
+  // SEARCH
   /**
    * Get the last item of the array.
    * @param array
@@ -11,7 +11,7 @@ export class ArrayHelper {
    * ArrayHelper.lastItem([]);
    * // returns undefined
    */
-  public static lastItem<T>(array: T[]): T | undefined {
+  static lastItem<T>(array: T[]): T | undefined {
     if (!array) return undefined;
     return this.lastItemTruthy(array);
   }
@@ -24,7 +24,7 @@ export class ArrayHelper {
    * ArrayHelper.lastItemTruthy([1, 2, 3])
    * // returns 3
    */
-  public static lastItemTruthy<T>(array: T[]): T {
+  static lastItemTruthy<T>(array: T[]): T {
     return array[array.length - 1];
   }
 
@@ -37,7 +37,7 @@ export class ArrayHelper {
    * ArrayHelper.onlyIn([1, 2, 3, 4, 5, 6], [0, 2, 4])
    * // returns [1, 3, 5, 6]
    */
-  public static onlyIn<T>(a: T[], b: T[]): T[] {
+  static onlyIn<T>(a: T[], b: T[]): T[] {
     return a.filter((x) => !b.includes(x));
   }
 
@@ -53,11 +53,11 @@ export class ArrayHelper {
    * ArrayHelper.isSubset([2, 3, 4], [1, 2, 3])
    * // returns false
    */
-  public static isSubset<T>(source: T[], arr: T[]): boolean {
+  static isSubset<T>(source: T[], arr: T[]): boolean {
     return source.every((x) => arr.includes(x));
   }
 
-  /** TRANSFORM */
+  // TRANSFORM
   /**
    * Divide an array into 2 parts, base on a callback condition function.
    * @param array
@@ -67,7 +67,7 @@ export class ArrayHelper {
    * ArrayHelper.filterTwoParts([2, 3, 4, 5, 6], (value, index) => value % 2 === 0 && index > 0)
    * // returns [[4, 6], [2, 3, 5]]
    */
-  public static filterTwoParts<T>(
+  static filterTwoParts<T>(
     array: T[],
     callback: (value: T, index: number) => boolean
   ): [T[], T[]] {
@@ -84,18 +84,17 @@ export class ArrayHelper {
     );
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   /**
    * Merge multiple arrays, use a property to compare objects.
    * @param prop property of object for comparison
-   * @param arrays 
+   * @param arrays
    * @returns An array which was merged by `arrays`, according property `prop`
    * @example
    * ArrayHelper.mergeWith('id', [{id: 0, value: 0}, {id: 1, value: 1}], [{id: 0, value: 1}])
    * // returns [{id: 0, value: 0}, {id: 1, value: 1}]
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public static mergeWith<T extends Record<string, any>>(
+  static mergeWith<T extends Record<string, any>>(
     prop: string,
     ...arrays: T[][]
   ): T[] {
@@ -110,28 +109,28 @@ export class ArrayHelper {
     return result;
   }
 
-  /** COMPARE */
+  // COMPARE
   /**
    * Compare two arrays, ignore position and number of appearance of elements.
-   * @param a 
-   * @param b 
+   * @param a
+   * @param b
    * @returns two arrays are equal or not
    * @example
    * ArrayHelper.equals([0, 0, 1, 2], [0, 1, 2, 2, 0])
    * // returns true
    */
-  public static equals<T>(a: T[], b: T[]): boolean {
+  static equals<T>(a: T[], b: T[]): boolean {
     return this.onlyIn(a, b).length === 0 && this.onlyIn(b, a).length === 0;
   }
 
-  /** CHECK TYPE */
+  // CHECK TYPE
   /**
    * Check if a variable is an array.
-   * @param a 
+   * @param a
    * @returns `a` is an array or not
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public static isArray(a: any): boolean {
+  static isArray(a: any): boolean {
     return !!a && a.constructor === Array;
   }
 }

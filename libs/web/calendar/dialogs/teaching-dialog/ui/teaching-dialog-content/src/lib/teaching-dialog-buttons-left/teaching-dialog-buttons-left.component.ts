@@ -53,38 +53,38 @@ import {
   providers: [TuiDestroyService],
 })
 export class TeachingDialogButtonsLeftComponent implements OnInit {
-  /** INPUT */
-  @Input() public idSchedule!: number;
-  @Input() public changed!: boolean;
-  @Input() public validRequestChangeSchedule!: boolean;
-  @Input() public requestedChangeSchedule!: Nullable<FixedScheduleModel>;
-  @Input() public isPersonal!: boolean;
-  @Input() public requestChangeToUndeterminedDay!: boolean;
+  // INPUT
+  @Input() idSchedule!: number;
+  @Input() changed!: boolean;
+  @Input() validRequestChangeSchedule!: boolean;
+  @Input() requestedChangeSchedule!: Nullable<FixedScheduleModel>;
+  @Input() isPersonal!: boolean;
+  @Input() requestChangeToUndeterminedDay!: boolean;
 
-  /** OUTPUT */
-  @Output() public changedChange = new EventEmitter<boolean>();
+  // OUTPUT
+  @Output() changedChange = new EventEmitter<boolean>();
 
-  /** PUBLIC PROPERTIES */
-  public form!: FormGroup;
-  public readonly justRequestedSchedule$: Observable<
+  // PUBLIC PROPERTIES
+  form!: FormGroup;
+  readonly justRequestedSchedule$: Observable<
     Nullable<SimpleFixedScheduleModel>
   >;
-  public readonly searchStatus$: Observable<EApiStatus>;
-  public readonly requestingChangeSchedule$: Observable<boolean>;
-  public readonly searchSchedule$: Observable<Nullable<StudyScheduleModel[]>>;
-  public readonly requestStatus$: Observable<EApiStatus>;
-  public readonly changeStatus$: Observable<EApiStatus>;
-  public readonly cancelStatus$: Observable<EApiStatus>;
+  readonly searchStatus$: Observable<EApiStatus>;
+  readonly requestingChangeSchedule$: Observable<boolean>;
+  readonly searchSchedule$: Observable<Nullable<StudyScheduleModel[]>>;
+  readonly requestStatus$: Observable<EApiStatus>;
+  readonly changeStatus$: Observable<EApiStatus>;
+  readonly cancelStatus$: Observable<EApiStatus>;
 
-  public readonly submitRequestChange$ = new Subject<void>();
-  public readonly submitChange$ = new Subject<void>();
+  readonly submitRequestChange$ = new Subject<void>();
+  readonly submitChange$ = new Subject<void>();
 
-  /** GETTERS */
-  public get requestControl(): FormGroup {
+  // GETTERS
+  get requestControl(): FormGroup {
     return this.form.controls['request'] as FormGroup;
   }
 
-  public get requestIntendControl(): FormGroup {
+  get requestIntendControl(): FormGroup {
     return this.form.controls['requestIntend'] as FormGroup;
   }
 
@@ -100,7 +100,7 @@ export class TeachingDialogButtonsLeftComponent implements OnInit {
     return this.requestControl.controls['date'].value as TuiDay;
   }
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly cdr: ChangeDetectorRef,
     private readonly controlContainer: ControlContainer,
@@ -134,18 +134,18 @@ export class TeachingDialogButtonsLeftComponent implements OnInit {
     this.handleSubmitChange();
   }
 
-  /** LIFECYCLE */
-  public ngOnInit(): void {
+  // LIFECYCLE
+  ngOnInit(): void {
     this.form = this.controlContainer.control as FormGroup;
     this.handleFormChange();
   }
 
-  /** PUBLIC METHODS */
-  public unfold(): void {
+  // PUBLIC METHODS
+  unfold(): void {
     this.store.dispatch(teachingDialogToggleRequestChange({ open: true }));
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS
   private handleSubmitRequestChange(): void {
     this.submitRequestChange$
       .pipe(

@@ -29,13 +29,13 @@ import { Observable, takeUntil, tap } from 'rxjs';
   providers: [TuiDestroyService],
 })
 export class ChangeRequestComponent implements AfterViewInit {
-  /** VIEWCHILD */
-  @ViewChild('rightMenu') public rightMenuTemplate!: TemplateRef<never>;
+  // VIEWCHILD
+  @ViewChild('rightMenu') rightMenuTemplate!: TemplateRef<never>;
 
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES
   private readonly teacher$: Observable<Teacher>;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly navbarService: NavbarService,
     private readonly store: Store<TeachingScheduleRequestState>,
@@ -66,12 +66,12 @@ export class ChangeRequestComponent implements AfterViewInit {
     }
   }
 
-  /** LIFECYCLE */
-  public ngAfterViewInit(): void {
+  // LIFECYCLE
+  ngAfterViewInit(): void {
     this.navbarService.addRightMenu(this.rightMenuTemplate);
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS
   private handleSelectTeacher(): void {
     this.teacher$
       .pipe(

@@ -6,7 +6,7 @@ import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
   name: 'dateText',
 })
 export class DateTextPipe implements PipeTransform {
-  public transform(range: Nullable<TuiDayRange>): string {
+  transform(range: Nullable<TuiDayRange>): string {
     if (!range) {
       return '';
     }

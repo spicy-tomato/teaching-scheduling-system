@@ -22,35 +22,41 @@ import { IconConstant } from '@teaching-scheduling-system/core/data-access/const
   ],
 })
 export class TeachingDialogComponent {
-  /** PUBLIC PROPERTIES */
-  public readonly IconConstant = IconConstant;
-  public schedules = this.context.data.schedules;
-  public openScheduleList = false;
-  public changedSchedule: ChangedScheduleModel =
+  // PUBLIC PROPERTIES
+  readonly IconConstant = IconConstant;
+  schedules = this.context.data.schedules;
+  openScheduleList = false;
+  changedSchedule: ChangedScheduleModel =
     this.context.data.schedules.reduce<ChangedScheduleModel>((acc, curr) => {
       acc[curr.Id] = null;
       return acc;
     }, {});
-  public selectedSchedule!: EjsScheduleModel;
+  selectedSchedule!: EjsScheduleModel;
 
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES
   private haveOpened = false;
   private needUpdateAfterClose = false;
 
-  /** GETTERS */
+  // GETTERS
   private get currentSelected(): EjsScheduleModel {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return this.schedules.find((s) => s.Id === this.selectedSchedule.Id)!;
-  }
-
-  /** SETTERS */
-  private set currentSelected(schedule: EjsScheduleModel) {
-    this.schedules = this.schedules.map((s) =>
-      s.Id === this.selectedSchedule.Id ? schedule : s
+    return (
+      this.schedules.find((s) => s.Id === this.selectedSchedule.Id) ||
+      this.selectedSchedule
     );
   }
 
-  /** CONSTRUCTOR */
+  // SETTERS
+  private set currentSelected(schedule: EjsScheduleModel) {
+    this.schedules = this.schedules.map((s) => {
+      if (s.Id === this.selectedSchedule.Id) {
+        this.selectedSchedule = schedule;
+        return schedule;
+      }
+      return s;
+    });
+  }
+
+  // CONSTRUCTOR
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT)
     public readonly context: TuiDialogContext<
@@ -61,20 +67,22 @@ export class TeachingDialogComponent {
     this.onChangeSelectedSchedule(context.data.selectedId);
   }
 
-  /** PUBLIC METHODS */
-  public toggleScheduleList(open: boolean, needCheck = false): void {
+  // PUBLIC METHODS
+  toggleScheduleList(open: boolean, needCheck = false): void {
     if (!open || !needCheck || this.haveOpened) {
       this.openScheduleList = open;
       this.haveOpened = true;
     }
   }
 
-  public onChangeSelectedSchedule(scheduleId: number): void {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    this.selectedSchedule = this.schedules.find((s) => s.Id === scheduleId)!;
+  onChangeSelectedSchedule(scheduleId: number): void {
+    const newSelectSchedule = this.schedules.find((s) => s.Id === scheduleId);
+    if (newSelectSchedule) {
+      this.selectedSchedule = newSelectSchedule;
+    }
   }
 
-  public onUpdateSchedule(schedule: FixedScheduleModel): void {
+  onUpdateSchedule(schedule: FixedScheduleModel): void {
     const copy = { ...this.currentSelected };
     copy.FixedSchedules = [
       schedule,
@@ -84,21 +92,21 @@ export class TeachingDialogComponent {
     this.needUpdateAfterClose = true;
   }
 
-  public onChangeScheduleInfo(changes: TeachingDialogChange): void {
+  onChangeScheduleInfo(changes: TeachingDialogChange): void {
     const copy = { ...this.currentSelected };
     copy.Note = changes.note;
     this.currentSelected = copy;
     this.needUpdateAfterClose = true;
   }
 
-  public onCancelRequest(): void {
+  onCancelRequest(): void {
     this.currentSelected.FixedSchedules =
       this.selectedSchedule.FixedSchedules?.filter(
         (x) => !x.isNew && !ChangeStatusHelper.isPending(x.status)
       );
   }
 
-  public onCancel(): void {
+  onCancel(): void {
     setTimeout(() => {
       if (this.needUpdateAfterClose) {
         this.context.completeWith(this.schedules);

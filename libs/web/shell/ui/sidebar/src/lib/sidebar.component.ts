@@ -2,65 +2,34 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  QueryList,
-  ViewChildren,
 } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { TuiDestroyService } from '@taiga-ui/cdk';
-import { TuiAccordionItemComponent } from '@taiga-ui/kit';
-import { SidebarItem } from '@teaching-scheduling-system/core/data-access/models';
-import { BreadcrumbItem } from '@teaching-scheduling-system/web/shared/data-access/models';
-import {
-  AppShellState,
-  selectBreadcrumbs,
-} from '@teaching-scheduling-system/web/shared/data-access/store';
-import { delay, filter, Observable, take, takeUntil, tap } from 'rxjs';
+import { sidebar_emit } from '@teaching-scheduling-system/web/shell/data-access';
+import { filter, delay, tap, take, takeUntil } from 'rxjs';
+import { SidebarAbstract } from './sidebar.abstract';
 import { SidebarConstant } from './sidebar.constant';
-import { SidebarService } from './sidebar.service';
 
 @Component({
   selector: 'tss-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TuiDestroyService],
 })
-export class SidebarComponent implements AfterViewInit {
-  /** VIEW CHILD */
-  @ViewChildren(TuiAccordionItemComponent)
-  accordionItems!: QueryList<TuiAccordionItemComponent>;
+export class SidebarComponent extends SidebarAbstract implements AfterViewInit {
+  // PUBLIC PROPERTIES
+  items = SidebarConstant.items;
 
-  /** PUBLIC PROPERTIES */
-  public readonly items = SidebarConstant.items;
-  public form!: FormGroup;
-
-  /** PRIVATE METHODS */
-  private readonly breadcrumbs$: Observable<BreadcrumbItem[]>;
-
-  /** CONSTRUCTOR */
-  constructor(
-    private readonly router: Router,
-    private readonly fb: FormBuilder,
-    private readonly sidebarService: SidebarService,
-    private readonly destroy$: TuiDestroyService,
-    appShellStore: Store<AppShellState>
-  ) {
-    this.breadcrumbs$ = appShellStore
-      .select(selectBreadcrumbs)
-      .pipe(takeUntil(destroy$));
-    this.initForm();
-  }
-
-  /** LIFECYCLE */
-  public ngAfterViewInit(): void {
+  // LIFECYCLE
+  ngAfterViewInit(): void {
     this.breadcrumbs$
       .pipe(
         delay(2000),
         tap((breadcrumbs) => {
           const itemNeedOpen = this.accordionItems.find(
-            (x) => !!breadcrumbs?.find((b) => b.label.includes(x.nativeId))
+            (x) =>
+              !!breadcrumbs?.find(
+                (b) =>
+                  b.label.includes(x.nativeId) || b.group?.includes(x.nativeId)
+              )
           );
           // Have to call to close() first
           itemNeedOpen?.close();
@@ -84,30 +53,18 @@ export class SidebarComponent implements AfterViewInit {
       )
       .subscribe();
 
-    this.sidebarService.emit({
-      name: 'calendar.create',
-      value: ['calendar.study', 'calendar.exam'],
-    });
+    this.sidebarStore.dispatch(
+      sidebar_emit({
+        event: {
+          name: 'calendar.create',
+          value: ['calendar.study', 'calendar.exam'],
+        },
+      })
+    );
   }
 
-  public onClickItem(item: SidebarItem): void {
-    if (item.subCheckboxes) {
-      if (item.routerLink?.includes('calendar')) {
-        void this.router.navigate(['/calendar']);
-      }
-    }
-  }
-
-  public onClickCheckbox(controlName: string, value: boolean): void {
-    const name = controlName as
-      | 'calendar.study'
-      | 'calendar.exam'
-      | `calendar.@${string}`;
-    this.sidebarService.emit({ name, value });
-  }
-
-  /** PRIVATE METHODS */
-  private initForm(): void {
+  // PROTECTED METHODS
+  protected initForm(): void {
     /**
      * form value:
      *  {

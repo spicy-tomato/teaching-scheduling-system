@@ -21,10 +21,10 @@ import { EjsScheduleModel } from '@teaching-scheduling-system/web/shared/data-ac
   ],
 })
 export class TeachingDialogNavigationComponent {
-  /** INPUT */
-  @Input() public schedules!: EjsScheduleModel[];
-  @Input() public selectedSchedule!: EjsScheduleModel;
+  // INPUT
+  @Input() schedules!: EjsScheduleModel[];
+  @Input() selectedSchedule!: EjsScheduleModel;
 
-  /** OUTPUT */
-  @Output() public changeSelectedSchedule = new EventEmitter<number>();
+  // OUTPUT
+  @Output() changeSelectedSchedule = new EventEmitter<number>();
 }

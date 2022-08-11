@@ -4,7 +4,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
   TuiLinkModule,
-  TuiLoaderModule,
   TuiModeModule,
   TuiScrollbarModule,
 } from '@taiga-ui/core';
@@ -16,7 +15,6 @@ const TAIGA_UI = [
   TuiAccordionModule,
   TuiCheckboxLabeledModule,
   TuiLinkModule,
-  TuiLoaderModule,
   TuiModeModule,
   TuiScrollbarModule,
 ];

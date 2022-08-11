@@ -18,15 +18,15 @@ const Parallax = require('parallax-js');
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ErrorComponent implements AfterViewInit {
-  /** INPUT */
-  @Input() public code!: number;
-  @Input() public message!: string;
+  // INPUT
+  @Input() code!: number;
+  @Input() message!: string;
 
-  /** VIEW CHILD */
-  @ViewChild('scene') public scene!: ElementRef<HTMLDivElement>;
+  // VIEW CHILD
+  @ViewChild('scene') scene!: ElementRef<HTMLDivElement>;
 
-  /** LIFE CYCLES */
-  public ngAfterViewInit(): void {
+  // LIFECYCLE
+  ngAfterViewInit(): void {
     new Parallax(this.scene.nativeElement, {});
   }
 }

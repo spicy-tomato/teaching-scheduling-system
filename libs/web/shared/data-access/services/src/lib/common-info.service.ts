@@ -16,10 +16,10 @@ import { map, Observable, of } from 'rxjs';
   providedIn: 'root',
 })
 export class CommonInfoService {
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES
   private readonly url: string;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly http: HttpClient,
     @Inject(APP_CONFIG) private readonly config: AppConfig
@@ -27,25 +27,25 @@ export class CommonInfoService {
     this.url = config.baseUrl;
   }
 
-  public getAcademicYear(): Observable<AcademicData[]> {
+  getAcademicYear(): Observable<AcademicData[]> {
     return this.http
       .get<ResponseModel<AcademicData[]>>(this.url + 'training-types')
       .pipe(map((response) => response.data));
   }
 
-  public getCurrentTerm(): Observable<string> {
+  getCurrentTerm(): Observable<string> {
     return of(this.config.currentTerm);
   }
 
-  public getFaculties(): Observable<
+  getFaculties(): Observable<
     ResponseModel<SimpleMapModel<string, SimpleModel[]>[]>
   > {
     return this.http.get<
       ResponseModel<SimpleMapModel<string, SimpleModel[]>[]>
-    >(this.url + 'faculties');
+    >(this.url + 'v1/faculties/with-departments');
   }
 
-  public getRooms(): Observable<string[]> {
+  getRooms(): Observable<string[]> {
     return this.http
       .get<ResponseModel<string[]>>(this.url + 'rooms')
       .pipe(map((r) => r.data));

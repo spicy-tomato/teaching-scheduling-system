@@ -15,8 +15,8 @@ import { concatMap, delayWhen, interval, of } from 'rxjs';
   animations: [fadeOut],
 })
 export class LoaderComponent {
-  /** PUBLIC PROPERTIES */
-  public showLoader$ = this.appShellStore
+  // PUBLIC PROPERTIES
+  showLoader$ = this.appShellStore
     .select(selectShowLoader)
     .pipe(
       concatMap((x) =>
@@ -24,6 +24,6 @@ export class LoaderComponent {
       )
     );
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(private readonly appShellStore: Store<AppShellState>) {}
 }

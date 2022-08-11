@@ -5,23 +5,23 @@ import { DeviceHelper } from '@teaching-scheduling-system/core/utils/helpers';
   selector: '[tssTouchScreen]',
 })
 export class TouchScreenDirective {
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES
   private _tssTouchScreen!: boolean;
   private hadElse = false;
 
-  /** SETTER */
-  @Input() public set tssTouchScreen(_: null) {
+  // SETTER
+  @Input() set tssTouchScreen(_: null) {
     this._tssTouchScreen = true;
     this.updateView();
   }
 
-  @Input() public set tssTouchScreenElse(templateRef: TemplateRef<unknown>) {
+  @Input() set tssTouchScreenElse(templateRef: TemplateRef<unknown>) {
     this.hadElse = true;
     this.elseThenTemplateRef = templateRef;
     this.updateView();
   }
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly thenTemplateRef: TemplateRef<unknown>,
     private readonly viewContainerRef: ViewContainerRef,

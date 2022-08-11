@@ -1,18 +1,26 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
+import { Store } from '@ngrx/store';
 import { GenericState } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { ExamService } from '@teaching-scheduling-system/web/shared/data-access/services';
-import { switchMap, tap } from 'rxjs';
+import {
+  selectTeachersInDepartment,
+  AppShellState,
+} from '@teaching-scheduling-system/web/shared/data-access/store';
+import { switchMap, takeUntil, tap } from 'rxjs';
 
 type AssignTeacherDialogState = GenericState<void>;
 
 @Injectable()
 export class AssignTeacherDialogStore extends ComponentStore<AssignTeacherDialogState> {
-  /** PUBLIC PROPERTIES */
-  public readonly status$ = this.select((s) => s.status);
+  // PUBLIC PROPERTIES
+  readonly status$ = this.select((s) => s.status);
+  readonly teachers$ = this.appShellStore
+    .select(selectTeachersInDepartment)
+    .pipe(takeUntil(this.destroy$));
 
-  /** EFFECTS */
-  public readonly updateProctor = this.effect<{
+  // EFFECTS
+  readonly updateProctor = this.effect<{
     examId: number;
     teachersId: string[];
   }>((params$) =>
@@ -37,8 +45,11 @@ export class AssignTeacherDialogStore extends ComponentStore<AssignTeacherDialog
     )
   );
 
-  /** CONSTRUCTOR */
-  constructor(private readonly examService: ExamService) {
+  // CONSTRUCTOR
+  constructor(
+    private readonly examService: ExamService,
+    private readonly appShellStore: Store<AppShellState>
+  ) {
     super(<AssignTeacherDialogState>{});
   }
 }

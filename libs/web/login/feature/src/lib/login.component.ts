@@ -42,29 +42,29 @@ import {
   providers: [TuiDestroyService],
 })
 export class LoginComponent {
-  /** VIEWCHILD */
+  // VIEWCHILD
   @ViewChild(TuiInputPasswordComponent, { static: true })
-  public passwordComponent!: TuiInputPasswordComponent;
+  passwordComponent!: TuiInputPasswordComponent;
 
-  /** PUBLIC PROPERTIES */
-  public status$: Observable<EApiStatus>;
-  public readonly submit$ = new Subject<void>();
-  public readonly loginForm = new FormGroup({
+  // PUBLIC PROPERTIES
+  status$: Observable<EApiStatus>;
+  readonly submit$ = new Subject<void>();
+  readonly loginForm = new FormGroup({
     username: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
     remember: new FormControl(false),
   });
 
-  /** GETTERS */
-  public get username(): FormControl {
+  // GETTERS
+  get username(): FormControl {
     return this.loginForm.controls['username'] as FormControl;
   }
 
-  public get password(): FormControl {
+  get password(): FormControl {
     return this.loginForm.controls['password'] as FormControl;
   }
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly store: Store<LoginState>,
     @Inject(TuiAlertService)
@@ -82,7 +82,7 @@ export class LoginComponent {
     this.handleSubmit();
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS
   private handleStatusChange(): void {
     this.status$
       .pipe(

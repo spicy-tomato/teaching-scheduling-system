@@ -65,26 +65,26 @@ import {
   ],
 })
 export class ChangeRequestListActionComponent implements OnInit {
-  /** INPUT */
-  @Input() public schedule!: ChangeSchedule;
-  @Input() public canCancel!: boolean;
+  // INPUT
+  @Input() schedule!: ChangeSchedule;
+  @Input() canCancel!: boolean;
 
-  /** PUBLIC PROPERTIES */
-  public showLoader = false;
-  public readonly export$ = new Subject<void>();
-  public readonly cancel$ = new Subject<void>();
-  public readonly IconConstant = IconConstant;
+  // PUBLIC PROPERTIES
+  showLoader = false;
+  readonly export$ = new Subject<void>();
+  readonly cancel$ = new Subject<void>();
+  readonly IconConstant = IconConstant;
 
-  public readonly requesting$: Observable<number[]>;
+  readonly requesting$: Observable<number[]>;
 
-  /** PRIVATE PROPERTIES */
+  // PRIVATE PROPERTIES
   private readonly datePipe: DatePipe;
   private readonly nameTitle$: Observable<string>;
   private readonly permissions$: Observable<number[]>;
   private readonly teacher$: Observable<Nullable<Teacher>>;
   private dialog$!: Observable<void>;
 
-  /** CONSTRUCTOR */
+  // CONSTRUCTOR
   constructor(
     private readonly exportService: ExportService,
     private readonly teacherService: TeacherService,
@@ -118,17 +118,17 @@ export class ChangeRequestListActionComponent implements OnInit {
     this.handleCancel();
   }
 
-  /** LIFE CYCLE */
+  // LIFECYCLE
   ngOnInit(): void {
     this.initDialog();
   }
 
-  /** PUBLIC METHODS */
-  public showDetails(): void {
+  // PUBLIC METHODS
+  showDetails(): void {
     this.dialog$.subscribe();
   }
 
-  /** PRIVATE METHODS */
+  // PRIVATE METHODS
   private initDialog(): void {
     this.dialog$ = this.tuiDialogService.open(
       new PolymorpheusComponent(ChangeDetailsDialogComponent, this.injector),

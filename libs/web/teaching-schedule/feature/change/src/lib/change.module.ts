@@ -59,7 +59,7 @@ const TAIGA_UI = [TuiTabsModule, TuiTabsModule];
               permissions: [
                 PermissionConstant.REQUEST_CHANGE_TEACHING_SCHEDULE,
               ],
-              redirect: 'change-schedule/requests',
+              redirect: 'schedule/change/department',
               personal: true,
               breadcrumb: 'Cá nhân',
             },

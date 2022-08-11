@@ -36,6 +36,9 @@
       "@teaching-scheduling-system/core/pipes/filter-by-input-pipe": [
         "libs/core/pipes/filter-by-input-pipe/src/index.ts"
       ],
+      "@teaching-scheduling-system/core/pipes/relative-time": [
+        "libs/core/pipes/relative-time/src/index.ts"
+      ],
       "@teaching-scheduling-system/core/pipes/shorten-name": [
         "libs/core/pipes/shorten-name/src/index.ts"
       ],
@@ -162,6 +165,18 @@
       "@teaching-scheduling-system/web/login/feature": [
         "libs/web/login/feature/src/index.ts"
       ],
+      "@teaching-scheduling-system/web/notification/data-access": [
+        "libs/web/notification/data-access/src/index.ts"
+      ],
+      "@teaching-scheduling-system/web/notification/feature": [
+        "libs/web/notification/feature/src/index.ts"
+      ],
+      "@teaching-scheduling-system/web/notification/ui/bell": [
+        "libs/web/notification/ui/bell/src/index.ts"
+      ],
+      "@teaching-scheduling-system/web/notification/ui/notification-list": [
+        "libs/web/notification/ui/notification-list/src/index.ts"
+      ],
       "@teaching-scheduling-system/web/reset-password/feature/confirm": [
         "libs/web/reset-password/feature/confirm/src/index.ts"
       ],
@@ -224,6 +239,9 @@
       ],
       "@teaching-scheduling-system/web/shared/utils/validators": [
         "libs/web/shared/utils/validators/src/index.ts"
+      ],
+      "@teaching-scheduling-system/web/shell/data-access": [
+        "libs/web/shell/data-access/src/index.ts"
       ],
       "@teaching-scheduling-system/web/shell/feature": [
         "libs/web/shell/feature/src/index.ts"
