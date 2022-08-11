@@ -31,7 +31,7 @@ export class NotificationEffects {
   );
 
   // EFFECTS
-  getDate$ = createEffect(
+  getInitialData$ = createEffect(
     () => {
       return this.actions$.pipe(
         ofType(PageAction.notification_getInitialData),
