@@ -18,7 +18,7 @@ import {
   UpdateExamModel,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { tap } from 'rxjs';
+import { of, switchMap } from 'rxjs';
 import { AssignEditExamDialogStore } from './store';
 
 @Component({
@@ -26,6 +26,7 @@ import { AssignEditExamDialogStore } from './store';
   styleUrls: ['./assign-edit-dialog.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
+    AssignEditExamDialogStore,
     tuiButtonOptionsProvider({
       appearance: 'primary',
       size: 'm',
@@ -84,25 +85,22 @@ export class AssignEditDialogComponent {
   private handleStatusChange(): void {
     this.status$
       .pipe(
-        tap((status) => {
+        switchMap((status) => {
           if (status === 'successful') {
-            this.alertService
-              .open(
-                `Đã cập nhật thành công phòng thi ${this.context.data.name}`,
-                { status: TuiNotification.Success }
-              )
-              .subscribe();
             setTimeout(() => {
               this.context.completeWith(this.roomControl.value);
             });
+            return this.alertService.open(
+              `Đã cập nhật thành công phòng thi ${this.context.data.name}`,
+              { status: TuiNotification.Success }
+            );
           } else if (status === 'systemError') {
-            this.alertService
-              .open('Vui lòng thử lại sau', {
-                label: 'Lỗi hệ thống!',
-                status: TuiNotification.Error,
-              })
-              .subscribe();
+            return this.alertService.open('Vui lòng thử lại sau', {
+              label: 'Lỗi hệ thống!',
+              status: TuiNotification.Error,
+            });
           }
+          return of({});
         })
       )
       .subscribe();
