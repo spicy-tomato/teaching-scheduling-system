@@ -43,8 +43,10 @@ import {
   filter,
   map,
   Observable,
+  of,
   skip,
   Subject,
+  switchMap,
   takeUntil,
   tap,
   withLatestFrom,
@@ -291,38 +293,36 @@ export class TeachingDialogContentComponent implements OnInit {
   private handleStatusChange(): void {
     this.updateStatus$
       .pipe(
-        tap((status) => {
+        switchMap((status) => {
           switch (status) {
             case 'successful':
               this.changed = true;
-              this.showNotificationUpdateSuccessful();
-              break;
+              return this.showNotificationUpdateSuccessful();
             case 'systemError':
-              this.showNotificationError();
-              break;
+              return this.showNotificationError();
           }
+          return of({});
         }),
         takeUntil(this.destroy$)
       )
       .subscribe();
     this.requestStatus$
       .pipe(
-        tap((status) => {
+        switchMap((status) => {
           switch (status) {
             case 'successful':
-              this.showNotificationRequestChangeSuccessful();
-              break;
+              return this.showNotificationRequestChangeSuccessful();
             case 'systemError':
-              this.showNotificationError();
-              break;
+              return this.showNotificationError();
           }
+          return of({});
         }),
         takeUntil(this.destroy$)
       )
       .subscribe();
     this.changeStatus$
       .pipe(
-        tap((status) => {
+        switchMap((status) => {
           switch (status) {
             case 'successful': {
               this.changed = true;
@@ -338,13 +338,12 @@ export class TeachingDialogContentComponent implements OnInit {
                 ],
                 end: [DateHelper.toTuiDay(end), DateHelper.beautifyTime(end)],
               });
-              this.showNotificationUpdateSuccessful();
-              break;
+              return this.showNotificationUpdateSuccessful();
             }
             case 'systemError':
-              this.showNotificationError();
-              break;
+              return this.showNotificationError();
           }
+          return of({});
         }),
         takeUntil(this.destroy$)
       )
@@ -387,7 +386,7 @@ export class TeachingDialogContentComponent implements OnInit {
     this.cancelRequest$
       .pipe(
         withLatestFrom(this.nameTitle$),
-        tap(({ 1: title }) => {
+        switchMap(({ 1: title }) => 
           this.dialogService
             .showConfirmDialog({
               header: `${title} có chắc chắn muốn hủy yêu cầu này không?`,
@@ -405,8 +404,7 @@ export class TeachingDialogContentComponent implements OnInit {
               ObservableHelper.filterNullish(),
               tap((id) => this.store.cancel(id))
             )
-            .subscribe();
-        }),
+        ),
         takeUntil(this.destroy$)
       )
       .subscribe();
@@ -429,29 +427,23 @@ export class TeachingDialogContentComponent implements OnInit {
       .subscribe();
   }
 
-  private showNotificationRequestChangeSuccessful(): void {
-    this.alertService
-      .open('Vui lòng chờ phản hồi của trưởng bộ môn', {
-        label: 'Gửi yêu cầu thành công',
-        status: TuiNotification.Success,
-      })
-      .subscribe();
+  private showNotificationRequestChangeSuccessful(): Observable<void> {
+    return this.alertService.open('Vui lòng chờ phản hồi của trưởng bộ môn', {
+      label: 'Gửi yêu cầu thành công',
+      status: TuiNotification.Success,
+    });
   }
 
-  private showNotificationUpdateSuccessful(): void {
-    this.alertService
-      .open('Cập nhật lịch thành công!', {
-        status: TuiNotification.Success,
-      })
-      .subscribe();
+  private showNotificationUpdateSuccessful(): Observable<void> {
+    return this.alertService.open('Cập nhật lịch thành công!', {
+      status: TuiNotification.Success,
+    });
   }
 
-  private showNotificationError(): void {
-    this.alertService
-      .open('Vui lòng thử lại sau', {
-        label: 'Đã có lỗi xảy ra',
-        status: TuiNotification.Error,
-      })
-      .subscribe();
+  private showNotificationError(): Observable<void> {
+    return this.alertService.open('Vui lòng thử lại sau', {
+      label: 'Đã có lỗi xảy ra',
+      status: TuiNotification.Error,
+    });
   }
 }

@@ -23,7 +23,7 @@ import {
   SimpleModel,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { Observable, takeUntil, tap } from 'rxjs';
+import { Observable, of, switchMap, takeUntil } from 'rxjs';
 import { QuickInfoContentEventStore } from '../store';
 
 @Component({
@@ -110,35 +110,22 @@ export class QuickInfoContentEventComponent implements OnInit {
   private handleStatusChange(): void {
     this.status$
       .pipe(
-        tap((status) => {
+        switchMap((status) => {
           switch (status) {
             case 'successful':
-              this.showNotificationUpdateSuccessful();
-              break;
+              return this.alertService.open('Cập nhật lịch thành công!', {
+                status: TuiNotification.Success,
+              });
             case 'systemError':
-              this.showNotificationError();
-              break;
+              return this.alertService.open('Vui lòng thử lại sau', {
+                label: 'Đã có lỗi xảy ra',
+                status: TuiNotification.Error,
+              });
           }
+          return of({});
         }),
         takeUntil(this.destroy$)
       )
-      .subscribe();
-  }
-
-  private showNotificationUpdateSuccessful(): void {
-    this.alertService
-      .open('Cập nhật lịch thành công!', {
-        status: TuiNotification.Success,
-      })
-      .subscribe();
-  }
-
-  private showNotificationError(): void {
-    this.alertService
-      .open('Vui lòng thử lại sau', {
-        label: 'Đã có lỗi xảy ra',
-        status: TuiNotification.Error,
-      })
       .subscribe();
   }
 }

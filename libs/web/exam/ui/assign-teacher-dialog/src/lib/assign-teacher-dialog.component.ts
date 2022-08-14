@@ -97,7 +97,8 @@ export class AssignTeacherDialogComponent {
               `Đã cập nhật thành công phòng thi ${this.context.data.name}`,
               { status: TuiNotification.Success }
             );
-          } else if (status === 'systemError') {
+          }
+          if (status === 'systemError') {
             return this.alertService.open('Vui lòng thử lại sau', {
               label: 'Lỗi hệ thống!',
               status: TuiNotification.Error,

@@ -26,7 +26,15 @@ import { SuccessDialogHeaderComponent } from '@teaching-scheduling-system/web/sh
 import { differentControlValueValidator } from '@teaching-scheduling-system/web/shared/utils/validators';
 import { navbarOptionsProvider } from '@teaching-scheduling-system/web/shell/ui/navbar';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { Observable, Subject, takeUntil, tap, withLatestFrom } from 'rxjs';
+import {
+  Observable,
+  of,
+  Subject,
+  switchMap,
+  takeUntil,
+  tap,
+  withLatestFrom,
+} from 'rxjs';
 import { ConfirmStore } from './store';
 
 @Component({
@@ -153,19 +161,17 @@ export class ConfirmComponent {
   private handleStatusChange(): void {
     this.status$
       .pipe(
-        tap((status) => {
+        switchMap((status) => {
           if (status === 'successful') {
-            this.successDialog$
-              .pipe(tap(() => this.form.disable()))
-              .subscribe();
-          } else if (status === 'systemError') {
-            this.alertService
-              .open('Mã đặt lại mật khẩu đã hết hạn', {
-                label: 'Đã có lỗi xảy ra',
-                status: TuiNotification.Error,
-              })
-              .subscribe();
+            return this.successDialog$.pipe(tap(() => this.form.disable()));
           }
+          if (status === 'systemError') {
+            return this.alertService.open('Mã đặt lại mật khẩu đã hết hạn', {
+              label: 'Đã có lỗi xảy ra',
+              status: TuiNotification.Error,
+            });
+          }
+          return of({});
         })
       )
       .subscribe();
