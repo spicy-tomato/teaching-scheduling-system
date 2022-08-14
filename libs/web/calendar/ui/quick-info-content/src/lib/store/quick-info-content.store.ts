@@ -10,7 +10,7 @@ import { switchMap, tap } from 'rxjs';
 type QuickInfoContentState = GenericState<void>;
 
 @Injectable()
-export class QuickInfoContentStore extends ComponentStore<QuickInfoContentState> {
+export class QuickInfoContentEventStore extends ComponentStore<QuickInfoContentState> {
   // PUBLIC PROPERTIES
   readonly status$ = this.select((s) => s.status);
 
