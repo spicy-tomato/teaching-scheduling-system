@@ -66,10 +66,10 @@ export class ObservableHelper {
       return source$.pipe(
         withLatestFrom(other$),
         filter(({ 1: other }) => {
-          if (!ArrayHelper.isArray(accept)) {
-            return other.includes(accept as U);
+          if (Array.isArray(accept)) {
+            return ArrayHelper.isSubset(accept, other);
           }
-          return ArrayHelper.isSubset(accept as U[], other);
+          return other.includes(accept);
         }),
         map(([source]) => source)
       );

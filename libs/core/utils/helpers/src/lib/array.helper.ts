@@ -122,15 +122,4 @@ export class ArrayHelper {
   static equals<T>(a: T[], b: T[]): boolean {
     return this.onlyIn(a, b).length === 0 && this.onlyIn(b, a).length === 0;
   }
-
-  // CHECK TYPE
-  /**
-   * Check if a variable is an array.
-   * @param a
-   * @returns `a` is an array or not
-   */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  static isArray(a: any): boolean {
-    return !!a && a.constructor === Array;
-  }
 }
