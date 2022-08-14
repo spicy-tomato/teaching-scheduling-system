@@ -3,8 +3,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ReactiveComponentModule } from '@ngrx/component';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreModule } from '@ngrx/store';
 import {
   TuiButtonModule,
   TuiHintControllerModule,
@@ -16,18 +14,9 @@ import {
   TuiInputModule,
   TuiInputPasswordModule,
 } from '@taiga-ui/kit';
-import {
-  LoginEffects,
-  loginFeatureKey,
-  loginReducer,
-} from '@teaching-scheduling-system/web/login/data-access';
 import { LoginComponent } from './login.component';
 
-const NGRX = [
-  StoreModule.forFeature(loginFeatureKey, loginReducer),
-  EffectsModule.forFeature([LoginEffects]),
-  ReactiveComponentModule,
-];
+const NGRX = [ReactiveComponentModule];
 const TAIGA_UI = [
   TuiInputPasswordModule,
   TuiInputModule,

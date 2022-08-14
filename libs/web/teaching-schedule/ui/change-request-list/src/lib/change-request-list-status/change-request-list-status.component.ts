@@ -4,26 +4,25 @@ import {
   Inject,
   Injector,
   Input,
+  OnInit,
 } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { tuiButtonOptionsProvider, TuiDialogService } from '@taiga-ui/core';
 import { PermissionHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import { ChangeSchedule } from '@teaching-scheduling-system/web/shared/data-access/models';
-import {
-  AppShellState,
-  selectPermission,
-} from '@teaching-scheduling-system/web/shared/data-access/store';
 import { ScheduleConstant } from '@teaching-scheduling-system/web/shared/utils/constants';
-import {
-  teachingScheduleRequestAccept,
-  teachingScheduleRequestSelectRequestQueue,
-  TeachingScheduleRequestState,
-} from '@teaching-scheduling-system/web/teaching-schedule/data-access';
+import { RequestStore } from '@teaching-scheduling-system/web/teaching-schedule/data-access';
 import { ChangeDenyDialogComponent } from '@teaching-scheduling-system/web/teaching-schedule/ui/change-deny-dialog';
 import { ChangeSetRoomDialogComponent } from '@teaching-scheduling-system/web/teaching-schedule/ui/change-set-room-dialog';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { Observable, Subject, takeUntil, tap, withLatestFrom } from 'rxjs';
+import {
+  Observable,
+  of,
+  Subject,
+  switchMap,
+  takeUntil,
+  withLatestFrom,
+} from 'rxjs';
 
 @Component({
   selector: 'tss-change-request-list-status',
@@ -39,7 +38,7 @@ import { Observable, Subject, takeUntil, tap, withLatestFrom } from 'rxjs';
     }),
   ],
 })
-export class ChangeRequestListStatusComponent {
+export class ChangeRequestListStatusComponent implements OnInit {
   // INPUT
   @Input() displayText!: boolean;
   @Input() item!: ChangeSchedule;
@@ -56,21 +55,21 @@ export class ChangeRequestListStatusComponent {
 
   // CONSTRUCTOR
   constructor(
-    private readonly store: Store<TeachingScheduleRequestState>,
+    private readonly store: RequestStore,
     @Inject(Injector) private readonly injector: Injector,
     @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
-    private readonly destroy$: TuiDestroyService,
-    appShellStore: Store<AppShellState>
+    private readonly destroy$: TuiDestroyService
   ) {
-    this.requesting$ = store
-      .select(teachingScheduleRequestSelectRequestQueue)
-      .pipe(takeUntil(this.destroy$));
-    this.permissions$ = appShellStore
-      .select(selectPermission)
-      .pipe(takeUntil(this.destroy$));
+    this.requesting$ = store.status$('queue');
+    this.permissions$ = store.permissions$;
 
-    this.initDialog();
     this.handleAccept();
+  }
+
+  // LIFECYCLE
+  ngOnInit(): void {
+    // This function use ```item```, which is an @Input, so must be called in ngOnInit
+    this.initDialog();
   }
 
   // PUBLIC METHODS
@@ -100,15 +99,13 @@ export class ChangeRequestListStatusComponent {
     this.accept$
       .pipe(
         withLatestFrom(this.permissions$),
-        tap(({ 1: permissions }) => {
+        switchMap(({ 1: permissions }) => {
           if (PermissionHelper.isDepartmentHead(permissions)) {
-            this.store.dispatch(
-              teachingScheduleRequestAccept({ schedule: this.item })
-            );
-            return;
+            this.store.accept(this.item);
+            return of({});
           }
 
-          this.acceptDialog$.subscribe();
+          return this.acceptDialog$;
         }),
         takeUntil(this.destroy$)
       )

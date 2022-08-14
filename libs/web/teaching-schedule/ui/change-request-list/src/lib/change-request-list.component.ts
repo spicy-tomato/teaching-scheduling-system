@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Store } from '@ngrx/store';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import {
   PermissionConstant,
@@ -18,20 +17,8 @@ import { ChangeStatusHelper } from '@teaching-scheduling-system/core/utils/helpe
 import {
   ChangeSchedule,
   ChangeScheduleOptions,
-  ChangeScheduleStatus,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
-import {
-  AppShellState,
-  selectPermission,
-} from '@teaching-scheduling-system/web/shared/data-access/store';
-import {
-  teachingScheduleRequestChangeSelectExport,
-  teachingScheduleRequestSelectChangeSchedules,
-  teachingScheduleRequestSelectOptions,
-  teachingScheduleRequestSelectPage,
-  teachingScheduleRequestSelectStatus,
-  TeachingScheduleRequestState,
-} from '@teaching-scheduling-system/web/teaching-schedule/data-access';
+import { RequestStore } from '@teaching-scheduling-system/web/teaching-schedule/data-access';
 import {
   distinctUntilChanged,
   filter,
@@ -75,7 +62,7 @@ export class ChangeRequestListComponent {
   ];
 
   readonly changeSchedules$: Observable<ChangeSchedule[]>;
-  readonly status$: Observable<ChangeScheduleStatus>;
+  readonly status$: Observable<string>;
   readonly page$: Observable<number>;
   readonly options$: Observable<ChangeScheduleOptions>;
   readonly permissions$: Observable<number[]>;
@@ -94,26 +81,15 @@ export class ChangeRequestListComponent {
   constructor(
     private readonly cdr: ChangeDetectorRef,
     private readonly fb: FormBuilder,
-    private readonly store: Store<TeachingScheduleRequestState>,
+    private readonly store: RequestStore,
     private readonly destroy$: TuiDestroyService,
-    appShellStore: Store<AppShellState>,
     route: ActivatedRoute
   ) {
-    this.options$ = store
-      .select(teachingScheduleRequestSelectOptions)
-      .pipe(takeUntil(this.destroy$));
-    this.changeSchedules$ = store
-      .select(teachingScheduleRequestSelectChangeSchedules)
-      .pipe(takeUntil(this.destroy$));
-    this.status$ = store
-      .select(teachingScheduleRequestSelectStatus)
-      .pipe(takeUntil(this.destroy$));
-    this.page$ = store
-      .select(teachingScheduleRequestSelectPage)
-      .pipe(takeUntil(this.destroy$));
-    this.permissions$ = appShellStore
-      .select(selectPermission)
-      .pipe(takeUntil(this.destroy$));
+    this.page$ = store.page$;
+    this.status$ = store.status$('data');
+    this.options$ = store.options$;
+    this.permissions$ = store.permissions$;
+    this.changeSchedules$ = store.changeSchedules$;
 
     this.isPersonal = route.snapshot.data['personal'] as boolean;
 
@@ -211,10 +187,9 @@ export class ChangeRequestListComponent {
   private handleCheckboxChanges(): void {
     this.checkboxControl.valueChanges
       .pipe(
-        tap((value: boolean[]) => {
-          this.store.dispatch(
-            teachingScheduleRequestChangeSelectExport({ selectExport: value })
-          );
+        tap((exportIndexes: boolean[]) => {
+          // TODO: Does it still work correctly after sorting?
+          this.store.patchState({ exportIndexes });
         })
       )
       .subscribe();

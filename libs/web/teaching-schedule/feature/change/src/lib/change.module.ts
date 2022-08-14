@@ -1,26 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreModule } from '@ngrx/store';
 import { TuiTabsModule } from '@taiga-ui/kit';
 import { PermissionConstant } from '@teaching-scheduling-system/core/data-access/constants';
 import { PermissionDirectiveModule } from '@teaching-scheduling-system/web/shared/directives/permission';
 import { PermissionGuard } from '@teaching-scheduling-system/web/shared/utils/guards';
-import {
-  TeachingScheduleRequestEffects,
-  teachingScheduleRequestFeatureKey,
-  teachingScheduleRequestReducer,
-} from '@teaching-scheduling-system/web/teaching-schedule/data-access';
 import { ChangeComponent } from './change.component';
 
-const NGRX = [
-  StoreModule.forFeature(
-    teachingScheduleRequestFeatureKey,
-    teachingScheduleRequestReducer
-  ),
-  EffectsModule.forFeature([TeachingScheduleRequestEffects]),
-];
 const TAIGA_UI = [TuiTabsModule, TuiTabsModule];
 
 @NgModule({
@@ -74,7 +60,6 @@ const TAIGA_UI = [TuiTabsModule, TuiTabsModule];
       },
     ]),
     PermissionDirectiveModule,
-    ...NGRX,
     ...TAIGA_UI,
   ],
   declarations: [ChangeComponent],

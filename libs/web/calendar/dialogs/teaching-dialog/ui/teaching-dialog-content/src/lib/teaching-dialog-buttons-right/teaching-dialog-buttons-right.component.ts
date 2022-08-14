@@ -8,26 +8,15 @@ import {
   Output,
 } from '@angular/core';
 import { ControlContainer, FormControl, FormGroup } from '@angular/forms';
-import { Store } from '@ngrx/store';
-import { TuiDestroyService } from '@taiga-ui/cdk';
-import {
-  teachingDialogSelectChangeStatus,
-  teachingDialogSelectRequestingChangeSchedule,
-  teachingDialogSelectRequestStatus,
-  teachingDialogSelectUpdateStatus,
-  TeachingDialogState,
-  teachingDialogToggleRequestChange,
-  teachingDialogUpdate,
-} from '@teaching-scheduling-system/web/calendar/dialogs/teaching-dialog/data-access';
+import { TeachingDialogStore } from '@teaching-scheduling-system/web/calendar/dialogs/teaching-dialog/data-access';
 import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
-import { Observable, takeUntil } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'tss-teaching-dialog-buttons-right',
   templateUrl: './teaching-dialog-buttons-right.component.html',
   styleUrls: ['./teaching-dialog-buttons-right.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TuiDestroyService],
 })
 export class TeachingDialogButtonsRightComponent implements OnInit {
   // INPUT
@@ -54,21 +43,12 @@ export class TeachingDialogButtonsRightComponent implements OnInit {
   constructor(
     private readonly cdr: ChangeDetectorRef,
     private readonly controlContainer: ControlContainer,
-    private readonly store: Store<TeachingDialogState>,
-    private readonly destroy$: TuiDestroyService
+    private readonly store: TeachingDialogStore,
   ) {
-    this.changeStatus$ = store
-      .select(teachingDialogSelectChangeStatus)
-      .pipe(takeUntil(this.destroy$));
-    this.requestStatus$ = store
-      .select(teachingDialogSelectRequestStatus)
-      .pipe(takeUntil(this.destroy$));
-    this.updateStatus$ = store
-      .select(teachingDialogSelectUpdateStatus)
-      .pipe(takeUntil(this.destroy$));
-    this.requestingChangeSchedule$ = store
-      .select(teachingDialogSelectRequestingChangeSchedule)
-      .pipe(takeUntil(this.destroy$));
+    this.changeStatus$ = store.status$('change');
+    this.updateStatus$ = store.status$('update');
+    this.requestStatus$ = store.status$('request');
+    this.requestingChangeSchedule$ = store.requestingChangeSchedule$;
   }
 
   // LIFECYCLE
@@ -78,15 +58,15 @@ export class TeachingDialogButtonsRightComponent implements OnInit {
 
   // PUBLIC METHODS
   fold(): void {
-    this.store.dispatch(teachingDialogToggleRequestChange({ open: false }));
+    this.store.toggleRequest(false);
   }
 
   onUpdate(): void {
-    const body = {
+    const payload = {
       note: this.noteControl.value as string,
     };
 
-    this.store.dispatch(teachingDialogUpdate({ id: this.idSchedule, body }));
+    this.store.update({ id: this.idSchedule, payload });
   }
 
   markForCheck(): void {

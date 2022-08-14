@@ -7,8 +7,8 @@
       <ng-container *ngrxLet="changeStatus$ as changeStatus">
         <button
           tuiButton
-          (click)="fold()"
           [disabled]="requestStatus === 'loading' || changeStatus === 'loading'"
+          (click)="fold()"
           appearance="outline"
           class="tui-form__button"
         >
@@ -21,9 +21,9 @@
     <ng-container *ngrxLet="updateStatus$ as updateStatus">
       <button
         tuiButton
-        (click)="onUpdate()"
         [showLoader]="updateStatus === 'loading'"
         [disabled]="form.controls['change'].invalid"
+        (click)="onUpdate()"
         class="tui-form__button"
       >
         Lưu

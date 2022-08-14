@@ -11,12 +11,7 @@ import { TuiAlertService, TuiNotification } from '@taiga-ui/core';
 import { TuiInputPasswordComponent } from '@taiga-ui/kit';
 import { slideUp } from '@teaching-scheduling-system/core/ui/animations';
 import { StringHelper } from '@teaching-scheduling-system/core/utils/helpers';
-import {
-  clickLogin,
-  LoginState,
-  reset,
-  selectState,
-} from '@teaching-scheduling-system/web/login/data-access';
+import { LoginStore } from '@teaching-scheduling-system/web/login/data-access';
 import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import { LoginForm } from '@teaching-scheduling-system/web/shared/data-access/models';
 import {
@@ -39,7 +34,7 @@ import {
   styleUrls: ['./login.component.css'],
   animations: [slideUp],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TuiDestroyService],
+  providers: [LoginStore, TuiDestroyService],
 })
 export class LoginComponent {
   // VIEWCHILD
@@ -66,16 +61,15 @@ export class LoginComponent {
 
   // CONSTRUCTOR
   constructor(
-    private readonly store: Store<LoginState>,
+    private readonly store: LoginStore,
     @Inject(TuiAlertService)
     private readonly alertService: TuiAlertService,
     private readonly destroy$: TuiDestroyService,
     appShellStore: Store<AppShellState>
   ) {
     appShellStore.dispatch(setLoader({ showLoader: false }));
-    store.dispatch(reset());
 
-    this.status$ = store.select(selectState).pipe(takeUntil(this.destroy$));
+    this.status$ = store.status$;
 
     this.handleStatusChange();
     this.handleLoginFailed();
@@ -139,7 +133,7 @@ export class LoginComponent {
             username,
             password: StringHelper.md5(password),
           };
-          this.store.dispatch(clickLogin({ loginForm }));
+          this.store.login(loginForm);
         }),
         takeUntil(this.destroy$)
       )
