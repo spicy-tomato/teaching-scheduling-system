@@ -4,6 +4,7 @@ import {
   Inject,
   Injector,
   Input,
+  OnInit,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TuiDestroyService } from '@taiga-ui/cdk';
@@ -39,7 +40,7 @@ import { Observable, Subject, takeUntil, tap, withLatestFrom } from 'rxjs';
     }),
   ],
 })
-export class ChangeRequestListStatusComponent {
+export class ChangeRequestListStatusComponent implements OnInit {
   // INPUT
   @Input() displayText!: boolean;
   @Input() item!: ChangeSchedule;
@@ -69,8 +70,13 @@ export class ChangeRequestListStatusComponent {
       .select(selectPermission)
       .pipe(takeUntil(this.destroy$));
 
-    this.initDialog();
     this.handleAccept();
+  }
+
+  // LIFECYCLE
+  ngOnInit(): void {
+    // This function use ```schedule```, which is an @Input, so must be called in ngOnInit
+    this.initDialog();
   }
 
   // PUBLIC METHODS
