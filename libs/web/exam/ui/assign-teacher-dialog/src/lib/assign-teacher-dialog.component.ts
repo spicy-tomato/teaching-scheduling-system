@@ -13,7 +13,7 @@ import {
   SimpleModel,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { tap } from 'rxjs';
+import { of, switchMap, tap } from 'rxjs';
 import { AssignTeacherDialogStore } from './store';
 
 const STRINGIFY_TEACHER: TuiStringHandler<SimpleModel> = (item) => item.name;
@@ -27,6 +27,7 @@ const ID_MATCHER_TEACHER: TuiIdentityMatcher<SimpleModel> = (
   styleUrls: ['./assign-teacher-dialog.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
+    AssignTeacherDialogStore,
     tuiItemsHandlersProvider({
       stringify: STRINGIFY_TEACHER,
       identityMatcher: ID_MATCHER_TEACHER,
@@ -85,27 +86,25 @@ export class AssignTeacherDialogComponent {
   private handleStatusChange(): void {
     this.status$
       .pipe(
-        tap((status) => {
+        switchMap((status) => {
           if (status === 'successful') {
-            this.alertService
-              .open(
-                `Đã cập nhật thành công phòng thi ${this.context.data.name}`,
-                { status: TuiNotification.Success }
-              )
-              .subscribe();
             setTimeout(() => {
               this.context.completeWith(
                 (this.formControl.value as SimpleModel[]).map((x) => x.name)
               );
             });
-          } else if (status === 'systemError') {
-            this.alertService
-              .open('Vui lòng thử lại sau', {
-                label: 'Lỗi hệ thống!',
-                status: TuiNotification.Error,
-              })
-              .subscribe();
+            return this.alertService.open(
+              `Đã cập nhật thành công phòng thi ${this.context.data.name}`,
+              { status: TuiNotification.Success }
+            );
           }
+          if (status === 'systemError') {
+            return this.alertService.open('Vui lòng thử lại sau', {
+              label: 'Lỗi hệ thống!',
+              status: TuiNotification.Error,
+            });
+          }
+          return of({});
         })
       )
       .subscribe();

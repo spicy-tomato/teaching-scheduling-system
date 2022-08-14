@@ -13,6 +13,8 @@ import { VarDirectiveModule } from '@teaching-scheduling-system/core/directives/
 import { CalendarDateTimePipeModule } from '@teaching-scheduling-system/web/calendar/ui/calendar-date-time-pipe';
 import { ChangeStatusTypePipeModule } from '@teaching-scheduling-system/web/calendar/ui/change-status-type-pipe';
 import { QuickInfoContentComponent } from './quick-info-content.component';
+import { QuickInfoContentEventComponent } from './quick-info-content-event/quick-info-content-event.component';
+import { QuickInfoContentCellComponent } from './quick-info-content-cell/quick-info-content-cell.component';
 
 const NGRX = [ReactiveComponentModule];
 const TAIGA_UI = [
@@ -34,7 +36,11 @@ const TAIGA_UI = [
     ...NGRX,
     ...TAIGA_UI,
   ],
-  declarations: [QuickInfoContentComponent],
+  declarations: [
+    QuickInfoContentComponent,
+    QuickInfoContentEventComponent,
+    QuickInfoContentCellComponent,
+  ],
   exports: [QuickInfoContentComponent],
 })
 export class QuickInfoContentModule {}
