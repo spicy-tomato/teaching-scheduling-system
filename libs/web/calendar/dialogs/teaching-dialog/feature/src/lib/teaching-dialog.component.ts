@@ -7,7 +7,7 @@ import {
   FixedScheduleModel,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { TeachingDialogChange } from '@teaching-scheduling-system/web/calendar/dialogs/teaching-dialog/data-access';
+import { TeachingDialogChange, TeachingDialogStore } from '@teaching-scheduling-system/web/calendar/dialogs/teaching-dialog/data-access';
 import { IconConstant } from '@teaching-scheduling-system/core/data-access/constants';
 
 @Component({
@@ -15,6 +15,7 @@ import { IconConstant } from '@teaching-scheduling-system/core/data-access/const
   styleUrls: ['./teaching-dialog.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
+    TeachingDialogStore,
     tuiButtonOptionsProvider({
       appearance: 'outline',
       size: 'm',

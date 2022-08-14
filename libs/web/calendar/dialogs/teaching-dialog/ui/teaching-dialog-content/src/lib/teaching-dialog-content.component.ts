@@ -10,7 +10,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
 import { TuiDay, TuiDestroyService, TuiTime } from '@taiga-ui/cdk';
 import {
   TuiAlertService,
@@ -29,19 +28,8 @@ import {
 } from '@teaching-scheduling-system/core/utils/helpers';
 import { DialogService } from '@teaching-scheduling-system/web-shared-ui-dialog';
 import {
-  teachingDialogCancel,
   TeachingDialogChange,
-  teachingDialogReset,
-  teachingDialogSelectCancelStatus,
-  teachingDialogSelectChange,
-  teachingDialogSelectChangeStatus,
-  teachingDialogSelectJustRequestedSchedule,
-  teachingDialogSelectRequestingChangeSchedule,
-  teachingDialogSelectRequestStatus,
-  teachingDialogSelectUpdateStatus,
-  TeachingDialogState,
-  teachingDialogToggleRequestChange,
-  teachingDialogUpdate,
+  TeachingDialogStore,
 } from '@teaching-scheduling-system/web/calendar/dialogs/teaching-dialog/data-access';
 import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import {
@@ -50,10 +38,6 @@ import {
   SimpleFixedScheduleModel,
   SimpleModel,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
-import {
-  AppShellState,
-  selectNameTitle,
-} from '@teaching-scheduling-system/web/shared/data-access/store';
 import { sameGroupStaticValueValidator } from '@teaching-scheduling-system/web/shared/utils/validators';
 import {
   filter,
@@ -145,37 +129,20 @@ export class TeachingDialogContentComponent implements OnInit {
   constructor(
     private readonly fb: FormBuilder,
     private readonly cdr: ChangeDetectorRef,
-    private readonly store: Store<TeachingDialogState>,
+    private readonly store: TeachingDialogStore,
     private readonly dialogService: DialogService,
     @Inject(TuiAlertService)
     private readonly alertService: TuiAlertService,
-    private readonly destroy$: TuiDestroyService,
-    appShellStore: Store<AppShellState>
+    private readonly destroy$: TuiDestroyService
   ) {
-    this.changeStatus$ = store
-      .select(teachingDialogSelectChangeStatus)
-      .pipe(takeUntil(this.destroy$));
-    this.requestStatus$ = store
-      .select(teachingDialogSelectRequestStatus)
-      .pipe(takeUntil(this.destroy$));
-    this.updateStatus$ = store
-      .select(teachingDialogSelectUpdateStatus)
-      .pipe(takeUntil(this.destroy$));
-    this.cancelStatus$ = store
-      .select(teachingDialogSelectCancelStatus)
-      .pipe(takeUntil(this.destroy$));
-    this.requestingChangeSchedule$ = store
-      .select(teachingDialogSelectRequestingChangeSchedule)
-      .pipe(takeUntil(this.destroy$));
-    this.justRequestedSchedule$ = store
-      .select(teachingDialogSelectJustRequestedSchedule)
-      .pipe(takeUntil(this.destroy$));
-    this.change$ = store
-      .select(teachingDialogSelectChange)
-      .pipe(takeUntil(this.destroy$));
-    this.nameTitle$ = appShellStore
-      .select(selectNameTitle)
-      .pipe(takeUntil(this.destroy$));
+    this.change$ = store.change$;
+    this.nameTitle$ = store.nameTitle$;
+    this.changeStatus$ = store.status$('change');
+    this.updateStatus$ = store.status$('update');
+    this.cancelStatus$ = store.status$('cancel');
+    this.requestStatus$ = store.status$('request');
+    this.justRequestedSchedule$ = store.justRequestedSchedule$;
+    this.requestingChangeSchedule$ = store.requestingChangeSchedule$;
   }
 
   // LIFECYCLE
@@ -205,16 +172,16 @@ export class TeachingDialogContentComponent implements OnInit {
 
   // PUBLIC METHODS
   toggleRequestArea(open: boolean): void {
-    this.store.dispatch(teachingDialogToggleRequestChange({ open }));
+    this.store.toggleRequest(open);
   }
 
   onUpdate(): void {
     const id = this.schedule.Id;
-    const body = {
+    const payload = {
       note: this.changeControl.controls['note'].value as string,
     };
 
-    this.store.dispatch(teachingDialogUpdate({ id, body }));
+    this.store.update({ id, payload });
   }
 
   // PRIVATE METHODS
@@ -318,7 +285,7 @@ export class TeachingDialogContentComponent implements OnInit {
       ),
     });
 
-    this.store.dispatch(teachingDialogReset({ change: initialChange }));
+    this.store.init(initialChange);
   }
 
   private handleStatusChange(): void {
@@ -436,9 +403,7 @@ export class TeachingDialogContentComponent implements OnInit {
                   )?.id
               ),
               ObservableHelper.filterNullish(),
-              tap((id) => {
-                this.store.dispatch(teachingDialogCancel({ id }));
-              })
+              tap((id) => this.store.cancel(id))
             )
             .subscribe();
         }),

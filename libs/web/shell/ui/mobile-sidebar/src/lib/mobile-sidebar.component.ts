@@ -9,10 +9,9 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import {
-  AccessTokenService,
-  AuthService,
-} from '@teaching-scheduling-system/web/shared/data-access/services';
-import { AppShellState } from '@teaching-scheduling-system/web/shared/data-access/store';
+  AppShellState,
+  logout,
+} from '@teaching-scheduling-system/web/shared/data-access/store';
 import {
   SidebarField,
   SidebarState,
@@ -42,9 +41,7 @@ export class MobileSidebarComponent
     destroy$: TuiDestroyService,
     elementRef: ElementRef,
     sidebarStore: Store<SidebarState>,
-    appShellStore: Store<AppShellState>,
-    private readonly accessTokenService: AccessTokenService,
-    private readonly authService: AuthService
+    private readonly appShellStore: Store<AppShellState>
   ) {
     super(router, fb, destroy$, elementRef, sidebarStore, appShellStore);
   }
@@ -73,9 +70,7 @@ export class MobileSidebarComponent
 
   // PUBLIC METHODS
   onLogout(): void {
-    this.authService.logOut().subscribe();
-    this.accessTokenService.clear();
-    void this.router.navigate(['/login']);
+    this.appShellStore.dispatch(logout());
     this.clickItem.emit();
   }
 

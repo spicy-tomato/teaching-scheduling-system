@@ -6,24 +6,17 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Store } from '@ngrx/store';
-import { TuiDestroyService } from '@taiga-ui/cdk';
 import { CoreConstant } from '@teaching-scheduling-system/core/data-access/constants';
 import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import { ModuleClass } from '@teaching-scheduling-system/web/shared/data-access/models';
-import {
-  TeachingScheduleAssignState,
-  teachingScheduleAssign_ChangeSelected,
-  teachingScheduleAssign_SelectFilterStatus,
-} from '@teaching-scheduling-system/web/teaching-schedule/data-access';
-import { Observable, takeUntil } from 'rxjs';
+import { AssignStore } from '@teaching-scheduling-system/web/teaching-schedule/data-access';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'tss-assign-table',
   templateUrl: './assign-table.component.html',
   styleUrls: ['./assign-table.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TuiDestroyService],
 })
 export class AssignTableComponent implements OnChanges {
   // INPUT
@@ -62,23 +55,18 @@ export class AssignTableComponent implements OnChanges {
       checkbox.setValue(checked);
     });
 
-    this.store.dispatch(
-      teachingScheduleAssign_ChangeSelected({
-        classIds: this.data.map((x) => x.id),
-        checked,
-      })
+    this.store.changeSelected(
+      this.data.map((x) => x.id),
+      checked
     );
   }
 
   // CONSTRUCTOR
   constructor(
     private readonly fb: FormBuilder,
-    private readonly store: Store<TeachingScheduleAssignState>,
-    private readonly destroy$: TuiDestroyService
+    private readonly store: AssignStore
   ) {
-    this.filterStatus$ = store
-      .select(teachingScheduleAssign_SelectFilterStatus)
-      .pipe(takeUntil(this.destroy$));
+    this.filterStatus$ = store.status$('filter');
   }
 
   // LIFECYCLE
@@ -102,12 +90,7 @@ export class AssignTableComponent implements OnChanges {
       this._selectAll = true;
     }
 
-    this.store.dispatch(
-      teachingScheduleAssign_ChangeSelected({
-        classIds: [id],
-        checked,
-      })
-    );
+    this.store.changeSelected([id], checked);
   }
 
   getCheckbox(i: number): FormControl {

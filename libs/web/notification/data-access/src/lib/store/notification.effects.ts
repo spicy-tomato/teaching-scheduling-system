@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { ObservableHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import {
   AppShellState,
+  logout,
   selectNotNullTeacher,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
 import {
@@ -30,7 +31,7 @@ export class NotificationEffects {
   );
 
   // EFFECTS
-  getDate$ = createEffect(
+  getInitialData$ = createEffect(
     () => {
       return this.actions$.pipe(
         ofType(PageAction.notification_getInitialData),
@@ -117,6 +118,13 @@ export class NotificationEffects {
     },
     { dispatch: false }
   );
+
+  resetAfterLogout$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(logout),
+      map(() => PageAction.reset())
+    );
+  });
 
   // CONSTRUCTOR
   constructor(

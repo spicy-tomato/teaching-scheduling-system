@@ -25,6 +25,7 @@ export const notificationFeatureKey = 'notification';
 
 export const notificationReducer = createReducer(
   initialState,
+  on(PageAction.reset, () => initialState),
   on(PageAction.notification_getAll, (state) => ({
     ...state,
     all: {

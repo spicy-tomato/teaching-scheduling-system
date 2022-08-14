@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.16.2](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.16.1...v3.16.2) (2022-08-14)
+
+
+### Bug Fixes
+
+* **teaching-schedule/change:** cannot deny change request ([eafff53](https://github.com/annguyen-it/teaching-scheduling-system/commit/eafff53b17e4d19fdb9e0aff1049e7a94b9f37d2))
+
+### [3.16.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.16.0...v3.16.1) (2022-08-11)
+
+
+### Bug Fixes
+
+* **dep:** upgrade taiga-ui to 2.57.0 ([e3f7b22](https://github.com/annguyen-it/teaching-scheduling-system/commit/e3f7b226ba6383cb3d9f4fc3ec6a6290fef6fe77))
+* **dep:** upgrade typescript to 4.5.5 ([47e30f1](https://github.com/annguyen-it/teaching-scheduling-system/commit/47e30f180594c80fe01e461c29872058093a6701))
+* user info in state should be removed after logout ([1715f92](https://github.com/annguyen-it/teaching-scheduling-system/commit/1715f92bde52fbc2f5f471d51485e8cc432b1879))
+
 ## [3.16.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.15.0...v3.16.0) (2022-08-10)
 
 
