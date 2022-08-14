@@ -1,5 +1,4 @@
 export {
-  notification_getInitialData,
   notification_getData,
   notification_markAllAsRead,
   notification_markAsRead,

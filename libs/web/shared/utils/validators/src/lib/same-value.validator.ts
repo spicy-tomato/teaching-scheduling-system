@@ -1,10 +1,10 @@
 import { ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { ObjectHelper } from '@teaching-scheduling-system/core/utils/helpers';
 
-export function sameGroupStaticValueValidator(
+export function sameGroupStaticValueValidator<T>(
   obj: Record<string, unknown>,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  comp?: Record<string, (a: any, b: any) => boolean>
+  comp?: Record<string, (a: T, b: T) => boolean>
 ): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     for (const key of Object.keys(obj)) {
@@ -19,7 +19,7 @@ export function sameGroupStaticValueValidator(
 
       if (
         (controlValue !== value && !comp?.[key]) ||
-        comp?.[key]?.(controlValue, value) === false
+        comp?.[key]?.(controlValue, value as T) === false
       ) {
         return null;
       }

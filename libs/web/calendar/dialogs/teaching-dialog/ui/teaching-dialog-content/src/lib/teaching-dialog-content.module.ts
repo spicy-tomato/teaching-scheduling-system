@@ -2,8 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ReactiveComponentModule } from '@ngrx/component';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreModule } from '@ngrx/store';
 import { TuiFilterPipeModule } from '@taiga-ui/cdk';
 import {
   TuiButtonModule,
@@ -31,11 +29,6 @@ import {
 } from '@taiga-ui/kit';
 import { VarDirectiveModule } from '@teaching-scheduling-system/core/directives/var';
 import { FilterByInputPipeModule } from '@teaching-scheduling-system/core/pipes/filter-by-input-pipe';
-import {
-  TeachingDialogEffects,
-  teachingDialogFeatureKey,
-  teachingDialogReducer,
-} from '@teaching-scheduling-system/web/calendar/dialogs/teaching-dialog/data-access';
 import { TeachingHistoryDirectiveModule } from '@teaching-scheduling-system/web/calendar/dialogs/teaching-dialog/ui/teaching-history';
 import { DuplicateCheckerComponent } from './duplicate-checker/duplicate-checker.component';
 import { ShiftPipe } from './shift-pipe/shift-pipe.pipe';
@@ -45,12 +38,7 @@ import { TeachingDialogContentComponent } from './teaching-dialog-content.compon
 import { TeachingDialogRequestChangeIntendComponent } from './teaching-dialog-request-change-intend/teaching-dialog-request-change-intend.component';
 import { TeachingDialogRequestChangeComponent } from './teaching-dialog-request-change/teaching-dialog-request-change.component';
 
-const NGRX = [
-  StoreModule.forFeature(teachingDialogFeatureKey, teachingDialogReducer),
-  EffectsModule.forFeature([TeachingDialogEffects]),
-  ReactiveComponentModule,
-];
-
+const NGRX = [ReactiveComponentModule];
 const TAIGA_UI = [
   TuiButtonModule,
   TuiCheckboxLabeledModule,

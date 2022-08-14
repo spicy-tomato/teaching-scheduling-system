@@ -7,7 +7,7 @@ import {
   FixedScheduleModel,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { TeachingDialogChange } from '@teaching-scheduling-system/web/calendar/dialogs/teaching-dialog/data-access';
+import { TeachingDialogChange, TeachingDialogStore } from '@teaching-scheduling-system/web/calendar/dialogs/teaching-dialog/data-access';
 import { IconConstant } from '@teaching-scheduling-system/core/data-access/constants';
 
 @Component({
@@ -15,6 +15,7 @@ import { IconConstant } from '@teaching-scheduling-system/core/data-access/const
   styleUrls: ['./teaching-dialog.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
+    TeachingDialogStore,
     tuiButtonOptionsProvider({
       appearance: 'outline',
       size: 'm',
@@ -39,8 +40,10 @@ export class TeachingDialogComponent {
 
   // GETTERS
   private get currentSelected(): EjsScheduleModel {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return this.schedules.find((s) => s.Id === this.selectedSchedule.Id)!;
+    return (
+      this.schedules.find((s) => s.Id === this.selectedSchedule.Id) ||
+      this.selectedSchedule
+    );
   }
 
   // SETTERS
@@ -74,8 +77,10 @@ export class TeachingDialogComponent {
   }
 
   onChangeSelectedSchedule(scheduleId: number): void {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    this.selectedSchedule = this.schedules.find((s) => s.Id === scheduleId)!;
+    const newSelectSchedule = this.schedules.find((s) => s.Id === scheduleId);
+    if (newSelectSchedule) {
+      this.selectedSchedule = newSelectSchedule;
+    }
   }
 
   onUpdateSchedule(schedule: FixedScheduleModel): void {

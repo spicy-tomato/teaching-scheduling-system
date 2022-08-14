@@ -1,29 +1,20 @@
 import {
-  Component,
-  OnInit,
   ChangeDetectionStrategy,
+  Component,
   Input,
+  OnInit,
 } from '@angular/core';
-import { FormGroup, ControlContainer } from '@angular/forms';
-import { Store } from '@ngrx/store';
+import { ControlContainer, FormGroup } from '@angular/forms';
 import { TuiDay, TuiDestroyService } from '@taiga-ui/cdk';
 import { CoreConstant } from '@teaching-scheduling-system/core/data-access/constants';
 import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
 import { DateHelper } from '@teaching-scheduling-system/core/utils/helpers';
-import {
-  teachingDialogSearch,
-  TeachingDialogState,
-} from '@teaching-scheduling-system/web/calendar/dialogs/teaching-dialog/data-access';
+import { TeachingDialogStore } from '@teaching-scheduling-system/web/calendar/dialogs/teaching-dialog/data-access';
 import {
   SimpleModel,
   Teacher,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
-import {
-  AppShellState,
-  selectRooms,
-  selectTeacher,
-} from '@teaching-scheduling-system/web/shared/data-access/store';
-import { Observable, Subject, takeUntil, withLatestFrom, map, tap } from 'rxjs';
+import { map, Observable, Subject, takeUntil, tap, withLatestFrom } from 'rxjs';
 
 @Component({
   selector: 'tss-teaching-dialog-request-change',
@@ -61,16 +52,11 @@ export class TeachingDialogRequestChangeComponent implements OnInit {
   // CONSTRUCTOR
   constructor(
     private readonly controlContainer: ControlContainer,
-    private readonly store: Store<TeachingDialogState>,
-    private readonly destroy$: TuiDestroyService,
-    appShellStore: Store<AppShellState>
+    private readonly store: TeachingDialogStore,
+    private readonly destroy$: TuiDestroyService
   ) {
-    this.teacher$ = appShellStore
-      .select(selectTeacher)
-      .pipe(takeUntil(this.destroy$));
-    this.rooms$ = appShellStore
-      .select(selectRooms)
-      .pipe(takeUntil(this.destroy$));
+    this.rooms$ = store.rooms$;
+    this.teacher$ = store.teacher$;
 
     this.handleChangeRequest();
   }
@@ -94,22 +80,19 @@ export class TeachingDialogRequestChangeComponent implements OnInit {
           const date = DateHelper.toDateOnlyString(
             this.dateControlValue.toUtcNativeDate()
           );
+          const payload = {
+            date: [date, date].join(),
+            shift:
+              this.shiftControlValue[0] === '5'
+                ? ['5_1', '5_2'].join()
+                : this.shiftControlValue,
+          };
+          const teacherId =
+            (this.isPersonal
+              ? teacher?.id
+              : (this.people?.[0] as Teacher).id) || '';
 
-          this.store.dispatch(
-            teachingDialogSearch({
-              params: {
-                date: [date, date].join(),
-                shift:
-                  this.shiftControlValue[0] === '5'
-                    ? ['5_1', '5_2'].join()
-                    : this.shiftControlValue,
-              },
-              teacherId:
-                (this.isPersonal
-                  ? teacher?.id
-                  : (this.people?.[0] as Teacher).id) || '',
-            })
-          );
+          this.store.search({ payload, teacherId });
         }),
         takeUntil(this.destroy$)
       )

@@ -164,14 +164,6 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onCreated(): void {
-    const popup = document.querySelector('.e-quick-popup-wrapper');
-    if (!popup) return;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const popupInstance = (popup as any).ej2_instances[0];
-    popupInstance.open = () => {
-      popupInstance.refreshPosition();
-    };
-
     this.handleSidebarCheckboxChange();
   }
 
