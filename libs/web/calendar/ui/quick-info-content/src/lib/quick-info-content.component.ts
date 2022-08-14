@@ -36,6 +36,7 @@ export class QuickInfoContentComponent implements OnInit {
 
   // LIFECYCLE
   ngOnInit(): void {
+    // This function use ```data```, which is an @Input, so must be called in ngOnInit
     this.initDialog();
   }
 

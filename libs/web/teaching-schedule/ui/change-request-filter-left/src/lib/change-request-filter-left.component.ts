@@ -1,26 +1,19 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { TuiDestroyService } from '@taiga-ui/cdk';
 import { ObjectHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import {
   ChangeScheduleOptions,
   ChangeScheduleOptionsParam,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { ScheduleConstant } from '@teaching-scheduling-system/web/shared/utils/constants';
-import {
-  teachingScheduleRequestChangeOptions,
-  teachingScheduleRequestSelectOptions,
-  TeachingScheduleRequestState,
-} from '@teaching-scheduling-system/web/teaching-schedule/data-access';
-import { Observable, takeUntil } from 'rxjs';
+import { RequestStore } from '@teaching-scheduling-system/web/teaching-schedule/data-access';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'tss-change-request-filter-left',
   templateUrl: './change-request-filter-left.component.html',
   styleUrls: ['./change-request-filter-left.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TuiDestroyService],
 })
 export class ChangeRequestFilterLeftComponent {
   // INPUT
@@ -35,20 +28,13 @@ export class ChangeRequestFilterLeftComponent {
   readonly isPersonal: boolean;
 
   // CONSTRUCTOR
-  constructor(
-    private readonly store: Store<TeachingScheduleRequestState>,
-    private readonly destroy$: TuiDestroyService,
-    route: ActivatedRoute
-  ) {
-    this.options$ = store
-      .select(teachingScheduleRequestSelectOptions)
-      .pipe(takeUntil(this.destroy$));
-
+  constructor(private readonly store: RequestStore, route: ActivatedRoute) {
+    this.options$ = store.options$;
     this.isPersonal = route.snapshot.data['personal'] as boolean;
   }
 
   // PUBLIC METHODS
   changeOptions(options: ChangeScheduleOptionsParam): void {
-    this.store.dispatch(teachingScheduleRequestChangeOptions({ options }));
+    this.store.changeOptions(options);
   }
 }

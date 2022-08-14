@@ -8,25 +8,11 @@ import {
   Output,
 } from '@angular/core';
 import { ControlContainer, FormGroup } from '@angular/forms';
-import { Store } from '@ngrx/store';
 import { TuiDay, TuiDestroyService } from '@taiga-ui/cdk';
 import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
 import { DateHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import { DialogService } from '@teaching-scheduling-system/web-shared-ui-dialog';
-import {
-  teachingDialogChange,
-  teachingDialogRequest,
-  teachingDialogRequestIntend,
-  teachingDialogSelectCancelStatus,
-  teachingDialogSelectChangeStatus,
-  teachingDialogSelectJustRequestedSchedule,
-  teachingDialogSelectRequestingChangeSchedule,
-  teachingDialogSelectRequestStatus,
-  teachingDialogSelectSearchSchedule,
-  teachingDialogSelectSearchStatus,
-  TeachingDialogState,
-  teachingDialogToggleRequestChange,
-} from '@teaching-scheduling-system/web/calendar/dialogs/teaching-dialog/data-access';
+import { TeachingDialogStore } from '@teaching-scheduling-system/web/calendar/dialogs/teaching-dialog/data-access';
 import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import {
   FixedScheduleModel,
@@ -105,30 +91,16 @@ export class TeachingDialogButtonsLeftComponent implements OnInit {
     private readonly cdr: ChangeDetectorRef,
     private readonly controlContainer: ControlContainer,
     private readonly dialogService: DialogService,
-    private readonly store: Store<TeachingDialogState>,
+    private readonly store: TeachingDialogStore,
     private readonly destroy$: TuiDestroyService
   ) {
-    this.justRequestedSchedule$ = store
-      .select(teachingDialogSelectJustRequestedSchedule)
-      .pipe(takeUntil(this.destroy$));
-    this.searchStatus$ = store
-      .select(teachingDialogSelectSearchStatus)
-      .pipe(takeUntil(this.destroy$));
-    this.requestingChangeSchedule$ = store
-      .select(teachingDialogSelectRequestingChangeSchedule)
-      .pipe(takeUntil(this.destroy$));
-    this.searchSchedule$ = store
-      .select(teachingDialogSelectSearchSchedule)
-      .pipe(takeUntil(this.destroy$));
-    this.requestStatus$ = store
-      .select(teachingDialogSelectRequestStatus)
-      .pipe(takeUntil(this.destroy$));
-    this.changeStatus$ = store
-      .select(teachingDialogSelectChangeStatus)
-      .pipe(takeUntil(this.destroy$));
-    this.cancelStatus$ = store
-      .select(teachingDialogSelectCancelStatus)
-      .pipe(takeUntil(this.destroy$));
+    this.changeStatus$ = store.status$('change');
+    this.cancelStatus$ = store.status$('cancel');
+    this.searchStatus$ = store.status$('search');
+    this.requestStatus$ = store.status$('request');
+    this.searchSchedule$ = store.searchSchedule$;
+    this.justRequestedSchedule$ = store.justRequestedSchedule$;
+    this.requestingChangeSchedule$ = store.requestingChangeSchedule$;
 
     this.handleSubmitRequestChange();
     this.handleSubmitChange();
@@ -142,7 +114,7 @@ export class TeachingDialogButtonsLeftComponent implements OnInit {
 
   // PUBLIC METHODS
   unfold(): void {
-    this.store.dispatch(teachingDialogToggleRequestChange({ open: true }));
+    this.store.toggleRequest(true);
   }
 
   // PRIVATE METHODS
@@ -227,19 +199,19 @@ export class TeachingDialogButtonsLeftComponent implements OnInit {
   private submitChangeIntendTimeRequest(): void {
     const request = this.requestIntendControl;
 
-    const body: RequestIntendChangeSchedulePayload = {
+    const payload: RequestIntendChangeSchedulePayload = {
       idSchedule: this.idSchedule,
       intendTime: request.controls['intendTime'].value as string,
       reason: request.controls['reason'].value as string,
     };
 
-    this.store.dispatch(teachingDialogRequestIntend({ body }));
+    this.store.requestIntend(payload);
   }
 
   private submitChangeRequest(): void {
     const request = this.requestControl;
 
-    const body: RequestChangeSchedulePayload = {
+    const payload: RequestChangeSchedulePayload = {
       idSchedule: this.idSchedule,
       newIdRoom: (request.controls['online'].value as boolean) ? 'PHTT' : null,
       newShift: this.shiftControlValue,
@@ -249,11 +221,11 @@ export class TeachingDialogButtonsLeftComponent implements OnInit {
       reason: request.controls['reason'].value as string,
     };
 
-    this.store.dispatch(teachingDialogRequest({ body }));
+    this.store.request(payload);
   }
 
   private submitChange(): void {
-    const body: RequestChangeSchedulePayload = {
+    const payload: RequestChangeSchedulePayload = {
       idSchedule: this.idSchedule,
       newIdRoom: this.roomControlValue,
       newShift: this.shiftControlValue,
@@ -263,6 +235,6 @@ export class TeachingDialogButtonsLeftComponent implements OnInit {
       reason: 'Trưởng bộ môn thay đổi',
     };
 
-    this.store.dispatch(teachingDialogChange({ body }));
+    this.store.change(payload);
   }
 }

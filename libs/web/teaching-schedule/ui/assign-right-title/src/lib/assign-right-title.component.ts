@@ -1,6 +1,4 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { TuiDestroyService } from '@taiga-ui/cdk';
 import {
   TuiAlertService,
   tuiButtonOptionsProvider,
@@ -13,21 +11,13 @@ import {
   ModuleClass,
   SimpleModel,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
-import {
-  TeachingScheduleAssignState,
-  teachingScheduleAssign_SelectActionCountTeacher,
-  teachingScheduleAssign_SelectActionTeacher,
-  teachingScheduleAssign_SelectAssigned,
-  teachingScheduleAssign_SelectSelectedAssigned,
-  teachingScheduleAssign_SelectUnassignStatus,
-  teachingScheduleAssign_Unassign,
-} from '@teaching-scheduling-system/web/teaching-schedule/data-access';
+import { AssignStore } from '@teaching-scheduling-system/web/teaching-schedule/data-access';
 import {
   distinctUntilChanged,
+  filter,
   map,
   Observable,
-  takeUntil,
-  tap,
+  switchMap,
   withLatestFrom,
 } from 'rxjs';
 
@@ -37,7 +27,6 @@ import {
   styleUrls: ['./assign-right-title.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    TuiDestroyService,
     tuiButtonOptionsProvider({
       appearance: 'primary',
       size: 's',
@@ -56,20 +45,13 @@ export class AssignRightTitleComponent {
 
   // CONSTRUCTOR
   constructor(
-    private readonly store: Store<TeachingScheduleAssignState>,
+    private readonly store: AssignStore,
     @Inject(TuiAlertService)
-    private readonly alertService: TuiAlertService,
-    private readonly destroy$: TuiDestroyService
+    private readonly alertService: TuiAlertService
   ) {
-    this.assigned$ = this.store
-      .select(teachingScheduleAssign_SelectAssigned)
-      .pipe(takeUntil(this.destroy$));
-    this.assignedTeacher$ = this.store
-      .select(teachingScheduleAssign_SelectActionTeacher)
-      .pipe(takeUntil(this.destroy$));
-    this.unassignStatus$ = this.store
-      .select(teachingScheduleAssign_SelectUnassignStatus)
-      .pipe(takeUntil(this.destroy$));
+    this.assigned$ = this.store.assigned$;
+    this.unassignStatus$ = this.store.status$('unassign');
+    this.assignedTeacher$ = this.store.teacher$('action');
 
     this.handleSomeAssignedChecked();
     this.handleUnassignSuccessful();
@@ -77,36 +59,27 @@ export class AssignRightTitleComponent {
 
   // PUBLIC METHODS
   unassign(): void {
-    this.store.dispatch(teachingScheduleAssign_Unassign());
+    this.store.unassign();
   }
 
   // PRIVATE METHODS
   private handleSomeAssignedChecked(): void {
-    this.someAssignedCheckedChange$ = this.store
-      .select(teachingScheduleAssign_SelectSelectedAssigned)
-      .pipe(
-        map((assigned) => assigned.some((x) => x)),
-        distinctUntilChanged(),
-        takeUntil(this.destroy$)
-      );
+    this.someAssignedCheckedChange$ = this.store.selectedAssigned$.pipe(
+      map((assigned) => assigned.some((x) => x)),
+      distinctUntilChanged()
+    );
   }
 
   private handleUnassignSuccessful(): void {
     this.assignedTeacher$
       .pipe(
-        withLatestFrom(
-          this.store.select(teachingScheduleAssign_SelectActionCountTeacher)
-        ),
-        tap(([teacher, count]) => {
-          if (teacher || count === 0) {
-            return;
-          }
-          this.alertService
-            .open(`Đã hủy phân công ${count} lớp học phần`, {
-              status: TuiNotification.Success,
-            })
-            .subscribe();
-        })
+        withLatestFrom(this.store.teacher$('actionCount')),
+        filter(([teacher, count]) => !teacher && !!count),
+        switchMap(({ 1: count }) =>
+          this.alertService.open(`Đã hủy phân công ${count} lớp học phần`, {
+            status: TuiNotification.Success,
+          })
+        )
       )
       .subscribe();
   }
