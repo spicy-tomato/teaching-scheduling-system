@@ -5,6 +5,7 @@ import {
   TuiNotification,
 } from '@taiga-ui/core';
 import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
+import { ObservableHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import {
   ModuleClass,
@@ -13,9 +14,10 @@ import {
 import { AssignStore } from '@teaching-scheduling-system/web/teaching-schedule/data-access';
 import {
   distinctUntilChanged,
+  filter,
   map,
   Observable,
-  tap,
+  switchMap,
   withLatestFrom,
 } from 'rxjs';
 
@@ -33,13 +35,14 @@ import {
 })
 export class AssignLeftTitleComponent {
   // PUBLIC PROPERTIES
-  needAssign$: Observable<ModuleClass[]>;
   teachers$: Observable<SimpleModel[]>;
+  needAssign$: Observable<ModuleClass[]>;
+  assignStatus$: Observable<EApiStatus>;
   selectedTeacher$: Observable<Nullable<SimpleModel>>;
   someNeedAssignCheckedChange$!: Observable<boolean>;
-  assignStatus$: Observable<EApiStatus>;
 
   // PRIVATE PROPERTIES
+  private actionCount$: Observable<number>;
   private assignedTeacher$: Observable<Nullable<SimpleModel>>;
 
   // CONSTRUCTOR
@@ -48,9 +51,10 @@ export class AssignLeftTitleComponent {
     @Inject(TuiAlertService)
     private readonly alertService: TuiAlertService
   ) {
-    this.teachers$ = this.store.teacher$('data');
     this.needAssign$ = this.store.needAssign$;
+    this.teachers$ = this.store.teacher$('data');
     this.assignStatus$ = this.store.status$('assign');
+    this.actionCount$ = this.store.teacher$('actionCount');
     this.assignedTeacher$ = this.store.teacher$('action');
     this.selectedTeacher$ = this.store.teacher$('selected');
 
@@ -76,20 +80,21 @@ export class AssignLeftTitleComponent {
   }
 
   private handleAssignSuccessful(): void {
-    this.assignedTeacher$
+    this.assignStatus$
       .pipe(
-        withLatestFrom(this.store.teacher$('actionCount')),
-        tap(([teacher, count]) => {
-          if (!teacher) {
-            return;
-          }
-          this.alertService
-            .open(
-              `Đã phân công ${count} lớp cho giảng viên\n ${teacher.name}`,
-              { status: TuiNotification.Success }
-            )
-            .subscribe();
-        })
+        withLatestFrom(
+          this.assignedTeacher$,
+          this.store.teacher$('actionCount')
+        ),
+        map(([status, teacher, count]) => ({ status, teacher, count })),
+        filter(({ status, count }) => status === 'successful' && !!count),
+        ObservableHelper.filterNullishProp(['teacher']),
+        switchMap(({ teacher, count }) =>
+          this.alertService.open(
+            `Đã phân công ${count} lớp cho giảng viên\n ${teacher.name}`,
+            { status: TuiNotification.Success }
+          )
+        )
       )
       .subscribe();
   }

@@ -4,13 +4,9 @@ import {
   tuiButtonOptionsProvider,
   TuiNotification,
 } from '@taiga-ui/core';
-import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
 import { fadeInOut } from '@teaching-scheduling-system/core/ui/animations';
 import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
-import {
-  ModuleClass,
-  SimpleModel,
-} from '@teaching-scheduling-system/web/shared/data-access/models';
+import { ModuleClass } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { AssignStore } from '@teaching-scheduling-system/web/teaching-schedule/data-access';
 import {
   distinctUntilChanged,
@@ -40,9 +36,6 @@ export class AssignRightTitleComponent {
   someAssignedCheckedChange$!: Observable<boolean>;
   unassignStatus$: Observable<EApiStatus>;
 
-  // PRIVATE PROPERTIES
-  private assignedTeacher$: Observable<Nullable<SimpleModel>>;
-
   // CONSTRUCTOR
   constructor(
     private readonly store: AssignStore,
@@ -51,7 +44,6 @@ export class AssignRightTitleComponent {
   ) {
     this.assigned$ = this.store.assigned$;
     this.unassignStatus$ = this.store.status$('unassign');
-    this.assignedTeacher$ = this.store.teacher$('action');
 
     this.handleSomeAssignedChecked();
     this.handleUnassignSuccessful();
@@ -71,10 +63,10 @@ export class AssignRightTitleComponent {
   }
 
   private handleUnassignSuccessful(): void {
-    this.assignedTeacher$
+    this.unassignStatus$
       .pipe(
         withLatestFrom(this.store.teacher$('actionCount')),
-        filter(([teacher, count]) => !teacher && !!count),
+        filter(([status, count]) => status === 'successful' && !!count),
         switchMap(({ 1: count }) =>
           this.alertService.open(`Đã hủy phân công ${count} lớp học phần`, {
             status: TuiNotification.Success,

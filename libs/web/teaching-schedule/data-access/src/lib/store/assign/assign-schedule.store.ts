@@ -211,7 +211,6 @@ export class AssignStore extends ComponentStore<AssignScheduleState> {
                   selected,
                   teacher: {
                     ...state.teacher,
-                    selected: selected.length ? state.teacher.selected : null,
                     action: teacher,
                     actionCount: classIds.length,
                   },
