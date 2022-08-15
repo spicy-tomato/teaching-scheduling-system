@@ -90,6 +90,7 @@ export class QuickInfoContentEventComponent implements OnInit {
     if (this.data.Note !== this.initialEventNote) {
       this.store.updateNote({
         id: this.data.Id,
+        type: this.data.Type,
         payload: { note: this.data.Note },
       });
       this.schedule.saveEvent(this.data);
