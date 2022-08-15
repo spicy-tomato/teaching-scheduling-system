@@ -102,7 +102,7 @@ export class ObjectHelper {
    * @returns Object with date-parsed properties
    */
   static parseDateProperties<
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     T extends Record<string, any>,
     // TODO: Use keyof T
     U extends string[]
