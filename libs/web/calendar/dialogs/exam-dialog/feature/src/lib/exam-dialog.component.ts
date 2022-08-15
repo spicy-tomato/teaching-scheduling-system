@@ -17,7 +17,7 @@ import { ExamDialogStore } from '@teaching-scheduling-system/web/calendar/dialog
 import { EjsScheduleModel } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { sameGroupStaticValueValidator } from '@teaching-scheduling-system/web/shared/utils/validators';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { map, tap } from 'rxjs';
+import { map, of, switchMap } from 'rxjs';
 
 @Component({
   templateUrl: './exam-dialog.component.html',
@@ -118,36 +118,26 @@ export class ExamDialogComponent {
   private handleSubmitStatus(): void {
     this.store.status$
       .pipe(
-        tap((status) => {
+        switchMap((status) => {
           if (status === 'successful') {
             this.needUpdateAfterClose = true;
             this.changeControl.setValidators(
               sameGroupStaticValueValidator(this.changeControl.value)
             );
             this.changeControl.updateValueAndValidity();
-            this.showNotificationUpdateSuccessful();
-          } else if (status === 'systemError') {
-            this.showNotificationError();
+            return this.alertService.open('Cập nhật lịch thi thành công!', {
+              status: TuiNotification.Success,
+            });
           }
+          if (status === 'systemError') {
+            return this.alertService.open('Vui lòng thử lại sau', {
+              label: 'Đã có lỗi xảy ra',
+              status: TuiNotification.Error,
+            });
+          }
+          return of({});
         })
       )
-      .subscribe();
-  }
-
-  private showNotificationUpdateSuccessful(): void {
-    this.alertService
-      .open('Cập nhật lịch thi thành công!', {
-        status: TuiNotification.Success,
-      })
-      .subscribe();
-  }
-
-  private showNotificationError(): void {
-    this.alertService
-      .open('Vui lòng thử lại sau', {
-        label: 'Đã có lỗi xảy ra',
-        status: TuiNotification.Error,
-      })
       .subscribe();
   }
 }

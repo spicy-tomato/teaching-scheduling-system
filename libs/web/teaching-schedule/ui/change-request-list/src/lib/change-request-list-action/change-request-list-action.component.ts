@@ -35,6 +35,7 @@ import {
   map,
   Observable,
   Subject,
+  switchMap,
   takeUntil,
   tap,
   withLatestFrom,
@@ -142,7 +143,7 @@ export class ChangeRequestListActionComponent implements OnInit {
       .pipe(
         withLatestFrom(this.nameTitle$),
         map(({ 1: title }) => title),
-        tap((title) => {
+        switchMap((title) =>
           this.dialogService
             .showConfirmDialog({
               header: `${title} có chắc chắn muốn hủy yêu cầu này không?`,
@@ -153,8 +154,7 @@ export class ChangeRequestListActionComponent implements OnInit {
               filter((x) => x),
               tap(() => this.store.cancel(this.schedule.id))
             )
-            .subscribe();
-        }),
+        ),
         takeUntil(this.destroy$)
       )
       .subscribe();

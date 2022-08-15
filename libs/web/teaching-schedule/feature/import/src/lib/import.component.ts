@@ -12,7 +12,7 @@ import { CoreConstant } from '@teaching-scheduling-system/core/data-access/const
 import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
 import { UtilsHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import { StatisticImportScheduleStore } from '@teaching-scheduling-system/web/teaching-schedule/data-access';
-import { map, Observable, Subject, tap } from 'rxjs';
+import { map, Observable, of, Subject, switchMap } from 'rxjs';
 
 @Component({
   templateUrl: './import.component.html',
@@ -109,27 +109,27 @@ export class ImportComponent {
   private handleStatusChange(): void {
     this.status$
       .pipe(
-        tap((status) => {
+        switchMap((status) => {
           if (status === 'successful') {
-            this.showSuccessNotification();
-          } else if (status === 'clientError') {
-            this.showErrorNotification();
+            return this.showSuccessNotification();
           }
+          if (status === 'clientError') {
+            return this.showErrorNotification();
+          }
+          return of({});
         })
       )
       .subscribe();
   }
 
-  private showSuccessNotification(): void {
-    this.alertService.open('Nhập dữ liệu thành công!').subscribe();
+  private showSuccessNotification(): Observable<void> {
+    return this.alertService.open('Nhập dữ liệu thành công!');
   }
 
-  private showErrorNotification(): void {
-    this.alertService
-      .open('Vui lòng thử lại sau', {
-        label: 'Nhập dữ liệu thất bại!',
-        status: TuiNotification.Error,
-      })
-      .subscribe();
+  private showErrorNotification(): Observable<void> {
+    return this.alertService.open('Vui lòng thử lại sau', {
+      label: 'Nhập dữ liệu thất bại!',
+      status: TuiNotification.Error,
+    });
   }
 }
