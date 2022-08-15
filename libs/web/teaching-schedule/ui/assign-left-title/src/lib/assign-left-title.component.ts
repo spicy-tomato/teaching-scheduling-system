@@ -1,35 +1,23 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { TuiDestroyService } from '@taiga-ui/cdk';
 import {
   TuiAlertService,
   tuiButtonOptionsProvider,
   TuiNotification,
 } from '@taiga-ui/core';
 import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
+import { ObservableHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import {
   ModuleClass,
   SimpleModel,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
-import {
-  TeachingScheduleAssignState,
-  teachingScheduleAssign_Assign,
-  teachingScheduleAssign_ChangeSelectingTeacher,
-  teachingScheduleAssign_SelectActionCountTeacher,
-  teachingScheduleAssign_SelectActionTeacher,
-  teachingScheduleAssign_SelectAssignStatus,
-  teachingScheduleAssign_SelectNeedAssign,
-  teachingScheduleAssign_SelectSelectedNeedAssign,
-  teachingScheduleAssign_SelectSelectedTeacher,
-  teachingScheduleAssign_SelectTeachers,
-} from '@teaching-scheduling-system/web/teaching-schedule/data-access';
+import { AssignStore } from '@teaching-scheduling-system/web/teaching-schedule/data-access';
 import {
   distinctUntilChanged,
+  filter,
   map,
   Observable,
-  takeUntil,
-  tap,
+  switchMap,
   withLatestFrom,
 } from 'rxjs';
 
@@ -39,7 +27,6 @@ import {
   styleUrls: ['./assign-left-title.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    TuiDestroyService,
     tuiButtonOptionsProvider({
       appearance: 'primary',
       size: 's',
@@ -48,41 +35,28 @@ import {
 })
 export class AssignLeftTitleComponent {
   // PUBLIC PROPERTIES
-  needAssign$: Observable<ModuleClass[]>;
   teachers$: Observable<SimpleModel[]>;
+  needAssign$: Observable<ModuleClass[]>;
+  assignStatus$: Observable<EApiStatus>;
   selectedTeacher$: Observable<Nullable<SimpleModel>>;
   someNeedAssignCheckedChange$!: Observable<boolean>;
-  selectedNeedAssign$: Observable<ModuleClass[]>;
-  assignStatus$: Observable<EApiStatus>;
 
   // PRIVATE PROPERTIES
+  private actionCount$: Observable<number>;
   private assignedTeacher$: Observable<Nullable<SimpleModel>>;
 
   // CONSTRUCTOR
   constructor(
-    private readonly store: Store<TeachingScheduleAssignState>,
+    private readonly store: AssignStore,
     @Inject(TuiAlertService)
-    private readonly alertService: TuiAlertService,
-    private readonly destroy$: TuiDestroyService
+    private readonly alertService: TuiAlertService
   ) {
-    this.teachers$ = this.store
-      .select(teachingScheduleAssign_SelectTeachers)
-      .pipe(takeUntil(this.destroy$));
-    this.needAssign$ = this.store
-      .select(teachingScheduleAssign_SelectNeedAssign)
-      .pipe(takeUntil(this.destroy$));
-    this.selectedNeedAssign$ = this.store
-      .select(teachingScheduleAssign_SelectSelectedNeedAssign)
-      .pipe(takeUntil(this.destroy$));
-    this.selectedTeacher$ = this.store
-      .select(teachingScheduleAssign_SelectSelectedTeacher)
-      .pipe(takeUntil(this.destroy$));
-    this.assignedTeacher$ = this.store
-      .select(teachingScheduleAssign_SelectActionTeacher)
-      .pipe(takeUntil(this.destroy$));
-    this.assignStatus$ = this.store
-      .select(teachingScheduleAssign_SelectAssignStatus)
-      .pipe(takeUntil(this.destroy$));
+    this.needAssign$ = this.store.needAssign$;
+    this.teachers$ = this.store.teacher$('data');
+    this.assignStatus$ = this.store.status$('assign');
+    this.actionCount$ = this.store.teacher$('actionCount');
+    this.assignedTeacher$ = this.store.teacher$('action');
+    this.selectedTeacher$ = this.store.teacher$('selected');
 
     this.handleSomeNeedAssignChecked();
     this.handleAssignSuccessful();
@@ -90,40 +64,37 @@ export class AssignLeftTitleComponent {
 
   // PUBLIC METHODS
   selectedTeacherChange(teacher: Nullable<SimpleModel>): void {
-    this.store.dispatch(
-      teachingScheduleAssign_ChangeSelectingTeacher({ teacher })
-    );
+    this.store.changeSelectedTeacher(teacher);
   }
 
   assign(): void {
-    this.store.dispatch(teachingScheduleAssign_Assign());
+    this.store.assign();
   }
 
   // PRIVATE METHODS
   private handleSomeNeedAssignChecked(): void {
-    this.someNeedAssignCheckedChange$ = this.selectedNeedAssign$.pipe(
+    this.someNeedAssignCheckedChange$ = this.store.selectedNeedAssign$.pipe(
       map((needAssign) => needAssign.some((x) => x)),
       distinctUntilChanged()
     );
   }
 
   private handleAssignSuccessful(): void {
-    this.assignedTeacher$
+    this.assignStatus$
       .pipe(
         withLatestFrom(
-          this.store.select(teachingScheduleAssign_SelectActionCountTeacher)
+          this.assignedTeacher$,
+          this.store.teacher$('actionCount')
         ),
-        tap(([teacher, count]) => {
-          if (!teacher) {
-            return;
-          }
-          this.alertService
-            .open(
-              `Đã phân công ${count} lớp cho giảng viên\n ${teacher.name}`,
-              { status: TuiNotification.Success }
-            )
-            .subscribe();
-        })
+        map(([status, teacher, count]) => ({ status, teacher, count })),
+        filter(({ status, count }) => status === 'successful' && !!count),
+        ObservableHelper.filterNullishProp(['teacher']),
+        switchMap(({ teacher, count }) =>
+          this.alertService.open(
+            `Đã phân công ${count} lớp cho giảng viên\n ${teacher.name}`,
+            { status: TuiNotification.Success }
+          )
+        )
       )
       .subscribe();
   }

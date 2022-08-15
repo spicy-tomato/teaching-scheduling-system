@@ -19,7 +19,7 @@ import { requiredFactory } from '@teaching-scheduling-system/core/utils/factorie
 import { SuccessDialogHeaderComponent } from '@teaching-scheduling-system/web/shared/ui/components/success-dialog-header';
 import { navbarOptionsProvider } from '@teaching-scheduling-system/web/shell/ui/navbar';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { Observable, tap } from 'rxjs';
+import { Observable, of, switchMap } from 'rxjs';
 import { SendEmailStore } from './store';
 
 @Component({
@@ -100,11 +100,13 @@ export class SendEmailComponent implements OnInit {
   private handleStatusChange(): void {
     this.status$
       .pipe(
-        tap((status) => {
+        switchMap((status) => {
           if (status === 'successful') {
-            this.dialog$.subscribe();
             this.form.disable();
-          } else if (status === 'clientError') {
+            return this.dialog$;
+          }
+
+          if (status === 'clientError') {
             if (this.email.untouched) {
               this.email.markAsTouched();
             }
@@ -114,6 +116,7 @@ export class SendEmailComponent implements OnInit {
               )
             );
           }
+          return of({});
         })
       )
       .subscribe();

@@ -1,7 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
-import { TuiDestroyService } from '@taiga-ui/cdk';
 import {
   TuiAppearance,
   tuiButtonOptionsProvider,
@@ -9,23 +7,15 @@ import {
   TUI_TEXTFIELD_APPEARANCE,
 } from '@taiga-ui/core';
 import { ChangeSchedule } from '@teaching-scheduling-system/web/shared/data-access/models';
-import {
-  AppShellState,
-  selectRooms,
-} from '@teaching-scheduling-system/web/shared/data-access/store';
-import {
-  teachingScheduleRequestSetRoom,
-  TeachingScheduleRequestState,
-} from '@teaching-scheduling-system/web/teaching-schedule/data-access';
+import { RequestStore } from '@teaching-scheduling-system/web/teaching-schedule/data-access';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { Observable, takeUntil } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Component({
   templateUrl: './change-set-room-dialog.component.html',
   styleUrls: ['./change-set-room-dialog.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    TuiDestroyService,
     tuiButtonOptionsProvider({
       appearance: 'primary',
       size: 'm',
@@ -44,13 +34,11 @@ export class ChangeSetRoomDialogComponent {
   // CONSTRUCTOR
   constructor(
     private readonly fb: FormBuilder,
-    private readonly store: Store<TeachingScheduleRequestState>,
+    private readonly store: RequestStore,
     @Inject(POLYMORPHEUS_CONTEXT)
-    private readonly context: TuiDialogContext<void, ChangeSchedule>,
-    appShellStore: Store<AppShellState>,
-    destroy$: TuiDestroyService
+    private readonly context: TuiDialogContext<void, ChangeSchedule>
   ) {
-    this.rooms$ = appShellStore.select(selectRooms).pipe(takeUntil(destroy$));
+    this.rooms$ = store.rooms$;
 
     this.initForm();
   }
@@ -58,9 +46,7 @@ export class ChangeSetRoomDialogComponent {
   // PUBLIC METHODS
   confirm(): void {
     const newIdRoom = this.form.controls['newRoom'].value as string;
-    this.store.dispatch(
-      teachingScheduleRequestSetRoom({ schedule: this.context.data, newIdRoom })
-    );
+    this.store.setRoom({ schedule: this.context.data, newIdRoom });
     this.cancel();
   }
 

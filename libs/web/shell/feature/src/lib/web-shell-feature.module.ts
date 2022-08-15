@@ -1,12 +1,15 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { LOCALE_ID, NgModule } from '@angular/core';
+import { inject, LOCALE_ID, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { routerReducer, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
-import { TUI_SANITIZER } from '@taiga-ui/cdk';
-import { tuiHintOptionsProvider } from '@taiga-ui/core';
+import { TUI_IS_CYPRESS, TUI_SANITIZER } from '@taiga-ui/cdk';
+import {
+  tuiHintOptionsProvider,
+  TUI_ANIMATIONS_DURATION,
+} from '@taiga-ui/core';
 import { TUI_LANGUAGE, TUI_VIETNAMESE_LANGUAGE } from '@taiga-ui/i18n';
 import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
 import {
@@ -223,6 +226,10 @@ export const webShellFeatureRoutes: Routes = [
   ],
   exports: [RouterModule],
   providers: [
+    {
+      provide: TUI_ANIMATIONS_DURATION,
+      useFactory: () => (inject(TUI_IS_CYPRESS) ? 0 : 300),
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ContentTypeInterceptor,
