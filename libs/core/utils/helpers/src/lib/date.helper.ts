@@ -5,15 +5,15 @@ export class DateHelper {
   static readonly TIMEZONE_OFFSET = -25_200_000; // = -420 * 60_000 milliseconds
 
   // To string
+  static beautifyDay(day: number): string {
+    return `0${day}`.slice(-2);
+  }
+
   static beautifyTime(dt: Date): string {
     return [
       DateHelper.beautifyDay(dt.getHours()),
       DateHelper.beautifyDay(dt.getMinutes()),
     ].join(':');
-  }
-
-  static beautifyDay(day: number): string {
-    return `0${day}`.slice(-2);
   }
 
   static toDateOnlyString(date: Date): string {
