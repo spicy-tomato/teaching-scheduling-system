@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.17.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.17.0...v3.17.1) (2022-08-16)
+
+
+### Bug Fixes
+
+* **calendar:** updating exam note in quick-view updates teaching schedule has the same id ([f635af0](https://github.com/annguyen-it/teaching-scheduling-system/commit/f635af097e654d709ad006d69d371b94cb0c2f51))
+* **shell:** notification content is overlapped ([2be3696](https://github.com/annguyen-it/teaching-scheduling-system/commit/2be3696632db4ab3671704ae5d0f5f8de3966336))
+* **teaching-schedule/change:** cannot select room to set ([42adc91](https://github.com/annguyen-it/teaching-scheduling-system/commit/42adc91b9a0baa2ab2b64a57fa6b538defab73c2))
+
 ## [3.17.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.16.2...v3.17.0) (2022-08-15)
 
 
