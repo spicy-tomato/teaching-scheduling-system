@@ -18,6 +18,7 @@ import { RECAPTCHA_SETTINGS } from 'ng-recaptcha';
 import { default as EJS_LOCALE } from '../assets/locales/ejs-locale.json';
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 registerLocaleData(localeVi, 'vi');
 loadCldr(numberingSystems, gregorian, numbers, timeZoneNames);
@@ -39,6 +40,12 @@ const TAIGA_UI = [
     WebShellFeatureModule,
     LoaderModule,
     ...TAIGA_UI,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
   ],
   declarations: [AppComponent],
   bootstrap: [AppComponent],
