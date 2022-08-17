@@ -7,7 +7,6 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { tuiButtonOptionsProvider, TuiDialogService } from '@taiga-ui/core';
 import { IconConstant } from '@teaching-scheduling-system/core/data-access/constants';
@@ -28,17 +27,7 @@ import {
   TeacherService,
   TokenService,
 } from '@teaching-scheduling-system/web/shared/data-access/services';
-import {
-  AppShellState,
-  selectNameTitle,
-  selectPermission,
-  selectTeacher,
-} from '@teaching-scheduling-system/web/shared/data-access/store';
-import {
-  teachingScheduleRequestCancel,
-  teachingScheduleRequestSelectRequestQueue,
-  TeachingScheduleRequestState,
-} from '@teaching-scheduling-system/web/teaching-schedule/data-access';
+import { RequestStore } from '@teaching-scheduling-system/web/teaching-schedule/data-access';
 import { ChangeDetailsDialogComponent } from '@teaching-scheduling-system/web/teaching-schedule/ui/change-details-dialog';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import {
@@ -46,6 +35,7 @@ import {
   map,
   Observable,
   Subject,
+  switchMap,
   takeUntil,
   tap,
   withLatestFrom,
@@ -93,26 +83,17 @@ export class ChangeRequestListActionComponent implements OnInit {
     @Inject(TuiDialogService)
     private readonly tuiDialogService: TuiDialogService,
     private readonly dialogService: DialogService,
-    private readonly store: Store<TeachingScheduleRequestState>,
-    private readonly destroy$: TuiDestroyService,
-    appShellStore: Store<AppShellState>
+    private readonly store: RequestStore,
+    private readonly destroy$: TuiDestroyService
   ) {
     this.datePipe = injector.get(
       this.tokenService.getToken<DatePipe>('datePipe')
     );
 
-    this.requesting$ = store
-      .select(teachingScheduleRequestSelectRequestQueue)
-      .pipe(takeUntil(this.destroy$));
-    this.permissions$ = appShellStore
-      .select(selectPermission)
-      .pipe(takeUntil(this.destroy$));
-    this.teacher$ = appShellStore
-      .select(selectTeacher)
-      .pipe(takeUntil(this.destroy$));
-    this.nameTitle$ = appShellStore
-      .select(selectNameTitle)
-      .pipe(takeUntil(this.destroy$));
+    this.teacher$ = store.teacher$;
+    this.nameTitle$ = store.nameTitle$;
+    this.requesting$ = store.status$('queue');
+    this.permissions$ = store.permissions$;
 
     this.handleExport();
     this.handleCancel();
@@ -120,6 +101,7 @@ export class ChangeRequestListActionComponent implements OnInit {
 
   // LIFECYCLE
   ngOnInit(): void {
+    // This function use ```schedule```, which is an @Input, so must be called in ngOnInit
     this.initDialog();
   }
 
@@ -161,7 +143,7 @@ export class ChangeRequestListActionComponent implements OnInit {
       .pipe(
         withLatestFrom(this.nameTitle$),
         map(({ 1: title }) => title),
-        tap((title) => {
+        switchMap((title) =>
           this.dialogService
             .showConfirmDialog({
               header: `${title} có chắc chắn muốn hủy yêu cầu này không?`,
@@ -170,14 +152,9 @@ export class ChangeRequestListActionComponent implements OnInit {
             })
             .pipe(
               filter((x) => x),
-              tap(() => {
-                this.store.dispatch(
-                  teachingScheduleRequestCancel({ id: this.schedule.id })
-                );
-              })
+              tap(() => this.store.cancel(this.schedule.id))
             )
-            .subscribe();
-        }),
+        ),
         takeUntil(this.destroy$)
       )
       .subscribe();

@@ -4,7 +4,6 @@ import { tuiButtonOptionsProvider } from '@taiga-ui/core';
 import { fadeInOut } from '@teaching-scheduling-system/core/ui/animations';
 import {
   NotificationState,
-  notification_getInitialData,
   notification_selectHasUnread,
 } from '@teaching-scheduling-system/web/notification/data-access';
 import {
@@ -36,7 +35,6 @@ export class BellComponent {
   // CONSTRUCTOR
   constructor(
     private readonly store: Store<NotificationState>,
-    notificationStore: Store<NotificationState>,
     appShellStore: Store<AppShellState>
   ) {
     appShellStore
@@ -52,7 +50,5 @@ export class BellComponent {
         })
       )
       .subscribe();
-
-    notificationStore.dispatch(notification_getInitialData());
   }
 }

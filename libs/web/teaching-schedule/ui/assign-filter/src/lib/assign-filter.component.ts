@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Store } from '@ngrx/store';
 import {
   TuiContextWithImplicit,
   TuiDestroyService,
@@ -21,20 +20,7 @@ import {
   SimpleMapModel,
   SimpleModel,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
-import {
-  AppShellState,
-  selectAcademicData,
-  selectDepartment,
-  selectSchoolYear,
-  selectTrainingTypes,
-} from '@teaching-scheduling-system/web/shared/data-access/store';
-import {
-  TeachingScheduleAssignState,
-  teachingScheduleAssign_Filter,
-  teachingScheduleAssign_LoadFilter,
-  teachingScheduleAssign_SelectDepartments,
-  teachingScheduleAssign_SelectFilterStatus,
-} from '@teaching-scheduling-system/web/teaching-schedule/data-access';
+import { AssignStore } from '@teaching-scheduling-system/web/teaching-schedule/data-access';
 import {
   filter,
   map,
@@ -108,28 +94,15 @@ export class AssignFilterComponent implements OnInit {
   // CONSTRUCTOR
   constructor(
     private readonly fb: FormBuilder,
-    private readonly store: Store<TeachingScheduleAssignState>,
-    private readonly destroy$: TuiDestroyService,
-    appShellStore: Store<AppShellState>
+    private readonly store: AssignStore,
+    private readonly destroy$: TuiDestroyService
   ) {
-    this.departments$ = this.store
-      .select(teachingScheduleAssign_SelectDepartments)
-      .pipe(takeUntil(this.destroy$));
-    this.filterStatus$ = this.store
-      .select(teachingScheduleAssign_SelectFilterStatus)
-      .pipe(takeUntil(this.destroy$));
-    this.myDepartment$ = appShellStore
-      .select(selectDepartment)
-      .pipe(takeUntil(this.destroy$));
-    this.currentTerm$ = appShellStore
-      .select(selectSchoolYear)
-      .pipe(takeUntil(this.destroy$));
-    this.academicData$ = appShellStore
-      .select(selectAcademicData)
-      .pipe(takeUntil(this.destroy$));
-    this.trainingTypes$ = appShellStore
-      .select(selectTrainingTypes)
-      .pipe(takeUntil(this.destroy$));
+    this.departments$ = this.store.departments$;
+    this.currentTerm$ = this.store.currentTerm$;
+    this.myDepartment$ = this.store.myDepartment$;
+    this.academicData$ = this.store.academicData$;
+    this.filterStatus$ = this.store.status$('filter');
+    this.trainingTypes$ = this.store.trainingTypes$;
 
     this.initForm();
     this.triggerSchoolYearChange();
@@ -144,7 +117,7 @@ export class AssignFilterComponent implements OnInit {
 
   // LIFECYCLE
   ngOnInit(): void {
-    this.store.dispatch(teachingScheduleAssign_LoadFilter());
+    this.store.loadDepartment();
     this.myDepartment$
       .pipe(
         ObservableHelper.filterNullish(),
@@ -233,8 +206,7 @@ export class AssignFilterComponent implements OnInit {
           this.academicYear.setValue(
             ArrayHelper.lastItem(academicData[trainingTypeId].academicYears)
           );
-        }),
-        takeUntil(this.destroy$)
+        })
       )
       .subscribe();
   }
@@ -248,17 +220,14 @@ export class AssignFilterComponent implements OnInit {
             .split('-')
             .join('_');
           const term = this.termInYear.value as string;
+          const params = {
+            study_sessions: `${schoolYear}_${term}_${
+              this.batchInTerm.value as number
+            }`,
+          };
 
-          this.store.dispatch(
-            teachingScheduleAssign_Filter({
-              dep,
-              params: {
-                study_sessions: `${schoolYear}_${term}_${
-                  this.batchInTerm.value as number
-                }`,
-              },
-            })
-          );
+          this.store.filter({ dep, params });
+          this.store.loadTeacher(dep);
         }),
         takeUntil(this.destroy$)
       )

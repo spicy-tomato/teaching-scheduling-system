@@ -1,4 +1,4 @@
-<div *ngIf="data.elementType === 'cell' || data.elementType === 'event'">
+<div *ngIf="data.elementType === 'event'; else cell">
   <div
     [ngStyle]="{
       'background-color': data.Type === 'exam' ? '#ff0000' : data.Color || ''
@@ -29,3 +29,19 @@
     </div>
   </div>
 </div>
+
+<ng-template #cell>
+  <div *ngIf="data.elementType === 'cell'">
+    <div class="e-popup-header">
+      <div class="e-header-icon-wrapper">
+        <button
+          tuiIconButton
+          (click)="closeDialog.next()"
+          icon="tuiIconCloseLarge"
+          appearance="flat"
+          title="Đóng"
+        ></button>
+      </div>
+    </div>
+  </div>
+</ng-template>
