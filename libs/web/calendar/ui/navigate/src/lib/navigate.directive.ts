@@ -16,7 +16,14 @@ import {
   AppShellState,
   selectNameTitle,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
-import { Subject, takeUntil, tap, withLatestFrom } from 'rxjs';
+import {
+  finalize,
+  Subject,
+  switchMap,
+  takeUntil,
+  tap,
+  withLatestFrom,
+} from 'rxjs';
 
 @Directive({
   selector: '[tssNavigate]',
@@ -118,7 +125,7 @@ export class NavigateDirective {
     this.displayNotification$
       .pipe(
         withLatestFrom(this.appShellStore.select(selectNameTitle)),
-        tap(({ 1: nameTitle }) => {
+        switchMap(({ 1: nameTitle }) => {
           this.canDisplayNotification = false;
           const schedule = this.scheduleComponent;
           const now = new Date();
@@ -138,11 +145,9 @@ export class NavigateDirective {
               ? `${nameTitle} không có sự kiện nào trong hôm nay`
               : `${nameTitle} có ${eventsCount} sự kiện vào hôm nay`;
 
-          this.alertService
+          return this.alertService
             .open(content, { label, autoClose: 6000 })
-            .subscribe({
-              complete: () => (this.canDisplayNotification = true),
-            });
+            .pipe(finalize(() => (this.canDisplayNotification = true)));
         })
       )
       .subscribe();

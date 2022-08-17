@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.17.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.17.0...v3.17.1) (2022-08-16)
+
+
+### Bug Fixes
+
+* **calendar:** updating exam note in quick-view updates teaching schedule has the same id ([f635af0](https://github.com/annguyen-it/teaching-scheduling-system/commit/f635af097e654d709ad006d69d371b94cb0c2f51))
+* **shell:** notification content is overlapped ([2be3696](https://github.com/annguyen-it/teaching-scheduling-system/commit/2be3696632db4ab3671704ae5d0f5f8de3966336))
+* **teaching-schedule/change:** cannot select room to set ([42adc91](https://github.com/annguyen-it/teaching-scheduling-system/commit/42adc91b9a0baa2ab2b64a57fa6b538defab73c2))
+
+## [3.17.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.16.2...v3.17.0) (2022-08-15)
+
+
+### Features
+
+* **calendar:** update note in quick-view ([bd8fbf1](https://github.com/annguyen-it/teaching-scheduling-system/commit/bd8fbf196fe0b31be6f2e656c97e34453883a628))
+
+
+### Bug Fixes
+
+* **calendar:** alert does not display after click `Today` button ([dfe8ff9](https://github.com/annguyen-it/teaching-scheduling-system/commit/dfe8ff951aeae153a8c0425ff7a8ef7c4dc4f7b9))
+* **dep:** bump postcss to 8.4.16 ([c11a402](https://github.com/annguyen-it/teaching-scheduling-system/commit/c11a402f305fd0c22760cbd211a7709a014baccd))
+* **exam/assign:** cannot re-open assign dialog ([cffcdd4](https://github.com/annguyen-it/teaching-scheduling-system/commit/cffcdd4f5d30b3dec5eab1a3cd50e7c18788b758))
+* **exam/assign:** cannot re-open edit dialog ([6be8ba2](https://github.com/annguyen-it/teaching-scheduling-system/commit/6be8ba2e119bdc24954f318bb43cf729ec987fc9))
+* **notification:** api is called twice after re-login ([5b594f8](https://github.com/annguyen-it/teaching-scheduling-system/commit/5b594f83c5bd83ced372586be77ae3d4174dfb43))
+* remove `ArrayHelper.isArray` ([f6a5765](https://github.com/annguyen-it/teaching-scheduling-system/commit/f6a57652c32b728dc09f7fb16d35f14959d5bbba))
+* **teaching-schedule:** dialog should display after redo same action ([dcba6b9](https://github.com/annguyen-it/teaching-scheduling-system/commit/dcba6b9944d3dea6acd95ea53d433bad622afc7b))
+
 ### [3.16.2](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.16.1...v3.16.2) (2022-08-14)
 
 

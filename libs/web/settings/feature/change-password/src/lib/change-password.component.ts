@@ -16,7 +16,7 @@ import {
   differentControlValueValidator,
   sameControlValueValidator,
 } from '@teaching-scheduling-system/web/shared/utils/validators';
-import { tap } from 'rxjs';
+import { of, switchMap } from 'rxjs';
 
 @Component({
   templateUrl: './change-password.component.html',
@@ -119,22 +119,22 @@ export class ChangePasswordComponent {
   private handleStatusChange(): void {
     this.status$
       .pipe(
-        tap((status) => {
+        switchMap((status) => {
           if (status === 'successful') {
             this.form.reset();
             this.form.markAsPristine();
-            this.alertService
-              .open('Thay đổi mật khẩu thành công!', {
-                status: TuiNotification.Success,
-              })
-              .subscribe();
-          } else if (status === 'clientError') {
+            return this.alertService.open('Thay đổi mật khẩu thành công!', {
+              status: TuiNotification.Success,
+            });
+          }
+          if (status === 'clientError') {
             this.password.setErrors(
               new TuiValidationError(
                 'Mật khẩu không chính xác, vui lòng thử lại!'
               )
             );
           }
+          return of({});
         })
       )
       .subscribe();

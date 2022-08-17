@@ -25,7 +25,9 @@ import {
   filter,
   map,
   Observable,
+  of,
   Subject,
+  switchMap,
   takeUntil,
   tap,
   withLatestFrom,
@@ -123,14 +125,14 @@ export class TeachingDialogButtonsLeftComponent implements OnInit {
       .pipe(
         withLatestFrom(this.searchSchedule$),
         map(({ 1: searchSchedule }) => searchSchedule),
-        tap((searchSchedule) => {
+        switchMap((searchSchedule) => {
           if (this.requestChangeToUndeterminedDay) {
             this.submitChangeIntendTimeRequest();
-            return;
+            return of({});
           }
 
           if (searchSchedule?.length) {
-            this.dialogService
+            return this.dialogService
               .showConfirmDialog({
                 header:
                   'Ca học này đã bị trùng lớp học phần khác. Vẫn tiếp tục?',
@@ -138,11 +140,11 @@ export class TeachingDialogButtonsLeftComponent implements OnInit {
               .pipe(
                 filter((confirm) => confirm),
                 tap(() => this.submitChangeRequest())
-              )
-              .subscribe();
-          } else {
-            this.submitChangeRequest();
+              );
           }
+
+          this.submitChangeRequest();
+          return of({});
         }),
         takeUntil(this.destroy$)
       )
@@ -154,9 +156,9 @@ export class TeachingDialogButtonsLeftComponent implements OnInit {
       .pipe(
         withLatestFrom(this.searchSchedule$),
         map(({ 1: searchSchedule }) => searchSchedule),
-        tap((searchSchedule) => {
+        switchMap((searchSchedule) => {
           if (searchSchedule?.length) {
-            this.dialogService
+            return this.dialogService
               .showConfirmDialog({
                 header:
                   'Ca học này đã bị trùng lớp học phần khác. Vẫn tiếp tục?',
@@ -164,11 +166,11 @@ export class TeachingDialogButtonsLeftComponent implements OnInit {
               .pipe(
                 filter((confirm) => confirm),
                 tap(() => this.submitChange())
-              )
-              .subscribe();
-          } else {
-            this.submitChange();
+              );
           }
+
+          this.submitChange();
+          return of({});
         }),
         takeUntil(this.destroy$)
       )

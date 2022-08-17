@@ -22,6 +22,7 @@ import {
   Observable,
   of,
   Subject,
+  switchMap,
   take,
   takeUntil,
   tap,
@@ -119,13 +120,13 @@ export class UserInfoComponent {
     this.save$
       .pipe(
         withLatestFrom(this.teacher$),
-        tap(([{ controlName, value }, teacher]) => {
+        switchMap(([{ controlName, value }, teacher]) => {
           const body = { [controlName]: value };
           const confirmInput = this.confirmInputs.find(
             (x) => x.field === controlName
           );
 
-          this.userService
+          return this.userService
             .updateInformation(body, teacher.uuidAccount)
             .pipe(
               tap(() => {
@@ -134,13 +135,10 @@ export class UserInfoComponent {
               }),
               catchError(() => {
                 this.onSaveFailed();
-                return of(null);
+                return of({});
               }),
-              finalize(() => {
-                confirmInput?.finish();
-              })
-            )
-            .subscribe();
+              finalize(() => confirmInput?.finish())
+            );
         }),
         takeUntil(this.destroy$)
       )
