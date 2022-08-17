@@ -1,5 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 
+export const reset = createAction('[Notification Page] Reset');
+
 export const notification_getInitialData = createAction(
   '[Notification Page] Get initial data'
 );

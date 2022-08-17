@@ -16,6 +16,10 @@ import {
 import { ArrayHelper } from './array.helper';
 import { ObjectHelper } from './object.helper';
 
+type UnNull<T extends Record<string, unknown>> = {
+  [TKey in keyof T]: Exclude<T[TKey], null>;
+};
+
 export class ObservableHelper {
   static filterNullish<T>(): UnaryFunction<
     Observable<Nullable<T> | undefined>,
@@ -38,6 +42,22 @@ export class ObservableHelper {
     );
   }
 
+  static filterNullishProp<T extends Record<string, unknown>>(
+    props: (keyof T)[]
+  ): UnaryFunction<Observable<T>, Observable<UnNull<T>>> {
+    return pipe(
+      filter((x) => {
+        for (let i = 0; i < props.length; i++) {
+          const prop = props[i];
+          if (ObjectHelper.isNullOrUndefined(x[prop])) {
+            return false;
+          }
+        }
+        return true;
+      }) as OperatorFunction<T, UnNull<T>>
+    );
+  }
+
   static filterWith<T, U>(
     other$: Observable<U[]>,
     accept: U[] | U
@@ -46,10 +66,10 @@ export class ObservableHelper {
       return source$.pipe(
         withLatestFrom(other$),
         filter(({ 1: other }) => {
-          if (!ArrayHelper.isArray(accept)) {
-            return other.includes(accept as U);
+          if (Array.isArray(accept)) {
+            return ArrayHelper.isSubset(accept, other);
           }
-          return ArrayHelper.isSubset(accept as U[], other);
+          return other.includes(accept);
         }),
         map(([source]) => source)
       );

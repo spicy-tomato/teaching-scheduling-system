@@ -5,7 +5,6 @@ import {
   Injector,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Store } from '@ngrx/store';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { tuiButtonOptionsProvider, TuiDialogService } from '@taiga-ui/core';
 import { IconConstant } from '@teaching-scheduling-system/core/data-access/constants';
@@ -16,14 +15,7 @@ import {
   Teacher,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { ExportService } from '@teaching-scheduling-system/web/shared/data-access/services';
-import {
-  AppShellState,
-  selectNotNullTeacher,
-} from '@teaching-scheduling-system/web/shared/data-access/store';
-import {
-  teachingScheduleRequestSelectExportSchedule,
-  TeachingScheduleRequestState,
-} from '@teaching-scheduling-system/web/teaching-schedule/data-access';
+import { RequestStore } from '@teaching-scheduling-system/web/teaching-schedule/data-access';
 import { ChangeReportDialogComponent } from '@teaching-scheduling-system/web/teaching-schedule/ui/change-report-dialog';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { Observable, Subject, takeUntil, tap, withLatestFrom } from 'rxjs';
@@ -59,16 +51,10 @@ export class ChangeRequestFilterComponent {
     @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
     private readonly destroy$: TuiDestroyService,
     route: ActivatedRoute,
-    store: Store<TeachingScheduleRequestState>,
-    appShellStore: Store<AppShellState>
+    store: RequestStore
   ) {
-    this.exportSchedule$ = store
-      .select(teachingScheduleRequestSelectExportSchedule)
-      .pipe(takeUntil(this.destroy$));
-    this.teacher$ = appShellStore.pipe(
-      selectNotNullTeacher,
-      takeUntil(this.destroy$)
-    );
+    this.teacher$ = store.teacher$;
+    this.exportSchedule$ = store.exportSchedule$;
 
     this.isPersonal = route.snapshot.data['personal'] as boolean;
 

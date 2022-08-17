@@ -24,6 +24,11 @@ export const appShellReducer = createReducer(
     ...state,
     status: 'loading',
   })),
+  on(PageAction.logout, (state) => ({
+    ...state,
+    teacher: null,
+    teachersInDepartment: []
+  })),
   on(PageAction.setLoader, (state, { showLoader }) => ({
     ...state,
     showLoader,

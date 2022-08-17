@@ -1,60 +1,37 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  forwardRef,
   Inject,
-  Injector,
   Input,
-  OnInit,
 } from '@angular/core';
-import { TuiDialogService } from '@taiga-ui/core';
-import { ChangeScheduleHistoryComponent } from '@teaching-scheduling-system/web-shared-ui-dialog';
-import {
-  EjsScheduleModel,
-  SimpleModel,
-} from '@teaching-scheduling-system/web/shared/data-access/models';
-import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { Observable } from 'rxjs';
+import { ScheduleComponent } from '@syncfusion/ej2-angular-schedule';
+import { tuiButtonOptionsProvider } from '@taiga-ui/core';
+import { EjsScheduleModel } from '@teaching-scheduling-system/web/shared/data-access/models';
 
 @Component({
   selector: 'tss-quick-info-content',
   templateUrl: './quick-info-content.component.html',
   styleUrls: ['./quick-info-content.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    tuiButtonOptionsProvider({
+      size: 's',
+    }),
+  ],
 })
-export class QuickInfoContentComponent implements OnInit {
+export class QuickInfoContentComponent {
   // INPUT
   @Input() data!: EjsScheduleModel;
 
+  // PUBLIC PROPERTIES
+  newEventTitle = '';
+
   // PRIVATE PROPERTIES
-  private historyDialog$!: Observable<void>;
 
   // CONSTRUCTOR
   constructor(
-    @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
-    @Inject(Injector) private readonly injector: Injector
+    @Inject(forwardRef(() => ScheduleComponent))
+    readonly schedule: ScheduleComponent
   ) {}
-
-  // LIFECYCLE
-  ngOnInit(): void {
-    this.initDialog();
-  }
-
-  // PUBLIC METHODS
-  readonly peopleMatcher = (item: string | SimpleModel): boolean =>
-    item !== 'self';
-
-  onShowHistory(): void {
-    this.historyDialog$.subscribe();
-  }
-
-  // PRIVATE METHODS
-  private initDialog(): void {
-    this.historyDialog$ = this.dialogService.open(
-      new PolymorpheusComponent(ChangeScheduleHistoryComponent, this.injector),
-      {
-        data: this.data.FixedSchedules,
-        label: 'Lịch sử thay đổi giờ giảng',
-      }
-    );
-  }
 }

@@ -62,8 +62,8 @@ export class UrlHelper {
       const operator = operators[key] as Operator;
       if (operator) {
         const newKey = `${key}[${operator}]`;
-        if (ArrayHelper.isArray(value)) {
-          (queryFilterPart as any)[newKey] = (value as []).join(',');
+        if (Array.isArray(value)) {
+          (queryFilterPart as any)[newKey] = value.join(',');
         } else {
           (queryFilterPart as any)[newKey] = value;
         }
