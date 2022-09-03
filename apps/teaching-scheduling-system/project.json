@@ -30,9 +30,8 @@
           "apps/teaching-scheduling-system/src/manifest.webmanifest"
         ],
         "styles": [
-          "node_modules/@taiga-ui/core/styles/taiga-ui-global.less",
-          "node_modules/@taiga-ui/core/styles/taiga-ui-theme.less",
-          "apps/teaching-scheduling-system/src/styles.css"
+          "apps/teaching-scheduling-system/src/styles.css",
+          "apps/teaching-scheduling-system/src/styles.less"
         ],
         "scripts": [],
         "serviceWorker": true,

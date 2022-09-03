@@ -2,11 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ReactiveComponentModule } from '@ngrx/component';
-import {
-  TuiButtonModule,
-  TuiErrorModule,
-  TuiTextfieldControllerModule,
-} from '@taiga-ui/core';
+import { TuiButtonModule, TuiErrorModule } from '@taiga-ui/core';
 import {
   TuiFieldErrorPipeModule,
   TuiInputDateTimeModule,
@@ -24,7 +20,6 @@ const TAIGA_UI = [
   TuiInputDateTimeModule,
   TuiInputModule,
   TuiTextAreaModule,
-  TuiTextfieldControllerModule,
 ];
 
 @NgModule({
