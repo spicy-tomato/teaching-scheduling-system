@@ -75,8 +75,7 @@ export class UserInfoComponent {
     private readonly fb: FormBuilder,
     private readonly userService: UserService,
     private readonly destroy$: TuiDestroyService,
-    @Inject(TuiAlertService)
-    private readonly alertService: TuiAlertService,
+    @Inject(TuiAlertService) private readonly alertService: TuiAlertService,
     appShellStore: Store<AppShellState>
   ) {
     this.teacher$ = appShellStore.pipe(

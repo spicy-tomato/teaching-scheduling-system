@@ -62,8 +62,7 @@ export class LoginComponent {
   // CONSTRUCTOR
   constructor(
     private readonly store: LoginStore,
-    @Inject(TuiAlertService)
-    private readonly alertService: TuiAlertService,
+    @Inject(TuiAlertService) private readonly alertService: TuiAlertService,
     private readonly destroy$: TuiDestroyService,
     appShellStore: Store<AppShellState>
   ) {

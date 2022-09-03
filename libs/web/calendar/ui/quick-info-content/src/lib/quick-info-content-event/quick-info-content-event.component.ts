@@ -54,7 +54,7 @@ export class QuickInfoContentEventComponent implements OnInit {
     readonly schedule: ScheduleComponent,
     @Inject(Injector) private readonly injector: Injector,
     @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
-    private readonly alertService: TuiAlertService,
+    @Inject(TuiAlertService) private readonly alertService: TuiAlertService,
     private readonly store: QuickInfoContentEventStore,
     private readonly destroy$: TuiDestroyService
   ) {
