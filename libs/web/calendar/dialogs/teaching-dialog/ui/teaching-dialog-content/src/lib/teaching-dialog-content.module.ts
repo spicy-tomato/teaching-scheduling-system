@@ -6,6 +6,7 @@ import { TuiFilterPipeModule } from '@taiga-ui/cdk';
 import {
   TuiButtonModule,
   TuiDataListModule,
+  TuiDropdownModule,
   TuiErrorModule,
   TuiExpandModule,
   TuiHostedDropdownModule,
@@ -44,6 +45,7 @@ const TAIGA_UI = [
   TuiComboBoxModule,
   TuiDataListModule,
   TuiDataListWrapperModule,
+  TuiDropdownModule,
   TuiErrorModule,
   TuiExpandModule,
   TuiFieldErrorPipeModule,
