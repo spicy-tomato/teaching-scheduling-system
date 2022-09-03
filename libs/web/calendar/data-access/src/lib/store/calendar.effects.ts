@@ -407,7 +407,7 @@ function calculateFetchRange(
     if (!leftGreater) {
       rangeList[i] = new TuiDayRange(start, curr.to);
       return {
-        fetch: new TuiDayRange(start, curr.from.append({ day: 1 }, true)),
+        fetch: new TuiDayRange(start, curr.from.append({ day: 1 })),
         ranges: resolveConflictRanges(rangeList),
       };
     }
