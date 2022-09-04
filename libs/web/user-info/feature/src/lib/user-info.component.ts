@@ -104,7 +104,6 @@ export class UserInfoComponent {
         tap((teacher) => {
           this.form.patchValue({
             name: teacher.name,
-            // TODO: Hide component
             department: teacher.department?.name,
             faculty: teacher.faculty?.name,
             phone: teacher.phone || '',
