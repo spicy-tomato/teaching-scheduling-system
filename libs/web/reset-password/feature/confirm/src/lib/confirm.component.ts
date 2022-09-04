@@ -77,7 +77,7 @@ export class ConfirmComponent {
     private readonly route: ActivatedRoute,
     @Inject(Injector) private readonly injector: Injector,
     private readonly tuiDialogService: TuiDialogService,
-    private readonly alertService: TuiAlertService,
+    @Inject(TuiAlertService) private readonly alertService: TuiAlertService,
     private readonly store: ConfirmStore,
     private readonly destroy$: TuiDestroyService
   ) {

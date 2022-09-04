@@ -27,8 +27,6 @@ export class QuickInfoContentComponent {
   // PUBLIC PROPERTIES
   newEventTitle = '';
 
-  // PRIVATE PROPERTIES
-
   // CONSTRUCTOR
   constructor(
     @Inject(forwardRef(() => ScheduleComponent))

@@ -5,7 +5,6 @@ import { RouterModule } from '@angular/router';
 import { ReactiveComponentModule } from '@ngrx/component';
 import {
   TuiButtonModule,
-  TuiHintControllerModule,
   TuiHintModule,
   TuiLinkModule,
 } from '@taiga-ui/core';
@@ -23,7 +22,6 @@ const TAIGA_UI = [
   TuiButtonModule,
   TuiCheckboxLabeledModule,
   TuiLinkModule,
-  TuiHintControllerModule,
   TuiHintModule,
 ];
 

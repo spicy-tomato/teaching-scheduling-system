@@ -56,8 +56,7 @@ export class ExamDialogComponent {
     @Inject(POLYMORPHEUS_CONTEXT)
     private readonly context: TuiDialogContext<string, EjsScheduleModel>,
     private readonly fb: FormBuilder,
-    @Inject(TuiAlertService)
-    private readonly alertService: TuiAlertService,
+    @Inject(TuiAlertService) private readonly alertService: TuiAlertService,
     private readonly store: ExamDialogStore
   ) {
     this.initForm(context.data);

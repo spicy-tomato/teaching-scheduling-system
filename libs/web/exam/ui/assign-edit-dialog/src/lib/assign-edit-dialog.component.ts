@@ -54,8 +54,7 @@ export class AssignEditDialogComponent {
     @Inject(POLYMORPHEUS_CONTEXT)
     private readonly context: TuiDialogContext<string, ExamScheduleModel>,
     private readonly store: AssignEditExamDialogStore,
-    @Inject(TuiAlertService)
-    private readonly alertService: TuiAlertService
+    @Inject(TuiAlertService) private readonly alertService: TuiAlertService
   ) {
     this.initForm();
     this.handleStatusChange();

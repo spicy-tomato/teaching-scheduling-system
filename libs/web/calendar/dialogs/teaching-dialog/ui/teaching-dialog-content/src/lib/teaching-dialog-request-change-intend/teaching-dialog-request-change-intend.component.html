@@ -2,9 +2,7 @@
   <div class="tui-form__row">
     <tui-text-area
       formControlName="intendTime"
-      [tuiTextfieldMaxLength]="
-        CoreConstant.INTEND_TIME_CHANGE_SCHEDULE_MAX_LENGTH
-      "
+      [maxLength]="CoreConstant.INTEND_TIME_CHANGE_SCHEDULE_MAX_LENGTH"
     >
       Nhập khoảng thời gian dự kiến
     </tui-text-area>
@@ -12,7 +10,7 @@
   <div class="tui-form__row">
     <tui-text-area
       formControlName="reason"
-      [tuiTextfieldMaxLength]="CoreConstant.REASON_CHANGE_SCHEDULE_MAX_LENGTH"
+      [maxLength]="CoreConstant.REASON_CHANGE_SCHEDULE_MAX_LENGTH"
     >
       Lý do
     </tui-text-area>

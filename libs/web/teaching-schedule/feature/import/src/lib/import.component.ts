@@ -52,8 +52,7 @@ export class ImportComponent {
   // CONSTRUCTOR
   constructor(
     private readonly fb: FormBuilder,
-    @Inject(TuiAlertService)
-    private readonly alertService: TuiAlertService,
+    @Inject(TuiAlertService) private readonly alertService: TuiAlertService,
     private readonly store: StatisticImportScheduleStore
   ) {
     this.initForm();
