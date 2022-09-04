@@ -106,7 +106,7 @@ export class UserInfoComponent {
             name: teacher.name,
             // TODO: Hide component
             department: teacher.department?.name,
-            faculty: teacher.faculty.name,
+            faculty: teacher.faculty?.name,
             phone: teacher.phone || '',
           });
         }),
