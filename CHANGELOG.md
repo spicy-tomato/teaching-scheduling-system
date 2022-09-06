@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.18.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.18.0...v3.18.1) (2022-09-06)
+
 ## [3.18.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.17.1...v3.18.0) (2022-09-04)
 
 
