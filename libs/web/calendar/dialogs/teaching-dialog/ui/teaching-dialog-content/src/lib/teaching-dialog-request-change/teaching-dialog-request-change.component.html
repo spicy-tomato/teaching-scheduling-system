@@ -64,7 +64,7 @@
   <div *ngIf="isPersonal" class="tui-form__row">
     <tui-text-area
       formControlName="reason"
-      [tuiTextfieldMaxLength]="CoreConstant.REASON_CHANGE_SCHEDULE_MAX_LENGTH"
+      [maxLength]="CoreConstant.REASON_CHANGE_SCHEDULE_MAX_LENGTH"
     >
       Lý do
     </tui-text-area>

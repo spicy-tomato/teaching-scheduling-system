@@ -5,7 +5,9 @@
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/apps/teaching-scheduling-system",
         "index": "apps/teaching-scheduling-system/src/index.html",
@@ -24,14 +26,16 @@
             "glob": "**/*",
             "input": "node_modules/@taiga-ui/icons/src",
             "output": "assets/taiga-ui/icons"
-          }
+          },
+          "apps/teaching-scheduling-system/src/manifest.webmanifest"
         ],
         "styles": [
-          "node_modules/@taiga-ui/core/styles/taiga-ui-global.less",
-          "node_modules/@taiga-ui/core/styles/taiga-ui-theme.less",
-          "apps/teaching-scheduling-system/src/styles.css"
+          "apps/teaching-scheduling-system/src/styles.css",
+          "apps/teaching-scheduling-system/src/styles.less"
         ],
-        "scripts": []
+        "scripts": [],
+        "serviceWorker": true,
+        "ngswConfigPath": "apps/teaching-scheduling-system/ngsw-config.json"
       },
       "configurations": {
         "production": {
@@ -98,7 +102,9 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/teaching-scheduling-system"],
+      "outputs": [
+        "coverage/apps/teaching-scheduling-system"
+      ],
       "options": {
         "jestConfig": "apps/teaching-scheduling-system/jest.config.ts",
         "passWithNoTests": true

@@ -36,10 +36,7 @@
   </ng-container>
 
   <div formGroupName="change" class="tui-form__row">
-    <tui-text-area
-      [tuiTextfieldMaxLength]="noteMaxLength"
-      formControlName="note"
-    >
+    <tui-text-area [maxLength]="noteMaxLength" formControlName="note">
       Ghi chú
     </tui-text-area>
     <tui-error

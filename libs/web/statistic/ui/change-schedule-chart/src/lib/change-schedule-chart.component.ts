@@ -40,7 +40,7 @@ export class ChangeScheduleChartComponent {
   readonly status$ = this.store.status$;
   readonly setNames = ['Đã đổi', 'Bị từ chối'];
   readonly horizontalLinesHandler: TuiLineHandler = (index, total) => {
-    return index === 0 || (total - index) % 5 === 0 ? 'dashed' : 'none';
+    return index === 0 || (total - index) % 5 === 0 ? 'none' : 'dashed';
   };
 
   // PRIVATE PROPERTIES

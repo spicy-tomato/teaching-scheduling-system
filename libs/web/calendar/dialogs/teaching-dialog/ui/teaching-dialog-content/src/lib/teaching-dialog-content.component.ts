@@ -133,8 +133,7 @@ export class TeachingDialogContentComponent implements OnInit {
     private readonly cdr: ChangeDetectorRef,
     private readonly store: TeachingDialogStore,
     private readonly dialogService: DialogService,
-    @Inject(TuiAlertService)
-    private readonly alertService: TuiAlertService,
+    @Inject(TuiAlertService) private readonly alertService: TuiAlertService,
     private readonly destroy$: TuiDestroyService
   ) {
     this.change$ = store.change$;
@@ -386,7 +385,7 @@ export class TeachingDialogContentComponent implements OnInit {
     this.cancelRequest$
       .pipe(
         withLatestFrom(this.nameTitle$),
-        switchMap(({ 1: title }) => 
+        switchMap(({ 1: title }) =>
           this.dialogService
             .showConfirmDialog({
               header: `${title} có chắc chắn muốn hủy yêu cầu này không?`,
