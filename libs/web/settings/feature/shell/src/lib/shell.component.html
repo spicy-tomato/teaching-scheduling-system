@@ -2,4 +2,26 @@
   <a tuiAction icon="tuiIconLockLarge" routerLink="change-password">
     Đổi mật khẩu
   </a>
+  <ng-container *ngrxLet="loggedInGoogle$ as loggedInGoogle">
+    <tui-loader [showLoader]="loggedInGoogle$.value === null" [overlay]="true">
+      <button
+        tuiAction
+        *ngIf="loggedInGoogle$.value; else login"
+        [icon]="IconConstant.googleLarge"
+        (click)="signOutGoogle()"
+      >
+        Đăng xuất Google
+      </button>
+      <ng-template #login>
+        <button
+          tuiAction
+          [icon]="IconConstant.googleLarge"
+          (click)="connectGoogle()"
+        >
+          Kết nối tới Google
+        </button>
+      </ng-template>
+    </tui-loader>
+  </ng-container>
+  <div #googleBtn></div>
 </div>

@@ -4,8 +4,9 @@ export interface AppConfig {
   appTitle: string;
   baseUrl: string;
   currentTerm: string;
-  googleApiKey: string;
-  googleApiClientId: string;
+  google: {
+    clientId: string;
+  };
   maintenance: boolean;
   maintenanceDate: string;
 }
