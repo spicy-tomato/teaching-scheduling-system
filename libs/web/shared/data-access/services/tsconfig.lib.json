@@ -3,8 +3,13 @@
   "compilerOptions": {
     "outDir": "../../../../../dist/out-tsc",
     "declaration": true,
-    "types": ["gapi", "gapi.auth2", "gapi.client.calendar", "google-one-tap", "google.accounts"]
+    "types": []
   },
-  "include": ["**/*.ts"],
-  "exclude": ["jest.config.ts", "**/*.spec.ts"]
+  "include": [
+    "**/*.ts"
+  ],
+  "exclude": [
+    "jest.config.ts",
+    "**/*.spec.ts"
+  ]
 }

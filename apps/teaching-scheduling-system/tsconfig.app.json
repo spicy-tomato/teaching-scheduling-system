@@ -2,11 +2,6 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
-    "types": [
-      "gapi",
-      "gapi.auth2",
-      "gapi.calendar"
-    ],
     "target": "ES2017"
   },
   "files": [

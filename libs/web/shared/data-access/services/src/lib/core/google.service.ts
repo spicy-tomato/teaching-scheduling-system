@@ -1,3 +1,7 @@
+/// <reference types="@types/google.accounts" />
+/// <reference types="@types/gapi" />
+/// <reference types="@types/gapi.client.calendar" />
+
 import { Inject, Injectable } from '@angular/core';
 import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
 import {
@@ -5,8 +9,6 @@ import {
   APP_CONFIG,
 } from '@teaching-scheduling-system/web/config/data-access';
 import { BehaviorSubject, combineLatest, map, tap } from 'rxjs';
-
-declare const google: any;
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +20,7 @@ export class GoogleService {
   public load$ = combineLatest([this.gsi$]).pipe(
     map((x) => x.every((api) => api))
   );
-  private tokenClient: any;
+  private codeClient!: google.accounts.oauth2.CodeClient;
 
   public loggedIn$ = new BehaviorSubject<Nullable<boolean>>(false);
   public data$ = new BehaviorSubject<gapi.client.calendar.CalendarListEntry[]>(
@@ -41,10 +43,11 @@ export class GoogleService {
     if (gapi.client.getToken() === null) {
       // Prompt the user to select a Google Account and ask for consent to share their data
       // when establishing a new session.
-      this.tokenClient.requestAccessToken({ prompt: 'consent' });
+      // this.tokenClient.requestAccessToken({ prompt: 'consent' });
+      this.codeClient.requestCode();
     } else {
       // Skip display of account chooser and consent dialog for an existing session.
-      this.tokenClient.requestAccessToken({ prompt: '' });
+      // this.tokenClient.requestAccessToken({ prompt: '' });
     }
   }
 
@@ -73,15 +76,17 @@ export class GoogleService {
     script.src = 'https://accounts.google.com/gsi/client';
     script.onload = () => {
       this.gsi$.next(true);
-      this.tokenClient = google.accounts.oauth2.initTokenClient({
+      const config: google.accounts.oauth2.CodeClientConfig = {
         client_id: this.config.google.clientId,
         scope: 'https://www.googleapis.com/auth/calendar',
-        callback: async (response: any) => {
+        callback: async (response: unknown) => {
           console.log(response);
           this.loggedIn$.next(true);
           await this.getCalendarList();
         },
-      });
+      };
+
+      this.codeClient = google.accounts.oauth2.initCodeClient(config);
     };
 
     script.onerror = () => this.gsi$.next(false);
@@ -89,15 +94,13 @@ export class GoogleService {
   }
 
   private async initClient(): Promise<void> {
-    // await gapi.client.init({
-    //   apiKey: 'AIzaSyBmz6CYk83uRm_jWArxF8EyMq9agXv_PgU',
-    //   clientId:
-    //     '805359619678-3834nds0gate8inbqa6qaehaueeno9hv.apps.googleusercontent.com',
-    //   discoveryDocs: [
-    //     'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest',
-    //   ],
-    //   scope: 'https://www.googleapis.com/auth/calendar',
-    // });
+    await gapi.client.init({
+      apiKey: 'AIzaSyBmz6CYk83uRm_jWArxF8EyMq9agXv_PgU',
+      discoveryDocs: [
+        'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest',
+      ],
+      scope: 'https://www.googleapis.com/auth/calendar',
+    });
   }
 
   private async getCalendarList(): Promise<void> {
