@@ -104,8 +104,7 @@ export class ObjectHelper {
   static parseDateProperties<
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     T extends Record<string, any>,
-    // TODO: Use keyof T
-    U extends string[]
+    U extends (keyof T)[]
   >(obj: T, props: U): T {
     props.forEach((prop) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

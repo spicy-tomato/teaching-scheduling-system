@@ -1,0 +1,76 @@
+@import '~@taiga-ui/core/styles/taiga-ui-local';
+
+/* Nav button */
+[tuiWrapper][data-appearance='nav-button'] {
+  @apply bg-tui-base-02 text-tui-text-01;
+
+  .wrapper-hover({
+    @apply bg-tui-base-03;
+  });
+  .wrapper-active({
+    @apply bg-tui-base-04;
+  });
+  .wrapper-disabled({
+    @apply bg-[#eaecee];
+  });
+}
+
+/* Positive primary */
+[tuiWrapper][data-appearance='positive-primary'] {
+  @apply bg-tui-success-fill text-tui-base-01;
+
+  .wrapper-hover({
+    background-color: #6ed3af;
+  });
+  .wrapper-active({
+    background-color: rgba(74, 201, 155, 0.4);
+  });
+  .wrapper-disabled({
+    background-color: #eaecee;
+  });
+}
+
+/* Positive */
+[tuiWrapper][data-appearance='positive'] {
+  @apply bg-tui-success-bg text-tui-success-fill;
+
+  .wrapper-hover({
+    @apply bg-tui-success-bg-hover;
+  });
+  .wrapper-active({
+    background-color: rgba(74, 201, 155, 0.4);
+  });
+  .wrapper-disabled({
+    @apply bg-[#eaecee];
+  });
+}
+
+/* Negative */
+[tuiWrapper][data-appearance='negative'] {
+  @apply bg-tui-error-bg text-tui-error-fill;
+
+  .wrapper-hover({
+    @apply bg-tui-error-bg-hover;
+  });
+  .wrapper-active({
+    background-color: rgba(244, 87, 37, 0.4);
+  });
+  .wrapper-disabled({
+    @apply bg-[#eaecee];
+  });
+}
+
+/* Flat white */
+[tuiWrapper][data-appearance='flat-white'] {
+  @apply text-white;
+
+  .wrapper-hover({
+    background-color: rgba(255, 255, 255, 0.4);
+  });
+  .wrapper-active({
+    background-color: rgba(255, 255, 255, 0.4);
+  });
+  .wrapper-disabled({
+    @apply bg-[#eaecee];
+  });
+}

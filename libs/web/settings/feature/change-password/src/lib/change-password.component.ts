@@ -55,8 +55,7 @@ export class ChangePasswordComponent {
   constructor(
     private readonly fb: FormBuilder,
     private readonly store: SettingsChangePasswordStore,
-    @Inject(TuiAlertService)
-    private readonly alertService: TuiAlertService
+    @Inject(TuiAlertService) private readonly alertService: TuiAlertService
   ) {
     this.initForm();
     this.handleStatusChange();

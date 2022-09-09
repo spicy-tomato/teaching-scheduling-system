@@ -168,10 +168,10 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onPopupOpen(args: PopupOpenEventArgs): void {
+    args.cancel = true;
     if (!args.data) return;
 
     if (args.type === 'Editor') {
-      args.cancel = true;
       this.onShowEditorDialog(args.data as EjsScheduleModel);
     }
   }

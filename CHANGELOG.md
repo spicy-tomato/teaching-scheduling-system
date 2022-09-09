@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.18.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.18.0...v3.18.1) (2022-09-06)
+
+## [3.18.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.17.1...v3.18.0) (2022-09-04)
+
+
+### Features
+
+* **user-info:** hide components which has value is undefined ([8897373](https://github.com/annguyen-it/teaching-scheduling-system/commit/88973735af59a4400f69a8de3372ba2eb8237950))
+
+
+### Bug Fixes
+
+* **dep:** bump taiga-ui to 3.0.1 ([892826f](https://github.com/annguyen-it/teaching-scheduling-system/commit/892826fd4769fb0a1dea9ed2517f8d88b969f2e2))
+* **dep:** bump ts-md5 to 1.3.1 ([979bb7d](https://github.com/annguyen-it/teaching-scheduling-system/commit/979bb7d3697ed86fe66d052d47b7d9c074276d97))
+* **teaching-schedule/change:** fixed column does not aligned ([ea95c42](https://github.com/annguyen-it/teaching-scheduling-system/commit/ea95c42dbaca3b3b509c55c19d4423030d9c979d))
+
 ### [3.17.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.17.0...v3.17.1) (2022-08-16)
 
 

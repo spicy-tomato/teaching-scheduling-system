@@ -39,8 +39,7 @@ export class AssignRightTitleComponent {
   // CONSTRUCTOR
   constructor(
     private readonly store: AssignStore,
-    @Inject(TuiAlertService)
-    private readonly alertService: TuiAlertService
+    @Inject(TuiAlertService) private readonly alertService: TuiAlertService
   ) {
     this.assigned$ = this.store.assigned$;
     this.unassignStatus$ = this.store.status$('unassign');

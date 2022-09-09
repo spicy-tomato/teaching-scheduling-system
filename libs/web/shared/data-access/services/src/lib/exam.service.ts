@@ -22,7 +22,7 @@ const parseExamSchedule = (response: ResponseModel<ExamScheduleModel[]>) => ({
   ...response,
   data: response.data.map((x) => {
     return ExamScheduleModel.parse(
-      ObjectHelper.parseDateProperties(x, ['timeStart', 'timeEnd'])
+      ObjectHelper.parseDateProperties(x, ['startAt', 'endAt'])
     );
   }),
 });

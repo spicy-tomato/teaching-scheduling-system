@@ -188,7 +188,6 @@ export class ChangeRequestListComponent {
     this.checkboxControl.valueChanges
       .pipe(
         tap((exportIndexes: boolean[]) => {
-          // TODO: Does it still work correctly after sorting?
           this.store.patchState({ exportIndexes });
         })
       )
