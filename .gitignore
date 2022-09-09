@@ -45,3 +45,4 @@ app-settings.json
 app-settings-local.json
 
 environment*.ts
+!environment.example.ts
