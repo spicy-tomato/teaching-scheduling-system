@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.18.2](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.18.1...v3.18.2) (2022-09-13)
+
+
+### Bug Fixes
+
+* **dep:** bump @nrwl/nx-cloud to 14.6.2 ([8e74d4a](https://github.com/annguyen-it/teaching-scheduling-system/commit/8e74d4a2d52ef7a16b37893234e223d2a77d14da))
+* import feedback module ([b04abef](https://github.com/annguyen-it/teaching-scheduling-system/commit/b04abef0c7ee87321deae2a9005330bde9f470a5))
+
 ### [3.18.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.18.0...v3.18.1) (2022-09-06)
 
 ## [3.18.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.17.1...v3.18.0) (2022-09-04)

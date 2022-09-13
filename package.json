@@ -1,6 +1,6 @@
 {
   "name": "teaching-scheduling-system",
-  "version": "3.18.1",
+  "version": "3.18.2",
   "license": "MIT",
   "scripts": {
     "ng": "nx",
@@ -77,7 +77,7 @@
     "@nrwl/eslint-plugin-nx": "14.1.9",
     "@nrwl/jest": "14.1.9",
     "@nrwl/linter": "14.1.9",
-    "@nrwl/nx-cloud": "^14.6.2",
+    "@nrwl/nx-cloud": "^14.3.0",
     "@nrwl/workspace": "14.1.9",
     "@types/file-saver": "^2.0.5",
     "@types/jest": "^28.1.6",
