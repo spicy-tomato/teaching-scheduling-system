@@ -5,7 +5,11 @@ import {
   Injector,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TuiEditorTool } from '@taiga-ui/addon-editor';
+import {
+  defaultEditorExtensions,
+  TuiEditorTool,
+  TUI_EDITOR_EXTENSIONS,
+} from '@taiga-ui/addon-editor';
 import { TuiBooleanHandler } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import {
@@ -30,6 +34,12 @@ interface FeedbackItem {
   templateUrl: './feedback.component.html',
   styleUrls: ['./feedback.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: TUI_EDITOR_EXTENSIONS,
+      useValue: defaultEditorExtensions,
+    },
+  ],
 })
 export class FeedbackComponent {
   // PUBLIC PROPERTIES
