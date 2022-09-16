@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "nx",
     "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2015 browser module main",
-    "start": "nx serve --port 3333",
+    "start": "nx serve --port 3333 --host 0.0.0.0 --disable-host-check",
     "build": "nx build",
     "build:dev": "nx build --configuration=dev",
     "test": "nx run-many --all --target=test",
@@ -40,15 +40,15 @@
     "@nrwl/angular": "14.1.9",
     "@syncfusion/ej2-angular-schedule": "^20.2.40",
     "@syncfusion/ej2-locale": "^19.4.41",
-    "@taiga-ui/addon-charts": "^3.0.1",
-    "@taiga-ui/addon-editor": "^3.0.1",
-    "@taiga-ui/addon-mobile": "^3.0.1",
-    "@taiga-ui/addon-table": "^3.0.1",
-    "@taiga-ui/cdk": "^3.0.1",
-    "@taiga-ui/core": "^3.0.1",
-    "@taiga-ui/icons": "^3.0.1",
-    "@taiga-ui/kit": "^3.0.1",
-    "@taiga-ui/styles": "^3.0.1",
+    "@taiga-ui/addon-charts": "^3.1.0",
+    "@taiga-ui/addon-editor": "^3.1.0",
+    "@taiga-ui/addon-mobile": "^3.1.0",
+    "@taiga-ui/addon-table": "^3.1.0",
+    "@taiga-ui/cdk": "^3.1.0",
+    "@taiga-ui/core": "^3.1.0",
+    "@taiga-ui/icons": "^3.1.0",
+    "@taiga-ui/kit": "^3.1.0",
+    "@taiga-ui/styles": "^3.1.0",
     "@tinkoff/ng-dompurify": "^3.0.0",
     "@types/gapi": "^0.0.42",
     "@types/gapi.auth2": "^0.0.56",
@@ -103,6 +103,7 @@
     "tailwindcss": "^3.1.8",
     "ts-jest": "28.0.7",
     "ts-node": "9.1.1",
-    "typescript": "^4.5.5"
+    "typescript": "^4.5.5",
+    "web-animations-js": "^2.3.2"
   }
 }
