@@ -1,0 +1,7 @@
+form > div > * {
+  @apply mt-3;
+}
+
+form > div > *:not(:last-child) {
+  @apply mr-4;
+}

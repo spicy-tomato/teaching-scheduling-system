@@ -33,7 +33,13 @@
           "apps/teaching-scheduling-system/src/styles.css",
           "apps/teaching-scheduling-system/src/styles.less"
         ],
-        "scripts": [],
+        "scripts": [
+          {
+            "input": "node_modules/web-animations-js/web-animations.min.js",
+            "inject": false,
+            "bundleName": "web-animations-js"
+          }
+        ],
         "serviceWorker": true,
         "ngswConfigPath": "apps/teaching-scheduling-system/ngsw-config.json"
       },

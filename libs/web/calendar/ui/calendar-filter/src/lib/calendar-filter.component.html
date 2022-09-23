@@ -5,7 +5,7 @@
     <tr>
       <td>Lịch:</td>
       <td>
-        <div class="flex gap-x-8">
+        <div class="flex">
           <tui-radio-labeled
             [ngModel]="filter.showDepartmentSchedule"
             [item]="false"
@@ -21,6 +21,7 @@
             (ngModelChange)="
               onChangeSelectingState({ showDepartmentSchedule: $event })
             "
+            class="ml-8"
           >
             Bộ môn
           </tui-radio-labeled>

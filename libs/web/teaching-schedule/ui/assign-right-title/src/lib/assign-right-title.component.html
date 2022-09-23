@@ -3,7 +3,7 @@
   <div
     *ngIf="assigned.length > 0"
     [@fadeInOut]="{ value: true, params: { duration: '300ms' } }"
-    class="flex"
+    class="flex ml-2"
   >
     <ng-container *ngrxLet="unassignStatus$ as unassignStatus">
       <button
