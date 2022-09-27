@@ -12,15 +12,13 @@ All notable changes to this project will be documented in this file. See [standa
 * cannot use app if ios version below 13 ([434e814](https://github.com/annguyen-it/teaching-scheduling-system/commit/434e81495370abbfe343ee554071d7390e236699))
 * **dep:** bump taiga-ui to 3.3.0 ([dcc36fc](https://github.com/annguyen-it/teaching-scheduling-system/commit/dcc36fcae782aa5e56558d6e8824f1f05b3d086f))
 
-### [3.18.2](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.18.1...v3.18.2) (2022-09-13)
+### [3.18.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.18.1...v3.18.2) (2022-09-13)
 
 
 ### Bug Fixes
 
 * **dep:** bump @nrwl/nx-cloud to 14.6.2 ([8e74d4a](https://github.com/annguyen-it/teaching-scheduling-system/commit/8e74d4a2d52ef7a16b37893234e223d2a77d14da))
 * import feedback module ([b04abef](https://github.com/annguyen-it/teaching-scheduling-system/commit/b04abef0c7ee87321deae2a9005330bde9f470a5))
-
-### [3.18.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.18.0...v3.18.1) (2022-09-06)
 
 ## [3.18.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.17.1...v3.18.0) (2022-09-04)
 
