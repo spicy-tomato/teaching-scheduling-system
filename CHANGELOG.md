@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.19.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.18.2...v3.19.0) (2022-09-27)
+
+
+### Bug Fixes
+
+* `gap` property for flex-box does not work on Safari < 14.1 ([da7a45a](https://github.com/annguyen-it/teaching-scheduling-system/commit/da7a45a9c8cbccb7ede6e212111e539ed844dea0))
+* **calendar:** cannot open popup dialog on mobile ([95c2eaa](https://github.com/annguyen-it/teaching-scheduling-system/commit/95c2eaae530dd0fa0f5ba9906c7bee146453d6ce))
+* cannot use app if ios version below 13 ([434e814](https://github.com/annguyen-it/teaching-scheduling-system/commit/434e81495370abbfe343ee554071d7390e236699))
+* **dep:** bump taiga-ui to 3.1.0 ([6e095bc](https://github.com/annguyen-it/teaching-scheduling-system/commit/6e095bc8f71340db62b006feadd9bca5f4158431))
+* **dep:** bump taiga-ui to 3.3.0 ([dcc36fc](https://github.com/annguyen-it/teaching-scheduling-system/commit/dcc36fcae782aa5e56558d6e8824f1f05b3d086f))
+
 ### [3.18.2](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.18.1...v3.18.2) (2022-09-13)
 
 
