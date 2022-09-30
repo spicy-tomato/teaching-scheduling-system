@@ -7,5 +7,4 @@ export * from './lib/observable.helper';
 export * from './lib/permission.helper';
 export * from './lib/schedule.helper';
 export * from './lib/string.helper';
-export * from './lib/url.helper';
 export * from './lib/utils.helper';
