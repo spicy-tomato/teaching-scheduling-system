@@ -6,6 +6,7 @@ import { TuiDay, TuiDayRange } from '@taiga-ui/cdk';
 import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
 import {
   ArrayHelper,
+  DateHelper,
   ObservableHelper,
   PermissionHelper,
 } from '@teaching-scheduling-system/core/utils/helpers';
@@ -450,8 +451,8 @@ function calculateRangeO(
           ranges,
           fetch: {
             date: [
-              fetch.from.getFormattedDay('YMD', '-'),
-              fetch.to.getFormattedDay('YMD', '-'),
+              DateHelper.format(fetch.from),
+              DateHelper.format(fetch.to),
             ].join(),
           },
         };
@@ -489,8 +490,8 @@ function calculateRangeWithDepartmentO(
           ranges,
           fetch: {
             date: [
-              fetch.from.getFormattedDay('YMD', '-'),
-              fetch.to.append({ day: 1 }).getFormattedDay('YMD', '-'),
+              DateHelper.format(fetch.from),
+              DateHelper.format(fetch.to.append({ day: 1 })),
             ].join(),
           },
         };

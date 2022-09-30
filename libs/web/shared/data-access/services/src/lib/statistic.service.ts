@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { TuiDayRange } from '@taiga-ui/cdk';
+import { DateHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import {
   AppConfig,
   APP_CONFIG,
@@ -45,8 +46,8 @@ export class StatisticService {
     range: TuiDayRange,
     teacherId: string
   ): Observable<ResponseModel<ChangeSchedule[]>> {
-    const from = range.from.getFormattedDay('YMD', '-');
-    const to = range.to.getFormattedDay('YMD', '-');
+    const from = DateHelper.format(range.from);
+    const to = DateHelper.format(range.to);
 
     return this.http.get<ResponseModel<ChangeSchedule[]>>(
       this.url +

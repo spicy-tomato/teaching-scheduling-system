@@ -368,9 +368,9 @@ export class TeachingDialogContentComponent implements OnInit {
           this.updateSchedule.emit({
             ...request,
             idSchedule: this.schedule.Id,
-            oldDate: (
-              controls['start'].value as [TuiDay, TuiTime]
-            )[0].getFormattedDay('YMD', '-'),
+            oldDate: DateHelper.format(
+              (controls['start'].value as [TuiDay, TuiTime])[0]
+            ),
             oldIdRoom: controls['location'].value as string,
             oldShift: this.schedule.Shift ?? '1',
             isNew: true,

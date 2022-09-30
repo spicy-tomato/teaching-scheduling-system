@@ -2,7 +2,10 @@ import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { Store } from '@ngrx/store';
 import { TuiDayRange } from '@taiga-ui/cdk';
-import { ObservableHelper } from '@teaching-scheduling-system/core/utils/helpers';
+import {
+  DateHelper,
+  ObservableHelper,
+} from '@teaching-scheduling-system/core/utils/helpers';
 import {
   ChangeSchedule,
   GenericState,
@@ -80,8 +83,8 @@ export class StatisticChangeScheduleStore extends ComponentStore<ChangeScheduleS
     range: TuiDayRange
   ): Observable<ChangeSchedule[]> {
     const date = [
-      range.from.getFormattedDay('YMD', '-'),
-      range.to.getFormattedDay('YMD', '-'),
+      DateHelper.format(range.from),
+      DateHelper.format(range.to),
     ].join();
 
     return this.statisticService
