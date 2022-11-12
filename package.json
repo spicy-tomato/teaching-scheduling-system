@@ -54,7 +54,7 @@
     "@types/gapi.auth2": "^0.0.56",
     "@types/gapi.calendar": "^3.0.6",
     "cldr-data": "^36.0.1",
-    "docx": "^7.4.1",
+    "docx": "^7.6.0",
     "dompurify": "^2.4.0",
     "file-saver": "^2.0.5",
     "ng-recaptcha": "^9.0.0",
