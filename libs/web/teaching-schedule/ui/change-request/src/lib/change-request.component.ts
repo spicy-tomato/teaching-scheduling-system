@@ -40,7 +40,6 @@ export class ChangeRequestComponent implements AfterViewInit {
       store.filter({
         status: [],
         page: 1,
-        pagination: 20,
       });
     }
   }

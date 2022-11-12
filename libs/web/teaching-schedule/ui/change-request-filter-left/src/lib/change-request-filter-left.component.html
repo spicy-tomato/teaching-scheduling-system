@@ -6,7 +6,7 @@
   class="wrapper flex flex-wrap -mt-4"
 >
   <tui-select
-    (ngModelChange)="changeOptions({ status: $event })"
+    (ngModelChange)="changeOptions({ status: $event ? +$event : $event })"
     [ngModel]="options.status"
     [valueContent]="selectTemplate"
     class="min-w-[235px]"
