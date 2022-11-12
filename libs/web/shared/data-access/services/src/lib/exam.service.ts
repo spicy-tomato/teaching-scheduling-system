@@ -1,19 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import {
-  ObjectHelper,
-  QueryFilterResult,
-} from '@teaching-scheduling-system/core/utils/helpers';
+import { ObjectHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import {
   AppConfig,
   APP_CONFIG,
 } from '@teaching-scheduling-system/web/config/data-access';
-import { DepartmentExamDta } from '@teaching-scheduling-system/web/shared/data-access/dta';
 import {
   ExamScheduleModel,
   Note,
   ResponseModel,
-  SearchSchedule,
   UpdateExamModel,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { map, Observable } from 'rxjs';
@@ -44,29 +39,31 @@ export class ExamService {
 
   getExamSchedule(
     idTeacher: string,
-    params: QueryFilterResult<SearchSchedule>
+    date: string
   ): Observable<ResponseModel<ExamScheduleModel[]>> {
     return this.http
       .get<ResponseModel<ExamScheduleModel[]>>(
         this.url + `v1/teachers/${idTeacher}/module-classes/exam-schedules`,
-        { params: { ...(params as any) } }
+        { params: { 'date[between]': date } }
       )
       .pipe(map(parseExamSchedule));
   }
 
   getDepartmentExamSchedule(
     department: string,
-    params: QueryFilterResult<SearchSchedule>
+    date: string
   ): Observable<ResponseModel<ExamScheduleModel[]>> {
-    const parsedParams = ObjectHelper.toSnakeCase(
-      params
-    ) as unknown as DepartmentExamDta;
-
     return this.http
       .get<ResponseModel<ExamScheduleModel[]>>(
         this.url +
-          `v1/departments/${department}/modules/module-classes/exam-schedules?start_at[sort]=asc`,
-        { params: { ...parsedParams } }
+          `v1/departments/${department}/modules/module-classes/exam-schedules`,
+        {
+          params: {
+            'date[between]': date,
+            // For assign exam page, we must sort by date
+            'start_at[sort]': 'asc',
+          },
+        }
       )
       .pipe(map(parseExamSchedule));
   }

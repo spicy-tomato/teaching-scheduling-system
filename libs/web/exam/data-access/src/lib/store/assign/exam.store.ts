@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { UrlHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import {
   ExamScheduleModel,
   GenericState,
@@ -24,12 +23,9 @@ export class ExamAssignStore extends ComponentStore<ExamState> {
   }>((params$) =>
     params$.pipe(
       tap(() => this.patchState({ status: 'loading', error: null })),
-      switchMap((params) =>
+      switchMap(({ departmentId, searchParams }) =>
         this.examService
-          .getDepartmentExamSchedule(
-            params.departmentId,
-            UrlHelper.queryFilter(params.searchParams, { date: 'between' })
-          )
+          .getDepartmentExamSchedule(departmentId, searchParams.studySession)
           .pipe(
             tapResponse(
               (r) =>
