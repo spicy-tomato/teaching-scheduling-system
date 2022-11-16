@@ -30,7 +30,7 @@
     "@angular/service-worker": "^13.3.11",
     "@commitlint/cli": "^17.2.0",
     "@commitlint/config-conventional": "^17.2.0",
-    "@ng-web-apis/universal": "^1.13.0",
+    "@ng-web-apis/universal": "^2.0.0",
     "@ngrx/component": "^13.2.0",
     "@ngrx/component-store": "^13.2.0",
     "@ngrx/effects": "^13.2.0",
