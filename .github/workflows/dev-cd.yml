@@ -37,9 +37,15 @@ jobs:
         name: List the state of node modules
         continue-on-error: true
         run: npm list
-          
-      - run: npm ci
-      
+
+      - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+        name: Install with `npm install`
+        run: npm install
+
+      - if: ${{ steps.cache-npm.outputs.cache-hit == 'true' }}
+        name: Install with `npm ci`
+        run: npm ci
+
       - run: npm run build
       
       - name: Copy dist to VPS
