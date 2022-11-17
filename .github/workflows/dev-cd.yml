@@ -35,13 +35,8 @@ jobs:
         continue-on-error: true
         run: npm list
 
-      - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
-        name: Install with `npm install`
+      - name: Install dependencies
         run: npm install
-
-      - if: ${{ steps.cache-npm.outputs.cache-hit == 'true' }}
-        name: Install with `npm ci`
-        run: npm ci
 
       - name: Create env file
         run: |
