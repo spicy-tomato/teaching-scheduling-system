@@ -44,20 +44,18 @@ jobs:
         run: npm ci
 
       - name: Create env file
-        run: echo "
-          export const environment = {
-            production: false,
-              recaptcha: \{
-                siteKey: '${{ secrets.RECAPTCHA_SITE_KEY }}',
-              \},
-              pusher: \{
-                key: '${{ secrets.PUSHER_KEY }}',
-                cluster: '${{ secrets.PUSHER_CLUSTER }}',
-              \},
-              SYNCFUSION_LICENSE:
-                '${{ secrets.SYNCFUSION_LICENSE }}',
-            \};
-"
+        run: |
+         echo "export const environment = {"
+         echo "  production: false,"
+         echo "  recaptcha: {"
+         echo "    siteKey: '${{ secrets.RECAPTCHA_SITE_KEY }}',"
+         echo "  },"
+         echo "  pusher: {"
+         echo "    key: '${{ secrets.PUSHER_KEY }}',"
+         echo "    cluster: '${{ secrets.PUSHER_CLUSTER }}',"
+         echo "  },"
+         echo "  SYNCFUSION_LICENSE: '${{ secrets.SYNCFUSION_LICENSE }}',"
+         echo "};"
 
       - name: Build
         run: npm run build:dev
