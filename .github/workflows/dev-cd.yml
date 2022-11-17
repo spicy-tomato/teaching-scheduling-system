@@ -10,9 +10,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: test
-        run: ls -la
-
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -33,9 +30,6 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
-      - name: test
-        run: ls -la
-
       - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
         name: List the state of node modules
         continue-on-error: true
@@ -49,7 +43,24 @@ jobs:
         name: Install with `npm ci`
         run: npm ci
 
-      - run: npm run build
+      - name: Create env file
+        run: echo "
+          export const environment = {
+            production: false,
+              recaptcha: \{
+                siteKey: '${{ secrets.RECAPTCHA_SITE_KEY }}',
+              \},
+              pusher: \{
+                key: '${{ secrets.PUSHER_KEY }}',
+                cluster: '${{ secrets.PUSHER_CLUSTER }}',
+              \},
+              SYNCFUSION_LICENSE:
+                '${{ secrets.SYNCFUSION_LICENSE }}',
+            \};
+"
+
+      - name: Build
+        run: npm run build:dev
 
       - name: Copy dist to VPS
         uses: appleboy/scp-action@master
