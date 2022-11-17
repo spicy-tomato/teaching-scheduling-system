@@ -180,7 +180,10 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onPopupOpen(args: PopupOpenEventArgs): void {
-    if (!args.data) return;
+    if (!args.data?.['Id']) {
+      args.cancel = true;
+      return;
+    }
 
     if (args.type === 'Editor') {
       args.cancel = true;
