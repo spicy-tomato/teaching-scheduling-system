@@ -45,18 +45,18 @@ jobs:
 
       - name: Create env file
         run: |
-          touch src/environments/environment.ts
-          echo "export const environment = {" >> src/environments/environment.ts
-          echo "  production: false," >> src/environments/environment.ts
-          echo "  recaptcha: {" >> src/environments/environment.ts
-          echo "    siteKey: '${{ secrets.RECAPTCHA_SITE_KEY }}'," >> src/environments/environment.ts
-          echo "  }," >> src/environments/environment.ts
-          echo "  pusher: {" >> src/environments/environment.ts
-          echo "    key: '${{ secrets.PUSHER_KEY }}'," >> src/environments/environment.ts
-          echo "    cluster: '${{ secrets.PUSHER_CLUSTER }}'," >> src/environments/environment.ts
-          echo "  }," >> src/environments/environment.ts
-          echo "  SYNCFUSION_LICENSE: '${{ secrets.SYNCFUSION_LICENSE }}'," >> src/environments/environment.ts
-          echo "};" >> src/environments/environment.ts
+          touch ./apps/teaching-scheduling-system/src/environments/environment.ts
+          echo "export const environment = {" >> ./apps/teaching-scheduling-system/src/environments/environment.ts
+          echo "  production: false," >> ./apps/teaching-scheduling-system/src/environments/environment.ts
+          echo "  recaptcha: {" >> ./apps/teaching-scheduling-system/src/environments/environment.ts
+          echo "    siteKey: '${{ secrets.RECAPTCHA_SITE_KEY }}'," >> ./apps/teaching-scheduling-system/src/environments/environment.ts
+          echo "  }," >> ./apps/teaching-scheduling-system/src/environments/environment.ts
+          echo "  pusher: {" >> ./apps/teaching-scheduling-system/src/environments/environment.ts
+          echo "    key: '${{ secrets.PUSHER_KEY }}'," >> ./apps/teaching-scheduling-system/src/environments/environment.ts
+          echo "    cluster: '${{ secrets.PUSHER_CLUSTER }}'," >> ./apps/teaching-scheduling-system/src/environments/environment.ts
+          echo "  }," >> ./apps/teaching-scheduling-system/src/environments/environment.ts
+          echo "  SYNCFUSION_LICENSE: '${{ secrets.SYNCFUSION_LICENSE }}'," >> ./apps/teaching-scheduling-system/src/environments/environment.ts
+          echo "};" >> ./apps/teaching-scheduling-system/src/environments/environment.ts
 
       - name: Build
         run: npm run build:dev
