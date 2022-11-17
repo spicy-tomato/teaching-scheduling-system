@@ -5,7 +5,7 @@ on:
     branches: [ "dev" ]
 
 jobs:
-  setup:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -19,9 +19,6 @@ jobs:
           node-version: '16'
           cache: 'npm'
 
-  build:
-    runs-on: ubuntu-latest
-    steps:
       - name: Cache node modules
         id: cache-npm
         uses: actions/cache@v3
