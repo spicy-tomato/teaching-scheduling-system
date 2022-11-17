@@ -68,5 +68,5 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_KEY }}
-          source: "./dist/apps/teaching-scheduling-system/*,!*/settings/*"
+          source: "./dist/apps/teaching-scheduling-system/*,!./dist/apps/teaching-scheduling-system/assets/settings"
           target: "/var/www/html/webdev"
