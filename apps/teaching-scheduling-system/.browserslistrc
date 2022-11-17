@@ -10,7 +10,9 @@
 
 last 1 Chrome version
 last 1 Firefox version
+Firefox ESR
 last 2 Edge major versions
 last 2 Safari major versions
-last 2 iOS major versions
-Firefox ESR
+ios_saf >= 12
+> 0.05% in VN
+not dead

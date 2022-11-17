@@ -43,7 +43,7 @@
       <button
         tuiButton
         *ngrxLet="filter$ as filter"
-        [pseudoHovered]="filter.showDepartmentSchedule || null"
+        [pseudoHover]="filter.showDepartmentSchedule || null"
         icon="tuiIconFilter"
       >
         Bộ lọc:
@@ -105,7 +105,7 @@
       tssNavigate="today"
       *ngrxLet="activeToday$ as activeToday"
       [scheduleComponent]="scheduleComponent"
-      [pseudoHovered]="activeToday || null"
+      [pseudoHover]="activeToday || null"
       class="uppercase"
     >
       Hôm nay
@@ -113,7 +113,7 @@
     <div class="w-px h-full mx-2 bg-[rgba(0,0,0,0.12)]"></div>
     <button
       tuiButton
-      [pseudoHovered]="view === 'Month' || null"
+      [pseudoHover]="view === 'Month' || null"
       (click)="onClickMonth()"
       class="uppercase"
     >
@@ -121,7 +121,7 @@
     </button>
     <button
       tuiButton
-      [pseudoHovered]="view === 'Week' || null"
+      [pseudoHover]="view === 'Week' || null"
       (click)="onClickWeek()"
       class="ml-2 uppercase"
     >
@@ -130,7 +130,7 @@
 
     <button
       tuiButton
-      [pseudoHovered]="view === 'Day' || null"
+      [pseudoHover]="view === 'Day' || null"
       (click)="onClickDay()"
       class="ml-2 uppercase"
     >

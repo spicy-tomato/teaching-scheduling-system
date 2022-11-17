@@ -1,0 +1,7 @@
+.wrapper > * {
+  @apply mt-4;
+}
+
+.wrapper > *:not(:last-child) {
+  @apply mr-4;
+}

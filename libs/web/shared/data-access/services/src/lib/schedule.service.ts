@@ -1,9 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import {
-  ObjectHelper,
-  QueryFilterResult,
-} from '@teaching-scheduling-system/core/utils/helpers';
+import { ObjectHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import {
   AppConfig,
   APP_CONFIG,
@@ -52,25 +49,32 @@ export class ScheduleService {
 
   getSchedule(
     idTeacher: string,
-    params: QueryFilterResult<SearchSchedule>
+    searchSchedule: SearchSchedule
   ): Observable<ResponseModel<StudyScheduleModel[]>> {
+    let params = new HttpParams().set('date[between]', searchSchedule.date);
+    if (searchSchedule.shift) {
+      params = params.set('shift[in]', searchSchedule.shift);
+    }
+
     return this.http
       .get<ResponseModel<StudyScheduleModel[]>>(
         this.url + `teachers/${idTeacher}/schedules`,
-        { params: { ...(params as any) } }
+        { params }
       )
       .pipe(map(parseStudyScheduleModel));
   }
 
   getDepartmentSchedule(
     department: string,
-    params: QueryFilterResult<SearchSchedule>
+    date: string
   ): Observable<ResponseModel<StudyScheduleModel[]>> {
+    const params = { 'date[between]': date };
+
     return this.http
       .get<ResponseModel<StudyScheduleModel[]>>(
         this.url +
           `departments/${department}/teachers/module-classes/schedules`,
-        { params: { ...(params as any) } }
+        { params }
       )
       .pipe(map(parseStudyScheduleModel));
   }
@@ -111,30 +115,54 @@ export class ScheduleService {
 
   getDepartmentChangeScheduleRequests(
     department: string,
-    params: QueryFilterResult<ChangeScheduleSearch, string, string>
+    changeScheduleSearch: ChangeScheduleSearch
   ): Observable<PaginationResponseModel<ChangeSchedule[]>> {
+    let params = new HttpParams()
+      .set('id[sort]', 'desc')
+      .set('page', changeScheduleSearch.page);
+    // .set('pagination', 20);
+    if (changeScheduleSearch.status.length) {
+      params = params.set('status[in]', changeScheduleSearch.status.join());
+    }
+
     return this.http.get<PaginationResponseModel<ChangeSchedule[]>>(
       this.url + `departments/${department}/fixed-schedules`,
-      { params: { ...(params as any) } }
+      { params }
     );
   }
 
   getPersonalChangeScheduleRequests(
     teacherId: string,
-    params: QueryFilterResult<ChangeScheduleSearch, string, string>
+    changeScheduleSearch: ChangeScheduleSearch
   ): Observable<PaginationResponseModel<ChangeSchedule[]>> {
+    let params = new HttpParams()
+      .set('id[sort]', 'desc')
+      .set('page', changeScheduleSearch.page);
+    // .set('pagination', 20);
+    if (changeScheduleSearch.status.length) {
+      params = params.set('status[in]', changeScheduleSearch.status.join());
+    }
+
     return this.http.get<PaginationResponseModel<ChangeSchedule[]>>(
       this.url + `teachers/${teacherId}/fixed-schedules`,
-      { params: { ...(params as any) } }
+      { params }
     );
   }
 
   getManagerChangeScheduleRequests(
-    params: QueryFilterResult<ChangeScheduleSearch, string, string>
+    changeScheduleSearch: ChangeScheduleSearch
   ): Observable<PaginationResponseModel<ChangeSchedule[]>> {
+    let params = new HttpParams()
+      .set('id[sort]', 'desc')
+      .set('page', changeScheduleSearch.page);
+    // .set('pagination', 20);
+    if (changeScheduleSearch.status.length) {
+      params = params.set('status[in]', changeScheduleSearch.status.join());
+    }
+
     return this.http.get<PaginationResponseModel<ChangeSchedule[]>>(
       this.url + 'fixed-schedules',
-      { params: { ...(params as any) } }
+      { params }
     );
   }
 

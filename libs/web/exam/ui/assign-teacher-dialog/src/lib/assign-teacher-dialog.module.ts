@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ReactiveComponentModule } from '@ngrx/component';
 import {
   TuiButtonModule,
-  TuiDropdownControllerModule,
+  TuiDropdownModule,
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
 import { TuiDataListWrapperModule, TuiMultiSelectModule } from '@taiga-ui/kit';
@@ -14,7 +14,7 @@ const NGRX = [ReactiveComponentModule];
 const TAIGA_UI = [
   TuiButtonModule,
   TuiDataListWrapperModule,
-  TuiDropdownControllerModule,
+  TuiDropdownModule,
   TuiMultiSelectModule,
   TuiTextfieldControllerModule,
 ];

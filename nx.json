@@ -5,7 +5,6 @@
     "defaultBase": "master"
   },
   "cli": {
-    "defaultCollection": "@nrwl/angular",
     "packageManager": "npm"
   },
   "implicitDependencies": {

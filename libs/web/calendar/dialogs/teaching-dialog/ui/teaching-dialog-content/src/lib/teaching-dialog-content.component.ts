@@ -133,8 +133,7 @@ export class TeachingDialogContentComponent implements OnInit {
     private readonly cdr: ChangeDetectorRef,
     private readonly store: TeachingDialogStore,
     private readonly dialogService: DialogService,
-    @Inject(TuiAlertService)
-    private readonly alertService: TuiAlertService,
+    @Inject(TuiAlertService) private readonly alertService: TuiAlertService,
     private readonly destroy$: TuiDestroyService
   ) {
     this.change$ = store.change$;
@@ -369,9 +368,9 @@ export class TeachingDialogContentComponent implements OnInit {
           this.updateSchedule.emit({
             ...request,
             idSchedule: this.schedule.Id,
-            oldDate: (
-              controls['start'].value as [TuiDay, TuiTime]
-            )[0].getFormattedDay('YMD', '-'),
+            oldDate: DateHelper.format(
+              (controls['start'].value as [TuiDay, TuiTime])[0]
+            ),
             oldIdRoom: controls['location'].value as string,
             oldShift: this.schedule.Shift ?? '1',
             isNew: true,
@@ -386,7 +385,7 @@ export class TeachingDialogContentComponent implements OnInit {
     this.cancelRequest$
       .pipe(
         withLatestFrom(this.nameTitle$),
-        switchMap(({ 1: title }) => 
+        switchMap(({ 1: title }) =>
           this.dialogService
             .showConfirmDialog({
               header: `${title} có chắc chắn muốn hủy yêu cầu này không?`,

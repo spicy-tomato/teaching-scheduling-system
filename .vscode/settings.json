@@ -1,6 +1,7 @@
 {
   "typescript.tsdk": "node_modules\\typescript\\lib",
   "cSpell.words": [
+    "appleboy",
     "gapi",
     "Giay",
     "hoverable",
@@ -12,6 +13,7 @@
     "PHTT",
     "PTTT",
     "QLGĐ",
+    "webdev",
     "whiteblock"
   ]
 }

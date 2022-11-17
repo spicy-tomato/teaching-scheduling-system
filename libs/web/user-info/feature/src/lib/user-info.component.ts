@@ -75,8 +75,7 @@ export class UserInfoComponent {
     private readonly fb: FormBuilder,
     private readonly userService: UserService,
     private readonly destroy$: TuiDestroyService,
-    @Inject(TuiAlertService)
-    private readonly alertService: TuiAlertService,
+    @Inject(TuiAlertService) private readonly alertService: TuiAlertService,
     appShellStore: Store<AppShellState>
   ) {
     this.teacher$ = appShellStore.pipe(
@@ -105,9 +104,8 @@ export class UserInfoComponent {
         tap((teacher) => {
           this.form.patchValue({
             name: teacher.name,
-            // TODO: Hide component
             department: teacher.department?.name,
-            faculty: teacher.faculty.name,
+            faculty: teacher.faculty?.name,
             phone: teacher.phone || '',
           });
         }),

@@ -50,3 +50,12 @@ import 'zone.js'; // Included with Angular CLI.
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
+
+if (
+  !('animate' in document.documentElement) ||
+  (navigator && /iPhone OS (8|9|10|11|12|13)_/.test(navigator.userAgent))
+) {
+  const script = document.createElement('script');
+  script.src = 'web-animations-js.js';
+  document.head.appendChild(script);
+}

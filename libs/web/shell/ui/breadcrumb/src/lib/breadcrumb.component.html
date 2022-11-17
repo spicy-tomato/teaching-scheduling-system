@@ -1,7 +1,7 @@
 <tui-breadcrumbs *ngrxLet="breadcrumbs$ as breadcrumbs" size="l">
   <ng-container *ngFor="let item of breadcrumbs">
     <a
-      *tuiBreadcrumb
+      *tuiItem
       tuiLink
       [routerLink]="item.url"
       class="!text-tui-text-02 hover:!text-tui-text-01"

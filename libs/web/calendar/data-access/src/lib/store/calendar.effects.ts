@@ -6,9 +6,9 @@ import { TuiDay, TuiDayRange } from '@taiga-ui/cdk';
 import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
 import {
   ArrayHelper,
+  DateHelper,
   ObservableHelper,
   PermissionHelper,
-  UrlHelper,
 } from '@teaching-scheduling-system/core/utils/helpers';
 import {
   SearchSchedule,
@@ -167,27 +167,19 @@ export class CalendarEffects {
       .pipe(
         this.commonPersonalObservable(),
         mergeMap(({ fetch, ranges, teacherId }) => {
-          return this.scheduleService
-            .getSchedule(
-              teacherId,
-              UrlHelper.queryFilter(fetch, {
-                date: 'between',
-                shift: 'in',
-              })
+          return this.scheduleService.getSchedule(teacherId, fetch).pipe(
+            tap((response) => {
+              this.store.dispatch(
+                ApiAction.loadPersonalStudySuccessful({
+                  schedules: response.data,
+                  ranges,
+                })
+              );
+            }),
+            catchError(() =>
+              of(this.store.dispatch(ApiAction.loadPersonalStudyFailure()))
             )
-            .pipe(
-              tap((response) => {
-                this.store.dispatch(
-                  ApiAction.loadPersonalStudySuccessful({
-                    schedules: response.data,
-                    ranges,
-                  })
-                );
-              }),
-              catchError(() =>
-                of(this.store.dispatch(ApiAction.loadPersonalStudyFailure()))
-              )
-            );
+          );
         })
       )
       .subscribe();
@@ -201,26 +193,19 @@ export class CalendarEffects {
       .pipe(
         this.commonPersonalObservable(),
         mergeMap(({ fetch, ranges, teacherId }) => {
-          return this.examService
-            .getExamSchedule(
-              teacherId,
-              UrlHelper.queryFilter(fetch, {
-                date: 'between',
-              })
+          return this.examService.getExamSchedule(teacherId, fetch.date).pipe(
+            tap((response) => {
+              this.store.dispatch(
+                ApiAction.loadPersonalExamSuccessful({
+                  schedules: response.data,
+                  ranges,
+                })
+              );
+            }),
+            catchError(() =>
+              of(this.store.dispatch(ApiAction.loadPersonalExamFailure()))
             )
-            .pipe(
-              tap((response) => {
-                this.store.dispatch(
-                  ApiAction.loadPersonalExamSuccessful({
-                    schedules: response.data,
-                    ranges,
-                  })
-                );
-              }),
-              catchError(() =>
-                of(this.store.dispatch(ApiAction.loadPersonalExamFailure()))
-              )
-            );
+          );
         })
       )
       .subscribe();
@@ -236,13 +221,7 @@ export class CalendarEffects {
         this.commonPermissionObservable(),
         mergeMap(({ fetch, ranges, department }) => {
           return this.scheduleService
-            .getDepartmentSchedule(
-              department,
-              UrlHelper.queryFilter(fetch, {
-                date: 'between',
-                shift: 'in',
-              })
-            )
+            .getDepartmentSchedule(department, fetch.date)
             .pipe(
               tap((response) => {
                 this.store.dispatch(
@@ -271,12 +250,7 @@ export class CalendarEffects {
         this.commonPermissionObservable(),
         mergeMap(({ fetch, ranges, department }) => {
           return this.examService
-            .getDepartmentExamSchedule(
-              department,
-              UrlHelper.queryFilter(fetch, {
-                date: 'between',
-              })
-            )
+            .getDepartmentExamSchedule(department, fetch.date)
             .pipe(
               tap((response) => {
                 this.store.dispatch(
@@ -407,7 +381,7 @@ function calculateFetchRange(
     if (!leftGreater) {
       rangeList[i] = new TuiDayRange(start, curr.to);
       return {
-        fetch: new TuiDayRange(start, curr.from.append({ day: 1 }, true)),
+        fetch: new TuiDayRange(start, curr.from.append({ day: 1 })),
         ranges: resolveConflictRanges(rangeList),
       };
     }
@@ -477,8 +451,8 @@ function calculateRangeO(
           ranges,
           fetch: {
             date: [
-              fetch.from.getFormattedDay('YMD', '-'),
-              fetch.to.getFormattedDay('YMD', '-'),
+              DateHelper.format(fetch.from),
+              DateHelper.format(fetch.to),
             ].join(),
           },
         };
@@ -516,8 +490,8 @@ function calculateRangeWithDepartmentO(
           ranges,
           fetch: {
             date: [
-              fetch.from.getFormattedDay('YMD', '-'),
-              fetch.to.append({ day: 1 }).getFormattedDay('YMD', '-'),
+              DateHelper.format(fetch.from),
+              DateHelper.format(fetch.to.append({ day: 1 })),
             ].join(),
           },
         };

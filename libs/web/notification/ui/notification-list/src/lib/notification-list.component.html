@@ -7,7 +7,7 @@
         <tui-hosted-dropdown [(open)]="openOptions" [content]="more">
           <button
             tuiIconButton
-            [pseudoHovered]="openOptions || null"
+            [pseudoHover]="openOptions || null"
             icon="tuiIconMoreHorLarge"
           ></button>
         </tui-hosted-dropdown>
@@ -46,13 +46,13 @@
             <tui-line-clamp
               [content]="notification.data.content"
               [linesLimit]="3"
-              [lineHeight]="16"
-              class="leading-4 pointer-events-none"
+              [lineHeight]="17"
+              class="leading-4"
             >
             </tui-line-clamp>
             <div
               [ngClass]="{ 'text-tui-primary font-bold': !notification.readAt }"
-              class="mt-1 text-xs text-tui-primary"
+              class="text-xs text-tui-primary"
             >
               {{ notification.createdAt | relativeTime }}
             </div>
