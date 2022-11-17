@@ -29,6 +29,13 @@ export class DateHelper {
       .replace('T', ' ');
   }
 
+  static format(date: Date | TuiDay): string {
+    if (date instanceof Date) {
+      return this.toTuiDay(date).getFormattedDay('YMD', '-');
+    }
+    return date.getFormattedDay('YMD', '-');
+  }
+
   // From other types
   static fromShift(date: Date, shift: string): [Date, Date] {
     const end = new Date(date.getTime());
@@ -62,6 +69,11 @@ export class DateHelper {
     }
 
     return first.getMonth() === last.getMonth();
+  }
+
+  static add(day: Date, amount: number): Date {
+    day.setDate(day.getDate() + amount);
+    return day;
   }
 
   static subtract(day: Date, amount: number): Date {

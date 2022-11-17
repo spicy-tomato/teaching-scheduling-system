@@ -1,4 +1,4 @@
-<div class="flex items-center">
+<div class="flex items-center mr-4 mb-4 md:mb-0">
   <button
     tuiIconButton
     (click)="toggleScheduleList(true)"
@@ -29,7 +29,9 @@
     <div class="hidden ml-1.5 sm:inline">Lịch sử thay đổi giờ giảng</div>
   </button>
 </div>
+
 <ng-container *ngTemplateOutlet="navigation"></ng-container>
+
 <tui-scrollbar>
   <tss-teaching-dialog-content
     *tssRecreateViewKey="selectedSchedule.Id"

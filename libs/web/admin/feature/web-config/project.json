@@ -1,4 +1,5 @@
 {
+  "$schema": "..\\..\\..\\..\\..\\node_modules\\nx\\schemas\\project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/web/admin/feature/web-config/src",
   "prefix": "tss",

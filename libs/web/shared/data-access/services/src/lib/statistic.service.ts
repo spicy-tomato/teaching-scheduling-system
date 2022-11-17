@@ -1,21 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { TuiDayRange } from '@taiga-ui/cdk';
-import { ChangeScheduleStatisticDta } from '@teaching-scheduling-system/web/shared/data-access/dta';
+import { DateHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import {
-  ChangeScheduleStatistic,
-  ResponseModel,
-  ChangeSchedule,
-} from '@teaching-scheduling-system/web/shared/data-access/models';
-import {
-  QueryFilterResult,
-  ObjectHelper,
-} from '@teaching-scheduling-system/core/utils/helpers';
-import { Observable } from 'rxjs';
-import {
-  APP_CONFIG,
   AppConfig,
+  APP_CONFIG,
 } from '@teaching-scheduling-system/web/config/data-access';
+import {
+  ChangeSchedule,
+  ResponseModel,
+} from '@teaching-scheduling-system/web/shared/data-access/models';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -34,15 +29,16 @@ export class StatisticService {
 
   getDepartment(
     departmentId: string,
-    params: QueryFilterResult<ChangeScheduleStatistic, string>
+    date: string
   ): Observable<ResponseModel<ChangeSchedule[]>> {
-    const parseParams = ObjectHelper.toSnakeCase(
-      params
-    ) as unknown as ChangeScheduleStatisticDta;
-
     return this.http.get<ResponseModel<ChangeSchedule[]>>(
       this.url + `departments/${departmentId}/fixed-schedules`,
-      { params: { ...parseParams } }
+      {
+        params: {
+          date,
+          'status%5Bin%5D': '300,301,302,500,501',
+        },
+      }
     );
   }
 
@@ -50,8 +46,8 @@ export class StatisticService {
     range: TuiDayRange,
     teacherId: string
   ): Observable<ResponseModel<ChangeSchedule[]>> {
-    const from = range.from.getFormattedDay('YMD', '-');
-    const to = range.to.getFormattedDay('YMD', '-');
+    const from = DateHelper.format(range.from);
+    const to = DateHelper.format(range.to);
 
     return this.http.get<ResponseModel<ChangeSchedule[]>>(
       this.url +

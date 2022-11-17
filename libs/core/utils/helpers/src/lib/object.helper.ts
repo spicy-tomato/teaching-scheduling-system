@@ -1,8 +1,8 @@
 import { StringHelper } from './string.helper';
 
-type Item<T> = {
-  id: number | string;
-  value: T;
+type Item<K extends number | string, V> = {
+  id: K;
+  value: V;
 };
 
 export class ObjectHelper {
@@ -41,14 +41,14 @@ export class ObjectHelper {
    * //    },
    * // ]
    */
-  static toArray<T>(
-    obj: Record<number | string, T>,
+  static toArray<K extends number | string, V>(
+    obj: Record<K, V>,
     options?: {
       uniqueValue?: boolean;
     }
-  ): Item<T>[] {
-    const array: Item<T>[] = [];
-    Object.keys(obj).forEach((key) => {
+  ): Item<K, V>[] {
+    const array: Item<K, V>[] = [];
+    (Object.keys(obj) as K[]).forEach((key) => {
       if (options?.uniqueValue && array.find((x) => x.value === obj[key])) {
         return;
       }
@@ -104,8 +104,7 @@ export class ObjectHelper {
   static parseDateProperties<
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     T extends Record<string, any>,
-    // TODO: Use keyof T
-    U extends string[]
+    U extends (keyof T)[]
   >(obj: T, props: U): T {
     props.forEach((prop) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

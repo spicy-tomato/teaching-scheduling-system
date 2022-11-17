@@ -41,8 +41,7 @@ export class NavigateDirective {
 
   // CONSTRUCTOR
   constructor(
-    @Inject(TuiAlertService)
-    private readonly alertService: TuiAlertService,
+    @Inject(TuiAlertService) private readonly alertService: TuiAlertService,
     private readonly store: Store<CalendarState>,
     private readonly appShellStore: Store<AppShellState>,
     private readonly destroy$: TuiDestroyService

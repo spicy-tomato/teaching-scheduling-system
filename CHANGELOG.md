@@ -2,6 +2,59 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.20.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.19.0...v3.20.0) (2022-11-12)
+
+
+### Features
+
+* **core:** remove UrlHelper and QueryFilterResult ([3f7aeaf](https://github.com/annguyen-it/teaching-scheduling-system/commit/3f7aeaf9efc64ea6b05c5c695b190a834141d1db))
+* use DateHelper.format to normalize common date format ([16a157f](https://github.com/annguyen-it/teaching-scheduling-system/commit/16a157fec28a77241926d8e3db99788446bc822d))
+
+
+### Bug Fixes
+
+* add icon to pwa manifest ([a076b40](https://github.com/annguyen-it/teaching-scheduling-system/commit/a076b4091ad534e0216da99be819f406dc8bb49a))
+* **dep:** bump commitlint to 17.2.0 ([915de8a](https://github.com/annguyen-it/teaching-scheduling-system/commit/915de8ad11491624daf8cbbfd0f3e1f3f87ddf69))
+* **dep:** bump docx to 7.6.0 ([40fee73](https://github.com/annguyen-it/teaching-scheduling-system/commit/40fee730dea8643c207f032271e8d2be493f17ba))
+* **dep:** bump laravel-echo to 1.14.1 ([534eb2b](https://github.com/annguyen-it/teaching-scheduling-system/commit/534eb2ba0d8a16c6479bc8b533ed7dbc13db4aec))
+* **dep:** bump postcss to 8.4.18 ([ccdb355](https://github.com/annguyen-it/teaching-scheduling-system/commit/ccdb355fd1a0162968c471520cd669e93c8ffa6c))
+* **dep:** bump taiga-ui to 3.4.0 ([8262acd](https://github.com/annguyen-it/teaching-scheduling-system/commit/8262acd9409ad45e00fb6d20fdbc97357ca37e4f))
+* **dep:** bump tailwindcss to 3.2.3 ([a68e8ed](https://github.com/annguyen-it/teaching-scheduling-system/commit/a68e8ed456d41cac2238d0d94bd07cf79ed999cf))
+* **dep:** bump tslib to 2.4.1 ([5829dd9](https://github.com/annguyen-it/teaching-scheduling-system/commit/5829dd91068770286accdc2829227bb8294884f2))
+* **dep:** bump typescript to 4.6.4 ([211b652](https://github.com/annguyen-it/teaching-scheduling-system/commit/211b65285ada60d4ae56f13d538e4f9e0fff4b62))
+
+## [3.19.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.18.2...v3.19.0) (2022-09-27)
+
+
+### Bug Fixes
+
+* `gap` property for flex-box does not work on Safari < 14.1 ([da7a45a](https://github.com/annguyen-it/teaching-scheduling-system/commit/da7a45a9c8cbccb7ede6e212111e539ed844dea0))
+* **calendar:** cannot open popup dialog on mobile ([95c2eaa](https://github.com/annguyen-it/teaching-scheduling-system/commit/95c2eaae530dd0fa0f5ba9906c7bee146453d6ce))
+* cannot use app if ios version below 13 ([434e814](https://github.com/annguyen-it/teaching-scheduling-system/commit/434e81495370abbfe343ee554071d7390e236699))
+* **dep:** bump taiga-ui to 3.3.0 ([dcc36fc](https://github.com/annguyen-it/teaching-scheduling-system/commit/dcc36fcae782aa5e56558d6e8824f1f05b3d086f))
+
+### [3.18.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.18.1...v3.18.2) (2022-09-13)
+
+
+### Bug Fixes
+
+* **dep:** bump @nrwl/nx-cloud to 14.6.2 ([8e74d4a](https://github.com/annguyen-it/teaching-scheduling-system/commit/8e74d4a2d52ef7a16b37893234e223d2a77d14da))
+* import feedback module ([b04abef](https://github.com/annguyen-it/teaching-scheduling-system/commit/b04abef0c7ee87321deae2a9005330bde9f470a5))
+
+## [3.18.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.17.1...v3.18.0) (2022-09-04)
+
+
+### Features
+
+* **user-info:** hide components which has value is undefined ([8897373](https://github.com/annguyen-it/teaching-scheduling-system/commit/88973735af59a4400f69a8de3372ba2eb8237950))
+
+
+### Bug Fixes
+
+* **dep:** bump taiga-ui to 3.0.1 ([892826f](https://github.com/annguyen-it/teaching-scheduling-system/commit/892826fd4769fb0a1dea9ed2517f8d88b969f2e2))
+* **dep:** bump ts-md5 to 1.3.1 ([979bb7d](https://github.com/annguyen-it/teaching-scheduling-system/commit/979bb7d3697ed86fe66d052d47b7d9c074276d97))
+* **teaching-schedule/change:** fixed column does not aligned ([ea95c42](https://github.com/annguyen-it/teaching-scheduling-system/commit/ea95c42dbaca3b3b509c55c19d4423030d9c979d))
+
 ### [3.17.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.17.0...v3.17.1) (2022-08-16)
 
 

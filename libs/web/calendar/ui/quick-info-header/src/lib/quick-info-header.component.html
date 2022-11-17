@@ -1,4 +1,5 @@
-<div *ngIf="data.elementType === 'event'; else cell">
+<!-- TODO (Add event): Add else cell -->
+<div *ngIf="data.elementType === 'event'">
   <div
     [ngStyle]="{
       'background-color': data.Type === 'exam' ? '#ff0000' : data.Color || ''

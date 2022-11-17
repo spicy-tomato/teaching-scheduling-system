@@ -1,34 +1,35 @@
 <!-- Filters -->
 <tui-expand [expanded]="expanded">
-  <form *ngIf="form" [formGroup]="form">
-    <div class="tui-form__row selectors flex flex-wrap gap-x-4 gap-y-3">
-      <tui-select formControlName="schoolYear" class="min-w-[145px]">
-        Năm học
-        <ng-container *ngrxLet="schoolYears$ as schoolYears">
+  <ng-template>
+    <form *ngIf="form" [formGroup]="form">
+      <div class="tui-form__row selectors flex flex-wrap !-mt-3">
+        <tui-select formControlName="schoolYear" class="min-w-[145px]">
+          Năm học
+          <ng-container *ngrxLet="schoolYears$ as schoolYears">
+            <tui-data-list-wrapper
+              *tuiDataList
+              [items]="schoolYears"
+            ></tui-data-list-wrapper>
+          </ng-container>
+        </tui-select>
+        <tui-select
+          (ngModelChange)="onTermInYearChange($event)"
+          formControlName="termInYear"
+        >
+          Học kỳ
           <tui-data-list-wrapper
             *tuiDataList
-            [items]="schoolYears"
+            [items]="termsInYear"
           ></tui-data-list-wrapper>
-        </ng-container>
-      </tui-select>
-      <tui-select
-        (ngModelChange)="onTermInYearChange($event)"
-        formControlName="termInYear"
-      >
-        Học kỳ
-        <tui-data-list-wrapper
-          *tuiDataList
-          [items]="termsInYear"
-        ></tui-data-list-wrapper>
-      </tui-select>
-      <tui-select formControlName="batchInTerm">
-        Đợt học
-        <tui-data-list-wrapper
-          *tuiDataList
-          [items]="batchesInTerm[termInYear.value]"
-        ></tui-data-list-wrapper>
-      </tui-select>
-      <!-- <tui-select
+        </tui-select>
+        <tui-select formControlName="batchInTerm">
+          Đợt học
+          <tui-data-list-wrapper
+            *tuiDataList
+            [items]="batchesInTerm[termInYear.value]"
+          ></tui-data-list-wrapper>
+        </tui-select>
+        <!-- <tui-select
         *ngrxLet="trainingTypes$ as trainingTypes"
         (ngModelChange)="trainingTypeChange$.next($event)"
         [valueContent]="stringifyTrainingType(trainingTypes)"
@@ -58,31 +59,32 @@
           [items]="academicData[trainingType.value].academicYears"
         ></tui-data-list-wrapper>
       </tui-select> -->
-      <tui-select
-        *ngrxLet="departments$ as faculties"
-        [valueContent]="stringifyDepartment(faculties)"
-        formControlName="department"
-        class="min-w-[400px]"
-      >
-        Bộ môn
-        <tui-data-list *tuiDataList role="listbox">
-          <tui-opt-group
-            *ngFor="let faculty of faculties"
-            [label]="faculty.name"
-          >
-            <button
-              tuiOption
-              *ngFor="let department of faculty.value"
-              [value]="department.id"
-              role="option"
+        <tui-select
+          *ngrxLet="departments$ as faculties"
+          [valueContent]="stringifyDepartment(faculties)"
+          formControlName="department"
+          class="min-w-[400px]"
+        >
+          Bộ môn
+          <tui-data-list *tuiDataList role="listbox">
+            <tui-opt-group
+              *ngFor="let faculty of faculties"
+              [label]="faculty.name"
             >
-              {{ department.name }}
-            </button>
-          </tui-opt-group>
-        </tui-data-list>
-      </tui-select>
-    </div>
-  </form>
+              <button
+                tuiOption
+                *ngFor="let department of faculty.value"
+                [value]="department.id"
+                role="option"
+              >
+                {{ department.name }}
+              </button>
+            </tui-opt-group>
+          </tui-data-list>
+        </tui-select>
+      </div>
+    </form>
+  </ng-template>
 </tui-expand>
 
 <!-- Buttons -->

@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { Store } from '@ngrx/store';
 import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
-import { UrlHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import {
   Note,
@@ -229,31 +228,23 @@ export class TeachingDialogStore extends ComponentStore<LoginState> {
           }))
         ),
         switchMap(({ teacherId, payload }) =>
-          this.scheduleService
-            .getSchedule(
-              teacherId,
-              UrlHelper.queryFilter(payload, {
-                date: 'between',
-                shift: 'in',
-              })
+          this.scheduleService.getSchedule(teacherId, payload).pipe(
+            tapResponse(
+              ({ data }) => {
+                this.patchState((state) => ({
+                  searchSchedule: data,
+                  status: {
+                    ...state.status,
+                    search: 'successful',
+                  },
+                }));
+              },
+              () =>
+                this.patchState((state) => ({
+                  status: { ...state.status, search: 'systemError' },
+                }))
             )
-            .pipe(
-              tapResponse(
-                ({ data }) => {
-                  this.patchState((state) => ({
-                    searchSchedule: data,
-                    status: {
-                      ...state.status,
-                      search: 'successful',
-                    },
-                  }));
-                },
-                () =>
-                  this.patchState((state) => ({
-                    status: { ...state.status, search: 'systemError' },
-                  }))
-              )
-            )
+          )
         )
       )
   );
