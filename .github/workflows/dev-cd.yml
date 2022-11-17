@@ -65,3 +65,4 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           source: "./dist/apps/teaching-scheduling-system/*,!./dist/apps/teaching-scheduling-system/assets/settings"
           target: "/var/www/html/webdev"
+          strip_components: 3
