@@ -45,17 +45,18 @@ jobs:
 
       - name: Create env file
         run: |
-         echo "export const environment = {"
-         echo "  production: false,"
-         echo "  recaptcha: {"
-         echo "    siteKey: '${{ secrets.RECAPTCHA_SITE_KEY }}',"
-         echo "  },"
-         echo "  pusher: {"
-         echo "    key: '${{ secrets.PUSHER_KEY }}',"
-         echo "    cluster: '${{ secrets.PUSHER_CLUSTER }}',"
-         echo "  },"
-         echo "  SYNCFUSION_LICENSE: '${{ secrets.SYNCFUSION_LICENSE }}',"
-         echo "};"
+          touch src/environments/environment.ts
+          echo "export const environment = {" >> src/environments/environment.ts
+          echo "  production: false," >> src/environments/environment.ts
+          echo "  recaptcha: {" >> src/environments/environment.ts
+          echo "    siteKey: '${{ secrets.RECAPTCHA_SITE_KEY }}'," >> src/environments/environment.ts
+          echo "  }," >> src/environments/environment.ts
+          echo "  pusher: {" >> src/environments/environment.ts
+          echo "    key: '${{ secrets.PUSHER_KEY }}'," >> src/environments/environment.ts
+          echo "    cluster: '${{ secrets.PUSHER_CLUSTER }}'," >> src/environments/environment.ts
+          echo "  }," >> src/environments/environment.ts
+          echo "  SYNCFUSION_LICENSE: '${{ secrets.SYNCFUSION_LICENSE }}'," >> src/environments/environment.ts
+          echo "};" >> src/environments/environment.ts
 
       - name: Build
         run: npm run build:dev
