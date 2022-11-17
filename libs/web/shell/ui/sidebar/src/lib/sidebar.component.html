@@ -36,7 +36,7 @@
                     *ngFor="let subItem of item.subItems"
                     [routerLink]="subItem.routerLink"
                     [routerLinkActiveOptions]="{ exact: true }"
-                    [icon]="subItem.useTaigaIcon ? subItem.icon : null"
+                    [icon]="subItem.useTaigaIcon ? subItem.icon : ''"
                     tuiMode="onLight"
                     routerLinkActive="!text-tui-base-09"
                     iconAlign="left"

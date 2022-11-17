@@ -1,28 +1,33 @@
-<div class="flex my-3 pr-4 md:pr-0">
+<div class="flex my-3 px-3 md:px-0">
   <tss-change-request-filter-left
     class="hidden grow mr-4 lg:block"
   ></tss-change-request-filter-left>
 
-  <div class="w-full flex shrink-0 flex-wrap justify-end gap-2 lg:w-auto">
-    <ng-container *ngIf="isPersonal">
+  <div
+    class="w-full flex shrink-0 flex-wrap justify-end lg:w-auto"
+    [class.-mt-2]="isPersonal"
+  >
+    <ng-container *ngIf="isPersonal; else statistic">
       <button
         tuiButton
         *ngrxLet="exportSchedule$ as exportSchedule"
         (click)="exportMultiple$.next()"
         [disabled]="exportSchedule.length === 0"
         icon="tuiIconUpload"
+        class="mt-2"
       >
         Xuất báo cáo {{ exportSchedule.length || 'các' }} mục đã chọn
       </button>
+      <button
+        tuiButton
+        *ngIf="isPersonal"
+        (click)="onExport()"
+        icon="tuiIconUpload"
+        class="mt-2 ml-2"
+      >
+        Xuất báo cáo tháng
+      </button>
     </ng-container>
-    <button
-      tuiButton
-      *ngIf="isPersonal; else statistic"
-      (click)="onExport()"
-      icon="tuiIconUpload"
-    >
-      Xuất báo cáo tháng
-    </button>
     <ng-template #statistic>
       <a tuiButton routerLink="/statistic" icon="tuiIconChartBar">
         Thống kê tháng

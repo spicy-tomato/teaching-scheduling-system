@@ -16,10 +16,10 @@ export class QuickInfoContentCellComponent {
   
   // PUBLIC METHODS
   onShowMoreDetails(): void {
-    // TODO
+    // TODO (Add event)
   }
 
   onSave(): void {
-    // TODO
+    // TODO (Add event)
   }
 }

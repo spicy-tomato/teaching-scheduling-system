@@ -17,34 +17,39 @@
       [expanded]="!sameData"
       [ngStyle]="{ padding: sameData ? '0px' : null }"
     >
-      <ng-container *ngIf="searchStatus !== 'loading'; else loading">
-        <div
-          *ngIf="searchSchedule && searchSchedule.length > 0; else notDuplicate"
-          class="text-tui-warning-fill"
-        >
-          <tui-svg src="tuiIconAlertCircleLarge"></tui-svg>
-          Ca học này đã bị trùng
-          <tui-hosted-dropdown
-            tuiDropdownHover
-            [content]="duplicateScheduleContent"
-            [@fadeIn]
-            tuiDropdownAlign="left"
+      <ng-template>
+        <ng-container *ngIf="searchStatus !== 'loading'; else loading">
+          <div
+            *ngIf="
+              searchSchedule && searchSchedule.length > 0;
+              else notDuplicate
+            "
+            class="text-tui-warning-fill"
           >
-            <button tuiLink [pseudo]="true" class="ml-2 italic">
-              Chi tiết
-            </button>
-          </tui-hosted-dropdown>
-        </div>
-        <ng-template #notDuplicate>
-          <div [@fadeIn] class="text-tui-success-fill">
-            <tui-svg src="tuiIconCheckCircleLarge"></tui-svg>
-            Ca học này không bị trùng
+            <tui-svg src="tuiIconAlertCircleLarge"></tui-svg>
+            Ca học này đã bị trùng
+            <tui-hosted-dropdown
+              tuiDropdownHover
+              [content]="duplicateScheduleContent"
+              [@fadeIn]
+              tuiDropdownAlign="left"
+            >
+              <button tuiLink [pseudo]="true" class="ml-2 italic">
+                Chi tiết
+              </button>
+            </tui-hosted-dropdown>
           </div>
-        </ng-template>
-      </ng-container>
+          <ng-template #notDuplicate>
+            <div [@fadeIn] class="text-tui-success-fill">
+              <tui-svg src="tuiIconCheckCircleLarge"></tui-svg>
+              Ca học này không bị trùng
+            </div>
+          </ng-template>
+        </ng-container>
 
-      <ng-template #loading>
-        <tui-loader [showLoader]="true"></tui-loader>
+        <ng-template #loading>
+          <tui-loader [showLoader]="true"></tui-loader>
+        </ng-template>
       </ng-template>
     </tui-expand>
 

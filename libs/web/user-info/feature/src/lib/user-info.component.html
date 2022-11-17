@@ -6,23 +6,28 @@
       </h3>
     </div>
     <div *ngFor="let field of fields" class="tui-form__row">
-      <tss-confirm-input
-        *ngIf="field.editable; else readOnlyField"
-        [formControlName]="field.formControlName"
-        [field]="field.formControlName"
-        [type]="field.type"
-        [disableConfirm]="!!form.controls[field.formControlName].errors"
-        (save)="
-          save$.next({ controlName: field.formControlName, value: $event })
-        "
-      >
-        {{ field.placeholder }}
-      </tss-confirm-input>
-      <ng-template #readOnlyField>
-        <tui-input [readOnly]="true" [formControlName]="field.formControlName">
+      <ng-container *ngIf="form.controls[field.formControlName].value !== undefined">
+        <tss-confirm-input
+          *ngIf="field.editable; else readOnlyField"
+          [formControlName]="field.formControlName"
+          [field]="field.formControlName"
+          [type]="field.type"
+          [disableConfirm]="!!form.controls[field.formControlName].errors"
+          (save)="
+            save$.next({ controlName: field.formControlName, value: $event })
+          "
+        >
           {{ field.placeholder }}
-        </tui-input>
-      </ng-template>
+        </tss-confirm-input>
+        <ng-template #readOnlyField>
+          <tui-input
+            [readOnly]="true"
+            [formControlName]="field.formControlName"
+          >
+            {{ field.placeholder }}
+          </tui-input>
+        </ng-template>
+      </ng-container>
     </div>
   </form>
 </tui-island>

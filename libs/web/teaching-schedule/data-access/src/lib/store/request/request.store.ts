@@ -10,7 +10,6 @@ import {
   DateHelper,
   ObjectHelper,
   ObservableHelper,
-  UrlHelper,
 } from '@teaching-scheduling-system/core/utils/helpers';
 import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import {
@@ -72,7 +71,6 @@ const initialState: TeachingScheduleRequestState = {
   query: {
     status: [],
     page: 1,
-    pagination: 20,
   },
   exportIndexes: [],
 };
@@ -134,7 +132,6 @@ export class RequestStore extends ComponentStore<TeachingScheduleRequestState> {
           status: _status,
           teacherId: teacher?.id,
           page: 1,
-          pagination: 20,
         });
       })
     )
@@ -149,7 +146,6 @@ export class RequestStore extends ComponentStore<TeachingScheduleRequestState> {
           status: _status,
           teacherId: teacher?.id,
           page: page + 1,
-          pagination: 20,
         });
       })
     )
@@ -395,25 +391,9 @@ export class RequestStore extends ComponentStore<TeachingScheduleRequestState> {
           PermissionConstant.SEE_PERSONAL_CHANGE_SCHEDULE_REQUESTS
         ),
         withLatestFrom(this.teacher$),
-        mergeMap(([x, teacher]) => {
+        mergeMap(([searchSchedule, teacher]) => {
           return this.scheduleService
-            .getPersonalChangeScheduleRequests(
-              teacher.id,
-              UrlHelper.queryFilter(
-                x,
-                {
-                  status: 'in',
-                },
-                {
-                  include: {
-                    id: {
-                      sort: 'desc',
-                    },
-                  },
-                  exclude: ['teacherId'],
-                }
-              )
-            )
+            .getPersonalChangeScheduleRequests(teacher.id, searchSchedule)
             .pipe(this.filterHandler());
         })
       )
@@ -437,22 +417,7 @@ export class RequestStore extends ComponentStore<TeachingScheduleRequestState> {
         })),
         mergeMap(({ department, params }) => {
           return this.scheduleService
-            .getDepartmentChangeScheduleRequests(
-              department,
-              UrlHelper.queryFilter(
-                params,
-                {
-                  status: 'in',
-                },
-                {
-                  include: {
-                    id: {
-                      sort: 'desc',
-                    },
-                  },
-                }
-              )
-            )
+            .getDepartmentChangeScheduleRequests(department, params)
             .pipe(this.filterHandler());
         })
       )
@@ -467,24 +432,9 @@ export class RequestStore extends ComponentStore<TeachingScheduleRequestState> {
           this.permissions$,
           PermissionConstant.SEE_CHANGE_SCHEDULE_REQUESTS_FOR_ROOM_MANAGER
         ),
-        mergeMap((x) => {
+        mergeMap((changeScheduleSearch) => {
           return this.scheduleService
-            .getManagerChangeScheduleRequests(
-              UrlHelper.queryFilter(
-                x,
-                {
-                  status: 'equal',
-                },
-                {
-                  include: {
-                    id: {
-                      sort: 'desc',
-                    },
-                  },
-                  exclude: ['teacherId'],
-                }
-              )
-            )
+            .getManagerChangeScheduleRequests(changeScheduleSearch)
             .pipe(this.filterHandler());
         })
       )

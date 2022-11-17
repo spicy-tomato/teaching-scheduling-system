@@ -18,6 +18,8 @@ import { RECAPTCHA_SETTINGS } from 'ng-recaptcha';
 import { default as EJS_LOCALE } from '../assets/locales/ejs-locale.json';
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { DeviceHelper } from '@teaching-scheduling-system/core/utils/helpers';
 
 registerLocaleData(localeVi, 'vi');
 loadCldr(numberingSystems, gregorian, numbers, timeZoneNames);
@@ -31,14 +33,24 @@ const TAIGA_UI = [
   TuiMobileCalendarDialogModule,
   TuiRootModule,
 ];
+const disableAnimations =
+  !('animate' in document.documentElement) ||
+  (navigator && DeviceHelper.isOldIosVersion());
+
 @NgModule({
   imports: [
     BrowserModule,
     HttpClientModule,
-    BrowserAnimationsModule,
+    BrowserAnimationsModule.withConfig({ disableAnimations }),
     WebShellFeatureModule,
     LoaderModule,
     ...TAIGA_UI,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerImmediately',
+    }),
   ],
   declarations: [AppComponent],
   bootstrap: [AppComponent],

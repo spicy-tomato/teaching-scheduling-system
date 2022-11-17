@@ -3,12 +3,11 @@ import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { Store } from '@ngrx/store';
 import { TuiDayRange } from '@taiga-ui/cdk';
 import {
+  DateHelper,
   ObservableHelper,
-  UrlHelper,
 } from '@teaching-scheduling-system/core/utils/helpers';
 import {
   ChangeSchedule,
-  ChangeScheduleStatistic,
   GenericState,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { StatisticService } from '@teaching-scheduling-system/web/shared/data-access/services';
@@ -83,37 +82,13 @@ export class StatisticChangeScheduleStore extends ComponentStore<ChangeScheduleS
     departmentId: string,
     range: TuiDayRange
   ): Observable<ChangeSchedule[]> {
-    const statisticData: ChangeScheduleStatistic = {
-      date: [
-        range.from.getFormattedDay('YMD', '-'),
-        range.to.getFormattedDay('YMD', '-'),
-      ].join(),
-      status: [300, 301, 302, 500, 501],
-    };
+    const date = [
+      DateHelper.format(range.from),
+      DateHelper.format(range.to),
+    ].join();
 
     return this.statisticService
-      .getDepartment(
-        departmentId,
-        UrlHelper.queryFilter(
-          statisticData,
-          {
-            status: 'in',
-          },
-          {
-            include: {
-              oldDate: {
-                sort: 'asc',
-              },
-              oldShift: {
-                sort: 'asc',
-              },
-              oldIdRoom: {
-                sort: 'asc',
-              },
-            },
-          }
-        )
-      )
+      .getDepartment(departmentId, date)
       .pipe(map((response) => response.data));
   }
 }

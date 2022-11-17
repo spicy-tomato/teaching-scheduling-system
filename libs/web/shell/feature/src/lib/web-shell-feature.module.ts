@@ -5,10 +5,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { routerReducer, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
-import { TUI_IS_CYPRESS, TUI_SANITIZER } from '@taiga-ui/cdk';
+import { TUI_IS_CYPRESS } from '@taiga-ui/cdk';
 import {
-  tuiHintOptionsProvider,
   TUI_ANIMATIONS_DURATION,
+  TUI_HINT_DEFAULT_OPTIONS,
+  TUI_HINT_OPTIONS,
+  TUI_SANITIZER,
 } from '@taiga-ui/core';
 import { TUI_LANGUAGE, TUI_VIETNAMESE_LANGUAGE } from '@taiga-ui/i18n';
 import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
@@ -265,11 +267,15 @@ export const webShellFeatureRoutes: Routes = [
         beforeToday: beforeTodayFactory,
       },
     },
-    tuiHintOptionsProvider({
-      tuiHintShowDelay: 300,
-      tuiHintHideDelay: 100,
-      direction: 'bottom-middle',
-    }),
+    {
+      provide: TUI_HINT_OPTIONS,
+      useValue: {
+        ...TUI_HINT_DEFAULT_OPTIONS,
+        showDelay: 300,
+        hideDelay: 100,
+        direction: 'bottom',
+      },
+    },
     NavbarService,
   ],
 })

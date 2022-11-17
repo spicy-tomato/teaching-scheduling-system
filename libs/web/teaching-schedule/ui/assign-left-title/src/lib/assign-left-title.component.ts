@@ -48,8 +48,7 @@ export class AssignLeftTitleComponent {
   // CONSTRUCTOR
   constructor(
     private readonly store: AssignStore,
-    @Inject(TuiAlertService)
-    private readonly alertService: TuiAlertService
+    @Inject(TuiAlertService) private readonly alertService: TuiAlertService
   ) {
     this.needAssign$ = this.store.needAssign$;
     this.teachers$ = this.store.teacher$('data');

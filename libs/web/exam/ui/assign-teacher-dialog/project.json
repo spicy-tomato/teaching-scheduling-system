@@ -1,4 +1,5 @@
 {
+  "$schema": "..\\..\\..\\..\\..\\node_modules\\nx\\schemas\\project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/web/exam/ui/assign-teacher-dialog/src",
   "prefix": "tss",

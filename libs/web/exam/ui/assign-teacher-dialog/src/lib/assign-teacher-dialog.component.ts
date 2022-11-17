@@ -49,8 +49,7 @@ export class AssignTeacherDialogComponent {
     private readonly store: AssignTeacherDialogStore,
     @Inject(POLYMORPHEUS_CONTEXT)
     public readonly context: TuiDialogContext<string[], ExamScheduleModel>,
-    @Inject(TuiAlertService)
-    private readonly alertService: TuiAlertService
+    @Inject(TuiAlertService) private readonly alertService: TuiAlertService
   ) {
     this.loadTeachers();
     this.handleStatusChange();
