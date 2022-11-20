@@ -73,4 +73,6 @@ jobs:
       - name: Release new version
         run: |
           npm run release
+          git config --global user.email "snowflower1408@gmail.com"
+          git config --global user.name "Prod workflow"
           git push --follow-tags origin master
