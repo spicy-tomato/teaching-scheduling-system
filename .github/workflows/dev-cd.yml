@@ -1,11 +1,11 @@
-name: Node.js CI
+name: Dev CD
 
 on:
   push:
     branches: [ "dev" ]
 
 jobs:
-  setup:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -16,9 +16,6 @@ jobs:
           node-version: '16'
           cache: 'npm'
 
-  build:
-    runs-on: ubuntu-latest
-    steps:
       - name: Cache node modules
         id: cache-npm
         uses: actions/cache@v3
@@ -37,11 +34,28 @@ jobs:
         name: List the state of node modules
         continue-on-error: true
         run: npm list
-          
-      - run: npm ci
-      
-      - run: npm run build
-      
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Create env file
+        run: |
+          touch ./apps/teaching-scheduling-system/src/environments/environment.ts
+          echo "export const environment = {" >> ./apps/teaching-scheduling-system/src/environments/environment.ts
+          echo "  production: false," >> ./apps/teaching-scheduling-system/src/environments/environment.ts
+          echo "  recaptcha: {" >> ./apps/teaching-scheduling-system/src/environments/environment.ts
+          echo "    siteKey: '${{ secrets.RECAPTCHA_SITE_KEY }}'," >> ./apps/teaching-scheduling-system/src/environments/environment.ts
+          echo "  }," >> ./apps/teaching-scheduling-system/src/environments/environment.ts
+          echo "  pusher: {" >> ./apps/teaching-scheduling-system/src/environments/environment.ts
+          echo "    key: '${{ secrets.PUSHER_KEY }}'," >> ./apps/teaching-scheduling-system/src/environments/environment.ts
+          echo "    cluster: '${{ secrets.PUSHER_CLUSTER }}'," >> ./apps/teaching-scheduling-system/src/environments/environment.ts
+          echo "  }," >> ./apps/teaching-scheduling-system/src/environments/environment.ts
+          echo "  SYNCFUSION_LICENSE: '${{ secrets.SYNCFUSION_LICENSE }}'," >> ./apps/teaching-scheduling-system/src/environments/environment.ts
+          echo "};" >> ./apps/teaching-scheduling-system/src/environments/environment.ts
+
+      - name: Build
+        run: npm run build:dev
+
       - name: Copy dist to VPS
         uses: appleboy/scp-action@master
         with:
@@ -49,6 +63,6 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_KEY }}
-          source: "/dist/apps/teaching-scheduling-system"
+          source: "./dist/apps/teaching-scheduling-system/*,!./dist/apps/teaching-scheduling-system/assets/settings"
           target: "/var/www/html/webdev"
-    
+          strip_components: 3

@@ -1,5 +1,5 @@
 :host {
-  @apply flex flex-col md:grid;
+  @apply flex flex-col md:grid md:gap-x-3;
   grid-template-columns: 260px 1fr;
   grid-template-rows: auto 1fr;
 }

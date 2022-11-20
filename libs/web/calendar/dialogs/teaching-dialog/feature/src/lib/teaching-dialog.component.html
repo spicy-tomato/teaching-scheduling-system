@@ -22,7 +22,7 @@
       selectedSchedule.FixedSchedules && selectedSchedule.FixedSchedules.length
     "
     [tssTeachingHistory]="selectedSchedule.FixedSchedules"
-    class="ml-auto mr-4 md:!hidden"
+    class="ml-auto md:!hidden"
     aria-label="History"
   >
     <tui-svg [src]="IconConstant.historyLarge"></tui-svg>
@@ -30,24 +30,25 @@
   </button>
 </div>
 
-<ng-container *ngTemplateOutlet="navigation"></ng-container>
+<div class="hidden md:block">
+  <ng-container *ngTemplateOutlet="navigation"></ng-container>
+</div>
 
 <tui-scrollbar>
   <tss-teaching-dialog-content
     *tssRecreateViewKey="selectedSchedule.Id"
-    [schedule]="selectedSchedule"
     (updateSchedule)="onUpdateSchedule($event)"
     (changeScheduleInfo)="onChangeScheduleInfo($event)"
     (cancelRequest)="onCancelRequest()"
     (cancel)="onCancel()"
+    [schedule]="selectedSchedule"
   ></tss-teaching-dialog-content>
 </tui-scrollbar>
 
 <ng-template #navigation>
   <tss-teaching-dialog-navigation
-    [selectedSchedule]="selectedSchedule"
-    [schedules]="schedules"
     (changeSelectedSchedule)="onChangeSelectedSchedule($event)"
-    class="hidden md:block"
+    [schedules]="schedules"
+    [selectedSchedule]="selectedSchedule"
   ></tss-teaching-dialog-navigation>
 </ng-template>

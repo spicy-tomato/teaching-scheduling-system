@@ -20,11 +20,12 @@
     "noImplicitReturns": true,
     "noPropertyAccessFromIndexSignature": true,
     "resolveJsonModule": true,
-    "strict": true
+    "strict": true,
+    "target": "es2020"
   },
   "angularCompilerOptions": {
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-    "strictTemplates": true,
+    "strictTemplates": true
   }
 }

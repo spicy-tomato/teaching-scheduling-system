@@ -1,11 +1,12 @@
 {
-  "name": "teaching-scheduling-system",
-  "short_name": "teaching-scheduling-system",
+  "name": "Quản lý lịch giảng dạy",
+  "short_name": "UTCKetnoi",
   "theme_color": "#1976d2",
   "background_color": "#fafafa",
   "display": "standalone",
-  "scope": "./",
-  "start_url": "./",
+  "scope": "/",
+  "start_url": "/",
+  "id": "/",
   "icons": [
     {
       "src": "assets/icons/icon-72x72.png",
