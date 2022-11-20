@@ -4,6 +4,9 @@ on:
   push:
     branches: ['master']
 
+env:
+  PROD_ENV_FILE: ./apps/teaching-scheduling-system/src/environments/environment.prod.ts
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -40,21 +43,21 @@ jobs:
 
       - name: Create env file
         run: |
-          touch ./apps/teaching-scheduling-system/src/environments/environment.prod.ts
-          echo "import p from '../../../../package.json';" >> ./apps/teaching-scheduling-system/src/environments/environment.prod.ts
-          echo "export const environment = {" >> ./apps/teaching-scheduling-system/src/environments/environment.prod.ts
-          echo "  VERSION: p.version," >> ./apps/teaching-scheduling-system/src/environments/environment.prod.ts
-          echo "  production: true," >> ./apps/teaching-scheduling-system/src/environments/environment.prod.ts
-          echo "  recaptcha: {" >> ./apps/teaching-scheduling-system/src/environments/environment.prod.ts
-          echo "    siteKey: '${{ secrets.RECAPTCHA_SITE_KEY }}'," >> ./apps/teaching-scheduling-system/src/environments/environment.prod.ts
-          echo "  }," >> ./apps/teaching-scheduling-system/src/environments/environment.prod.ts
-          echo "  pusher: {" >> ./apps/teaching-scheduling-system/src/environments/environment.prod.ts
-          echo "    key: '${{ secrets.PUSHER_KEY_PROD }}'," >> ./apps/teaching-scheduling-system/src/environments/environment.prod.ts
-          echo "    cluster: '${{ secrets.PUSHER_CLUSTER }}'," >> ./apps/teaching-scheduling-system/src/environments/environment.prod.ts
-          echo "  }," >> ./apps/teaching-scheduling-system/src/environments/environment.prod.ts
-          echo "  SYNCFUSION_LICENSE: '${{ secrets.SYNCFUSION_LICENSE }}'," >> ./apps/teaching-scheduling-system/src/environments/environment.prod.ts
-          echo "};" >> ./apps/teaching-scheduling-system/src/environments/environment.prod.ts
-          cp ./apps/teaching-scheduling-system/src/environments/environment.prod.ts ./apps/teaching-scheduling-system/src/environments/environment.ts
+          touch $PROD_ENV_FILE
+          echo "import p from '../../../../package.json';" >> $PROD_ENV_FILE
+          echo "export const environment = {" >> $PROD_ENV_FILE
+          echo "  VERSION: p.version," >> $PROD_ENV_FILE
+          echo "  production: true," >> $PROD_ENV_FILE
+          echo "  recaptcha: {" >> $PROD_ENV_FILE
+          echo "    siteKey: '${{ secrets.RECAPTCHA_SITE_KEY }}'," >> $PROD_ENV_FILE
+          echo "  }," >> $PROD_ENV_FILE
+          echo "  pusher: {" >> $PROD_ENV_FILE
+          echo "    key: '${{ secrets.PUSHER_KEY_PROD }}'," >> $PROD_ENV_FILE
+          echo "    cluster: '${{ secrets.PUSHER_CLUSTER }}'," >> $PROD_ENV_FILE
+          echo "  }," >> $PROD_ENV_FILE
+          echo "  SYNCFUSION_LICENSE: '${{ secrets.SYNCFUSION_LICENSE }}'," >> $PROD_ENV_FILE
+          echo "};" >> $PROD_ENV_FILE
+          cp $PROD_ENV_FILE ./apps/teaching-scheduling-system/src/environments/environment.ts
 
       - name: Build
         run: npm run build
@@ -72,7 +75,7 @@ jobs:
 
       - name: Release new version
         run: |
-          npm run release
           git config --global user.email "snowflower1408@gmail.com"
           git config --global user.name "Prod workflow"
+          npm run release
           git push --follow-tags origin master
