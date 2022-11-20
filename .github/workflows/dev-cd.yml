@@ -44,20 +44,20 @@ jobs:
 
       - name: Create env file
         run: |
-          touch ENV_FILE
-          echo "import p from '../../../../package.json';" >> ENV_FILE
-          echo "export const environment = {" >> ENV_FILE
-          echo "  VERSION: p.version," >> ENV_FILE
-          echo "  production: false," >> ENV_FILE
-          echo "  recaptcha: {" >> ENV_FILE
-          echo "    siteKey: '${{ secrets.RECAPTCHA_SITE_KEY }}'," >> ENV_FILE
-          echo "  }," >> ENV_FILE
-          echo "  pusher: {" >> ENV_FILE
-          echo "    key: '${{ secrets.PUSHER_KEY }}'," >> ENV_FILE
-          echo "    cluster: '${{ secrets.PUSHER_CLUSTER }}'," >> ENV_FILE
-          echo "  }," >> ENV_FILE
-          echo "  SYNCFUSION_LICENSE: '${{ secrets.SYNCFUSION_LICENSE }}'," >> ENV_FILE
-          echo "};" >> ENV_FILE
+          touch $ENV_FILE
+          echo "import p from '../../../../package.json';" >> $ENV_FILE
+          echo "export const environment = {" >> $ENV_FILE
+          echo "  VERSION: p.version," >> $ENV_FILE
+          echo "  production: false," >> $ENV_FILE
+          echo "  recaptcha: {" >> $ENV_FILE
+          echo "    siteKey: '${{ secrets.RECAPTCHA_SITE_KEY }}'," >> $ENV_FILE
+          echo "  }," >> $ENV_FILE
+          echo "  pusher: {" >> $ENV_FILE
+          echo "    key: '${{ secrets.PUSHER_KEY }}'," >> $ENV_FILE
+          echo "    cluster: '${{ secrets.PUSHER_CLUSTER }}'," >> $ENV_FILE
+          echo "  }," >> $ENV_FILE
+          echo "  SYNCFUSION_LICENSE: '${{ secrets.SYNCFUSION_LICENSE }}'," >> $ENV_FILE
+          echo "};" >> $ENV_FILE
 
       - name: Build
         run: npm run build:dev
