@@ -2,7 +2,7 @@ name: Dev CD
 
 on:
   push:
-    branches: [ "dev" ]
+    branches: ['dev']
 
 jobs:
   build:
@@ -41,7 +41,9 @@ jobs:
       - name: Create env file
         run: |
           touch ./apps/teaching-scheduling-system/src/environments/environment.ts
+          echo "import p from '../../../../package.json';" >> ./apps/teaching-scheduling-system/src/environments/environment.ts
           echo "export const environment = {" >> ./apps/teaching-scheduling-system/src/environments/environment.ts
+          echo "  VERSION: p.version," >> ./apps/teaching-scheduling-system/src/environments/environment.ts
           echo "  production: false," >> ./apps/teaching-scheduling-system/src/environments/environment.ts
           echo "  recaptcha: {" >> ./apps/teaching-scheduling-system/src/environments/environment.ts
           echo "    siteKey: '${{ secrets.RECAPTCHA_SITE_KEY }}'," >> ./apps/teaching-scheduling-system/src/environments/environment.ts
@@ -63,6 +65,6 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_KEY }}
-          source: "./dist/apps/teaching-scheduling-system/*,!./dist/apps/teaching-scheduling-system/assets/settings"
-          target: "/var/www/html/webdev"
+          source: './dist/apps/teaching-scheduling-system/*,!./dist/apps/teaching-scheduling-system/assets/settings'
+          target: '/var/www/html/webdev'
           strip_components: 3

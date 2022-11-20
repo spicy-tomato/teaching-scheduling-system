@@ -2,7 +2,7 @@ name: Prod CD
 
 on:
   push:
-    branches: [ "master" ]
+    branches: ['master']
 
 jobs:
   build:
@@ -40,18 +40,20 @@ jobs:
 
       - name: Create env file
         run: |
-          touch ./apps/teaching-scheduling-system/src/environments/environment.prod.ts
-          echo "export const environment = {" >> ./apps/teaching-scheduling-system/src/environments/environment.prod.ts
-          echo "  production: true," >> ./apps/teaching-scheduling-system/src/environments/environment.prod.ts
-          echo "  recaptcha: {" >> ./apps/teaching-scheduling-system/src/environments/environment.prod.ts
-          echo "    siteKey: '${{ secrets.RECAPTCHA_SITE_KEY }}'," >> ./apps/teaching-scheduling-system/src/environments/environment.prod.ts
-          echo "  }," >> ./apps/teaching-scheduling-system/src/environments/environment.prod.ts
-          echo "  pusher: {" >> ./apps/teaching-scheduling-system/src/environments/environment.prod.ts
-          echo "    key: '${{ secrets.PUSHER_KEY_PROD }}'," >> ./apps/teaching-scheduling-system/src/environments/environment.prod.ts
-          echo "    cluster: '${{ secrets.PUSHER_CLUSTER }}'," >> ./apps/teaching-scheduling-system/src/environments/environment.prod.ts
-          echo "  }," >> ./apps/teaching-scheduling-system/src/environments/environment.prod.ts
-          echo "  SYNCFUSION_LICENSE: '${{ secrets.SYNCFUSION_LICENSE }}'," >> ./apps/teaching-scheduling-system/src/environments/environment.prod.ts
-          echo "};" >> ./apps/teaching-scheduling-system/src/environments/environment.prod.ts
+          touch ./apps/teaching-scheduling-system/src/environments/environment.ts
+          echo "import p from '../../../../package.json';" >> ./apps/teaching-scheduling-system/src/environments/environment.ts
+          echo "export const environment = {" >> ./apps/teaching-scheduling-system/src/environments/environment.ts
+          echo "  VERSION: p.version," >> ./apps/teaching-scheduling-system/src/environments/environment.ts
+          echo "  production: true," >> ./apps/teaching-scheduling-system/src/environments/environment.ts
+          echo "  recaptcha: {" >> ./apps/teaching-scheduling-system/src/environments/environment.ts
+          echo "    siteKey: '${{ secrets.RECAPTCHA_SITE_KEY }}'," >> ./apps/teaching-scheduling-system/src/environments/environment.ts
+          echo "  }," >> ./apps/teaching-scheduling-system/src/environments/environment.ts
+          echo "  pusher: {" >> ./apps/teaching-scheduling-system/src/environments/environment.ts
+          echo "    key: '${{ secrets.PUSHER_KEY_PROD }}'," >> ./apps/teaching-scheduling-system/src/environments/environment.ts
+          echo "    cluster: '${{ secrets.PUSHER_CLUSTER }}'," >> ./apps/teaching-scheduling-system/src/environments/environment.ts
+          echo "  }," >> ./apps/teaching-scheduling-system/src/environments/environment.ts
+          echo "  SYNCFUSION_LICENSE: '${{ secrets.SYNCFUSION_LICENSE }}'," >> ./apps/teaching-scheduling-system/src/environments/environment.ts
+          echo "};" >> ./apps/teaching-scheduling-system/src/environments/environment.ts
 
       - name: Build
         run: npm run build
@@ -63,8 +65,8 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_KEY }}
-          source: "./dist/apps/teaching-scheduling-system/*,!./dist/apps/teaching-scheduling-system/assets/settings"
-          target: "/var/www/html/web"
+          source: './dist/apps/teaching-scheduling-system/*,!./dist/apps/teaching-scheduling-system/assets/settings'
+          target: '/var/www/html/web'
           strip_components: 3
 
       - name: Release new version
