@@ -54,6 +54,7 @@ jobs:
           echo "  }," >> ./apps/teaching-scheduling-system/src/environments/environment.prod.ts
           echo "  SYNCFUSION_LICENSE: '${{ secrets.SYNCFUSION_LICENSE }}'," >> ./apps/teaching-scheduling-system/src/environments/environment.prod.ts
           echo "};" >> ./apps/teaching-scheduling-system/src/environments/environment.prod.ts
+          cp ./apps/teaching-scheduling-system/src/environments/environment.prod.ts ./apps/teaching-scheduling-system/src/environments/environment.ts
 
       - name: Build
         run: npm run build
