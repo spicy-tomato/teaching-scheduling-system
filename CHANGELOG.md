@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.20.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.20.0...v3.20.1) (2022-11-20)
+
+
+### Bug Fixes
+
+* **calendar:** popup should not display after click blank cell ([f4305ec](https://github.com/annguyen-it/teaching-scheduling-system/commit/f4305ecee092e476c779db4d28265a4e62a269b9))
+* **dep:** bump @angular-devkit/build-angular to 13.3.10 ([a053128](https://github.com/annguyen-it/teaching-scheduling-system/commit/a053128d4ef80dd027b740110f625ba6c4fb8fba))
+* **dep:** bump @angular/pwa to 13.3.10 ([a12d5fa](https://github.com/annguyen-it/teaching-scheduling-system/commit/a12d5fa7bf82b2e571ffadb1457db47ebd25eccd))
+* **dep:** bump @ng-web-apis/universal to 2.0.0 ([7e60701](https://github.com/annguyen-it/teaching-scheduling-system/commit/7e6070121486925d15591d4aa97bb2369d980d49))
+* **dep:** bump @syncfusion/ej2-angular-schedule to 20.2.50 ([511828d](https://github.com/annguyen-it/teaching-scheduling-system/commit/511828d2be9e24d371c09ed593a9381bdc872450))
+* **dep:** bump @tinkoff/ng-dompurify to 4.0.0 ([f0af041](https://github.com/annguyen-it/teaching-scheduling-system/commit/f0af04181692d071327f9839bd82ec9bbf6a73eb))
+* **dep:** bump dompurify to 2.4.1 ([ac0298c](https://github.com/annguyen-it/teaching-scheduling-system/commit/ac0298cbe65c21d2e10bd080246b4ebc3b15d5a3))
+* **dep:** bump nx to 14.2.1 ([9407672](https://github.com/annguyen-it/teaching-scheduling-system/commit/94076723da518dee81a4585d33b29d5552e692cf))
+* **dep:** bump nx to 14.2.4 ([cdbfc09](https://github.com/annguyen-it/teaching-scheduling-system/commit/cdbfc09e653c7222fdaeaabf47d3a8b37e0277d3))
+* **dep:** bump taiga-ui to 3.5.0 ([f296da4](https://github.com/annguyen-it/teaching-scheduling-system/commit/f296da4f1ffe4c1df6dae5a08ebb2f3f67e970ce))
+* **login:** fix browser warnings ([c9cafe8](https://github.com/annguyen-it/teaching-scheduling-system/commit/c9cafe8d3791b2eeed2548aff48f6b5719127b3c))
+* **pwa:** fix icon ([96a8640](https://github.com/annguyen-it/teaching-scheduling-system/commit/96a8640e9a6427fb2c3836b803e68b18111dcf4c))
+* **schedule:** today schedule button shows empty list ([0bcaeed](https://github.com/annguyen-it/teaching-scheduling-system/commit/0bcaeed9e6cc417cee441b36d6585e5ead8e6212))
+
 ## [3.20.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.19.0...v3.20.0) (2022-11-12)
 
 
