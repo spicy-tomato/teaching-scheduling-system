@@ -1,6 +1,6 @@
 {
   "name": "teaching-scheduling-system",
-  "version": "3.20.0",
+  "version": "3.20.6",
   "license": "MIT",
   "scripts": {
     "ng": "nx",
@@ -13,7 +13,10 @@
     "release:minor": "standard-version --release-as minor",
     "release:patch": "standard-version --release-as patch",
     "release:major": "standard-version --release-as major",
-    "lint-all": "nx run-many --all --target=lint"
+    "lint-all": "nx run-many --all --target=lint",
+    "outdate": "npx npm-check-updates",
+    "outdate:minor": "npx npm-check-updates --target minor",
+    "outdate:patch": "npx npm-check-updates --target patch"
   },
   "private": true,
   "dependencies": {
@@ -25,7 +28,7 @@
     "@angular/forms": "13.3.11",
     "@angular/platform-browser": "13.3.11",
     "@angular/platform-browser-dynamic": "13.3.11",
-    "@angular/pwa": "^13.3.9",
+    "@angular/pwa": "^13.3.10",
     "@angular/router": "13.3.11",
     "@angular/service-worker": "13.3.11",
     "@commitlint/cli": "^17.2.0",

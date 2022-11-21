@@ -180,7 +180,10 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onPopupOpen(args: PopupOpenEventArgs): void {
-    if (!args.data) return;
+    if (!args.data?.['Id']) {
+      args.cancel = true;
+      return;
+    }
 
     if (args.type === 'Editor') {
       args.cancel = true;
@@ -239,8 +242,8 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
         map((schedules) => schedules.map((x) => x.toEjsSchedule())),
         tap((dataSource) => {
           this.eventSettings$.next({
-            dataSource,
             ...this.staticSettings,
+            dataSource,
           });
         }),
         takeUntil(this.destroy$)
@@ -388,6 +391,7 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private showStudyEditorDialog(schedule: EjsScheduleModel): void {
+    // Get study schedule in the same day with `schedule`
     const schedules = schedule.StartTime
       ? (this.eventSettings$.value.dataSource as EjsScheduleModel[]).filter(
           (s) =>

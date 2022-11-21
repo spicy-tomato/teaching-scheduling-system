@@ -9,17 +9,17 @@
   <ng-container *ngrxLet="eventSettings$ as eventSettings">
     <ejs-schedule
       #schedule
+      (created)="onCreated()"
+      (renderCell)="onRenderCell($event)"
+      (eventRendered)="onEventRendered($event)"
+      (popupOpen)="onPopupOpen($event)"
+      (navigating)="onNavigating($event)"
       [eventSettings]="eventSettings"
       [quickInfoOnSelectionEnd]="false"
       [firstDayOfWeek]="1"
       [workHours]="{ highlight: false }"
       [timeScale]="{ slotCount: 1 }"
       [showHeaderBar]="false"
-      (created)="onCreated()"
-      (renderCell)="onRenderCell($event)"
-      (eventRendered)="onEventRendered($event)"
-      (popupOpen)="onPopupOpen($event)"
-      (navigating)="onNavigating($event)"
       currentView="Month"
       locale="vi"
       cssClass="cell-dimension"
@@ -62,9 +62,9 @@
       <!-- Quick info header -->
       <ng-template #quickInfoTemplatesHeader let-data>
         <tss-quick-info-header
-          [data]="data"
           (showEditorDialog)="onShowEditorDialog(data)"
           (closeDialog)="onCloseEditorDialog()"
+          [data]="data"
         ></tss-quick-info-header>
       </ng-template>
 

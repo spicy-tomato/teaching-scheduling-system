@@ -1,17 +1,15 @@
-name: Dev CD
+name: Prod CD
 
 on:
-  push:
-    branches: ['dev']
   pull_request:
-    branches: ['dev']
+    branches: ['master']
 
 env:
-  ENV_FILE: ./apps/teaching-scheduling-system/src/environments/environment.ts
+  PROD_ENV_FILE: ./apps/teaching-scheduling-system/src/environments/environment.prod.ts
 
 jobs:
   build:
-    name: Build Dev
+    name: Build Prod
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -46,23 +44,24 @@ jobs:
 
       - name: Create env file
         run: |
-          touch $ENV_FILE
-          echo "import p from '../../../../package.json';" >> $ENV_FILE
-          echo "export const environment = {" >> $ENV_FILE
-          echo "  VERSION: p.version," >> $ENV_FILE
-          echo "  production: false," >> $ENV_FILE
-          echo "  recaptcha: {" >> $ENV_FILE
-          echo "    siteKey: '${{ secrets.RECAPTCHA_SITE_KEY }}'," >> $ENV_FILE
-          echo "  }," >> $ENV_FILE
-          echo "  pusher: {" >> $ENV_FILE
-          echo "    key: '${{ secrets.PUSHER_KEY }}'," >> $ENV_FILE
-          echo "    cluster: '${{ secrets.PUSHER_CLUSTER }}'," >> $ENV_FILE
-          echo "  }," >> $ENV_FILE
-          echo "  SYNCFUSION_LICENSE: '${{ secrets.SYNCFUSION_LICENSE }}'," >> $ENV_FILE
-          echo "};" >> $ENV_FILE
+          touch $PROD_ENV_FILE
+          echo "import p from '../../../../package.json';" >> $PROD_ENV_FILE
+          echo "export const environment = {" >> $PROD_ENV_FILE
+          echo "  VERSION: p.version," >> $PROD_ENV_FILE
+          echo "  production: true," >> $PROD_ENV_FILE
+          echo "  recaptcha: {" >> $PROD_ENV_FILE
+          echo "    siteKey: '${{ secrets.RECAPTCHA_SITE_KEY }}'," >> $PROD_ENV_FILE
+          echo "  }," >> $PROD_ENV_FILE
+          echo "  pusher: {" >> $PROD_ENV_FILE
+          echo "    key: '${{ secrets.PUSHER_KEY_PROD }}'," >> $PROD_ENV_FILE
+          echo "    cluster: '${{ secrets.PUSHER_CLUSTER }}'," >> $PROD_ENV_FILE
+          echo "  }," >> $PROD_ENV_FILE
+          echo "  SYNCFUSION_LICENSE: '${{ secrets.SYNCFUSION_LICENSE }}'," >> $PROD_ENV_FILE
+          echo "};" >> $PROD_ENV_FILE
+          cp $PROD_ENV_FILE ./apps/teaching-scheduling-system/src/environments/environment.ts
 
       - name: Build
-        run: npm run build:dev
+        run: npm run build
 
       - name: Copy dist to VPS
         uses: appleboy/scp-action@master
@@ -72,5 +71,12 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_KEY }}
           source: './dist/apps/teaching-scheduling-system/*,!./dist/apps/teaching-scheduling-system/assets/settings'
-          target: '/var/www/html/webdev'
+          target: '/var/www/html/web'
           strip_components: 3
+
+      - name: Release new version
+        run: |
+          git config --global user.email "snowflower1408@gmail.com"
+          git config --global user.name "Prod workflow"
+          npm run release
+          git push --follow-tags origin master
