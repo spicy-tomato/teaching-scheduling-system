@@ -20,6 +20,7 @@ import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { DeviceHelper } from '@teaching-scheduling-system/core/utils/helpers';
+import { VERSION_TOKEN } from '@teaching-scheduling-system/core/utils/providers';
 
 registerLocaleData(localeVi, 'vi');
 loadCldr(numberingSystems, gregorian, numbers, timeZoneNames);
@@ -60,6 +61,10 @@ const disableAnimations =
       useValue: {
         siteKey: environment.recaptcha.siteKey,
       },
+    },
+    {
+      provide: VERSION_TOKEN,
+      useValue: environment.version
     },
   ],
 })

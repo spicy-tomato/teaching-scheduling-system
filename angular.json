@@ -88,6 +88,7 @@
     "web-shell-ui-mobile-sidebar": "libs/web/shell/ui/mobile-sidebar",
     "web-shell-ui-navbar": "libs/web/shell/ui/navbar",
     "web-shell-ui-sidebar": "libs/web/shell/ui/sidebar",
+    "web-shell-ui-version": "libs/web/shell/ui/version",
     "web-statistic-data-access": "libs/web/statistic/data-access",
     "web-statistic-feature-change-schedule": "libs/web/statistic/feature/change-schedule",
     "web-statistic-feature-shell": "libs/web/statistic/feature/shell",

@@ -267,6 +267,9 @@
       "@teaching-scheduling-system/web/shell/ui/sidebar": [
         "libs/web/shell/ui/sidebar/src/index.ts"
       ],
+      "@teaching-scheduling-system/web/shell/ui/version": [
+        "libs/web/shell/ui/version/src/index.ts"
+      ],
       "@teaching-scheduling-system/web/statistic/data-access": [
         "libs/web/statistic/data-access/src/index.ts"
       ],
