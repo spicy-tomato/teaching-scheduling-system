@@ -11,10 +11,10 @@
 </div>
 <ng-template #desktopDateSelect>
   <tui-input-date-range
+    (ngModelChange)="onValueChange($event)"
     [formControl]="control"
     [items]="items"
     [min]="min"
-    (ngModelChange)="onValueChange($event)"
   >
     Chọn khoảng thời gian
   </tui-input-date-range>
