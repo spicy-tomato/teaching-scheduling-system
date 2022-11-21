@@ -1,7 +1,7 @@
 name: Prod CD
 
 on:
-  pull_request:
+  push:
     branches: ['master']
 
 env:
