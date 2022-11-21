@@ -47,7 +47,7 @@ jobs:
           touch $PROD_ENV_FILE
           echo "import p from '../../../../package.json';" >> $PROD_ENV_FILE
           echo "export const environment = {" >> $PROD_ENV_FILE
-          echo "  VERSION: p.version," >> $PROD_ENV_FILE
+          echo "  version: p.version," >> $PROD_ENV_FILE
           echo "  production: true," >> $PROD_ENV_FILE
           echo "  recaptcha: {" >> $PROD_ENV_FILE
           echo "    siteKey: '${{ secrets.RECAPTCHA_SITE_KEY }}'," >> $PROD_ENV_FILE

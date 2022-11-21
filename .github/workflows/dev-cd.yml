@@ -3,8 +3,6 @@ name: Dev CD
 on:
   push:
     branches: ['dev']
-  pull_request:
-    branches: ['dev']
 
 env:
   ENV_FILE: ./apps/teaching-scheduling-system/src/environments/environment.ts
@@ -49,7 +47,7 @@ jobs:
           touch $ENV_FILE
           echo "import p from '../../../../package.json';" >> $ENV_FILE
           echo "export const environment = {" >> $ENV_FILE
-          echo "  VERSION: p.version," >> $ENV_FILE
+          echo "  version: p.version," >> $ENV_FILE
           echo "  production: false," >> $ENV_FILE
           echo "  recaptcha: {" >> $ENV_FILE
           echo "    siteKey: '${{ secrets.RECAPTCHA_SITE_KEY }}'," >> $ENV_FILE
