@@ -1,7 +1,7 @@
-name: Dev CD
+name: Check PR
 
 on:
-  push:
+  pull_request:
     branches: ['dev']
 
 env:
@@ -9,7 +9,7 @@ env:
 
 jobs:
   build:
-    name: Build Dev
+    name: Check PR
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -61,14 +61,3 @@ jobs:
 
       - name: Build
         run: npm run build:dev
-
-      - name: Copy dist to VPS
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          port: ${{ secrets.SSH_PORT }}
-          key: ${{ secrets.SSH_KEY }}
-          source: './dist/apps/teaching-scheduling-system/*,!./dist/apps/teaching-scheduling-system/assets/settings'
-          target: '/var/www/html/webdev'
-          strip_components: 3
