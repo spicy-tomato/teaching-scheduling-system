@@ -2,7 +2,7 @@ name: Prod CD
 
 on:
   push:
-    branches: ['master']
+    branches: ['maste']
 
 env:
   PROD_ENV_FILE: ./apps/teaching-scheduling-system/src/environments/environment.prod.ts
