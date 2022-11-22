@@ -9,6 +9,7 @@ env:
 
 jobs:
   build:
+    name: Build Prod
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -46,7 +47,7 @@ jobs:
           touch $PROD_ENV_FILE
           echo "import p from '../../../../package.json';" >> $PROD_ENV_FILE
           echo "export const environment = {" >> $PROD_ENV_FILE
-          echo "  VERSION: p.version," >> $PROD_ENV_FILE
+          echo "  version: p.version," >> $PROD_ENV_FILE
           echo "  production: true," >> $PROD_ENV_FILE
           echo "  recaptcha: {" >> $PROD_ENV_FILE
           echo "    siteKey: '${{ secrets.RECAPTCHA_SITE_KEY }}'," >> $PROD_ENV_FILE
@@ -58,6 +59,12 @@ jobs:
           echo "  SYNCFUSION_LICENSE: '${{ secrets.SYNCFUSION_LICENSE }}'," >> $PROD_ENV_FILE
           echo "};" >> $PROD_ENV_FILE
           cp $PROD_ENV_FILE ./apps/teaching-scheduling-system/src/environments/environment.ts
+
+      - name: Release new version
+        run: |
+          git config --global user.email "snowflower1408@gmail.com"
+          git config --global user.name "Prod workflow"
+          npm run release
 
       - name: Build
         run: npm run build
@@ -73,9 +80,6 @@ jobs:
           target: '/var/www/html/web'
           strip_components: 3
 
-      - name: Release new version
+      - name: Push new version
         run: |
-          git config --global user.email "snowflower1408@gmail.com"
-          git config --global user.name "Prod workflow"
-          npm run release
           git push --follow-tags origin master

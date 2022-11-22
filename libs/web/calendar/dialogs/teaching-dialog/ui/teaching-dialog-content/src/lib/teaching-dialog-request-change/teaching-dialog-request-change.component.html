@@ -13,8 +13,8 @@
   </div>
   <div class="tui-form__row">
     <tui-select
-      [valueContent]="shiftSelectContent"
       (ngModelChange)="changeRequest$.next()"
+      [valueContent]="shiftSelectContent"
       formControlName="shift"
     >
       Chọn ca học:
