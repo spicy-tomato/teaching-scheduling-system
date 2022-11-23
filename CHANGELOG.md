@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.21.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.21.0...v3.21.1) (2022-11-23)
+
+
+### Bug Fixes
+
+* **lib:** `tui-expand` does not work ([4d3a998](https://github.com/annguyen-it/teaching-scheduling-system/commit/4d3a9987b8dab2be90e2ee870278d85f0fc16d79))
+
 ## [3.21.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.20.3...v3.21.0) (2022-11-22)
 
 
