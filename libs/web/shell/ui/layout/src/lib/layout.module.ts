@@ -21,6 +21,7 @@ import {
 import { MainViewModule } from '@teaching-scheduling-system/web/shell/ui/main-view';
 import { NavbarModule } from '@teaching-scheduling-system/web/shell/ui/navbar';
 import { SidebarModule } from '@teaching-scheduling-system/web/shell/ui/sidebar';
+import { VersionModule } from '@teaching-scheduling-system/web/shell/ui/version';
 import { LayoutComponent } from './layout.component';
 
 const NGRX = [
@@ -35,7 +36,14 @@ const NGRX = [
 ];
 
 @NgModule({
-  imports: [CommonModule, NavbarModule, SidebarModule, MainViewModule, ...NGRX],
+  imports: [
+    CommonModule,
+    NavbarModule,
+    SidebarModule,
+    MainViewModule,
+    VersionModule,
+    ...NGRX,
+  ],
   declarations: [LayoutComponent],
   exports: [LayoutComponent],
   providers: [EchoService],

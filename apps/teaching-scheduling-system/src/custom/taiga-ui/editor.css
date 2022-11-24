@@ -1,0 +1,6 @@
+tui-editor h1 {
+  @apply text-[2em] font-bold;
+}
+tui-editor h2 {
+  @apply text-[1.5em] font-bold;
+}

@@ -110,31 +110,18 @@
     >
       Hôm nay
     </button>
+
     <div class="w-px h-full mx-2 bg-[rgba(0,0,0,0.12)]"></div>
-    <button
-      tuiButton
-      [pseudoHover]="view === 'Month' || null"
-      (click)="onClickMonth()"
-      class="uppercase"
-    >
-      Tháng
-    </button>
-    <button
-      tuiButton
-      [pseudoHover]="view === 'Week' || null"
-      (click)="onClickWeek()"
-      class="ml-2 uppercase"
-    >
-      Tuần
-    </button>
 
     <button
+      *ngFor="let viewButton of viewsButton; let i = index"
       tuiButton
-      [pseudoHover]="view === 'Day' || null"
-      (click)="onClickDay()"
-      class="ml-2 uppercase"
+      (click)="onClickViewButton(viewButton.view)"
+      [pseudoHover]="view === viewButton.view || null"
+      [class.ml-2]="i > 0"
+      class="uppercase"
     >
-      Ngày
+      {{ viewButton.label }}
     </button>
   </div>
 </div>

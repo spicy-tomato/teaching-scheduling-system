@@ -49,9 +49,9 @@
     <button
       tuiButton
       *ngrxLet="showLoader$ as showLoader"
+      (click)="submit()"
       [showLoader]="showLoader"
       [disabled]="changeControl.invalid"
-      (click)="submit()"
       size="m"
       class="tui-form__button"
     >

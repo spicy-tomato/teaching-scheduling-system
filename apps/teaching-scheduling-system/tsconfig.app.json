@@ -2,7 +2,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
-    "target": "es2020",
+    "target": "es2017",
     "types": ["gapi", "gapi.auth2", "gapi.calendar"]
   },
   "files": ["src/main.ts", "src/polyfills.ts"],

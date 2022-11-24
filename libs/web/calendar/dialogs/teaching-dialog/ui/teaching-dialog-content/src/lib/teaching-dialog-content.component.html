@@ -42,18 +42,16 @@
   </div>
 
   <tui-expand [expanded]="!requestingChangeSchedule" formGroupName="change">
-    <ng-template>
-      <div></div>
-      <div class="tui-form__row">
-        <tui-text-area [maxLength]="noteMaxLength" formControlName="note">
-          Ghi chú
-        </tui-text-area>
-        <tui-error
-          [error]="[] | tuiFieldError | async"
-          formControlName="note"
-        ></tui-error>
-      </div>
-    </ng-template>
+    <div></div>
+    <div class="tui-form__row">
+      <tui-text-area [maxLength]="noteMaxLength" formControlName="note">
+        Ghi chú
+      </tui-text-area>
+      <tui-error
+        [error]="[] | tuiFieldError | async"
+        formControlName="note"
+      ></tui-error>
+    </div>
   </tui-expand>
 
   <ng-container *ngrxLet="justRequestedSchedule$ as justRequestedSchedule">
@@ -94,43 +92,37 @@
   </ng-container>
 
   <tui-expand [expanded]="requestingChangeSchedule">
-    <ng-template>
-      <h3 class="tui-form__header">
-        {{ isPersonal ? 'Yêu cầu thay đổi lịch giảng' : 'Thay đổi lịch giảng' }}
-      </h3>
+    <h3 class="tui-form__header">
+      {{ isPersonal ? 'Yêu cầu thay đổi lịch giảng' : 'Thay đổi lịch giảng' }}
+    </h3>
 
-      <div *ngIf="isPersonal" class="tui-form__row">
-        <tui-checkbox-labeled
-          [(ngModel)]="requestChangeToUndeterminedDay"
-          [ngModelOptions]="{ standalone: true }"
-          size="l"
-        >
-          Chưa xác định được ngày dạy
-        </tui-checkbox-labeled>
-      </div>
-      <div class="tui-form__row"></div>
-
-      <tui-expand
-        [expanded]="!requestChangeToUndeterminedDay"
-        formGroupName="request"
+    <div *ngIf="isPersonal" class="tui-form__row">
+      <tui-checkbox-labeled
+        [(ngModel)]="requestChangeToUndeterminedDay"
+        [ngModelOptions]="{ standalone: true }"
+        size="l"
       >
-        <ng-template>
-          <tss-teaching-dialog-request-change
-            [isPersonal]="isPersonal"
-            [people]="schedule.People"
-          ></tss-teaching-dialog-request-change>
-        </ng-template>
-      </tui-expand>
+        Chưa xác định được ngày dạy
+      </tui-checkbox-labeled>
+    </div>
+    <div class="tui-form__row"></div>
 
-      <tui-expand
-        [expanded]="requestChangeToUndeterminedDay"
-        formGroupName="requestIntend"
-      >
-        <ng-template>
-          <tss-teaching-dialog-request-change-intend></tss-teaching-dialog-request-change-intend>
-        </ng-template>
-      </tui-expand>
-    </ng-template>
+    <tui-expand
+      [expanded]="!requestChangeToUndeterminedDay"
+      formGroupName="request"
+    >
+      <tss-teaching-dialog-request-change
+        [isPersonal]="isPersonal"
+        [people]="schedule.People"
+      ></tss-teaching-dialog-request-change>
+    </tui-expand>
+
+    <tui-expand
+      [expanded]="requestChangeToUndeterminedDay"
+      formGroupName="requestIntend"
+    >
+      <tss-teaching-dialog-request-change-intend></tss-teaching-dialog-request-change-intend>
+    </tui-expand>
   </tui-expand>
 
   <div
@@ -151,8 +143,8 @@
 
       <!-- Right buttons -->
       <tss-teaching-dialog-buttons-right
-        [idSchedule]="schedule.Id"
         (cancel)="cancel.emit()"
+        [idSchedule]="schedule.Id"
         class="grow -mt-6 md:mt-0"
       ></tss-teaching-dialog-buttons-right>
     </ng-container>
