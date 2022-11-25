@@ -26,8 +26,7 @@ export class ShellComponent {
   constructor(private readonly googleService: GoogleService) {}
 
   // PUBLIC METHODS
-  public connectGoogle(): void {
-    this.googleService.auth();
+  connectGoogle(): void {
   }
 
   public signOutGoogle(): void {

@@ -5,6 +5,6 @@ export class IconConstant {
     '<i class="mdi mdi-account-outline" style="font-size: 29px"></i>';
   static readonly historyLarge =
     '<i class="mdi mdi-history" style="font-size: 29px"></i>';
-  public static readonly googleLarge =
+  static readonly googleLarge =
     '<i class="mdi mdi-google" style="font-size: 23px"></i>';
 }
