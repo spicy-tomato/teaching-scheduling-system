@@ -3,8 +3,5 @@
   "baseUrl": "",
   "currentTerm": "",
   "maintenance": false,
-  "maintenanceDate": "",
-  "google": {
-    "clientId": ""
-  }
+  "maintenanceDate": ""
 }

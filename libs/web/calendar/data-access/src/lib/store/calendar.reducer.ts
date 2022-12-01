@@ -31,6 +31,10 @@ const initialState: CalendarState = {
       ranges: [],
     },
   },
+  googleCalendar: {
+    events: [],
+    ranges: [],
+  },
   view: 'Month',
   selectedDate: new Date(),
   month: TuiMonth.currentLocal(),
@@ -165,6 +169,13 @@ export const calendarReducer = createReducer(
           ),
         },
       },
+      status: 'successful',
+    };
+  }),
+  on(ApiAction.loadGoogleCalendarSuccessful, (state, { events, ranges }) => {
+    return {
+      ...state,
+      googleCalendar: { events, ranges },
       status: 'successful',
     };
   })

@@ -1,110 +1,100 @@
-/// <reference types="@types/google.accounts" />
-/// <reference types="@types/gapi" />
-/// <reference types="@types/gapi.client.calendar" />
-
+import {
+  HttpClient,
+  HttpParameterCodec,
+  HttpParams,
+} from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
 import {
   AppConfig,
   APP_CONFIG,
 } from '@teaching-scheduling-system/web/config/data-access';
-import { BehaviorSubject, combineLatest, map, tap } from 'rxjs';
+import {
+  GoogleCalendar,
+  GoogleCalendarEventResponse,
+  ResponseModel,
+} from '@teaching-scheduling-system/web/shared/data-access/models';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GoogleService {
   // PRIVATE PROPERTIES
-  private gapi$ = new BehaviorSubject<boolean>(false);
-  private gsi$ = new BehaviorSubject<boolean>(false);
-  public load$ = combineLatest([this.gsi$]).pipe(
-    map((x) => x.every((api) => api))
-  );
-  private codeClient!: google.accounts.oauth2.CodeClient;
-
-  public loggedIn$ = new BehaviorSubject<Nullable<boolean>>(false);
-  public data$ = new BehaviorSubject<gapi.client.calendar.CalendarListEntry[]>(
-    []
-  );
+  private readonly url: string;
 
   // CONSTRUCTOR
-  constructor(@Inject(APP_CONFIG) private readonly config: AppConfig) {
-    this.load$.pipe(tap((x) => this.loggedIn$.next(x || null)));
+  constructor(
+    private readonly http: HttpClient,
+    @Inject(APP_CONFIG) config: AppConfig
+  ) {
+    this.url = config.baseUrl;
   }
 
   // PUBLIC METHODS
-  public load(): void {
-    this.loadGapi();
-    this.loadGsi();
+  authenticate(uuid: string): Observable<ResponseModel<{ authUrl: string }>> {
+    return this.http.get<ResponseModel<{ authUrl: string }>>(
+      this.url + `v1/accounts/${uuid}/google-apis/calendar/authenticate`
+    );
   }
 
-  public auth(): void {
-    this.loggedIn$.next(null);
-    if (gapi.client.getToken() === null) {
-      // Prompt the user to select a Google Account and ask for consent to share their data
-      // when establishing a new session.
-      // this.tokenClient.requestAccessToken({ prompt: 'consent' });
-      this.codeClient.requestCode();
-    } else {
-      // Skip display of account chooser and consent dialog for an existing session.
-      // this.tokenClient.requestAccessToken({ prompt: '' });
-    }
+  authorize(uuid: string, auth_code: string): Observable<void> {
+    return this.http.post<void>(
+      this.url + `v1/accounts/${uuid}/google-apis/calendar/authorize`,
+      { auth_code }
+    );
   }
 
-  signOut(): void {
-    // void gapi.auth2.getAuthInstance().signOut();
-    this.loggedIn$.next(false);
+  revoke(uuid: string): Observable<void> {
+    return this.http.post<void>(
+      this.url + `v1/accounts/${uuid}/google-apis/calendar/revoke`,
+      {}
+    );
   }
 
-  // PRIVATE METHODS
-  private loadGapi(): void {
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = 'https://apis.google.com/js/api.js';
-    script.onload = () => {
-      this.gapi$.next(true);
-      gapi.load('client', () => this.initClient());
-    };
-
-    script.onerror = () => this.gapi$.next(false);
-    document.getElementsByTagName('head')[0].appendChild(script);
+  //* To display on sidebar
+  getCalendarList(uuid: string): Observable<ResponseModel<GoogleCalendar[]>> {
+    return this.http.get<ResponseModel<GoogleCalendar[]>>(
+      this.url + `v1/accounts/${uuid}/google-apis/calendar/calendars`
+    );
   }
 
-  private loadGsi(): void {
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = 'https://accounts.google.com/gsi/client';
-    script.onload = () => {
-      this.gsi$.next(true);
-      const config: google.accounts.oauth2.CodeClientConfig = {
-        client_id: this.config.google.clientId,
-        scope: 'https://www.googleapis.com/auth/calendar',
-        callback: async (response: unknown) => {
-          console.log(response);
-          this.loggedIn$.next(true);
-          await this.getCalendarList();
-        },
-      };
-
-      this.codeClient = google.accounts.oauth2.initCodeClient(config);
-    };
-
-    script.onerror = () => this.gsi$.next(false);
-    document.getElementsByTagName('head')[0].appendChild(script);
-  }
-
-  private async initClient(): Promise<void> {
-    await gapi.client.init({
-      apiKey: 'AIzaSyBmz6CYk83uRm_jWArxF8EyMq9agXv_PgU',
-      discoveryDocs: [
-        'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest',
-      ],
-      scope: 'https://www.googleapis.com/auth/calendar',
+  //* To display on page Calendar
+  getCalendarEvents(
+    uuid: string,
+    timeMin: string,
+    timeMax: string
+  ): Observable<ResponseModel<GoogleCalendarEventResponse[]>> {
+    const params = new HttpParams({
+      encoder: new CustomHttpParamEncoder(),
+      fromObject: {
+        timeMin,
+        timeMax,
+        singleEvents: 1,
+        timeZone: '+07:00',
+      },
     });
+    return this.http.get<ResponseModel<GoogleCalendarEventResponse[]>>(
+      this.url + `v1/accounts/${uuid}/google-apis/calendar/calendars/events`,
+      { params }
+    );
+  }
+}
+
+// TODO: Remove
+class CustomHttpParamEncoder implements HttpParameterCodec {
+  encodeKey(key: string): string {
+    return encodeURIComponent(key);
   }
 
-  private async getCalendarList(): Promise<void> {
-    // const list = await gapi.client.calendar.calendarList.list();
-    // this.data$.next(list.result.items || []);
+  encodeValue(value: string): string {
+    return encodeURIComponent(value);
+  }
+
+  decodeKey(key: string): string {
+    return decodeURIComponent(key);
+  }
+
+  decodeValue(value: string): string {
+    return decodeURIComponent(value);
   }
 }

@@ -41,6 +41,7 @@ import {
   calendarPrev,
   calendarReset,
   calendarSelectFilteredSchedule,
+  calendarSelectGoogleCalendarEvents,
   calendarSelectSelectedDate,
   calendarSelectStatus,
   calendarSelectView,
@@ -51,6 +52,7 @@ import { TeachingDialogComponent } from '@teaching-scheduling-system/web/calenda
 import {
   EjsScheduleModel,
   FixedScheduleModel,
+  GoogleCalendarEvent,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import {
   SidebarState,
@@ -238,12 +240,42 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store
       .select(calendarSelectFilteredSchedule)
       .pipe(
-        filter((s) => s.length > 0),
         map((schedules) => schedules.map((x) => x.toEjsSchedule())),
         tap((dataSource) => {
           this.eventSettings$.next({
             ...this.staticSettings,
-            dataSource,
+            // Only update schedule, not Google events
+            dataSource: [
+              ...(
+                (this.eventSettings$.value.dataSource ||
+                  []) as EjsScheduleModel[]
+              ).filter((e) => e.Type === 'googleEvent'),
+              ...dataSource,
+            ],
+          });
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+    this.store
+      .select(calendarSelectGoogleCalendarEvents)
+      .pipe(
+        map((events) =>
+          events.map((x) => GoogleCalendarEvent.parse(x).toEjsSchedule())
+        ),
+        tap((dataSource) => {
+          // TODO: Bug
+          // console.log(dataSource);
+          this.eventSettings$.next({
+            ...this.staticSettings,
+            // Only update Google events
+            dataSource: [
+              ...(
+                (this.eventSettings$.value.dataSource ||
+                  []) as EjsScheduleModel[]
+              ).filter((e) => e.Type !== 'googleEvent'),
+              ...dataSource,
+            ],
           });
         }),
         takeUntil(this.destroy$)
@@ -272,9 +304,7 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
       .select(sidebar_selectEvent)
       .pipe(
         ObservableHelper.filterNullish(),
-        filter(
-          (e) => e.name === 'calendar.exam' || e.name === 'calendar.study'
-        ),
+        filter((e) => e.name !== 'calendar.create'),
         tap((e) => {
           // https://ej2.syncfusion.com/angular/documentation/schedule/appointments/#appointment-filtering
           this.calendars[e.name] = e.value as boolean;
@@ -285,6 +315,7 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
               //    key         : calendar.study
               // => compareValue: study
               const compareValue = key.substring(9);
+
               if (predicate) {
                 predicate = predicate.or('Type', 'equal', compareValue);
               } else {

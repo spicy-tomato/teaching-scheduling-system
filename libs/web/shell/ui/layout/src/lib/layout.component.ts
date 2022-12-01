@@ -1,6 +1,5 @@
-import { ChangeDetectionStrategy, Component, NgZone } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { GoogleService } from '@teaching-scheduling-system/web/shared/data-access/services';
 import {
   AppShellState,
   keepLogin,
@@ -16,11 +15,7 @@ import { take, tap } from 'rxjs';
 })
 export class LayoutComponent {
   // CONSTRUCTOR
-  constructor(
-    ngZone: NgZone,
-    googleService: GoogleService,
-    store: Store<AppShellState>
-  ) {
+  constructor(store: Store<AppShellState>) {
     store
       .select(selectStatus)
       .pipe(
@@ -33,9 +28,5 @@ export class LayoutComponent {
         take(1)
       )
       .subscribe();
-
-    ngZone.run(() => {
-      googleService.load();
-    });
   }
 }

@@ -20,7 +20,7 @@ import { Observable } from 'rxjs';
 })
 export class TeachingDialogButtonsRightComponent implements OnInit {
   // INPUT
-  @Input() idSchedule!: number;
+  @Input() idSchedule!: number | string;
 
   // OUTPUT
   @Output() cancel = new EventEmitter();
@@ -43,7 +43,7 @@ export class TeachingDialogButtonsRightComponent implements OnInit {
   constructor(
     private readonly cdr: ChangeDetectorRef,
     private readonly controlContainer: ControlContainer,
-    private readonly store: TeachingDialogStore,
+    private readonly store: TeachingDialogStore
   ) {
     this.changeStatus$ = store.status$('change');
     this.updateStatus$ = store.status$('update');
@@ -62,10 +62,13 @@ export class TeachingDialogButtonsRightComponent implements OnInit {
   }
 
   onUpdate(): void {
+    if (typeof this.idSchedule !== 'number') {
+      return;
+    }
+
     const payload = {
       note: this.noteControl.value as string,
     };
-
     this.store.update({ id: this.idSchedule, payload });
   }
 
