@@ -101,12 +101,12 @@ export class UserInfoComponent {
   private triggerLoadUserInformation(): void {
     this.teacher$
       .pipe(
-        tap((teacher) => {
+        tap(({ name, department, faculty, phone }) => {
           this.form.patchValue({
-            name: teacher.name,
-            department: teacher.department?.name,
-            faculty: teacher.faculty?.name,
-            phone: teacher.phone || '',
+            name,
+            department: department?.name,
+            faculty: faculty?.name,
+            phone: phone || '',
           });
         }),
         take(1)

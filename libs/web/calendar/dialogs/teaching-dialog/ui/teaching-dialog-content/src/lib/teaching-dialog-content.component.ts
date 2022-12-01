@@ -157,8 +157,8 @@ export class TeachingDialogContentComponent implements OnInit {
     this.handleCancelRequest();
 
     this.requestedChangeSchedule =
-      this.schedule.FixedSchedules?.find((x) =>
-        ChangeStatusHelper.isPending(x.status)
+      this.schedule.FixedSchedules?.find(({ status }) =>
+        ChangeStatusHelper.isPending(status)
       ) || null;
 
     this.changeControl.controls['note'].valueChanges

@@ -239,6 +239,7 @@ export class AssignFilterComponent implements OnInit {
       .pipe(
         tap((currentTerm) => {
           this.schoolYear.setValue(
+            // TODO
             currentTerm.substr(0, currentTerm.length - 2)
           );
           this.termInYear.setValue(currentTerm.slice(-1));
@@ -278,8 +279,8 @@ export class AssignFilterComponent implements OnInit {
     this.myDepartment$
       .pipe(
         ObservableHelper.filterNullish(),
-        tap((dep) => {
-          this.department.setValue(dep.id);
+        tap(({ id }) => {
+          this.department.setValue(id);
         })
       )
       .subscribe();

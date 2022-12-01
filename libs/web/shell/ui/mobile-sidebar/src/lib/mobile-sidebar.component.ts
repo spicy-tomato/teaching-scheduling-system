@@ -71,7 +71,7 @@ export class MobileSidebarComponent
   protected handleLoadGoogleCalendarList(): void {
     this.googleCalendarList$
       .pipe(
-        filter((list) => list.length > 0),
+        filter(({ length }) => length > 0),
         tap((list) => {
           const newList = [...this.items];
           // TODO: Display calendars
@@ -119,22 +119,27 @@ export class MobileSidebarComponent
           console.log(dataState);
 
           this.form = this.fb.group(
-            this.items.reduce<Record<string, unknown>>((acc, curr) => {
-              if (curr.subCheckboxes && curr.controlName) {
-                acc[curr.controlName] = this.fb.group(
-                  curr.subCheckboxes.reduce<Record<string, unknown>>(
-                    (accControl, currControl) => {
-                      const field =
-                        `${curr.controlName}.${currControl.controlName}` as SidebarField;
-                      accControl[currControl.controlName] = [dataState[field]];
-                      return accControl;
-                    },
-                    {}
-                  )
-                );
-              }
-              return acc;
-            }, {})
+            this.items.reduce<Record<string, unknown>>(
+              (acc, { subCheckboxes, controlName }) => {
+                if (subCheckboxes && controlName) {
+                  acc[controlName] = this.fb.group(
+                    subCheckboxes.reduce<Record<string, unknown>>(
+                      (accControl, currControl) => {
+                        const field =
+                          `${controlName}.${currControl.controlName}` as SidebarField;
+                        accControl[currControl.controlName] = [
+                          dataState[field],
+                        ];
+                        return accControl;
+                      },
+                      {}
+                    )
+                  );
+                }
+                return acc;
+              },
+              {}
+            )
           );
         })
       )

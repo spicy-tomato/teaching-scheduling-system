@@ -85,7 +85,7 @@ export class SidebarEffects {
   private handleLoadGoogleCalendarList(): void {
     this.teacher$
       .pipe(
-        filter((t) => t.settings.googleCalendar),
+        filter(({ settings }) => settings.googleCalendar),
         tap(({ uuidAccount }) => {
           this.store.dispatch(
             PageAction.sidebar_loadGoogleCalendarList({ uuidAccount })

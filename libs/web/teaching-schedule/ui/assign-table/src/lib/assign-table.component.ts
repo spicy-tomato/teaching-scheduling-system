@@ -56,7 +56,7 @@ export class AssignTableComponent implements OnChanges {
     });
 
     this.store.changeSelected(
-      this.data.map((x) => x.id),
+      this.data.map(({ id }) => id),
       checked
     );
   }
@@ -80,12 +80,12 @@ export class AssignTableComponent implements OnChanges {
   onModelChange(id: string, checked: boolean): void {
     if (
       this._selectAll &&
-      this.checkboxes.controls.some((checkbox) => !checkbox.value)
+      this.checkboxes.controls.some(({ value }) => !value)
     ) {
       this._selectAll = false;
     } else if (
       !this._selectAll &&
-      this.checkboxes.controls.every((checkbox) => checkbox.value)
+      this.checkboxes.controls.every(({ value }) => value)
     ) {
       this._selectAll = true;
     }

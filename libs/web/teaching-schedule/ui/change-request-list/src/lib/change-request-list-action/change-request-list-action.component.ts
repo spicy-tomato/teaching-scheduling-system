@@ -165,11 +165,11 @@ export class ChangeRequestListActionComponent implements OnInit {
       .getTeacherInfo(this.schedule.teacher.id)
       .pipe(
         ObservableHelper.filterNullish(),
-        tap((response) => {
+        tap(({ data }) => {
           const document =
             this.exportService.exportChangeScheduleRequestForRoomManager(
               this.schedule,
-              response.data
+              data
             );
 
           const commonName = 'Giay-dang-ky-phong-hoc';

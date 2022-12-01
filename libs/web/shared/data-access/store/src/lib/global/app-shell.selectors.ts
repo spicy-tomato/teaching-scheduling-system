@@ -63,7 +63,7 @@ export const selectAcademicData = createSelector(
 
 export const selectTrainingTypes = createSelector(
   selectAcademicData,
-  (academicData) => academicData.map((type, i) => ({ id: i, name: type.name }))
+  (academicData) => academicData.map(({ name }, i) => ({ name, id: i }))
 );
 
 export const selectTeachersInDepartment = createSelector(

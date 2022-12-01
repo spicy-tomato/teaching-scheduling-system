@@ -57,7 +57,7 @@ export class PermissionGuard
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
     return this.teacher$.pipe(
       ObservableHelper.filterNullish(),
-      filter((x) => x.permissions.length > 0),
+      filter(({ permissions }) => permissions.length > 0),
       map(({ permissions, idRole }) => {
         const acceptRoles = route.data['roles'] as number[] | undefined;
         const acceptPermissions = route.data['permissions'] as

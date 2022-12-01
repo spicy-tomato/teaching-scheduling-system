@@ -27,10 +27,10 @@ export const sidebar_selectGoogleCalendarList = createSelector(
   (state) => state.googleCalendarList
 );
 
-export const sidebar_listen = <T extends SidebarEventName>(name: T) =>
+export const sidebar_listen = <T extends SidebarEventName>(eventName: T) =>
   pipe(
     select(sidebar_selectEvent),
     ObservableHelper.filterNullish(),
-    filter((event) => event.name === name),
-    map((x) => x.value as ExtractValue<T>)
+    filter(({ name }) => name === eventName),
+    map(({ value }) => value as ExtractValue<T>)
   );

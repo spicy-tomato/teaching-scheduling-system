@@ -1,5 +1,5 @@
 export class ArrayHelper {
-  // SEARCH
+  //* SEARCH
   /**
    * Get the last item of the array.
    * @param array
@@ -57,7 +57,7 @@ export class ArrayHelper {
     return source.every((x) => arr.includes(x));
   }
 
-  // TRANSFORM
+  //* TRANSFORM
   /**
    * Divide an array into 2 parts, base on a callback condition function.
    * @param array
@@ -109,7 +109,7 @@ export class ArrayHelper {
     return result;
   }
 
-  // COMPARE
+  //* COMPARE
   /**
    * Compare two arrays, ignore position and number of appearance of elements.
    * @param a
