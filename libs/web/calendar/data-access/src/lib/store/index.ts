@@ -23,5 +23,6 @@ export {
   calendarSelectStatus,
   calendarSelectTeachers,
   calendarSelectView,
+  calendarSelectGoogleCalendarEvents,
 } from './calendar.selectors';
 export { CalendarState } from './calendar.state';

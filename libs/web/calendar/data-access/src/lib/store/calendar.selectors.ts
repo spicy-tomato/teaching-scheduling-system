@@ -161,21 +161,37 @@ export const calendarSelectFilteredSchedule = createSelector(
   calendarSelectScheduleWithType,
   calendarSelectFilter,
   (schedules, filter) => {
-    const result =
+    // Filter by teacher
+    let result =
+      // If select personal schedule, or select department schedule but without filter by teacher
       !filter.showDepartmentSchedule || filter.teacherIds.length === 0
-        ? schedules
-        : schedules.filter((schedule) =>
+        ? // then display all
+          schedules
+        : // else filter to get the schedules that has teacherID equals filtering teacherID
+          schedules.filter((schedule) =>
             (schedule.people as SimpleModel[])?.find((person) =>
               filter.teacherIds.find((id) => person.id === id)
             )
           );
-    return filter.modules.length === 0
-      ? result
-      : result.filter(
-          (schedule) =>
-            schedule instanceof ExamScheduleModel ||
-            (schedule instanceof StudyScheduleModel &&
-              filter.modules.includes(schedule.moduleName))
-        );
+
+    // Filter by module
+    result =
+      filter.modules.length === 0
+        ? result
+        : // filter to get all Exam, and schedule that has moduleName equals filtering moduleName
+          result.filter(
+            (schedule) =>
+              schedule instanceof ExamScheduleModel ||
+              (schedule instanceof StudyScheduleModel &&
+                filter.modules.includes(schedule.moduleName))
+          );
+    return result;
   }
+);
+
+export const calendarSelectGoogleCalendarEvents = createSelector(
+  calendarSelector,
+  calendarSelectFilter,
+  ({ googleCalendar }, { showDepartmentSchedule }) =>
+    showDepartmentSchedule ? [] : googleCalendar.events
 );

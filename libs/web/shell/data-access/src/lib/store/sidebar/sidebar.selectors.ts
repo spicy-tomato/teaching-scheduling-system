@@ -17,6 +17,16 @@ export const sidebar_selectEvent = createSelector(
   (state) => state.event
 );
 
+export const sidebar_selectGoogleCalendarStatus = createSelector(
+  sidebarSelector,
+  (state) => state.googleCalendarStatus
+);
+
+export const sidebar_selectGoogleCalendarList = createSelector(
+  sidebarSelector,
+  (state) => state.googleCalendarList
+);
+
 export const sidebar_listen = <T extends SidebarEventName>(name: T) =>
   pipe(
     select(sidebar_selectEvent),

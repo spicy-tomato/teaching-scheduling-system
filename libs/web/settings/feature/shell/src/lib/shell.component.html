@@ -2,4 +2,33 @@
   <a tuiAction icon="tuiIconLockLarge" routerLink="change-password">
     Đổi mật khẩu
   </a>
+  <ng-container *ngrxLet="revokeStatus$ as revokeStatus">
+    <tui-loader
+      *ngrxLet="authStatus$ as authStatus"
+      [showLoader]="authStatus === 'loading' || revokeStatus === 'loading'"
+      [overlay]="true"
+    >
+      <div *ngrxLet="settings$ as settings" class="relative flex">
+        <button
+          *ngIf="settings.googleCalendar; else connect"
+          tuiAction
+          (click)="revokeGoogle()"
+          [icon]="IconConstant.googleLarge"
+          class="flex-grow"
+        >
+          Hủy liên kết Google
+        </button>
+        <ng-template #connect>
+          <button
+            tuiAction
+            (click)="connectGoogle()"
+            [icon]="IconConstant.googleLarge"
+            class="flex-grow"
+          >
+            Kết nối tới Google
+          </button>
+        </ng-template>
+      </div>
+    </tui-loader>
+  </ng-container>
 </div>

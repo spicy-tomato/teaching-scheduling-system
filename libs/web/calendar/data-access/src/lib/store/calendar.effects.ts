@@ -11,12 +11,14 @@ import {
   PermissionHelper,
 } from '@teaching-scheduling-system/core/utils/helpers';
 import {
+  GoogleCalendarEvent,
   SearchSchedule,
   SimpleModel,
   Teacher,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import {
   ExamService,
+  GoogleService,
   ScheduleService,
 } from '@teaching-scheduling-system/web/shared/data-access/services';
 import {
@@ -55,6 +57,7 @@ export class CalendarEffects {
   private readonly loadPersonalScheduleSubject$ = new Subject<Date>();
   private readonly loadDepartmentExamSubject$ = new Subject<Date>();
   private readonly loadDepartmentScheduleSubject$ = new Subject<Date>();
+  private readonly loadGoogleCalendarEventsSubject$ = new Subject<Date>();
 
   // EFFECTS
   loadPersonalSchedule$ = createEffect(
@@ -64,6 +67,7 @@ export class CalendarEffects {
         tap(({ date }) => {
           this.loadPersonalScheduleSubject$.next(date);
           this.loadPersonalExamSubject$.next(date);
+          this.loadGoogleCalendarEventsSubject$.next(date);
         })
       );
     },
@@ -145,6 +149,7 @@ export class CalendarEffects {
     private readonly actions$: Actions,
     private readonly scheduleService: ScheduleService,
     private readonly examService: ExamService,
+    private readonly googleService: GoogleService,
     private readonly store: Store<fromSchedule.CalendarState>,
     appShellStore: Store<AppShellState>
   ) {
@@ -156,6 +161,7 @@ export class CalendarEffects {
     this.handleLoadPersonalExam();
     this.handleLoadDepartmentSchedule();
     this.handleLoadDepartmentExam();
+    this.handleLoadGoogleCalendar();
   }
 
   // PRIVATE METHODS
@@ -262,6 +268,43 @@ export class CalendarEffects {
               }),
               catchError(() =>
                 of(this.store.dispatch(ApiAction.loadDepartmentExamFailure()))
+              )
+            );
+        })
+      )
+      .subscribe();
+  }
+
+  private handleLoadGoogleCalendar(): void {
+    combineLatest([
+      this.loadPersonalExamSubject$,
+      this.teacher$.pipe(
+        filter((t) => t.settings.googleCalendar),
+        map((x) => x.uuidAccount)
+      ),
+    ])
+      .pipe(
+        this.commonPersonalObservable(),
+        mergeMap(({ fetch, ranges, teacherId }) => {
+          let [timeMin, timeMax] = fetch.date.split(',');
+          timeMin += 'T00:00:00+07:00';
+          timeMax += 'T23:59:59+07:00';
+          return this.googleService
+            .getCalendarEvents(teacherId, timeMin, timeMax)
+            .pipe(
+              tap(({ data }) => {
+                this.store.dispatch(
+                  ApiAction.loadGoogleCalendarSuccessful({
+                    events: data.reduce((acc, curr) => {
+                      acc.push(...curr.events);
+                      return acc;
+                    }, <GoogleCalendarEvent[]>[]),
+                    ranges,
+                  })
+                );
+              }),
+              catchError(() =>
+                of(this.store.dispatch(ApiAction.loadGoogleCalendarFailure()))
               )
             );
         })

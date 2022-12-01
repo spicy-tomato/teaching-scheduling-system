@@ -1,14 +1,17 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { tuiButtonOptionsProvider, TuiDialogContext } from '@taiga-ui/core';
+import { IconConstant } from '@teaching-scheduling-system/core/data-access/constants';
 import { ChangeStatusHelper } from '@teaching-scheduling-system/core/utils/helpers';
+import {
+  TeachingDialogChange,
+  TeachingDialogStore,
+} from '@teaching-scheduling-system/web/calendar/dialogs/teaching-dialog/data-access';
 import {
   ChangedScheduleModel,
   EjsScheduleModel,
   FixedScheduleModel,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { TeachingDialogChange, TeachingDialogStore } from '@teaching-scheduling-system/web/calendar/dialogs/teaching-dialog/data-access';
-import { IconConstant } from '@teaching-scheduling-system/core/data-access/constants';
 
 @Component({
   templateUrl: './teaching-dialog.component.html',
@@ -29,7 +32,11 @@ export class TeachingDialogComponent {
   openScheduleList = false;
   changedSchedule: ChangedScheduleModel =
     this.context.data.schedules.reduce<ChangedScheduleModel>((acc, curr) => {
-      acc[curr.Id] = null;
+      // If event is `study` or `exam`
+      // TODO: Test for exam
+      if (typeof curr.Id === 'number') {
+        acc[curr.Id] = null;
+      }
       return acc;
     }, {});
   selectedSchedule!: EjsScheduleModel;
@@ -76,7 +83,7 @@ export class TeachingDialogComponent {
     }
   }
 
-  onChangeSelectedSchedule(scheduleId: number): void {
+  onChangeSelectedSchedule(scheduleId: number | string): void {
     const newSelectSchedule = this.schedules.find((s) => s.Id === scheduleId);
     if (newSelectSchedule) {
       this.selectedSchedule = newSelectSchedule;

@@ -33,6 +33,16 @@ export const appShellReducer = createReducer(
     ...state,
     showLoader,
   })),
+  on(PageAction.setConnectToGoogle, (state, { connect }) => ({
+    ...state,
+    teacher: {
+      ...state.teacher!,
+      settings: {
+        ...state.teacher!.settings,
+        googleCalendar: connect
+      }
+    }
+  })),
   on(ApiAction.updateBreadcrumbs, (state, { breadcrumbs }) => ({
     ...state,
     breadcrumbs,

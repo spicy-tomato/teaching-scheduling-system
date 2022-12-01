@@ -53,7 +53,7 @@ export class SidebarComponent extends SidebarAbstract implements AfterViewInit {
       )
       .subscribe();
 
-    this.sidebarStore.dispatch(
+    this.store.dispatch(
       sidebar_emit({
         event: {
           name: 'calendar.create',
@@ -90,5 +90,38 @@ export class SidebarComponent extends SidebarAbstract implements AfterViewInit {
         return acc;
       }, {})
     );
+  }
+
+  protected handleLoadGoogleCalendarList(): void {
+    this.googleCalendarList$
+      .pipe(
+        filter(list => list.length > 0),
+        tap((list) => {
+          const newList = [...this.items];
+          // TODO: Display calendars
+          // const googleCalendarItems = list.map(({ id, summary }) => ({
+          //   controlName: id,
+          //   name: summary,
+          // }));
+          const calendarControl = newList.find(
+            (item) => item.controlName === 'calendar'
+          );
+          if (calendarControl && calendarControl.subCheckboxes) {
+            calendarControl.subCheckboxes =
+              calendarControl.subCheckboxes.filter(
+                // TODO: Refactor
+                (s) => s.controlName === 'study' || s.controlName === 'exam'
+              );
+            // TODO: Display calendars
+            // calendarControl.subCheckboxes.push(...googleCalendarItems);
+            calendarControl.subCheckboxes.push({
+              controlName: 'googleEvent',
+              name: 'Lịch Google',
+            });
+          }
+          this.initForm();
+        })
+      )
+      .subscribe();
   }
 }

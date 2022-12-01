@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { Store } from '@ngrx/store';
 import {
+  EjsScheduleModelType,
   GenericState,
   Note,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
@@ -30,7 +31,7 @@ export class QuickInfoContentEventStore extends ComponentStore<QuickInfoContentS
   // EFFECTS
   readonly updateNote = this.effect<{
     id: number;
-    type: 'exam' | 'study';
+    type: EjsScheduleModelType;
     payload: Note;
   }>((params$) =>
     params$.pipe(

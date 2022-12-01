@@ -3,6 +3,7 @@ import { TuiDayRange, TuiMonth } from '@taiga-ui/cdk';
 import {
   StudyScheduleModel,
   ExamScheduleModel,
+  GoogleCalendarEvent,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 
 export const loadPersonalStudySuccessful = createAction(
@@ -39,6 +40,15 @@ export const loadDepartmentExamSuccessful = createAction(
 
 export const loadDepartmentExamFailure = createAction(
   '[Calendar API] Load department exam Failed'
+);
+
+export const loadGoogleCalendarSuccessful = createAction(
+  '[Calendar API] Load Google calendar Successfully',
+  props<{ events: GoogleCalendarEvent[]; ranges: TuiDayRange[] }>()
+);
+
+export const loadGoogleCalendarFailure = createAction(
+  '[Calendar API] Load Google calendar Failed'
 );
 
 export const prev = createAction(

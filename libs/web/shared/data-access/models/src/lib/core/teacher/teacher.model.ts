@@ -15,5 +15,8 @@ export class Teacher {
   readonly notificationDataVersion!: number;
   readonly isFemale!: boolean;
   readonly permissions!: number[];
-  readonly tags!: string[]
+  readonly tags!: string[];
+  readonly settings!: {
+    googleCalendar: boolean;
+  };
 }

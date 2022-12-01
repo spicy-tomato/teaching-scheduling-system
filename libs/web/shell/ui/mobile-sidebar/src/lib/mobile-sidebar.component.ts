@@ -2,23 +2,15 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
+  OnInit,
 } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { TuiDestroyService } from '@taiga-ui/cdk';
-import {
-  AppShellState,
-  logout,
-} from '@teaching-scheduling-system/web/shared/data-access/store';
+import { logout } from '@teaching-scheduling-system/web/shared/data-access/store';
 import {
   SidebarField,
-  SidebarState,
   sidebar_selectDataState,
 } from '@teaching-scheduling-system/web/shell/data-access';
 import { SidebarAbstract } from '@teaching-scheduling-system/web/shell/ui/sidebar';
-import { delay, take, tap } from 'rxjs';
+import { delay, filter, Subject, take, tap, withLatestFrom } from 'rxjs';
 import { MobileSidebarConstant } from './mobile-sidebar.constant';
 
 @Component({
@@ -29,24 +21,21 @@ import { MobileSidebarConstant } from './mobile-sidebar.constant';
 })
 export class MobileSidebarComponent
   extends SidebarAbstract
-  implements AfterViewInit
+  implements OnInit, AfterViewInit
 {
   // PUBLIC PROPERTIES
   override readonly items = MobileSidebarConstant.items;
 
-  // CONSTRUCTOR
-  constructor(
-    router: Router,
-    fb: FormBuilder,
-    destroy$: TuiDestroyService,
-    elementRef: ElementRef,
-    sidebarStore: Store<SidebarState>,
-    private readonly appShellStore: Store<AppShellState>
-  ) {
-    super(router, fb, destroy$, elementRef, sidebarStore, appShellStore);
-  }
+  // PRIVATE PROPERTIES
+  private readonly initFormSubject$ = new Subject<void>();
+  private readonly dataState$ = this.store.select(sidebar_selectDataState);
 
   // LIFECYCLE
+  override ngOnInit(): void {
+    this.handleInitForm();
+    super.ngOnInit();
+  }
+
   ngAfterViewInit(): void {
     this.breadcrumbs$
       .pipe(
@@ -76,6 +65,44 @@ export class MobileSidebarComponent
 
   // PROTECTED METHODS
   protected initForm(): void {
+    this.initFormSubject$.next();
+  }
+
+  protected handleLoadGoogleCalendarList(): void {
+    this.googleCalendarList$
+      .pipe(
+        filter((list) => list.length > 0),
+        tap((list) => {
+          const newList = [...this.items];
+          // TODO: Display calendars
+          // const googleCalendarItems = list.map(({ id, summary }) => ({
+          //   controlName: id,
+          //   name: summary,
+          // }));
+          const calendarControl = newList.find(
+            (item) => item.controlName === 'calendar'
+          );
+          if (calendarControl && calendarControl.subCheckboxes) {
+            calendarControl.subCheckboxes =
+              calendarControl.subCheckboxes.filter(
+                // TODO: Refactor
+                (s) => s.controlName === 'study' || s.controlName === 'exam'
+              );
+            // TODO: Display calendars
+            // calendarControl.subCheckboxes.push(...googleCalendarItems);
+            calendarControl.subCheckboxes.push({
+              controlName: 'googleEvent',
+              name: 'Lịch Google',
+            });
+          }
+          this.initForm();
+        })
+      )
+      .subscribe();
+  }
+
+  // PRIVATE METHODS
+  private handleInitForm(): void {
     /**
      * form value:
      *  {
@@ -85,10 +112,12 @@ export class MobileSidebarComponent
      *    }
      *  }
      */
-    this.sidebarStore
-      .select(sidebar_selectDataState)
+    this.initFormSubject$
       .pipe(
-        tap((dataState) => {
+        withLatestFrom(this.dataState$),
+        tap(({ 1: dataState }) => {
+          console.log(dataState);
+
           this.form = this.fb.group(
             this.items.reduce<Record<string, unknown>>((acc, curr) => {
               if (curr.subCheckboxes && curr.controlName) {
@@ -107,8 +136,7 @@ export class MobileSidebarComponent
               return acc;
             }, {})
           );
-        }),
-        take(1)
+        })
       )
       .subscribe();
   }

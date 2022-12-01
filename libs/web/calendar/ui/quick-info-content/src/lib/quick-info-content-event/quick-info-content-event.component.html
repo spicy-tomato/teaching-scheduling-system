@@ -6,13 +6,13 @@
     </div>
   </div>
 </div>
-<div class="e-location">
+<div *ngIf="data.Location" class="e-location">
   <div class="e-location-icon e-icons"></div>
   <div class="e-location-details e-text-ellipsis">
     {{ data.Location }}
   </div>
 </div>
-<div class="e-module-class">
+<div *ngIf="data.IdModuleClass" class="e-module-class">
   <div class="mdi mdi-book-open-variant"></div>
   <div class="e-location-details e-text-ellipsis">
     {{ data.IdModuleClass }}
@@ -96,15 +96,17 @@
   </ng-container>
 </ng-container>
 <!-- TODO: remove any -->
-<div
-  *ngFor="let person of $any(data.People) | tuiFilter: peopleMatcher"
-  class="e-module-class"
->
-  <div class="mdi mdi-account"></div>
-  <div class="e-location-details e-text-ellipsis">
-    {{ $any(person).name || person }}
+<ng-container *ngIf="data.People">
+  <div
+    *ngFor="let person of $any(data.People) | tuiFilter: peopleMatcher"
+    class="e-module-class"
+  >
+    <div class="mdi mdi-account"></div>
+    <div class="e-location-details e-text-ellipsis">
+      {{ $any(person).name || person }}
+    </div>
   </div>
-</div>
+</ng-container>
 <div class="e-module-class">
   <div class="mdi mdi-note-edit pt-2"></div>
   <div class="flex-grow">

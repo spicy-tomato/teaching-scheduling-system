@@ -67,14 +67,14 @@
                           let subCheckbox of item.subCheckboxes;
                           first as first
                         "
-                        [formControlName]="subCheckbox.controlName"
-                        [class.mt-2]="!first"
                         (ngModelChange)="
                           onClickCheckbox(
                             item.controlName + '.' + subCheckbox.controlName,
                             $event
                           )
                         "
+                        [formControlName]="subCheckbox.controlName"
+                        [class.mt-2]="!first"
                       >
                         {{ subCheckbox.name }}
                       </tui-checkbox-labeled>

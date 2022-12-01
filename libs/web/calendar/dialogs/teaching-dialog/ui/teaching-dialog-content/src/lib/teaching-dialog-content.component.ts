@@ -176,8 +176,13 @@ export class TeachingDialogContentComponent implements OnInit {
     this.store.toggleRequest(open);
   }
 
+  //? Remove
   onUpdate(): void {
     const id = this.schedule.Id;
+    if (typeof id !== 'number') {
+      return;
+    }
+
     const payload = {
       note: this.changeControl.controls['note'].value as string,
     };
@@ -365,6 +370,9 @@ export class TeachingDialogContentComponent implements OnInit {
         ObservableHelper.filterNullish(),
         tap((request) => {
           const controls = this.form.controls;
+          if (typeof this.schedule.Id !== 'number') {
+            return;
+          }
           this.updateSchedule.emit({
             ...request,
             idSchedule: this.schedule.Id,

@@ -42,7 +42,7 @@ import {
 })
 export class TeachingDialogButtonsLeftComponent implements OnInit {
   // INPUT
-  @Input() idSchedule!: number;
+  @Input() idSchedule!: number | string;
   @Input() changed!: boolean;
   @Input() validRequestChangeSchedule!: boolean;
   @Input() requestedChangeSchedule!: Nullable<FixedScheduleModel>;
@@ -199,8 +199,11 @@ export class TeachingDialogButtonsLeftComponent implements OnInit {
   }
 
   private submitChangeIntendTimeRequest(): void {
-    const request = this.requestIntendControl;
+    if (typeof this.idSchedule !== 'number') {
+      return;
+    }
 
+    const request = this.requestIntendControl;
     const payload: RequestIntendChangeSchedulePayload = {
       idSchedule: this.idSchedule,
       intendTime: request.controls['intendTime'].value as string,
@@ -211,8 +214,11 @@ export class TeachingDialogButtonsLeftComponent implements OnInit {
   }
 
   private submitChangeRequest(): void {
-    const request = this.requestControl;
+    if (typeof this.idSchedule !== 'number') {
+      return;
+    }
 
+    const request = this.requestControl;
     const payload: RequestChangeSchedulePayload = {
       idSchedule: this.idSchedule,
       newIdRoom: (request.controls['online'].value as boolean) ? 'PHTT' : null,
@@ -227,6 +233,10 @@ export class TeachingDialogButtonsLeftComponent implements OnInit {
   }
 
   private submitChange(): void {
+    if (typeof this.idSchedule !== 'number') {
+      return;
+    }
+
     const payload: RequestChangeSchedulePayload = {
       idSchedule: this.idSchedule,
       newIdRoom: this.roomControlValue,

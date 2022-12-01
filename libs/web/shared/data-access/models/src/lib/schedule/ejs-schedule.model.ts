@@ -1,11 +1,13 @@
 import { SimpleModel } from '../core/simple.model';
 import { FixedScheduleModel } from './fixed-schedule.model';
 
+export type EjsScheduleModelType = 'exam' | 'study' | 'googleEvent'
+
 export interface EjsScheduleModel {
   /**
    * Assigns a unique ID value to each of the events.
    */
-  Id: number;
+  Id: number | string;
 
   /**
    * Assigns the summary text to each of the events.
@@ -40,12 +42,12 @@ export interface EjsScheduleModel {
   /**
    * Type of event. Can be `study` or `exam`
    */
-  Type: 'exam' | 'study';
+  Type: EjsScheduleModelType;
 
   /**
    * Module ID (subject) class at school of event
    */
-  IdModuleClass: string;
+  IdModuleClass?: string;
 
   /**
    * Module (subject) class at school of event

@@ -87,6 +87,10 @@ export class QuickInfoContentEventComponent implements OnInit {
   }
 
   onClickSave(): void {
+    if (typeof this.data.Id !== 'number') {
+      return;
+    }
+
     if (this.data.Note !== this.initialEventNote) {
       this.store.updateNote({
         id: this.data.Id,
