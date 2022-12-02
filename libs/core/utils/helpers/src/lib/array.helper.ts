@@ -95,7 +95,7 @@ export class ArrayHelper {
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static mergeWith<T extends Record<string, any>>(
-    prop: string,
+    prop: keyof T,
     ...arrays: T[][]
   ): T[] {
     let result = arrays[0];

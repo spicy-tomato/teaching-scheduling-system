@@ -175,7 +175,15 @@ export const calendarReducer = createReducer(
   on(ApiAction.loadGoogleCalendarSuccessful, (state, { events, ranges }) => {
     return {
       ...state,
-      googleCalendar: { events, ranges },
+      googleCalendar: {
+        ...state.googleCalendar,
+        ranges,
+        events: ArrayHelper.mergeWith(
+          'id',
+          state.googleCalendar.events,
+          events
+        ),
+      },
       status: 'successful',
     };
   })

@@ -102,12 +102,12 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // CONSTRUCTOR
   constructor(
-    private readonly destroy$: TuiDestroyService,
-    @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
     @Inject(Injector) private readonly injector: Injector,
+    @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
     private readonly navbarService: NavbarService,
+    private readonly store: Store<CalendarState>,
     private readonly sidebarStore: Store<SidebarState>,
-    private readonly store: Store<CalendarState>
+    private readonly destroy$: TuiDestroyService,
   ) {
     this.store.dispatch(calendarReset());
     this.handleLoadSchedule();
