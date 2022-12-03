@@ -23,10 +23,8 @@ export class AppShellEffects {
   changeRouter$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(routerNavigatedAction),
-      map((action) => {
-        const breadcrumbs = this.createBreadcrumbs(
-          action.payload.routerState.root
-        );
+      map(({ payload }) => {
+        const breadcrumbs = this.createBreadcrumbs(payload.routerState.root);
         return ApiAction.updateBreadcrumbs({ breadcrumbs });
       })
     );
@@ -37,7 +35,7 @@ export class AppShellEffects {
       ofType(PageAction.keepLogin),
       mergeMap(() => {
         return this.userService.me().pipe(
-          map((response) => response.data),
+          map(({ data }) => data),
           map((teacher) =>
             teacher
               ? ApiAction.autoLoginSuccessfully({ teacher })
@@ -166,7 +164,7 @@ export class AppShellEffects {
     }
 
     for (const child of children) {
-      const routeUrl = child.url.map((segment) => segment.path).join('/');
+      const routeUrl = child.url.map(({ path }) => path).join('/');
 
       if (routeUrl !== '') {
         url += `/${routeUrl}`;

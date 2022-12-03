@@ -89,7 +89,7 @@ export class FeedbackComponent {
         },
         is_bug: this.form.get('reportBug')?.value as number,
         type: (this.form.get('tags')?.value as FeedbackItem[])
-          .map((x) => x.key)
+          .map(({ key }) => key)
           .join(','),
       };
       this.store.submit({ data: form });

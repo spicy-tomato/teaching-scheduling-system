@@ -31,11 +31,11 @@ export class TeachingDialogComponent {
   schedules = this.context.data.schedules;
   openScheduleList = false;
   changedSchedule: ChangedScheduleModel =
-    this.context.data.schedules.reduce<ChangedScheduleModel>((acc, curr) => {
+    this.context.data.schedules.reduce<ChangedScheduleModel>((acc, { Id }) => {
       // If event is `study` or `exam`
       // TODO: Test for exam
-      if (typeof curr.Id === 'number') {
-        acc[curr.Id] = null;
+      if (typeof Id === 'number') {
+        acc[Id] = null;
       }
       return acc;
     }, {});
@@ -48,7 +48,7 @@ export class TeachingDialogComponent {
   // GETTERS
   private get currentSelected(): EjsScheduleModel {
     return (
-      this.schedules.find((s) => s.Id === this.selectedSchedule.Id) ||
+      this.schedules.find(({ Id }) => Id === this.selectedSchedule.Id) ||
       this.selectedSchedule
     );
   }
@@ -84,7 +84,9 @@ export class TeachingDialogComponent {
   }
 
   onChangeSelectedSchedule(scheduleId: number | string): void {
-    const newSelectSchedule = this.schedules.find((s) => s.Id === scheduleId);
+    const newSelectSchedule = this.schedules.find(
+      ({ Id }) => Id === scheduleId
+    );
     if (newSelectSchedule) {
       this.selectedSchedule = newSelectSchedule;
     }
@@ -94,7 +96,8 @@ export class TeachingDialogComponent {
     const copy = { ...this.currentSelected };
     copy.FixedSchedules = [
       schedule,
-      ...(this.selectedSchedule.FixedSchedules?.filter((x) => !x.isNew) ?? []),
+      ...(this.selectedSchedule.FixedSchedules?.filter(({ isNew }) => !isNew) ??
+        []),
     ];
     this.currentSelected = copy;
     this.needUpdateAfterClose = true;

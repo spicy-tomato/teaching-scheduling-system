@@ -24,7 +24,7 @@ export class QuickInfoContentEventStore extends ComponentStore<QuickInfoContentS
   readonly status$ = this.select((s) => s.status);
   private readonly teacherId$ = this.appShellStore.pipe(
     selectNotNullTeacher,
-    map((x) => x.id),
+    map(({ id }) => id),
     takeUntil(this.destroy$)
   );
 

@@ -114,7 +114,7 @@ export class GoogleCalendarEvent {
       Location: this.location ?? undefined,
       Type: 'googleEvent',
       Note: this.description || '',
-      People: this.attendees?.map((a) => a.displayName || ''),
+      People: this.attendees?.map(({ displayName }) => displayName || ''),
     };
   }
 }

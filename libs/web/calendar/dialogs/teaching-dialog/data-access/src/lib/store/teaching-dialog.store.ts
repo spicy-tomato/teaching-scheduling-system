@@ -82,8 +82,8 @@ export class TeachingDialogStore extends ComponentStore<LoginState> {
   readonly request = this.effect<RequestChangeSchedulePayload>((params$) =>
     params$.pipe(
       tap(() =>
-        this.patchState((state) => ({
-          status: { ...state.status, request: 'loading' },
+        this.patchState(({ status }) => ({
+          status: { ...status, request: 'loading' },
         }))
       ),
       switchMap((payload) =>
@@ -91,7 +91,7 @@ export class TeachingDialogStore extends ComponentStore<LoginState> {
           tapResponse(
             ({ data }) => {
               const { newDate, newShift, newIdRoom } = payload;
-              this.patchState((state) => ({
+              this.patchState(({ status }) => ({
                 justRequestedSchedule: {
                   id: data,
                   newDate,
@@ -102,16 +102,16 @@ export class TeachingDialogStore extends ComponentStore<LoginState> {
                   createdAt: new Date(),
                 },
                 status: {
-                  ...state.status,
+                  ...status,
                   request: 'successful',
                 },
                 requestingChangeSchedule: false,
               }));
             },
             () =>
-              this.patchState((state) => ({
+              this.patchState(({ status }) => ({
                 requestingChangeSchedule: false,
-                status: { ...state.status, request: 'systemError' },
+                status: { ...status, request: 'systemError' },
               }))
           )
         )
@@ -123,8 +123,8 @@ export class TeachingDialogStore extends ComponentStore<LoginState> {
     (params$) =>
       params$.pipe(
         tap(() =>
-          this.patchState((state) => ({
-            status: { ...state.status, request: 'loading' },
+          this.patchState(({ status }) => ({
+            status: { ...status, request: 'loading' },
           }))
         ),
         switchMap((payload) =>
@@ -132,7 +132,7 @@ export class TeachingDialogStore extends ComponentStore<LoginState> {
             tapResponse(
               ({ data }) => {
                 const { intendTime } = payload;
-                this.patchState((state) => ({
+                this.patchState(({ status }) => ({
                   justRequestedSchedule: {
                     id: data,
                     createdAt: new Date(),
@@ -143,16 +143,16 @@ export class TeachingDialogStore extends ComponentStore<LoginState> {
                     newIdRoom: null,
                   },
                   status: {
-                    ...state.status,
+                    ...status,
                     request: 'successful',
                   },
                   requestingChangeSchedule: false,
                 }));
               },
               () =>
-                this.patchState((state) => ({
+                this.patchState(({ status }) => ({
                   requestingChangeSchedule: false,
-                  status: { ...state.status, request: 'systemError' },
+                  status: { ...status, request: 'systemError' },
                 }))
             )
           )
@@ -163,26 +163,26 @@ export class TeachingDialogStore extends ComponentStore<LoginState> {
   readonly change = this.effect<RequestChangeSchedulePayload>((params$) =>
     params$.pipe(
       tap(() =>
-        this.patchState((state) => ({
-          status: { ...state.status, change: 'loading' },
+        this.patchState(({ status }) => ({
+          status: { ...status, change: 'loading' },
         }))
       ),
       switchMap((payload) =>
         this.scheduleService.changeSchedule(payload).pipe(
           tapResponse(
             () => {
-              this.patchState((state) => ({
+              this.patchState(({ status }) => ({
                 status: {
-                  ...state.status,
+                  ...status,
                   change: 'successful',
                 },
                 requestingChangeSchedule: false,
               }));
             },
             () =>
-              this.patchState((state) => ({
+              this.patchState(({ status }) => ({
                 requestingChangeSchedule: false,
-                status: { ...state.status, request: 'systemError' },
+                status: { ...status, request: 'systemError' },
               }))
           )
         )
@@ -193,25 +193,25 @@ export class TeachingDialogStore extends ComponentStore<LoginState> {
   readonly update = this.effect<{ id: number; payload: Note }>((params$) =>
     params$.pipe(
       tap(() =>
-        this.patchState((state) => ({
-          status: { ...state.status, update: 'loading' },
+        this.patchState(({ status }) => ({
+          status: { ...status, update: 'loading' },
         }))
       ),
       switchMap(({ id, payload }) =>
         this.scheduleService.updateStudyNote(id, payload).pipe(
           tapResponse(
             () => {
-              this.patchState((state) => ({
+              this.patchState(({ status }) => ({
                 change: { note: payload.note },
                 status: {
-                  ...state.status,
+                  ...status,
                   update: 'successful',
                 },
               }));
             },
             () =>
-              this.patchState((state) => ({
-                status: { ...state.status, update: 'systemError' },
+              this.patchState(({ status }) => ({
+                status: { ...status, update: 'systemError' },
               }))
           )
         )
@@ -223,25 +223,25 @@ export class TeachingDialogStore extends ComponentStore<LoginState> {
     (params$) =>
       params$.pipe(
         tap(() =>
-          this.patchState((state) => ({
-            status: { ...state.status, search: 'loading' },
+          this.patchState(({ status }) => ({
+            status: { ...status, search: 'loading' },
           }))
         ),
         switchMap(({ teacherId, payload }) =>
           this.scheduleService.getSchedule(teacherId, payload).pipe(
             tapResponse(
               ({ data }) => {
-                this.patchState((state) => ({
+                this.patchState(({ status }) => ({
                   searchSchedule: data,
                   status: {
-                    ...state.status,
+                    ...status,
                     search: 'successful',
                   },
                 }));
               },
               () =>
-                this.patchState((state) => ({
-                  status: { ...state.status, search: 'systemError' },
+                this.patchState(({ status }) => ({
+                  status: { ...status, search: 'systemError' },
                 }))
             )
           )
@@ -252,25 +252,25 @@ export class TeachingDialogStore extends ComponentStore<LoginState> {
   readonly cancel = this.effect<number>((params$) =>
     params$.pipe(
       tap(() =>
-        this.patchState((state) => ({
-          status: { ...state.status, search: 'loading' },
+        this.patchState(({ status }) => ({
+          status: { ...status, search: 'loading' },
         }))
       ),
       switchMap((id) =>
         this.scheduleService.cancelChangeScheduleRequests(id).pipe(
           tapResponse(
             () => {
-              this.patchState((state) => ({
+              this.patchState(({ status }) => ({
                 justRequestedSchedule: null,
                 status: {
-                  ...state.status,
+                  ...status,
                   cancel: 'successful',
                 },
               }));
             },
             () =>
-              this.patchState((state) => ({
-                status: { ...state.status, cancel: 'systemError' },
+              this.patchState(({ status }) => ({
+                status: { ...status, cancel: 'systemError' },
               }))
           )
         )

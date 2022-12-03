@@ -102,12 +102,12 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // CONSTRUCTOR
   constructor(
-    private readonly destroy$: TuiDestroyService,
-    @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
     @Inject(Injector) private readonly injector: Injector,
+    @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
     private readonly navbarService: NavbarService,
+    private readonly store: Store<CalendarState>,
     private readonly sidebarStore: Store<SidebarState>,
-    private readonly store: Store<CalendarState>
+    private readonly destroy$: TuiDestroyService,
   ) {
     this.store.dispatch(calendarReset());
     this.handleLoadSchedule();
@@ -249,7 +249,7 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
               ...(
                 (this.eventSettings$.value.dataSource ||
                   []) as EjsScheduleModel[]
-              ).filter((e) => e.Type === 'googleEvent'),
+              ).filter(({ Type }) => Type === 'googleEvent'),
               ...dataSource,
             ],
           });
@@ -273,7 +273,7 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
               ...(
                 (this.eventSettings$.value.dataSource ||
                   []) as EjsScheduleModel[]
-              ).filter((e) => e.Type !== 'googleEvent'),
+              ).filter(({ Type }) => Type !== 'googleEvent'),
               ...dataSource,
             ],
           });
@@ -304,10 +304,10 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
       .select(sidebar_selectEvent)
       .pipe(
         ObservableHelper.filterNullish(),
-        filter((e) => e.name !== 'calendar.create'),
-        tap((e) => {
+        filter(({ name }) => name !== 'calendar.create'),
+        tap(({ name, value }) => {
           // https://ej2.syncfusion.com/angular/documentation/schedule/appointments/#appointment-filtering
-          this.calendars[e.name] = e.value as boolean;
+          this.calendars[name] = value as boolean;
           let predicate: Predicate | undefined;
 
           for (const [key, checked] of Object.entries(this.calendars)) {

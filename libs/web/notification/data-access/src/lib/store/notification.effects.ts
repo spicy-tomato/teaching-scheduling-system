@@ -27,7 +27,7 @@ export class NotificationEffects {
   // PRIVATE PROPERTIES
   private readonly uuidAccount$ = this.appShellStore.pipe(
     selectNotNullTeacher,
-    map((x) => x.uuidAccount)
+    map(({ uuidAccount }) => uuidAccount)
   );
 
   // EFFECTS

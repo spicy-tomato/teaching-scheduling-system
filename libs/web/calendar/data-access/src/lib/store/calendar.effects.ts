@@ -168,16 +168,16 @@ export class CalendarEffects {
   private handleLoadPersonalSchedule(): void {
     combineLatest([
       this.loadPersonalScheduleSubject$,
-      this.teacher$.pipe(map((x) => x.id)),
+      this.teacher$.pipe(map(({ id }) => id)),
     ])
       .pipe(
         this.commonPersonalObservable(),
         mergeMap(({ fetch, ranges, teacherId }) => {
           return this.scheduleService.getSchedule(teacherId, fetch).pipe(
-            tap((response) => {
+            tap(({ data }) => {
               this.store.dispatch(
                 ApiAction.loadPersonalStudySuccessful({
-                  schedules: response.data,
+                  schedules: data,
                   ranges,
                 })
               );
@@ -194,16 +194,16 @@ export class CalendarEffects {
   private handleLoadPersonalExam(): void {
     combineLatest([
       this.loadPersonalExamSubject$,
-      this.teacher$.pipe(map((x) => x.id)),
+      this.teacher$.pipe(map(({ id }) => id)),
     ])
       .pipe(
         this.commonPersonalObservable(),
         mergeMap(({ fetch, ranges, teacherId }) => {
           return this.examService.getExamSchedule(teacherId, fetch.date).pipe(
-            tap((response) => {
+            tap(({ data }) => {
               this.store.dispatch(
                 ApiAction.loadPersonalExamSuccessful({
-                  schedules: response.data,
+                  schedules: data,
                   ranges,
                 })
               );
@@ -229,10 +229,10 @@ export class CalendarEffects {
           return this.scheduleService
             .getDepartmentSchedule(department, fetch.date)
             .pipe(
-              tap((response) => {
+              tap(({ data }) => {
                 this.store.dispatch(
                   ApiAction.loadDepartmentStudySuccessful({
-                    schedules: response.data,
+                    schedules: data,
                     ranges,
                   })
                 );
@@ -258,10 +258,10 @@ export class CalendarEffects {
           return this.examService
             .getDepartmentExamSchedule(department, fetch.date)
             .pipe(
-              tap((response) => {
+              tap(({ data }) => {
                 this.store.dispatch(
                   ApiAction.loadDepartmentExamSuccessful({
-                    schedules: response.data,
+                    schedules: data,
                     ranges,
                   })
                 );
@@ -279,8 +279,8 @@ export class CalendarEffects {
     combineLatest([
       this.loadPersonalExamSubject$,
       this.teacher$.pipe(
-        filter((t) => t.settings.googleCalendar),
-        map((x) => x.uuidAccount)
+        filter(({ settings }) => settings.googleCalendar),
+        map(({ uuidAccount }) => uuidAccount)
       ),
     ])
       .pipe(
@@ -295,8 +295,8 @@ export class CalendarEffects {
               tap(({ data }) => {
                 this.store.dispatch(
                   ApiAction.loadGoogleCalendarSuccessful({
-                    events: data.reduce((acc, curr) => {
-                      acc.push(...curr.events);
+                    events: data.reduce((acc, { events }) => {
+                      acc.push(...events);
                       return acc;
                     }, <GoogleCalendarEvent[]>[]),
                     ranges,
@@ -323,7 +323,7 @@ export class CalendarEffects {
     return (source$) =>
       source$.pipe(
         map(([date, teacherId]) => ({ date, teacherId })),
-        calculateRangeO(this.ranges$.pipe(map((x) => x.department)))
+        calculateRangeO(this.ranges$.pipe(map(({ department }) => department)))
       );
   }
 
@@ -345,7 +345,7 @@ export class CalendarEffects {
         ),
         map(([date, department]) => ({ date, department: department.id })),
         calculateRangeWithDepartmentO(
-          this.ranges$.pipe(map((x) => x.department))
+          this.ranges$.pipe(map(({ department }) => department))
         )
       );
   }
