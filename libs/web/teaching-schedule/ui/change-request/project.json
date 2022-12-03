@@ -5,9 +5,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/libs/web/teaching-schedule/ui/change-request"
-      ],
+      "outputs": ["coverage/libs/web/teaching-schedule/ui/change-request"],
       "options": {
         "jestConfig": "libs/web/teaching-schedule/ui/change-request/jest.config.ts",
         "passWithNoTests": true

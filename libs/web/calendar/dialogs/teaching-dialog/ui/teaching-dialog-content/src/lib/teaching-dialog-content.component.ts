@@ -33,10 +33,10 @@ import {
 } from '@teaching-scheduling-system/web/calendar/dialogs/teaching-dialog/data-access';
 import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import {
-  EjsScheduleModel,
   FixedScheduleModel,
   SimpleFixedScheduleModel,
   SimpleModel,
+  TssTeachingModel,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { sameGroupStaticValueValidator } from '@teaching-scheduling-system/web/shared/utils/validators';
 import {
@@ -68,7 +68,7 @@ import { TeachingDialogButtonsRightComponent } from './teaching-dialog-buttons-r
 })
 export class TeachingDialogContentComponent implements OnInit {
   // INPUT
-  @Input() schedule!: EjsScheduleModel;
+  @Input() schedule!: TssTeachingModel;
 
   // OUTPUT
   @Output() updateSchedule = new EventEmitter<FixedScheduleModel>();
@@ -179,10 +179,6 @@ export class TeachingDialogContentComponent implements OnInit {
   //? Remove
   onUpdate(): void {
     const id = this.schedule.Id;
-    if (typeof id !== 'number') {
-      return;
-    }
-
     const payload = {
       note: this.changeControl.controls['note'].value as string,
     };
@@ -370,9 +366,6 @@ export class TeachingDialogContentComponent implements OnInit {
         ObservableHelper.filterNullish(),
         tap((request) => {
           const controls = this.form.controls;
-          if (typeof this.schedule.Id !== 'number') {
-            return;
-          }
           this.updateSchedule.emit({
             ...request,
             idSchedule: this.schedule.Id,

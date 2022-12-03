@@ -5,9 +5,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/libs/web/calendar/dialogs/teaching-dialog/feature"
-      ],
+      "outputs": ["coverage/libs/web/calendar/dialogs/teaching-dialog/feature"],
       "options": {
         "jestConfig": "libs/web/calendar/dialogs/teaching-dialog/feature/jest.config.ts",
         "passWithNoTests": true

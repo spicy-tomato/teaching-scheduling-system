@@ -36,6 +36,9 @@
       "@teaching-scheduling-system/core/pipes/filter-by-input-pipe": [
         "libs/core/pipes/filter-by-input-pipe/src/index.ts"
       ],
+      "@teaching-scheduling-system/core/pipes/in": [
+        "libs/core/pipes/in/src/index.ts"
+      ],
       "@teaching-scheduling-system/core/pipes/relative-time": [
         "libs/core/pipes/relative-time/src/index.ts"
       ],

@@ -10,8 +10,7 @@ export abstract class ScheduleModel {
     public readonly name: string,
     public idRoom: string,
     public readonly type: ScheduleType,
-    public note: string,
-    public readonly people?: string[] | SimpleModel[]
+    public note: string
   ) {}
 
   abstract toEjsSchedule(): EjsScheduleModel;

@@ -9,6 +9,7 @@
     "core-directives-var": "libs/core/directives/var",
     "core-pipes-array": "libs/core/pipes/array",
     "core-pipes-filter-by-input-pipe": "libs/core/pipes/filter-by-input-pipe",
+    "core-pipes-in": "libs/core/pipes/in",
     "core-pipes-relative-time": "libs/core/pipes/relative-time",
     "core-pipes-shorten-name": "libs/core/pipes/shorten-name",
     "core-ui-animations": "libs/core/ui/animations",

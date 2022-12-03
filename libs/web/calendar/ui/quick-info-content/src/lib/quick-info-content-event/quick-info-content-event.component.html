@@ -4,7 +4,7 @@
     <ng-container *ngSwitchCase="'exam'">Lịch thi</ng-container>
     <ng-container *ngSwitchCase="'study'">Lịch giảng dạy</ng-container>
     <ng-container *ngSwitchCase="'googleEvent'">
-      Lịch Google ({{ data.Calendar }})
+      Lịch Google ({{ 'Calendar' | in: data }})
     </ng-container>
   </div>
 </div>
@@ -20,85 +20,89 @@
     {{ data.Location }}
   </div>
 </div>
-<div *ngIf="data.IdModuleClass" class="attr-row">
+<div *ngIf="'IdModuleClass' | in: data as idModuleClass" class="attr-row">
   <div class="mdi mdi-book-open-variant"></div>
   <div>
-    {{ data.IdModuleClass }}
+    {{ idModuleClass }}
   </div>
 </div>
-<div *ngIf="data.Method" class="attr-row">
+<div *ngIf="'Method' | in: data as method" class="attr-row">
   <div class="mdi mdi-bullseye-arrow"></div>
   <div>
-    {{ data.Method }}
+    {{ method }}
   </div>
 </div>
-<ng-container *ngIf="data.FixedSchedules && data.FixedSchedules.length > 0">
-  <ng-container
-    *tssVar="
-      data.FixedSchedules[data.FixedSchedules.length - 1] as lastFixedSchedule
-    "
-  >
+<ng-container *ngIf="'FixedSchedules' | in: data as fixedSchedules">
+  <ng-container *ngIf="fixedSchedules && fixedSchedules.length > 0">
     <ng-container
-      *tssVar="
-        lastFixedSchedule.newDate === null ||
-        !!lastFixedSchedule.intendTime as isIntendTime
-      "
+      *tssVar="fixedSchedules[fixedSchedules.length - 1] as lastFixedSchedule"
     >
       <ng-container
         *tssVar="
-          lastFixedSchedule.status | changeStatusType as changeStatusType
+          lastFixedSchedule.newDate === null ||
+          !!lastFixedSchedule.intendTime as isIntendTime
         "
       >
-        <div
-          *ngIf="
-            changeStatusType === 'pending' || changeStatusType === 'approve'
+        <ng-container
+          *tssVar="
+            lastFixedSchedule.status | changeStatusType as changeStatusType
           "
-          class="attr-row"
         >
-          <div class="mdi mdi-swap-horizontal-bold"></div>
-          <div>
-            <p [ngSwitch]="true">
-              <ng-container
-                *ngSwitchCase="!isIntendTime && changeStatusType === 'pending'"
-              >
-                Đang được yêu cầu đổi đến ca
-                {{ lastFixedSchedule.newShift }}, ngày
-                {{ lastFixedSchedule.newDate | date: 'longDate':'+0700' }}
-                {{
-                  lastFixedSchedule.newIdRoom
-                    ? ' tại ' + lastFixedSchedule.newIdRoom
-                    : ''
-                }}
-              </ng-container>
-              <ng-container
-                *ngSwitchCase="!isIntendTime && changeStatusType === 'approve'"
-              >
-                Đổi từ ca {{ lastFixedSchedule.oldShift }}, ngày
-                {{ lastFixedSchedule.oldDate | date: 'longDate':'+0700' }}
-              </ng-container>
-              <ng-container
-                *ngSwitchCase="isIntendTime && changeStatusType === 'pending'"
-              >
-                Đang được yêu cầu đổi đến
-                {{ lastFixedSchedule.intendTime }}
-              </ng-container>
-              <ng-container
-                *ngSwitchCase="isIntendTime && changeStatusType === 'approve'"
-              >
-                Dự định dạy trong
-                {{ lastFixedSchedule.intendTime }}
-              </ng-container>
-              <button
-                tuiLink
-                [pseudo]="true"
-                (click)="onShowHistory()"
-                class="inline-block ml-0.5 pr-0.5 italic"
-              >
-                Chi tiết
-              </button>
-            </p>
+          <div
+            *ngIf="
+              changeStatusType === 'pending' || changeStatusType === 'approve'
+            "
+            class="attr-row"
+          >
+            <div class="mdi mdi-swap-horizontal-bold"></div>
+            <div>
+              <p [ngSwitch]="true">
+                <ng-container
+                  *ngSwitchCase="
+                    !isIntendTime && changeStatusType === 'pending'
+                  "
+                >
+                  Đang được yêu cầu đổi đến ca
+                  {{ lastFixedSchedule.newShift }}, ngày
+                  {{ lastFixedSchedule.newDate | date: 'longDate':'+0700' }}
+                  {{
+                    lastFixedSchedule.newIdRoom
+                      ? ' tại ' + lastFixedSchedule.newIdRoom
+                      : ''
+                  }}
+                </ng-container>
+                <ng-container
+                  *ngSwitchCase="
+                    !isIntendTime && changeStatusType === 'approve'
+                  "
+                >
+                  Đổi từ ca {{ lastFixedSchedule.oldShift }}, ngày
+                  {{ lastFixedSchedule.oldDate | date: 'longDate':'+0700' }}
+                </ng-container>
+                <ng-container
+                  *ngSwitchCase="isIntendTime && changeStatusType === 'pending'"
+                >
+                  Đang được yêu cầu đổi đến
+                  {{ lastFixedSchedule.intendTime }}
+                </ng-container>
+                <ng-container
+                  *ngSwitchCase="isIntendTime && changeStatusType === 'approve'"
+                >
+                  Dự định dạy trong
+                  {{ lastFixedSchedule.intendTime }}
+                </ng-container>
+                <button
+                  tuiLink
+                  [pseudo]="true"
+                  (click)="onShowHistory()"
+                  class="inline-block ml-0.5 pr-0.5 italic"
+                >
+                  Chi tiết
+                </button>
+              </p>
+            </div>
           </div>
-        </div>
+        </ng-container>
       </ng-container>
     </ng-container>
   </ng-container>

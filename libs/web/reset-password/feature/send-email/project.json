@@ -5,9 +5,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/libs/web/reset-password/feature/send-email"
-      ],
+      "outputs": ["coverage/libs/web/reset-password/feature/send-email"],
       "options": {
         "jestConfig": "libs/web/reset-password/feature/send-email/jest.config.ts",
         "passWithNoTests": true
