@@ -65,6 +65,8 @@ export class GoogleCalendarEvent {
   reminders!: {
     useDefault: boolean;
   };
+  // Additional properties
+  calendar!: string;
 
   static parse(obj: GoogleCalendarEvent): GoogleCalendarEvent {
     const res = new GoogleCalendarEvent();
@@ -101,6 +103,7 @@ export class GoogleCalendarEvent {
     res.start = obj.start;
     res.end = obj.end;
     res.reminders = obj.reminders;
+    res.calendar = obj.calendar;
 
     return res;
   }
@@ -115,6 +118,7 @@ export class GoogleCalendarEvent {
       Type: 'googleEvent',
       Note: this.description || '',
       People: this.attendees?.map(({ displayName }) => displayName || ''),
+      Calendar: this.calendar,
     };
   }
 }

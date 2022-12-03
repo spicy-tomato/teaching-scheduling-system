@@ -1,26 +1,34 @@
-<div *ngIf="data.StartTime && data.EndTime" class="e-date-time">
-  <div class="e-date-time-icon e-icons"></div>
-  <div class="e-date-time-wrapper e-text-ellipsis">
-    <div class="e-date-time-details e-text-ellipsis">
-      {{ data.StartTime | calendarDateTime: data.EndTime }}
-    </div>
+<div class="attr-row">
+  <div class="mdi mdi-calendar"></div>
+  <div [ngSwitch]="data.Type">
+    <ng-container *ngSwitchCase="'exam'">Lịch thi</ng-container>
+    <ng-container *ngSwitchCase="'study'">Lịch giảng dạy</ng-container>
+    <ng-container *ngSwitchCase="'googleEvent'">
+      Lịch Google ({{ data.Calendar }})
+    </ng-container>
   </div>
 </div>
-<div *ngIf="data.Location" class="e-location">
-  <div class="e-location-icon e-icons"></div>
-  <div class="e-location-details e-text-ellipsis">
+<div *ngIf="data.StartTime && data.EndTime" class="attr-row">
+  <div class="mdi mdi-clock-time-four-outline"></div>
+  <div>
+    {{ data.StartTime | calendarDateTime: data.EndTime }}
+  </div>
+</div>
+<div *ngIf="data.Location" class="attr-row">
+  <div class="mdi mdi-map-marker"></div>
+  <div>
     {{ data.Location }}
   </div>
 </div>
-<div *ngIf="data.IdModuleClass" class="e-module-class">
+<div *ngIf="data.IdModuleClass" class="attr-row">
   <div class="mdi mdi-book-open-variant"></div>
-  <div class="e-location-details e-text-ellipsis">
+  <div>
     {{ data.IdModuleClass }}
   </div>
 </div>
-<div *ngIf="data.Method" class="e-module-class">
+<div *ngIf="data.Method" class="attr-row">
   <div class="mdi mdi-bullseye-arrow"></div>
-  <div class="e-location-details e-text-ellipsis">
+  <div>
     {{ data.Method }}
   </div>
 </div>
@@ -45,10 +53,10 @@
           *ngIf="
             changeStatusType === 'pending' || changeStatusType === 'approve'
           "
-          class="e-module-class"
+          class="attr-row"
         >
           <div class="mdi mdi-swap-horizontal-bold"></div>
-          <div class="e-location-details e-text-ellipsis">
+          <div>
             <p [ngSwitch]="true">
               <ng-container
                 *ngSwitchCase="!isIntendTime && changeStatusType === 'pending'"
@@ -95,20 +103,21 @@
     </ng-container>
   </ng-container>
 </ng-container>
+
 <!-- TODO: remove any -->
 <ng-container *ngIf="data.People">
   <div
     *ngFor="let person of $any(data.People) | tuiFilter: peopleMatcher"
-    class="e-module-class"
+    class="attr-row"
   >
     <div class="mdi mdi-account"></div>
-    <div class="e-location-details e-text-ellipsis">
+    <div>
       {{ $any(person).name || person }}
     </div>
   </div>
 </ng-container>
-<div class="e-module-class">
-  <div class="mdi mdi-note-edit pt-2"></div>
+<div class="attr-row">
+  <div class="mdi mdi-text"></div>
   <div class="flex-grow">
     <tui-text-area
       #note

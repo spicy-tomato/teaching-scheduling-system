@@ -88,4 +88,9 @@ export interface EjsScheduleModel {
    * elementType
    */
   elementType?: 'cell' | 'event';
+
+  /**
+   * Calendar of event in Google Calendar
+   */
+  Calendar?: string;
 }
