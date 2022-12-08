@@ -20,7 +20,7 @@ import { Observable } from 'rxjs';
 })
 export class TeachingDialogButtonsRightComponent implements OnInit {
   // INPUT
-  @Input() idSchedule!: number | string;
+  @Input() idSchedule!: number;
 
   // OUTPUT
   @Output() cancel = new EventEmitter();
@@ -62,10 +62,6 @@ export class TeachingDialogButtonsRightComponent implements OnInit {
   }
 
   onUpdate(): void {
-    if (typeof this.idSchedule !== 'number') {
-      return;
-    }
-
     const payload = {
       note: this.noteControl.value as string,
     };

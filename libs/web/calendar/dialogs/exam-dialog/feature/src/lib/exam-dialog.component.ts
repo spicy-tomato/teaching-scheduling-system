@@ -14,7 +14,7 @@ import {
 import { CoreConstant } from '@teaching-scheduling-system/core/data-access/constants';
 import { DateHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import { ExamDialogStore } from '@teaching-scheduling-system/web/calendar/dialogs-exam-dialog/data-access';
-import { EjsScheduleModel } from '@teaching-scheduling-system/web/shared/data-access/models';
+import { TssExamModel } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { sameGroupStaticValueValidator } from '@teaching-scheduling-system/web/shared/utils/validators';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { map, of, switchMap } from 'rxjs';
@@ -54,7 +54,7 @@ export class ExamDialogComponent {
   // CONSTRUCTOR
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT)
-    private readonly context: TuiDialogContext<string, EjsScheduleModel>,
+    private readonly context: TuiDialogContext<string, TssExamModel>,
     private readonly fb: FormBuilder,
     @Inject(TuiAlertService) private readonly alertService: TuiAlertService,
     private readonly store: ExamDialogStore
@@ -82,9 +82,9 @@ export class ExamDialogComponent {
   }
 
   // PRIVATE METHODS
-  private initForm(data?: EjsScheduleModel): void {
-    const startDate = data?.StartTime as Date;
-    const endDate = data?.EndTime as Date;
+  private initForm(data: TssExamModel): void {
+    const startDate = data.StartTime as Date;
+    const endDate = data.EndTime as Date;
     const today = new Date();
     const startTuiDate = startDate
       ? DateHelper.toTuiDay(startDate)
@@ -94,15 +94,15 @@ export class ExamDialogComponent {
       : DateHelper.toTuiDay(today);
 
     const initialChange = {
-      note: data?.Note ?? '',
+      note: data.Note ?? '',
     };
 
     this.form = this.fb.group({
-      id: [data?.Id],
-      subject: [data?.Subject],
-      location: [data?.Location],
-      method: [data?.Method],
-      people: this.fb.array(data?.People?.map((x) => this.fb.control(x)) ?? []),
+      id: [data.Id],
+      subject: [data.Subject],
+      location: [data.Location],
+      method: [data.Method],
+      people: this.fb.array(data.People.map((x) => this.fb.control(x)) ?? []),
       start: [[startTuiDate, DateHelper.beautifyTime(startDate ?? today)]],
       end: [[endTuiDate, DateHelper.beautifyTime(endDate ?? today)]],
       change: this.fb.group(

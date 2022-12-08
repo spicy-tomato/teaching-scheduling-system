@@ -1,0 +1,75 @@
+<form [formGroup]="form">
+  <div class="tui-form__row">
+    <tui-input formControlName="subject"> Tiêu đề </tui-input>
+  </div>
+  <div class="tui-form__row">
+    <tui-input formControlName="location"> Địa điểm </tui-input>
+  </div>
+  <div class="time tui-form__row tui-form__row_multi-fields">
+    <div class="tui-form__multi-field">
+      <tui-input-date formControlName="start"> Ngày bắt đầu </tui-input-date>
+    </div>
+    <div
+      [ngClass]="
+        form.value['isAllDay']
+          ? 'w-0 opacity-0 invisible'
+          : 'tui-form__multi-field'
+      "
+    >
+      <tui-input-time formControlName="startTime"> Giờ bắt đầu </tui-input-time>
+    </div>
+    <div class="tui-form__multi-field">
+      <tui-input-date formControlName="end"> Ngày kết thúc </tui-input-date>
+    </div>
+    <div
+      [ngClass]="
+        form.value['isAllDay']
+          ? 'w-0 opacity-0 invisible'
+          : 'tui-form__multi-field'
+      "
+    >
+      <tui-input-time formControlName="endTime"> Giờ kết thúc </tui-input-time>
+    </div>
+  </div>
+  <!-- <ng-container formArrayName="people">
+    <div
+      class="tui-form__row"
+      *ngFor="let person of peopleControl.controls; index as i"
+    >
+      <tui-input [formControlName]="i">
+        Giám thị {{ i + 1 }}
+      </tui-input>
+    </div>
+  </ng-container> -->
+  <div class="tui-form__row">
+    <tui-checkbox-labeled formControlName="isAllDay"
+      >Cả ngày
+    </tui-checkbox-labeled>
+  </div>
+  <div class="tui-form__row">
+    <tui-text-area formControlName="note"> Mô tả </tui-text-area>
+  </div>
+
+  <div class="tui-form__buttons tui-form__buttons_align_end">
+    <button
+      tuiButton
+      *ngrxLet="showLoader$ as showLoader"
+      (click)="submit()"
+      [showLoader]="showLoader"
+      [disabled]="form.invalid"
+      size="m"
+      class="tui-form__button"
+    >
+      Lưu
+    </button>
+    <button
+      tuiButton
+      (click)="onCancel()"
+      appearance="outline"
+      size="m"
+      class="tui-form__button"
+    >
+      Đóng
+    </button>
+  </div>
+</form>

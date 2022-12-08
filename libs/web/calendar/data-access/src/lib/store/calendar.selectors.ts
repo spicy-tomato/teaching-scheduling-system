@@ -66,24 +66,32 @@ const calendarSelectStudy = createSelector(
       : schedules.personal.study
 );
 
-const calendarSelectExam = createSelector(
-  calendarSelectSchedule,
-  calendarSelectFilter,
-  (schedules, filter) =>
-    filter.showDepartmentSchedule
-      ? schedules.department.exam
-      : schedules.personal.exam
-);
+// const calendarSelectExam = createSelector(
+//   calendarSelectSchedule,
+//   calendarSelectFilter,
+//   (schedules, filter) =>
+//     filter.showDepartmentSchedule
+//       ? schedules.department.exam
+//       : schedules.personal.exam
+// );
 
 const calendarSelectScheduleWithType = createSelector(
   calendarSelectStudy,
-  calendarSelectExam,
-  (study, exam) => [...study, ...exam]
+  // calendarSelectExam,
+  (study /* , exam */) => [
+    ...study,
+    // Only select teachers from teaching schedule for now
+    // ...exam
+  ]
 );
 
 const calendarSelectDepartmentSchedule = createSelector(
   calendarSelectSchedule,
-  (schedule) => [...schedule.department.study, ...schedule.department.exam]
+  (schedule) => [
+    ...schedule.department.study,
+    // Only select teachers from teaching schedule for now
+    //  ...schedule.department.exam,
+  ]
 );
 
 export const calendarSelectTeachers = createSelector(

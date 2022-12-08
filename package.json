@@ -16,7 +16,8 @@
     "lint-all": "nx run-many --all --target=lint",
     "outdate": "npx npm-check-updates",
     "outdate:minor": "npx npm-check-updates --target minor",
-    "outdate:patch": "npx npm-check-updates --target patch"
+    "outdate:patch": "npx npm-check-updates --target patch",
+    "local": "http-server .\\dist\\apps\\teaching-scheduling-system\\"
   },
   "private": true,
   "dependencies": {

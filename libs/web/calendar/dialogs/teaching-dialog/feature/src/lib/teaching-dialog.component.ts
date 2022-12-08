@@ -8,7 +8,7 @@ import {
 } from '@teaching-scheduling-system/web/calendar/dialogs/teaching-dialog/data-access';
 import {
   ChangedScheduleModel,
-  EjsScheduleModel,
+  TssTeachingModel,
   FixedScheduleModel,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
@@ -32,21 +32,17 @@ export class TeachingDialogComponent {
   openScheduleList = false;
   changedSchedule: ChangedScheduleModel =
     this.context.data.schedules.reduce<ChangedScheduleModel>((acc, { Id }) => {
-      // If event is `study` or `exam`
-      // TODO: Test for exam
-      if (typeof Id === 'number') {
-        acc[Id] = null;
-      }
+      acc[Id] = null;
       return acc;
     }, {});
-  selectedSchedule!: EjsScheduleModel;
+  selectedSchedule!: TssTeachingModel;
 
   // PRIVATE PROPERTIES
   private haveOpened = false;
   private needUpdateAfterClose = false;
 
   // GETTERS
-  private get currentSelected(): EjsScheduleModel {
+  private get currentSelected(): TssTeachingModel {
     return (
       this.schedules.find(({ Id }) => Id === this.selectedSchedule.Id) ||
       this.selectedSchedule
@@ -54,7 +50,7 @@ export class TeachingDialogComponent {
   }
 
   // SETTERS
-  private set currentSelected(schedule: EjsScheduleModel) {
+  private set currentSelected(schedule: TssTeachingModel) {
     this.schedules = this.schedules.map((s) => {
       if (s.Id === this.selectedSchedule.Id) {
         this.selectedSchedule = schedule;
@@ -68,8 +64,8 @@ export class TeachingDialogComponent {
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT)
     public readonly context: TuiDialogContext<
-      EjsScheduleModel[],
-      { schedules: EjsScheduleModel[]; selectedId: number }
+      TssTeachingModel[],
+      { schedules: TssTeachingModel[]; selectedId: number }
     >
   ) {
     this.onChangeSelectedSchedule(context.data.selectedId);

@@ -36,6 +36,9 @@
       "@teaching-scheduling-system/core/pipes/filter-by-input-pipe": [
         "libs/core/pipes/filter-by-input-pipe/src/index.ts"
       ],
+      "@teaching-scheduling-system/core/pipes/in": [
+        "libs/core/pipes/in/src/index.ts"
+      ],
       "@teaching-scheduling-system/core/pipes/relative-time": [
         "libs/core/pipes/relative-time/src/index.ts"
       ],
@@ -74,6 +77,9 @@
       ],
       "@teaching-scheduling-system/web/calendar/dialogs/exam-dialog/feature": [
         "libs/web/calendar/dialogs/exam-dialog/feature/src/index.ts"
+      ],
+      "@teaching-scheduling-system/web/calendar/dialogs/google-event-dialog": [
+        "libs/web/calendar/dialogs/google-event-dialog/src/index.ts"
       ],
       "@teaching-scheduling-system/web/calendar/dialogs/teaching-dialog/data-access": [
         "libs/web/calendar/dialogs/teaching-dialog/data-access/src/index.ts"

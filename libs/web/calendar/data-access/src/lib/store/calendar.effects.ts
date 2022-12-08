@@ -295,8 +295,13 @@ export class CalendarEffects {
               tap(({ data }) => {
                 this.store.dispatch(
                   ApiAction.loadGoogleCalendarSuccessful({
-                    events: data.reduce((acc, { events }) => {
-                      acc.push(...events);
+                    events: data.reduce((acc, { summary, events }) => {
+                      acc.push(
+                        ...events.map((e) => {
+                          e.calendar = summary;
+                          return e;
+                        })
+                      );
                       return acc;
                     }, <GoogleCalendarEvent[]>[]),
                     ranges,

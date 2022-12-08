@@ -10,11 +10,12 @@ import {
 } from '@taiga-ui/core';
 import { TuiInputModule, TuiTextAreaModule } from '@taiga-ui/kit';
 import { VarDirectiveModule } from '@teaching-scheduling-system/core/directives/var';
+import { InPipeModule } from '@teaching-scheduling-system/core/pipes/in';
 import { CalendarDateTimePipeModule } from '@teaching-scheduling-system/web/calendar/ui/calendar-date-time-pipe';
 import { ChangeStatusTypePipeModule } from '@teaching-scheduling-system/web/calendar/ui/change-status-type-pipe';
-import { QuickInfoContentComponent } from './quick-info-content.component';
-import { QuickInfoContentEventComponent } from './quick-info-content-event/quick-info-content-event.component';
 import { QuickInfoContentCellComponent } from './quick-info-content-cell/quick-info-content-cell.component';
+import { QuickInfoContentEventComponent } from './quick-info-content-event/quick-info-content-event.component';
+import { QuickInfoContentComponent } from './quick-info-content.component';
 
 const NGRX = [ReactiveComponentModule];
 const TAIGA_UI = [
@@ -33,6 +34,7 @@ const TAIGA_UI = [
     VarDirectiveModule,
     CalendarDateTimePipeModule,
     ChangeStatusTypePipeModule,
+    InPipeModule,
     ...NGRX,
     ...TAIGA_UI,
   ],

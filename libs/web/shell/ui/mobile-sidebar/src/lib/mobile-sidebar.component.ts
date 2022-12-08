@@ -116,7 +116,7 @@ export class MobileSidebarComponent
       .pipe(
         withLatestFrom(this.dataState$),
         tap(({ 1: dataState }) => {
-          console.log(dataState);
+          // console.log(dataState);
 
           this.form = this.fb.group(
             this.items.reduce<Record<string, unknown>>(

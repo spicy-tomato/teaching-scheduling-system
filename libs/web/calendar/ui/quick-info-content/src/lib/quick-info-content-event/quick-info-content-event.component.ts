@@ -21,6 +21,7 @@ import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/e
 import {
   EjsScheduleModel,
   SimpleModel,
+  TssTeachingModel,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { Observable, of, switchMap, takeUntil } from 'rxjs';
@@ -87,7 +88,7 @@ export class QuickInfoContentEventComponent implements OnInit {
   }
 
   onClickSave(): void {
-    if (typeof this.data.Id !== 'number') {
+    if (this.data.Type === 'googleEvent') {
       return;
     }
 
@@ -103,13 +104,18 @@ export class QuickInfoContentEventComponent implements OnInit {
 
   // PRIVATE METHODS
   private initDialog(): void {
-    this.historyDialog$ = this.dialogService.open(
-      new PolymorpheusComponent(ChangeScheduleHistoryComponent, this.injector),
-      {
-        data: this.data.FixedSchedules,
-        label: 'Lịch sử thay đổi giờ giảng',
-      }
-    );
+    if ('FixedSchedules' in this.data) {
+      this.historyDialog$ = this.dialogService.open(
+        new PolymorpheusComponent(
+          ChangeScheduleHistoryComponent,
+          this.injector
+        ),
+        {
+          data: this.data.FixedSchedules,
+          label: 'Lịch sử thay đổi giờ giảng',
+        }
+      );
+    }
   }
 
   private handleStatusChange(): void {
