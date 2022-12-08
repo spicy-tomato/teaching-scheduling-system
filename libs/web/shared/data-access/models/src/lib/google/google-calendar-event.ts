@@ -52,21 +52,34 @@ export class GoogleCalendarEvent {
     id: Nullable<string>;
     self: boolean;
   };
-  start!: {
-    date: Date;
-    dateTime: Date;
-    timeZone: string;
-  };
-  end!: {
-    date: Date;
-    dateTime: Date;
-    timeZone: string;
-  };
+  start!:
+    | {
+        date: string;
+        dateTime: null;
+        timeZone: Nullable<string>;
+      }
+    | {
+        date: null;
+        dateTime: string;
+        timeZone: Nullable<string>;
+      };
+  end!:
+    | {
+        date: string;
+        dateTime: null;
+        timeZone: Nullable<string>;
+      }
+    | {
+        date: null;
+        dateTime: string;
+        timeZone: Nullable<string>;
+      };
   reminders!: {
     useDefault: boolean;
   };
   // Additional properties
   calendar!: string;
+  calendarId!: string;
 
   static parse(obj: GoogleCalendarEvent): GoogleCalendarEvent {
     const res = new GoogleCalendarEvent();
@@ -104,6 +117,7 @@ export class GoogleCalendarEvent {
     res.end = obj.end;
     res.reminders = obj.reminders;
     res.calendar = obj.calendar;
+    res.calendarId = obj.calendarId;
 
     return res;
   }
@@ -112,13 +126,15 @@ export class GoogleCalendarEvent {
     return {
       Id: this.id,
       Subject: this.summary,
-      StartTime: new Date(this.start.dateTime),
-      EndTime: new Date(this.end.dateTime),
+      StartTime: new Date(this.start.dateTime ?? this.start.date),
+      EndTime: new Date(this.end.dateTime ?? this.end.date),
       Location: this.location ?? undefined,
       Type: 'googleEvent',
       Note: this.description || '',
       People: this.attendees?.map(({ displayName }) => displayName || ''),
       Calendar: this.calendar,
+      CalendarId: this.calendarId,
+      IsAllDay: !!this.start.date,
     };
   }
 }

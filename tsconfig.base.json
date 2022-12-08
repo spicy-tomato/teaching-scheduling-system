@@ -78,6 +78,9 @@
       "@teaching-scheduling-system/web/calendar/dialogs/exam-dialog/feature": [
         "libs/web/calendar/dialogs/exam-dialog/feature/src/index.ts"
       ],
+      "@teaching-scheduling-system/web/calendar/dialogs/google-event-dialog": [
+        "libs/web/calendar/dialogs/google-event-dialog/src/index.ts"
+      ],
       "@teaching-scheduling-system/web/calendar/dialogs/teaching-dialog/data-access": [
         "libs/web/calendar/dialogs/teaching-dialog/data-access/src/index.ts"
       ],

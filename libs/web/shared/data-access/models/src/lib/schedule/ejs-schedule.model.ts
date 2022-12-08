@@ -106,6 +106,11 @@ export type GoogleCalendarModel = EjsScheduleCore & {
    */
   Calendar: string;
 
+  /**
+   * Calendar id of event in Google Calendar
+   */
+  CalendarId: string;
+
   People?: string[];
 };
 

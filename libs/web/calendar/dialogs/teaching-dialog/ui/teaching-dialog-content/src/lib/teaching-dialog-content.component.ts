@@ -254,8 +254,7 @@ export class TeachingDialogContentComponent implements OnInit {
         },
         {
           validators: sameGroupStaticValueValidator(initialRequest, {
-            date: (a: Nullable<TuiDay>, b: Nullable<TuiDay>) =>
-              !!a && !!b && a.daySame(b),
+            date: (a, b) => !!a && !!b && a.daySame(b),
           }),
         }
       ),

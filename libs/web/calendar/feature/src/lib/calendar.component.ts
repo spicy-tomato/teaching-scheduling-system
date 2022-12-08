@@ -48,11 +48,13 @@ import {
   CalendarState,
 } from '@teaching-scheduling-system/web/calendar/data-access';
 import { ExamDialogComponent } from '@teaching-scheduling-system/web/calendar/dialogs/exam-dialog/feature';
+import { GoogleEventDialogComponent } from '@teaching-scheduling-system/web/calendar/dialogs/google-event-dialog';
 import { TeachingDialogComponent } from '@teaching-scheduling-system/web/calendar/dialogs/teaching-dialog/feature';
 import {
   EjsScheduleModel,
   FixedScheduleModel,
   GoogleCalendarEvent,
+  GoogleCalendarModel,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import {
   SidebarState,
@@ -107,7 +109,7 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
     private readonly navbarService: NavbarService,
     private readonly store: Store<CalendarState>,
     private readonly sidebarStore: Store<SidebarState>,
-    private readonly destroy$: TuiDestroyService,
+    private readonly destroy$: TuiDestroyService
   ) {
     this.store.dispatch(calendarReset());
     this.handleLoadSchedule();
@@ -222,13 +224,15 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
     switch (data.Type) {
       case 'exam':
         this.showExamEditorDialog(data);
-        this.onCloseEditorDialog();
         break;
       case 'study':
         this.showStudyEditorDialog(data);
-        this.onCloseEditorDialog();
+        break;
+      case 'googleEvent':
+        this.showGoogleEventEditorDialog(data);
         break;
     }
+    this.onCloseEditorDialog();
   }
 
   onCloseEditorDialog(): void {
@@ -447,6 +451,27 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(
         ObservableHelper.filterNullish(),
         tap((schedules) => this.scheduleComponent.saveEvent(schedules))
+      )
+      .subscribe();
+  }
+
+  private showGoogleEventEditorDialog(data: GoogleCalendarModel): void {
+    this.dialogService
+      .open<GoogleCalendarModel | undefined>(
+        new PolymorpheusComponent(GoogleEventDialogComponent, this.injector),
+        {
+          data,
+          label: 'Chi tiết sự kiện',
+          closeable: false,
+          dismissible: false,
+          size: 'l'
+        }
+      )
+      .pipe(
+        ObservableHelper.filterUndefined(),
+        tap((newData) => {
+          this.scheduleComponent.saveEvent(newData);
+        })
       )
       .subscribe();
   }
