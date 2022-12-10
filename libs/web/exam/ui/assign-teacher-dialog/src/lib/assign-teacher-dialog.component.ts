@@ -59,7 +59,7 @@ export class AssignTeacherDialogComponent {
   onConfirm(): void {
     this.store.updateProctor({
       examId: this.context.data.id,
-      teachersId: (this.formControl.value as SimpleModel[]).map((x) => x.id),
+      teachersId: (this.formControl.value as SimpleModel[]).map(({ id }) => id),
     });
   }
 
@@ -75,7 +75,9 @@ export class AssignTeacherDialogComponent {
       .pipe(
         tap((teachers) => {
           this.formControl.setValue(
-            teachers.filter((t) => this.context.data.teachers.includes(t.name))
+            teachers.filter(({ name }) =>
+              this.context.data.teachers.includes(name)
+            )
           );
         })
       )
@@ -89,7 +91,9 @@ export class AssignTeacherDialogComponent {
           if (status === 'successful') {
             setTimeout(() => {
               this.context.completeWith(
-                (this.formControl.value as SimpleModel[]).map((x) => x.name)
+                (this.formControl.value as SimpleModel[]).map(
+                  ({ name }) => name
+                )
               );
             });
             return this.alertService.open(

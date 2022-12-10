@@ -101,7 +101,7 @@ export class RequestStore extends ComponentStore<TeachingScheduleRequestState> {
   );
 
   readonly status$: <T extends keyof Status>(prop: T) => Observable<Status[T]> =
-    (prop) => this.select((s) => s.status[prop]);
+    (prop) => this.select(({ status }) => status[prop]);
 
   readonly rooms$ = this.appShellStore
     .select(selectRooms)
@@ -153,11 +153,11 @@ export class RequestStore extends ComponentStore<TeachingScheduleRequestState> {
 
   readonly accept = this.effect<ChangeSchedule>((params$) =>
     params$.pipe(
-      tap((schedule) =>
+      tap(({ id }) =>
         this.patchState(({ status }) => ({
           status: {
             ...status,
-            queue: [...status.queue, schedule.id],
+            queue: [...status.queue, id],
           },
         }))
       ),
@@ -447,17 +447,17 @@ export class RequestStore extends ComponentStore<TeachingScheduleRequestState> {
     return pipe(
       tapResponse(
         ({ data, meta }) =>
-          this.patchState((state) => ({
+          this.patchState(({ status }) => ({
             changeSchedules: data,
             total: meta.last_page,
             status: {
-              ...state.status,
+              ...status,
               data: 'successful',
             },
           })),
         () =>
-          this.patchState((state) => ({
-            status: { ...state.status, data: 'systemError' },
+          this.patchState(({ status }) => ({
+            status: { ...status, data: 'systemError' },
           }))
       )
     );

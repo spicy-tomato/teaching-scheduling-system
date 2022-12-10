@@ -5,9 +5,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/libs/web/statistic/feature/change-schedule"
-      ],
+      "outputs": ["coverage/libs/web/statistic/feature/change-schedule"],
       "options": {
         "jestConfig": "libs/web/statistic/feature/change-schedule/jest.config.ts",
         "passWithNoTests": true

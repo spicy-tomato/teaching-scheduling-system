@@ -43,7 +43,7 @@ export class TeachingDialogButtonsRightComponent implements OnInit {
   constructor(
     private readonly cdr: ChangeDetectorRef,
     private readonly controlContainer: ControlContainer,
-    private readonly store: TeachingDialogStore,
+    private readonly store: TeachingDialogStore
   ) {
     this.changeStatus$ = store.status$('change');
     this.updateStatus$ = store.status$('update');
@@ -65,7 +65,6 @@ export class TeachingDialogButtonsRightComponent implements OnInit {
     const payload = {
       note: this.noteControl.value as string,
     };
-
     this.store.update({ id: this.idSchedule, payload });
   }
 

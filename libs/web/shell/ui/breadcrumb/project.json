@@ -5,9 +5,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/libs/web/shell/ui/breadcrumb"
-      ],
+      "outputs": ["coverage/libs/web/shell/ui/breadcrumb"],
       "options": {
         "jestConfig": "libs/web/shell/ui/breadcrumb/jest.config.ts",
         "passWithNoTests": true

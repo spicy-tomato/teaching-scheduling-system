@@ -74,39 +74,39 @@ export class ChangeScheduleChartComponent {
     changeSchedules: ChangeSchedule[],
     teachersList: SimpleModel[]
   ): void {
-    const teacherData = teachersList.reduce<TeacherData>((acc, curr) => {
-      acc[curr.id] = { accept: 0, deny: 0 };
+    const teacherData = teachersList.reduce<TeacherData>((acc, { id }) => {
+      acc[id] = { accept: 0, deny: 0 };
       return acc;
     }, {});
 
-    changeSchedules.forEach((changeSchedule) => {
-      const id = changeSchedule.teacher.id;
-      if (ChangeStatusHelper.isApproved(changeSchedule.status)) {
+    changeSchedules.forEach(({ teacher, status }) => {
+      const id = teacher.id;
+      if (ChangeStatusHelper.isApproved(status)) {
         teacherData[id].accept++;
       } else {
         teacherData[id].deny++;
       }
     });
 
-    const value: [number[], number[]] = [[], []];
+    const newValue: [number[], number[]] = [[], []];
     const newTeachersList: string[] = [];
     const labelsX: string[] = [];
     let maxHeight = 0;
 
-    ObjectHelper.toArray(teacherData).forEach((v) => {
-      const name = teachersList.find((t) => t.id === v.id)?.name;
+    ObjectHelper.toArray(teacherData).forEach(({ id, value }) => {
+      const name = teachersList.find((t) => t.id === id)?.name;
       if (name) {
         labelsX.push(StringHelper.shortenName(name));
-        value[0].push(v.value.accept);
-        value[1].push(v.value.deny);
+        newValue[0].push(value.accept);
+        newValue[1].push(value.deny);
         newTeachersList.push(name);
-        maxHeight = Math.max(maxHeight, v.value.accept, v.value.deny);
+        maxHeight = Math.max(maxHeight, value.accept, value.deny);
       }
     });
 
-    this.value = value;
-    this.labelsY = [...Array(maxHeight + 1).keys()].map((x, i, arr) =>
-      x % 5 === 0 || i === arr.length - 1 ? `${x}` : ''
+    this.value = newValue;
+    this.labelsY = [...Array(maxHeight + 1).keys()].map((x, i, { length }) =>
+      x % 5 === 0 || i === length - 1 ? `${x}` : ''
     );
     this.max = maxHeight;
     this.labelsX = labelsX;

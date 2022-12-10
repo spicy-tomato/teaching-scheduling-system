@@ -36,10 +36,10 @@ export class AuthService {
         observe: 'response',
       })
       .pipe(
-        map((response) => {
+        map(({ headers, body }) => {
           return {
-            token: response.headers.get('Authorization') ?? '',
-            teacher: response.body?.data || null,
+            token: headers.get('Authorization') ?? '',
+            teacher: body?.data || null,
           };
         })
       );

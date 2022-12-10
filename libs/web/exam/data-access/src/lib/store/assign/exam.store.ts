@@ -52,8 +52,8 @@ export class ExamAssignStore extends ComponentStore<ExamState> {
 
   // PUBLIC METHODS
   updateExam(idExam: number, examInfo: Partial<ExamScheduleModel>): void {
-    this.patchState((state) => ({
-      data: state.data?.map((exam) => {
+    this.patchState(({ data }) => ({
+      data: data?.map((exam) => {
         if (exam.id === idExam) {
           return { ...exam, ...examInfo } as ExamScheduleModel;
         }

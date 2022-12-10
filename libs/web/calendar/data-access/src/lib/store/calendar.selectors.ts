@@ -66,32 +66,40 @@ const calendarSelectStudy = createSelector(
       : schedules.personal.study
 );
 
-const calendarSelectExam = createSelector(
-  calendarSelectSchedule,
-  calendarSelectFilter,
-  (schedules, filter) =>
-    filter.showDepartmentSchedule
-      ? schedules.department.exam
-      : schedules.personal.exam
-);
+// const calendarSelectExam = createSelector(
+//   calendarSelectSchedule,
+//   calendarSelectFilter,
+//   (schedules, filter) =>
+//     filter.showDepartmentSchedule
+//       ? schedules.department.exam
+//       : schedules.personal.exam
+// );
 
 const calendarSelectScheduleWithType = createSelector(
   calendarSelectStudy,
-  calendarSelectExam,
-  (study, exam) => [...study, ...exam]
+  // calendarSelectExam,
+  (study /* , exam */) => [
+    ...study,
+    // Only select teachers from teaching schedule for now
+    // ...exam
+  ]
 );
 
 const calendarSelectDepartmentSchedule = createSelector(
   calendarSelectSchedule,
-  (schedule) => [...schedule.department.study, ...schedule.department.exam]
+  (schedule) => [
+    ...schedule.department.study,
+    // Only select teachers from teaching schedule for now
+    //  ...schedule.department.exam,
+  ]
 );
 
 export const calendarSelectTeachers = createSelector(
   calendarSelectDepartmentSchedule,
   (schedule) =>
     Array.from(
-      schedule.reduce((acc, curr) => {
-        curr.people?.forEach((person) => {
+      schedule.reduce((acc, { people }) => {
+        people?.forEach((person) => {
           const id = (person as SimpleModel).id;
           if (id && !acc.get(id)) {
             acc.set(id, (person as SimpleModel).name);
@@ -116,7 +124,8 @@ const calendarSelectSelectingTeacherIds = createSelector(
 export const calendarSelectActiveTeachers = createSelector(
   calendarSelectTeachers,
   calendarSelectFilter,
-  (teachers, filter) => teachers.filter((x) => filter.teacherIds.includes(x.id))
+  (teachers, filter) =>
+    teachers.filter(({ id }) => filter.teacherIds.includes(id))
 );
 
 export const calendarSelectModules = createSelector(
@@ -130,9 +139,9 @@ export const calendarSelectModules = createSelector(
 
     if (!selectingDepartment || selectingTeacherIds.length === 0) {
       return Array.from(
-        schedules.reduce((acc, curr) => {
-          if (!acc.get(curr.moduleName)) {
-            acc.set(curr.moduleName, true);
+        schedules.reduce((acc, { moduleName }) => {
+          if (!acc.get(moduleName)) {
+            acc.set(moduleName, true);
           }
           return acc;
         }, new Map<string, boolean>()),
@@ -141,14 +150,14 @@ export const calendarSelectModules = createSelector(
     }
 
     return Array.from(
-      schedules.reduce((acc, curr) => {
+      schedules.reduce((acc, { moduleName, people }) => {
         if (
-          !acc.get(curr.moduleName) &&
-          (curr.people as SimpleModel[])?.find((person) =>
-            selectingTeacherIds.find((id) => person.id === id)
+          !acc.get(moduleName) &&
+          (people as SimpleModel[])?.find(({ id }) =>
+            selectingTeacherIds.find((selectingId) => id === selectingId)
           )
         ) {
-          acc.set(curr.moduleName, true);
+          acc.set(moduleName, true);
         }
         return acc;
       }, new Map<string, boolean>()),
@@ -161,21 +170,37 @@ export const calendarSelectFilteredSchedule = createSelector(
   calendarSelectScheduleWithType,
   calendarSelectFilter,
   (schedules, filter) => {
-    const result =
+    // Filter by teacher
+    let result =
+      // If select personal schedule, or select department schedule but without filter by teacher
       !filter.showDepartmentSchedule || filter.teacherIds.length === 0
-        ? schedules
-        : schedules.filter((schedule) =>
-            (schedule.people as SimpleModel[])?.find((person) =>
-              filter.teacherIds.find((id) => person.id === id)
+        ? // then display all
+          schedules
+        : // else filter to get the schedules that has teacherID equals filtering teacherID
+          schedules.filter(({ people }) =>
+            (people as SimpleModel[])?.find(({ id }) =>
+              filter.teacherIds.find((teacherId) => id === teacherId)
             )
           );
-    return filter.modules.length === 0
-      ? result
-      : result.filter(
-          (schedule) =>
-            schedule instanceof ExamScheduleModel ||
-            (schedule instanceof StudyScheduleModel &&
-              filter.modules.includes(schedule.moduleName))
-        );
+
+    // Filter by module
+    result =
+      filter.modules.length === 0
+        ? result
+        : // filter to get all Exam, and schedule that has moduleName equals filtering moduleName
+          result.filter(
+            (schedule) =>
+              schedule instanceof ExamScheduleModel ||
+              (schedule instanceof StudyScheduleModel &&
+                filter.modules.includes(schedule.moduleName))
+          );
+    return result;
   }
+);
+
+export const calendarSelectGoogleCalendarEvents = createSelector(
+  calendarSelector,
+  calendarSelectFilter,
+  ({ googleCalendar }, { showDepartmentSchedule }) =>
+    showDepartmentSchedule ? [] : googleCalendar.events
 );

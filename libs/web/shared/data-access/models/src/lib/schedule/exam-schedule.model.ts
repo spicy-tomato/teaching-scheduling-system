@@ -16,7 +16,7 @@ export class ExamScheduleModel extends ScheduleModel {
     public readonly numberOfStudents: number,
     public readonly credit: number
   ) {
-    super(id, idModuleClass, name, idRoom, 'exam', note ?? '', [...teachers]);
+    super(id, idModuleClass, name, idRoom, 'exam', note ?? '');
   }
 
   static parse(obj: ExamScheduleModel): ExamScheduleModel {
@@ -46,7 +46,7 @@ export class ExamScheduleModel extends ScheduleModel {
       IdModuleClass: this.idModuleClass,
       Note: this.note,
       Method: this.method,
-      People: this.people,
+      People: this.teachers,
     };
   }
 }

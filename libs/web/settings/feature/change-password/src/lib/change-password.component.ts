@@ -33,7 +33,7 @@ import { of, switchMap } from 'rxjs';
   ],
 })
 export class ChangePasswordComponent {
-  // PUBLIC METHODS
+  // PUBLIC PROPERTIES
   status$ = this.store.status$;
   nameTitle$ = this.store.nameTitle$;
   form!: FormGroup;

@@ -89,6 +89,6 @@ export class StatisticChangeScheduleStore extends ComponentStore<ChangeScheduleS
 
     return this.statisticService
       .getDepartment(departmentId, date)
-      .pipe(map((response) => response.data));
+      .pipe(map(({ data }) => data));
   }
 }

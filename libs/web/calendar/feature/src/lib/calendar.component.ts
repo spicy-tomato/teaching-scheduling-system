@@ -41,16 +41,20 @@ import {
   calendarPrev,
   calendarReset,
   calendarSelectFilteredSchedule,
+  calendarSelectGoogleCalendarEvents,
   calendarSelectSelectedDate,
   calendarSelectStatus,
   calendarSelectView,
   CalendarState,
 } from '@teaching-scheduling-system/web/calendar/data-access';
 import { ExamDialogComponent } from '@teaching-scheduling-system/web/calendar/dialogs/exam-dialog/feature';
+import { GoogleEventDialogComponent } from '@teaching-scheduling-system/web/calendar/dialogs/google-event-dialog';
 import { TeachingDialogComponent } from '@teaching-scheduling-system/web/calendar/dialogs/teaching-dialog/feature';
 import {
   EjsScheduleModel,
   FixedScheduleModel,
+  GoogleCalendarEvent,
+  GoogleCalendarModel,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import {
   SidebarState,
@@ -100,12 +104,12 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // CONSTRUCTOR
   constructor(
-    private readonly destroy$: TuiDestroyService,
-    @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
     @Inject(Injector) private readonly injector: Injector,
+    @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
     private readonly navbarService: NavbarService,
+    private readonly store: Store<CalendarState>,
     private readonly sidebarStore: Store<SidebarState>,
-    private readonly store: Store<CalendarState>
+    private readonly destroy$: TuiDestroyService
   ) {
     this.store.dispatch(calendarReset());
     this.handleLoadSchedule();
@@ -220,13 +224,15 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
     switch (data.Type) {
       case 'exam':
         this.showExamEditorDialog(data);
-        this.onCloseEditorDialog();
         break;
       case 'study':
         this.showStudyEditorDialog(data);
-        this.onCloseEditorDialog();
+        break;
+      case 'googleEvent':
+        this.showGoogleEventEditorDialog(data);
         break;
     }
+    this.onCloseEditorDialog();
   }
 
   onCloseEditorDialog(): void {
@@ -238,12 +244,42 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store
       .select(calendarSelectFilteredSchedule)
       .pipe(
-        filter((s) => s.length > 0),
         map((schedules) => schedules.map((x) => x.toEjsSchedule())),
         tap((dataSource) => {
           this.eventSettings$.next({
             ...this.staticSettings,
-            dataSource,
+            // Only update schedule, not Google events
+            dataSource: [
+              ...(
+                (this.eventSettings$.value.dataSource ||
+                  []) as EjsScheduleModel[]
+              ).filter(({ Type }) => Type === 'googleEvent'),
+              ...dataSource,
+            ],
+          });
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+    this.store
+      .select(calendarSelectGoogleCalendarEvents)
+      .pipe(
+        map((events) =>
+          events.map((x) => GoogleCalendarEvent.parse(x).toEjsSchedule())
+        ),
+        tap((dataSource) => {
+          // TODO: Bug
+          // console.log(dataSource);
+          this.eventSettings$.next({
+            ...this.staticSettings,
+            // Only update Google events
+            dataSource: [
+              ...(
+                (this.eventSettings$.value.dataSource ||
+                  []) as EjsScheduleModel[]
+              ).filter(({ Type }) => Type !== 'googleEvent'),
+              ...dataSource,
+            ],
           });
         }),
         takeUntil(this.destroy$)
@@ -272,12 +308,10 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
       .select(sidebar_selectEvent)
       .pipe(
         ObservableHelper.filterNullish(),
-        filter(
-          (e) => e.name === 'calendar.exam' || e.name === 'calendar.study'
-        ),
-        tap((e) => {
+        filter(({ name }) => name !== 'calendar.create'),
+        tap(({ name, value }) => {
           // https://ej2.syncfusion.com/angular/documentation/schedule/appointments/#appointment-filtering
-          this.calendars[e.name] = e.value as boolean;
+          this.calendars[name] = value as boolean;
           let predicate: Predicate | undefined;
 
           for (const [key, checked] of Object.entries(this.calendars)) {
@@ -285,6 +319,7 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
               //    key         : calendar.study
               // => compareValue: study
               const compareValue = key.substring(9);
+
               if (predicate) {
                 predicate = predicate.or('Type', 'equal', compareValue);
               } else {
@@ -416,6 +451,27 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(
         ObservableHelper.filterNullish(),
         tap((schedules) => this.scheduleComponent.saveEvent(schedules))
+      )
+      .subscribe();
+  }
+
+  private showGoogleEventEditorDialog(data: GoogleCalendarModel): void {
+    this.dialogService
+      .open<GoogleCalendarModel | undefined>(
+        new PolymorpheusComponent(GoogleEventDialogComponent, this.injector),
+        {
+          data,
+          label: 'Chi tiết sự kiện',
+          closeable: false,
+          dismissible: false,
+          size: 'l'
+        }
+      )
+      .pipe(
+        ObservableHelper.filterUndefined(),
+        tap((newData) => {
+          this.scheduleComponent.saveEvent(newData);
+        })
       )
       .subscribe();
   }

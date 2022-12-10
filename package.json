@@ -1,6 +1,6 @@
 {
   "name": "teaching-scheduling-system",
-  "version": "3.20.6",
+  "version": "3.21.1",
   "license": "MIT",
   "scripts": {
     "ng": "nx",
@@ -16,7 +16,8 @@
     "lint-all": "nx run-many --all --target=lint",
     "outdate": "npx npm-check-updates",
     "outdate:minor": "npx npm-check-updates --target minor",
-    "outdate:patch": "npx npm-check-updates --target patch"
+    "outdate:patch": "npx npm-check-updates --target patch",
+    "local": "http-server .\\dist\\apps\\teaching-scheduling-system\\"
   },
   "private": true,
   "dependencies": {
@@ -54,9 +55,6 @@
     "@taiga-ui/kit": "^3.6.0",
     "@taiga-ui/styles": "^3.6.0",
     "@tinkoff/ng-dompurify": "^4.0.0",
-    "@types/gapi": "^0.0.42",
-    "@types/gapi.auth2": "^0.0.56",
-    "@types/gapi.calendar": "^3.0.6",
     "cldr-data": "^36.0.1",
     "docx": "^7.7.0",
     "dompurify": "^2.4.1",

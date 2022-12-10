@@ -32,8 +32,8 @@ export class SettingsChangePasswordStore extends ComponentStore<ExamState> {
     params$.pipe(
       tap(() => this.patchState({ status: 'loading', error: null })),
       withLatestFrom(this.teacher$),
-      switchMap(([params, teacher]) =>
-        this.userService.changePassword(teacher.uuidAccount, params.form).pipe(
+      switchMap(([params, { uuidAccount }]) =>
+        this.userService.changePassword(uuidAccount, params.form).pipe(
           tapResponse(
             () =>
               this.patchState({

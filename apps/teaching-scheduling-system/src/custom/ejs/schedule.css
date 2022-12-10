@@ -80,9 +80,9 @@
 }
 
 /* Style of item in popup */
-.e-quick-popup-wrapper .e-event-popup .e-module-class {
-  @apply flex pt-4 text-[rgba(0,0,0,0.87)];
+.e-quick-popup-wrapper .e-event-popup .attr-row {
+  @apply flex items-center pt-3 text-sm text-[rgba(0,0,0,0.87)];
 }
-.e-quick-popup-wrapper .e-event-popup .e-module-class .mdi {
+.e-quick-popup-wrapper .e-event-popup .attr-row .mdi {
   @apply pr-3 text-[18px] text-[rgba(0,0,0,0.54)] leading-[20px];
 }

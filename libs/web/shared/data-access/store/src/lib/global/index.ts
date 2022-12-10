@@ -1,4 +1,10 @@
-export { keepLogin, reset, logout, setLoader } from './app-shell.page.actions';
+export {
+  keepLogin,
+  reset,
+  logout,
+  setLoader,
+  setConnectToGoogle,
+} from './app-shell.page.actions';
 export { appShellReducer, appShellFeatureKey } from './app-shell.reducer';
 export { AppShellState } from './app-shell.state';
 export {

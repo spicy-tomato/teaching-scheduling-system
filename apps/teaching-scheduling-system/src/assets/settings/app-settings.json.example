@@ -2,6 +2,6 @@
   "appTitle": "",
   "baseUrl": "",
   "currentTerm": "",
-  "googleApiKey": "",
-  "googleApiClientId": ""
+  "maintenance": false,
+  "maintenanceDate": ""
 }

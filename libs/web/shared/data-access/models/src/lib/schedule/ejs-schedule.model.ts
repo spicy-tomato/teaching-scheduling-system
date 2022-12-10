@@ -1,12 +1,9 @@
 import { SimpleModel } from '../core/simple.model';
 import { FixedScheduleModel } from './fixed-schedule.model';
 
-export interface EjsScheduleModel {
-  /**
-   * Assigns a unique ID value to each of the events.
-   */
-  Id: number;
+export type EjsScheduleModelType = 'exam' | 'study' | 'googleEvent';
 
+interface EjsScheduleCore {
   /**
    * Assigns the summary text to each of the events.
    */
@@ -38,34 +35,9 @@ export interface EjsScheduleModel {
   IsAllDay?: boolean;
 
   /**
-   * Type of event. Can be `study` or `exam`
-   */
-  Type: 'exam' | 'study';
-
-  /**
-   * Module ID (subject) class at school of event
-   */
-  IdModuleClass: string;
-
-  /**
-   * Module (subject) class at school of event
-   */
-  ModuleName?: string;
-
-  /**
    * Note of event
    */
   Note: string;
-
-  /**
-   * Method of event
-   */
-  Method?: string;
-
-  /**
-   * People of event
-   */
-  People?: string[] | SimpleModel[];
 
   /**
    * Color of event
@@ -73,17 +45,76 @@ export interface EjsScheduleModel {
   Color?: string;
 
   /**
-   * Color of event
+   * EjsSchedule's property
    */
-  Shift?: string;
+  elementType?: 'cell' | 'event';
+}
+
+type TssModel = EjsScheduleCore & {
+  /**
+   * Assigns a unique ID value to each of the events.
+   */
+  Id: number;
+
+  /**
+   * Module ID (subject) class at school of event
+   */
+  Type: 'exam' | 'study';
+
+  /**
+   * Module ID (subject) class at school of event
+   */
+  IdModuleClass: string;
+};
+
+export interface TssTeachingModel extends TssModel {
+  /**
+   * Shift of teaching schedule
+   */
+  Shift: string;
+
+  /**
+   * Module (subject) class at school of event
+   */
+  ModuleName: string;
+
+  /**
+   * People of event
+   */
+  People?: string[] | SimpleModel[];
 
   /**
    * Fixed schedule
    */
-  FixedSchedules?: FixedScheduleModel[];
+  FixedSchedules: FixedScheduleModel[];
+}
+
+export interface TssExamModel extends TssModel {
+  /**
+   * Method of event
+   */
+  Method: string;
+  People: string[];
+}
+
+export type GoogleCalendarModel = EjsScheduleCore & {
+  Id: string;
+  Type: 'googleEvent';
 
   /**
-   * elementType
+   * Calendar name of event in Google Calendar
    */
-  elementType?: 'cell' | 'event';
-}
+  Calendar: string;
+
+  /**
+   * Calendar id of event in Google Calendar
+   */
+  CalendarId: string;
+
+  People?: string[];
+};
+
+export type EjsScheduleModel =
+  | TssTeachingModel
+  | TssExamModel
+  | GoogleCalendarModel;

@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.21.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.21.0...v3.21.1) (2022-11-23)
+
+
+### Bug Fixes
+
+* **lib:** `tui-expand` does not work ([4d3a998](https://github.com/annguyen-it/teaching-scheduling-system/commit/4d3a9987b8dab2be90e2ee870278d85f0fc16d79))
+
+## [3.21.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.20.3...v3.21.0) (2022-11-22)
+
+
+### Features
+
+* version ([c9f6680](https://github.com/annguyen-it/teaching-scheduling-system/commit/c9f668000845fb43d87bc89f2ab2630bfd81802c))
+
+
+### Bug Fixes
+
+* **ci:** bump autoprefixer to 10.4.13 ([5d8f0d0](https://github.com/annguyen-it/teaching-scheduling-system/commit/5d8f0d063d3b9e7c1b5a9c0fff97066345674cdd))
+* **dep:** bump docx to 7.7.0 ([694147b](https://github.com/annguyen-it/teaching-scheduling-system/commit/694147b1d68c32bc7bf5d2ff37eef708a86856f4))
+* **dep:** bump postcss to 8.4.19 ([8623eed](https://github.com/annguyen-it/teaching-scheduling-system/commit/8623eed89349cdd1038ac0e2dd1da508091b596d))
+* **dep:** bump pusher-js to 7.3.0 ([7e3a3f0](https://github.com/annguyen-it/teaching-scheduling-system/commit/7e3a3f0a92ff8108ad331f88583022e7e696ff54))
+* **dep:** bump taiga-ui to 3.6.0 ([7a1acda](https://github.com/annguyen-it/teaching-scheduling-system/commit/7a1acdaf9f0a02331e89b3f0d4cde67ad8a6372d))
+* **dep:** bump tailwindcss to 3.2.4 ([65a3668](https://github.com/annguyen-it/teaching-scheduling-system/commit/65a36686477d2a34b136e0040e18f8e6c13f842c))
+* **styles:** font size in `tui-editor`  does not display correctly ([4d478cb](https://github.com/annguyen-it/teaching-scheduling-system/commit/4d478cb70ed9f10ed55497aad16e8ddf5d41840e))
+
 ### [3.20.2](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.20.0...v3.20.2) (2022-11-20)
 
 

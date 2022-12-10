@@ -4,20 +4,14 @@
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": [
-        "{options.outputFile}"
-      ],
+      "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "libs/web/shared/utils/interceptors/**/*.ts"
-        ]
+        "lintFilePatterns": ["libs/web/shared/utils/interceptors/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/libs/web/shared/utils/interceptors"
-      ],
+      "outputs": ["coverage/libs/web/shared/utils/interceptors"],
       "options": {
         "jestConfig": "libs/web/shared/utils/interceptors/jest.config.ts",
         "passWithNoTests": true
