@@ -1,14 +1,11 @@
 {
-  "$schema": "..\\..\\..\\..\\node_modules\\nx\\schemas\\project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/web/notification/feature/src",
   "prefix": "tss",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/libs/web/notification/feature"
-      ],
+      "outputs": ["coverage/libs/web/notification/feature"],
       "options": {
         "jestConfig": "libs/web/notification/feature/jest.config.ts",
         "passWithNoTests": true

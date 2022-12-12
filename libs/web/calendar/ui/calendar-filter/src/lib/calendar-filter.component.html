@@ -32,44 +32,42 @@
     <tr>
       <td>
         <tui-expand [expanded]="filter.showDepartmentSchedule">
-          <ng-template> Giảng viên: </ng-template>
+          Giảng viên:
         </tui-expand>
       </td>
       <td>
         <tui-expand [expanded]="filter.showDepartmentSchedule">
-          <ng-template>
-            <div tuiTextfieldSize="s">
-              <tui-select
-                *ngrxLet="teachers$ as teachers"
-                [ngModel]="filter.teacherIds"
-                [valueContent]="stringifyTeacher(teachers)"
-                [tuiActiveZoneParent]="activeZone"
-                (ngModelChange)="onChangeSelectingState({ teacherIds: $event })"
-              >
-                <ng-template tuiDataList>
-                  <tui-data-list role="listbox">
-                    <tui-opt-group>
-                      <button tuiOption [value]="[]" size="xs" role="option">
-                        Tất cả
-                      </button>
-                    </tui-opt-group>
-                    <tui-opt-group tuiMultiSelectGroup>
-                      <button
-                        tuiOption
-                        *ngFor="let teacher of teachers; index as i"
-                        [value]="teacher.id"
-                        [class.!px-2]="forMenu"
-                        size="xs"
-                        role="option"
-                      >
-                        {{ teacher.name }}
-                      </button>
-                    </tui-opt-group>
-                  </tui-data-list>
-                </ng-template>
-              </tui-select>
-            </div>
-          </ng-template>
+          <div tuiTextfieldSize="s">
+            <tui-select
+              *ngrxLet="teachers$ as teachers"
+              [ngModel]="filter.teacherIds"
+              [valueContent]="stringifyTeacher(teachers)"
+              [tuiActiveZoneParent]="activeZone"
+              (ngModelChange)="onChangeSelectingState({ teacherIds: $event })"
+            >
+              <ng-template tuiDataList>
+                <tui-data-list role="listbox">
+                  <tui-opt-group>
+                    <button tuiOption [value]="[]" size="xs" role="option">
+                      Tất cả
+                    </button>
+                  </tui-opt-group>
+                  <tui-opt-group tuiMultiSelectGroup>
+                    <button
+                      tuiOption
+                      *ngFor="let teacher of teachers; index as i"
+                      [value]="teacher.id"
+                      [class.!px-2]="forMenu"
+                      size="xs"
+                      role="option"
+                    >
+                      {{ teacher.name }}
+                    </button>
+                  </tui-opt-group>
+                </tui-data-list>
+              </ng-template>
+            </tui-select>
+          </div>
         </tui-expand>
       </td>
     </tr>

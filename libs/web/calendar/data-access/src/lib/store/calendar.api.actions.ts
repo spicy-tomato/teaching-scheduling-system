@@ -3,55 +3,65 @@ import { TuiDayRange, TuiMonth } from '@taiga-ui/cdk';
 import {
   StudyScheduleModel,
   ExamScheduleModel,
+  GoogleCalendarEvent,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 
 export const loadPersonalStudySuccessful = createAction(
-  '[Schedule API] Load personal study Successfully',
+  '[Calendar API] Load personal study Successfully',
   props<{ schedules: StudyScheduleModel[]; ranges: TuiDayRange[] }>()
 );
 
 export const loadPersonalStudyFailure = createAction(
-  '[Schedule API] Load personal study Failed'
+  '[Calendar API] Load personal study Failed'
 );
 
 export const loadPersonalExamSuccessful = createAction(
-  '[Schedule API] Load Exam Successfully',
+  '[Calendar API] Load Exam Successfully',
   props<{ schedules: ExamScheduleModel[]; ranges: TuiDayRange[] }>()
 );
 
 export const loadPersonalExamFailure = createAction(
-  '[Schedule API] Load Exam Failed'
+  '[Calendar API] Load Exam Failed'
 );
 
 export const loadDepartmentStudySuccessful = createAction(
-  '[Schedule API] Load department study Successfully',
+  '[Calendar API] Load department study Successfully',
   props<{ schedules: StudyScheduleModel[]; ranges: TuiDayRange[] }>()
 );
 
 export const loadDepartmentStudyFailure = createAction(
-  '[Schedule API] Load department study Failed'
+  '[Calendar API] Load department study Failed'
 );
 
 export const loadDepartmentExamSuccessful = createAction(
-  '[Schedule API] Load department exam Successfully',
+  '[Calendar API] Load department exam Successfully',
   props<{ schedules: ExamScheduleModel[]; ranges: TuiDayRange[] }>()
 );
 
 export const loadDepartmentExamFailure = createAction(
-  '[Schedule API] Load department exam Failed'
+  '[Calendar API] Load department exam Failed'
+);
+
+export const loadGoogleCalendarSuccessful = createAction(
+  '[Calendar API] Load Google calendar Successfully',
+  props<{ events: GoogleCalendarEvent[]; ranges: TuiDayRange[] }>()
+);
+
+export const loadGoogleCalendarFailure = createAction(
+  '[Calendar API] Load Google calendar Failed'
 );
 
 export const prev = createAction(
-  '[Schedule API] Prev',
+  '[Calendar API] Prev',
   props<{ date: Date }>()
 );
 
 export const next = createAction(
-  '[Schedule API] Next',
+  '[Calendar API] Next',
   props<{ date: Date }>()
 );
 
 export const changeMonth = createAction(
-  '[Schedule API] Choose Month',
+  '[Calendar API] Choose Month',
   props<{ month: TuiMonth; date: Date }>()
 );

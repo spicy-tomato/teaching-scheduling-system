@@ -1,14 +1,11 @@
 {
-  "$schema": "..\\..\\..\\..\\..\\node_modules\\nx\\schemas\\project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/web/error/feature/forbidden/src",
   "prefix": "teaching-scheduling-system",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/libs/web/error/feature/forbidden"
-      ],
+      "outputs": ["coverage/libs/web/error/feature/forbidden"],
       "options": {
         "jestConfig": "libs/web/error/feature/forbidden/jest.config.ts",
         "passWithNoTests": true

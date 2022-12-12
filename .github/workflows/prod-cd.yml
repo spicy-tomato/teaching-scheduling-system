@@ -1,0 +1,85 @@
+name: Prod CD
+
+on:
+  push:
+    branches: ['maste']
+
+env:
+  PROD_ENV_FILE: ./apps/teaching-scheduling-system/src/environments/environment.prod.ts
+
+jobs:
+  build:
+    name: Build Prod
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'npm'
+
+      - name: Cache node modules
+        id: cache-npm
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+        name: List the state of node modules
+        continue-on-error: true
+        run: npm list
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Create env file
+        run: |
+          touch $PROD_ENV_FILE
+          echo "import p from '../../../../package.json';" >> $PROD_ENV_FILE
+          echo "export const environment = {" >> $PROD_ENV_FILE
+          echo "  version: p.version," >> $PROD_ENV_FILE
+          echo "  production: true," >> $PROD_ENV_FILE
+          echo "  recaptcha: {" >> $PROD_ENV_FILE
+          echo "    siteKey: '${{ secrets.RECAPTCHA_SITE_KEY }}'," >> $PROD_ENV_FILE
+          echo "  }," >> $PROD_ENV_FILE
+          echo "  pusher: {" >> $PROD_ENV_FILE
+          echo "    key: '${{ secrets.PUSHER_KEY_PROD }}'," >> $PROD_ENV_FILE
+          echo "    cluster: '${{ secrets.PUSHER_CLUSTER }}'," >> $PROD_ENV_FILE
+          echo "  }," >> $PROD_ENV_FILE
+          echo "  SYNCFUSION_LICENSE: '${{ secrets.SYNCFUSION_LICENSE }}'," >> $PROD_ENV_FILE
+          echo "};" >> $PROD_ENV_FILE
+          cp $PROD_ENV_FILE ./apps/teaching-scheduling-system/src/environments/environment.ts
+
+      - name: Release new version
+        run: |
+          git config --global user.email "snowflower1408@gmail.com"
+          git config --global user.name "Prod workflow"
+          npm run release
+
+      - name: Build
+        run: npm run build
+
+      - name: Copy dist to VPS
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          port: ${{ secrets.SSH_PORT }}
+          key: ${{ secrets.SSH_KEY }}
+          source: './dist/apps/teaching-scheduling-system/*,!./dist/apps/teaching-scheduling-system/assets/settings'
+          target: '/var/www/html/web'
+          strip_components: 3
+
+      - name: Push new version
+        run: |
+          git push --follow-tags origin master

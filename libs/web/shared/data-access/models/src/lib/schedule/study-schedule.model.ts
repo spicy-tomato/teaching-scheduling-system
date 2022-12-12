@@ -1,9 +1,12 @@
 import { DateHelper } from '@teaching-scheduling-system/core/utils/helpers';
+import { SimpleModel } from '../core';
 import { EjsScheduleModel } from './ejs-schedule.model';
 import { FixedScheduleModel } from './fixed-schedule.model';
 import { ScheduleModel } from './schedule.model';
 
 export class StudyScheduleModel extends ScheduleModel {
+  public people: string[] | SimpleModel[];
+
   constructor(
     id: number,
     idModuleClass: string,
@@ -14,10 +17,11 @@ export class StudyScheduleModel extends ScheduleModel {
     public date: Date,
     public readonly color: string,
     public readonly moduleName: string,
-    public readonly teacher: string,
+    public readonly teacher: string | SimpleModel,
     public fixedSchedules: FixedScheduleModel[]
   ) {
-    super(id, idModuleClass, name, idRoom, 'study', note, [teacher]);
+    super(id, idModuleClass, name, idRoom, 'study', note);
+    this.people = [teacher] as string[] | SimpleModel[];
   }
 
   static parse(obj: StudyScheduleModel): StudyScheduleModel {

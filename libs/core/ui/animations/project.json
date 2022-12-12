@@ -1,24 +1,17 @@
 {
-  "$schema": "..\\..\\..\\..\\node_modules\\nx\\schemas\\project-schema.json",
   "sourceRoot": "libs/core/ui/animations/src",
   "projectType": "library",
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": [
-        "{options.outputFile}"
-      ],
+      "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "libs/core/ui/animations/**/*.ts"
-        ]
+        "lintFilePatterns": ["libs/core/ui/animations/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/libs/core/ui/animations"
-      ],
+      "outputs": ["coverage/libs/core/ui/animations"],
       "options": {
         "jestConfig": "libs/core/ui/animations/jest.config.ts",
         "passWithNoTests": true

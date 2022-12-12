@@ -1,14 +1,17 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { tuiButtonOptionsProvider, TuiDialogContext } from '@taiga-ui/core';
+import { IconConstant } from '@teaching-scheduling-system/core/data-access/constants';
 import { ChangeStatusHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import {
+  TeachingDialogChange,
+  TeachingDialogStore,
+} from '@teaching-scheduling-system/web/calendar/dialogs/teaching-dialog/data-access';
+import {
   ChangedScheduleModel,
-  EjsScheduleModel,
+  TssTeachingModel,
   FixedScheduleModel,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { TeachingDialogChange, TeachingDialogStore } from '@teaching-scheduling-system/web/calendar/dialogs/teaching-dialog/data-access';
-import { IconConstant } from '@teaching-scheduling-system/core/data-access/constants';
 
 @Component({
   templateUrl: './teaching-dialog.component.html',
@@ -28,26 +31,26 @@ export class TeachingDialogComponent {
   schedules = this.context.data.schedules;
   openScheduleList = false;
   changedSchedule: ChangedScheduleModel =
-    this.context.data.schedules.reduce<ChangedScheduleModel>((acc, curr) => {
-      acc[curr.Id] = null;
+    this.context.data.schedules.reduce<ChangedScheduleModel>((acc, { Id }) => {
+      acc[Id] = null;
       return acc;
     }, {});
-  selectedSchedule!: EjsScheduleModel;
+  selectedSchedule!: TssTeachingModel;
 
   // PRIVATE PROPERTIES
   private haveOpened = false;
   private needUpdateAfterClose = false;
 
   // GETTERS
-  private get currentSelected(): EjsScheduleModel {
+  private get currentSelected(): TssTeachingModel {
     return (
-      this.schedules.find((s) => s.Id === this.selectedSchedule.Id) ||
+      this.schedules.find(({ Id }) => Id === this.selectedSchedule.Id) ||
       this.selectedSchedule
     );
   }
 
   // SETTERS
-  private set currentSelected(schedule: EjsScheduleModel) {
+  private set currentSelected(schedule: TssTeachingModel) {
     this.schedules = this.schedules.map((s) => {
       if (s.Id === this.selectedSchedule.Id) {
         this.selectedSchedule = schedule;
@@ -61,8 +64,8 @@ export class TeachingDialogComponent {
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT)
     public readonly context: TuiDialogContext<
-      EjsScheduleModel[],
-      { schedules: EjsScheduleModel[]; selectedId: number }
+      TssTeachingModel[],
+      { schedules: TssTeachingModel[]; selectedId: number }
     >
   ) {
     this.onChangeSelectedSchedule(context.data.selectedId);
@@ -76,8 +79,10 @@ export class TeachingDialogComponent {
     }
   }
 
-  onChangeSelectedSchedule(scheduleId: number): void {
-    const newSelectSchedule = this.schedules.find((s) => s.Id === scheduleId);
+  onChangeSelectedSchedule(scheduleId: number | string): void {
+    const newSelectSchedule = this.schedules.find(
+      ({ Id }) => Id === scheduleId
+    );
     if (newSelectSchedule) {
       this.selectedSchedule = newSelectSchedule;
     }
@@ -87,7 +92,8 @@ export class TeachingDialogComponent {
     const copy = { ...this.currentSelected };
     copy.FixedSchedules = [
       schedule,
-      ...(this.selectedSchedule.FixedSchedules?.filter((x) => !x.isNew) ?? []),
+      ...(this.selectedSchedule.FixedSchedules?.filter(({ isNew }) => !isNew) ??
+        []),
     ];
     this.currentSelected = copy;
     this.needUpdateAfterClose = true;

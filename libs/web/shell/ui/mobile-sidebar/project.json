@@ -1,14 +1,11 @@
 {
-  "$schema": "..\\..\\..\\..\\..\\node_modules\\nx\\schemas\\project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/web/shell/ui/mobile-sidebar/src",
   "prefix": "tss",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/libs/web/shell/ui/mobile-sidebar"
-      ],
+      "outputs": ["coverage/libs/web/shell/ui/mobile-sidebar"],
       "options": {
         "jestConfig": "libs/web/shell/ui/mobile-sidebar/jest.config.ts",
         "passWithNoTests": true

@@ -1,24 +1,17 @@
 {
-  "$schema": "..\\..\\..\\..\\node_modules\\nx\\schemas\\project-schema.json",
   "sourceRoot": "libs/core/utils/helpers/src",
   "projectType": "library",
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": [
-        "{options.outputFile}"
-      ],
+      "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "libs/core/utils/helpers/**/*.ts"
-        ]
+        "lintFilePatterns": ["libs/core/utils/helpers/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/libs/core/utils/helpers"
-      ],
+      "outputs": ["coverage/libs/core/utils/helpers"],
       "options": {
         "jestConfig": "libs/core/utils/helpers/jest.config.ts",
         "passWithNoTests": true

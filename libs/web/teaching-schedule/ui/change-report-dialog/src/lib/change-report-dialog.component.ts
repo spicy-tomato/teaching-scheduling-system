@@ -67,7 +67,7 @@ export class ChangeReportDialogComponent {
   private handleConfirm(): void {
     this.confirm$
       .pipe(
-        withLatestFrom(this.teacher$.pipe(map((teacher) => teacher.id))),
+        withLatestFrom(this.teacher$.pipe(map(({ id }) => id))),
         tap(({ 1: teacherId }) => {
           this.store.getPersonalChangeScheduleRequests({
             range: this.rangeControlValue,

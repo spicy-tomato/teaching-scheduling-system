@@ -1,11 +1,15 @@
-name: Dev CI
+name: Dev CD
 
 on:
   push:
-    branches: [ "dev" ]
+    branches: ['dev']
+
+env:
+  ENV_FILE: ./apps/teaching-scheduling-system/src/environments/environment.ts
 
 jobs:
   build:
+    name: Build Dev
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -40,18 +44,20 @@ jobs:
 
       - name: Create env file
         run: |
-          touch ./apps/teaching-scheduling-system/src/environments/environment.ts
-          echo "export const environment = {" >> ./apps/teaching-scheduling-system/src/environments/environment.ts
-          echo "  production: false," >> ./apps/teaching-scheduling-system/src/environments/environment.ts
-          echo "  recaptcha: {" >> ./apps/teaching-scheduling-system/src/environments/environment.ts
-          echo "    siteKey: '${{ secrets.RECAPTCHA_SITE_KEY }}'," >> ./apps/teaching-scheduling-system/src/environments/environment.ts
-          echo "  }," >> ./apps/teaching-scheduling-system/src/environments/environment.ts
-          echo "  pusher: {" >> ./apps/teaching-scheduling-system/src/environments/environment.ts
-          echo "    key: '${{ secrets.PUSHER_KEY }}'," >> ./apps/teaching-scheduling-system/src/environments/environment.ts
-          echo "    cluster: '${{ secrets.PUSHER_CLUSTER }}'," >> ./apps/teaching-scheduling-system/src/environments/environment.ts
-          echo "  }," >> ./apps/teaching-scheduling-system/src/environments/environment.ts
-          echo "  SYNCFUSION_LICENSE: '${{ secrets.SYNCFUSION_LICENSE }}'," >> ./apps/teaching-scheduling-system/src/environments/environment.ts
-          echo "};" >> ./apps/teaching-scheduling-system/src/environments/environment.ts
+          touch $ENV_FILE
+          echo "import p from '../../../../package.json';" >> $ENV_FILE
+          echo "export const environment = {" >> $ENV_FILE
+          echo "  version: p.version," >> $ENV_FILE
+          echo "  production: false," >> $ENV_FILE
+          echo "  recaptcha: {" >> $ENV_FILE
+          echo "    siteKey: '${{ secrets.RECAPTCHA_SITE_KEY }}'," >> $ENV_FILE
+          echo "  }," >> $ENV_FILE
+          echo "  pusher: {" >> $ENV_FILE
+          echo "    key: '${{ secrets.PUSHER_KEY }}'," >> $ENV_FILE
+          echo "    cluster: '${{ secrets.PUSHER_CLUSTER }}'," >> $ENV_FILE
+          echo "  }," >> $ENV_FILE
+          echo "  SYNCFUSION_LICENSE: '${{ secrets.SYNCFUSION_LICENSE }}'," >> $ENV_FILE
+          echo "};" >> $ENV_FILE
 
       - name: Build
         run: npm run build:dev
@@ -63,6 +69,6 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_KEY }}
-          source: "./dist/apps/teaching-scheduling-system/*,!./dist/apps/teaching-scheduling-system/assets/settings"
-          target: "/var/www/html/webdev"
+          source: './dist/apps/teaching-scheduling-system/*,!./dist/apps/teaching-scheduling-system/assets/settings'
+          target: '/var/www/html/webdev'
           strip_components: 3

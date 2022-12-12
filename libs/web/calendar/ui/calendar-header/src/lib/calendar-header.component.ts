@@ -32,6 +32,11 @@ import {
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { combineLatest, delay, map, Observable, takeUntil } from 'rxjs';
 
+type ViewButton = {
+  view: View;
+  label: string;
+};
+
 @Component({
   selector: 'tss-calendar-header',
   templateUrl: './calendar-header.component.html',
@@ -55,6 +60,12 @@ export class CalendarHeaderComponent implements AfterViewInit {
   filter!: CalendarFilterComponent;
 
   // PUBLIC PROPERTIES
+  readonly viewsButton: ViewButton[] = [
+    { view: 'Month', label: 'Tháng' },
+    { view: 'Week', label: 'Tuần' },
+    { view: 'Day', label: 'Ngày' },
+    // { view: 'Agenda', label: 'Lịch biểu' },
+  ];
   openSelectMonth = false;
   openFilter = false;
   view$: Observable<View>;
@@ -107,16 +118,8 @@ export class CalendarHeaderComponent implements AfterViewInit {
     }
   }
 
-  onClickMonth(): void {
-    this.store.dispatch(calendarChangeView({ view: 'Month' }));
-  }
-
-  onClickWeek(): void {
-    this.store.dispatch(calendarChangeView({ view: 'Week' }));
-  }
-
-  onClickDay(): void {
-    this.store.dispatch(calendarChangeView({ view: 'Day' }));
+  onClickViewButton(view: View) {
+    this.store.dispatch(calendarChangeView({ view }));
   }
 
   onFilter(): void {

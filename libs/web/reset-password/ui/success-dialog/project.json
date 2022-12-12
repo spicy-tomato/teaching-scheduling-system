@@ -1,14 +1,11 @@
 {
-  "$schema": "..\\..\\..\\..\\..\\node_modules\\nx\\schemas\\project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/web/reset-password/ui/success-dialog/src",
   "prefix": "tss",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/libs/web/reset-password/ui/success-dialog"
-      ],
+      "outputs": ["coverage/libs/web/reset-password/ui/success-dialog"],
       "options": {
         "jestConfig": "libs/web/reset-password/ui/success-dialog/jest.config.ts",
         "passWithNoTests": true

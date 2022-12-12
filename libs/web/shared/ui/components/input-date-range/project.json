@@ -1,14 +1,11 @@
 {
-  "$schema": "..\\..\\..\\..\\..\\..\\node_modules\\nx\\schemas\\project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/web/shared/ui/components/input-date-range/src",
   "prefix": "tss",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/libs/web/shared/ui/components/input-date-range"
-      ],
+      "outputs": ["coverage/libs/web/shared/ui/components/input-date-range"],
       "options": {
         "jestConfig": "libs/web/shared/ui/components/input-date-range/jest.config.ts",
         "passWithNoTests": true

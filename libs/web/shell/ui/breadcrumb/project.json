@@ -1,14 +1,11 @@
 {
-  "$schema": "..\\..\\..\\..\\..\\node_modules\\nx\\schemas\\project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/web/shell/ui/breadcrumb/src",
   "prefix": "tss",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/libs/web/shell/ui/breadcrumb"
-      ],
+      "outputs": ["coverage/libs/web/shell/ui/breadcrumb"],
       "options": {
         "jestConfig": "libs/web/shell/ui/breadcrumb/jest.config.ts",
         "passWithNoTests": true

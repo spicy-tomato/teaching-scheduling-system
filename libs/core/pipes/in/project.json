@@ -1,0 +1,25 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/core/pipes/in/src",
+  "prefix": "tss",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/core/pipes/in"],
+      "options": {
+        "jestConfig": "libs/core/pipes/in/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/core/pipes/in/**/*.ts",
+          "libs/core/pipes/in/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

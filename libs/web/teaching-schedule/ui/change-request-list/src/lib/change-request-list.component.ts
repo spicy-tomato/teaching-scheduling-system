@@ -136,7 +136,7 @@ export class ChangeRequestListComponent {
   private handleOptionsChange(): void {
     this.options$
       .pipe(
-        map((option) => option.showReason),
+        map(({ showReason }) => showReason),
         distinctUntilChanged(),
         tap((showReason) => {
           if (showReason) {
@@ -153,7 +153,7 @@ export class ChangeRequestListComponent {
   private triggerDataChange(): void {
     this.changeSchedules$
       .pipe(
-        filter((changeSchedules) => changeSchedules.length > 0),
+        filter(({ length }) => length > 0),
         distinctUntilChanged(),
         tap((changeSchedules) => {
           this.initForm(changeSchedules);

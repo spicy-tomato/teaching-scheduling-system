@@ -1,13 +1,10 @@
 {
-  "$schema": "..\\..\\..\\..\\..\\node_modules\\nx\\schemas\\project-schema.json",
   "sourceRoot": "libs/web/calendar/ui/calendar-date-time-pipe/src",
   "projectType": "library",
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": [
-        "{options.outputFile}"
-      ],
+      "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
           "libs/web/calendar/ui/calendar-date-time-pipe/**/*.ts"
@@ -16,9 +13,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/libs/web/calendar/ui/calendar-date-time-pipe"
-      ],
+      "outputs": ["coverage/libs/web/calendar/ui/calendar-date-time-pipe"],
       "options": {
         "jestConfig": "libs/web/calendar/ui/calendar-date-time-pipe/jest.config.ts",
         "passWithNoTests": true

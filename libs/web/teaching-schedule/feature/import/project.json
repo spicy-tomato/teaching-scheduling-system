@@ -1,14 +1,11 @@
 {
-  "$schema": "..\\..\\..\\..\\..\\node_modules\\nx\\schemas\\project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/web/teaching-schedule/feature/import/src",
   "prefix": "teaching-scheduling-system",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/libs/web/teaching-schedule/feature/import"
-      ],
+      "outputs": ["coverage/libs/web/teaching-schedule/feature/import"],
       "options": {
         "jestConfig": "libs/web/teaching-schedule/feature/import/jest.config.ts",
         "passWithNoTests": true

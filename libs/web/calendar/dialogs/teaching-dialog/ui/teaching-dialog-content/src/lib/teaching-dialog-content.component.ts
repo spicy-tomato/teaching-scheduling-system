@@ -33,10 +33,10 @@ import {
 } from '@teaching-scheduling-system/web/calendar/dialogs/teaching-dialog/data-access';
 import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import {
-  EjsScheduleModel,
   FixedScheduleModel,
   SimpleFixedScheduleModel,
   SimpleModel,
+  TssTeachingModel,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { sameGroupStaticValueValidator } from '@teaching-scheduling-system/web/shared/utils/validators';
 import {
@@ -68,7 +68,7 @@ import { TeachingDialogButtonsRightComponent } from './teaching-dialog-buttons-r
 })
 export class TeachingDialogContentComponent implements OnInit {
   // INPUT
-  @Input() schedule!: EjsScheduleModel;
+  @Input() schedule!: TssTeachingModel;
 
   // OUTPUT
   @Output() updateSchedule = new EventEmitter<FixedScheduleModel>();
@@ -157,8 +157,8 @@ export class TeachingDialogContentComponent implements OnInit {
     this.handleCancelRequest();
 
     this.requestedChangeSchedule =
-      this.schedule.FixedSchedules?.find((x) =>
-        ChangeStatusHelper.isPending(x.status)
+      this.schedule.FixedSchedules?.find(({ status }) =>
+        ChangeStatusHelper.isPending(status)
       ) || null;
 
     this.changeControl.controls['note'].valueChanges
@@ -176,6 +176,7 @@ export class TeachingDialogContentComponent implements OnInit {
     this.store.toggleRequest(open);
   }
 
+  //? Remove
   onUpdate(): void {
     const id = this.schedule.Id;
     const payload = {
@@ -253,8 +254,7 @@ export class TeachingDialogContentComponent implements OnInit {
         },
         {
           validators: sameGroupStaticValueValidator(initialRequest, {
-            date: (a: Nullable<TuiDay>, b: Nullable<TuiDay>) =>
-              !!a && !!b && a.daySame(b),
+            date: (a, b) => !!a && !!b && a.daySame(b),
           }),
         }
       ),

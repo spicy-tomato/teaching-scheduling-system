@@ -42,7 +42,7 @@ export class ObservableHelper {
     );
   }
 
-  static filterNullishProp<T extends Record<string, unknown>>(
+  static filterNullishProp<T extends Record<keyof T, unknown>>(
     props: (keyof T)[]
   ): UnaryFunction<Observable<T>, Observable<UnNull<T>>> {
     return pipe(

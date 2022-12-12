@@ -95,7 +95,7 @@ export class NotificationListComponent {
     this.data$
       .pipe(
         filter((notificationTypes) =>
-          notificationTypes.some((x) => x.length > 0)
+          notificationTypes.some(({ length }) => length > 0)
         ),
         tap(() => this.cdr.markForCheck()),
         takeUntil(this.destroy$)

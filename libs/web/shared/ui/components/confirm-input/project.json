@@ -1,14 +1,11 @@
 {
-  "$schema": "..\\..\\..\\..\\..\\..\\node_modules\\nx\\schemas\\project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/web/shared/ui/components/confirm-input/src",
   "prefix": "tss",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/libs/web/shared/ui/components/confirm-input"
-      ],
+      "outputs": ["coverage/libs/web/shared/ui/components/confirm-input"],
       "options": {
         "jestConfig": "libs/web/shared/ui/components/confirm-input/jest.config.ts",
         "passWithNoTests": true

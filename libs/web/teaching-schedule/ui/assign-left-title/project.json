@@ -1,14 +1,11 @@
 {
-  "$schema": "..\\..\\..\\..\\..\\node_modules\\nx\\schemas\\project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/web/teaching-schedule/ui/assign-left-title/src",
   "prefix": "tss",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/libs/web/teaching-schedule/ui/assign-left-title"
-      ],
+      "outputs": ["coverage/libs/web/teaching-schedule/ui/assign-left-title"],
       "options": {
         "jestConfig": "libs/web/teaching-schedule/ui/assign-left-title/jest.config.ts",
         "passWithNoTests": true

@@ -1,14 +1,11 @@
 {
-  "$schema": "..\\..\\..\\..\\..\\node_modules\\nx\\schemas\\project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/web/reset-password/feature/shell/src",
   "prefix": "tss",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/libs/web/reset-password/feature/shell"
-      ],
+      "outputs": ["coverage/libs/web/reset-password/feature/shell"],
       "options": {
         "jestConfig": "libs/web/reset-password/feature/shell/jest.config.ts",
         "passWithNoTests": true

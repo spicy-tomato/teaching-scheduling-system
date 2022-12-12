@@ -1,14 +1,11 @@
 {
-  "$schema": "..\\..\\..\\..\\..\\node_modules\\nx\\schemas\\project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/web/shell/ui/main-view/src",
   "prefix": "tss",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/libs/web/shell/ui/main-view"
-      ],
+      "outputs": ["coverage/libs/web/shell/ui/main-view"],
       "options": {
         "jestConfig": "libs/web/shell/ui/main-view/jest.config.ts",
         "passWithNoTests": true

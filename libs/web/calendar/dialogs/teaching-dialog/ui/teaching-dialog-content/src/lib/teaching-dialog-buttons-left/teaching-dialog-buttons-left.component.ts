@@ -200,7 +200,6 @@ export class TeachingDialogButtonsLeftComponent implements OnInit {
 
   private submitChangeIntendTimeRequest(): void {
     const request = this.requestIntendControl;
-
     const payload: RequestIntendChangeSchedulePayload = {
       idSchedule: this.idSchedule,
       intendTime: request.controls['intendTime'].value as string,
@@ -212,7 +211,6 @@ export class TeachingDialogButtonsLeftComponent implements OnInit {
 
   private submitChangeRequest(): void {
     const request = this.requestControl;
-
     const payload: RequestChangeSchedulePayload = {
       idSchedule: this.idSchedule,
       newIdRoom: (request.controls['online'].value as boolean) ? 'PHTT' : null,

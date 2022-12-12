@@ -1,14 +1,11 @@
 {
-  "$schema": "..\\..\\..\\..\\..\\node_modules\\nx\\schemas\\project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/web/error/feature/not-found/src",
   "prefix": "teaching-scheduling-system",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/libs/web/error/feature/not-found"
-      ],
+      "outputs": ["coverage/libs/web/error/feature/not-found"],
       "options": {
         "jestConfig": "libs/web/error/feature/not-found/jest.config.ts",
         "passWithNoTests": true
