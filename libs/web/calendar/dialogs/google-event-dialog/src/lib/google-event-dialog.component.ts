@@ -17,6 +17,7 @@ import { ExamDialogStore } from '../../../exam-dialog/data-access/src/lib/store'
 export class GoogleEventDialogComponent {
   // PUBLIC PROPERTIES
   readonly showLoader$ = this.store.status$.pipe(map((s) => s === 'loading'));
+  readonly readOnly: boolean;
   form!: FormGroup;
 
   // PRIVATE PROPERTIES
@@ -34,6 +35,10 @@ export class GoogleEventDialogComponent {
     private readonly store: ExamDialogStore
   ) {
     this.initForm(context.data);
+    // TODO: Remove 
+    this.readOnly = true;
+      // context.data.Calendar.accessRole === 'freeBusyReader' ||
+      // context.data.Calendar.accessRole === 'reader';
   }
 
   // PUBLIC METHODS
