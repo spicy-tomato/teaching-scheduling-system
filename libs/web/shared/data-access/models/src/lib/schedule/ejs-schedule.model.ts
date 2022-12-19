@@ -1,4 +1,5 @@
 import { SimpleModel } from '../core/simple.model';
+import { GoogleCalendarEventHost } from '../google';
 import { FixedScheduleModel } from './fixed-schedule.model';
 
 export type EjsScheduleModelType = 'exam' | 'study' | 'googleEvent';
@@ -102,14 +103,9 @@ export type GoogleCalendarModel = EjsScheduleCore & {
   Type: 'googleEvent';
 
   /**
-   * Calendar name of event in Google Calendar
+   * Calendar of event in Google Calendar
    */
-  Calendar: string;
-
-  /**
-   * Calendar id of event in Google Calendar
-   */
-  CalendarId: string;
+  Calendar: GoogleCalendarEventHost;
 
   People?: string[];
 };
