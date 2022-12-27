@@ -170,8 +170,7 @@ export class AssignFilterComponent implements OnInit {
       .pipe(
         tap((currentTerm) => {
           this.schoolYearControl.setValue(
-            // TODO substr() is deprecated
-            currentTerm.substr(0, currentTerm.length - 2)
+            currentTerm.substring(0, currentTerm.length - 2)
           );
           this.termInYearControl.setValue(currentTerm.slice(-1));
         })

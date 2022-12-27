@@ -239,8 +239,7 @@ export class AssignFilterComponent implements OnInit {
       .pipe(
         tap((currentTerm) => {
           this.schoolYear.setValue(
-            // TODO
-            currentTerm.substr(0, currentTerm.length - 2)
+            currentTerm.substring(0, currentTerm.length - 2)
           );
           this.termInYear.setValue(currentTerm.slice(-1));
         })
