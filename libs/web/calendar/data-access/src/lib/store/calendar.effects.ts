@@ -295,10 +295,10 @@ export class CalendarEffects {
               tap(({ data }) => {
                 this.store.dispatch(
                   ApiAction.loadGoogleCalendarSuccessful({
-                    events: data.reduce((acc, { summary, events }) => {
+                    events: data.reduce((acc, { events, ...props }) => {
                       acc.push(
                         ...events.map((e) => {
-                          e.calendar = summary;
+                          e.calendar = props;
                           return e;
                         })
                       );

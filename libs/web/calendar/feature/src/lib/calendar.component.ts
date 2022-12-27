@@ -48,7 +48,7 @@ import {
   CalendarState,
 } from '@teaching-scheduling-system/web/calendar/data-access';
 import { ExamDialogComponent } from '@teaching-scheduling-system/web/calendar/dialogs/exam-dialog/feature';
-import { GoogleEventDialogComponent } from '@teaching-scheduling-system/web/calendar/dialogs/google-event-dialog';
+import { GoogleEventDialogComponent } from '@teaching-scheduling-system/web/calendar/dialogs/google-event-dialog/feature';
 import { TeachingDialogComponent } from '@teaching-scheduling-system/web/calendar/dialogs/teaching-dialog/feature';
 import {
   EjsScheduleModel,
@@ -457,20 +457,20 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private showGoogleEventEditorDialog(data: GoogleCalendarModel): void {
     this.dialogService
-      .open<GoogleCalendarModel | undefined>(
+      .open<Partial<EjsScheduleModel> | undefined>(
         new PolymorpheusComponent(GoogleEventDialogComponent, this.injector),
         {
           data,
           label: 'Chi tiết sự kiện',
           closeable: false,
           dismissible: false,
-          size: 'l'
+          size: 'l',
         }
       )
       .pipe(
         ObservableHelper.filterUndefined(),
         tap((newData) => {
-          this.scheduleComponent.saveEvent(newData);
+          this.scheduleComponent.saveEvent({ ...data, ...newData });
         })
       )
       .subscribe();

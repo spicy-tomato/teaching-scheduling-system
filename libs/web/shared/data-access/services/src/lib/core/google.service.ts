@@ -9,6 +9,7 @@ import {
   APP_CONFIG,
 } from '@teaching-scheduling-system/web/config/data-access';
 import {
+  DefaultGoogleCalendarEvent,
   GoogleCalendar,
   GoogleCalendarEventResponse,
   ResponseModel,
@@ -76,6 +77,19 @@ export class GoogleService {
     return this.http.get<ResponseModel<GoogleCalendarEventResponse[]>>(
       this.url + `v1/accounts/${uuid}/google-apis/calendar/calendars/events`,
       { params }
+    );
+  }
+
+  update(
+    uuid: string,
+    calendarId: string,
+    eventId: string,
+    body: DefaultGoogleCalendarEvent
+  ): Observable<void> {
+    return this.http.patch<void>(
+      this.url +
+        `v1/accounts/${uuid}/google-apis/calendar/calendars/${calendarId}/events/${eventId}`,
+      body
     );
   }
 }

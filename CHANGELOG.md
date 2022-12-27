@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.22.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.21.1...v3.22.0) (2022-12-21)
+
+
+### Features
+
+* **calendar:** disable edit for readonly events ([ba59028](https://github.com/annguyen-it/teaching-scheduling-system/commit/ba59028939bfa3095a5f2943d6f1a504dfe1fd54))
+* **calendar:** display calendar of event ([ade789c](https://github.com/annguyen-it/teaching-scheduling-system/commit/ade789cd5ba6ae3a3b0d9709932d06afbd3f9b0e))
+* **calendar:** integrate google calendar (get) ([e48508a](https://github.com/annguyen-it/teaching-scheduling-system/commit/e48508a87f88976a3c753c46e5d8d126995b4aae))
+* **calendar:** google event dialog ([a60d330](https://github.com/annguyen-it/teaching-scheduling-system/commit/a60d3301243d8e698ac2ecbc26e9b550da6845d0))
+* pipe `as` ([79905c4](https://github.com/annguyen-it/teaching-scheduling-system/commit/79905c4218f38ac5589daf3366a18c6f199fe9a7))
+
+
+### Bug Fixes
+
+* **calendar:** google calendar is overwrite after received new response ([4dbf98c](https://github.com/annguyen-it/teaching-scheduling-system/commit/4dbf98c561fff934d4fcb6dcc7af84cfeceb1425))
+
 ### [3.21.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.21.0...v3.21.1) (2022-11-23)
 
 
