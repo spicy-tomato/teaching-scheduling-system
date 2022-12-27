@@ -17,8 +17,8 @@
     </div>
     <div
       [ngClass]="
-        form.value['isAllDay']
-          ? 'w-0 opacity-0 invisible'
+        isAllDayControlValue
+          ? '!w-0 opacity-0 invisible'
           : 'tui-form__multi-field'
       "
     >
@@ -33,7 +33,7 @@
     </div>
     <div
       [ngClass]="
-        form.value['isAllDay']
+        isAllDayControlValue
           ? 'w-0 opacity-0 invisible'
           : 'tui-form__multi-field'
       "
@@ -65,7 +65,7 @@
   </div>
 
   <div class="tui-form__buttons tui-form__buttons_align_end">
-    <!-- <ng-container *ngIf="!readOnly">
+    <ng-container *ngIf="!readOnly">
       <button
         tuiButton
         *ngrxLet="showLoader$ as showLoader"
@@ -77,7 +77,7 @@
       >
         Lưu
       </button>
-    </ng-container> -->
+    </ng-container>
     <button
       tuiButton
       (click)="onCancel()"

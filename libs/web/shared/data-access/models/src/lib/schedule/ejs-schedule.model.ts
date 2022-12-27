@@ -26,11 +26,6 @@ interface EjsScheduleCore {
   Location?: string;
 
   /**
-   * Description about events
-   */
-  Description?: string;
-
-  /**
    * Denote whether an event is created for an entire day or for specific time alone. Usually, an event with `isAllDay` field set to true will be considered as an all-day event.
    */
   IsAllDay?: boolean;

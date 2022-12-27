@@ -1,7 +1,7 @@
 /* eslint-disable */
 export default {
-  displayName: 'web-calendar-dialogs-google-event-dialog',
-  preset: '../../../../../jest.preset.js',
+  displayName: 'web-calendar-dialogs-google-event-dialog-feature',
+  preset: '../../../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
     'ts-jest': {
@@ -10,7 +10,7 @@ export default {
     },
   },
   coverageDirectory:
-    '../../../../../coverage/libs/web/calendar/dialogs/google-event-dialog',
+    '../../../../../../coverage/libs/web/calendar/dialogs/google-event-dialog/feature',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },

@@ -1,12 +1,32 @@
 import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
 import { EjsScheduleModel } from '../schedule';
 
+type GoogleDateTime =
+  | {
+      date: string;
+      dateTime?: null;
+      timeZone: Nullable<string>;
+    }
+  | {
+      date?: null;
+      dateTime: string;
+      timeZone: Nullable<string>;
+    };
+
 export interface GoogleCalendar {
   accessRole: string;
   id: string;
   summary: string;
   description: Nullable<string>;
 }
+
+export type DefaultGoogleCalendarEvent = {
+  start: GoogleDateTime;
+  end: GoogleDateTime;
+  description: string;
+  summary: string;
+  location: string;
+};
 
 export class GoogleCalendarEvent {
   anyoneCanAddSelf!: Nullable<boolean>;
@@ -52,28 +72,8 @@ export class GoogleCalendarEvent {
     id: Nullable<string>;
     self: boolean;
   };
-  start!:
-    | {
-        date: string;
-        dateTime: null;
-        timeZone: Nullable<string>;
-      }
-    | {
-        date: null;
-        dateTime: string;
-        timeZone: Nullable<string>;
-      };
-  end!:
-    | {
-        date: string;
-        dateTime: null;
-        timeZone: Nullable<string>;
-      }
-    | {
-        date: null;
-        dateTime: string;
-        timeZone: Nullable<string>;
-      };
+  start!: GoogleDateTime;
+  end!: GoogleDateTime;
   reminders!: {
     useDefault: boolean;
   };
