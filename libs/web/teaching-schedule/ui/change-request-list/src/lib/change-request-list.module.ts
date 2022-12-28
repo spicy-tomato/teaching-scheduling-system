@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { TuiTableModule } from '@taiga-ui/addon-table';
+import { TuiLetModule } from '@taiga-ui/cdk';
 import {
   TuiButtonModule,
   TuiHintModule,
@@ -25,6 +26,7 @@ const TAIGA_UI = [
   TuiButtonModule,
   TuiCheckboxModule,
   TuiHintModule,
+  TuiLetModule,
   TuiLoaderModule,
   TuiTableModule,
 ];

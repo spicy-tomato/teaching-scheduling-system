@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { TuiTableModule } from '@taiga-ui/addon-table';
+import { TuiLetModule } from '@taiga-ui/cdk';
 import {
   TuiButtonModule,
   TuiHintModule,
@@ -15,6 +16,7 @@ const NGRX = [ReactiveComponentModule];
 const TAIGA_UI = [
   TuiButtonModule,
   TuiHintModule,
+  TuiLetModule,
   TuiLoaderModule,
   TuiTableModule,
 ];
