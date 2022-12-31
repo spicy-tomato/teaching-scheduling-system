@@ -1,4 +1,5 @@
 import { SimpleModel } from '../core/simple.model';
+import { GoogleCalendarEventHost } from '../google';
 import { FixedScheduleModel } from './fixed-schedule.model';
 
 export type EjsScheduleModelType = 'exam' | 'study' | 'googleEvent';
@@ -23,11 +24,6 @@ interface EjsScheduleCore {
    * Displays the location of the events.
    */
   Location?: string;
-
-  /**
-   * Description about events
-   */
-  Description?: string;
 
   /**
    * Denote whether an event is created for an entire day or for specific time alone. Usually, an event with `isAllDay` field set to true will be considered as an all-day event.
@@ -102,14 +98,9 @@ export type GoogleCalendarModel = EjsScheduleCore & {
   Type: 'googleEvent';
 
   /**
-   * Calendar name of event in Google Calendar
+   * Calendar of event in Google Calendar
    */
-  Calendar: string;
-
-  /**
-   * Calendar id of event in Google Calendar
-   */
-  CalendarId: string;
+  Calendar: GoogleCalendarEventHost;
 
   People?: string[];
 };

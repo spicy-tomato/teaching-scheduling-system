@@ -1,0 +1,27 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/web/calendar/dialogs/google-event-dialog/feature/src",
+  "prefix": "tss",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "coverage/libs/web/calendar/dialogs/google-event-dialog/feature"
+      ],
+      "options": {
+        "jestConfig": "libs/web/calendar/dialogs/google-event-dialog/feature/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/web/calendar/dialogs/google-event-dialog/feature/**/*.ts",
+          "libs/web/calendar/dialogs/google-event-dialog/feature/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

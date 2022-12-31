@@ -21,7 +21,6 @@ import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/e
 import {
   EjsScheduleModel,
   SimpleModel,
-  TssTeachingModel,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { Observable, of, switchMap, takeUntil } from 'rxjs';

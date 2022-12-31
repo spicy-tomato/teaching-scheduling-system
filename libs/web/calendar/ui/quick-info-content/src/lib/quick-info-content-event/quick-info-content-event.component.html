@@ -4,7 +4,7 @@
     <ng-container *ngSwitchCase="'exam'">Lịch thi</ng-container>
     <ng-container *ngSwitchCase="'study'">Lịch giảng dạy</ng-container>
     <ng-container *ngSwitchCase="'googleEvent'">
-      Lịch Google ({{ 'Calendar' | in: data }})
+      Lịch Google ({{ ['Calendar', 'summary'] | in: data }})
     </ng-container>
   </div>
 </div>
@@ -125,10 +125,12 @@
   <div class="flex-grow">
     <tui-text-area
       #note
+      *tssVar="['Calendar', 'accessRole'] | in: data as accessRole"
       [(ngModel)]="data.Note"
       [expandable]="true"
       [rows]="3"
       [tuiTextfieldLabelOutside]="true"
+      [readOnly]="accessRole === 'freeBusyReader' || accessRole === 'reader'"
       (ngModelChange)="onNoteChange()"
       tuiTextfieldSize="m"
       class="!min-h-[2.4375rem]"

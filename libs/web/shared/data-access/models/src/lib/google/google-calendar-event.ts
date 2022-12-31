@@ -1,12 +1,32 @@
 import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
 import { EjsScheduleModel } from '../schedule';
 
+type GoogleDateTime =
+  | {
+      date: string;
+      dateTime?: null;
+      timeZone: Nullable<string>;
+    }
+  | {
+      date?: null;
+      dateTime: string;
+      timeZone: Nullable<string>;
+    };
+
 export interface GoogleCalendar {
   accessRole: string;
   id: string;
   summary: string;
   description: Nullable<string>;
 }
+
+export type DefaultGoogleCalendarEvent = {
+  start: GoogleDateTime;
+  end: GoogleDateTime;
+  description: string;
+  summary: string;
+  location: string;
+};
 
 export class GoogleCalendarEvent {
   anyoneCanAddSelf!: Nullable<boolean>;
@@ -52,34 +72,13 @@ export class GoogleCalendarEvent {
     id: Nullable<string>;
     self: boolean;
   };
-  start!:
-    | {
-        date: string;
-        dateTime: null;
-        timeZone: Nullable<string>;
-      }
-    | {
-        date: null;
-        dateTime: string;
-        timeZone: Nullable<string>;
-      };
-  end!:
-    | {
-        date: string;
-        dateTime: null;
-        timeZone: Nullable<string>;
-      }
-    | {
-        date: null;
-        dateTime: string;
-        timeZone: Nullable<string>;
-      };
+  start!: GoogleDateTime;
+  end!: GoogleDateTime;
   reminders!: {
     useDefault: boolean;
   };
   // Additional properties
-  calendar!: string;
-  calendarId!: string;
+  calendar!: Omit<GoogleCalendarEventResponse, 'events'>;
 
   static parse(obj: GoogleCalendarEvent): GoogleCalendarEvent {
     const res = new GoogleCalendarEvent();
@@ -117,7 +116,6 @@ export class GoogleCalendarEvent {
     res.end = obj.end;
     res.reminders = obj.reminders;
     res.calendar = obj.calendar;
-    res.calendarId = obj.calendarId;
 
     return res;
   }
@@ -133,16 +131,18 @@ export class GoogleCalendarEvent {
       Note: this.description || '',
       People: this.attendees?.map(({ displayName }) => displayName || ''),
       Calendar: this.calendar,
-      CalendarId: this.calendarId,
       IsAllDay: !!this.start.date,
     };
   }
 }
 
-export interface GoogleCalendarEventResponse {
+export interface GoogleCalendarEventHost {
   accessRole: string;
   id: string;
   summary: string;
   description: Nullable<string>;
+}
+
+export interface GoogleCalendarEventResponse extends GoogleCalendarEventHost {
   events: GoogleCalendarEvent[];
 }

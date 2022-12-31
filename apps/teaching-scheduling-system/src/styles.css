@@ -13,9 +13,9 @@
 @import '../../../node_modules/@syncfusion/ej2-navigations/styles/material.css';
 @import '../../../node_modules/@syncfusion/ej2-angular-schedule/styles/material.css';
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
 :root {
   --nav-height: 65px;
