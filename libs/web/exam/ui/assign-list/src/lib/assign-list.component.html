@@ -22,56 +22,58 @@
 
     <ng-container *ngrxLet="data$ as data">
       <!-- Body with data -->
-      <tbody
-        tuiTbody
-        *ngIf="data && data.length > 0; else noData"
-        [data]="data"
-      >
-        <tr tuiTr *tuiRow="let item of data; index as i">
-          <td tuiTd *tuiCell="'index'">
-            <div class="text-center">
-              {{ i + 1 }}
-            </div>
-          </td>
-          <td tuiTd *tuiCell="'name'">{{ item.name }}</td>
-          <td tuiTd *tuiCell="'method'">{{ item.method }}</td>
-          <td tuiTd *tuiCell="'credit'" class="!text-center">
-            {{ item.credit }}
-          </td>
-          <td tuiTd *tuiCell="'date'" class="!text-center">
-            {{ item.startAt | date: 'dd-MM-Y' }}
-          </td>
-          <td tuiTd *tuiCell="'time'" class="!text-center">
-            {{ item.startAt | date: 'HH:mm' }} -
-            {{ item.endAt | date: 'HH:mm' }}
-          </td>
-          <td tuiTd *tuiCell="'room'" class="!text-center">
-            {{ item.idRoom }}
-          </td>
-          <td tuiTd *tuiCell="'numberOfStudents'" class="!text-center">
-            {{ item.numberOfStudents }}
-          </td>
-          <td tuiTd *tuiCell="'teacher'">
-            {{ item.teachers.join(', ') }}
-          </td>
-          <td tuiTd *tuiCell="'action'" class="!text-center">
-            <button
-              tuiIconButton
-              (click)="onOpenAssignDialog(item)"
-              icon="tuiIconCompanyLarge"
-              tuiHint="Phân lịch thi"
-              aria-label="Assign"
-            ></button>
-            <button
-              tuiIconButton
-              (click)="onOpenEditDialog(item)"
-              icon="tuiIconEditLarge"
-              tuiHint="Chỉnh sửa"
-              aria-label="Edit"
-            ></button>
-          </td>
-        </tr>
-      </tbody>
+      <ng-container *ngIf="data && data.length > 0; else noData">
+        <tbody
+          tuiTbody
+          *tuiLet="data | tuiTableSort as sortedData"
+          [data]="sortedData"
+        >
+          <tr tuiTr *ngFor="let item of data; index as i">
+            <td tuiTd *tuiCell="'index'">
+              <div class="text-center">
+                {{ i + 1 }}
+              </div>
+            </td>
+            <td tuiTd *tuiCell="'name'">{{ item.name }}</td>
+            <td tuiTd *tuiCell="'method'">{{ item.method }}</td>
+            <td tuiTd *tuiCell="'credit'" class="!text-center">
+              {{ item.credit }}
+            </td>
+            <td tuiTd *tuiCell="'date'" class="!text-center">
+              {{ item.startAt | date: 'dd-MM-Y' }}
+            </td>
+            <td tuiTd *tuiCell="'time'" class="!text-center">
+              {{ item.startAt | date: 'HH:mm' }} -
+              {{ item.endAt | date: 'HH:mm' }}
+            </td>
+            <td tuiTd *tuiCell="'room'" class="!text-center">
+              {{ item.idRoom }}
+            </td>
+            <td tuiTd *tuiCell="'numberOfStudents'" class="!text-center">
+              {{ item.numberOfStudents }}
+            </td>
+            <td tuiTd *tuiCell="'teacher'">
+              {{ item.teachers.join(', ') }}
+            </td>
+            <td tuiTd *tuiCell="'action'" class="!text-center">
+              <button
+                tuiIconButton
+                (click)="onOpenAssignDialog(item)"
+                icon="tuiIconCompanyLarge"
+                tuiHint="Phân lịch thi"
+                aria-label="Assign"
+              ></button>
+              <button
+                tuiIconButton
+                (click)="onOpenEditDialog(item)"
+                icon="tuiIconEditLarge"
+                tuiHint="Chỉnh sửa"
+                aria-label="Edit"
+              ></button>
+            </td>
+          </tr>
+        </tbody>
+      </ng-container>
 
       <!-- Body without data -->
       <ng-template #noData>
