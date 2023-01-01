@@ -31,8 +31,16 @@ export type DefaultGoogleCalendarEvent = {
 export class GoogleCalendarEvent {
   anyoneCanAddSelf!: Nullable<boolean>;
   attendees?: {
-    self: boolean;
+    additionalGuests: Nullable<number>;
+    comment: Nullable<string>;
     displayName: Nullable<string>;
+    email: Nullable<string>;
+    id: Nullable<string>;
+    optional: Nullable<boolean>;
+    organizer: Nullable<boolean>;
+    resource: Nullable<boolean>;
+    responseStatus: 'needsAction' | 'declined' | 'tentative' | 'accepted';
+    self: boolean;
   }[];
   attendeesOmitted!: Nullable<boolean>;
   colorId!: Nullable<string>;
@@ -129,7 +137,9 @@ export class GoogleCalendarEvent {
       Location: this.location ?? undefined,
       Type: 'googleEvent',
       Note: this.description || '',
-      People: this.attendees?.map(({ displayName }) => displayName || ''),
+      People: this.attendees?.map(
+        ({ displayName, email }) => displayName || email || ''
+      ),
       Calendar: this.calendar,
       IsAllDay: !!this.start.date,
     };
