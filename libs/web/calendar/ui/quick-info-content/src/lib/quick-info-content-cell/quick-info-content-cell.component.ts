@@ -41,7 +41,7 @@ export class QuickInfoContentCellComponent {
             ...this.data,
             Subject: this.newEventTitle,
           },
-          label: 'Chi tiết sự kiện',
+          label: 'Tạo sự kiện',
           closeable: false,
           dismissible: false,
           size: 'l',
