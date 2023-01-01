@@ -96,7 +96,7 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // PRIVATE PROPERTIES
   private readonly staticSettings: EventSettingsModel = {
-    allowAdding: false,
+    allowAdding: true,
     allowEditing: true,
     allowDeleting: false,
   };
@@ -184,11 +184,6 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onPopupOpen(args: PopupOpenEventArgs): void {
-    if (!args.data?.['Id']) {
-      args.cancel = true;
-      return;
-    }
-
     if (args.type === 'Editor') {
       args.cancel = true;
       this.onShowEditorDialog(args.data as EjsScheduleModel);
