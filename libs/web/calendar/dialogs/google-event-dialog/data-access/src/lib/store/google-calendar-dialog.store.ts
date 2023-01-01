@@ -26,7 +26,33 @@ export class GoogleCalendarDialogStore extends ComponentStore<ExportDialogState>
   readonly status$ = this.select((s) => s.status);
 
   // EFFECTS
-  readonly submit = this.effect<{
+  readonly submitCreate = this.effect<{
+    calendarId: string;
+    body: DefaultGoogleCalendarEvent;
+  }>((params$) =>
+    params$.pipe(
+      tap(() => this.patchState({ status: 'loading', error: null })),
+      withLatestFrom(this.teacher$),
+      switchMap(([{ calendarId, body }, teacher]) =>
+        this.googleService.create(teacher.id, calendarId, body).pipe(
+          tapResponse(
+            () =>
+              this.patchState({
+                status: 'successful',
+                error: '',
+              }),
+            (error) =>
+              this.patchState({
+                status: 'systemError',
+                error: error as string,
+              })
+          )
+        )
+      )
+    )
+  );
+
+  readonly submitEdit = this.effect<{
     calendarId: string;
     eventId: string;
     body: DefaultGoogleCalendarEvent;

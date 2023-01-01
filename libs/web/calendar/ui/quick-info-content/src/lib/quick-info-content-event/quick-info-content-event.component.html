@@ -108,8 +108,8 @@
   </ng-container>
 </ng-container>
 
-<!-- TODO: remove any -->
 <ng-container *ngIf="data.People">
+  <!-- TODO: remove any -->
   <div
     *ngFor="let person of $any(data.People) | tuiFilter: peopleMatcher"
     class="attr-row"

@@ -80,6 +80,18 @@ export class GoogleService {
     );
   }
 
+  create(
+    uuid: string,
+    calendarId: string,
+    body: DefaultGoogleCalendarEvent
+  ): Observable<void> {
+    return this.http.post<void>(
+      this.url +
+        `v1/accounts/${uuid}/google-apis/calendar/calendars/${calendarId}/events`,
+      body
+    );
+  }
+
   update(
     uuid: string,
     calendarId: string,
