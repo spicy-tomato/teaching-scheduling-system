@@ -202,6 +202,8 @@ export class GoogleEventDialogComponent {
     const endTuiDate = endDate
       ? DateHelper.toTuiDay(endDate)
       : DateHelper.toTuiDay(today);
+    const startTime = TuiTime.fromLocalNativeDate(startDate ?? today);
+    const endTime = TuiTime.fromLocalNativeDate(endDate ?? today);
 
     const initialValue = {
       id: data.Id,
@@ -211,9 +213,14 @@ export class GoogleEventDialogComponent {
       // TODO: Add people
       // people: this.fb.array(data.People.map((x) => this.fb.control(x)) ?? []),
       start: startTuiDate,
-      end: endTuiDate,
-      startTime: TuiTime.fromLocalNativeDate(startDate ?? today),
-      endTime: TuiTime.fromLocalNativeDate(endDate ?? today),
+      end:
+        startTuiDate.append({ day: 1 }).daySame(endTuiDate) &&
+        startTime.valueOf() === 0 &&
+        endTime.valueOf() === 0
+          ? endTuiDate.append({ day: -1 })
+          : endTuiDate,
+      startTime,
+      endTime,
       note: data.Note ?? '',
       isAllDay: data.IsAllDay,
     };
