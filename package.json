@@ -42,7 +42,7 @@
     "@ngrx/store": "13.2.0",
     "@ngrx/store-devtools": "13.2.0",
     "@nrwl/angular": "14.1.11",
-    "@syncfusion/ej2-angular-schedule": "^20.2.50",
+    "@syncfusion/ej2-angular-schedule": "^20.3.50",
     "@syncfusion/ej2-locale": "^19.4.41",
     "@taiga-ui/addon-charts": "^3.8.0",
     "@taiga-ui/addon-editor": "^3.8.0",
