@@ -93,8 +93,8 @@
                 </ng-container>
                 <button
                   tuiLink
-                  [pseudo]="true"
                   (click)="onShowHistory()"
+                  [pseudo]="true"
                   class="inline-block ml-0.5 pr-0.5 italic"
                 >
                   Chi tiết
@@ -127,11 +127,11 @@
       #note
       *tssVar="['Calendar', 'accessRole'] | in: data as accessRole"
       [(ngModel)]="data.Note"
+      (ngModelChange)="onNoteChange()"
       [expandable]="true"
       [rows]="3"
       [tuiTextfieldLabelOutside]="true"
       [readOnly]="accessRole === 'freeBusyReader' || accessRole === 'reader'"
-      (ngModelChange)="onNoteChange()"
       tuiTextfieldSize="m"
       class="!min-h-[2.4375rem]"
     >
@@ -143,9 +143,9 @@
   <button
     tuiButton
     *ngrxLet="status$ as status"
+    (click)="onClickSave()"
     [showLoader]="status === 'loading'"
     [disabled]="data.Note === initialEventNote"
-    (click)="onClickSave()"
   >
     Lưu
   </button>
