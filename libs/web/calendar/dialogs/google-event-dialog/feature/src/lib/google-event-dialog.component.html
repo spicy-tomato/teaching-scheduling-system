@@ -1,5 +1,25 @@
 <form [formGroup]="form">
   <div class="tui-form__row">
+    <tui-select
+      *ngrxLet="googleCalendars$ as googleCalendars"
+      formControlName="calendarId"
+      [readOnly]="readOnly || googleCalendars.length === 0"
+      [valueContent]="stringifyGoogleCalendars(googleCalendars)"
+    >
+      Lịch
+      <tui-data-list *tuiDataList role="listbox">
+        <button
+          tuiOption
+          *ngFor="let calendar of googleCalendars"
+          [value]="calendar.id"
+          role="option"
+        >
+          {{ calendar.summary }}
+        </button>
+      </tui-data-list>
+    </tui-select>
+  </div>
+  <div class="tui-form__row">
     <tui-input formControlName="subject" [readOnly]="readOnly">
       Tiêu đề
     </tui-input>

@@ -32,7 +32,7 @@ export class QuickInfoContentCellComponent {
   ) {}
 
   // PUBLIC METHODS
-  onShowMoreDetails(): void {
+  create(): void {
     this.dialogService
       .open<Partial<EjsScheduleModel> | undefined>(
         new PolymorpheusComponent(GoogleEventDialogComponent, this.injector),
@@ -55,9 +55,5 @@ export class QuickInfoContentCellComponent {
         })
       )
       .subscribe();
-  }
-
-  onSave(): void {
-    // TODO (Add event)
   }
 }

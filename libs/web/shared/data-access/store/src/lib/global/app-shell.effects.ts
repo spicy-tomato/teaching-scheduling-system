@@ -10,17 +10,18 @@ import {
   AppService,
   AuthService,
   CommonInfoService,
+  GoogleService,
   TeacherService,
   UserService,
 } from '@teaching-scheduling-system/web/shared/data-access/services';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, filter, map, mergeMap, of, tap } from 'rxjs';
 import * as ApiAction from './app-shell.api.actions';
 import * as PageAction from './app-shell.page.actions';
 
 @Injectable()
 export class AppShellEffects {
   // EFFECTS
-  changeRouter$ = createEffect(() => {
+  readonly changeRouter$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(routerNavigatedAction),
       map(({ payload }) => {
@@ -30,7 +31,7 @@ export class AppShellEffects {
     );
   });
 
-  keepLogin$ = createEffect(() => {
+  readonly keepLogin$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PageAction.keepLogin),
       mergeMap(() => {
@@ -47,7 +48,7 @@ export class AppShellEffects {
     );
   });
 
-  logout$ = createEffect(
+  readonly logout$ = createEffect(
     () => {
       return this.actions$.pipe(
         ofType(PageAction.logout),
@@ -61,7 +62,7 @@ export class AppShellEffects {
     { dispatch: false }
   );
 
-  autoLoginFailure$ = createEffect(
+  readonly autoLoginFailure$ = createEffect(
     () => {
       return this.actions$.pipe(
         ofType(ApiAction.autoLoginFailure),
@@ -81,7 +82,7 @@ export class AppShellEffects {
     { dispatch: false }
   );
 
-  loadRooms$ = createEffect(() => {
+  readonly loadRooms$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ApiAction.autoLoginSuccessfully),
       mergeMap(() => {
@@ -93,7 +94,7 @@ export class AppShellEffects {
     );
   });
 
-  loadSchoolYear$ = createEffect(() => {
+  readonly loadSchoolYear$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ApiAction.autoLoginSuccessfully),
       mergeMap(() => {
@@ -108,7 +109,7 @@ export class AppShellEffects {
     );
   });
 
-  loadAcademicYear$ = createEffect(() => {
+  readonly loadAcademicYear$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ApiAction.autoLoginSuccessfully),
       mergeMap(() => {
@@ -122,7 +123,7 @@ export class AppShellEffects {
     );
   });
 
-  loadTeachersInDepartment$ = createEffect(() => {
+  readonly loadTeachersInDepartment$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ApiAction.autoLoginSuccessfully),
       map(({ teacher }) => teacher.department?.id),
@@ -138,6 +139,23 @@ export class AppShellEffects {
     );
   });
 
+  readonly loadGoogleCalendars = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ApiAction.autoLoginSuccessfully),
+      filter(({ teacher }) => teacher.settings.googleCalendar),
+      map(({ teacher }) => teacher.department?.id),
+      ObservableHelper.filterNullish(),
+      mergeMap((id) => {
+        return this.googleService.getCalendarList(id).pipe(
+          map(({ data }) =>
+            ApiAction.loadGoogleCalendarSuccessful({ calendars: data })
+          ),
+          catchError(() => of(ApiAction.loadGoogleCalendarFailure()))
+        );
+      })
+    );
+  });
+
   // CONSTRUCTOR
   constructor(
     private readonly actions$: Actions,
@@ -148,6 +166,7 @@ export class AppShellEffects {
     private readonly userService: UserService,
     private readonly commonInfoService: CommonInfoService,
     private readonly teacherService: TeacherService,
+    private readonly googleService: GoogleService,
     private readonly accessTokenService: AccessTokenService
   ) {}
 

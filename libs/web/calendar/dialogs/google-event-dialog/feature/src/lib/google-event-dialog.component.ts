@@ -1,21 +1,29 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { TuiDay, TuiTime } from '@taiga-ui/cdk';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+  TuiContextWithImplicit,
+  TuiDay,
+  tuiPure,
+  TuiStringHandler,
+  TuiTime,
+} from '@taiga-ui/cdk';
 import {
   TuiAlertService,
   TuiDialogContext,
   TuiNotification,
 } from '@taiga-ui/core';
 import { DateHelper } from '@teaching-scheduling-system/core/utils/helpers';
+import { CalendarHelper } from '@teaching-scheduling-system/web/calendar/data-access';
 import { GoogleCalendarDialogStore } from '@teaching-scheduling-system/web/calendar/dialogs/google-event-dialog/data-access';
 import {
   EjsScheduleModel,
+  GoogleCalendar,
   GoogleCalendarModel,
   GoogleDateTime,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { sameGroupStaticValueValidator } from '@teaching-scheduling-system/web/shared/utils/validators';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { map, of, switchMap } from 'rxjs';
+import { map, of, switchMap, tap } from 'rxjs';
 
 type FormModel = {
   id: string;
@@ -38,6 +46,7 @@ type FormModel = {
 export class GoogleEventDialogComponent {
   // PUBLIC PROPERTIES
   readonly showLoader$ = this.store.status$.pipe(map((s) => s === 'loading'));
+  readonly googleCalendars$ = this.store.googleCalendars$;
   readonly readOnly: boolean;
   readonly isEditDialog: boolean;
   form!: FormGroup;
@@ -46,6 +55,10 @@ export class GoogleEventDialogComponent {
   private needUpdateAfterClose = false;
 
   // GETTERS
+  private get calendarIdControl(): FormControl {
+    return this.form.get('calendarId') as FormControl;
+  }
+
   private get subjectControlValue(): string {
     return this.form.value['subject'];
   }
@@ -96,22 +109,21 @@ export class GoogleEventDialogComponent {
     private readonly store: GoogleCalendarDialogStore
   ) {
     this.initForm(context.data);
+    this.handleLoadGoogleCalendars();
     this.handleSubmitStatus();
+
     this.isEditDialog = !!context.data.Calendar;
     this.readOnly =
       this.isEditDialog &&
-      (context.data.Calendar.accessRole === 'freeBusyReader' ||
-        context.data.Calendar.accessRole === 'reader');
+      CalendarHelper.googleCalendarIsReadonly(context.data.Calendar);
   }
 
   // PUBLIC METHODS
-  submitEdit(): void {
+  submitCreate(): void {
     const { start, end } = this.getStartAndEnd();
-    const data = this.context.data;
 
-    this.store.submitEdit({
-      calendarId: data.Calendar.id,
-      eventId: data.Id,
+    this.store.submitCreate({
+      calendarId: this.calendarIdControl.value,
       body: {
         start: {
           ...start,
@@ -128,12 +140,13 @@ export class GoogleEventDialogComponent {
     });
   }
 
-  submitCreate(): void {
+  submitEdit(): void {
     const { start, end } = this.getStartAndEnd();
+    const data = this.context.data;
 
-    this.store.submitCreate({
-      // TODO: Allow user to select calendar
-      calendarId: 'primary',
+    this.store.submitEdit({
+      calendarId: data.Calendar.id,
+      eventId: data.Id,
       body: {
         start: {
           ...start,
@@ -167,6 +180,17 @@ export class GoogleEventDialogComponent {
     });
   }
 
+  @tuiPure
+  stringifyGoogleCalendars(
+    items: GoogleCalendar[]
+  ): TuiStringHandler<TuiContextWithImplicit<string>> {
+    const map = new Map(
+      items.map(({ id, summary }) => [id, summary] as [string, string])
+    );
+
+    return ({ $implicit }) => map.get($implicit) || '';
+  }
+
   // PRIVATE METHODS
   private initForm(data: GoogleCalendarModel): void {
     const startDate = data.StartTime as Date;
@@ -181,6 +205,7 @@ export class GoogleEventDialogComponent {
 
     const initialValue = {
       id: data.Id,
+      calendarId: data.Calendar?.id || '',
       subject: data.Subject,
       location: data.Location || '',
       // TODO: Add people
@@ -207,6 +232,21 @@ export class GoogleEventDialogComponent {
         validators: this.isEditDialog ? this.formValidator(initialValue) : null,
       }
     );
+  }
+
+  private handleLoadGoogleCalendars(): void {
+    this.googleCalendars$
+      .pipe(
+        tap((calendars) => {
+          const primaryCalendar = calendars.find(
+            (c) => c.accessRole === 'owner'
+          );
+          if (primaryCalendar) {
+            this.calendarIdControl.setValue(primaryCalendar.id);
+          }
+        })
+      )
+      .subscribe();
   }
 
   private handleSubmitStatus(): void {
