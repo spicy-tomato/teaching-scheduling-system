@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.23.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.22.0...v3.23.0) (2023-01-01)
+
+
+### Features
+
+* create google calendar event ([e5c0881](https://github.com/annguyen-it/teaching-scheduling-system/commit/e5c08810c686fdf4c829be0d8427ff2139284f52))
+* update google calendar events ([b7c2dc8](https://github.com/annguyen-it/teaching-scheduling-system/commit/b7c2dc87dc12dda3ac8ddb0177590ff57f050516))
+
+
+### Bug Fixes
+
+* **dep:** bump @ng-web-apis/universal to 2.1.0 ([51b6e4e](https://github.com/annguyen-it/teaching-scheduling-system/commit/51b6e4e5ae5454186e3429db3b22efabdc144362))
+* **dep:** bump angular to 13.3.12 ([bbcc706](https://github.com/annguyen-it/teaching-scheduling-system/commit/bbcc70626c0e048104188b8ea7cd848c6ef16a77))
+* **dep:** bump commitlint to 17.3.0 ([aa11e52](https://github.com/annguyen-it/teaching-scheduling-system/commit/aa11e52494cf1ae918cc80ad20704259a9268604))
+* **dep:** bump docx to 7.8.0 ([b36128c](https://github.com/annguyen-it/teaching-scheduling-system/commit/b36128c0894b6fc3bbf3ba73426754cddecb979f))
+* **dep:** bump laravel-echo to 1.14.2 ([1f63c5c](https://github.com/annguyen-it/teaching-scheduling-system/commit/1f63c5c6a6016fa57cca7e19b1548950bed4f576))
+* **dep:** bump postcss to 8.4.20 ([d76a7df](https://github.com/annguyen-it/teaching-scheduling-system/commit/d76a7df258554984f0bb22c9110ff30ad4d5b3b5))
+* **dep:** bump taiga-ui to 3.7.1 ([15c6274](https://github.com/annguyen-it/teaching-scheduling-system/commit/15c6274b15977af57cfe305bc6c6aa42237eb7cd))
+
 ## [3.22.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.21.1...v3.22.0) (2022-12-21)
 
 
