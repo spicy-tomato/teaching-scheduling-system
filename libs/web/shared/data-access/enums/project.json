@@ -4,20 +4,14 @@
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": [
-        "{options.outputFile}"
-      ],
+      "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "libs/web/shared/data-access/enums/**/*.ts"
-        ]
+        "lintFilePatterns": ["libs/web/shared/data-access/enums/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/libs/web/shared/data-access/enums"
-      ],
+      "outputs": ["coverage/libs/web/shared/data-access/enums"],
       "options": {
         "jestConfig": "libs/web/shared/data-access/enums/jest.config.ts",
         "passWithNoTests": true

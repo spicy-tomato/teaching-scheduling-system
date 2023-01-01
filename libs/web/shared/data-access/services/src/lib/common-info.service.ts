@@ -30,7 +30,7 @@ export class CommonInfoService {
   getAcademicYear(): Observable<AcademicData[]> {
     return this.http
       .get<ResponseModel<AcademicData[]>>(this.url + 'training-types')
-      .pipe(map((response) => response.data));
+      .pipe(map(({ data }) => data));
   }
 
   getCurrentTerm(): Observable<string> {
@@ -48,6 +48,6 @@ export class CommonInfoService {
   getRooms(): Observable<string[]> {
     return this.http
       .get<ResponseModel<string[]>>(this.url + 'rooms')
-      .pipe(map((r) => r.data));
+      .pipe(map(({ data }) => data));
   }
 }

@@ -1,13 +1,15 @@
+export type GoogleCalendarType = `calendar.@${string}`;
+
 export type SidebarField =
   | 'calendar.study'
   | 'calendar.exam'
-  | `calendar.@${string}`;
-export type SidebarStateEvent = {
-  name: SidebarField;
-  value: boolean;
-};
+  | GoogleCalendarType;
+
 export type SidebarEvent =
-  | SidebarStateEvent
+  | {
+      name: SidebarField;
+      value: boolean;
+    }
   | {
       name: 'calendar.create';
       value: SidebarField[];

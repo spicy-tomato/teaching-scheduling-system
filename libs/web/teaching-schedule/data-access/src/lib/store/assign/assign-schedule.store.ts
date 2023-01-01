@@ -72,17 +72,17 @@ export class AssignStore extends ComponentStore<AssignScheduleState> {
     this.select(this._teacher$, (t) => t[prop]);
 
   readonly needAssign$ = this.select(this.data$, (data) =>
-    data.filter((x) => !x.teacher)
+    data.filter(({ teacher }) => !teacher)
   );
   readonly assigned$ = this.select(this.data$, (data) =>
-    data.filter((x) => !!x.teacher)
+    data.filter(({ teacher }) => !!teacher)
   );
 
   readonly selectedNeedAssign$ = this.select(
     this.needAssign$,
     this._selected$,
     (needAssignSchedule, selected) =>
-      needAssignSchedule.filter((x) => selected.includes(x.id))
+      needAssignSchedule.filter(({ id }) => selected.includes(id))
   );
   readonly selectedAssigned$ = this.select(
     this.assigned$,
@@ -130,17 +130,17 @@ export class AssignStore extends ComponentStore<AssignScheduleState> {
   }>((params$) =>
     params$.pipe(
       tap(() =>
-        this.patchState((state) => ({
-          status: { ...state.status, filter: 'loading' },
+        this.patchState(({ status }) => ({
+          status: { ...status, filter: 'loading' },
         }))
       ),
       switchMap(({ dep, params }) =>
         this.classService.getDepartmentModuleClass(dep, params).pipe(
           tapResponse(
             ({ data }) =>
-              this.patchState((state) => ({
+              this.patchState(({ status }) => ({
                 data,
-                status: { ...state.status, filter: 'successful' },
+                status: { ...status, filter: 'successful' },
               })),
             // TODO: Handle error
             () => this.patchState((state) => state)
@@ -181,15 +181,15 @@ export class AssignStore extends ComponentStore<AssignScheduleState> {
   readonly assign = this.effect((params$) =>
     params$.pipe(
       tap(() =>
-        this.patchState((state) => ({
-          status: { ...state.status, assign: 'loading' },
+        this.patchState(({ status }) => ({
+          status: { ...status, assign: 'loading' },
         }))
       ),
       withLatestFrom(
         this.select(this._teacher$, (t) => t.selected).pipe(
           ObservableHelper.filterNullish()
         ),
-        this.selectedNeedAssign$.pipe(map((s) => s.map((x) => x.id)))
+        this.selectedNeedAssign$.pipe(map((s) => s.map(({ id }) => id)))
       ),
       switchMap(({ 1: teacher, 2: classIds }) =>
         this.classService.assign(teacher.id, classIds).pipe(
@@ -228,12 +228,12 @@ export class AssignStore extends ComponentStore<AssignScheduleState> {
   readonly unassign = this.effect((params$) =>
     params$.pipe(
       tap(() =>
-        this.patchState((state) => ({
-          status: { ...state.status, unassign: 'loading' },
+        this.patchState(({ status }) => ({
+          status: { ...status, unassign: 'loading' },
         }))
       ),
       withLatestFrom(
-        this.selectedAssigned$.pipe(map((s) => s.map((x) => x.id)))
+        this.selectedAssigned$.pipe(map((s) => s.map(({ id }) => id)))
       ),
       switchMap(({ 1: classIds }) =>
         this.classService.unassign(classIds).pipe(
@@ -284,10 +284,10 @@ export class AssignStore extends ComponentStore<AssignScheduleState> {
 
   // PUBLIC METHODS
   changeSelected(classIds: string[], checked: boolean) {
-    this.patchState((state) => ({
+    this.patchState(({ selected }) => ({
       selected: checked
-        ? [...state.selected, ...classIds]
-        : state.selected.filter((x) => !classIds.includes(x)),
+        ? [...selected, ...classIds]
+        : selected.filter((x) => !classIds.includes(x)),
     }));
   }
 

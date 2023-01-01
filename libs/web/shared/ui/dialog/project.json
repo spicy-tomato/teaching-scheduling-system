@@ -5,9 +5,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/libs/web/shared/ui/dialog"
-      ],
+      "outputs": ["coverage/libs/web/shared/ui/dialog"],
       "options": {
         "jestConfig": "libs/web/shared/ui/dialog/jest.config.ts",
         "passWithNoTests": true

@@ -26,5 +26,5 @@ export class TeachingDialogNavigationComponent {
   @Input() selectedSchedule!: EjsScheduleModel;
 
   // OUTPUT
-  @Output() changeSelectedSchedule = new EventEmitter<number>();
+  @Output() changeSelectedSchedule = new EventEmitter<number | string>();
 }

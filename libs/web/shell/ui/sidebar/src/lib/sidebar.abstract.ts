@@ -19,8 +19,11 @@ import {
   selectBreadcrumbs,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
 import {
+  SidebarField,
   SidebarState,
   sidebar_emit,
+  sidebar_selectGoogleCalendarList,
+  sidebar_selectGoogleCalendarStatus,
 } from '@teaching-scheduling-system/web/shell/data-access';
 import { Observable, takeUntil } from 'rxjs';
 
@@ -36,10 +39,17 @@ export abstract class SidebarAbstract implements OnInit {
   @Output() readonly clickItem = new EventEmitter<void>();
 
   // PUBLIC PROPERTIES
+  // TODO: remove
+  readonly googleCalendarStatus$ = this.store.select(
+    sidebar_selectGoogleCalendarStatus
+  );
+  readonly googleCalendarList$ = this.store.select(
+    sidebar_selectGoogleCalendarList
+  );
   abstract readonly items: SidebarItem[];
   form!: FormGroup;
 
-  // PRIVATE PROPERTIES
+  // PROTECTED PROPERTIES
   protected readonly breadcrumbs$: Observable<BreadcrumbItem[]>;
 
   // CONSTRUCTOR
@@ -48,8 +58,8 @@ export abstract class SidebarAbstract implements OnInit {
     protected readonly fb: FormBuilder,
     protected readonly destroy$: TuiDestroyService,
     protected readonly elementRef: ElementRef,
-    protected readonly sidebarStore: Store<SidebarState>,
-    appShellStore: Store<AppShellState>
+    protected readonly store: Store<SidebarState>,
+    protected readonly appShellStore: Store<AppShellState>
   ) {
     this.breadcrumbs$ = appShellStore
       .select(selectBreadcrumbs)
@@ -59,8 +69,10 @@ export abstract class SidebarAbstract implements OnInit {
   // LIFECYCLE
   ngOnInit(): void {
     this.initForm();
+    this.handleLoadGoogleCalendarList();
   }
 
+  // PUBLIC METHODS
   onClickItem(item: SidebarItem): void {
     if (item.subCheckboxes) {
       if (item.routerLink?.includes('calendar')) {
@@ -71,13 +83,19 @@ export abstract class SidebarAbstract implements OnInit {
   }
 
   onClickCheckbox(controlName: string, value: boolean): void {
-    const name = controlName as
-      | 'calendar.study'
-      | 'calendar.exam'
-      | `calendar.@${string}`;
-    this.sidebarStore.dispatch(sidebar_emit({ event: { name, value } }));
+    const name = controlName as SidebarField;
+    this.store.dispatch(
+      sidebar_emit({
+        event: {
+          name,
+          value,
+        },
+      })
+    );
   }
 
   // PROTECTED METHODS
   protected abstract initForm(): void;
+
+  protected abstract handleLoadGoogleCalendarList(): void;
 }

@@ -1,10 +1,20 @@
 import { ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
+import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
 import { ObjectHelper } from '@teaching-scheduling-system/core/utils/helpers';
 
-export function sameGroupStaticValueValidator<T>(
-  obj: Record<string, unknown>,
+export function sameGroupStaticValueValidator<
+  T extends Record<string, unknown>
+>(
+  obj: T,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  comp?: Record<string, (a: T, b: T) => boolean>
+  comp?: {
+    [Properties in keyof T]?: (
+      a: Nullable<T[Properties]>,
+      b: Nullable<T[Properties]>,
+      control?: AbstractControl
+    ) => boolean;
+  }
+  // Record<keyof U, (a: T, b: T) => boolean>
 ): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     for (const key of Object.keys(obj)) {
@@ -19,7 +29,8 @@ export function sameGroupStaticValueValidator<T>(
 
       if (
         (controlValue !== value && !comp?.[key]) ||
-        comp?.[key]?.(controlValue, value as T) === false
+        comp?.[key]?.(controlValue, value as Nullable<T[string]>, control) ===
+          false
       ) {
         return null;
       }

@@ -15,10 +15,7 @@ import { take, tap } from 'rxjs';
 })
 export class LayoutComponent {
   // CONSTRUCTOR
-  constructor(
-    store: Store<AppShellState>
-    // , googleService: GoogleService
-  ) {
+  constructor(store: Store<AppShellState>) {
     store
       .select(selectStatus)
       .pipe(
@@ -31,7 +28,5 @@ export class LayoutComponent {
         take(1)
       )
       .subscribe();
-
-    // googleService.load();
   }
 }

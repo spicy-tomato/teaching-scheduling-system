@@ -5,9 +5,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/libs/web/notification/ui/notification-list"
-      ],
+      "outputs": ["coverage/libs/web/notification/ui/notification-list"],
       "options": {
         "jestConfig": "libs/web/notification/ui/notification-list/jest.config.ts",
         "passWithNoTests": true

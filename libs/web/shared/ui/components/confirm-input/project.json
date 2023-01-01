@@ -5,9 +5,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/libs/web/shared/ui/components/confirm-input"
-      ],
+      "outputs": ["coverage/libs/web/shared/ui/components/confirm-input"],
       "options": {
         "jestConfig": "libs/web/shared/ui/components/confirm-input/jest.config.ts",
         "passWithNoTests": true

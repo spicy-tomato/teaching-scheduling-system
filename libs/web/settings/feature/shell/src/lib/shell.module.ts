@@ -1,10 +1,13 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ShellComponent } from './shell.component';
+import { ReactiveComponentModule } from '@ngrx/component';
+import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
 import { TuiActionModule } from '@taiga-ui/kit';
+import { ShellComponent } from './shell.component';
 
-const TAIGA_UI = [TuiActionModule];
+const NGRX = [ReactiveComponentModule];
+const TAIGA_UI = [TuiActionModule, TuiButtonModule, TuiLoaderModule];
 
 @NgModule({
   imports: [
@@ -24,6 +27,7 @@ const TAIGA_UI = [TuiActionModule];
           ).ChangePasswordModule,
       },
     ]),
+    ...NGRX,
     ...TAIGA_UI,
   ],
   declarations: [ShellComponent],

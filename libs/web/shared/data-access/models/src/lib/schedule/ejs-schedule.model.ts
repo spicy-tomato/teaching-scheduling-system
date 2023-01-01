@@ -1,12 +1,10 @@
 import { SimpleModel } from '../core/simple.model';
+import { GoogleCalendarEventHost } from '../google';
 import { FixedScheduleModel } from './fixed-schedule.model';
 
-export interface EjsScheduleModel {
-  /**
-   * Assigns a unique ID value to each of the events.
-   */
-  Id: number;
+export type EjsScheduleModelType = 'exam' | 'study' | 'googleEvent';
 
+interface EjsScheduleCore {
   /**
    * Assigns the summary text to each of the events.
    */
@@ -28,29 +26,9 @@ export interface EjsScheduleModel {
   Location?: string;
 
   /**
-   * Description about events
-   */
-  Description?: string;
-
-  /**
    * Denote whether an event is created for an entire day or for specific time alone. Usually, an event with `isAllDay` field set to true will be considered as an all-day event.
    */
   IsAllDay?: boolean;
-
-  /**
-   * Type of event. Can be `study` or `exam`
-   */
-  Type: 'exam' | 'study';
-
-  /**
-   * Module ID (subject) class at school of event
-   */
-  IdModuleClass: string;
-
-  /**
-   * Module (subject) class at school of event
-   */
-  ModuleName?: string;
 
   /**
    * Note of event
@@ -58,9 +36,43 @@ export interface EjsScheduleModel {
   Note: string;
 
   /**
-   * Method of event
+   * Color of event
    */
-  Method?: string;
+  Color?: string;
+
+  /**
+   * EjsSchedule's property
+   */
+  elementType?: 'cell' | 'event';
+}
+
+type TssModel = EjsScheduleCore & {
+  /**
+   * Assigns a unique ID value to each of the events.
+   */
+  Id: number;
+
+  /**
+   * Module ID (subject) class at school of event
+   */
+  Type: 'exam' | 'study';
+
+  /**
+   * Module ID (subject) class at school of event
+   */
+  IdModuleClass: string;
+};
+
+export interface TssTeachingModel extends TssModel {
+  /**
+   * Shift of teaching schedule
+   */
+  Shift: string;
+
+  /**
+   * Module (subject) class at school of event
+   */
+  ModuleName: string;
 
   /**
    * People of event
@@ -68,22 +80,32 @@ export interface EjsScheduleModel {
   People?: string[] | SimpleModel[];
 
   /**
-   * Color of event
-   */
-  Color?: string;
-
-  /**
-   * Color of event
-   */
-  Shift?: string;
-
-  /**
    * Fixed schedule
    */
-  FixedSchedules?: FixedScheduleModel[];
+  FixedSchedules: FixedScheduleModel[];
+}
+
+export interface TssExamModel extends TssModel {
+  /**
+   * Method of event
+   */
+  Method: string;
+  People: string[];
+}
+
+export type GoogleCalendarModel = EjsScheduleCore & {
+  Id: string;
+  Type: 'googleEvent';
 
   /**
-   * elementType
+   * Calendar of event in Google Calendar
    */
-  elementType?: 'cell' | 'event';
-}
+  Calendar: GoogleCalendarEventHost;
+
+  People?: string[];
+};
+
+export type EjsScheduleModel =
+  | TssTeachingModel
+  | TssExamModel
+  | GoogleCalendarModel;

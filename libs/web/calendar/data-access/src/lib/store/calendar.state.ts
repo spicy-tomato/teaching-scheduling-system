@@ -4,8 +4,9 @@ import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/e
 import {
   Activatable,
   CalendarFilter,
-  StudyScheduleModel,
   ExamScheduleModel,
+  GoogleCalendarEvent,
+  StudyScheduleModel,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 
 export interface CalendarState {
@@ -22,6 +23,10 @@ export interface CalendarState {
       exam: ExamScheduleModel[];
       ranges: TuiDayRange[];
     };
+  };
+  googleCalendar: {
+    events: GoogleCalendarEvent[];
+    ranges: TuiDayRange[];
   };
   view: View;
   selectedDate: Date;

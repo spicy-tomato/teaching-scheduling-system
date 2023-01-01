@@ -42,7 +42,6 @@ export class AssignLeftTitleComponent {
   someNeedAssignCheckedChange$!: Observable<boolean>;
 
   // PRIVATE PROPERTIES
-  private actionCount$: Observable<number>;
   private assignedTeacher$: Observable<Nullable<SimpleModel>>;
 
   // CONSTRUCTOR
@@ -53,7 +52,6 @@ export class AssignLeftTitleComponent {
     this.needAssign$ = this.store.needAssign$;
     this.teachers$ = this.store.teacher$('data');
     this.assignStatus$ = this.store.status$('assign');
-    this.actionCount$ = this.store.teacher$('actionCount');
     this.assignedTeacher$ = this.store.teacher$('action');
     this.selectedTeacher$ = this.store.teacher$('selected');
 

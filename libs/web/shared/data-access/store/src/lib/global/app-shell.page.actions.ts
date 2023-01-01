@@ -18,3 +18,8 @@ export const setLoader = createAction(
   '[App Shell Page] Set loader',
   props<{ showLoader: boolean }>()
 );
+
+export const setConnectToGoogle = createAction(
+  '[App Shell Page] Set connect to google',
+  props<{ connect: boolean }>()
+);

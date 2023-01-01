@@ -1,110 +1,126 @@
-import { Injectable } from '@angular/core';
-import { TuiDestroyService } from '@taiga-ui/cdk';
-import { BehaviorSubject, filter, Observable, of, takeUntil, tap } from 'rxjs';
+import {
+  HttpClient,
+  HttpParameterCodec,
+  HttpParams,
+} from '@angular/common/http';
+import { Inject, Injectable } from '@angular/core';
+import {
+  AppConfig,
+  APP_CONFIG,
+} from '@teaching-scheduling-system/web/config/data-access';
+import {
+  DefaultGoogleCalendarEvent,
+  GoogleCalendar,
+  GoogleCalendarEventResponse,
+  ResponseModel,
+} from '@teaching-scheduling-system/web/shared/data-access/models';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
-  deps: [TuiDestroyService],
 })
 export class GoogleService {
   // PRIVATE PROPERTIES
-  private load$ = new BehaviorSubject<boolean | null>(null);
-  loggedIn$ = new BehaviorSubject<boolean | null>(null);
+  private readonly url: string;
 
   // CONSTRUCTOR
-  constructor(private readonly destroy$: TuiDestroyService) {
-    this.handleClientLoad();
+  constructor(
+    private readonly http: HttpClient,
+    @Inject(APP_CONFIG) config: AppConfig
+  ) {
+    this.url = config.baseUrl;
   }
 
   // PUBLIC METHODS
-  load(): void {
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = 'https://apis.google.com/js/api.js';
-    script.onload = () => {
-      this.load$.next(true);
-    };
-
-    script.onerror = () => this.load$.next(false);
-    document.getElementsByTagName('head')[0].appendChild(script);
-  }
-
-  auth(): void {
-    this.loggedIn$.next(null);
-    void gapi.auth2
-      .getAuthInstance()
-      .signIn()
-      .then(
-        (x: any) => {
-          console.log(x);
-          this.loggedIn$.next(true);
-        },
-        () => this.loggedIn$.next(false)
-      );
-  }
-
-  signOut(): void {
-    void gapi.auth2.getAuthInstance().signOut();
-    this.loggedIn$.next(false);
-  }
-
-  getInfo(): gapi.auth2.CurrentUser {
-    return gapi.auth2.getAuthInstance().currentUser;
-  }
-
-  private listUpcomingEvents(): Observable<
-    gapi.client.HttpRequest<gapi.client.calendar.Events>
-  > | null {
-    if (!this.loggedIn$.value) return null;
-
-    return of(
-      gapi.client.calendar.events.list({
-        calendarId: 'primary',
-        timeMin: new Date().toISOString(),
-        showDeleted: false,
-        singleEvents: true,
-        maxResults: 10,
-        orderBy: 'startTime',
-      })
+  authenticate(uuid: string): Observable<ResponseModel<{ authUrl: string }>> {
+    return this.http.get<ResponseModel<{ authUrl: string }>>(
+      this.url + `v1/accounts/${uuid}/google-apis/calendar/authenticate`
     );
   }
 
-  // PRIVATE METHODS
-  private handleClientLoad(): void {
-    this.load$
-      .pipe(
-        filter((loaded) => !!loaded),
-        tap(() => {
-          gapi.load('client:auth2', () => this.initClient());
-        }),
-        takeUntil(this.destroy$)
-      )
-      .subscribe();
+  authorize(uuid: string, auth_code: string): Observable<void> {
+    return this.http.post<void>(
+      this.url + `v1/accounts/${uuid}/google-apis/calendar/authorize`,
+      { auth_code }
+    );
   }
 
-  private initClient(): void {
-    // void gapi.client
-    //   .init({
-    //     apiKey: APP_SETTINGS.googleApiKey,
-    //     clientId: APP_SETTINGS.googleApiClientId,
-    //     discoveryDocs: [
-    //       'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest',
-    //     ],
-    //     scope: 'https://www.googleapis.com/auth/calendar',
-    //   })
-    //   .then(() => {
-    //     // Listen for sign-in state changes.
-    //     gapi.auth2
-    //       .getAuthInstance()
-    //       .isSignedIn.listen((isSignedIn) =>
-    //         this.updateSignInStatus(isSignedIn)
-    //       );
-    //     // Handle the initial sign-in state.
-    //     this.updateSignInStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
-    //   });
+  revoke(uuid: string): Observable<void> {
+    return this.http.post<void>(
+      this.url + `v1/accounts/${uuid}/google-apis/calendar/revoke`,
+      {}
+    );
   }
 
-  private updateSignInStatus(isSignedIn: boolean): void {
-    this.loggedIn$.next(isSignedIn);
+  //* To display on sidebar
+  getCalendarList(uuid: string): Observable<ResponseModel<GoogleCalendar[]>> {
+    return this.http.get<ResponseModel<GoogleCalendar[]>>(
+      this.url + `v1/accounts/${uuid}/google-apis/calendar/calendars`
+    );
+  }
+
+  //* To display on page Calendar
+  getCalendarEvents(
+    uuid: string,
+    timeMin: string,
+    timeMax: string
+  ): Observable<ResponseModel<GoogleCalendarEventResponse[]>> {
+    const params = new HttpParams({
+      encoder: new CustomHttpParamEncoder(),
+      fromObject: {
+        timeMin,
+        timeMax,
+        singleEvents: 1,
+        timeZone: '+07:00',
+      },
+    });
+    return this.http.get<ResponseModel<GoogleCalendarEventResponse[]>>(
+      this.url + `v1/accounts/${uuid}/google-apis/calendar/calendars/events`,
+      { params }
+    );
+  }
+
+  create(
+    uuid: string,
+    calendarId: string,
+    body: DefaultGoogleCalendarEvent
+  ): Observable<void> {
+    return this.http.post<void>(
+      this.url +
+        `v1/accounts/${uuid}/google-apis/calendar/calendars/${calendarId}/events`,
+      body
+    );
+  }
+
+  update(
+    uuid: string,
+    calendarId: string,
+    eventId: string,
+    body: DefaultGoogleCalendarEvent
+  ): Observable<void> {
+    return this.http.patch<void>(
+      this.url +
+        `v1/accounts/${uuid}/google-apis/calendar/calendars/${calendarId}/events/${eventId}`,
+      body
+    );
+  }
+}
+
+// TODO: Remove
+class CustomHttpParamEncoder implements HttpParameterCodec {
+  encodeKey(key: string): string {
+    return encodeURIComponent(key);
+  }
+
+  encodeValue(value: string): string {
+    return encodeURIComponent(value);
+  }
+
+  decodeKey(key: string): string {
+    return decodeURIComponent(key);
+  }
+
+  decodeValue(value: string): string {
+    return decodeURIComponent(value);
   }
 }

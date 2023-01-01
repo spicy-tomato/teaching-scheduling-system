@@ -1,6 +1,5 @@
-<!-- TODO (Add event): Add else cell -->
 <tss-quick-info-content-event
-  *ngIf="data.elementType === 'event'"
+  *ngIf="data.elementType === 'event'; else cell"
   [data]="data"
 ></tss-quick-info-content-event>
 <ng-template #cell>

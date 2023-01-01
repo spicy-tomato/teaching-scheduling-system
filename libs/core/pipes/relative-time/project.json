@@ -5,9 +5,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/libs/core/pipes/relative-time"
-      ],
+      "outputs": ["coverage/libs/core/pipes/relative-time"],
       "options": {
         "jestConfig": "libs/core/pipes/relative-time/jest.config.ts",
         "passWithNoTests": true

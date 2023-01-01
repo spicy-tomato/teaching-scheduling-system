@@ -1,0 +1,106 @@
+<form [formGroup]="form">
+  <div class="tui-form__row">
+    <tui-input formControlName="subject" [readOnly]="readOnly">
+      Tiêu đề
+    </tui-input>
+  </div>
+  <div class="tui-form__row">
+    <tui-input formControlName="location" [readOnly]="readOnly">
+      Địa điểm
+    </tui-input>
+  </div>
+  <div class="time tui-form__row tui-form__row_multi-fields">
+    <div class="tui-form__multi-field">
+      <tui-input-date formControlName="start" [readOnly]="readOnly">
+        Ngày bắt đầu
+      </tui-input-date>
+    </div>
+    <div
+      [ngClass]="
+        isAllDayControlValue
+          ? '!w-0 opacity-0 invisible'
+          : 'tui-form__multi-field'
+      "
+    >
+      <tui-input-time formControlName="startTime" [readOnly]="readOnly">
+        Giờ bắt đầu
+      </tui-input-time>
+    </div>
+    <div class="tui-form__multi-field">
+      <tui-input-date formControlName="end" [readOnly]="readOnly">
+        Ngày kết thúc
+      </tui-input-date>
+    </div>
+    <div
+      [ngClass]="
+        isAllDayControlValue
+          ? 'w-0 opacity-0 invisible'
+          : 'tui-form__multi-field'
+      "
+    >
+      <tui-input-time formControlName="endTime" [readOnly]="readOnly">
+        Giờ kết thúc
+      </tui-input-time>
+    </div>
+  </div>
+  <!-- <ng-container formArrayName="people">
+    <div
+      class="tui-form__row"
+      *ngFor="let person of peopleControl.controls; index as i"
+    >
+      <tui-input [formControlName]="i" [readOnly]="readOnly">
+        Giám thị {{ i + 1 }}
+      </tui-input>
+    </div>
+  </ng-container> -->
+  <div class="tui-form__row">
+    <tui-checkbox-labeled formControlName="isAllDay" [readOnly]="readOnly"
+      >Cả ngày
+    </tui-checkbox-labeled>
+  </div>
+  <div class="tui-form__row">
+    <tui-text-area formControlName="note" [readOnly]="readOnly">
+      Mô tả
+    </tui-text-area>
+  </div>
+
+  <div class="tui-form__buttons tui-form__buttons_align_end">
+    <ng-container *ngIf="!readOnly">
+      <ng-container *ngrxLet="showLoader$ as showLoader">
+        <ng-container *ngIf="isEditDialog; else createBtn">
+          <button
+            tuiButton
+            (click)="submitEdit()"
+            [showLoader]="showLoader"
+            [disabled]="form.invalid"
+            size="m"
+            class="tui-form__button"
+          >
+            Lưu
+          </button>
+        </ng-container>
+        <ng-template #createBtn>
+          <button
+            tuiButton
+            (click)="submitCreate()"
+            [showLoader]="showLoader"
+            [disabled]="form.invalid"
+            size="m"
+            class="tui-form__button"
+          >
+            Tạo sự kiện
+          </button>
+        </ng-template>
+      </ng-container>
+    </ng-container>
+    <button
+      tuiButton
+      (click)="onCancel()"
+      appearance="outline"
+      size="m"
+      class="tui-form__button"
+    >
+      Đóng
+    </button>
+  </div>
+</form>

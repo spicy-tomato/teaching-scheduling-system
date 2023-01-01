@@ -11,12 +11,14 @@ import {
   PermissionHelper,
 } from '@teaching-scheduling-system/core/utils/helpers';
 import {
+  GoogleCalendarEvent,
   SearchSchedule,
   SimpleModel,
   Teacher,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import {
   ExamService,
+  GoogleService,
   ScheduleService,
 } from '@teaching-scheduling-system/web/shared/data-access/services';
 import {
@@ -55,6 +57,7 @@ export class CalendarEffects {
   private readonly loadPersonalScheduleSubject$ = new Subject<Date>();
   private readonly loadDepartmentExamSubject$ = new Subject<Date>();
   private readonly loadDepartmentScheduleSubject$ = new Subject<Date>();
+  private readonly loadGoogleCalendarEventsSubject$ = new Subject<Date>();
 
   // EFFECTS
   loadPersonalSchedule$ = createEffect(
@@ -64,6 +67,7 @@ export class CalendarEffects {
         tap(({ date }) => {
           this.loadPersonalScheduleSubject$.next(date);
           this.loadPersonalExamSubject$.next(date);
+          this.loadGoogleCalendarEventsSubject$.next(date);
         })
       );
     },
@@ -145,6 +149,7 @@ export class CalendarEffects {
     private readonly actions$: Actions,
     private readonly scheduleService: ScheduleService,
     private readonly examService: ExamService,
+    private readonly googleService: GoogleService,
     private readonly store: Store<fromSchedule.CalendarState>,
     appShellStore: Store<AppShellState>
   ) {
@@ -156,22 +161,23 @@ export class CalendarEffects {
     this.handleLoadPersonalExam();
     this.handleLoadDepartmentSchedule();
     this.handleLoadDepartmentExam();
+    this.handleLoadGoogleCalendar();
   }
 
   // PRIVATE METHODS
   private handleLoadPersonalSchedule(): void {
     combineLatest([
       this.loadPersonalScheduleSubject$,
-      this.teacher$.pipe(map((x) => x.id)),
+      this.teacher$.pipe(map(({ id }) => id)),
     ])
       .pipe(
         this.commonPersonalObservable(),
         mergeMap(({ fetch, ranges, teacherId }) => {
           return this.scheduleService.getSchedule(teacherId, fetch).pipe(
-            tap((response) => {
+            tap(({ data }) => {
               this.store.dispatch(
                 ApiAction.loadPersonalStudySuccessful({
-                  schedules: response.data,
+                  schedules: data,
                   ranges,
                 })
               );
@@ -188,16 +194,16 @@ export class CalendarEffects {
   private handleLoadPersonalExam(): void {
     combineLatest([
       this.loadPersonalExamSubject$,
-      this.teacher$.pipe(map((x) => x.id)),
+      this.teacher$.pipe(map(({ id }) => id)),
     ])
       .pipe(
         this.commonPersonalObservable(),
         mergeMap(({ fetch, ranges, teacherId }) => {
           return this.examService.getExamSchedule(teacherId, fetch.date).pipe(
-            tap((response) => {
+            tap(({ data }) => {
               this.store.dispatch(
                 ApiAction.loadPersonalExamSuccessful({
-                  schedules: response.data,
+                  schedules: data,
                   ranges,
                 })
               );
@@ -223,10 +229,10 @@ export class CalendarEffects {
           return this.scheduleService
             .getDepartmentSchedule(department, fetch.date)
             .pipe(
-              tap((response) => {
+              tap(({ data }) => {
                 this.store.dispatch(
                   ApiAction.loadDepartmentStudySuccessful({
-                    schedules: response.data,
+                    schedules: data,
                     ranges,
                   })
                 );
@@ -252,16 +258,58 @@ export class CalendarEffects {
           return this.examService
             .getDepartmentExamSchedule(department, fetch.date)
             .pipe(
-              tap((response) => {
+              tap(({ data }) => {
                 this.store.dispatch(
                   ApiAction.loadDepartmentExamSuccessful({
-                    schedules: response.data,
+                    schedules: data,
                     ranges,
                   })
                 );
               }),
               catchError(() =>
                 of(this.store.dispatch(ApiAction.loadDepartmentExamFailure()))
+              )
+            );
+        })
+      )
+      .subscribe();
+  }
+
+  private handleLoadGoogleCalendar(): void {
+    combineLatest([
+      this.loadPersonalExamSubject$,
+      this.teacher$.pipe(
+        filter(({ settings }) => settings.googleCalendar),
+        map(({ uuidAccount }) => uuidAccount)
+      ),
+    ])
+      .pipe(
+        this.commonPersonalObservable(),
+        mergeMap(({ fetch, ranges, teacherId }) => {
+          let [timeMin, timeMax] = fetch.date.split(',');
+          timeMin += 'T00:00:00+07:00';
+          timeMax += 'T23:59:59+07:00';
+          return this.googleService
+            .getCalendarEvents(teacherId, timeMin, timeMax)
+            .pipe(
+              tap(({ data }) => {
+                this.store.dispatch(
+                  ApiAction.loadGoogleCalendarSuccessful({
+                    events: data.reduce((acc, { events, ...props }) => {
+                      acc.push(
+                        ...events.map((e) => {
+                          e.calendar = props;
+                          return e;
+                        })
+                      );
+                      return acc;
+                    }, <GoogleCalendarEvent[]>[]),
+                    ranges,
+                  })
+                );
+              }),
+              catchError(() =>
+                of(this.store.dispatch(ApiAction.loadGoogleCalendarFailure()))
               )
             );
         })
@@ -280,7 +328,7 @@ export class CalendarEffects {
     return (source$) =>
       source$.pipe(
         map(([date, teacherId]) => ({ date, teacherId })),
-        calculateRangeO(this.ranges$.pipe(map((x) => x.department)))
+        calculateRangeO(this.ranges$.pipe(map(({ department }) => department)))
       );
   }
 
@@ -302,7 +350,7 @@ export class CalendarEffects {
         ),
         map(([date, department]) => ({ date, department: department.id })),
         calculateRangeWithDepartmentO(
-          this.ranges$.pipe(map((x) => x.department))
+          this.ranges$.pipe(map(({ department }) => department))
         )
       );
   }

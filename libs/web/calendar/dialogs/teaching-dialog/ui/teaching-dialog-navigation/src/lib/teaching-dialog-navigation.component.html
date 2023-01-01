@@ -2,7 +2,7 @@
   <li *ngFor="let schedule of schedules">
     <button
       tuiButton
-      (click)="changeSelectedSchedule.next(schedule.Id)"
+      (click)="changeSelectedSchedule.emit(schedule.Id)"
       [appearance]="schedule.Id === selectedSchedule.Id ? 'primary' : 'flat'"
       [title]="schedule.Subject"
       class="w-full"

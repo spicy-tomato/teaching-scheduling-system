@@ -14,3 +14,7 @@ tui-scrollbar a {
 tui-accordion-item ::ng-deep .t-header {
   @apply !pl-3 !pr-4;
 }
+
+.sub-checkbox ::ng-deep tui-checkbox ~ .t-content {
+  @apply overflow-hidden text-ellipsis whitespace-nowrap;
+}

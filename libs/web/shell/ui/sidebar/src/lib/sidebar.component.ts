@@ -53,7 +53,7 @@ export class SidebarComponent extends SidebarAbstract implements AfterViewInit {
       )
       .subscribe();
 
-    this.sidebarStore.dispatch(
+    this.store.dispatch(
       sidebar_emit({
         event: {
           name: 'calendar.create',
@@ -75,20 +75,56 @@ export class SidebarComponent extends SidebarAbstract implements AfterViewInit {
      *  }
      */
     this.form = this.fb.group(
-      this.items.reduce<Record<string, unknown>>((acc, curr) => {
-        if (curr.subCheckboxes && curr.controlName) {
-          acc[curr.controlName] = this.fb.group(
-            curr.subCheckboxes.reduce<Record<string, unknown>>(
-              (accControl, currControl) => {
-                accControl[currControl.controlName] = [true];
-                return accControl;
-              },
-              {}
-            )
-          );
-        }
-        return acc;
-      }, {})
+      this.items.reduce<Record<string, unknown>>(
+        (acc, { subCheckboxes, controlName }) => {
+          if (subCheckboxes && controlName) {
+            acc[controlName] = this.fb.group(
+              subCheckboxes.reduce<Record<string, unknown>>(
+                (accControl, currControl) => {
+                  accControl[currControl.controlName] = [true];
+                  return accControl;
+                },
+                {}
+              )
+            );
+          }
+          return acc;
+        },
+        {}
+      )
     );
+  }
+
+  protected handleLoadGoogleCalendarList(): void {
+    this.googleCalendarList$
+      .pipe(
+        filter(({ length }) => length > 0),
+        tap((list) => {
+          const newList = [...this.items];
+          // TODO: Display calendars
+          // const googleCalendarItems = list.map(({ id, summary }) => ({
+          //   controlName: id,
+          //   name: summary,
+          // }));
+          const calendarControl = newList.find(
+            (item) => item.controlName === 'calendar'
+          );
+          if (calendarControl && calendarControl.subCheckboxes) {
+            calendarControl.subCheckboxes =
+              calendarControl.subCheckboxes.filter(
+                // TODO: Refactor
+                (s) => s.controlName === 'study' || s.controlName === 'exam'
+              );
+            // TODO: Display calendars
+            // calendarControl.subCheckboxes.push(...googleCalendarItems);
+            calendarControl.subCheckboxes.push({
+              controlName: 'googleEvent',
+              name: 'Lịch Google',
+            });
+          }
+          this.initForm();
+        })
+      )
+      .subscribe();
   }
 }

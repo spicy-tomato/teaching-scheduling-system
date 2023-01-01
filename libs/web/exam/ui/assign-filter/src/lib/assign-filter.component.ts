@@ -170,7 +170,7 @@ export class AssignFilterComponent implements OnInit {
       .pipe(
         tap((currentTerm) => {
           this.schoolYearControl.setValue(
-            currentTerm.substr(0, currentTerm.length - 2)
+            currentTerm.substring(0, currentTerm.length - 2)
           );
           this.termInYearControl.setValue(currentTerm.slice(-1));
         })
@@ -181,7 +181,7 @@ export class AssignFilterComponent implements OnInit {
   private bindTrainingType(): void {
     this.trainingTypes$
       .pipe(
-        filter((trainingTypes) => trainingTypes.length > 0),
+        filter(({ length }) => length > 0),
         tap((trainingTypes) => {
           this.trainingTypeControl.setValue(trainingTypes[0].id);
         })

@@ -5,9 +5,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/libs/web/exam/ui/assign-teacher-dialog"
-      ],
+      "outputs": ["coverage/libs/web/exam/ui/assign-teacher-dialog"],
       "options": {
         "jestConfig": "libs/web/exam/ui/assign-teacher-dialog/jest.config.ts",
         "passWithNoTests": true
