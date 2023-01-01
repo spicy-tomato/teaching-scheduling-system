@@ -14,7 +14,7 @@ export type GoogleDateTime =
     };
 
 export interface GoogleCalendar {
-  accessRole: string;
+  accessRole: 'freeBusyReader' | 'reader' | 'writer' | 'owner';
   id: string;
   summary: string;
   description: Nullable<string>;
@@ -136,13 +136,6 @@ export class GoogleCalendarEvent {
   }
 }
 
-export interface GoogleCalendarEventHost {
-  accessRole: string;
-  id: string;
-  summary: string;
-  description: Nullable<string>;
-}
-
-export interface GoogleCalendarEventResponse extends GoogleCalendarEventHost {
+export interface GoogleCalendarEventResponse extends GoogleCalendar {
   events: GoogleCalendarEvent[];
 }
