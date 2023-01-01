@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { TuiDay, TuiTime } from '@taiga-ui/cdk';
 import {
   TuiAlertService,
@@ -11,6 +11,7 @@ import { GoogleCalendarDialogStore } from '@teaching-scheduling-system/web/calen
 import {
   EjsScheduleModel,
   GoogleCalendarModel,
+  GoogleDateTime,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { sameGroupStaticValueValidator } from '@teaching-scheduling-system/web/shared/utils/validators';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
@@ -38,6 +39,7 @@ export class GoogleEventDialogComponent {
   // PUBLIC PROPERTIES
   readonly showLoader$ = this.store.status$.pipe(map((s) => s === 'loading'));
   readonly readOnly: boolean;
+  readonly isEditDialog: boolean;
   form!: FormGroup;
 
   // PRIVATE PROPERTIES
@@ -95,25 +97,19 @@ export class GoogleEventDialogComponent {
   ) {
     this.initForm(context.data);
     this.handleSubmitStatus();
+    this.isEditDialog = !!context.data.Calendar;
     this.readOnly =
-      context.data.Calendar.accessRole === 'freeBusyReader' ||
-      context.data.Calendar.accessRole === 'reader';
+      this.isEditDialog &&
+      (context.data.Calendar.accessRole === 'freeBusyReader' ||
+        context.data.Calendar.accessRole === 'reader');
   }
 
   // PUBLIC METHODS
-  submit(): void {
+  submitEdit(): void {
+    const { start, end } = this.getStartAndEnd();
     const data = this.context.data;
-    let start, end;
 
-    if (this.isAllDayControlValue) {
-      start = { date: this.startDate };
-      end = { date: this.endDate };
-    } else {
-      start = { dateTime: this.startTime };
-      end = { dateTime: this.endTime };
-    }
-
-    this.store.submit({
+    this.store.submitEdit({
       calendarId: data.Calendar.id,
       eventId: data.Id,
       body: {
@@ -132,9 +128,31 @@ export class GoogleEventDialogComponent {
     });
   }
 
+  submitCreate(): void {
+    const { start, end } = this.getStartAndEnd();
+
+    this.store.submitCreate({
+      // TODO: Allow user to select calendar
+      calendarId: 'primary',
+      body: {
+        start: {
+          ...start,
+          timeZone: '+07:00',
+        },
+        end: {
+          ...end,
+          timeZone: '+07:00',
+        },
+        summary: this.subjectControlValue,
+        description: this.noteControlValue,
+        location: this.locationControlValue,
+      },
+    });
+  }
+
   onCancel(): void {
     setTimeout(() => {
-      if (this.needUpdateAfterClose) {
+      if (this.isEditDialog && this.needUpdateAfterClose) {
         this.context.completeWith({
           Subject: this.subjectControlValue,
           Note: this.noteControlValue,
@@ -164,7 +182,7 @@ export class GoogleEventDialogComponent {
     const initialValue = {
       id: data.Id,
       subject: data.Subject,
-      location: data.Location,
+      location: data.Location || '',
       // TODO: Add people
       // people: this.fb.array(data.People.map((x) => this.fb.control(x)) ?? []),
       start: startTuiDate,
@@ -186,7 +204,7 @@ export class GoogleEventDialogComponent {
         ),
       },
       {
-        validators: this.formValidator(initialValue),
+        validators: this.isEditDialog ? this.formValidator(initialValue) : null,
       }
     );
   }
@@ -196,10 +214,17 @@ export class GoogleEventDialogComponent {
       .pipe(
         switchMap((status) => {
           if (status === 'successful') {
-            this.needUpdateAfterClose = true;
-            this.form.setValidators(this.formValidator(this.form.value));
-            this.form.updateValueAndValidity();
-            return this.alertService.open('Cập nhật lịch thành công!', {
+            let message;
+            if (this.isEditDialog) {
+              this.needUpdateAfterClose = true;
+              this.form.setValidators(this.formValidator(this.form.value));
+              this.form.updateValueAndValidity();
+              message = 'Cập nhật lịch thành công!';
+            } else {
+              this.onCancel();
+              message = 'Tạo lịch thành công!';
+            }
+            return this.alertService.open(message, {
               status: TuiNotification.Success,
             });
           }
@@ -232,5 +257,30 @@ export class GoogleEventDialogComponent {
         return a?.valueOf() === b?.valueOf();
       },
     });
+  }
+
+  private getStartAndEnd(): {
+    start: GoogleDateTime;
+    end: GoogleDateTime;
+  } {
+    let start, end;
+    if (this.isAllDayControlValue) {
+      start = { date: this.startDate };
+      end = { date: this.endDate };
+    } else {
+      start = { dateTime: this.startTime };
+      end = { dateTime: this.endTime };
+    }
+
+    return {
+      start: {
+        ...start,
+        timeZone: '+07:00',
+      },
+      end: {
+        ...end,
+        timeZone: '+07:00',
+      },
+    };
   }
 }

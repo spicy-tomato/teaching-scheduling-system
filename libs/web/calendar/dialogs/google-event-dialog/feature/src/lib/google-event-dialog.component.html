@@ -66,17 +66,32 @@
 
   <div class="tui-form__buttons tui-form__buttons_align_end">
     <ng-container *ngIf="!readOnly">
-      <button
-        tuiButton
-        *ngrxLet="showLoader$ as showLoader"
-        (click)="submit()"
-        [showLoader]="showLoader"
-        [disabled]="form.invalid"
-        size="m"
-        class="tui-form__button"
-      >
-        Lưu
-      </button>
+      <ng-container *ngrxLet="showLoader$ as showLoader">
+        <ng-container *ngIf="isEditDialog; else createBtn">
+          <button
+            tuiButton
+            (click)="submitEdit()"
+            [showLoader]="showLoader"
+            [disabled]="form.invalid"
+            size="m"
+            class="tui-form__button"
+          >
+            Lưu
+          </button>
+        </ng-container>
+        <ng-template #createBtn>
+          <button
+            tuiButton
+            (click)="submitCreate()"
+            [showLoader]="showLoader"
+            [disabled]="form.invalid"
+            size="m"
+            class="tui-form__button"
+          >
+            Tạo sự kiện
+          </button>
+        </ng-template>
+      </ng-container>
     </ng-container>
     <button
       tuiButton

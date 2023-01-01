@@ -1,7 +1,7 @@
 import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
 import { EjsScheduleModel } from '../schedule';
 
-type GoogleDateTime =
+export type GoogleDateTime =
   | {
       date: string;
       dateTime?: null;
