@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import {
   TuiContextWithImplicit,
   TuiDay,
@@ -210,8 +210,7 @@ export class GoogleEventDialogComponent {
       calendarId: data.Calendar?.id || '',
       subject: data.Subject,
       location: data.Location || '',
-      // TODO: Add people
-      // people: this.fb.array(data.People.map((x) => this.fb.control(x)) ?? []),
+      people: data.People || [],
       start: startTuiDate,
       end:
         startTuiDate.append({ day: 1 }).daySame(endTuiDate) &&
@@ -227,13 +226,18 @@ export class GoogleEventDialogComponent {
 
     this.form = this.fb.group(
       {
-        ...Object.entries(initialValue).reduce<Record<string, any[]>>(
-          (acc, [key, value]) => {
+        ...Object.entries(initialValue).reduce<
+          Record<string, any[] | FormArray>
+        >((acc, [key, value]) => {
+          if (Array.isArray(value)) {
+            acc[key] = this.fb.array(
+              value.map((x) => this.fb.control(x)) ?? []
+            );
+          } else {
             acc[key] = [value];
-            return acc;
-          },
-          {}
-        ),
+          }
+          return acc;
+        }, {}),
       },
       {
         validators: this.isEditDialog ? this.formValidator(initialValue) : null,

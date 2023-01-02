@@ -63,25 +63,22 @@
       </tui-input-time>
     </div>
   </div>
-  <!-- <ng-container formArrayName="people">
-    <div
-      class="tui-form__row"
-      *ngFor="let person of peopleControl.controls; index as i"
-    >
-      <tui-input [formControlName]="i" [readOnly]="readOnly">
-        Giám thị {{ i + 1 }}
-      </tui-input>
-    </div>
-  </ng-container> -->
   <div class="tui-form__row">
-    <tui-checkbox-labeled formControlName="isAllDay" [readOnly]="readOnly"
-      >Cả ngày
+    <tui-checkbox-labeled formControlName="isAllDay" [readOnly]="readOnly">
+      Cả ngày
     </tui-checkbox-labeled>
   </div>
   <div class="tui-form__row">
     <tui-text-area formControlName="note" [readOnly]="readOnly">
       Mô tả
     </tui-text-area>
+  </div>
+  <div class="tui-form__row">
+    <ul class="tui-list">
+      <li *ngFor="let person of form.value['people']" class="tui-list__item">
+        {{ person.displayName || person.email }}
+      </li>
+    </ul>
   </div>
 
   <div class="tui-form__buttons tui-form__buttons_align_end">

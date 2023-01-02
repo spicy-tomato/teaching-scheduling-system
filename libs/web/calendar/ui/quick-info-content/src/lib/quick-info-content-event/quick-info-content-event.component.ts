@@ -20,6 +20,7 @@ import { ChangeScheduleHistoryComponent } from '@teaching-scheduling-system/web-
 import { EApiStatus } from '@teaching-scheduling-system/web/shared/data-access/enums';
 import {
   EjsScheduleModel,
+  GoogleAttendees,
   SimpleModel,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
@@ -71,7 +72,7 @@ export class QuickInfoContentEventComponent implements OnInit {
   }
 
   // PUBLIC METHODS
-  readonly peopleMatcher = (item: string | SimpleModel): boolean =>
+  readonly peopleMatcher = (item: string | SimpleModel | GoogleAttendees): boolean =>
     item !== 'self';
 
   onShowHistory(): void {

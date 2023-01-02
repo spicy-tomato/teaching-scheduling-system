@@ -116,7 +116,12 @@
   >
     <div class="mdi mdi-account"></div>
     <div>
-      {{ $any(person).name || person }}
+      {{
+        $any(person).name ||
+          $any(person).displayName ||
+          $any(person).email ||
+          person
+      }}
     </div>
   </div>
 </ng-container>

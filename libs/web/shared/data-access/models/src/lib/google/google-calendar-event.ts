@@ -13,6 +13,19 @@ export type GoogleDateTime =
       timeZone: Nullable<string>;
     };
 
+export type GoogleAttendees = {
+  additionalGuests: Nullable<number>;
+  comment: Nullable<string>;
+  displayName: Nullable<string>;
+  email: Nullable<string>;
+  id: Nullable<string>;
+  optional: Nullable<boolean>;
+  organizer: Nullable<boolean>;
+  resource: Nullable<boolean>;
+  responseStatus: 'needsAction' | 'declined' | 'tentative' | 'accepted';
+  self: boolean;
+};
+
 export interface GoogleCalendar {
   accessRole: 'freeBusyReader' | 'reader' | 'writer' | 'owner';
   id: string;
@@ -30,18 +43,7 @@ export type DefaultGoogleCalendarEvent = {
 
 export class GoogleCalendarEvent {
   anyoneCanAddSelf!: Nullable<boolean>;
-  attendees?: {
-    additionalGuests: Nullable<number>;
-    comment: Nullable<string>;
-    displayName: Nullable<string>;
-    email: Nullable<string>;
-    id: Nullable<string>;
-    optional: Nullable<boolean>;
-    organizer: Nullable<boolean>;
-    resource: Nullable<boolean>;
-    responseStatus: 'needsAction' | 'declined' | 'tentative' | 'accepted';
-    self: boolean;
-  }[];
+  attendees?: GoogleAttendees[];
   attendeesOmitted!: Nullable<boolean>;
   colorId!: Nullable<string>;
   created!: Date;
@@ -137,9 +139,7 @@ export class GoogleCalendarEvent {
       Location: this.location ?? undefined,
       Type: 'googleEvent',
       Note: this.description || '',
-      People: this.attendees?.map(
-        ({ displayName, email }) => displayName || email || ''
-      ),
+      People: this.attendees,
       Calendar: this.calendar,
       IsAllDay: !!this.start.date,
     };
