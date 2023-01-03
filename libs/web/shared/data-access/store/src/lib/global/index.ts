@@ -22,5 +22,6 @@ export {
   selectSchoolYear,
   selectTeachersInDepartment,
   selectShowLoader,
+  selectGoogleCalendars,
 } from './app-shell.selectors';
 export { AppShellEffects } from './app-shell.effects';

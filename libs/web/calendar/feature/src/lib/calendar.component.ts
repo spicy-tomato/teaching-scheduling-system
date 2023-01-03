@@ -13,7 +13,6 @@ import { Store } from '@ngrx/store';
 import {
   AgendaService,
   DayService,
-  EJ2Instance,
   EventRenderedArgs,
   EventSettingsModel,
   MonthService,
@@ -24,9 +23,12 @@ import {
   WeekService,
 } from '@syncfusion/ej2-angular-schedule';
 import { Predicate, Query } from '@syncfusion/ej2-data';
-import { Popup } from '@syncfusion/ej2-popups';
 import { TuiDestroyService } from '@taiga-ui/cdk';
-import { TuiDialogService } from '@taiga-ui/core';
+import {
+  TuiAlertService,
+  TuiDialogService,
+  TuiNotification,
+} from '@taiga-ui/core';
 import {
   ArrayHelper,
   ChangeStatusHelper,
@@ -35,6 +37,7 @@ import {
   ObservableHelper,
   ScheduleHelper,
 } from '@teaching-scheduling-system/core/utils/helpers';
+import { DialogService } from '@teaching-scheduling-system/web-shared-ui-dialog';
 import {
   calendarLoad,
   calendarNext,
@@ -56,6 +59,12 @@ import {
   GoogleCalendarEvent,
   GoogleCalendarModel,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
+import { GoogleService } from '@teaching-scheduling-system/web/shared/data-access/services';
+import {
+  AppShellState,
+  selectNameTitle,
+  selectNotNullTeacher,
+} from '@teaching-scheduling-system/web/shared/data-access/store';
 import {
   SidebarState,
   sidebar_listen,
@@ -66,12 +75,16 @@ import { NavbarService } from '@teaching-scheduling-system/web/shell/ui/navbar';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import {
   BehaviorSubject,
+  catchError,
   distinctUntilChanged,
   filter,
   map,
   skip,
+  Subject,
+  switchMap,
   takeUntil,
   tap,
+  withLatestFrom,
 } from 'rxjs';
 
 @Component({
@@ -93,6 +106,8 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // PUBLIC PROPERTIES
   readonly eventSettings$ = new BehaviorSubject<EventSettingsModel>({});
+  readonly dataSource$ = new BehaviorSubject<Record<string, any>[]>([]);
+  readonly remove$ = new Subject<GoogleCalendarModel>();
 
   // PRIVATE PROPERTIES
   private readonly staticSettings: EventSettingsModel = {
@@ -100,20 +115,29 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
     allowEditing: true,
     allowDeleting: false,
   };
+  private readonly teacher$ = this.appShellStore.pipe(selectNotNullTeacher);
+  private readonly nameTitle$ = this.appShellStore.select(selectNameTitle);
   private calendars: Record<string, boolean> = {};
 
   // CONSTRUCTOR
   constructor(
     @Inject(Injector) private readonly injector: Injector,
-    @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
+    @Inject(TuiDialogService)
+    private readonly tuiDialogService: TuiDialogService,
+    private readonly googleService: GoogleService,
+    private readonly tssDialogService: DialogService,
+    @Inject(TuiAlertService) private readonly alertService: TuiAlertService,
     private readonly navbarService: NavbarService,
     private readonly store: Store<CalendarState>,
+    private readonly appShellStore: Store<AppShellState>,
     private readonly sidebarStore: Store<SidebarState>,
     private readonly destroy$: TuiDestroyService
   ) {
     this.store.dispatch(calendarReset());
     this.handleLoadSchedule();
+    this.handleChangeData();
     this.handleSidebarAddItem();
+    this.handleRemove();
   }
 
   // LIFECYCLE
@@ -170,15 +194,15 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onCreated(): void {
-    const popup = document.querySelector(
-      '.e-quick-popup-wrapper'
-    ) as EJ2Instance;
-    if (!popup) return;
+    // const popup = document.querySelector(
+    //   '.e-quick-popup-wrapper'
+    // ) as EJ2Instance;
+    // if (!popup) return;
 
-    const popupInstance = popup.ej2_instances[0] as Popup;
-    popupInstance.open = () => {
-      popupInstance.refreshPosition();
-    };
+    // const popupInstance = popup.ej2_instances[0] as Popup;
+    // popupInstance.open = () => {
+    //   popupInstance.refreshPosition();
+    // };
 
     this.handleSidebarCheckboxChange();
   }
@@ -241,17 +265,13 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(
         map((schedules) => schedules.map((x) => x.toEjsSchedule())),
         tap((dataSource) => {
-          this.eventSettings$.next({
-            ...this.staticSettings,
-            // Only update schedule, not Google events
-            dataSource: [
-              ...(
-                (this.eventSettings$.value.dataSource ||
-                  []) as EjsScheduleModel[]
-              ).filter(({ Type }) => Type === 'googleEvent'),
-              ...dataSource,
-            ],
-          });
+          // Only update schedule, not Google events
+          this.dataSource$.next([
+            ...((this.dataSource$.value || []) as EjsScheduleModel[]).filter(
+              ({ Type }) => Type === 'googleEvent'
+            ),
+            ...dataSource,
+          ]);
         }),
         takeUntil(this.destroy$)
       )
@@ -265,19 +285,28 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
         tap((dataSource) => {
           // TODO: Bug
           // console.log(dataSource);
-          this.eventSettings$.next({
-            ...this.staticSettings,
-            // Only update Google events
-            dataSource: [
-              ...(
-                (this.eventSettings$.value.dataSource ||
-                  []) as EjsScheduleModel[]
-              ).filter(({ Type }) => Type !== 'googleEvent'),
-              ...dataSource,
-            ],
-          });
+          // Only update Google events
+          this.dataSource$.next([
+            ...((this.dataSource$.value || []) as EjsScheduleModel[]).filter(
+              ({ Type }) => Type !== 'googleEvent'
+            ),
+            ...dataSource,
+          ]);
         }),
         takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
+  private handleChangeData(): void {
+    this.dataSource$
+      .pipe(
+        tap((dataSource) =>
+          this.eventSettings$.next({
+            ...this.staticSettings,
+            dataSource,
+          })
+        )
       )
       .subscribe();
   }
@@ -400,7 +429,7 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private showExamEditorDialog(data: EjsScheduleModel): void {
-    this.dialogService
+    this.tuiDialogService
       .open<string | undefined>(
         new PolymorpheusComponent(ExamDialogComponent, this.injector),
         {
@@ -433,7 +462,7 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
       : [schedule];
     const selectedId = schedule.Id;
 
-    this.dialogService
+    this.tuiDialogService
       .open<EjsScheduleModel[] | undefined>(
         new PolymorpheusComponent(TeachingDialogComponent, this.injector),
         {
@@ -451,8 +480,8 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private showGoogleEventEditorDialog(data: GoogleCalendarModel): void {
-    this.dialogService
-      .open<Partial<EjsScheduleModel> | undefined>(
+    this.tuiDialogService
+      .open<Partial<EjsScheduleModel> | boolean | undefined>(
         new PolymorpheusComponent(GoogleEventDialogComponent, this.injector),
         {
           data,
@@ -465,9 +494,62 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(
         ObservableHelper.filterUndefined(),
         tap((newData) => {
-          this.scheduleComponent.saveEvent({ ...data, ...newData });
+          if (typeof newData === 'boolean') {
+            this.removeGoogleEvent(data.Id);
+          } else {
+            this.scheduleComponent.saveEvent({ ...data, ...newData });
+          }
         })
       )
       .subscribe();
+  }
+
+  private handleRemove(): void {
+    this.remove$
+      .pipe(
+        withLatestFrom(this.teacher$, this.nameTitle$),
+        switchMap(([data, { uuidAccount }, nameTitle]) =>
+          this.tssDialogService
+            .showConfirmDialog({
+              header: `${nameTitle} có chắc chắn muốn xóa sự kiện này không? Hành động này sẽ không thể hoàn tác.`,
+              positive: 'Có',
+              negative: 'Không',
+            })
+            .pipe(map((confirm) => ({ data, uuidAccount, confirm })))
+        ),
+        filter(({ confirm }) => confirm),
+        switchMap(({ data, uuidAccount }) =>
+          this.googleService
+            .remove(uuidAccount, data.Calendar.id, data.Id)
+            .pipe(map(() => data.Id))
+        ),
+        tap((id) => {
+          this.removeGoogleEvent(id);
+          this.alertService
+            .open('Xóa sự kiện thành công!', {
+              status: TuiNotification.Success,
+            })
+            .subscribe();
+        }),
+        catchError(() =>
+          this.alertService.open('Vui lòng thử lại sau', {
+            label: 'Đã có lỗi xảy ra',
+            status: TuiNotification.Error,
+          })
+        ),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
+  private removeGoogleEvent(id: string): void {
+    // EJS Schedule receive `Id` is `number` type, but Google Event is `string`
+    // Therefore, cannot use `this.scheduleComponent.deleteEvent()`
+    // Below is just work-around
+    this.dataSource$.next([
+      ...((this.dataSource$.value || []) as EjsScheduleModel[]).filter(
+        ({ Id, Type }) => Id !== id && Type === 'googleEvent'
+      ),
+    ]);
   }
 }

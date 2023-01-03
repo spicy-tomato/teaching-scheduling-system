@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { Store } from '@ngrx/store';
+import { CalendarHelper } from '@teaching-scheduling-system/web/calendar/data-access';
 import {
   DefaultGoogleCalendarEvent,
   GenericState,
@@ -8,22 +9,30 @@ import {
 import { GoogleService } from '@teaching-scheduling-system/web/shared/data-access/services';
 import {
   AppShellState,
+  selectGoogleCalendars,
+  selectNameTitle,
   selectNotNullTeacher,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
-import { switchMap, takeUntil, tap, withLatestFrom } from 'rxjs';
+import { map, switchMap, takeUntil, tap, withLatestFrom } from 'rxjs';
 
 type ExportDialogState = GenericState<void>;
 
 @Injectable()
 export class GoogleCalendarDialogStore extends ComponentStore<ExportDialogState> {
-  // PRIVATE PROPERTIES
-  private teacher$ = this.appShellStore.pipe(
+  // PUBLIC PROPERTIES
+  readonly status$ = this.select((s) => s.status);
+  readonly teacher$ = this.appShellStore.pipe(
     selectNotNullTeacher,
     takeUntil(this.destroy$)
   );
-
-  // PUBLIC PROPERTIES
-  readonly status$ = this.select((s) => s.status);
+  readonly nameTitle$ = this.appShellStore.select(selectNameTitle);
+  readonly googleCalendars$ = this.appShellStore
+    .select(selectGoogleCalendars)
+    .pipe(
+      map((calendars) =>
+        calendars.filter((c) => !CalendarHelper.googleCalendarIsReadonly(c))
+      )
+    );
 
   // EFFECTS
   readonly submitCreate = this.effect<{

@@ -1,4 +1,5 @@
 import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
+import { CalendarHelper } from '@teaching-scheduling-system/web/calendar/data-access';
 import { EjsScheduleModel } from '../schedule';
 
 export type GoogleDateTime =
@@ -13,8 +14,21 @@ export type GoogleDateTime =
       timeZone: Nullable<string>;
     };
 
+export type GoogleAttendees = {
+  additionalGuests: Nullable<number>;
+  comment: Nullable<string>;
+  displayName: Nullable<string>;
+  email: Nullable<string>;
+  id: Nullable<string>;
+  optional: Nullable<boolean>;
+  organizer: Nullable<boolean>;
+  resource: Nullable<boolean>;
+  responseStatus: 'needsAction' | 'declined' | 'tentative' | 'accepted';
+  self: boolean;
+};
+
 export interface GoogleCalendar {
-  accessRole: string;
+  accessRole: 'freeBusyReader' | 'reader' | 'writer' | 'owner';
   id: string;
   summary: string;
   description: Nullable<string>;
@@ -30,10 +44,7 @@ export type DefaultGoogleCalendarEvent = {
 
 export class GoogleCalendarEvent {
   anyoneCanAddSelf!: Nullable<boolean>;
-  attendees?: {
-    self: boolean;
-    displayName: Nullable<string>;
-  }[];
+  attendees?: GoogleAttendees[];
   attendeesOmitted!: Nullable<boolean>;
   colorId!: Nullable<string>;
   created!: Date;
@@ -129,20 +140,14 @@ export class GoogleCalendarEvent {
       Location: this.location ?? undefined,
       Type: 'googleEvent',
       Note: this.description || '',
-      People: this.attendees?.map(({ displayName }) => displayName || ''),
+      People: this.attendees,
       Calendar: this.calendar,
       IsAllDay: !!this.start.date,
+      ReadOnly: CalendarHelper.googleCalendarIsReadonly(this.calendar)
     };
   }
 }
 
-export interface GoogleCalendarEventHost {
-  accessRole: string;
-  id: string;
-  summary: string;
-  description: Nullable<string>;
-}
-
-export interface GoogleCalendarEventResponse extends GoogleCalendarEventHost {
+export interface GoogleCalendarEventResponse extends GoogleCalendar {
   events: GoogleCalendarEvent[];
 }

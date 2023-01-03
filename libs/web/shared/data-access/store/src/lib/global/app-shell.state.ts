@@ -5,6 +5,7 @@ import {
   AcademicData,
   SimpleModel,
   BreadcrumbItem,
+  GoogleCalendar,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 
 export interface AppShellState {
@@ -16,4 +17,5 @@ export interface AppShellState {
   academicData: AcademicData[];
   teachersInDepartment: SimpleModel[];
   showLoader: Nullable<boolean>;
+  googleCalendars: GoogleCalendar[];
 }

@@ -26,6 +26,7 @@ export class QuickInfoHeaderComponent {
   @Input() data!: EjsScheduleModel;
 
   // OUTPUT
+  @Output() remove = new EventEmitter<void>();
   @Output() showEditorDialog = new EventEmitter<void>();
   @Output() closeDialog = new EventEmitter<void>();
 }

@@ -64,6 +64,7 @@
         <tss-quick-info-header
           (showEditorDialog)="onShowEditorDialog(data)"
           (closeDialog)="onCloseEditorDialog()"
+          (remove)="remove$.next(data)"
           [data]="data"
         ></tss-quick-info-header>
       </ng-template>

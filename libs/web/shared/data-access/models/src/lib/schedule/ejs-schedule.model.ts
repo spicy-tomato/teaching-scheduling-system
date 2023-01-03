@@ -1,5 +1,5 @@
 import { SimpleModel } from '../core/simple.model';
-import { GoogleCalendarEventHost } from '../google';
+import { GoogleAttendees, GoogleCalendar } from '../google';
 import { FixedScheduleModel } from './fixed-schedule.model';
 
 export type EjsScheduleModelType = 'exam' | 'study' | 'googleEvent';
@@ -61,6 +61,8 @@ type TssModel = EjsScheduleCore & {
    * Module ID (subject) class at school of event
    */
   IdModuleClass: string;
+
+  ReadOnly?: true;
 };
 
 export interface TssTeachingModel extends TssModel {
@@ -100,9 +102,11 @@ export type GoogleCalendarModel = EjsScheduleCore & {
   /**
    * Calendar of event in Google Calendar
    */
-  Calendar: GoogleCalendarEventHost;
+  Calendar: GoogleCalendar;
 
-  People?: string[];
+  People?: GoogleAttendees[];
+
+  ReadOnly: boolean;
 };
 
 export type EjsScheduleModel =

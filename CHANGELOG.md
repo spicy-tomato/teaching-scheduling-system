@@ -7,8 +7,8 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Features
 
-* create google calendar event ([e5c0881](https://github.com/annguyen-it/teaching-scheduling-system/commit/e5c08810c686fdf4c829be0d8427ff2139284f52))
-* update google calendar events ([b7c2dc8](https://github.com/annguyen-it/teaching-scheduling-system/commit/b7c2dc87dc12dda3ac8ddb0177590ff57f050516))
+* **calendar:** create google calendar event ([e5c0881](https://github.com/annguyen-it/teaching-scheduling-system/commit/e5c08810c686fdf4c829be0d8427ff2139284f52))
+* **calendar:** update google calendar events ([b7c2dc8](https://github.com/annguyen-it/teaching-scheduling-system/commit/b7c2dc87dc12dda3ac8ddb0177590ff57f050516))
 
 
 ### Bug Fixes

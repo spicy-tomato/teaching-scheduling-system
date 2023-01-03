@@ -17,4 +17,4 @@ const TAIGA_UI = [TuiIslandModule, TuiScrollbarModule];
   ],
   declarations: [NotificationComponent],
 })
-export class FeatureModule {}
+export class NotificationFeatureModule {}

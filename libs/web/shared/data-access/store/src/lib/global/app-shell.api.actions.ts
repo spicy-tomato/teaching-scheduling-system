@@ -2,6 +2,7 @@ import { createAction, props } from '@ngrx/store';
 import {
   AcademicData,
   BreadcrumbItem,
+  GoogleCalendar,
   SimpleModel,
   Teacher,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
@@ -54,4 +55,13 @@ export const loadTeachersInDepartmentSuccessful = createAction(
 
 export const loadTeachersInDepartmentFailure = createAction(
   '[App Shell API] Load teachers in department Failed'
+);
+
+export const loadGoogleCalendarSuccessful = createAction(
+  '[App Shell API] Load Google calendar Successfully',
+  props<{ calendars: GoogleCalendar[] }>()
+);
+
+export const loadGoogleCalendarFailure = createAction(
+  '[App Shell API] Load Google calendar Failed'
 );

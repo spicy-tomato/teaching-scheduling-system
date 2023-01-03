@@ -17,12 +17,12 @@ import { BreadcrumbItem } from '@teaching-scheduling-system/web/shared/data-acce
 import {
   AppShellState,
   selectBreadcrumbs,
+  selectGoogleCalendars,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
 import {
   SidebarField,
   SidebarState,
   sidebar_emit,
-  sidebar_selectGoogleCalendarList,
   sidebar_selectGoogleCalendarStatus,
 } from '@teaching-scheduling-system/web/shell/data-access';
 import { Observable, takeUntil } from 'rxjs';
@@ -43,9 +43,7 @@ export abstract class SidebarAbstract implements OnInit {
   readonly googleCalendarStatus$ = this.store.select(
     sidebar_selectGoogleCalendarStatus
   );
-  readonly googleCalendarList$ = this.store.select(
-    sidebar_selectGoogleCalendarList
-  );
+  readonly googleCalendarList$ = this.store.select(selectGoogleCalendars);
   abstract readonly items: SidebarItem[];
   form!: FormGroup;
 

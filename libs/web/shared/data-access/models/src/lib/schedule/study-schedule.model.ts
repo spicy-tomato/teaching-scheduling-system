@@ -57,6 +57,7 @@ export class StudyScheduleModel extends ScheduleModel {
       Color: this.color,
       Shift: this.shift,
       FixedSchedules: this.fixedSchedules,
+      ReadOnly: true,
     };
   }
 }

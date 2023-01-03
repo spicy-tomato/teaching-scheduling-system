@@ -52,14 +52,14 @@ export class GoogleService {
     );
   }
 
-  //* To display on sidebar
+  //* Only get calendars' name
   getCalendarList(uuid: string): Observable<ResponseModel<GoogleCalendar[]>> {
     return this.http.get<ResponseModel<GoogleCalendar[]>>(
       this.url + `v1/accounts/${uuid}/google-apis/calendar/calendars`
     );
   }
 
-  //* To display on page Calendar
+  //* Get calendar's data
   getCalendarEvents(
     uuid: string,
     timeMin: string,
@@ -102,6 +102,13 @@ export class GoogleService {
       this.url +
         `v1/accounts/${uuid}/google-apis/calendar/calendars/${calendarId}/events/${eventId}`,
       body
+    );
+  }
+
+  remove(uuid: string, calendarId: string, eventId: string): Observable<void> {
+    return this.http.delete<void>(
+      this.url +
+        `v1/accounts/${uuid}/google-apis/calendar/calendars/${calendarId}/events/${eventId}`
     );
   }
 }
