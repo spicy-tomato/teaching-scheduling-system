@@ -5,7 +5,6 @@ export {
   sidebar_listen,
   sidebar_selectDataState,
   sidebar_selectEvent,
-  sidebar_selectGoogleCalendarList,
   sidebar_selectGoogleCalendarStatus,
 } from './sidebar.selectors';
 export { SidebarEffects } from './sidebar.effects';

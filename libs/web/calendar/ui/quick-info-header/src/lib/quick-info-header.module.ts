@@ -1,12 +1,13 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { QuickInfoHeaderComponent } from './quick-info-header.component';
+import { NgModule } from '@angular/core';
 import { TuiButtonModule } from '@taiga-ui/core';
+import { VarDirectiveModule } from '@teaching-scheduling-system/core/directives/var';
+import { QuickInfoHeaderComponent } from './quick-info-header.component';
 
 const TAIGA_UI = [TuiButtonModule];
 
 @NgModule({
-  imports: [CommonModule, ...TAIGA_UI],
+  imports: [CommonModule, VarDirectiveModule, ...TAIGA_UI],
   declarations: [QuickInfoHeaderComponent],
   exports: [QuickInfoHeaderComponent],
 })

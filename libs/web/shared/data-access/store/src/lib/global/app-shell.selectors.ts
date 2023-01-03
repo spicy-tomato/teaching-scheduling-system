@@ -81,3 +81,8 @@ export const selectShowLoader = createSelector(
     return status === 'loading' || status === 'unknown';
   }
 );
+
+export const selectGoogleCalendars = createSelector(
+  appShellSelector,
+  (state) => state.googleCalendars
+);

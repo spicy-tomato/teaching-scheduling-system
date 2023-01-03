@@ -13,6 +13,7 @@ const initialState: AppShellState = {
   rooms: [],
   teachersInDepartment: [],
   showLoader: null,
+  googleCalendars: [],
 };
 
 export const appShellFeatureKey = 'app-shell';
@@ -27,7 +28,7 @@ export const appShellReducer = createReducer(
   on(PageAction.logout, (state) => ({
     ...state,
     teacher: null,
-    teachersInDepartment: []
+    teachersInDepartment: [],
   })),
   on(PageAction.setLoader, (state, { showLoader }) => ({
     ...state,
@@ -39,9 +40,9 @@ export const appShellReducer = createReducer(
       ...state.teacher!,
       settings: {
         ...state.teacher!.settings,
-        googleCalendar: connect
-      }
-    }
+        googleCalendar: connect,
+      },
+    },
   })),
   on(ApiAction.updateBreadcrumbs, (state, { breadcrumbs }) => ({
     ...state,
@@ -81,6 +82,12 @@ export const appShellReducer = createReducer(
     return {
       ...state,
       teachersInDepartment,
+    };
+  }),
+  on(ApiAction.loadGoogleCalendarSuccessful, (state, { calendars }) => {
+    return {
+      ...state,
+      googleCalendars: calendars,
     };
   })
 );

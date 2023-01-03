@@ -1,0 +1,3 @@
+button:not(:last-child) {
+  @apply mr-1;
+}

@@ -7,5 +7,4 @@ export interface SidebarState {
   event: Nullable<SidebarEvent>;
   dataState: Record<SidebarField, boolean>;
   googleCalendarStatus: EApiStatus;
-  googleCalendarList: GoogleCalendar[];
 }

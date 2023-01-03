@@ -170,7 +170,7 @@ export const webShellFeatureRoutes: Routes = [
         },
         loadChildren: async () =>
           (await import('@teaching-scheduling-system/web/notification/feature'))
-            .FeatureModule,
+            .NotificationFeatureModule,
       },
     ],
   },

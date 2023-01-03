@@ -2,13 +2,33 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.24.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.23.0...v3.24.0) (2023-01-03)
+
+
+### Features
+
+* **calendar:** delete google event ([6522478](https://github.com/annguyen-it/teaching-scheduling-system/commit/65224781339497ff49c2a310360e0f9737257167))
+* **calendar:** display attendees in google ([9d73fbd](https://github.com/annguyen-it/teaching-scheduling-system/commit/9d73fbda79284ab5377842ad358188e75ac69bd8))
+* **calendar:** select calendar to create new event ([cc56794](https://github.com/annguyen-it/teaching-scheduling-system/commit/cc56794718f0b7737e7835f1ce218bee872c2545))
+
+
+### Bug Fixes
+
+* **calendar:** create 1-day event but data is 2 days ([68e6f12](https://github.com/annguyen-it/teaching-scheduling-system/commit/68e6f12ea3263567a9dc92bacdf5496bcfd5d0ec))
+* **calendar:** fix google dialog header ([5bcc120](https://github.com/annguyen-it/teaching-scheduling-system/commit/5bcc1200a4e133f3ce65f2ffb41c18493bad97ed))
+* **calendar:** note is overflow ([4374f68](https://github.com/annguyen-it/teaching-scheduling-system/commit/4374f681d8a28e2374b138e9fffb9b75374fdde8))
+* **calendar:** remove duplicated type ([1c89d6c](https://github.com/annguyen-it/teaching-scheduling-system/commit/1c89d6c9d124c55d53d236066ab8c3f6eec5aecf))
+* **dep:** bump docx to 7.8.1 ([5034e4f](https://github.com/annguyen-it/teaching-scheduling-system/commit/5034e4fa2340aa87da7dd211a422cac2a37a79cc))
+* **dep:** bump ejs-schedule to 20.3.50 ([94a6069](https://github.com/annguyen-it/teaching-scheduling-system/commit/94a6069ecbea969f2a4f3778392f7ad02c20508f))
+* **dep:** bump taiga-ui to 3.8.0 ([a915636](https://github.com/annguyen-it/teaching-scheduling-system/commit/a915636720bfcd4fa4277bd10ec981611f9b63c9))
+
 ## [3.23.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.22.0...v3.23.0) (2023-01-01)
 
 
 ### Features
 
-* create google calendar event ([e5c0881](https://github.com/annguyen-it/teaching-scheduling-system/commit/e5c08810c686fdf4c829be0d8427ff2139284f52))
-* update google calendar events ([b7c2dc8](https://github.com/annguyen-it/teaching-scheduling-system/commit/b7c2dc87dc12dda3ac8ddb0177590ff57f050516))
+* **calendar:** create google calendar event ([e5c0881](https://github.com/annguyen-it/teaching-scheduling-system/commit/e5c08810c686fdf4c829be0d8427ff2139284f52))
+* **calendar:** update google calendar events ([b7c2dc8](https://github.com/annguyen-it/teaching-scheduling-system/commit/b7c2dc87dc12dda3ac8ddb0177590ff57f050516))
 
 
 ### Bug Fixes

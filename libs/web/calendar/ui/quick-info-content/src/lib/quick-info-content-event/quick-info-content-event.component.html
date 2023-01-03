@@ -116,22 +116,26 @@
   >
     <div class="mdi mdi-account"></div>
     <div>
-      {{ $any(person).name || person }}
+      {{
+        $any(person).name ||
+          $any(person).displayName ||
+          $any(person).email ||
+          person
+      }}
     </div>
   </div>
 </ng-container>
 <div class="attr-row">
   <div class="mdi mdi-text"></div>
-  <div class="flex-grow">
+  <div class="flex-grow overflow-hidden">
     <tui-text-area
       #note
-      *tssVar="['Calendar', 'accessRole'] | in: data as accessRole"
       [(ngModel)]="data.Note"
       (ngModelChange)="onNoteChange()"
       [expandable]="true"
       [rows]="3"
       [tuiTextfieldLabelOutside]="true"
-      [readOnly]="accessRole === 'freeBusyReader' || accessRole === 'reader'"
+      [readOnly]="data.Type === 'googleEvent'"
       tuiTextfieldSize="m"
       class="!min-h-[2.4375rem]"
     >
@@ -139,7 +143,7 @@
     </tui-text-area>
   </div>
 </div>
-<div class="flex justify-end mt-3">
+<div *ngIf="data.Type !== 'googleEvent'" class="flex justify-end mt-3">
   <button
     tuiButton
     *ngrxLet="status$ as status"

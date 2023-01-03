@@ -3,7 +3,12 @@
   <button tuiButton (click)="onClick(true)" class="tui-form__button">
     {{ context.data.positive || 'Xác nhận' }}
   </button>
-  <button tuiButton (click)="onClick(false)" class="tui-form__button">
+  <button
+    tuiButton
+    (click)="onClick(false)"
+    appearance="secondary"
+    class="tui-form__button"
+  >
     {{ context.data.negative || 'Hủy' }}
   </button>
 </div>
