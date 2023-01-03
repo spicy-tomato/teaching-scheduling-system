@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import {
   TuiContextWithImplicit,
   TuiDay,
+  TuiDestroyService,
   tuiPure,
   TuiStringHandler,
   TuiTime,
@@ -13,6 +14,7 @@ import {
   TuiNotification,
 } from '@taiga-ui/core';
 import { DateHelper } from '@teaching-scheduling-system/core/utils/helpers';
+import { DialogService } from '@teaching-scheduling-system/web-shared-ui-dialog';
 import { CalendarHelper } from '@teaching-scheduling-system/web/calendar/data-access';
 import { GoogleCalendarDialogStore } from '@teaching-scheduling-system/web/calendar/dialogs/google-event-dialog/data-access';
 import {
@@ -21,9 +23,20 @@ import {
   GoogleCalendarModel,
   GoogleDateTime,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
+import { GoogleService } from '@teaching-scheduling-system/web/shared/data-access/services';
 import { sameGroupStaticValueValidator } from '@teaching-scheduling-system/web/shared/utils/validators';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { map, of, switchMap, tap } from 'rxjs';
+import {
+  catchError,
+  filter,
+  map,
+  of,
+  Subject,
+  switchMap,
+  takeUntil,
+  tap,
+  withLatestFrom,
+} from 'rxjs';
 
 type FormModel = {
   id: string;
@@ -41,17 +54,20 @@ type FormModel = {
   templateUrl: './google-event-dialog.component.html',
   styleUrls: ['./google-event-dialog.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [GoogleCalendarDialogStore],
+  providers: [GoogleCalendarDialogStore, TuiDestroyService],
 })
 export class GoogleEventDialogComponent {
   // PUBLIC PROPERTIES
   readonly showLoader$ = this.store.status$.pipe(map((s) => s === 'loading'));
   readonly googleCalendars$ = this.store.googleCalendars$;
+  readonly remove$ = new Subject<void>();
   readonly readOnly: boolean;
   readonly isEditDialog: boolean;
   form!: FormGroup;
 
   // PRIVATE PROPERTIES
+  private readonly teacher$ = this.store.teacher$;
+  private readonly nameTitle$ = this.store.nameTitle$;
   private needUpdateAfterClose = false;
 
   // GETTERS
@@ -101,15 +117,19 @@ export class GoogleEventDialogComponent {
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT)
     private readonly context: TuiDialogContext<
-      Partial<EjsScheduleModel> | void,
+      Partial<EjsScheduleModel> | boolean | void,
       GoogleCalendarModel
     >,
     private readonly fb: FormBuilder,
+    private readonly googleService: GoogleService,
+    private readonly tssDialogService: DialogService,
     @Inject(TuiAlertService) private readonly alertService: TuiAlertService,
-    private readonly store: GoogleCalendarDialogStore
+    private readonly store: GoogleCalendarDialogStore,
+    private readonly destroy$: TuiDestroyService
   ) {
     this.initForm(context.data);
     this.handleLoadGoogleCalendars();
+    this.handleRemove();
     this.handleSubmitStatus();
 
     this.isEditDialog = !!context.data.Calendar;
@@ -163,8 +183,12 @@ export class GoogleEventDialogComponent {
     });
   }
 
-  onCancel(): void {
+  onCancel(shouldDelete = false): void {
     setTimeout(() => {
+      if (shouldDelete) {
+        this.context.completeWith(true);
+        return;
+      }
       if (this.isEditDialog && this.needUpdateAfterClose) {
         this.context.completeWith({
           Subject: this.subjectControlValue,
@@ -174,9 +198,23 @@ export class GoogleEventDialogComponent {
           EndTime: new Date(this.endTime),
           IsAllDay: this.isAllDayControlValue,
         });
-      } else {
-        this.context.$implicit.complete();
+        return;
       }
+
+      // TODO: Send response data to parent context
+      if (!this.isEditDialog && this.needUpdateAfterClose) {
+        this.context.completeWith({
+          Subject: this.subjectControlValue,
+          Note: this.noteControlValue,
+          Location: this.locationControlValue,
+          StartTime: new Date(this.startTime),
+          EndTime: new Date(this.endTime),
+          IsAllDay: this.isAllDayControlValue,
+        });
+        return;
+      }
+
+      this.context.$implicit.complete();
     });
   }
 
@@ -260,6 +298,47 @@ export class GoogleEventDialogComponent {
       .subscribe();
   }
 
+  private handleRemove(): void {
+    this.remove$
+      .pipe(
+        withLatestFrom(this.teacher$, this.nameTitle$),
+        switchMap(({ 1: { uuidAccount }, 2: nameTitle }) =>
+          this.tssDialogService
+            .showConfirmDialog({
+              header: `${nameTitle} có chắc chắn muốn xóa sự kiện này không? Hành động này sẽ không thể hoàn tác.`,
+              positive: 'Có',
+              negative: 'Không',
+            })
+            .pipe(map((confirm) => ({ uuidAccount, confirm })))
+        ),
+        filter(({ confirm }) => confirm),
+        switchMap(({ uuidAccount }) => {
+          const data = this.context.data;
+          return this.googleService.remove(
+            uuidAccount,
+            data.Calendar.id,
+            data.Id
+          );
+        }),
+        tap(() => {
+          this.alertService
+            .open('Xóa sự kiện thành công!', {
+              status: TuiNotification.Success,
+            })
+            .subscribe();
+          this.onCancel(true);
+        }),
+        catchError(() =>
+          this.alertService.open('Vui lòng thử lại sau', {
+            label: 'Đã có lỗi xảy ra',
+            status: TuiNotification.Error,
+          })
+        ),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
   private handleSubmitStatus(): void {
     this.store.status$
       .pipe(
@@ -273,6 +352,7 @@ export class GoogleEventDialogComponent {
               message = 'Cập nhật lịch thành công!';
             } else {
               this.onCancel();
+              this.needUpdateAfterClose = true;
               message = 'Tạo lịch thành công!';
             }
             return this.alertService.open(message, {

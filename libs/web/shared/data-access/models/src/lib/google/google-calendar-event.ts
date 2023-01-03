@@ -1,4 +1,5 @@
 import { Nullable } from '@teaching-scheduling-system/core/data-access/models';
+import { CalendarHelper } from '@teaching-scheduling-system/web/calendar/data-access';
 import { EjsScheduleModel } from '../schedule';
 
 export type GoogleDateTime =
@@ -142,6 +143,7 @@ export class GoogleCalendarEvent {
       People: this.attendees,
       Calendar: this.calendar,
       IsAllDay: !!this.start.date,
+      ReadOnly: CalendarHelper.googleCalendarIsReadonly(this.calendar)
     };
   }
 }

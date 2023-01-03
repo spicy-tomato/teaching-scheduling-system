@@ -104,6 +104,13 @@ export class GoogleService {
       body
     );
   }
+
+  remove(uuid: string, calendarId: string, eventId: string): Observable<void> {
+    return this.http.delete<void>(
+      this.url +
+        `v1/accounts/${uuid}/google-apis/calendar/calendars/${calendarId}/events/${eventId}`
+    );
+  }
 }
 
 // TODO: Remove

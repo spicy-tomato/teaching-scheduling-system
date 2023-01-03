@@ -61,6 +61,8 @@ type TssModel = EjsScheduleCore & {
    * Module ID (subject) class at school of event
    */
   IdModuleClass: string;
+
+  ReadOnly?: true;
 };
 
 export interface TssTeachingModel extends TssModel {
@@ -103,6 +105,8 @@ export type GoogleCalendarModel = EjsScheduleCore & {
   Calendar: GoogleCalendar;
 
   People?: GoogleAttendees[];
+
+  ReadOnly: boolean;
 };
 
 export type EjsScheduleModel =

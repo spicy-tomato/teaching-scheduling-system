@@ -81,12 +81,25 @@
     </ul>
   </div>
 
-  <div class="tui-form__buttons tui-form__buttons_align_end">
-    <ng-container *ngIf="!readOnly">
-      <ng-container *ngrxLet="showLoader$ as showLoader">
-        <ng-container *ngIf="isEditDialog; else createBtn">
+  <div class="mt-8 flex justify-between">
+    <div>
+      <button
+        *ngIf="isEditDialog"
+        tuiButton
+        (click)="remove$.next()"
+        appearance="accent"
+        size="m"
+        class="tui-form__button"
+      >
+        Xóa
+      </button>
+    </div>
+    <div class="flex justify-end">
+      <ng-container *ngIf="!readOnly">
+        <ng-container *ngrxLet="showLoader$ as showLoader">
           <button
             tuiButton
+            *ngIf="isEditDialog; else createBtn"
             (click)="submitEdit()"
             [showLoader]="showLoader"
             [disabled]="form.invalid"
@@ -95,29 +108,29 @@
           >
             Lưu
           </button>
+          <ng-template #createBtn>
+            <button
+              tuiButton
+              (click)="submitCreate()"
+              [showLoader]="showLoader"
+              [disabled]="form.invalid"
+              size="m"
+              class="tui-form__button"
+            >
+              Tạo sự kiện
+            </button>
+          </ng-template>
         </ng-container>
-        <ng-template #createBtn>
-          <button
-            tuiButton
-            (click)="submitCreate()"
-            [showLoader]="showLoader"
-            [disabled]="form.invalid"
-            size="m"
-            class="tui-form__button"
-          >
-            Tạo sự kiện
-          </button>
-        </ng-template>
       </ng-container>
-    </ng-container>
-    <button
-      tuiButton
-      (click)="onCancel()"
-      appearance="outline"
-      size="m"
-      class="tui-form__button"
-    >
-      Đóng
-    </button>
+      <button
+        tuiButton
+        (click)="onCancel()"
+        appearance="outline"
+        size="m"
+        class="tui-form__button"
+      >
+        Đóng
+      </button>
+    </div>
   </div>
 </form>

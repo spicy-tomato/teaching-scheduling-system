@@ -10,6 +10,7 @@ import { GoogleService } from '@teaching-scheduling-system/web/shared/data-acces
 import {
   AppShellState,
   selectGoogleCalendars,
+  selectNameTitle,
   selectNotNullTeacher,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
 import { map, switchMap, takeUntil, tap, withLatestFrom } from 'rxjs';
@@ -18,14 +19,13 @@ type ExportDialogState = GenericState<void>;
 
 @Injectable()
 export class GoogleCalendarDialogStore extends ComponentStore<ExportDialogState> {
-  // PRIVATE PROPERTIES
-  private readonly teacher$ = this.appShellStore.pipe(
+  // PUBLIC PROPERTIES
+  readonly status$ = this.select((s) => s.status);
+  readonly teacher$ = this.appShellStore.pipe(
     selectNotNullTeacher,
     takeUntil(this.destroy$)
   );
-
-  // PUBLIC PROPERTIES
-  readonly status$ = this.select((s) => s.status);
+  readonly nameTitle$ = this.appShellStore.select(selectNameTitle);
   readonly googleCalendars$ = this.appShellStore
     .select(selectGoogleCalendars)
     .pipe(
