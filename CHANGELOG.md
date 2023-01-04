@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.24.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.24.0...v3.24.1) (2023-01-04)
+
+
+### Bug Fixes
+
+* **calendar:** validate google dialog ([a8bf49d](https://github.com/annguyen-it/teaching-scheduling-system/commit/a8bf49d486502a78ac3905e1735de04246b1f1ce))
+* **dep:** bump ej2-angular-schedule to 20.3.52 ([6cc37d9](https://github.com/annguyen-it/teaching-scheduling-system/commit/6cc37d93a759a671dc1010e54e144b0a5bc3627b))
+* **dep:** bump taiga-ui to 3.9.0 ([d6432a5](https://github.com/annguyen-it/teaching-scheduling-system/commit/d6432a577615b2a9db582ccdb36e362efe4f37cc))
+* **statistic:** month `0` in date-range ([4a36604](https://github.com/annguyen-it/teaching-scheduling-system/commit/4a36604eb730c12eaeb0bf8388b3a0b4c1fa3595))
+
 ## [3.24.0](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.23.0...v3.24.0) (2023-01-03)
 
 
