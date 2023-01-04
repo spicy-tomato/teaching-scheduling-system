@@ -13,11 +13,9 @@
   >
     Trạng thái
     <ng-template tuiDataList>
-      <tui-data-list role="listbox">
+      <tui-data-list size="s">
         <tui-opt-group>
-          <button tuiOption [value]="null" size="xs" role="option">
-            Tất cả
-          </button>
+          <button tuiOption [value]="null" role="option">Tất cả</button>
         </tui-opt-group>
         <tui-opt-group>
           <ng-container *ngFor="let status of statusArray">
@@ -26,7 +24,6 @@
                 tuiOption
                 *tssPermission="status.value.feature"
                 [value]="status.id"
-                size="xs"
                 role="option"
               >
                 {{ status.value.name }}
@@ -38,34 +35,33 @@
     </ng-template>
   </tui-select>
   <!-- <ng-container *ngIf="!personal">
-<tui-select
-  *ngrxLet="data$ as data"
-  [ngModel]="options.teacher"
-  [valueContent]="teacherTemplate"
-  (ngModelChange)="changeOptions({ teacher: $event })"
-  tuiTextfieldSize="s"
->
-  Chọn giảng viên
-  <ng-template tuiDataList>
-    <tui-data-list role="listbox">
-      <tui-opt-group>
-        <button tuiOption [value]="null" size="xs" role="option">Tất cả</button>
-      </tui-opt-group>
-      <tui-opt-group>
-        <button
-          *ngFor="let teacher of data.teachers"
-          tuiOption
-          [value]="teacher"
-          size="xs"
-          role="option"
-        >
-          {{ teacher.name }}
-        </button>
-      </tui-opt-group>
-    </tui-data-list>
-  </ng-template>
-</tui-select>
-</ng-container> -->
+    <tui-select
+      *ngrxLet="data$ as data"
+      [ngModel]="options.teacher"
+      [valueContent]="teacherTemplate"
+      (ngModelChange)="changeOptions({ teacher: $event })"
+      tuiTextfieldSize="s"
+    >
+      Chọn giảng viên
+      <ng-template tuiDataList>
+        <tui-data-list size="xs">
+          <tui-opt-group>
+            <button tuiOption [value]="null" role="option">Tất cả</button>
+          </tui-opt-group>
+          <tui-opt-group>
+            <button
+              *ngFor="let teacher of data.teachers"
+              [value]="teacher"
+              size="xs"
+              role="option"
+            >
+              {{ teacher.name }}
+            </button>
+          </tui-opt-group>
+        </tui-data-list>
+      </ng-template>
+    </tui-select>
+  </ng-container> -->
   <tui-checkbox-labeled
     (ngModelChange)="changeOptions({ showTime: $event })"
     [ngModel]="options.showTime"

@@ -3,26 +3,23 @@
   <!-- Select -->
   <tui-select
     *ngrxLet="teachers$ as teachers"
+    (ngModelChange)="selectedTeacherChange($event)"
     [ngModel]="selectedTeacher"
     [valueContent]="teacherTemplate"
-    (ngModelChange)="selectedTeacherChange($event)"
     tuiTextfieldSize="s"
     class="min-w-[175px]"
   >
     Chọn giảng viên
     <ng-template tuiDataList>
-      <tui-data-list role="listbox">
+      <tui-data-list size="s">
         <tui-opt-group>
-          <button tuiOption [value]="null" size="xs" role="option">
-            Tất cả
-          </button>
+          <button tuiOption [value]="null" role="option">Tất cả</button>
         </tui-opt-group>
         <tui-opt-group>
           <button
             tuiOption
             *ngFor="let teacher of teachers"
             [value]="teacher"
-            size="xs"
             role="option"
           >
             {{ teacher.name }}
