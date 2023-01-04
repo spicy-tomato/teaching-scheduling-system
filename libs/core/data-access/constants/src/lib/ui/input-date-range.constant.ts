@@ -20,7 +20,7 @@ export class InputDateRangeConstant {
           startOfMonth.append({ month: -1 }),
           startOfMonth.append({ day: -1 })
         ),
-        `Tháng trước (tháng ${startOfMonth.month})`
+        `Tháng trước (tháng ${startOfMonth.month || 12})`
       ),
       new TuiDayRangePeriod(
         new TuiDayRange(startOfYear, startOfYear.append({ year: 1, day: -1 })),
