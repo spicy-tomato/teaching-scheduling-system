@@ -1,5 +1,12 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import {
   TuiContextWithImplicit,
   TuiDay,
@@ -261,6 +268,12 @@ export class GoogleEventDialogComponent {
       note: data.Note ?? '',
       isAllDay: data.IsAllDay,
     };
+    const validators: Partial<Record<keyof typeof initialValue, ValidatorFn>> =
+      {
+        subject: Validators.required,
+        location: Validators.required,
+        note: Validators.required,
+      };
 
     this.form = this.fb.group(
       {
@@ -268,11 +281,9 @@ export class GoogleEventDialogComponent {
           Record<string, any[] | FormArray>
         >((acc, [key, value]) => {
           if (Array.isArray(value)) {
-            acc[key] = this.fb.array(
-              value.map((x) => this.fb.control(x)) ?? []
-            );
+            acc[key] = this.fb.array(value.map((x) => this.fb.control(x)));
           } else {
-            acc[key] = [value];
+            acc[key] = [value, validators[key as keyof typeof initialValue]];
           }
           return acc;
         }, {}),

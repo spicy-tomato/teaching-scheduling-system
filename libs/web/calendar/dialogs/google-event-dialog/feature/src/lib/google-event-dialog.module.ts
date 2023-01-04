@@ -16,6 +16,7 @@ import {
   TuiInputTimeModule,
   TuiSelectModule,
   TuiTextAreaModule,
+  TuiUnfinishedValidatorModule,
 } from '@taiga-ui/kit';
 import { GoogleEventDialogComponent } from './google-event-dialog.component';
 
@@ -32,6 +33,7 @@ const TAIGA_UI = [
   TuiMapperPipeModule,
   TuiSelectModule,
   TuiTextAreaModule,
+  TuiUnfinishedValidatorModule,
 ];
 
 @NgModule({

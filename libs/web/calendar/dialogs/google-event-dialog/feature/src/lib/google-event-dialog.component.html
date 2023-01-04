@@ -23,17 +23,33 @@
     <tui-input formControlName="subject" [readOnly]="readOnly">
       Tiêu đề
     </tui-input>
+    <tui-error
+      formControlName="subject"
+      [error]="[] | tuiFieldError | async"
+    ></tui-error>
   </div>
   <div class="tui-form__row">
     <tui-input formControlName="location" [readOnly]="readOnly">
       Địa điểm
     </tui-input>
+    <tui-error
+      formControlName="location"
+      [error]="[] | tuiFieldError | async"
+    ></tui-error>
   </div>
   <div class="time tui-form__row tui-form__row_multi-fields">
     <div class="tui-form__multi-field">
-      <tui-input-date formControlName="start" [readOnly]="readOnly">
+      <tui-input-date
+        formControlName="start"
+        [readOnly]="readOnly"
+        tuiUnfinishedValidator="Ngày không hợp lệ!"
+      >
         Ngày bắt đầu
       </tui-input-date>
+      <tui-error
+        formControlName="start"
+        [error]="[] | tuiFieldError | async"
+      ></tui-error>
     </div>
     <div
       [ngClass]="
@@ -42,14 +58,30 @@
           : 'tui-form__multi-field'
       "
     >
-      <tui-input-time formControlName="startTime" [readOnly]="readOnly">
+      <tui-input-time
+        formControlName="startTime"
+        [readOnly]="readOnly"
+        tuiUnfinishedValidator="Giờ không hợp lệ!"
+      >
         Giờ bắt đầu
       </tui-input-time>
+      <tui-error
+        formControlName="startTime"
+        [error]="[] | tuiFieldError | async"
+      ></tui-error>
     </div>
     <div class="tui-form__multi-field">
-      <tui-input-date formControlName="end" [readOnly]="readOnly">
+      <tui-input-date
+        formControlName="end"
+        [readOnly]="readOnly"
+        tuiUnfinishedValidator="Ngày không hợp lệ!"
+      >
         Ngày kết thúc
       </tui-input-date>
+      <tui-error
+        formControlName="end"
+        [error]="[] | tuiFieldError | async"
+      ></tui-error>
     </div>
     <div
       [ngClass]="
@@ -58,9 +90,17 @@
           : 'tui-form__multi-field'
       "
     >
-      <tui-input-time formControlName="endTime" [readOnly]="readOnly">
+      <tui-input-time
+        formControlName="endTime"
+        [readOnly]="readOnly"
+        tuiUnfinishedValidator="Giờ không hợp lệ!"
+      >
         Giờ kết thúc
       </tui-input-time>
+      <tui-error
+        formControlName="endTime"
+        [error]="[] | tuiFieldError | async"
+      ></tui-error>
     </div>
   </div>
   <div class="tui-form__row">
@@ -72,6 +112,10 @@
     <tui-text-area formControlName="note" [readOnly]="readOnly">
       Mô tả
     </tui-text-area>
+    <tui-error
+      formControlName="note"
+      [error]="[] | tuiFieldError | async"
+    ></tui-error>
   </div>
   <div class="tui-form__row">
     <ul class="tui-list">
