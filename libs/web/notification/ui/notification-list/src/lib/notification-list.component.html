@@ -28,11 +28,10 @@
       </div>
 
       <!-- List -->
-      <tui-data-list [emptyContent]="emptyContent" role="listbox">
+      <tui-data-list [emptyContent]="emptyContent" size="s">
         <a
           tuiOption
           *ngFor="let notification of data[activeTabIndex]"
-          size="s"
           class="group relative"
         >
           <div class="self-start">
@@ -92,22 +91,16 @@
     </div>
 
     <ng-template #more>
-      <tui-data-list [tuiActiveZoneParent]="activeZone ?? null" role="menu">
-        <button
-          tuiOption
-          [disabled]="!hasUnread"
-          (click)="markAllAsRead()"
-          size="s"
-        >
+      <tui-data-list
+        [tuiActiveZoneParent]="activeZone ?? null"
+        size="s"
+        role="menu"
+      >
+        <button tuiOption [disabled]="!hasUnread" (click)="markAllAsRead()">
           <tui-svg src="tuiIconCheck"></tui-svg>
           <div class="flex-grow ml-1.5">Đánh dấu tất cả là đã đọc</div>
         </button>
-        <a
-          tuiOption
-          *ngIf="options.forBell"
-          size="s"
-          routerLink="/notifications"
-        >
+        <a tuiOption *ngIf="options.forBell" routerLink="/notifications">
           <tui-svg src="tuiIconFlag"></tui-svg>
           <div class="flex-grow ml-1.5">Mở thông báo</div>
         </a>

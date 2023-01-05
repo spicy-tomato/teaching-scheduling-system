@@ -46,19 +46,14 @@
               (ngModelChange)="onChangeSelectingState({ teacherIds: $event })"
             >
               <ng-template tuiDataList>
-                <tui-data-list role="listbox">
-                  <tui-opt-group>
-                    <button tuiOption [value]="[]" size="xs" role="option">
-                      Tất cả
-                    </button>
-                  </tui-opt-group>
+                <tui-data-list size="s">
+                  <button tuiOption [value]="[]" role="option">Tất cả</button>
                   <tui-opt-group tuiMultiSelectGroup>
                     <button
                       tuiOption
                       *ngFor="let teacher of teachers; index as i"
                       [value]="teacher.id"
                       [class.!px-2]="forMenu"
-                      size="xs"
                       role="option"
                     >
                       {{ teacher.name }}
@@ -84,11 +79,9 @@
           (ngModelChange)="onChangeSelectingState({ modules: $event })"
         >
           <ng-template tuiDataList>
-            <tui-data-list role="listbox">
+            <tui-data-list size="s">
               <tui-opt-group>
-                <button tuiOption [value]="[]" size="xs" role="option">
-                  Tất cả
-                </button>
+                <button tuiOption [value]="[]" role="option">Tất cả</button>
               </tui-opt-group>
               <tui-opt-group tuiMultiSelectGroup *ngrxLet="modules$ as modules">
                 <button
@@ -96,7 +89,6 @@
                   *ngFor="let module of modules"
                   [value]="module"
                   [class.!px-2]="forMenu"
-                  size="xs"
                   role="option"
                 >
                   {{ module }}
