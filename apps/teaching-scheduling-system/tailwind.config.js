@@ -14,15 +14,15 @@ module.exports = {
         '1/5': '20%',
         '1/10': '10%',
         '9/10': '90%',
-        '15': '3.75rem',
-        '18': '4.5rem',
-        '30': '7.5rem',
-        '34': '8.5rem',
-        '38': '9.5rem',
+        15: '3.75rem',
+        18: '4.5rem',
+        30: '7.5rem',
+        34: '8.5rem',
+        38: '9.5rem',
         'nav-h': '65px',
         'main-view-h': 'calc(100vh - 65px)',
         'main-view-h-md': 'calc(100vh - 79px)',
-        'content-h': 'calc(100vh - 127px)', /* With breadcrumbs */
+        'content-h': 'calc(100vh - 127px)' /* With breadcrumbs */,
         'sidebar-w': '240px',
         'main-view-w': 'calc(100vw - 240px)',
       },
@@ -62,13 +62,13 @@ module.exports = {
         'tui-neutral-fill': 'var(--tui-neutral-fill)',
       },
       borderRadius: {
-        'tui-radius-xs': 'var(--tui-radius-xs)'
+        'tui-radius-xs': 'var(--tui-radius-xs)',
       },
       transitionDuration: {
-        '400': '400ms'
+        400: '400ms',
       },
       transitionTimingFunction: {
-        'ease': 'cubic-bezier(0.25,0.1,0.25,1.0)'
+        ease: 'cubic-bezier(0.25,0.1,0.25,1.0)',
       },
     },
   },
@@ -85,8 +85,8 @@ module.exports = {
           display: 'flex',
           'justify-content': 'center',
           'align-items': 'center',
-        }
+        },
       });
-    })
+    }),
   ],
 };
