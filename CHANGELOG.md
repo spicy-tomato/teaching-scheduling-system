@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.24.2](https://github.com/spicy-tomato/teaching-scheduling-system/compare/v3.24.1...v3.24.2) (2023-01-18)
+
+
+### Bug Fixes
+
+* **dep:** bump ej2-angular-schedule to 20.3.56 ([8609900](https://github.com/spicy-tomato/teaching-scheduling-system/commit/8609900682f3ba54764e40f7f7fcfa0667016527))
+* **dep:** bump taiga-ui to 3.10.0 ([99c0c4c](https://github.com/spicy-tomato/teaching-scheduling-system/commit/99c0c4c34b6e6fdb111491223091cc83cfb4d9e6))
+* get exam schedule returns empty ([10cd71b](https://github.com/spicy-tomato/teaching-scheduling-system/commit/10cd71b5e8af99c94c848c67748edae90b38bfbf))
+
 ### [3.24.1](https://github.com/annguyen-it/teaching-scheduling-system/compare/v3.24.0...v3.24.1) (2023-01-04)
 
 
