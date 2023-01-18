@@ -25,7 +25,11 @@ export class ExamAssignStore extends ComponentStore<ExamState> {
       tap(() => this.patchState({ status: 'loading', error: null })),
       switchMap(({ departmentId, searchParams }) =>
         this.examService
-          .getDepartmentExamSchedule(departmentId, searchParams.studySession)
+          .getDepartmentExamSchedule(
+            departmentId,
+            searchParams.studySession,
+            'session'
+          )
           .pipe(
             tapResponse(
               (r) =>

@@ -25,7 +25,7 @@ import {
 import { AssignFilterStore } from './store';
 
 @Component({
-  selector: 'tss-assign-filter',
+  selector: 'tss-exam-assign-filter',
   templateUrl: './assign-filter.component.html',
   styleUrls: ['./assign-filter.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
