@@ -11,6 +11,7 @@
         <tui-data-list-wrapper
           *tuiDataList
           [items]="schoolYears"
+          size="l"
         ></tui-data-list-wrapper>
       </ng-container>
     </tui-select>
@@ -22,6 +23,7 @@
       <tui-data-list-wrapper
         *tuiDataList
         [items]="termsInYear"
+        size="l"
       ></tui-data-list-wrapper>
     </tui-select>
     <tui-select
@@ -32,6 +34,7 @@
       <tui-data-list-wrapper
         *tuiDataList
         [items]="batchesInTerm[termInYearControl.value]"
+        size="l"
       ></tui-data-list-wrapper>
     </tui-select>
     <!-- <tui-select
@@ -42,7 +45,7 @@
       class="min-w-[175px]"
     >
       Hệ đào tạo
-      <tui-data-list *tuiDataList role="listbox">
+      <tui-data-list *tuiDataList>
         <button
           tuiOption
           *ngFor="let trainingType of trainingTypes"
@@ -62,6 +65,7 @@
       <tui-data-list-wrapper
         *tuiDataList
         [items]="academicData[trainingTypeControl.value].academicYears"
+        size="l"
       ></tui-data-list-wrapper>
     </tui-select> -->
   </div>

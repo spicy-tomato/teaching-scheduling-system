@@ -51,18 +51,24 @@ export class ExamService {
 
   getDepartmentExamSchedule(
     department: string,
-    date: string
+    dateRangeOrSession: string,
+    paramType: 'dateRange' | 'session' = 'dateRange'
   ): Observable<ResponseModel<ExamScheduleModel[]>> {
+    const params =
+      paramType === 'dateRange'
+        ? {
+            'date[between]': dateRangeOrSession,
+            // For assign exam page, we must sort by date
+            'start_at[sort]': 'asc',
+          }
+        : { study_session: dateRangeOrSession };
+
     return this.http
       .get<ResponseModel<ExamScheduleModel[]>>(
         this.url +
           `v1/departments/${department}/modules/module-classes/exam-schedules`,
         {
-          params: {
-            'date[between]': date,
-            // For assign exam page, we must sort by date
-            'start_at[sort]': 'asc',
-          },
+          params: params as any
         }
       )
       .pipe(map(parseExamSchedule));
