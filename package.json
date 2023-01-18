@@ -57,7 +57,7 @@
     "@tinkoff/ng-dompurify": "^4.0.0",
     "cldr-data": "^36.0.1",
     "docx": "^7.8.2",
-    "dompurify": "^2.4.1",
+    "dompurify": "^2.4.3",
     "file-saver": "^2.0.5",
     "ng-recaptcha": "^9.0.0",
     "parallax-js": "^3.1.0",
