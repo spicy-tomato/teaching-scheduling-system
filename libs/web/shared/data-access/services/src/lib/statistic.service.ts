@@ -37,6 +37,9 @@ export class StatisticService {
         params: {
           date,
           'status%5Bin%5D': '300,301,302,500,501',
+          'old_date[sort]': 'asc',
+          'old_shift[sort]': 'asc',
+          'old_id_room[sort]': 'asc',
         },
       }
     );
