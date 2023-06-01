@@ -9,6 +9,8 @@ export interface AppEnv {
     key: string;
     cluster: string;
   };
+  version: string;
+  SYNCFUSION_LICENSE: string;
 }
 
 export const APP_ENV = new InjectionToken<AppEnv>('app.env');

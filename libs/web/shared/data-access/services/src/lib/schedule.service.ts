@@ -2,8 +2,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { ObjectHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import {
-  AppConfig,
   APP_CONFIG,
+  AppConfig,
 } from '@teaching-scheduling-system/web/config/data-access';
 import {
   AcceptChangeScheduleRequestPayload,
@@ -21,7 +21,7 @@ import {
   StatusModel,
   StudyScheduleModel,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
-import { map, Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 const parseStudyScheduleModel = (
   response: ResponseModel<StudyScheduleModel[]>
@@ -42,7 +42,7 @@ export class ScheduleService {
   // CONSTRUCTOR
   constructor(
     private readonly http: HttpClient,
-    @Inject(APP_CONFIG) config: AppConfig
+    @Inject(APP_CONFIG) readonly config: AppConfig
   ) {
     this.url = config.baseUrl;
   }

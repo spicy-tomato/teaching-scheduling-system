@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { ObjectHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import {
-  AppConfig,
   APP_CONFIG,
+  AppConfig,
 } from '@teaching-scheduling-system/web/config/data-access';
 import {
   ChangePassword,
@@ -13,7 +13,8 @@ import {
   Teacher,
   ValidateToken,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
+import { LocalStorageService } from './core';
 
 @Injectable({
   providedIn: 'root',
@@ -25,13 +26,18 @@ export class UserService {
   // CONSTRUCTOR
   constructor(
     private readonly http: HttpClient,
-    @Inject(APP_CONFIG) config: AppConfig
+    private readonly localStorageService: LocalStorageService,
+    @Inject(APP_CONFIG) readonly config: AppConfig
   ) {
     this.url = config.baseUrl;
   }
 
   me(): Observable<ResponseModel<Teacher>> {
-    return this.http.get<ResponseModel<Teacher>>(this.url + 'me');
+    return this.http
+      .get<ResponseModel<Teacher>>(this.url + 'me')
+      .pipe(
+        tap((r) => this.localStorageService.setItem('user', JSON.stringify(r)))
+      );
   }
 
   changePassword(uuid: string, body: ChangePassword): Observable<void> {
