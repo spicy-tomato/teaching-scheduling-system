@@ -11,9 +11,11 @@ import {
   PermissionHelper,
 } from '@teaching-scheduling-system/core/utils/helpers';
 import {
+  ExamScheduleModel,
   GoogleCalendarEvent,
   SearchSchedule,
   SimpleModel,
+  StudyScheduleModel,
   Teacher,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
 import {
@@ -27,16 +29,20 @@ import {
   selectNotNullTeacher,
   selectPermission,
 } from '@teaching-scheduling-system/web/shared/data-access/store';
+import { NetworkService } from 'libs/web/shared/data-access/services/src/lib/online.service';
+import { NgxIndexedDBService } from 'ngx-indexed-db';
 import {
+  Observable,
+  OperatorFunction,
+  Subject,
   catchError,
   combineLatest,
   filter,
+  forkJoin,
   map,
   mergeMap,
-  Observable,
   of,
-  OperatorFunction,
-  Subject,
+  take,
   tap,
   withLatestFrom,
 } from 'rxjs';
@@ -58,6 +64,7 @@ export class CalendarEffects {
   private readonly loadDepartmentExamSubject$ = new Subject<Date>();
   private readonly loadDepartmentScheduleSubject$ = new Subject<Date>();
   private readonly loadGoogleCalendarEventsSubject$ = new Subject<Date>();
+  private readonly online$ = this.networkService.online$;
 
   // EFFECTS
   loadPersonalSchedule$ = createEffect(
@@ -151,6 +158,8 @@ export class CalendarEffects {
     private readonly examService: ExamService,
     private readonly googleService: GoogleService,
     private readonly store: Store<fromSchedule.CalendarState>,
+    private readonly networkService: NetworkService,
+    private readonly dbService: NgxIndexedDBService,
     appShellStore: Store<AppShellState>
   ) {
     this.permissions$ = appShellStore.select(selectPermission);
@@ -162,6 +171,7 @@ export class CalendarEffects {
     this.handleLoadDepartmentSchedule();
     this.handleLoadDepartmentExam();
     this.handleLoadGoogleCalendar();
+    this.handleLoadOfflineData();
   }
 
   // PRIVATE METHODS
@@ -169,12 +179,15 @@ export class CalendarEffects {
     combineLatest([
       this.loadPersonalScheduleSubject$,
       this.teacher$.pipe(map(({ id }) => id)),
+      this.online$,
     ])
       .pipe(
         this.commonPersonalObservable(),
         mergeMap(({ fetch, ranges, teacherId }) => {
           return this.scheduleService.getSchedule(teacherId, fetch).pipe(
             tap(({ data }) => {
+              this.dbService.bulkAdd('schedule', data).subscribe();
+
               this.store.dispatch(
                 ApiAction.loadPersonalStudySuccessful({
                   schedules: data,
@@ -195,12 +208,15 @@ export class CalendarEffects {
     combineLatest([
       this.loadPersonalExamSubject$,
       this.teacher$.pipe(map(({ id }) => id)),
+      this.online$,
     ])
       .pipe(
         this.commonPersonalObservable(),
         mergeMap(({ fetch, ranges, teacherId }) => {
           return this.examService.getExamSchedule(teacherId, fetch.date).pipe(
             tap(({ data }) => {
+              this.dbService.bulkAdd('exam', data).subscribe();
+
               this.store.dispatch(
                 ApiAction.loadPersonalExamSuccessful({
                   schedules: data,
@@ -230,6 +246,8 @@ export class CalendarEffects {
             .getDepartmentSchedule(department, fetch.date)
             .pipe(
               tap(({ data }) => {
+                this.dbService.bulkAdd('departmentSchedule', data).subscribe();
+
                 this.store.dispatch(
                   ApiAction.loadDepartmentStudySuccessful({
                     schedules: data,
@@ -259,6 +277,8 @@ export class CalendarEffects {
             .getDepartmentExamSchedule(department, fetch.date)
             .pipe(
               tap(({ data }) => {
+                this.dbService.bulkAdd('departmentExam', data).subscribe();
+
                 this.store.dispatch(
                   ApiAction.loadDepartmentExamSuccessful({
                     schedules: data,
@@ -282,6 +302,7 @@ export class CalendarEffects {
         filter(({ settings }) => settings.googleCalendar),
         map(({ uuidAccount }) => uuidAccount)
       ),
+      this.online$,
     ])
       .pipe(
         this.commonPersonalObservable(),
@@ -293,17 +314,21 @@ export class CalendarEffects {
             .getCalendarEvents(teacherId, timeMin, timeMax)
             .pipe(
               tap(({ data }) => {
+                const events = data.reduce((acc, { events, ...props }) => {
+                  acc.push(
+                    ...events.map((e) => {
+                      e.calendar = props;
+                      return e;
+                    })
+                  );
+                  return acc;
+                }, <GoogleCalendarEvent[]>[]);
+
+                this.dbService.bulkAdd('googleCalendarEvents', events).subscribe();
+
                 this.store.dispatch(
                   ApiAction.loadGoogleCalendarSuccessful({
-                    events: data.reduce((acc, { events, ...props }) => {
-                      acc.push(
-                        ...events.map((e) => {
-                          e.calendar = props;
-                          return e;
-                        })
-                      );
-                      return acc;
-                    }, <GoogleCalendarEvent[]>[]),
+                    events,
                     ranges,
                   })
                 );
@@ -317,8 +342,69 @@ export class CalendarEffects {
       .subscribe();
   }
 
+  private handleLoadOfflineData(): void {
+    this.online$
+      .pipe(
+        filter((online) => !online),
+        tap(() => {
+          const ranges = [
+            new TuiDayRange(new TuiDay(2020, 0, 1), new TuiDay(2030, 0, 1)),
+          ];
+          const personalStudy = this.dbService.getAll('schedule') as Observable<
+            StudyScheduleModel[]
+          >;
+          const personalExam = this.dbService.getAll('exam') as Observable<
+            ExamScheduleModel[]
+          >;
+          const departmentStudy = this.dbService.getAll(
+            'departmentSchedule'
+          ) as Observable<StudyScheduleModel[]>;
+          const departmentExam = this.dbService.getAll(
+            'departmentExam'
+          ) as Observable<ExamScheduleModel[]>;
+          const googleEvents = this.dbService.getAll(
+            'googleCalendarEvents'
+          ) as Observable<GoogleCalendarEvent[]>;
+
+          forkJoin([
+            personalStudy,
+            personalExam,
+            departmentStudy,
+            departmentExam,
+            googleEvents,
+          ]).subscribe((result) => {
+            const personal = {
+              study: result[0].map((e) => StudyScheduleModel.parse(e)),
+              exam: result[1].map((e) => ExamScheduleModel.parse(e)),
+              ranges,
+            };
+
+            const department = {
+              study: result[2].map((e) => StudyScheduleModel.parse(e)),
+              exam: result[3].map((e) => ExamScheduleModel.parse(e)),
+              ranges,
+            };
+
+            const googleCalendar = {
+              events: result[4].map((e) => GoogleCalendarEvent.parse(e)),
+              ranges,
+            };
+
+            this.store.dispatch(
+              PageAction.calendarLoadOfflineData({
+                schedules: { personal, department },
+                googleCalendar,
+              })
+            );
+          });
+        }),
+        take(1)
+      )
+      .subscribe();
+  }
+
   private commonPersonalObservable(): OperatorFunction<
-    [Date, string],
+    [Date, string, boolean],
     {
       teacherId: string;
       fetch: SearchSchedule;
@@ -327,6 +413,7 @@ export class CalendarEffects {
   > {
     return (source$) =>
       source$.pipe(
+        filter(({ 2: online }) => online),
         map(([date, teacherId]) => ({ date, teacherId })),
         calculateRangeO(this.ranges$.pipe(map(({ department }) => department)))
       );
@@ -496,7 +583,7 @@ function calculateRangeO(
       map(({ teacherId, fetch, ranges }) => {
         return {
           teacherId,
-          ranges,
+          ranges: ranges ?? [],
           fetch: {
             date: [
               DateHelper.format(fetch.from),

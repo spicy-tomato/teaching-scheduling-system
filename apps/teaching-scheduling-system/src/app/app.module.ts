@@ -21,6 +21,8 @@ import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { DeviceHelper } from '@teaching-scheduling-system/core/utils/helpers';
 import { VERSION_TOKEN } from '@teaching-scheduling-system/core/utils/providers';
+import { NgxIndexedDBModule } from 'ngx-indexed-db';
+import { dbConfig } from '../db/db-config';
 
 registerLocaleData(localeVi, 'vi');
 loadCldr(numberingSystems, gregorian, numbers, timeZoneNames);
@@ -50,8 +52,9 @@ const disableAnimations =
       enabled: environment.production,
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerImmediately',
+      registrationStrategy: 'registerWhenStable',
     }),
+    NgxIndexedDBModule.forRoot(dbConfig)
   ],
   declarations: [AppComponent],
   bootstrap: [AppComponent],

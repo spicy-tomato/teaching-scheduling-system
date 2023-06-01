@@ -83,6 +83,16 @@ export const calendarReducer = createReducer(
       },
     },
   })),
+  on(
+    PageAction.calendarLoadOfflineData,
+    (state, { googleCalendar, schedules }) => {
+      return {
+        ...state,
+        schedules,
+        googleCalendar,
+      };
+    }
+  ),
   on(ApiAction.prev, (state, { date }) => {
     return {
       ...state,
