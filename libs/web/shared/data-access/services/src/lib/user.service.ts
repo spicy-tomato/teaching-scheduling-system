@@ -13,8 +13,9 @@ import {
   Teacher,
   ValidateToken,
 } from '@teaching-scheduling-system/web/shared/data-access/models';
-import { Observable, tap } from 'rxjs';
+import { Observable, of, tap } from 'rxjs';
 import { LocalStorageService } from './core';
+import { NetworkService } from './online.service';
 
 @Injectable({
   providedIn: 'root',
@@ -26,6 +27,7 @@ export class UserService {
   // CONSTRUCTOR
   constructor(
     private readonly http: HttpClient,
+    private readonly networkService: NetworkService,
     private readonly localStorageService: LocalStorageService,
     @Inject(APP_CONFIG) readonly config: AppConfig
   ) {
@@ -33,6 +35,10 @@ export class UserService {
   }
 
   me(): Observable<ResponseModel<Teacher>> {
+    if (!this.networkService.online) {
+      return of(JSON.parse(this.localStorageService.getItem('user') ?? '{}'));
+    }
+
     return this.http
       .get<ResponseModel<Teacher>>(this.url + 'me')
       .pipe(
