@@ -17,7 +17,8 @@
     "outdate": "npx npm-check-updates",
     "outdate:minor": "npx npm-check-updates --target minor",
     "outdate:patch": "npx npm-check-updates --target patch",
-    "local": "http-server .\\dist\\apps\\teaching-scheduling-system\\"
+    "local": "http-server .\\dist\\apps\\teaching-scheduling-system\\",
+    "prepare": "husky install"
   },
   "private": true,
   "dependencies": {
@@ -29,7 +30,7 @@
     "@angular/forms": "13.3.12",
     "@angular/platform-browser": "13.3.12",
     "@angular/platform-browser-dynamic": "13.3.12",
-    "@angular/pwa": "^13.3.10",
+    "@angular/pwa": "^13.3.11",
     "@angular/router": "13.3.12",
     "@angular/service-worker": "13.3.12",
     "@commitlint/cli": "^17.4.2",
@@ -68,11 +69,11 @@
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "13.3.10",
+    "@angular-devkit/build-angular": "13.3.11",
     "@angular-eslint/eslint-plugin": "13.5.0",
     "@angular-eslint/eslint-plugin-template": "13.5.0",
     "@angular-eslint/template-parser": "13.5.0",
-    "@angular/cli": "13.3.10",
+    "@angular/cli": "13.3.11",
     "@angular/compiler-cli": "13.3.12",
     "@angular/language-service": "13.3.12",
     "@nrwl/cli": "14.1.11",
