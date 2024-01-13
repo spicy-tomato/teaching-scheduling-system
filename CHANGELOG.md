@@ -2,7 +2,33 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-### 3.24.3 (2023-06-01)
+### [3.25.1](https://github.com/spicy-tomato/teaching-scheduling-system/compare/v3.25.0...v3.25.1) (2024-01-13)
+
+
+### Bug Fixes
+
+* **dep:** fix securities and update angular to latest 13.x version ([9e7cf52](https://github.com/spicy-tomato/teaching-scheduling-system/commit/9e7cf52d6c95ed8119930f9a86f7824b9e59ae6e))
+* fix service worker ([90c3cfd](https://github.com/spicy-tomato/teaching-scheduling-system/commit/90c3cfdcce9ef96137894cb89c7dcd653c3c9951))
+
+## [3.25.0](https://github.com/spicy-tomato/teaching-scheduling-system/compare/v3.24.2...v3.25.0) (2023-06-01)
+
+
+### Features
+
+* offline data ([41154c3](https://github.com/spicy-tomato/teaching-scheduling-system/commit/41154c3563b873d3dd37d3b8ae8cc2587cab3176))
+
+
+### Bug Fixes
+
+* **dep:** bump commitlint to 17.4.2 ([769299f](https://github.com/spicy-tomato/teaching-scheduling-system/commit/769299fde2c6f4c77455baf0d1e8006144a8cc79))
+* **dep:** bump docx to 7.8.2 ([bff2367](https://github.com/spicy-tomato/teaching-scheduling-system/commit/bff236708e765a496b63e39d8a68ccb1068a4815))
+* **dep:** bump dompurify to 2.4.3 ([5699b70](https://github.com/spicy-tomato/teaching-scheduling-system/commit/5699b706f8c619cddf9f235a45d77e58a8248eda))
+* **dep:** bump ejs-schedule to 20.3.57 ([2a7b5ec](https://github.com/spicy-tomato/teaching-scheduling-system/commit/2a7b5ec6ec147213724e357a2ebfe5b29da944a9))
+* **dep:** bump husky to 8.0.3 ([9f42363](https://github.com/spicy-tomato/teaching-scheduling-system/commit/9f423634d962f740d6c67a76576f3cfd688c33b3))
+* **dep:** bump postcss tp 8.4.21 ([9f7a470](https://github.com/spicy-tomato/teaching-scheduling-system/commit/9f7a470bccc139590e88cb03101405499d4ea735))
+* **dep:** bump taiga-ui to 3.11.0 ([d8e8bee](https://github.com/spicy-tomato/teaching-scheduling-system/commit/d8e8bee7da3172580c1963b79830397468e65272))
+* **dep:** fix vulnerable version of ng-morph ([01822eb](https://github.com/spicy-tomato/teaching-scheduling-system/commit/01822eb42faa5b07af0accae9c379b6cd095a938))
+* **statistic:** schedule in report should be sort by date ([848a0c1](https://github.com/spicy-tomato/teaching-scheduling-system/commit/848a0c1e2bf4b463d85ad2a6918f73719eff5ba9))
 
 ### [3.24.2](https://github.com/spicy-tomato/teaching-scheduling-system/compare/v3.24.1...v3.24.2) (2023-01-18)
 
