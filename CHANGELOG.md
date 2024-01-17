@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 3.25.2 (2024-01-17)
+
 ### [3.25.1](https://github.com/spicy-tomato/teaching-scheduling-system/compare/v3.25.0...v3.25.1) (2024-01-13)
 
 
