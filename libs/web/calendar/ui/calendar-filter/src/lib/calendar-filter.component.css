@@ -18,3 +18,7 @@ tui-select {
 .for-menu tui-select {
   min-width: 185px;
 }
+
+table {
+  font-size: 14px;
+}
