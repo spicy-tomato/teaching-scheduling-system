@@ -70,7 +70,7 @@ jobs:
         run: npm run build
 
       - name: Copy dist to VPS
-        uses: appleboy/scp-action@master
+        uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
@@ -79,6 +79,7 @@ jobs:
           source: './dist/apps/teaching-scheduling-system/*,!./dist/apps/teaching-scheduling-system/assets/settings'
           target: '/var/www/html/web'
           strip_components: 3
+          overwrite: true
 
       - name: Push new version
         run: |
